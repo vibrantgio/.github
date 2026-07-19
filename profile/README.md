@@ -3,11 +3,15 @@
 A design system and UI stack for [Gio](https://gioui.org) — immediate-mode GUI in pure Go, reactive at the core: rx observables drive state, themes, and rendering.
 
 <p>
-  <img src="launcher.png" alt="Workbench launcher — app cards on a live seen 3D field" width="49%">
-  <img src="mindchat.png" alt="MindChat — streaming chat client with providers, model picker, and web-search citations" width="49%">
+  <img src="launcher-dark.png" alt="Workbench launcher in dark mode — app cards on a live seen 3D field" width="49%">
+  <img src="launcher-light.png" alt="Workbench launcher in light mode" width="49%">
+</p>
+<p>
+  <img src="mindchat-dark.png" alt="MindChat in dark mode — streaming chat client with providers, model picker, and web-search citations" width="49%">
+  <img src="mindchat-light.png" alt="MindChat in light mode" width="49%">
 </p>
 
-The [workbench](https://github.com/vibrantgio/workbench) launcher and MindChat, built entirely on the stack below — spectrum theming keeps every app live in the OS light or dark mode.
+The [workbench](https://github.com/vibrantgio/workbench) launcher and MindChat, each captured in the OS dark and light appearance — spectrum re-themes every window live when the system switches.
 
 ## Stack
 
