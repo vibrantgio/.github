@@ -413,6 +413,38 @@ this plan was written. G-D2 and G-D3 are provisional; re-cut them against what
 Phases B and C actually landed before starting G-D2.
 
 ![[#ADR-002: CIELAB tone with OKLCh hue and chroma]]
+
+### G-D0: Choose the role-assignment model
+
+ADR-002 settles how tones are *derived*. It does not settle how they are
+*assigned*, and there are two coherent answers:
+
+- **MD3's way** — tones are perceptual (tone 40 means lightness 40), and a
+  separate role table says which tone each role takes in light and in dark.
+- **Radix's way** — the step number carries the meaning (step 3 *is* the
+  component background, step 9 *is* the solid fill, step 11 *is* low-contrast
+  text), and light and dark scales are built so the same step works in both.
+  Dark mode swaps one scale instead of maintaining a second role table.
+
+For a component library this is not a cosmetic choice: it decides whether
+prism and cadence read a role table or a step index, and whether dark mode is
+a second table to keep in sync. Deciding after G-D2 costs seven migrations.
+Deciding here costs one spike.
+
+#### D0.1: Spike — Radix step semantics and APCA contrast
+
+Timeboxed. The deliverable is a recommendation with evidence, not an
+implementation — write no code into `spectrum`. A throwaway script is fine and
+should be thrown away.
+
+- [ ] Read Radix's 12-step scale: the stated purpose of each step, and how the paired dark scales preserve step semantics.
+- [ ] Lay it against MD3's role→tone table for the same surfaces: app background, card, hover, border, solid fill, body text.
+- [ ] Generate both mappings from the `#6750A4` seed with a throwaway script and compare the resulting surfaces side by side, light and dark.
+- [ ] Evaluate APCA (Lc) against WCAG 2 ratios on the light-on-dark pairs specifically — WCAG 2 is known to over-rate them, and spectrum tracks OS dark mode by default.
+- [ ] Decide, and write the outcome into `## Reference` as ADR-006, embedded into Phase D.
+- [ ] Re-cut G-D2 to match the decision, and adjust D2.4's contrast target if APCA wins.
+- [ ] Commit in the plan repo.
+
 ### G-D1: The colour engine
 Built in `spectrum/color`, with no external dependency. The CIELAB conversion
 chain is lifted from `reactivego/luminance` rather than imported — ADR-002
