@@ -534,27 +534,50 @@ palette, so choosing your own colours means giving up OS dark-mode tracking.
 - [ ] Build, test, commit.
 
 ## Phase E: Reimagined for desktop
-
 Where MD3 assumes touch and Android, diverge deliberately and say why. This is
 what makes the system VibrantGio's rather than a port.
 
-Tasks here are provisional; re-cut them when Phase D lands.
+G-E1 is firm. G-E2 and G-E3 stay provisional; re-cut them when Phase D lands.
 
+![[#ADR-005: MD3's system, not MD3's look]]
 ### G-E1: Density
+Desktop density is the sharpest divergence from MD3, and the one users feel
+first. Targets come from shadcn/ui's metrics rather than being invented, per
+ADR-005.
 
-#### E1.1: The density token
+#### E1.1: Measure the target metrics
 
-- [ ] Add a `Density` token with comfortable and compact settings, and put it in the theme.
-- [ ] Replace prism's hardcoded `minHeight = 44dp` with a density-derived target size.
-- [ ] Keep 44 dp as the comfortable value; pick and justify the compact value.
-- [ ] Regenerate goldens; build, test, commit.
+Establish the numbers before changing any component, so every later task has one
+table to work from and reviewers can argue with the source rather than the
+diffs.
 
-#### E1.2: Density through cadence
+- [ ] Record shadcn/ui's control metrics: default and small button heights, input height, base radius, and the spacing step between stacked controls.
+- [ ] Record MD3's equivalents alongside them, and macOS's 28 pt standard control height as the native reference point.
+- [ ] Write the three-way table into `spectrum/tokens/density.go` as a doc comment — it is the justification for every number below it.
+- [ ] Pick `Comfortable` and `Compact` values from that table; keep prism's existing 44 dp as `Comfortable` only if the table supports it.
+- [ ] Commit here in the plan repo if the table changes ADR-005's claims; otherwise commit in spectrum.
 
-- [ ] Apply density to table row height, navbar height, sidebar item height and pagination controls.
+#### E1.2: The density token
+
+- [ ] Add `Density` to `spectrum/tokens` with `Comfortable` and `Compact`, carrying control height, inner padding and the minimum hit target.
+- [ ] Add it to `theme.Theme` as an observable, alongside Typography.
+- [ ] Keep the WCAG 2.5.5 minimum hit target independent of density — `Compact` may shrink the visual control but never the pointer target.
+- [ ] Unit-test that both settings satisfy the hit-target floor.
+- [ ] Build, test, commit in spectrum.
+
+#### E1.3: Density through prism
+
+- [ ] Replace the hardcoded `minHeight = 44dp` in `prism/button` with the density-derived value.
+- [ ] Apply density to input, checkbox, radio, dropdown and list row height.
 - [ ] Add a golden per component at each density.
-- [ ] Build, test, commit.
+- [ ] Build, test, commit in prism.
 
+#### E1.4: Density through cadence
+
+- [ ] Apply density to table row height, navbar height, sidebar item height, tabs and pagination controls.
+- [ ] Check the overlays — modal, popover, tooltip, toast — for control metrics that should follow density too.
+- [ ] Add a golden per component at each density.
+- [ ] Build, test, commit in cadence.
 ### G-E2: Tonal elevation
 
 #### E2.1: Elevation becomes a surface role
@@ -815,6 +838,46 @@ It also, in its current form, teaches the defect: it lists `style` and `font` in
 the module inventory but omits both from the bootstrap skeleton and the minimal
 `go.mod`, and has no typography section. An assistant that follows it perfectly
 ships a gofont application.
+
+### ADR-005: MD3's system, not MD3's look
+
+**Decision.** Take MD3's *system* and reject MD3's *look*. Specifically:
+
+- **From MD3:** the generative token model (ADR-002), the type-role scale, state
+  layers, tonal elevation, and the motion semantics.
+- **From shadcn/ui:** density, restraint, and the component inventory. Its
+  metrics are the target for the `Density` token — copy them rather than
+  inventing numbers.
+- **From neither:** the visual identity. That comes from `pulse` — glow, depth,
+  spring physics — which is what DESIGN.md already names as the point of the
+  project.
+
+**Why.** MD3 is touch-first: 48 dp targets, generous spacing, large type, and a
+component set shaped for phones — FAB, navigation rail, bottom sheet, chips,
+snackbar. Adopting its look would make a Mac app read as an Android port, which
+defeats the word "native" in the project's own vision statement.
+
+Cadence has *already* made this choice without recording it. Its inventory —
+shell, navbar, sidebar, table, pagination, tabs, modal, alert, popover, tooltip,
+toast, card, accordion, breadcrumb, hero, feature, pricing, testimonial — is
+shadcn's inventory, not MD3's. MD3 has no breadcrumb, no data table and no
+pricing section. This ADR ratifies a decision the code made a year ago, so the
+next contributor stops trying to reconcile the two.
+
+The hardcoded `minHeight = 44dp` in `prism/button` is the same tension showing
+up as a magic number. E1.1 replaces it with a token.
+
+**What shadcn is not adopted for.** Its colour model is flat, hand-authored
+semantic pairs — `--background`/`--foreground`, `--primary`/`--primary-foreground`
+— written twice, once under `:root` and once under `.dark`. That is structurally
+what `prism/tokens` already does, so taking it would be standing still. shadcn
+moved to OKLCH values without moving to generation; MD3 generates without a
+modern space; ADR-002 does both.
+
+Its distribution model is also not adopted: copying component source into the
+consumer's repo has no Go idiom, and fights module versioning and golden tests.
+The philosophy behind it does carry over — components should be readable and
+forkable, not opaque configuration surfaces.
 
 ### The repo doc contract
 
