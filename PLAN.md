@@ -96,9 +96,9 @@ start.
 
 The repo root is separate from `profile/`. It currently has no README at all.
 
-- [ ] Explain that this repo holds three things: the org profile page, `PLAN.md`, and the canonical `llms.txt`.
-- [ ] Link all three, plus `scripts/clone-all.sh`.
-- [ ] Note that `profile/README.md` — not this file — is what renders on the org page.
+- [x] Explain that this repo holds three things: the org profile page, `PLAN.md`, and the canonical `llms.txt`.
+- [x] Link all three, plus `scripts/clone-all.sh`.
+- [x] Note that `profile/README.md` — not this file — is what renders on the org page.
 
 #### A1.6: Write this repo's AGENTS.md
 
