@@ -172,8 +172,13 @@ mvu.Loop.
      })
 
    Never put interaction state in rx.Subject. Never pass Defer-scoped state
-   to a goroutine. For per-row state in dynamic lists use prism/keyed
-   (KeyedDefer) so state survives reorder/insert/delete.
+   to a goroutine. For per-row state in dynamic lists use prism/keyed:
+   keyed.Defer(factory) returns a *keyed.Deferred[K,V] whose For(key) hands
+   back the same value for the same key, so state survives reorder, insert
+   and delete. Allocate the Deferred inside the rx.Defer closure, next to
+   the other per-subscription state. It is sticky — a removed key's value
+   is retained and reused if the key comes back; call Sweep(activeKeys) on
+   a long-lived list with high churn.
 
 3. WIDGETS EMIT MESSAGES VIA MessageOp. Inside any widget callback with a
    gtx, route events into the MVU loop with:
@@ -320,13 +325,19 @@ own text from prism/tokens.TypeScale, carried on the theme as
 theme.Theme.Type (MD3 roles in dp). The two scales are kept in step by hand
 until Phase C unifies them.
 
-REFERENCE CODE. todos/view.go is correct and minimal: one shaper built at
-layer scope, threaded through List and UpsertDialog; iconbrowser/view.go
-and launcher/view.go do the same. Do NOT copy the font wiring of
-feeds/app.go, watchlist/app.go or sitedocs/main.go — all three build the
-NoSystemFonts+gofont shaper — nor mindchat/view.go, which appends
-gofont.Collection() to style.FontFaces(). Those four are known wrong and
-are fixed in Phase F.
+REFERENCE CODE. launcher/view.go is the one to copy end to end: one shaper
+built at layer scope AND actually handed to the components — hero.Render(
+shaper, hero.Props{Shaper: shaper, ...}) and button.Render(shaper, ...).
+todos/view.go and iconbrowser/view.go build the shaper the same correct
+way and then only spend it on their own textdraw calls: every component
+they construct leaves the prop off, so todos/upsertdialog.go's two
+button.Button calls and iconbrowser/view.go's input.TextField render in
+gofont — in iconbrowser's case three lines below the shaper it ignores.
+Copy how those two BUILD the shaper; do not copy how they wire it. Do NOT
+copy the font wiring of feeds/app.go, watchlist/app.go or sitedocs/main.go
+— all three build the NoSystemFonts+gofont shaper — nor mindchat/view.go,
+which appends gofont.Collection() to style.FontFaces(). Phase F fixes all
+of them.
 
 ## Markdown documents
 
@@ -410,7 +421,8 @@ coded clip paths on purpose (golden determinism); leave those alone.
 - A Defer factory reruns per subscription: sharing an observable that owns
   state across two subscribers duplicates the state. Share/Publish upstream.
 - The first emission fires before the first frame; layout-derived values are
-  unknown. Use prism/initial (Initial[T]) instead of ad-hoc sentinels.
+  unknown. Use prism/initial (initial.Value[T], whose zero value is unset;
+  v.GetOrSet(fn) computes it on the first frame) instead of ad-hoc sentinels.
 - Re-subscription is not supported by Render: build new layers for a new
   Render call; do not revive a completed subscription.
 - Component prop values are captured at construction unless they come from
