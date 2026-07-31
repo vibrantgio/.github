@@ -71,14 +71,25 @@ repo's root, where the org front door can link it.
 #### A1.3: Give the guide a typography section
 The guide is why assistants ship gofont apps: it lists `style` and `font` in the
 inventory but omits them from the bootstrap and the minimal `go.mod`, and has no
-typography section at all. Document today's correct practice — the one `todos/`
-already follows. Phase C replaces this section wholesale.
+typography section at all. Document today's correct practice. Phase C replaces
+this section wholesale.
 
 - [x] Add a `## Typography` section: build one `*text.Shaper` from `style.FontFaces()` and pass it to every component's `Shaper` prop.
 - [x] State the rule plainly: never `gofont`, never `text.NoSystemFonts()` with the Go collection, never append the two.
 - [x] Note that components default to gofont internally when `Shaper` is nil, so the prop is not optional today.
 - [x] Add `github.com/vibrantgio/style` (and `github.com/vibrantgio/textdraw`, direct as soon as the app draws its own text) to the minimal `go.mod` block; `github.com/vibrantgio/font` is style's INDIRECT dependency — `todos/go.mod` carries it `// indirect` — so do not list it as a direct require.
-- [x] Point at `todos/view.go` as the correct reference and name `feeds`/`watchlist`/`sitedocs`/`mindchat` as known-wrong until Phase F.
+- [x] Point at the correct reference app and name the known-wrong ones until Phase F.
+
+**Corrected by A3.2.** This task assumed `todos/` already followed the
+practice, and the section it produced named `todos/view.go`,
+`iconbrowser/view.go` and `launcher/view.go` as correct. Only `launcher` is.
+All three build the shaper at layer scope, but todos and iconbrowser spend it
+only on their own `textdraw` calls — `todos/upsertdialog.go`'s two
+`button.Button` calls and `iconbrowser/view.go`'s `input.TextField` omit
+`Shaper:`, so those components render in gofont. The section was pointing
+assistants at two apps exhibiting the defect it warns about. A3.2 rewrote the
+REFERENCE CODE paragraph to name launcher alone and say what the other two get
+wrong; the app code is F1.1's to fix.
 #### A1.4: Rewrite the org profile README
 
 `profile/README.md` is what renders on the organization home page. Today it
@@ -215,17 +226,31 @@ programs, never for library code. The layer lines say that rather than claiming
 a clean separation that the `go.mod` files contradict.
 
 ### G-A3: READMEs and package docs
+Eleven repos have no README: prism, cadence, spectrum, pulse, font, style,
+textdraw, gradient, circle, seen and kiwi — exactly the eleven the tasks
+below write. That half of A1.1's inventory holds up.
 
-Eleven repos have no README; the six core modules have no `doc.go` anywhere,
-so pkg.go.dev shows nothing for the whole stack. A1.1's inventory confirms
-both: the eleven are prism, cadence, spectrum, pulse, font, style, textdraw,
-gradient, circle, seen and kiwi — exactly the eleven the tasks below write —
-and the six are mvu, spectrum, prism, pulse, cadence and markdown. Four repos
-outside the spine already carry a root `doc.go` (font, ivg, seen, traer) and
-svg carries package-level ones, so "no module root has a `doc.go`" is not true
-of the org as a whole; it is true of the stack, which is what matters here.
-The package lists in the tasks below were checked against the clone too and
-are accurate.
+The other half does not, and A3.2 disproved it. The inventory said the six
+core modules "have no `doc.go` anywhere, so pkg.go.dev shows nothing for the
+whole stack". The inference is false — pkg.go.dev renders a package comment
+wherever it lives, and a `doc.go` is a convention, not a requirement — and
+so is the conclusion. Measured across the six by `go doc`:
+
+| module | packages with a package comment |
+| --- | --- |
+| mvu | 0 of 1 — genuinely blank |
+| prism | 13 of 16 before A3.2; a11y, theme and tokens were the gaps |
+| spectrum | 4 of 4 |
+| pulse | 7 of 7 |
+| cadence | 18 of 19 — only `modal/gallery`, a main, is bare |
+| markdown | 4 of 4 |
+
+So A3.4 through A3.7 are mostly audits, not writing jobs. Run `go doc` over
+every package in the module first; write where there is nothing, expand a
+one-liner into the two-to-five-sentence shape, verify the rest against the
+API and leave them be. Do not rehouse a good comment in a `doc.go` for the
+sake of the filename. Outside the spine, font, ivg, seen and traer carry a
+root `doc.go` and svg carries package-level ones.
 
 Describe the layer and the role — not the API surface, which Phases B–E will
 change.
@@ -239,11 +264,25 @@ change.
 - [x] Commit in prism.
 
 #### A3.2: prism package docs
+The premise was wrong. Eleven of the fourteen packages listed here already
+carried a package comment — in a regular source file rather than a `doc.go`,
+which pkg.go.dev does not care about. Only `a11y`, `theme` and `tokens` had
+none at all. `icon`, excluded from the list on the correct grounds that it
+had a comment, had a one-liner like `input` and `layout` did.
 
-- [ ] Add a `doc.go` with a package comment to each prism package that lacks one: a11y, bench, button, cache, coordination, initial, input, keyed, layout, list, richtext, scrollbar, theme, tokens.
-- [ ] Two to five sentences each: what it is, when to reach for it, what it assumes.
-- [ ] `go build ./... && go test ./...`; commit in prism.
+- [x] Add a `doc.go` with a package comment to the three prism packages that genuinely lack one: a11y, theme, tokens.
+- [x] Replace the one- or two-sentence comments on button, input, layout and icon with a `doc.go`, deleting the old comment so each package has exactly one. Leave bench, cache, coordination, initial, keyed, list, richtext and scrollbar alone — verify their comments against `go doc` and move on; rehousing a good comment in a `doc.go` is churn.
+- [x] Two to five sentences each: what it is, when to reach for it, what it assumes.
+- [x] Fix `internal/golden`'s own package comment, which teaches `go test -golden.update ./...` — the exact invocation AGENTS.md documents as broken.
+- [x] Correct three factual errors in `llms.txt`, found while checking prism's API: `Initial[T]` is really `initial.Value[T]`; `KeyedDefer` does not exist and the API is `keyed.Defer(factory)` returning `*keyed.Deferred[K,V]`; and the Typography section's REFERENCE CODE named todos, iconbrowser and launcher as correct when only launcher passes the shaper into a component. Commit separately in this repo.
+- [x] `go build ./... && go test ./...` in both prism modules; commit in prism.
 
+Left for later, recorded here rather than fixed: `bench`, `cache`,
+`coordination` and `richtext` cite `DESIGN §…`, `BASELINE.md`,
+`EXPERIMENT-B.md` and `EXPERIMENT-C.md` from their package comments.
+`DESIGN.md` and `BASELINE.md` live in `vibrantgio/workbench`, unreachable
+from prism's pkg.go.dev page; the two `EXPERIMENT` files exist in no
+repository in the org.
 #### A3.3: cadence README
 
 - [ ] Write `.repos/cadence/README.md` per the doc contract.
