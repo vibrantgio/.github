@@ -312,12 +312,35 @@ above and this goal's own rule against rehousing a good comment in a
 - [x] Audit the eighteen patterns against the doc contract — what the package is for, the real prop shape, one honest pitfall — with prism's comments as the bar. Rewrite in place the ones that are thin or wrong; leave the rest alone.
 - [x] Record `cadence/feature`'s missing `Shaper` prop in its package comment, and fix `modal/gallery`'s pre-split run path — from the cadence root it is `go run ./modal/gallery`.
 - [x] `go build ./... && go test ./...`; commit in cadence.
+
 #### A3.5: spectrum README and package docs
 
-- [ ] Write `.repos/spectrum/README.md` per the doc contract, describing the foundation role it takes in Phase B.
-- [ ] Add `doc.go` where missing across preferences, system, transition, window.
-- [ ] State plainly in the README that palette injection does not exist yet and arrives in Phase D.
-- [ ] `go build ./... && go test ./...`; commit in spectrum.
+A3.5 re-measured spectrum with `go doc` and found 4 of 4 packages already
+carrying a package comment, exactly as G-A3's table says — so "add `doc.go`
+where missing" had nothing to add, and rehousing four good comments in four
+new files would have been the churn this goal warns against. The step is an
+audit, and the audit's finding matches A3.4's on cadence: the weakness is
+thinness, not absence. All four described their package and stopped short of
+a pitfall a caller could trip on, and three carried claims worth correcting
+— `window`'s comment was two paragraphs of design-phase narrative,
+`preferences` offered a rationale (config vs data) in place of a pitfall,
+and `transition` explained its split from pulse without saying what its
+interpolation cannot do. All four were rewritten in place.
+
+Two defects surfaced that nothing in this plan had recorded. The appearance
+observable is **cold**: every subscription starts its own ticker and polls
+the `Source` independently, so one `LiveTheme` handed to n consumers polls n
+times per interval — measured, not inferred — and on macOS each poll is a
+`defaults` fork+exec. All seven workbench apps hand it to two layers today.
+And `spectrum/transition` has no consumer anywhere in the organization:
+`LiveTheme` swaps palettes in one step, so the cross-fade the package exists
+for does not happen in any application, though
+`workbench/sitedocs/content/spectrum-live-theme.md` says it does.
+
+- [x] Write `.repos/spectrum/README.md` per the doc contract, describing the foundation role it takes in Phase B.
+- [x] Audit the package comments on preferences, system, transition and window against the doc contract; rewrite the thin ones in place.
+- [x] State plainly in the README that palette injection does not exist yet and arrives in Phase D.
+- [x] `go build ./... && go test ./...`; commit in spectrum.
 
 #### A3.6: pulse README and package docs
 
