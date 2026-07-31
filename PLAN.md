@@ -415,32 +415,47 @@ Phases B and C actually landed before starting G-D2.
 ![[#ADR-002: CIELAB tone with OKLCh hue and chroma]]
 
 ### G-D0: Choose the role-assignment model
-
 ADR-002 settles how tones are *derived*. It does not settle how they are
-*assigned*, and there are two coherent answers:
+*assigned*, and there are three coherent answers in the field:
 
-- **MD3's way** — tones are perceptual (tone 40 means lightness 40), and a
-  separate role table says which tone each role takes in light and in dark.
-- **Radix's way** — the step number carries the meaning (step 3 *is* the
-  component background, step 9 *is* the solid fill, step 11 *is* low-contrast
-  text), and light and dark scales are built so the same step works in both.
-  Dark mode swaps one scale instead of maintaining a second role table.
+- **MD3** — thirteen tone stops (0, 10, … 95, 99, 100). Tones are purely
+  perceptual: tone 40 means lightness 40, and a separate role table says which
+  tone each role takes in light and in dark. The table is where the design
+  knowledge lives, and it is maintained twice.
+- **Radix** — twelve steps whose *number carries the meaning*: step 3 is the
+  component background, step 9 the solid fill, step 11 low-contrast text. Paired
+  light and dark scales are built so the same step works in both, so dark mode
+  swaps one scale instead of maintaining a second role table. Contrast is
+  guaranteed in APCA (Lc 60 and Lc 90 for steps 11 and 12 over step 2).
+- **Claude Design** — nine steps, 100–900, generated in OKLCH on a shared
+  perceptual lightness scale so the same step of any ramp carries the same
+  visual weight. 500 is the role's base; 100–300 are tinted fills, hovers and
+  subtle borders; 700–900 are text on tinted fills and pressed states. Fewer
+  steps than Radix, same functional idea.
 
-For a component library this is not a cosmetic choice: it decides whether
-prism and cadence read a role table or a step index, and whether dark mode is
-a second table to keep in sync. Deciding after G-D2 costs seven migrations.
-Deciding here costs one spike.
+For a component library this is not cosmetic: it decides whether prism and
+cadence read a role table or a step index, and whether dark mode is a second
+table to keep in sync. Deciding after G-D2 costs seven migrations; deciding here
+costs one spike.
 
-#### D0.1: Spike — Radix step semantics and APCA contrast
+The third option carries a practical argument the other two do not. G-E0 pushes
+the token sheet to Claude Design, and Phase G builds a component surface there.
+If spectrum's ramp and that surface's ramp disagree, every prototype speaks a
+different vocabulary from the app it is prototyping — the exact incoherence this
+plan exists to remove.
+
+#### D0.1: Spike — choose the ramp model and the contrast metric
 
 Timeboxed. The deliverable is a recommendation with evidence, not an
 implementation — write no code into `spectrum`. A throwaway script is fine and
 should be thrown away.
 
-- [ ] Read Radix's 12-step scale: the stated purpose of each step, and how the paired dark scales preserve step semantics.
-- [ ] Lay it against MD3's role→tone table for the same surfaces: app background, card, hover, border, solid fill, body text.
-- [ ] Generate both mappings from the `#6750A4` seed with a throwaway script and compare the resulting surfaces side by side, light and dark.
+- [ ] Read each model's own account of itself: Radix's twelve-step purposes and paired dark scales, MD3's role→tone table, and the Claude Design project's readme and `theme.json` for the 100–900 OKLCH ramp.
+- [ ] Lay all three against the same surfaces: app background, card, hover, pressed, subtle border, strong border, solid fill, low-contrast text, body text.
+- [ ] Note where nine steps cannot express something twelve can, and whether prism and cadence actually need that distinction.
+- [ ] Generate all three mappings from the `#6750A4` seed with a throwaway script and compare the resulting surfaces side by side, light and dark.
 - [ ] Evaluate APCA (Lc) against WCAG 2 ratios on the light-on-dark pairs specifically — WCAG 2 is known to over-rate them, and spectrum tracks OS dark mode by default.
+- [ ] Weigh the prototyping argument explicitly: matching Claude Design's ramp keeps one vocabulary across the app and the design surface, and that is worth real points against a model that scores better in isolation.
 - [ ] Decide, and write the outcome into `## Reference` as ADR-006, embedded into Phase D.
 - [ ] Re-cut G-D2 to match the decision, and adjust D2.4's contrast target if APCA wins.
 - [ ] Commit in the plan repo.
