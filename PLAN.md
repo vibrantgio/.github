@@ -1553,3 +1553,45 @@ root is still at v0.0.6, destroys the correspondence — and then no version
 number tells you which root it belongs to. If the submodule needs a new tag
 and the matching root number is already taken by an older tag, cut a fresh
 root tag rather than letting the submodule run ahead.
+
+**A tag is retractable only until someone fetches it without `GOPRIVATE`.**
+This is the safety margin that makes everything above survivable, and it is
+worth understanding precisely, because it is temporary and it is not a
+property of Go — it is a property of who has fetched what, so far.
+
+`GOPRIVATE` here covers `github.com/vibrantgio/*`, so Go bypasses both
+`proxy.golang.org` and `sum.golang.org` for this org and resolves straight
+from GitHub. While that holds for everyone who has fetched a module, a wrong
+tag really can be deleted or moved: it never left the repo and the clones.
+
+The instant one person **without** `GOPRIVATE` resolves a version, that ends,
+permanently. The proxy fetches and stores the module immutably, and
+`sum.golang.org` appends its hash to a transparency log that is append-only by
+construction. From then on the number is spent: deleting the git tag changes
+nothing, and reusing it means shipping different bytes under a hash the log
+has already committed to.
+
+So the state *is* checkable, and worth checking before relying on being able
+to take a tag back:
+
+```
+curl -sI https://proxy.golang.org/<module>/@v/<version>.info
+   404  ->  not yet mirrored; the tag can still be moved or deleted
+   200  ->  spent; that number is fixed forever, correct it going forward
+```
+
+**But the check is not free, and this is the trap.** The proxy fetches from
+origin on a cache miss, so probing a version that exists is one of the ways it
+gets mirrored. `sum.golang.org/lookup` is worse: it will compute and append
+the entry if it is missing. The observation causes the thing being observed.
+
+Therefore: **while a tag is still in flux, use `git ls-remote`** — it is
+authoritative, and inert. Probe the proxy only once a version is final, or
+when the specific question is whether escape is still possible and the answer
+changes what you do next.
+
+Measured after the G-B1 baseline work: all eight versions deleted during it —
+`raster/gio v0.1.7`, `context/gio v0.0.8`, `driver/gio v0.0.8`, `example`
+v0.3.1/v0.3.2/v0.4.2, `traer gio/v0.0.9`, `kiwi gio/v0.0.7` — were still
+clean on both the proxy and the sumdb. That was luck bounded by a small
+window, not a repeatable guarantee.
