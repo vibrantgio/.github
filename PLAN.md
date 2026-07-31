@@ -693,6 +693,66 @@ diffs.
 - [ ] Assert WCAG AAA on the variant's On*/base pairs.
 - [ ] Build, test, commit.
 
+### G-E4: Blur
+
+Gio exposes no blur and no shader access — `op/paint` offers `ColorOp`,
+`ImageOp`, `LinearGradientOp`, `PushOpacity`, and an `ImageFilter` that only
+selects linear vs nearest *scaling*. There is also no framebuffer readback, so
+blurring live content behind a widget is not merely slow, it is unavailable.
+This goal is therefore about **static imagery and cached effects**, not
+backdrop translucency. Do not plan a component around live backdrop blur.
+
+Own the implementation rather than importing one. All three candidates were
+measured and all three are compromised: `disintegration/imaging` works but has
+been unmaintained since 2021; `anthonynsimon/bild`'s Gaussian is roughly twice
+as slow and its `Box` is 16× slower than its own Gaussian, which looks like a
+bug; `esimov/stackblur-go` silently returns a uniform image from an
+`*image.RGBA` source and reports no error.
+
+Measured baseline to beat, at 1440×900 with radius 20 on a ten-core Apple
+Silicon machine — a 60 fps frame budget is 16.7 ms:
+
+    imaging.Blur            45.0 ms
+    bild.Gaussian           92.7 ms
+    bild.Box              1510   ms
+    downscale ÷4 + blur     19.2 ms
+    downscale ÷4, 320×900    4.4 ms
+
+#### E4.1: The blur kernel
+
+Three successive box blurs approximate a Gaussian to within a few percent —
+the same approach CSS implementations use — and a separable box blur is
+trivially parallelisable.
+
+- [ ] Create `pulse/blur`: a separable 3-pass box blur over `image.NRGBA`, horizontal then vertical, parallelised across `runtime.NumCPU()`.
+- [ ] Test convergence against a reference Gaussian: compare per-channel variance reduction and assert the difference stays within a few percent.
+- [ ] Test the edges — a blur that darkens or wraps at the borders is the usual bug; assert a uniform input stays uniform right up to the edge.
+- [ ] Benchmark at the sizes above and record the numbers in the package doc next to the baseline it replaces.
+- [ ] Build, test, commit in pulse.
+
+#### E4.2: Cached blur for Gio
+
+The cost must be paid once per source change, never per frame.
+
+- [ ] Add a helper that blurs a source image and returns a `paint.ImageOp`, caching the result keyed on source identity, radius and target size.
+- [ ] Support the downscale-blur-upscale path for large radii, where the detail is destroyed anyway — expose the divisor and default it from the radius.
+- [ ] Test that a repeated call with unchanged inputs does no work.
+- [ ] Test that a size or radius change invalidates correctly.
+- [ ] Build, test, commit in pulse.
+
+#### E4.3: Evaluate blur-based glow
+
+`pulse/glow` composes eight linear gradients — four edges, four corners —
+because Gio has no radial gradient. A real blur would give a true radial
+falloff and would work for arbitrary shapes rather than rectangles only. Whether
+it is *better* depends on whether the cache holds when the glow animates.
+
+- [ ] Prototype a glow that renders the shape offscreen, blurs it, and paints the result.
+- [ ] Compare it against the current eight-gradient halo: visual quality, and cost per frame when the glow is animating and the cache misses.
+- [ ] Decide. Keep the gradient path if the animated case cannot be cached cheaply — a correct approximation beats a slow exact answer.
+- [ ] Record the decision and its evidence in `pulse/glow`'s package doc either way.
+- [ ] Build, test, commit in pulse.
+
 ## Phase F: Prove it, document it, release it
 
 A design system is only coherent if its own reference applications agree. Right
