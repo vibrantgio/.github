@@ -35,14 +35,14 @@ mode this plan exists to prevent.
 
 Nothing here changes a line of library code. It fixes the reason an assistant
 pointed at the org currently finds nothing: the canonical guide is buried one
-repo deep and unlinked, twelve repos have no README at all, and no module root
-has a `doc.go`, so pkg.go.dev is blank for the entire stack.
+repo deep and unlinked, eleven of the twenty sibling repos have no README at
+all — twelve counting this one — and not one of the six core modules has a
+`doc.go` anywhere, so pkg.go.dev is blank for the entire stack.
 
 Phase A is self-contained and lands value immediately. Do not let later phases
 block it.
 
 ![[#ADR-004: The canonical agent guide lives here]]
-
 ### G-A1: Establish the guide and the front door
 
 All work in this repo unless a step says otherwise.
@@ -51,13 +51,13 @@ All work in this repo unless a step says otherwise.
 
 Create the local layout every later task assumes.
 
-- [ ] Add `.gitignore` with `.repos/`, `go.work.sum` and `.DS_Store`.
-- [ ] Write `scripts/clone-all.sh`: clone all twenty sibling repos into `.repos/`, skipping any already present, and `git pull --ff-only` those that are. Plain `git clone https://github.com/vibrantgio/<name>.git` — do not assume `gh` is installed.
-- [ ] Name all twenty in the script, since nothing else in the working tree knows the list: **the stack** — mvu, spectrum, prism, pulse, cadence, markdown; **the leaves** — font, style, textdraw, backdrop, gradient, circle; **the support libraries** — ivg, svg, seen, csg, kiwi, noise, traer; **the apps** — workbench.
-- [ ] Run it; confirm twenty directories exist under `.repos/`.
-- [ ] Record in the script's header comment that `.github` itself is the parent directory, not a clone — and that the whole set is cloned every time, because the module graph is what this plan edits and no task can see an edge whose other end is missing.
-- [ ] Write `scripts/inventory.sh`: per repo, report whether it has a `README.md`, an `AGENTS.md`, a root `doc.go` and a `.github/workflows/`, plus its current Gio and rx versions.
-- [ ] Run it and paste the table into the commit body. Every count this plan still asserts — twelve missing READMEs, six missing `doc.go`, twenty missing `AGENTS.md`, no CI anywhere — is checked against that table and corrected here if it is wrong. Phase A's tasks were cut from a survey, not from the clone. (The dependency half of that survey is already settled: G-B1 put every module on one Gio, one rx and `go 1.25.1`.)
+- [x] Add `.gitignore` with `.repos/`, `go.work.sum` and `.DS_Store`.
+- [x] Write `scripts/clone-all.sh`: clone all twenty sibling repos into `.repos/`, skipping any already present, and `git pull --ff-only` those that are. Plain `git clone https://github.com/vibrantgio/<name>.git` — do not assume `gh` is installed.
+- [x] Name all twenty in the script, since nothing else in the working tree knows the list: **the stack** — mvu, spectrum, prism, pulse, cadence, markdown; **the leaves** — font, style, textdraw, backdrop, gradient, circle; **the support libraries** — ivg, svg, seen, csg, kiwi, noise, traer; **the apps** — workbench.
+- [x] Run it; confirm twenty directories exist under `.repos/`.
+- [x] Record in the script's header comment that `.github` itself is the parent directory, not a clone — and that the whole set is cloned every time, because the module graph is what this plan edits and no task can see an edge whose other end is missing.
+- [x] Write `scripts/inventory.sh`: per repo, report whether it has a `README.md`, an `AGENTS.md`, a root `doc.go` and a `.github/workflows/`, plus its current Gio and rx versions.
+- [x] Run it and paste the table into the commit body. Every count this plan still asserts — twelve missing READMEs, six missing `doc.go`, twenty missing `AGENTS.md`, no CI anywhere — is checked against that table and corrected here if it is wrong. Phase A's tasks were cut from a survey, not from the clone. (The dependency half of that survey is already settled: G-B1 put every module on one Gio, one rx and `go 1.25.1`.)
 
 #### A1.2: Move llms.txt here and correct its inventory
 
@@ -160,16 +160,21 @@ These are support libraries, not design-system layers; their AGENTS.md says so.
 
 ### G-A3: READMEs and package docs
 
-Twelve repos have no README; six core modules have no `doc.go` anywhere, so
-pkg.go.dev shows nothing for the whole stack. Both counts come from a survey
-taken before this plan was written — re-check them against A1.1's inventory
-table before starting, and correct the tasks below if the clone disagrees.
+Eleven repos have no README; the six core modules have no `doc.go` anywhere,
+so pkg.go.dev shows nothing for the whole stack. A1.1's inventory confirms
+both: the eleven are prism, cadence, spectrum, pulse, font, style, textdraw,
+gradient, circle, seen and kiwi — exactly the eleven the tasks below write —
+and the six are mvu, spectrum, prism, pulse, cadence and markdown. Four repos
+outside the spine already carry a root `doc.go` (font, ivg, seen, traer) and
+svg carries package-level ones, so "no module root has a `doc.go`" is not true
+of the org as a whole; it is true of the stack, which is what matters here.
+The package lists in the tasks below were checked against the clone too and
+are accurate.
 
 Describe the layer and the role — not the API surface, which Phases B–E will
 change.
 
 ![[#The repo doc contract]]
-
 #### A3.1: prism README
 
 - [ ] Write `.repos/prism/README.md` per the doc contract.
