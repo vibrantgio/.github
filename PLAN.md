@@ -1439,12 +1439,21 @@ and push the bottom layer, bump the layer above onto those tags, verify with
 7  workbench/*  mvu/example  prism/gallery
 ```
 
-Two things that cost time and will cost it again. A module's *newest tag* is
+Three things that cost time and will cost it again. A module's *newest tag* is
 authoritative, not the proxy's `@v/list` — that endpoint caches and will report
 a version behind for a while after a push, which reads as false staleness. And
 tagging a whole layer in one round leaves each new tag referencing its
 siblings' *previous* tags; making the set self-referencing needs the second
 pass, so budget both.
+
+The third is the one to be careful about. **Deleting a tag from git does not
+withdraw the version from the Go proxy.** Measured here: after `raster/gio
+v0.1.7` was deleted and its `@v/list` and `@v/<version>.info` endpoints began
+returning 404, a clean module with an evicted cache still resolved and built
+against it. The proxy retains module content once it has been fetched. So a
+retag leaves a version that Go can see and `git tag` cannot — harmless for
+builds, confusing for humans, and a reason to get the number right the first
+time rather than to rely on being able to take it back.
 
 ### The repo doc contract
 
@@ -1503,6 +1512,32 @@ v0.9.0  ->  v1.0.0        never v0.10.0
 This is not a preference to weigh against others — it is a hard rule. A tag is
 immutable the moment the proxy sees it, so a `v0.0.10` cannot be withdrawn,
 only buried under a correction that leaves it in the list forever. Check the
-existing tags before cutting a new one: `prism` is at `v0.0.9` and `markdown`,
-`seen` and `kiwi` are close behind, so the next tag for each of them is a minor
-bump, not a patch.
+existing tags before cutting a new one.
+
+**A nested module's tag mirrors its root's version.** A module in a
+subdirectory is tagged `<subdir>/vX.Y.Z`, and that tag requires the root at
+exactly `vX.Y.Z`:
+
+```
+kiwi  v0.0.6   ->  gio/v0.0.6          requires kiwi v0.0.6
+svg   v0.0.8   ->  driver/seen/v0.0.8  requires svg  v0.0.8
+mvu   v0.4.3   ->  example/v0.4.3      requires mvu  v0.4.3
+```
+
+The order is root first, submodule second. Get the root correct, commit it,
+tag it — **and push the tag**, because until it is on the remote the submodule
+cannot `go get` it. Only then update the submodule to require that version,
+commit, and tag it with the same number. The submodule's commit therefore
+lands *after* the root's, which is right: the submodule depends on the root,
+never the reverse.
+
+A submodule is **not** re-tagged every time the root moves — only when
+something relevant to it actually changed. `svg` at v0.0.8 while `driver/gio`
+is still at v0.0.7 is the normal, correct state, not drift.
+
+What the rule forbids is letting the submodule run on its own counter.
+Bumping `gio/v0.0.6` to `gio/v0.0.7` because the submodule changed, while the
+root is still at v0.0.6, destroys the correspondence — and then no version
+number tells you which root it belongs to. If the submodule needs a new tag
+and the matching root number is already taken by an older tag, cut a fresh
+root tag rather than letting the submodule run ahead.
