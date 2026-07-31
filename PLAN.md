@@ -242,8 +242,14 @@ so is the conclusion. Measured across the six by `go doc`:
 | prism | 13 of 16 before A3.2; a11y, theme and tokens were the gaps |
 | spectrum | 4 of 4 |
 | pulse | 7 of 7 |
-| cadence | 18 of 19 — only `modal/gallery`, a main, is bare |
+| cadence | 19 of 19 — `modal/gallery` has a `Command gallery` comment too |
 | markdown | 4 of 4 |
+
+A3.3 re-measured cadence and found no gap at all: every one of the eighteen
+pattern packages carries a multi-paragraph package comment, and the
+`modal/gallery` main carries a `Command gallery` one. So A3.4 has nothing
+to write — it is an audit, and its step list still says "add a `doc.go` to
+each of the eighteen", which the row above contradicts.
 
 So A3.4 through A3.7 are mostly audits, not writing jobs. Run `go doc` over
 every package in the module first; write where there is nothing, expand a
@@ -285,9 +291,9 @@ from prism's pkg.go.dev page; the two `EXPERIMENT` files exist in no
 repository in the org.
 #### A3.3: cadence README
 
-- [ ] Write `.repos/cadence/README.md` per the doc contract.
-- [ ] Group the eighteen packages by kind — shells, data, overlays, marketing — with one line each.
-- [ ] Commit in cadence.
+- [x] Write `.repos/cadence/README.md` per the doc contract.
+- [x] Group the eighteen packages by kind — shells, data, overlays, marketing — with one line each.
+- [x] Commit in cadence.
 
 #### A3.4: cadence package docs
 
