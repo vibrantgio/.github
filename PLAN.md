@@ -85,10 +85,10 @@ already follows. Phase C replaces this section wholesale.
 opens with screenshots and never mentions the guide, DESIGN.md, or where to
 start.
 
-- [ ] Open with a one-paragraph statement of what VibrantGio is and what it targets.
-- [ ] Immediately follow with a **Start here** block linking `llms.txt`, `workbench/DESIGN.md`, and `workbench/todos/`.
-- [ ] Keep the layered stack table; correct it to ADR-001's tier table — all twenty modules, not just the six-module spine — and mark layers that are mid-migration.
-- [ ] Keep the screenshots, moved below the entry points.
+- [x] Open with a one-paragraph statement of what VibrantGio is and what it targets.
+- [x] Immediately follow with a **Start here** block linking `llms.txt`, `workbench/DESIGN.md`, and `workbench/todos/`.
+- [x] Keep the layered stack table; correct it to ADR-001's tier table — all nineteen modules, not just the six-module spine — and mark layers that are mid-migration.
+- [x] Keep the screenshots, moved below the entry points.
 
 ![[#ADR-001: Spectrum is the foundation, not a consumer]]
 
@@ -1196,9 +1196,11 @@ mvu  →  spectrum  →  prism  →  pulse  →  cadence  →  markdown
 and would otherwise make the foundation depend on the effects layer.
 `spectrum/window` may keep its `mvu` dependency; mvu carries no design tokens.
 
-**The full tier table.** The spine above is six of twenty modules, and
-`scripts/check-layers.sh` has to judge all of them. A module may import only
-modules in a strictly lower tier, plus anything in the support row:
+**The full tier table.** The spine above is six of the nineteen modules, and
+`scripts/check-layers.sh` has to judge all of them. Nineteen, not twenty:
+`workbench` is the twentieth sibling repo but carries no root module — it is
+seven app modules in subdirectories, and no library imports them. A module may
+import only modules in a strictly lower tier, plus anything in the support row:
 
 | Tier | Modules | May import |
 | --- | --- | --- |
@@ -1213,6 +1215,11 @@ modules in a strictly lower tier, plus anything in the support row:
 Roboto faces. Without that row the check script would reject the exact edge
 ADR-003 requires — which is how a layering rule quietly becomes a nuisance
 someone disables.
+
+One intra-tier edge already exists and the table has to admit it: `style`
+imports `font` and `textdraw`, both tier 0, which the rule above forbids.
+ADR-003 freezes `style` rather than deleting it, so `check-layers.sh` permits
+that single edge explicitly instead of renumbering the tier.
 
 The support libraries in the last row are consumed by the design system and
 never depend on it. That is the whole of their contract, and it is what their
@@ -1315,8 +1322,11 @@ pulse, cadence and markdown all construct
 `text.NewShaper(text.NoSystemFonts(), text.WithCollection(gofont.Collection()))`
 inside library code. gofont is not merely used by the examples — it is the
 compiled-in default of the component library. Meanwhile `font` and `style`, the
-repos that package Roboto and a type scale, have exactly two consumers in the
-entire organization, both of them `mvu` examples.
+repos that package Roboto and a type scale, have no consumer in library source
+anywhere in the organization: `font` is imported by `style` and by two `mvu`
+examples, and `style` by thirteen mains, every one of them a demo — two in
+`mvu/example`, four under `ivg/raster/gio/example`, three under
+`svg/driver/gio/example`, four in `traer/gio`.
 
 `style` is frozen rather than deleted: its MD2 scale is superseded by
 `Typography`, and it keeps working through the deprecation window.
