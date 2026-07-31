@@ -69,18 +69,16 @@ repo's root, where the org front door can link it.
 - [x] Add a header line naming this file the single canonical guide and giving its raw URL.
 - [x] In `.repos/workbench`, replace `llms.txt` with a three-line pointer to the canonical URL, and update `workbench/README.md`'s reference to it. Commit in workbench.
 #### A1.3: Give the guide a typography section
-
 The guide is why assistants ship gofont apps: it lists `style` and `font` in the
 inventory but omits them from the bootstrap and the minimal `go.mod`, and has no
 typography section at all. Document today's correct practice — the one `todos/`
 already follows. Phase C replaces this section wholesale.
 
-- [ ] Add a `## Typography` section: build one `*text.Shaper` from `style.FontFaces()` and pass it to every component's `Shaper` prop.
-- [ ] State the rule plainly: never `gofont`, never `text.NoSystemFonts()` with the Go collection, never append the two.
-- [ ] Note that components default to gofont internally when `Shaper` is nil, so the prop is not optional today.
-- [ ] Add `github.com/vibrantgio/style` and `github.com/vibrantgio/font` to the minimal `go.mod` block.
-- [ ] Point at `todos/view.go` as the correct reference and name `feeds`/`watchlist`/`sitedocs`/`mindchat` as known-wrong until Phase F.
-
+- [x] Add a `## Typography` section: build one `*text.Shaper` from `style.FontFaces()` and pass it to every component's `Shaper` prop.
+- [x] State the rule plainly: never `gofont`, never `text.NoSystemFonts()` with the Go collection, never append the two.
+- [x] Note that components default to gofont internally when `Shaper` is nil, so the prop is not optional today.
+- [x] Add `github.com/vibrantgio/style` (and `github.com/vibrantgio/textdraw`, direct as soon as the app draws its own text) to the minimal `go.mod` block; `github.com/vibrantgio/font` is style's INDIRECT dependency — `todos/go.mod` carries it `// indirect` — so do not list it as a direct require.
+- [x] Point at `todos/view.go` as the correct reference and name `feeds`/`watchlist`/`sitedocs`/`mindchat` as known-wrong until Phase F.
 #### A1.4: Rewrite the org profile README
 
 `profile/README.md` is what renders on the organization home page. Today it
@@ -996,18 +994,16 @@ Tasks here are provisional; re-cut them when Phase E lands.
 - [ ] Build, test, commit.
 
 #### F1.6: The mvu examples
-
 mvu is tier 0, and `mvu/example` is already its own module (tagged
-`example/v0.3.2`) — checked during G-B1, so the trap `prism/gallery` was in
+`example/v0.4.3`) — checked during G-B1, so the trap `prism/gallery` was in
 does not apply here. Keep it that way: pointing the example at theme typography
 while it shared mvu's module would make the foundation require spectrum and
 re-close a cycle from the other direction.
 
-- [ ] Drop the `style` dependency from `mvu/example`; use theme typography.
-- [ ] Update `edit` and `04-hello`, the only two consumers of `style` in the org.
+- [ ] Drop the `style` dependency from `mvu/example`; use theme typography. Note `example/go.mod` also requires `github.com/vibrantgio/font` DIRECTLY, because `edit` imports `font/roboto/regular/normal` for a single face — drop that too.
+- [ ] Update `edit` and `04-hello` — the only two consumers of `style` inside `mvu/example`. Org-wide there are fifteen more: the workbench apps `todos`, `iconbrowser`, `launcher` and `mindchat` (covered by F1.1-F1.5), plus eleven example programs under `ivg/raster/gio`, `svg/driver/gio` and `traer/gio` that Phase F does not touch.
 - [ ] Run `scripts/check-layers.sh`; confirm mvu itself still requires nothing above tier 0.
 - [ ] Build, test, commit.
-
 ### G-F2: Regenerate the documentation
 
 #### F2.1: Rewrite llms.txt for the shipped system

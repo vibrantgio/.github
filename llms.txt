@@ -44,9 +44,11 @@ All modules live under github.com/vibrantgio/<name>. Current tags:
   backdrop  v0.0.3   solid colour fill widget
   gradient  v0.0.3   linear gradient fill widget
   noise     v0.0.3   Perlin and Simplex noise, 2D/3D
-  style     v0.0.5   typography scale (H1-H6, Body, Button, Caption)
+  style     v0.0.5   type scale (H1-H6, Subtitle, Body, Button, Caption,
+                     Overline) and FontFaces() — the app's shaper collection
   textdraw  v0.0.4   low-level glyph text drawing
-  font      v0.0.4   Roboto typeface, five weights
+  font      v0.0.4   Roboto faces: six weights (Thin..Black), regular and
+                     italic; style pulls in the five it uses
   circle    v0.0.4   precise circle via Bezier
   kiwi      v0.0.6   Cassowary constraint solver
   csg       v0.0.1   constructive solid geometry on meshes (BSP trees)
@@ -242,6 +244,90 @@ Pulse components are explicit VARIANTS of prism components, e.g.
 pulse/springbutton wraps prism/button with physics-driven press/release —
 opt in per call site, never a global decorator.
 
+## Typography
+
+Vibrant Gio ships Roboto, and nothing in the libraries gives it to you by
+default. Build ONE *text.Shaper from style.FontFaces() and hand it to every
+component that draws text:
+
+  import (
+      "gioui.org/text"
+
+      "github.com/vibrantgio/prism/button"
+      "github.com/vibrantgio/style"
+  )
+
+  // Once per window, at layer-building scope (inside buildLayers, or an
+  // rx.Defer) — never per frame, and never shared between windows: a
+  // Shaper owns caches and is not safe for concurrent use.
+  shaper := text.NewShaper(text.WithCollection(style.FontFaces()))
+
+  btn := button.Button(th, button.Props{Label: "Save", Shaper: shaper})
+
+style.FontFaces() returns the five regular Roboto weights — Thin, Light,
+Normal, Medium, Bold — as []textdraw.FontFace, which is a type ALIAS for
+gioui.org/font.FontFace, so it drops straight into text.WithCollection. The
+collection's typefaces become the shaper's default families, and components
+lay their labels out with a zero font.Font{} (empty Typeface, Normal
+weight), which therefore resolves to Roboto. That is the entire mechanism:
+there is no typography theme token yet — Phase C adds one and this section
+is replaced when it lands.
+
+THE RULES
+
+  - Never gofont. gioui.org/font/gofont is Gio's own typeface, not this
+    design system's; an app that ships it does not look like Vibrant Gio.
+  - Never text.NoSystemFonts(). Leave system fonts loaded: they are the
+    fallback for glyphs Roboto lacks and for explicitly named families —
+    markdown.FromTokens sets Style.Mono to the typeface list "Go Mono,
+    monospace", and the generic monospace family is what resolves code
+    spans when the collection carries no monospace face.
+  - Never append the two collections
+    (append(style.FontFaces(), gofont.Collection()...)). It loads two type
+    systems into one window; Roboto still wins for Latin text, so the
+    mixing only shows up on the glyphs that fall through.
+
+THE Shaper PROP IS NOT OPTIONAL TODAY. Every component that draws text
+builds text.NewShaper(text.NoSystemFonts(),
+text.WithCollection(gofont.Collection())) for itself when Props.Shaper is
+nil. Nothing warns you — the app renders, in the wrong typeface. The prop
+exists on:
+
+  prism    button.Props, input.TextFieldProps, input.DropdownProps
+  pulse    springbutton (it takes button.Props, Shaper included)
+  cadence  navbar, sidebar, tabs, table, pagination, breadcrumb, accordion,
+           modal, alert, tooltip, toast, hero, pricing, testimonial
+
+Some places take the shaper positionally instead: markdown's
+doc.Layout(gtx, shaper, style), prism/richtext's Layout and Render, and
+cadence/shell's Render/RenderThreeColumn/RenderStackedPage (the
+golden-image API). cadence/shell's observable API, Shell(th, props), has no
+shaper of its own: the navbar's travels in Props.Navbar.Shaper, and the
+sidebar arrives as a widget stream you built yourself
+(sidebar.Sidebar(th, sidebar.Props{Shaper: shaper, ...})).
+
+cadence/feature is the one hole: Feature() has NO Shaper prop and builds
+the gofont shaper unconditionally, so a feature grid renders in Go fonts
+whatever you pass. Until Phase C removes the fallbacks, keep it out of an
+app whose typeface matters — or accept the mismatch knowingly.
+prism/input's checkbox and radio need no shaper; they draw no text.
+
+THE TYPE SCALE. style also exports textdraw.TextStyle values — H1-H6,
+Subtitle1/2, BodyText1/2, Button, Caption, SmallButton, Overline — for text
+you draw yourself with textdraw.Text/Label (todos/theme.go aliases H5 and
+H6 for exactly that). Prism and cadence do NOT read them: they size their
+own text from prism/tokens.TypeScale, carried on the theme as
+theme.Theme.Type (MD3 roles in dp). The two scales are kept in step by hand
+until Phase C unifies them.
+
+REFERENCE CODE. todos/view.go is correct and minimal: one shaper built at
+layer scope, threaded through List and UpsertDialog; iconbrowser/view.go
+and launcher/view.go do the same. Do NOT copy the font wiring of
+feeds/app.go, watchlist/app.go or sitedocs/main.go — all three build the
+NoSystemFonts+gofont shaper — nor mindchat/view.go, which appends
+gofont.Collection() to style.FontFaces(). Those four are known wrong and
+are fixed in Phase F.
+
 ## Markdown documents
 
 github.com/vibrantgio/markdown renders GitHub-flavoured markdown as prism
@@ -356,7 +442,17 @@ coded clip paths on purpose (golden determinism); leave those alone.
       github.com/vibrantgio/mvu v0.4.3
       github.com/vibrantgio/prism v0.1.2
       github.com/vibrantgio/spectrum v0.0.6
+      github.com/vibrantgio/style v0.0.5
+      github.com/vibrantgio/textdraw v0.0.4
   )
+
+style is not optional: it is where the app's shaper collection comes from
+(see §Typography). textdraw is a direct requirement as soon as you draw
+text yourself with textdraw.Text/Label or name a style.TextStyle in your
+own code — todos does both. github.com/vibrantgio/font arrives INDIRECTLY,
+as style's dependency; `go mod tidy` marks it `// indirect` and only
+promotes it if you import a face package yourself (mvu/example/edit imports
+font/roboto/regular/normal to load a single face).
 
 Add markdown/pulse/backdrop/seen/traer as needed. All repos are public on
 GitHub.
