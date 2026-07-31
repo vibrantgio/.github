@@ -21,7 +21,9 @@ legitimately moves pixels, regenerate the goldens *within the same task* and
 say so in the commit body. Never commit red.
 
 **Never push without asking.** These are public repositories. Commit locally;
-pushing is Rene's call, made explicitly, at goal boundaries.
+pushing is Rene's call, made explicitly, at goal boundaries. Two things in this
+plan genuinely cannot finish without a push — the cross-repo tag seams in
+ADR-006 and the whole of G-F3 — and both stop and ask rather than pushing.
 
 **Stop if a task is too big.** Tasks are cut to fit ~100K tokens of Opus 5 at
 high effort. If one turns out larger than that, check off what you genuinely
@@ -49,10 +51,12 @@ All work in this repo unless a step says otherwise.
 
 Create the local layout every later task assumes.
 
-- [ ] Add `.gitignore` with `.repos/` and `.DS_Store`.
+- [ ] Add `.gitignore` with `.repos/`, `go.work.sum` and `.DS_Store`.
 - [ ] Write `scripts/clone-all.sh`: clone all twenty sibling repos into `.repos/`, skipping any already present, and `git pull --ff-only` those that are.
 - [ ] Run it; confirm twenty directories exist under `.repos/`.
 - [ ] Record in the script's header comment that `.github` itself is the parent directory, not a clone.
+- [ ] Write `scripts/inventory.sh`: per repo, report whether it has a `README.md`, an `AGENTS.md`, a root `doc.go` and a `.github/workflows/`, plus its current Gio and rx versions.
+- [ ] Run it and paste the table into the commit body. Every count this plan asserts — twelve missing READMEs, six missing `doc.go`, twenty missing `AGENTS.md`, three Gio versions, no CI anywhere — is checked against that table and corrected here if it is wrong. Phase A's tasks were cut from a survey, not from the clone.
 
 #### A1.2: Move llms.txt here and correct its inventory
 
@@ -85,7 +89,7 @@ start.
 
 - [ ] Open with a one-paragraph statement of what VibrantGio is and what it targets.
 - [ ] Immediately follow with a **Start here** block linking `llms.txt`, `workbench/DESIGN.md`, and `workbench/todos/`.
-- [ ] Keep the layered stack table; correct it to the layer order in ADR-001 and mark layers that are mid-migration.
+- [ ] Keep the layered stack table; correct it to ADR-001's tier table — all twenty modules, not just the six-module spine — and mark layers that are mid-migration.
 - [ ] Keep the screenshots, moved below the entry points.
 
 ![[#ADR-001: Spectrum is the foundation, not a consumer]]
@@ -98,11 +102,30 @@ The repo root is separate from `profile/`. It currently has no README at all.
 - [ ] Link all three, plus `scripts/clone-all.sh`.
 - [ ] Note that `profile/README.md` — not this file — is what renders on the org page.
 
+#### A1.6: Write this repo's AGENTS.md
+
+A1.5's README is written for a human evaluating the repo. This file is for the
+agent that has just been dropped into this working tree with no other context —
+and by G-A2's own argument, a README is not the file it finds.
+
+It is written by hand rather than from the G-A2 template, because it describes
+a plan and a working tree rather than a library module.
+
+- [ ] Write `AGENTS.md` at this repo's root: what this repo is, that `PLAN.md` is the entry point, and that `mdplan next` is how work is picked up.
+- [ ] State the working-tree layout — sibling repos live in gitignored `.repos/`, this repo is their parent and not a clone, and `go.work` at this root is what makes them resolve against each other.
+- [ ] Restate the four rules from `PLAN.md`'s preamble that an agent must not discover late: one task one commit, green before commit, never push without asking, stop if a task is too big.
+- [ ] Link `llms.txt` — but say plainly that it covers writing Gio code against the libraries, not working the plan, so an agent knows which file answers which question.
+- [ ] Commit here.
+
 ### G-A2: Put an AGENTS.md in every repo
 
 `AGENTS.md` at a repo root is the file an assistant finds without being told.
 Twenty repos, none have one. This is the single highest-leverage change in the
 plan.
+
+This goal covers the twenty sibling repos under `.repos/`. This repo's own
+`AGENTS.md` is A1.6, and `scripts/sync-agents.sh` deliberately cannot reach it:
+`.github` is the parent directory, not a clone.
 
 ![[#The repo doc contract]]
 
@@ -136,8 +159,12 @@ These are support libraries, not design-system layers; their AGENTS.md says so.
 ### G-A3: READMEs and package docs
 
 Twelve repos have no README; six core modules have no `doc.go` anywhere, so
-pkg.go.dev shows nothing for the whole stack. Describe the layer and the role —
-not the API surface, which Phases B–E will change.
+pkg.go.dev shows nothing for the whole stack. Both counts come from a survey
+taken before this plan was written — re-check them against A1.1's inventory
+table before starting, and correct the tasks below if the clone disagrees.
+
+Describe the layer and the role — not the API surface, which Phases B–E will
+change.
 
 ![[#The repo doc contract]]
 
@@ -216,6 +243,25 @@ compiling untouched.
 
 ![[#ADR-001: Spectrum is the foundation, not a consumer]]
 
+### G-B0: One workspace, one resolution strategy
+
+Everything from here to the end of Phase E is a cross-repo change, and twenty
+separate Go modules do not compile against each other's uncommitted work by
+wishing. B2.3 is where it bites first: `prism/tokens` becomes an alias for a
+`spectrum/tokens` that no published spectrum tag contains. Settle how the
+modules resolve before moving a single package.
+
+![[#ADR-006: One workspace while developing, tags at the seams]]
+
+#### B0.1: Establish the Go workspace
+
+- [ ] Write `go.work` at the root of this repo listing every module under `.repos/`.
+- [ ] Confirm that from each module, `go build ./... && go test ./...` resolves its siblings from the working tree rather than the module cache.
+- [ ] Confirm the same commands under `GOWORK=off` still pass today, resolving from published tags — this is what CI sees, and the gap between the two is what ADR-006 manages.
+- [ ] Write `scripts/check-no-workspace.sh`: run the whole stack with `GOWORK=off` and report which modules fail and why. Expect failures from B2.3 onward; the script records the debt, it does not pay it.
+- [ ] Confirm no member repo carries a `replace` directive, and note in the script header that none may be added — a committed `replace` in a public module breaks every consumer outside this working tree.
+- [ ] Commit `go.work` and both scripts here; `go.work.sum` is gitignored by A1.1.
+
 ### G-B1: Break the cycle and align versions
 
 #### B1.1: Cut pulse out of prism
@@ -224,22 +270,64 @@ compiling untouched.
 what puts `pulse` in prism's `go.mod` and closes the cycle.
 
 - [ ] Give `prism/gallery` its own `go.mod` as a nested module requiring prism and pulse.
+- [ ] Add the new module to `go.work`.
 - [ ] Remove `github.com/vibrantgio/pulse` from prism's `go.mod`; `go mod tidy`.
 - [ ] Confirm `go list -m all` in prism no longer mentions pulse.
 - [ ] `go build ./... && go test ./...` in both prism and prism/gallery; commit in prism.
 
-#### B1.2: Align the core stack on one Gio and one rx
+#### B1.2: Survey the Gio v0.9 → v0.10 drift
 
-- [ ] Set gioui.org v0.10.1 and reactivego/rx v0.3.0 in mvu, prism, spectrum, pulse, cadence, markdown.
-- [ ] `go mod tidy` in each; resolve any API drift from the v0.9→v0.10 move.
-- [ ] `go build ./... && go test ./...` in each of the six.
-- [ ] Commit in each repo.
+The version bump is the largest mechanical change in the plan and the one most
+likely to sprawl without warning. Measure it first, so the four migrations below
+are cut against a real list rather than a hope — and so a reviewer can argue
+with the survey instead of the diffs.
 
-#### B1.3: Align the leaf repos
+- [ ] Read Gio's v0.10 release notes and changelog; list every breaking API change.
+- [ ] Grep the six core modules for each one; record which repos and which files are hit.
+- [ ] Count the golden images in prism, pulse, cadence and markdown. The bump will move most of them, and that regeneration — not the API drift — is the bulk of the work.
+- [ ] Write the findings into this task as a table before checking it off, and re-cut B1.3–B1.6 if the drift is larger than they assume.
+- [ ] Commit here in the plan repo.
+
+#### B1.3: Align mvu and spectrum
+
+The two core modules with no golden images. Doing them first isolates the API
+drift from the pixel churn, so the next three tasks know which is which.
+
+- [ ] Set gioui.org v0.10.1 and reactivego/rx v0.3.0 in mvu and spectrum.
+- [ ] `go mod tidy` in each; resolve the drift B1.2 listed.
+- [ ] `go build ./... && go test ./...` in both; commit in each.
+
+#### B1.4: Align prism and its galleries
+
+- [ ] Set the same versions in prism, `prism/gallery` and `prism/button/gallery`.
+- [ ] `go mod tidy`; resolve the drift.
+- [ ] Regenerate the goldens the bump moves; say in the commit body how many moved and why.
+- [ ] `go build ./... && go test ./...`; commit in prism.
+
+#### B1.5: Align pulse and markdown
+
+- [ ] Set the same versions in pulse and markdown.
+- [ ] `go mod tidy` in each; resolve the drift.
+- [ ] Regenerate the goldens the bump moves.
+- [ ] `go build ./... && go test ./...` in each; commit in each.
+
+#### B1.6: Align cadence
+
+Eighteen packages, each with goldens — the largest single regeneration in the
+plan. If it does not fit one sitting, split it along the package groups
+C2.5–C2.7 already use, commit what is green, and say so.
+
+- [ ] Set the same versions in cadence.
+- [ ] `go mod tidy`; resolve the drift.
+- [ ] Regenerate the goldens the bump moves.
+- [ ] `go build ./... && go test ./...`; commit in cadence.
+
+#### B1.7: Align the leaf repos
 
 - [ ] Set the same Gio version in font, style, textdraw, backdrop, gradient, circle.
+- [ ] Check whether any core module reaches a support library — `markdown/svgimage` into svg or ivg is the likely one. Align that library too, or record why it can stay behind.
 - [ ] `go mod tidy`, build and test each.
-- [ ] Commit in each of the six repos.
+- [ ] Commit in each repo touched.
 
 ### G-B2: Invert the foundation
 
@@ -277,9 +365,10 @@ depend on the effects layer. It is animation code; it belongs in pulse.
 
 #### B2.5: Make the layering enforceable
 
-- [ ] Write `scripts/check-layers.sh` here: for each module, `go list -deps` and assert only the edges ADR-001 permits.
-- [ ] Run it across all core modules; fix or record any violation it finds.
-- [ ] Wire it into each core repo's CI workflow.
+- [ ] Write `scripts/check-layers.sh` here: for each module, `go list -deps` and assert only the edges ADR-001's tier table permits — the whole table, including the tier 0 leaves and the support-library row, not just the six-module spine.
+- [ ] Teach it the nested-module exemption: `prism/gallery` and `mvu/example` may import above their parent's tier; their parents may not.
+- [ ] Run it across all twenty modules; fix or record any violation it finds.
+- [ ] Wire it into each core repo's CI workflow. A1.1's inventory says which repos have a `.github/workflows/` at all — where there is none, add a minimal build-and-test workflow first, since the check has to run somewhere.
 - [ ] Commit the script here and the workflow change in each repo.
 
 ## Phase C: The theme owns the typeface
@@ -397,9 +486,21 @@ The rule that prevents this whole class of regression.
 
 #### C3.2: The no-literal-colour lint
 
-- [ ] Write a test that fails on `color.NRGBA{...}` literals outside `spectrum/tokens` and `spectrum/color`.
+- [ ] Write a test that fails on `color.NRGBA{...}` literals outside `spectrum/tokens` — and `spectrum/color` too, which D1.1 creates a phase from now.
 - [ ] Add it to prism, pulse, cadence and markdown; allow-list the deliberate exceptions with a comment explaining each.
 - [ ] Wire into CI; commit in each.
+
+#### C3.3: Refresh the guide's typography section
+
+A1.3 documented the shaper-passing practice this phase has just deleted. The
+canonical guide is the plan's own front door; leaving it wrong through Phases D
+and E teaches every assistant exactly the defect Phase C existed to remove.
+F2.1 rewrites the whole file — this is the one section that cannot wait for it.
+
+- [ ] Replace `llms.txt`'s `## Typography` section with the theme-owned contract: read `Typography` from the theme, never construct a shaper, never pass `Shaper` except as a deliberate override.
+- [ ] Note that the no-gofont lint now runs in CI, so the old practice fails the build rather than merely being discouraged.
+- [ ] Keep the known-wrong app list — F1 is what fixes those — but say plainly that the library contract has moved and the apps have not caught up yet.
+- [ ] Commit here.
 
 ## Phase D: Generative colour
 Material Design's real contribution is not its palette, it is that colour is
@@ -451,13 +552,16 @@ implementation — write no code into `spectrum`. A throwaway script is fine and
 should be thrown away.
 
 - [ ] Read each model's own account of itself: Radix's twelve-step purposes and paired dark scales, MD3's role→tone table, and the Claude Design project's readme and `theme.json` for the 100–900 OKLCH ramp.
+- [ ] If that last project is not reachable from this machine, say so plainly and decide between the two models that are. Do not block on it, and do not guess at a ramp you could not read.
 - [ ] Lay all three against the same surfaces: app background, card, hover, pressed, subtle border, strong border, solid fill, low-contrast text, body text.
 - [ ] Note where nine steps cannot express something twelve can, and whether prism and cadence actually need that distinction.
 - [ ] Generate all three mappings from the `#6750A4` seed with a throwaway script and compare the resulting surfaces side by side, light and dark.
 - [ ] Evaluate APCA (Lc) against WCAG 2 ratios on the light-on-dark pairs specifically — WCAG 2 is known to over-rate them, and spectrum tracks OS dark mode by default.
 - [ ] Weigh the prototyping argument explicitly: matching Claude Design's ramp keeps one vocabulary across the app and the design surface, and that is worth real points against a model that scores better in isolation.
-- [ ] Decide, and write the outcome into `## Reference` as ADR-006, embedded into Phase D.
+- [ ] Decide, and write the outcome into `## Reference` as ADR-007, embedded into Phase D.
+- [ ] Amend ADR-002 wherever the decision contradicts it. That ADR currently commits to keeping "MD3's role vocabulary and its tone-assignment tables", which a functional-step model replaces outright. Its *mathematics* — CIELAB tone with OKLCh hue and chroma — survives all three models and is not reopened here.
 - [ ] Re-cut G-D2 to match the decision, and adjust D2.4's contrast target if APCA wins.
+- [ ] Check the three later places that already assume a ramp shape — E0.1's `--color-*` token families, E0.2's colour page and its step-purpose notes, and G1.2's class vocabulary — and re-cut whichever no longer reads true.
 - [ ] Commit in the plan repo.
 
 ### G-D1: The colour engine
@@ -523,6 +627,7 @@ Tones 10–70 are unaffected and already exact.
 - [ ] Add `FromSeed(seed color.NRGBA) (light, dark ColorTokens)` using the MD3 tone assignments.
 - [ ] Golden-test the default seed against a recorded palette.
 - [ ] Replace `DefaultLight`/`DefaultDark` with values derived from the default seed.
+- [ ] Remove the verbatim Tailwind ramp from the semantic layer. Per ADR-002 it may survive only as an optional named palette provider — never behind a role name, which is the arrangement that made the tokens three design systems in a trench coat.
 - [ ] Build, test, commit.
 
 #### D2.3: State layers
@@ -604,11 +709,16 @@ Phase G, after they stop changing.
 Generated output lives in `design/` at the root of this plan repo and is
 committed, so every push is a reviewable diff.
 
+**G-E0 exports what Phase D landed** — colour, type, spacing, radius. Density,
+tonal elevation and the motion set all change later in this very phase, so
+G-E5 re-exports at the end of it. Do not reach for them here; the tokens do not
+exist yet.
+
 #### E0.1: The token serialiser
 
 - [ ] Create `spectrum/export`: given a `theme.Theme` emission, write `theme.json` and the `:root` / dark token sheet of `styles.css`.
-- [ ] Emit the token families Claude Design expects: `--color-*` (role bases plus their tonal ramps), `--font-*`, `--space-*`, `--radius-*`, `--shadow-*`.
-- [ ] Record the generative parameters in `theme.json` — seed hue, saturation, any pinned roles, density, base radius, heading and body faces — so the theme is reproducible from the file alone.
+- [ ] Emit the token families Claude Design expects: `--color-*` (role bases plus their tonal ramps, in whatever shape ADR-007 chose), `--font-*`, `--space-*`, `--radius-*`, and `--shadow-*` from today's elevation levels — E2.1 replaces those with surface roles and E5.1 re-emits them.
+- [ ] Record the generative parameters in `theme.json` — seed hue, saturation, any pinned roles, base radius, heading and body faces — so the theme is reproducible from the file alone. Density and the motion set belong here too but are E5.1's; they do not exist yet.
 - [ ] Write a round-trip test: parse the emitted CSS back and assert every value matches the Go token it came from, so the two cannot drift.
 - [ ] Add `cmd/vg-tokens` writing the pair into a target directory.
 - [ ] Build, test, commit in spectrum.
@@ -618,9 +728,9 @@ committed, so every push is a reviewable diff.
 Static HTML that reads only from the emitted token sheet — no hard-coded values,
 so a theme change reflows every page.
 
-- [ ] Generate `foundations/color.html`: each role with its full ramp, the step-purpose notes, and the measured contrast of each text pair against its ground.
+- [ ] Generate `foundations/color.html`: each role with its full ramp, annotated in ADR-007's own terms — step purposes if it chose a functional ramp, tone values if it chose MD3's — and the measured contrast of each text pair against its ground.
 - [ ] Generate `foundations/type.html`: every type role at its real size, weight, line height and tracking, in the actual faces.
-- [ ] Generate `foundations/layout.html`: the spacing scale, radius scale and elevation steps as rendered specimens.
+- [ ] Generate `foundations/layout.html`: the spacing scale, radius scale and elevation steps as rendered specimens. Elevation as it stands today; E5.1 re-renders it once E2.1 has remapped it to surface roles.
 - [ ] Generate `readme.md` for the project describing the system and naming the token families — the file a human or an agent reads first.
 - [ ] Confirm every page renders correctly against a dark theme emission as well as light.
 - [ ] Build, test, commit in spectrum; commit the generated `design/` here.
@@ -662,6 +772,7 @@ diffs.
 
 - [ ] Replace the hardcoded `minHeight = 44dp` in `prism/button` with the density-derived value.
 - [ ] Apply density to input, checkbox, radio, dropdown and list row height.
+- [ ] Apply density to `prism/icon`'s default sizes — an icon that stays put while its control shrinks is the tell that density is only half-wired.
 - [ ] Add a golden per component at each density.
 - [ ] Build, test, commit in prism.
 
@@ -787,6 +898,23 @@ whether the cache holds while the glow animates.
 - [ ] Record the decision and its evidence in `pulse/glow`'s package doc either way.
 - [ ] Build, test, commit in pulse.
 
+### G-E5: Re-export the foundations
+
+G-E0 exported what Phase D had landed. Density, tonal elevation and the motion
+set have all moved since, so the emitted tokens and the pushed design project
+are now behind the theme they claim to describe. Bring them level before Phase
+F freezes the documentation — and before Phase G builds a component vocabulary
+on top of them.
+
+#### E5.1: Re-emit and re-push
+
+- [ ] Extend `spectrum/export` with what Phase E added: the density tokens, the tonal-elevation surface roles replacing `--shadow-*` as the default, and MD3's easing and duration sets.
+- [ ] Add density, the elevation model and the motion set to `theme.json`'s generative parameters, so the file still reproduces the theme on its own.
+- [ ] Regenerate `foundations/layout.html` against tonal elevation rather than shadow depths, and show the spacing and control metrics at both density settings.
+- [ ] Confirm E0.1's round-trip test still passes across the widened token set — it is the only thing stopping the CSS and the Go tokens drifting.
+- [ ] Run `scripts/push-design.sh`; open the project and confirm the foundation pages render.
+- [ ] Build, test, commit in spectrum; commit the regenerated `design/` here.
+
 ## Phase F: Prove it, document it, release it
 
 A design system is only coherent if its own reference applications agree. Right
@@ -833,8 +961,15 @@ Tasks here are provisional; re-cut them when Phase E lands.
 
 #### F1.6: The mvu examples
 
+mvu is tier 0. If `mvu/example` shares mvu's module, pointing it at theme
+typography makes the foundation require spectrum and re-closes the cycle Phase
+B just opened — the same trap `prism/gallery` was in, arriving from the other
+direction.
+
+- [ ] Check whether `mvu/example` is part of the mvu module. If it is, give it its own `go.mod` first, exactly as B1.1 did for `prism/gallery`, and add it to `go.work`.
 - [ ] Drop the `style` dependency from `mvu/example`; use theme typography.
 - [ ] Update `edit` and `04-hello`, the only two consumers of `style` in the org.
+- [ ] Run `scripts/check-layers.sh`; confirm mvu itself still requires nothing above tier 0.
 - [ ] Build, test, commit.
 
 ### G-F2: Regenerate the documentation
@@ -850,7 +985,7 @@ Tasks here are provisional; re-cut them when Phase E lands.
 #### F2.2: Rewrite DESIGN.md
 
 - [ ] Rewrite `workbench/DESIGN.md` around the new layering, the generative colour model and the desktop divergences.
-- [ ] Fold ADR-001 through ADR-004 in as decision records.
+- [ ] Fold ADR-001 through ADR-007 in as decision records — including ADR-006, whose workspace rule is the one an outside contributor cannot infer from the repos.
 - [ ] Keep the old document as `DESIGN-v1.md` for history.
 - [ ] Commit in workbench.
 
@@ -872,22 +1007,30 @@ Tasks here are provisional; re-cut them when Phase E lands.
 
 #### F3.1: Tag the foundation
 
+A tag has to reach GitHub before the layer above it can resolve it, so every
+task in G-F3 stops and asks before pushing. This is the one goal in the plan
+that local-only work cannot finish.
+
 - [ ] Verify `scripts/check-layers.sh` passes across the stack.
-- [ ] Tag font and spectrum.
-- [ ] Confirm the tags resolve from a clean module cache.
+- [ ] Run `scripts/check-no-workspace.sh`: the whole stack, `GOWORK=off`, green. The workspace has been covering version skew since Phase B and this is where that debt comes due.
+- [ ] Tag mvu first — `spectrum/window` imports it, so it is tier 0 and everything waits on it — then font and spectrum.
+- [ ] Ask Rene to push the tags. Do not push them.
+- [ ] Confirm the tags resolve from a clean module cache with the workspace disabled.
 
 #### F3.2: Tag the component layers
 
 - [ ] Update prism and pulse to the released spectrum tag; build and test.
-- [ ] Tag prism, then pulse.
-- [ ] Confirm resolution from a clean cache.
+- [ ] Tag prism, then pulse; ask Rene to push each before the next one moves.
+- [ ] Confirm resolution from a clean cache, workspace disabled.
 
 #### F3.3: Tag the pattern layer and the apps
 
-- [ ] Update cadence, markdown and mvu to the released tags; build and test.
-- [ ] Tag all three.
-- [ ] Update every workbench app's `go.mod` to the released tags; build, test, run each.
+- [ ] Promote `prism/internal/golden`'s capture to an exported package *before* the major is cut. G1.1 needs it from outside prism, and finding that out after the bump costs a whole second prism release for a one-line visibility change.
+- [ ] Update cadence and markdown to the released tags; build and test. mvu was tagged in F3.1.
+- [ ] Tag both; ask Rene to push.
+- [ ] Update every workbench app's `go.mod` to the released tags; build, test, run each. Tag the nested demo modules — `prism/gallery`, `mvu/example` — here too; they sit above everything they demonstrate.
 - [ ] Drop the deprecated alias shims from prism and spectrum, and tag the majors that removes.
+- [ ] Run `scripts/check-no-workspace.sh` one last time, after the majors. Green here means every `go.mod` in the org is honest without the workspace propping it up — which is the actual definition of released.
 
 ## Phase G: The design-agent surface
 
@@ -933,7 +1076,8 @@ comparison metric.
 regression between two Gio renders and useless across two different renderers.
 This task needs a perceptual metric instead.
 
-- [ ] Promote `prism/internal/golden`'s capture to an importable package, or add a small exported wrapper — it is `internal` today and Phase G needs it from outside prism.
+- [ ] Use prism's exported golden capture, promoted in F3.3. If that bullet was skipped, go back and do it there and re-tag — do not reach into `internal` from here, and do not write a second Gio capture path.
+- [ ] Pick the browser automation and record why. chromedp keeps the harness one Go test with no second toolchain; Playwright shapes text better and drags in Node. Neither is installed today, so check before committing to one.
 - [ ] Write the browser half: render a component page headless at a fixed viewport and capture a screenshot.
 - [ ] Align the two: same nominal size, same theme emission, same component state.
 - [ ] Implement a perceptual comparison — downscale both and compare in a perceptual space, or score structural similarity. Text shaping and antialiasing differ between Gio and a browser, so the bar is "reads as the same component", not pixel equality.
@@ -1010,7 +1154,7 @@ directly — the phases and goals above pull pieces of it in by embed.
 ### ADR-001: Spectrum is the foundation, not a consumer
 
 **Decision.** The token and theme contract moves from `prism` down into
-`spectrum`. The layer order becomes:
+`spectrum`. The design-system spine becomes:
 
 ```
 mvu  →  spectrum  →  prism  →  pulse  →  cadence  →  markdown
@@ -1019,6 +1163,34 @@ mvu  →  spectrum  →  prism  →  pulse  →  cadence  →  markdown
 `spectrum/transition` moves to `pulse/transition`, since it is animation code
 and would otherwise make the foundation depend on the effects layer.
 `spectrum/window` may keep its `mvu` dependency; mvu carries no design tokens.
+
+**The full tier table.** The spine above is six of twenty modules, and
+`scripts/check-layers.sh` has to judge all of them. A module may import only
+modules in a strictly lower tier, plus anything in the support row:
+
+| Tier | Modules | May import |
+| --- | --- | --- |
+| 0 | mvu, font, style, textdraw, backdrop, gradient, circle | support libraries only |
+| 1 | spectrum | tier 0 |
+| 2 | prism | tiers 0–1 |
+| 3 | pulse | tiers 0–2 |
+| 4 | cadence, markdown | tiers 0–3 |
+| — | ivg, svg, seen, csg, kiwi, noise, traer | nothing in this table |
+
+`font` is in tier 0 because C1.2 makes spectrum depend on it for the default
+Roboto faces. Without that row the check script would reject the exact edge
+ADR-003 requires — which is how a layering rule quietly becomes a nuisance
+someone disables.
+
+The support libraries in the last row are consumed by the design system and
+never depend on it. That is the whole of their contract, and it is what their
+`AGENTS.md` says (A2.4).
+
+**Nested demo modules are exempt from being imported, not from importing.**
+`prism/gallery` (B1.1) and `mvu/example` (F1.6) may depend on layers above
+their parent; their parents may not inherit that edge. This is the mechanism
+that keeps a demo from re-closing a cycle, and both cycles in this org — pulse
+into prism, and spectrum into mvu — were a demo file's doing.
 
 **Why.** Today `spectrum` — the theme runtime — depends on `prism`, the
 component library it exists to theme. The theme therefore sits above what it
@@ -1040,6 +1212,13 @@ vocabulary and its tone-assignment tables; replace both the colour mathematics
 and the hardcoded values now in `prism/tokens`.
 
 This is HCT's architecture with OKLab substituted for CAM16.
+
+**Its role vocabulary is subject to D0.1.** The G-D0 spike reopens the question
+of how tones are *assigned* — MD3's role→tone tables, Radix's twelve functional
+steps, or the nine-step ramp — and D0.1 amends this ADR if the answer is not
+MD3. The mathematics is not reopened: CIELAB tone with OKLCh hue and chroma
+survives whichever model wins, because all three need a perceptually even
+lightness axis and none of them supplies one.
 
 **Why not what's there now.** The current token package is three design systems
 in a trench coat: MD3 type roles, a verbatim Tailwind v3 palette wearing MD3
@@ -1164,6 +1343,45 @@ consumer's repo has no Go idiom, and fights module versioning and golden tests.
 The philosophy behind it does carry over — components should be readable and
 forkable, not opaque configuration surfaces.
 
+### ADR-006: One workspace while developing, tags at the seams
+
+**Decision.** Development across the twenty modules happens under a single
+`go.work` at the root of this repo, listing every module in `.repos/` plus the
+nested ones. No member repo ever gets a `replace` directive, and `go.work` is
+never committed into a member repo.
+
+A cross-repo change is therefore green in two different senses, and this plan
+means both:
+
+- **Green under the workspace** — `go build ./... && go test ./...` with the
+  workspace active, resolving siblings from the working tree. This is what
+  "green before commit" means for every task.
+- **Green without it** — the same commands under `GOWORK=off`, resolving each
+  `go.mod` against published tags. This is what CI sees, and what a stranger
+  running `go get` sees.
+
+**The two diverge at seams.** A seam is any task that creates or changes a
+dependency edge, and B2.3 is the first: `prism/tokens` becomes an alias for a
+`spectrum/tokens` that no published spectrum tag contains. At each seam the
+lower module is tagged and pushed before the upper module's `go.mod` names it —
+a stop-and-ask, per the plan preamble. `scripts/check-no-workspace.sh` (B0.1)
+reports the outstanding debt at any point.
+
+The seams are: B2.3 (spectrum gains tokens and theme), C1.3 (theme gains
+Typography), D2.2 (the derived role set), E1.2 (density), E3.1 (motion). Each
+is a goal boundary, which is where the preamble already puts push decisions.
+
+**Why not `replace` directives.** They would have to be committed to be useful
+to the next task, and a committed `replace` in a public module breaks every
+consumer who is not sitting in this working tree. `go.work` is what Go added
+for exactly this, and it is invisible downstream.
+
+**Why not defer it all to F3.** Because the seams are load-bearing and there
+are five of them. Phases C, D and E each move a contract down into spectrum and
+then migrate four repos onto it. Leaving twenty modules mutually unbuildable
+for three phases would make "never commit red" unenforceable across most of the
+plan's length — and a rule that cannot be checked is not a rule.
+
 ### The repo doc contract
 
 Every repository gets the same two files, in the same shape.
@@ -1195,9 +1413,15 @@ Modules are tagged bottom-up, one layer at a time, and each layer is verified
 from a clean module cache before the layer above it moves:
 
 ```
-font, spectrum  →  prism  →  pulse  →  cadence, markdown, mvu  →  workbench apps
+mvu  →  font, spectrum  →  prism  →  pulse  →  cadence, markdown  →  workbench apps
 ```
 
-No layer is tagged while `scripts/check-layers.sh` fails. The deprecated alias
-shims from ADR-001 and ADR-003 are removed only in the final major bump, after
-every in-org consumer has moved off them.
+mvu is tagged first, not with the pattern layer: `spectrum/window` imports it,
+which makes it tier 0 in ADR-001 and puts everything else behind it. The nested
+demo modules — `prism/gallery`, `mvu/example` — tag last with the apps, since
+they sit above everything they demonstrate.
+
+No layer is tagged while `scripts/check-layers.sh` fails, and none while
+`scripts/check-no-workspace.sh` does. The deprecated alias shims from ADR-001
+and ADR-003 are removed only in the final major bump, after every in-org
+consumer has moved off them.
