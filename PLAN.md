@@ -60,16 +60,14 @@ Create the local layout every later task assumes.
 - [x] Run it and paste the table into the commit body. Every count this plan still asserts — twelve missing READMEs, six missing `doc.go`, twenty missing `AGENTS.md`, no CI anywhere — is checked against that table and corrected here if it is wrong. Phase A's tasks were cut from a survey, not from the clone. (The dependency half of that survey is already settled: G-B1 put every module on one Gio, one rx and `go 1.25.1`.)
 
 #### A1.2: Move llms.txt here and correct its inventory
-
 `workbench/llms.txt` is the only agent guide in the org. Promote it to this
 repo's root, where the org front door can link it.
 
-- [ ] `git mv` the file content into `./llms.txt` (copy across repos; it is a new file here).
-- [ ] Correct the module inventory table against the real tags. Do not copy the list below by hand — read it out of the clones (`git -C .repos/<name> tag | sort -V | tail -1`), because it has already gone stale once. As of the G-B1 baseline: mvu v0.4.2, prism v0.1.1, spectrum v0.0.5, pulse v0.0.5, cadence v0.2.2, markdown v0.0.5, seen v0.0.6, traer v0.0.8, svg v0.0.7, ivg v0.1.5, backdrop v0.0.3, noise v0.0.3, style v0.0.5, textdraw v0.0.4, font v0.0.4, circle v0.0.4, kiwi v0.0.6, gradient v0.0.3, csg v0.0.1.
-- [ ] List the ten nested modules too — they are invisible in a repo listing and an assistant will not guess them: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio`, `svg/driver/{gio,pdf,raster,seen}`. Their tags carry the subdirectory prefix (`raster/gio/v0.1.7`), which is not obvious.
-- [ ] Add a header line naming this file the single canonical guide and giving its raw URL.
-- [ ] In `.repos/workbench`, replace `llms.txt` with a three-line pointer to the canonical URL, and update `workbench/README.md`'s reference to it. Commit in workbench.
-
+- [x] `git mv` the file content into `./llms.txt` (copy across repos; it is a new file here).
+- [x] Correct the module inventory table against the real tags. Do not copy the list below by hand — read it out of the clones (`git -C .repos/<name> tag | sort -V | tail -1`), because it has already gone stale once. Measured 2026-07-31, after the G-B1 retagging: mvu v0.4.3, prism v0.1.2, spectrum v0.0.6, pulse v0.0.6, cadence v0.2.3, markdown v0.0.6, seen v0.0.7, traer v0.0.8, svg v0.0.8, ivg v0.1.6, backdrop v0.0.3, noise v0.0.3, style v0.0.5, textdraw v0.0.4, font v0.0.4, circle v0.0.4, kiwi v0.0.6, gradient v0.0.3, csg v0.0.1. Note `gradient` — the old table omitted it entirely — and `csg`, which the old table showed as untagged.
+- [x] List the ten nested modules too — they are invisible in a repo listing and an assistant will not guess them: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio`, `svg/driver/{gio,pdf,raster,seen}`. Their tags carry the subdirectory prefix (`raster/gio/v0.1.6`), which is not obvious.
+- [x] Add a header line naming this file the single canonical guide and giving its raw URL.
+- [x] In `.repos/workbench`, replace `llms.txt` with a three-line pointer to the canonical URL, and update `workbench/README.md`'s reference to it. Commit in workbench.
 #### A1.3: Give the guide a typography section
 
 The guide is why assistants ship gofont apps: it lists `style` and `font` in the
