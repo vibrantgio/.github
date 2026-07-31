@@ -236,7 +236,7 @@ change.
 - [x] Write `.repos/prism/README.md` per the doc contract.
 - [x] List the packages and one line each: a11y, bench, button, cache, coordination, icon, initial, input, keyed, layout, list, richtext, scrollbar, theme, tokens.
 - [x] Note that `theme` and `tokens` move to spectrum in Phase B and will remain as aliases.
-- [ ] Commit in prism.
+- [x] Commit in prism.
 
 #### A3.2: prism package docs
 
