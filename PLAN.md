@@ -149,11 +149,31 @@ This goal covers the twenty sibling repos under `.repos/`. This repo's own
 - [x] Commit in each of the five repos.
 
 #### A2.3: Roll out to workbench, markdown and the text/draw repos
+Carried forward from A2.2: teach the sync script the golden-image flag before
+rendering anything, so these eight repos are right first time and the five
+already done are re-rendered rather than left to drift.
 
-- [ ] Render into workbench, markdown, font, style, textdraw, backdrop, gradient, circle.
-- [ ] For `style` and `textdraw`, add the deprecation note from ADR-003 — they are superseded by the Phase C typography token.
-- [ ] Commit in each of the eight repos.
+- [x] Teach `scripts/sync-agents.sh` a third measured paragraph — which packages keep PNGs under `testdata/golden/`, which flag regenerates them, and the command line that actually works — plus the `{{GOLDEN}}` line in the template. Re-render and commit in mvu, spectrum, prism, pulse and cadence; mvu has no goldens and does not move.
+- [x] Render into workbench, markdown, font, style, textdraw, backdrop, gradient, circle.
+- [x] For `style`, add the ADR-003 freeze note. For `textdraw`, an honest one: ADR-003 freezes `style` and says nothing about `textdraw`, nothing in Phase C touches it, and `MeasureText`, `FillText` and `FillLabel` have no replacement in the design system. Both notes live in `templates/notes/<repo>.md`.
+- [x] Commit in each of the eight repos.
 
+**The `-golden.update` incantation in every repo's own doc comments does not
+work.** `go test` cannot tell that an unfamiliar flag is boolean, so it stops
+treating the rest of the line as package arguments: `go test -golden.update
+./...` hands `./...` to the test binary and tests whatever package the current
+directory holds. The flag has to come *after* the packages. And `./...` only
+works where every test package stores goldens — markdown — because a test
+binary rejects a flag it never declared; prism, pulse, spectrum and cadence
+all have test packages without goldens, so their packages are named one by
+one. The script measures which case a repo is in.
+
+**`workbench/launcher` does not build**, and did not before this task.
+`seen`'s `context/gio/v0.0.7` tag was moved locally and never pushed: the
+proxy still serves the old commit `5341bdc` while `launcher/go.sum` records
+the retagged content, so the build stops with a checksum mismatch. That is one
+of the ADR-006 tag seams the plan already says cannot close without a push.
+The other six app modules are green.
 #### A2.4: Roll out to the graphics and geometry repos
 
 These are support libraries, not design-system layers; their AGENTS.md says so.
@@ -1498,12 +1518,13 @@ from `templates/AGENTS.md` and never hand-written in the repo it lands in:
 - Which layer it occupies, per ADR-001.
 - The canonical guide's raw URL, and an instruction to read it before writing code against this module.
 - The build and test command.
+- How to regenerate golden images, where the repo has them — nothing else in the organization says.
 - Anything that would surprise someone: nested modules, deprecation status, platform-specific files.
 
 The first two are per-repo rows in `templates/repos.tsv`; anything longer than
-a line goes in `templates/notes/<repo>.md`; the module and build paragraphs are
-measured from the clone. Editing the wording for all twenty means editing the
-template, not twenty files.
+a line goes in `templates/notes/<repo>.md`; the module, build and golden-image
+paragraphs are measured from the clone. Editing the wording for all twenty
+means editing the template, not twenty files.
 
 `README.md` — a page, written for a human evaluating the module:
 

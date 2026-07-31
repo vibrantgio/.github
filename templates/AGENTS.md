@@ -16,4 +16,6 @@ and this file links it rather than copying it:
 
 {{BUILD}}
 
+{{GOLDEN}}
+
 {{NOTES}}
