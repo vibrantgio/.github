@@ -388,13 +388,36 @@ built, and no phase of this plan claims the rest.
 - [x] Record the rule that pulse components are explicit variants of prism components, never global decorators.
 - [x] `go build ./... && go test ./...`; commit in pulse.
 #### A3.7: mvu and markdown package docs
+Half writing, half audit. mvu is the writing half: 0 of 1, genuinely blank,
+and as tier 0 its package comment is the most-read text in the org after
+llms.txt. markdown is the audit half — the row above says 4 of 4 and it
+holds: root, `highlight`, `svgimage` and `internal/golden` all carry
+comments already, so this task judges them against the doc contract and
+rewrites the thin ones *in place*. The original step said "neither has
+package docs" and asked for four new `doc.go` files; three of those four
+would have rehoused a good comment for the sake of a filename, which G-A3
+forbids. mvu has no natural root file, so a `doc.go` there is right.
 
-Both have READMEs already; neither has package docs.
+The named suspect was half right: markdown's root comment cites
+`DESIGN §Markdown`, and that document is in **workbench**, a different
+repository, so a pkg.go.dev reader cannot follow it — but the comment is
+multi-paragraph, not the one-liner the note claimed. Length was not the
+problem; the unfollowable citation and the absence of any pitfall were.
 
-- [ ] Add `doc.go` to the mvu root package and to markdown's root, highlight, and svgimage.
-- [ ] Refresh markdown's README to link the canonical guide.
-- [ ] `go build ./... && go test ./...`; commit in both.
+**And llms.txt is not wholly accurate either.** Rule 1 said mvu's window
+joins frame events with the layers "via `rx.WithLatestFrom2`". That
+identifier does not exist anywhere in the organization — `command grep -r`
+across all twenty clones returns nothing. `Window.Render` subscribes the
+`CombineLatest` of the layers on an rx goroutine, stores each result as an
+`atomic.Pointer` snapshot and calls `Invalidate`; the events goroutine
+reads the snapshot on the next frame. The rule's *conclusion* was right,
+which is why it survived this long. Corrected here. Treat the guide as
+measured-until-proven like everything else.
 
+- [x] Write the mvu package comment as `doc.go` — the loop, commands, `MessageOp`, and the AutoConnect counts, agreeing with llms.txt.
+- [x] Audit markdown's root, `highlight` and `svgimage` comments in place against the doc contract; measure every number and behaviour before carrying it forward.
+- [x] Refresh markdown's README to link the canonical guide.
+- [x] `go build ./... && go test ./...`; commit in both.
 #### A3.8: text and drawing repo READMEs
 
 Six small repos, a one-pager each — what it does, its one type or function, and

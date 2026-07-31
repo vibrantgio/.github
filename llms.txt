@@ -152,11 +152,12 @@ mvu.Loop.
 
 ## The five load-bearing architecture rules
 
-1. THE EVENTS THREAD IS THE HEARTBEAT. mvu's window joins frame events with
-   the CombineLatest of all layers via rx.WithLatestFrom2: heavy work runs on
-   rx goroutines, but values only reach rendering when a frame event arrives.
-   Everything touching Gio ops runs single-threaded. Never call Gio from your
-   own goroutine.
+1. THE EVENTS THREAD IS THE HEARTBEAT. mvu's window subscribes the
+   CombineLatest of all layers on an rx goroutine and stores each result as an
+   atomic snapshot, then invalidates the window; the events goroutine reads
+   that snapshot when the frame event arrives. So heavy work runs on rx
+   goroutines, but values only reach rendering on a frame. Everything touching
+   Gio ops runs single-threaded. Never call Gio from your own goroutine.
 
 2. INTERACTION STATE LIVES IN rx.Defer CLOSURES. State allocated inside an
    rx.Defer factory runs once per subscription and is captured by reference
