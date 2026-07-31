@@ -1,0 +1,21 @@
+# repo	layer	role
+#
+# The two per-repo fields of templates/AGENTS.md, tab-separated, one row per
+# repository under .repos/. `role` is the opening sentence — what this repo is
+# — and `layer` is the sentence that follows "**Layer.**". Everything else in
+# a rendered AGENTS.md is either fixed template text or measured from the
+# clone by scripts/sync-agents.sh, so it is never hand-maintained here.
+#
+# Layers come from ADR-001's tier table in PLAN.md. Support libraries have no
+# tier: their layer line says they are consumed by the design system and never
+# depend on it.
+#
+# Longer-than-one-line matter — nested-module caveats beyond the generated
+# line, deprecation notices, platform-specific files — goes in an optional
+# templates/notes/<repo>.md, which is appended verbatim.
+#
+# Rows are added by the rollout tasks: A2.2 for the core stack, A2.3 for
+# workbench, markdown and the text/draw repos, A2.4 for the support libraries.
+# A repo with no row here is an error, not a default.
+
+prism	Tier 2 of ADR-001's stack, `mvu → spectrum → prism → pulse → cadence → markdown`. It imports mvu and the support libraries ivg and svg; pulse, cadence and markdown import it. Spectrum imports it too today — the inversion that goal G-B3 corrects by moving the token and theme contract down into spectrum.	The component library of the VibrantGio design system: buttons, inputs, lists, rich text, scrollbars, icons, layout primitives, and the `theme` and `tokens` contract the rest of the stack styles against.

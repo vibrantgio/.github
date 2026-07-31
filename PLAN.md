@@ -137,10 +137,10 @@ This goal covers the twenty sibling repos under `.repos/`. This repo's own
 
 #### A2.1: Author the template and the sync script
 
-- [ ] Write `templates/AGENTS.md` here: ~15 lines — what this repo is, which layer it sits in, the canonical guide's raw URL, the build/test command, and "read the guide before writing code against this module".
-- [ ] Make the layer line and the one-sentence role substitutable per repo.
-- [ ] Write `scripts/sync-agents.sh` that renders the template into a named repo under `.repos/` and reports a diff without committing.
-- [ ] Dry-run it against `.repos/prism` and check the output reads well.
+- [x] Write `templates/AGENTS.md` here: what this repo is, which layer it sits in, the canonical guide's raw URL, the build/test command, and "read the guide before you write code against this module". Rendered, that is about thirty wrapped lines, not the fifteen this step first estimated — five short paragraphs plus the module paragraph the doc contract also asks for.
+- [x] Make the layer line and the one-sentence role substitutable per repo. They live in `templates/repos.tsv`, one tab-separated row per repo; anything longer than a line — a deprecation notice, a platform caveat — goes in an optional `templates/notes/<repo>.md`.
+- [x] Write `scripts/sync-agents.sh` that renders the template into a named repo under `.repos/` and reports a diff without committing. It also measures the module and build paragraphs from the clone — root module path, nested modules and their prefixed tags, or the absence of a root module — so those are never hand-typed. `-n` writes nothing.
+- [x] Dry-run it against `.repos/prism` and check the output reads well.
 
 #### A2.2: Roll out to the core stack
 
@@ -1488,13 +1488,19 @@ consulting.
 
 Every repository gets the same two files, in the same shape.
 
-`AGENTS.md` — about fifteen lines:
+`AGENTS.md` — about thirty wrapped lines, rendered by `scripts/sync-agents.sh`
+from `templates/AGENTS.md` and never hand-written in the repo it lands in:
 
 - One sentence: what this repo is.
 - Which layer it occupies, per ADR-001.
 - The canonical guide's raw URL, and an instruction to read it before writing code against this module.
 - The build and test command.
 - Anything that would surprise someone: nested modules, deprecation status, platform-specific files.
+
+The first two are per-repo rows in `templates/repos.tsv`; anything longer than
+a line goes in `templates/notes/<repo>.md`; the module and build paragraphs are
+measured from the clone. Editing the wording for all twenty means editing the
+template, not twenty files.
 
 `README.md` — a page, written for a human evaluating the module:
 

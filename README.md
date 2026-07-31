@@ -46,6 +46,13 @@ are gitignored; this repository is their parent directory, not one of them.
   a Markdown table: README, `AGENTS.md`, `doc.go`, CI, Gio and rx versions, and
   module count per repo. Every count the plan asserts is checked against this,
   not remembered.
+- [`scripts/sync-agents.sh`](scripts/sync-agents.sh) — render
+  [`templates/AGENTS.md`](templates/AGENTS.md) into named clones and report a
+  diff, writing nothing with `-n`. Every repository carries the same
+  `AGENTS.md` in the same shape (ADR-004); only two fields differ per repo —
+  the role sentence and the layer line — and those live in
+  [`templates/repos.tsv`](templates/repos.tsv). The module and build paragraphs
+  are measured from the clone, so they cannot drift. It never commits.
 
 Across the twenty repositories there are 36 modules — nineteen at repository
 roots, ten nested in subdirectories with tags that carry the subdirectory as a

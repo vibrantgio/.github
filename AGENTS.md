@@ -39,7 +39,8 @@ but does not default the filename, so name `PLAN.md` explicitly).
       AGENTS.md           this file
       README.md           this repository's own page
       profile/README.md   what renders at github.com/vibrantgio
-      scripts/            clone-all.sh, inventory.sh
+      scripts/            clone-all.sh, inventory.sh, sync-agents.sh
+      templates/          AGENTS.md and its per-repo rows in repos.tsv
       .repos/             <- gitignored; the twenty sibling repositories
         mvu/ spectrum/ prism/ pulse/ cadence/ markdown/
         font/ style/ textdraw/ backdrop/ gradient/ circle/
@@ -47,12 +48,16 @@ but does not default the filename, so name `PLAN.md` explicitly).
         workbench/
 
 This repository is the *parent directory* of the siblings, not one of them.
-That is a load-bearing fact: the `scripts/sync-agents.sh` that goal G-A2 adds
-renders an `AGENTS.md` into each repo under `.repos/` and deliberately cannot
-reach here, which is why this file is hand-written and describes a plan rather
-than a module. `scripts/clone-all.sh` populates `.repos/` and pulls what is already
-there — run it if the directory is missing or stale. Almost all work happens
-inside `.repos/<name>`; the plan and the guide live here at the root.
+That is a load-bearing fact: `scripts/sync-agents.sh` renders an `AGENTS.md`
+into a named repo under `.repos/` and deliberately cannot reach here, which is
+why this file is hand-written and describes a plan rather than a module. Every
+sibling's `AGENTS.md` is generated — edit `templates/AGENTS.md` for wording that
+applies to all of them, `templates/repos.tsv` for one repo's role and layer
+line, and `templates/notes/<repo>.md` for anything longer; the module and build
+paragraphs are measured from the clone and are not written by hand.
+`scripts/clone-all.sh` populates `.repos/` and pulls what is already there — run
+it if the directory is missing or stale. Almost all work happens inside
+`.repos/<name>`; the plan and the guide live here at the root.
 
 Those twenty repositories hold **36 Go modules**: nineteen at repository roots,
 ten nested in subdirectories whose tags carry the subdirectory as a prefix, and
