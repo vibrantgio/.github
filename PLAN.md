@@ -109,12 +109,20 @@ and by G-A2's own argument, a README is not the file it finds.
 It is written by hand rather than from the G-A2 template, because it describes
 a plan and a working tree rather than a library module.
 
-- [ ] Write `AGENTS.md` at this repo's root: what this repo is, that `PLAN.md` is the entry point, and that `mdplan next` is how work is picked up.
-- [ ] State the working-tree layout — sibling repos live in gitignored `.repos/`, this repo is their parent and not a clone, and `go.work` at this root is what makes them resolve against each other.
-- [ ] Restate the four rules from `PLAN.md`'s preamble that an agent must not discover late: one task one commit, green before commit, never push without asking, stop if a task is too big.
-- [ ] Link `llms.txt` — but say plainly that it covers writing Gio code against the libraries, not working the plan, so an agent knows which file answers which question.
-- [ ] Commit here.
+**There is no `go.work` here yet.** This step was written asserting that one at
+this root is what makes the modules resolve against each other; it does not
+exist, `.gitignore` lists it, and B2.1 is the task that writes it. Stating
+otherwise in `AGENTS.md` would have taught the next agent that a cross-repo
+change is visible to the other side when it is not. Creating the workspace does
+not belong here either — Phase A changes no module resolution, and B2.1 owns
+the verification sweeps that go with it — so the step below says what is true
+today and points forward.
 
+- [x] Write `AGENTS.md` at this repo's root: what this repo is, that `PLAN.md` is the entry point, and that `mdplan next` is how work is picked up.
+- [x] State the working-tree layout — sibling repos live in gitignored `.repos/`, this repo is their parent and not a clone, and each module today resolves its siblings from published tags rather than from the working tree; the `go.work` that changes that is B2.1's, not this task's.
+- [x] Restate the four rules from `PLAN.md`'s preamble that an agent must not discover late: one task one commit, green before commit, never push without asking, stop if a task is too big.
+- [x] Link `llms.txt` — but say plainly that it covers writing Gio code against the libraries, not working the plan, so an agent knows which file answers which question.
+- [x] Commit here.
 ### G-A2: Put an AGENTS.md in every repo
 
 `AGENTS.md` at a repo root is the file an assistant finds without being told.
@@ -355,14 +363,14 @@ that names a tag you are about to cut turns a 36-module green sweep into
 
 #### B2.1: Establish the Go workspace
 
-- [ ] Write `go.work` at the root of this repo listing all **36** modules — the twenty repo roots plus the nested ones: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio` and `svg/driver/{gio,pdf,raster,seen}`. Generate the list with `find .repos -name go.mod`; do not hand-maintain it. (`prism/button/gallery` and `prism/icon/gallery` are packages, not modules.)
+- [ ] Write `go.work` at the root of this repo listing all **36** modules — nineteen repository roots (`workbench` has no root module of its own), the ten nested ones: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio` and `svg/driver/{gio,pdf,raster,seen}`, and `workbench`'s seven apps: `feeds`, `iconbrowser`, `launcher`, `mindchat`, `sitedocs`, `todos`, `watchlist`. Generate the list with `find .repos -name go.mod`; do not hand-maintain it. (`prism/button/gallery` and `prism/icon/gallery` are packages, not modules.)
 - [ ] Confirm that from each module, `go build ./... && go test ./...` resolves its siblings from the working tree rather than the module cache.
 - [ ] Confirm the resolved Gio and rx versions are the single ones G-B1 settled on — if the workspace pulls something higher, a module was missed and B1 is not actually done.
 - [ ] Confirm the same commands under `GOWORK=off` still pass, resolving from published tags. This is what CI sees, and the gap between the two is what ADR-006 manages. Both sweeps were green at 36/36 when the G-B1 baseline was tagged; this task is about making that repeatable, not discovering it.
 - [ ] Write `scripts/check-no-workspace.sh`: run the whole stack with `GOWORK=off` and report which modules fail and why. Expect failures from B3.3 onward; the script records the debt, it does not pay it.
 - [ ] Confirm no member repo carries a `replace` directive, and note in the script header that none may be added — a committed `replace` in a public module breaks every consumer outside this working tree.
-- [ ] Commit `go.work` and the script here; `go.work.sum` is gitignored by A1.1.
-
+- [ ] Settle whether `go.work` is committed here: A1.1's `.gitignore` ignores it *and* `go.work.sum`, while this step was written assuming the file itself is committed and only the sum ignored. ADR-006 forbids it only in *member* repos, so either is defensible — decide, then make `.gitignore` and this step agree.
+- [ ] Commit the script here, and `go.work` too if the step above says so.
 ### G-B3: Invert the foundation
 
 Move the token and theme contract down into spectrum so the theme runtime is
