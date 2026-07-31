@@ -247,9 +247,14 @@ so is the conclusion. Measured across the six by `go doc`:
 
 A3.3 re-measured cadence and found no gap at all: every one of the eighteen
 pattern packages carries a multi-paragraph package comment, and the
-`modal/gallery` main carries a `Command gallery` one. So A3.4 has nothing
-to write — it is an audit, and its step list still says "add a `doc.go` to
-each of the eighteen", which the row above contradicts.
+`modal/gallery` main carries a `Command gallery` one. A3.4 confirmed the
+count a third time and was rewritten from "add a `doc.go` to each of the
+eighteen" into the audit it actually is. That audit found the comments'
+weakness is not absence but thinness: six of the eighteen — alert,
+breadcrumb, card, feature, navbar and sidebar — described the pattern and
+then stopped, naming no pitfall a caller could trip on. Presence of a
+package comment is not evidence of a good one, so measure the later
+modules for quality, not for count.
 
 So A3.4 through A3.7 are mostly audits, not writing jobs. Run `go doc` over
 every package in the module first; write where there is nothing, expand a
@@ -297,9 +302,16 @@ repository in the org.
 
 #### A3.4: cadence package docs
 
-- [ ] Add `doc.go` to each of the eighteen: accordion, alert, breadcrumb, card, feature, hero, modal, navbar, pagination, popover, pricing, shell, sidebar, table, tabs, testimonial, toast, tooltip.
-- [ ] `go build ./... && go test ./...`; commit in cadence.
+A3.4 was authored as *add a `doc.go` to each of the eighteen*. A3.3
+measured the module and found nineteen of nineteen packages already
+carrying a package comment, which contradicts both the corrected table
+above and this goal's own rule against rehousing a good comment in a
+`doc.go` for the sake of the filename. Rewritten as the audit it is.
 
+- [x] Re-measure with `go doc` — nineteen of nineteen already carry a package comment, so there is nothing to write and nothing to move into a `doc.go`.
+- [x] Audit the eighteen patterns against the doc contract — what the package is for, the real prop shape, one honest pitfall — with prism's comments as the bar. Rewrite in place the ones that are thin or wrong; leave the rest alone.
+- [x] Record `cadence/feature`'s missing `Shaper` prop in its package comment, and fix `modal/gallery`'s pre-split run path — from the cadence root it is `go run ./modal/gallery`.
+- [x] `go build ./... && go test ./...`; commit in cadence.
 #### A3.5: spectrum README and package docs
 
 - [ ] Write `.repos/spectrum/README.md` per the doc contract, describing the foundation role it takes in Phase B.
