@@ -144,9 +144,9 @@ This goal covers the twenty sibling repos under `.repos/`. This repo's own
 
 #### A2.2: Roll out to the core stack
 
-- [ ] Render `AGENTS.md` into mvu, prism, spectrum, pulse, cadence.
-- [ ] Set each one's role line from the layer table in ADR-001.
-- [ ] Commit in each of the five repos.
+- [x] Render `AGENTS.md` into mvu, prism, spectrum, pulse, cadence.
+- [x] Set each one's role line from the layer table in ADR-001.
+- [x] Commit in each of the five repos.
 
 #### A2.3: Roll out to workbench, markdown and the text/draw repos
 
@@ -1200,9 +1200,12 @@ directly — the phases and goals above pull pieces of it in by embed.
 mvu  →  spectrum  →  prism  →  pulse  →  cadence  →  markdown
 ```
 
-`spectrum/transition` moves to `pulse/transition`, since it is animation code
-and would otherwise make the foundation depend on the effects layer.
-`spectrum/window` may keep its `mvu` dependency; mvu carries no design tokens.
+`spectrum/transition` moves to `pulse/transition`, since it is animation code.
+That move removes an edge that already exists rather than preventing a
+hypothetical one: `spectrum/transition` imports `pulse/tween` today, in
+non-test code, so the foundation depends on the effects layer right now —
+tier 1 reaching into tier 3. `spectrum/window` may keep its `mvu` dependency;
+mvu carries no design tokens.
 
 **The full tier table.** The spine above is six of the nineteen modules, and
 `scripts/check-layers.sh` has to judge all of them. Nineteen, not twenty:

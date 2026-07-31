@@ -85,11 +85,25 @@ survey() {
 		modules="**Module.** \`$root_mod\`, one module at the repository root."
 		build="**Build and test.** From the repository root:"$'\n\n'"$cmd"
 	elif [ -n "$root_mod" ]; then
-		modules="**Modules.** \`$root_mod\` at the repository root, and $(count ${#dirs[@]} 'nested module'): $list. Nested-module tags carry the directory as a prefix — \`${dirs[0]}/v0.1.0\`, not \`v0.1.0\`."
+		modules="**Modules.** \`$root_mod\` at the repository root, and $(count ${#dirs[@]} 'nested module'): $list. Nested-module tags carry the directory as a prefix — $(tagshape "$1" "${dirs[0]}")."
 		build="**Build and test.** From the repository root, and again inside each nested module directory — \`./...\` does not cross a module boundary:"$'\n\n'"$cmd"
 	else
 		modules="**Modules.** No module at the repository root: this repository is $(count ${#dirs[@]} module) in subdirectories — $list. Each is built, tested and tagged on its own, with tags that carry the directory as a prefix."
 		build="**Build and test.** Inside each of those module directories; there is no root module to run it from:"$'\n\n'"$cmd"
+	fi
+}
+
+# How the tag for nested module directory $2 of repo $1 is spelled, using the
+# clone's own newest tag for it so the illustration is a real one. Only if the
+# directory has never been tagged does this fall back to a placeholder version,
+# which is spelled to be unmistakably a shape rather than a release.
+tagshape() {
+	local tag
+	tag=$(git -C ".repos/$1" tag --list "$2/v*" --sort=-v:refname | awk 'NR == 1')
+	if [ -n "$tag" ]; then
+		printf '`%s`, not `%s`' "$tag" "${tag##*/}"
+	else
+		printf '`%s/vX.Y.Z`, not `vX.Y.Z`' "$2"
 	fi
 }
 
