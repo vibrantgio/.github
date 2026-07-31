@@ -1446,14 +1446,26 @@ tagging a whole layer in one round leaves each new tag referencing its
 siblings' *previous* tags; making the set self-referencing needs the second
 pass, so budget both.
 
-The third is the one to be careful about. **Deleting a tag from git does not
-withdraw the version from the Go proxy.** Measured here: after `raster/gio
-v0.1.7` was deleted and its `@v/list` and `@v/<version>.info` endpoints began
-returning 404, a clean module with an evicted cache still resolved and built
-against it. The proxy retains module content once it has been fetched. So a
-retag leaves a version that Go can see and `git tag` cannot — harmless for
-builds, confusing for humans, and a reason to get the number right the first
-time rather than to rely on being able to take it back.
+The third is about how easily a local cache can fake a result. **Deleting a tag
+from git does withdraw the version — but Go keeps two caches, and clearing one
+is not enough.** Besides the module cache at `$GOMODCACHE/cache/download`, Go
+keeps a bare git clone per repository under `$GOMODCACHE/cache/vcs`, and that
+clone still holds tags that have been deleted upstream. Evicting only the
+download cache and re-resolving therefore appears to prove the version is still
+published, when it is really being served out of the stale clone. Evict both,
+or use `go clean -modcache`, before concluding anything about what a stranger
+can fetch.
+
+Measured after evicting both: `raster/gio@v0.1.7` and `seen/context/gio@v0.0.8`
+each fail with `unknown revision`, while the versions that replaced them
+resolve normally.
+
+**`GOPRIVATE` covers `github.com/vibrantgio/*` here**, so `proxy.golang.org` is
+bypassed entirely for this org and every module resolves straight from GitHub.
+That is why a deleted tag really is gone rather than pinned in the proxy's
+immutable storage — but it also means the proxy's own endpoints say nothing
+useful about these modules, and `git ls-remote` is the only authority worth
+consulting.
 
 ### The repo doc contract
 
