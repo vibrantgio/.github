@@ -57,7 +57,7 @@ Create the local layout every later task assumes.
 - [ ] Run it; confirm twenty directories exist under `.repos/`.
 - [ ] Record in the script's header comment that `.github` itself is the parent directory, not a clone — and that the whole set is cloned every time, because the module graph is what this plan edits and no task can see an edge whose other end is missing.
 - [ ] Write `scripts/inventory.sh`: per repo, report whether it has a `README.md`, an `AGENTS.md`, a root `doc.go` and a `.github/workflows/`, plus its current Gio and rx versions.
-- [ ] Run it and paste the table into the commit body. Every count this plan asserts — twelve missing READMEs, six missing `doc.go`, twenty missing `AGENTS.md`, three Gio versions, no CI anywhere — is checked against that table and corrected here if it is wrong. Phase A's tasks were cut from a survey, not from the clone.
+- [ ] Run it and paste the table into the commit body. Every count this plan still asserts — twelve missing READMEs, six missing `doc.go`, twenty missing `AGENTS.md`, no CI anywhere — is checked against that table and corrected here if it is wrong. Phase A's tasks were cut from a survey, not from the clone. (The dependency half of that survey is already settled: G-B1 put every module on one Gio, one rx and `go 1.25.1`.)
 
 #### A1.2: Move llms.txt here and correct its inventory
 
@@ -65,7 +65,8 @@ Create the local layout every later task assumes.
 repo's root, where the org front door can link it.
 
 - [ ] `git mv` the file content into `./llms.txt` (copy across repos; it is a new file here).
-- [ ] Correct the module inventory table against the real tags: mvu v0.4.1, prism v0.0.9, spectrum v0.0.3, pulse v0.0.3, cadence v0.2.0, markdown v0.0.3, seen v0.0.5, traer v0.0.7, svg v0.0.6, ivg v0.1.4, backdrop v0.0.2, noise v0.0.2, style v0.0.3, textdraw v0.0.3, font v0.0.3, circle v0.0.3, kiwi v0.0.5, gradient v0.0.2, csg untagged.
+- [ ] Correct the module inventory table against the real tags. Do not copy the list below by hand — read it out of the clones (`git -C .repos/<name> tag | sort -V | tail -1`), because it has already gone stale once. As of the G-B1 baseline: mvu v0.4.2, prism v0.1.1, spectrum v0.0.5, pulse v0.0.5, cadence v0.2.2, markdown v0.0.5, seen v0.0.6, traer v0.0.8, svg v0.0.7, ivg v0.1.5, backdrop v0.0.3, noise v0.0.3, style v0.0.5, textdraw v0.0.4, font v0.0.4, circle v0.0.4, kiwi v0.0.6, gradient v0.0.3, csg v0.0.1.
+- [ ] List the ten nested modules too — they are invisible in a repo listing and an assistant will not guess them: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio`, `svg/driver/{gio,pdf,raster,seen}`. Their tags carry the subdirectory prefix (`raster/gio/v0.1.7`), which is not obvious.
 - [ ] Add a header line naming this file the single canonical guide and giving its raw URL.
 - [ ] In `.repos/workbench`, replace `llms.txt` with a three-line pointer to the canonical URL, and update `workbench/README.md`'s reference to it. Commit in workbench.
 
@@ -234,10 +235,14 @@ where it sits.
 
 ## Phase B: Repair the module graph
 
-Mechanical, low-risk, and it unblocks everything after it. Today `spectrum`
-(theme runtime) depends on `prism` (components), so the theme sits *above* what
-it themes and no application can supply a palette; `prism` and `pulse` form a
-module cycle; and three different Gio versions are in play across the stack.
+Mechanical, low-risk, and it unblocks everything after it. `spectrum` (theme
+runtime) depends on `prism` (components), so the theme sits *above* what it
+themes and no application can supply a palette.
+
+**G-B1 is done.** The module cycle is cut, and every module in the org is on
+one Gio, one rx and one `go` directive, published as a tagged baseline where
+each module references its siblings' current tags. What remains in this phase
+is the workspace (G-B2) and the inversion itself (G-B3).
 
 Type aliases make the package moves non-breaking — every downstream repo keeps
 compiling untouched.
@@ -246,69 +251,81 @@ compiling untouched.
 
 ### G-B1: Break the cycle and align versions
 
+Done — and it cost far less than these tasks assumed. Three of them were cut
+against a picture of the drift that turned out to be wrong, so the findings are
+recorded here rather than in a commit message nobody will read again:
+
+- **The breaking change was not in Gio v0.10.** `font.Font.Variant` — the one
+  API removal that bit anything — went in **v0.9**, and `font` had already
+  fixed it in the commit tagged `v0.0.3`. What actually failed to build were
+  two modules still pinned to `font` v0.0.1 and v0.0.2, plus four `go.sum`
+  files missing the `golang.org/x/net` entry that `gioui.org/app` gained in
+  v0.10. Both classes are dependency staleness, not API drift.
+- **Not one golden image moved.** All 160 still match. B1.4–B1.6 were sized
+  almost entirely around regenerating them; that work did not exist.
+- **Most modules were already on v0.10.0.** Only eight were on v0.9, and
+  `kiwi/gio` was already on v0.10.1. "Three Gio versions in play" was true but
+  described a much smaller gap than it sounded like.
+
+The alignment went further than this goal asked, because the versions being
+"all over the place" was the real complaint: every *directly required* external
+dependency now resolves to a single version org-wide, and all 36 modules
+declare `go 1.25.1`. Transitive-only deps are deliberately left alone —
+`go mod tidy` strips a pin on a module the pinning module does not itself
+import, so they cannot be unified and chasing them re-diverges every tidy.
+
 #### B1.1: Cut pulse out of prism
 
 `prism/gallery/main.go` imports `pulse/springbutton`. That single demo file is
 what puts `pulse` in prism's `go.mod` and closes the cycle.
 
-- [ ] Give `prism/gallery` its own `go.mod` as a nested module requiring prism and pulse.
-- [ ] Remove `github.com/vibrantgio/pulse` from prism's `go.mod`; `go mod tidy`.
-- [ ] Confirm `go list -m all` in prism no longer mentions pulse.
-- [ ] `go build ./... && go test ./...` in both prism and prism/gallery; commit in prism.
+- [x] Give `prism/gallery` its own `go.mod` as a nested module requiring prism and pulse.
+- [x] Remove `github.com/vibrantgio/pulse` from prism's `go.mod`; `go mod tidy`.
+- [x] Confirm `go list -m all` in prism no longer mentions pulse.
+- [x] `go build ./... && go test ./...` in both prism and prism/gallery; commit in prism.
+- [x] Note the extraction hazard: every prism ≤ v0.0.9 still carries `gallery/` inside the prism module, so the nested module's own import path is ambiguous until a prism without it is published. `gallery` was therefore tagged separately, after prism v0.1.0.
 
 #### B1.2: Survey the Gio v0.9 → v0.10 drift
 
-The version bump is the largest mechanical change in the plan and the one most
-likely to sprawl without warning. Measure it first, so the four migrations below
-are cut against a real list rather than a hope — and so a reviewer can argue
-with the survey instead of the diffs.
-
-- [ ] Read Gio's v0.10 release notes and changelog; list every breaking API change.
-- [ ] Grep the six core modules for each one; record which repos and which files are hit.
-- [ ] Count the golden images in prism, pulse, cadence and markdown. The bump will move most of them, and that regeneration — not the API drift — is the bulk of the work.
-- [ ] Write the findings into this task as a table before checking it off, and re-cut B1.3–B1.6 if the drift is larger than they assume.
-- [ ] Commit here in the plan repo.
+- [x] Read Gio's v0.10 release notes and changelog; list every breaking API change.
+- [x] Grep the six core modules for each one; record which repos and which files are hit.
+- [x] Count the golden images in prism, pulse, cadence and markdown — 160, of which zero moved.
+- [x] Write the findings into this goal's preamble above; re-cut B1.3–B1.6 accordingly.
+- [x] Commit here in the plan repo.
 
 #### B1.3: Align mvu and spectrum
 
-The two core modules with no golden images. Doing them first isolates the API
-drift from the pixel churn, so the next three tasks know which is which.
-
-- [ ] Set gioui.org v0.10.1 and reactivego/rx v0.3.0 in mvu and spectrum.
-- [ ] `go mod tidy` in each; resolve the drift B1.2 listed.
-- [ ] `go build ./... && go test ./...` in both; commit in each.
+- [x] Set gioui.org v0.10.1 and reactivego/rx v0.3.0 in mvu and spectrum.
+- [x] `go mod tidy` in each.
+- [x] Migrate spectrum's four `Subscribe` call sites: rx v0.3.0 moved the scheduler out of the argument list and into a context, so `Subscribe(observer, scheduler)` became `Subscribe(ctx, observer)`. All four are in tests; prism's idiom — `context.Background()` for synchronous helpers, `rx.GoroutineContext()` for the concurrent one — was already correct and was copied.
+- [x] Bump spectrum and pulse to mvu v0.4.1: published mvu v0.2.0 calls the old `Subscribe` itself and cannot compile against rx v0.3.0.
+- [x] `go build ./... && go test ./...` in both; commit in each.
 
 #### B1.4: Align prism and its galleries
 
-- [ ] Set the same versions in prism, `prism/gallery` and `prism/button/gallery`.
-- [ ] `go mod tidy`; resolve the drift.
-- [ ] Regenerate the goldens the bump moves; say in the commit body how many moved and why.
-- [ ] `go build ./... && go test ./...`; commit in prism.
+- [x] Set the same versions in prism and `prism/gallery`. (`prism/button/gallery` and `prism/icon/gallery` are ordinary packages inside prism, not modules — only the top-level gallery was ever separate.)
+- [x] `go mod tidy`; no goldens moved.
+- [x] `go build ./... && go test ./...`; commit in prism.
 
 #### B1.5: Align pulse and markdown
 
-- [ ] Set the same versions in pulse and markdown.
-- [ ] `go mod tidy` in each; resolve the drift.
-- [ ] Regenerate the goldens the bump moves.
-- [ ] `go build ./... && go test ./...` in each; commit in each.
+- [x] Set the same versions in pulse and markdown.
+- [x] `go mod tidy` in each; no goldens moved.
+- [x] `go build ./... && go test ./...` in each; commit in each.
 
 #### B1.6: Align cadence
 
-Eighteen packages, each with goldens — the largest single regeneration in the
-plan. If it does not fit one sitting, split it along the package groups
-C2.5–C2.7 already use, commit what is green, and say so.
-
-- [ ] Set the same versions in cadence.
-- [ ] `go mod tidy`; resolve the drift.
-- [ ] Regenerate the goldens the bump moves.
-- [ ] `go build ./... && go test ./...`; commit in cadence.
+- [x] Set the same versions in cadence.
+- [x] `go mod tidy`; all eighteen packages green, no goldens moved.
+- [x] `go build ./... && go test ./...`; commit in cadence.
 
 #### B1.7: Align the leaf repos
 
-- [ ] Set the same Gio version in font, style, textdraw, backdrop, gradient, circle.
-- [ ] Check whether any core module reaches a support library — `markdown/svgimage` into svg or ivg is the likely one. Align that library too, or record why it can stay behind.
-- [ ] `go mod tidy`, build and test each.
-- [ ] Commit in each repo touched.
+- [x] Set the same Gio version in font, style, textdraw, backdrop, gradient, circle.
+- [x] Align the support libraries too — svg, seen, ivg, kiwi, traer, noise and csg all carry Gio-dependent nested modules or are reached from the core.
+- [x] Fix the one real bug this surfaced: raising svg's `go` directive enabled Go 1.24's non-constant-format-string vet check, which caught `parser/elementfuncs.go:441` passing a pre-concatenated message to the printf-like `HandleError`. Any SVG element whose tag contained a `%` was misformatted.
+- [x] `go mod tidy`, build and test each.
+- [x] Commit in each repo touched.
 
 ### G-B2: One workspace, one resolution strategy
 
@@ -320,19 +337,27 @@ modules resolve before moving a single package.
 
 **This comes after G-B1, not before it.** A workspace computes one build list
 across all its members, so the moment `go.work` exists every module resolves
-its shared dependencies at the highest version any member asks for. With three
-Gio versions still in play that would compile the v0.9 modules against v0.10
-and fail — for precisely the reasons B1.2 surveyed and B1.3–B1.6 fixed. Align
-the modules first, then wire them together.
+its shared dependencies at the highest version any member asks for. With the
+Gio versions still spread that would have compiled the v0.9 modules against
+v0.10 and failed. G-B1 settled it, so the ordering constraint is now satisfied
+rather than pending — but keep the ordering, because it is the reason this
+works.
+
+**A second, sharper hazard, learned the hard way during G-B1.** A single
+member requiring a version that does not exist yet breaks the *entire*
+workspace, not just that member: MVS resolves across all members, so one
+unresolvable requirement takes every module down at once. Writing a go.mod
+that names a tag you are about to cut turns a 36-module green sweep into
+5-of-36. Pin published versions, verify, and only then cut tags.
 
 ![[#ADR-006: One workspace while developing, tags at the seams]]
 
 #### B2.1: Establish the Go workspace
 
-- [ ] Write `go.work` at the root of this repo listing all twenty modules under `.repos/`, plus the nested `prism/gallery` and `prism/button/gallery`.
+- [ ] Write `go.work` at the root of this repo listing all **36** modules — the twenty repo roots plus the nested ones: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio` and `svg/driver/{gio,pdf,raster,seen}`. Generate the list with `find .repos -name go.mod`; do not hand-maintain it. (`prism/button/gallery` and `prism/icon/gallery` are packages, not modules.)
 - [ ] Confirm that from each module, `go build ./... && go test ./...` resolves its siblings from the working tree rather than the module cache.
 - [ ] Confirm the resolved Gio and rx versions are the single ones G-B1 settled on — if the workspace pulls something higher, a module was missed and B1 is not actually done.
-- [ ] Confirm the same commands under `GOWORK=off` still pass, resolving from published tags. This is what CI sees, and the gap between the two is what ADR-006 manages.
+- [ ] Confirm the same commands under `GOWORK=off` still pass, resolving from published tags. This is what CI sees, and the gap between the two is what ADR-006 manages. Both sweeps were green at 36/36 when the G-B1 baseline was tagged; this task is about making that repeatable, not discovering it.
 - [ ] Write `scripts/check-no-workspace.sh`: run the whole stack with `GOWORK=off` and report which modules fail and why. Expect failures from B3.3 onward; the script records the debt, it does not pay it.
 - [ ] Confirm no member repo carries a `replace` directive, and note in the script header that none may be added — a committed `replace` in a public module breaks every consumer outside this working tree.
 - [ ] Commit `go.work` and the script here; `go.work.sum` is gitignored by A1.1.
@@ -969,12 +994,12 @@ Tasks here are provisional; re-cut them when Phase E lands.
 
 #### F1.6: The mvu examples
 
-mvu is tier 0. If `mvu/example` shares mvu's module, pointing it at theme
-typography makes the foundation require spectrum and re-closes the cycle Phase
-B just opened — the same trap `prism/gallery` was in, arriving from the other
-direction.
+mvu is tier 0, and `mvu/example` is already its own module (tagged
+`example/v0.3.2`) — checked during G-B1, so the trap `prism/gallery` was in
+does not apply here. Keep it that way: pointing the example at theme typography
+while it shared mvu's module would make the foundation require spectrum and
+re-close a cycle from the other direction.
 
-- [ ] Check whether `mvu/example` is part of the mvu module. If it is, give it its own `go.mod` first, exactly as B1.1 did for `prism/gallery`, and add it to `go.work`.
 - [ ] Drop the `style` dependency from `mvu/example`; use theme typography.
 - [ ] Update `edit` and `04-hello`, the only two consumers of `style` in the org.
 - [ ] Run `scripts/check-layers.sh`; confirm mvu itself still requires nothing above tier 0.
@@ -1195,18 +1220,22 @@ never depend on it. That is the whole of their contract, and it is what their
 `AGENTS.md` says (A2.4).
 
 **Nested demo modules are exempt from being imported, not from importing.**
-`prism/gallery` (B1.1) and `mvu/example` (F1.6) may depend on layers above
-their parent; their parents may not inherit that edge. This is the mechanism
-that keeps a demo from re-closing a cycle, and both cycles in this org — pulse
-into prism, and spectrum into mvu — were a demo file's doing.
+`prism/gallery` (B1.1) and `mvu/example` may depend on layers above their
+parent; their parents may not inherit that edge. This is the mechanism that
+keeps a demo from re-closing a cycle — the org's one real cycle, pulse into
+prism, was a single demo file's doing. `mvu/example` was already a separate
+module before this plan started, which is why mvu never had the same problem.
 
-**Why.** Today `spectrum` — the theme runtime — depends on `prism`, the
-component library it exists to theme. The theme therefore sits above what it
-themes, which is why `LiveTheme` hardcodes `tokens.DefaultLight`/`DefaultDark`
-and why there is no palette injection point anywhere in the stack. Separately,
-`prism` and `pulse` require each other, forming a module cycle that keeps
-`spectrum` and `pulse` pinned to `prism v0.0.3` while `cadence` runs on
-`v0.0.8` and `markdown` on `v0.0.9`.
+**Why.** `spectrum` — the theme runtime — depends on `prism`, the component
+library it exists to theme. The theme therefore sits above what it themes,
+which is why `LiveTheme` hardcodes `tokens.DefaultLight`/`DefaultDark` and why
+there is no palette injection point anywhere in the stack. That inversion is
+what G-B3 fixes and is still open.
+
+The second half of this problem is closed. `prism` and `pulse` used to require
+each other, and that cycle pinned `spectrum` and `pulse` to `prism v0.0.3`
+while `cadence` ran on `v0.0.8` and `markdown` on `v0.0.9`. B1.1 cut it; every
+module in the org now resolves one current prism.
 
 **How it stays non-breaking.** `prism/tokens` and `prism/theme` remain as
 packages containing only type aliases and re-exported variables. Every
@@ -1381,9 +1410,11 @@ is a goal boundary, which is where the preamble already puts push decisions.
 
 **The workspace is established in B2.1, after G-B1 and not before.** A
 workspace resolves shared dependencies at the highest version any member
-requires, so joining twenty modules while three Gio versions are still in play
-would break the modules on the older ones — a self-inflicted failure that looks
-exactly like the drift G-B1 exists to fix. Align, then join.
+requires, so joining all 36 modules while the Gio versions were still spread
+would have broken the ones on the older versions — a self-inflicted failure
+looking exactly like the drift G-B1 existed to fix. Align, then join. G-B1 has
+now aligned them, so B2.1 inherits a workspace that goes green rather than one
+that has to be fought into shape.
 
 **Why not `replace` directives.** They would have to be committed to be useful
 to the next task, and a committed `replace` in a public module breaks every
@@ -1395,6 +1426,25 @@ are five of them. Phases C, D and E each move a contract down into spectrum and
 then migrate four repos onto it. Leaving twenty modules mutually unbuildable
 for three phases would make "never commit red" unenforceable across most of the
 plan's length — and a rule that cannot be checked is not a rule.
+
+**The seam procedure is proven, not theoretical.** G-B1 ran it end to end. Tag
+and push the bottom layer, bump the layer above onto those tags, verify with
+`GOWORK=off`, tag and push it, repeat. Seven layers, in this order:
+
+```
+0  mvu font traer svg seen ivg kiwi noise csg circle gradient backdrop textdraw
+1  style  kiwi/gio  seen/context/gio  svg/driver/{pdf,raster}
+2  svg/driver/{gio,seen}  ivg/raster/gio  traer/gio
+3  prism      4  pulse      5  spectrum      6  cadence markdown
+7  workbench/*  mvu/example  prism/gallery
+```
+
+Two things that cost time and will cost it again. A module's *newest tag* is
+authoritative, not the proxy's `@v/list` — that endpoint caches and will report
+a version behind for a while after a push, which reads as false staleness. And
+tagging a whole layer in one round leaves each new tag referencing its
+siblings' *previous* tags; making the set self-referencing needs the second
+pass, so budget both.
 
 ### The repo doc contract
 
