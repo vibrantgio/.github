@@ -168,19 +168,51 @@ binary rejects a flag it never declared; prism, pulse, spectrum and cadence
 all have test packages without goldens, so their packages are named one by
 one. The script measures which case a repo is in.
 
-**`workbench/launcher` does not build**, and did not before this task.
-`seen`'s `context/gio/v0.0.7` tag was moved locally and never pushed: the
-proxy still serves the old commit `5341bdc` while `launcher/go.sum` records
-the retagged content, so the build stops with a checksum mismatch. That is one
-of the ADR-006 tag seams the plan already says cannot close without a push.
-The other six app modules are green.
+**`workbench/launcher` does not build**, and did not before this task. Its
+`go.sum` pins `github.com/vibrantgio/seen/context/gio v0.0.7` to a hash that
+no published form of that module produces, so the build stops with a checksum
+mismatch. `svg/driver/seen` is stuck on the identical line — A2.4 found it,
+and A2.3 missed it by only building the app modules. The diagnosis first
+recorded here was wrong: the tag is **not** unpushed. `git ls-remote` shows
+GitHub carrying exactly the local tag, and a `GOPROXY=direct` fetch of it
+hashes to what the proxy serves — `OJip+UYN…`. Both disagree with `go.sum`,
+which records `cCJSzFNE…` for a `context/gio` that was never published, down
+to a different `/go.mod` hash. No push closes this seam, because there is
+nothing local to push: seen is clean and zero commits ahead. Dropping the two
+`seen/context/gio v0.0.7` lines and re-running `go mod tidy` restores the
+build — `go mod tidy` alone cannot, since it verifies before it rewrites.
+That makes it a consumer-side `go.sum` repair, not one of the ADR-006 tag
+seams; whoever schedules it should fix both modules in one change. The other
+six app modules are green.
 #### A2.4: Roll out to the graphics and geometry repos
 
 These are support libraries, not design-system layers; their AGENTS.md says so.
 
-- [ ] Render into ivg, svg, seen, csg, kiwi, noise, traer.
-- [ ] Mark each as a support library that the design system consumes but that does not depend on it.
-- [ ] Commit in each of the seven repos.
+- [x] Render into ivg, svg, seen, csg, kiwi, noise, traer.
+- [x] Mark each as a support library that the design system consumes but that does not depend on it.
+- [x] Commit in each of the seven repos.
+
+**No golden paragraph rendered for any of the seven**, and that is correct:
+none of them keeps a `testdata/golden/` directory. `noise` comes closest and
+is the reason it has a notes file — four tests compare a rendered PNG against
+`ref_*.png` embedded from the repository root, and the only way to regenerate
+them is to flip `const write_reference_image` in `noise_test.go` to `true`.
+Because the bytes each test compares against were embedded when the binary was
+built, that takes two runs: the first rewrites the PNGs and still fails, the
+second passes against what it just wrote. Verified, not inferred.
+
+**`csg` and `kiwi` have no consumer anywhere in the organization**, so their
+layer lines say so instead of reciting the formula. seen carries an adaptation
+of csg's BSP kernel as its own `solid` package — same algorithm, rewritten
+onto `point.Point`, `face.Faces` and `transform.Transform` so a solid is a
+`seen.Object` — rather than importing the module. kiwi's only caller is the
+single example in its own `gio` module.
+
+**The support libraries do not depend on the design system, but three of their
+nested modules do.** `ivg/raster/gio`, `svg/driver/gio` and `traer/gio` require
+the tier-0 leaves `style`, `textdraw` and `circle` — always and only for demo
+programs, never for library code. The layer lines say that rather than claiming
+a clean separation that the `go.mod` files contradict.
 
 ### G-A3: READMEs and package docs
 
