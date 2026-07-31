@@ -256,10 +256,16 @@ then stopped, naming no pitfall a caller could trip on. Presence of a
 package comment is not evidence of a good one, so measure the later
 modules for quality, not for count.
 
+A3.6 found the failure one step further along. pulse's seven comments are
+the longest in the organization and three of them are numerically false —
+a settle time, a frame count and an intensity claim that the code does not
+produce. Length is not evidence either. Where a comment states a number,
+run it before believing it.
+
 So A3.4 through A3.7 are mostly audits, not writing jobs. Run `go doc` over
 every package in the module first; write where there is nothing, expand a
 one-liner into the two-to-five-sentence shape, verify the rest against the
-API and leave them be. Do not rehouse a good comment in a `doc.go` for the
+API — numbers included — and leave them be. Do not rehouse a good comment in a `doc.go` for the
 sake of the filename. Outside the spine, font, ivg, seen and traer carry a
 root `doc.go` and svg carries package-level ones.
 
@@ -343,12 +349,44 @@ for does not happen in any application, though
 - [x] `go build ./... && go test ./...`; commit in spectrum.
 
 #### A3.6: pulse README and package docs
+A3.6 re-measured pulse with `go doc` and found 7 of 7 packages already
+carrying a package comment, exactly as G-A3's table says — and these are the
+longest in the organization, several running to four sections with worked
+examples. "Add `doc.go` where missing" had nothing to add, so the step is an
+audit, as in A3.4 and A3.5.
 
-- [ ] Write `.repos/pulse/README.md` per the doc contract.
-- [ ] Add `doc.go` where missing across conductor, depth, glow, motion, spring, springbutton, tween.
-- [ ] Record the rule that pulse components are explicit variants of prism components, never global decorators.
-- [ ] `go build ./... && go test ./...`; commit in pulse.
+The finding is a new one. pulse's comments are not thin; they are **wrong**,
+and wrong in the way a long confident comment is worst: three of the seven
+state a number that the code does not produce. `depth` says shadow intensity
+is a function of elevation — it is a single constant alpha at every level,
+and only the geometry varies. `motion` says its default spring settles in
+~30 frames, "coordinated with `DefaultFrames` so opacity and scale finish
+together" — measured, `NewEnter(Options{})` reaches `Settled(0.005)` at frame
+52, with scale still at 0.991 when the fade ends. `springbutton` says a press
+settles near 250 ms — measured against its own tolerance, 25 frames, ~415 ms
+at 60 Hz. Prose describing an API can rot quietly; a number in a comment is a
+test that never runs. Where a later task's audit finds one, measure it.
 
+Three defects surfaced that nothing in this plan had recorded. `spring`'s
+zero-value `Options` — the fallback a caller gets by passing `Options{}` —
+takes **873 frames**, about fifteen seconds at 60 Hz, to settle to 0.005;
+neither in-module consumer goes near it. `motion.Options.Spring` falls back
+to `DefaultSpring` only when the whole struct is zero, so setting `Stiffness`
+alone silently takes `Damping` and `Mass` from `spring`'s soft defaults
+instead, giving a damping ratio near 0.02 that rings for thousands of frames.
+And `depth`'s interior fill is a hard rectangle painted at full alpha, so the
+rounded foreground every one of its three callers paints leaves the shadow's
+square corners showing through as dark wedges.
+
+Three of the seven packages have no consumer anywhere in the organization —
+`conductor` and `glow` are imported by nothing at all, `motion` by nothing
+outside its own tests. `springbutton` is the only variant that was ever
+built, and no phase of this plan claims the rest.
+
+- [x] Write `.repos/pulse/README.md` per the doc contract.
+- [x] Audit the package comments on conductor, depth, glow, motion, spring, springbutton and tween against the doc contract; rewrite in place the ones that are thin or wrong, and verify every number in them against the code.
+- [x] Record the rule that pulse components are explicit variants of prism components, never global decorators.
+- [x] `go build ./... && go test ./...`; commit in pulse.
 #### A3.7: mvu and markdown package docs
 
 Both have READMEs already; neither has package docs.
