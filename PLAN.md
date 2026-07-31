@@ -52,9 +52,10 @@ All work in this repo unless a step says otherwise.
 Create the local layout every later task assumes.
 
 - [ ] Add `.gitignore` with `.repos/`, `go.work.sum` and `.DS_Store`.
-- [ ] Write `scripts/clone-all.sh`: clone all twenty sibling repos into `.repos/`, skipping any already present, and `git pull --ff-only` those that are.
+- [ ] Write `scripts/clone-all.sh`: clone all twenty sibling repos into `.repos/`, skipping any already present, and `git pull --ff-only` those that are. Plain `git clone https://github.com/vibrantgio/<name>.git` — do not assume `gh` is installed.
+- [ ] Name all twenty in the script, since nothing else in the working tree knows the list: **the stack** — mvu, spectrum, prism, pulse, cadence, markdown; **the leaves** — font, style, textdraw, backdrop, gradient, circle; **the support libraries** — ivg, svg, seen, csg, kiwi, noise, traer; **the apps** — workbench.
 - [ ] Run it; confirm twenty directories exist under `.repos/`.
-- [ ] Record in the script's header comment that `.github` itself is the parent directory, not a clone.
+- [ ] Record in the script's header comment that `.github` itself is the parent directory, not a clone — and that the whole set is cloned every time, because the module graph is what this plan edits and no task can see an edge whose other end is missing.
 - [ ] Write `scripts/inventory.sh`: per repo, report whether it has a `README.md`, an `AGENTS.md`, a root `doc.go` and a `.github/workflows/`, plus its current Gio and rx versions.
 - [ ] Run it and paste the table into the commit body. Every count this plan asserts — twelve missing READMEs, six missing `doc.go`, twenty missing `AGENTS.md`, three Gio versions, no CI anywhere — is checked against that table and corrected here if it is wrong. Phase A's tasks were cut from a survey, not from the clone.
 
@@ -243,25 +244,6 @@ compiling untouched.
 
 ![[#ADR-001: Spectrum is the foundation, not a consumer]]
 
-### G-B0: One workspace, one resolution strategy
-
-Everything from here to the end of Phase E is a cross-repo change, and twenty
-separate Go modules do not compile against each other's uncommitted work by
-wishing. B2.3 is where it bites first: `prism/tokens` becomes an alias for a
-`spectrum/tokens` that no published spectrum tag contains. Settle how the
-modules resolve before moving a single package.
-
-![[#ADR-006: One workspace while developing, tags at the seams]]
-
-#### B0.1: Establish the Go workspace
-
-- [ ] Write `go.work` at the root of this repo listing every module under `.repos/`.
-- [ ] Confirm that from each module, `go build ./... && go test ./...` resolves its siblings from the working tree rather than the module cache.
-- [ ] Confirm the same commands under `GOWORK=off` still pass today, resolving from published tags — this is what CI sees, and the gap between the two is what ADR-006 manages.
-- [ ] Write `scripts/check-no-workspace.sh`: run the whole stack with `GOWORK=off` and report which modules fail and why. Expect failures from B2.3 onward; the script records the debt, it does not pay it.
-- [ ] Confirm no member repo carries a `replace` directive, and note in the script header that none may be added — a committed `replace` in a public module breaks every consumer outside this working tree.
-- [ ] Commit `go.work` and both scripts here; `go.work.sum` is gitignored by A1.1.
-
 ### G-B1: Break the cycle and align versions
 
 #### B1.1: Cut pulse out of prism
@@ -270,7 +252,6 @@ modules resolve before moving a single package.
 what puts `pulse` in prism's `go.mod` and closes the cycle.
 
 - [ ] Give `prism/gallery` its own `go.mod` as a nested module requiring prism and pulse.
-- [ ] Add the new module to `go.work`.
 - [ ] Remove `github.com/vibrantgio/pulse` from prism's `go.mod`; `go mod tidy`.
 - [ ] Confirm `go list -m all` in prism no longer mentions pulse.
 - [ ] `go build ./... && go test ./...` in both prism and prism/gallery; commit in prism.
@@ -329,32 +310,59 @@ C2.5–C2.7 already use, commit what is green, and say so.
 - [ ] `go mod tidy`, build and test each.
 - [ ] Commit in each repo touched.
 
-### G-B2: Invert the foundation
+### G-B2: One workspace, one resolution strategy
+
+Everything from here to the end of Phase E is a cross-repo change, and twenty
+separate Go modules do not compile against each other's uncommitted work by
+wishing. B3.3 is where it bites first: `prism/tokens` becomes an alias for a
+`spectrum/tokens` that no published spectrum tag contains. Settle how the
+modules resolve before moving a single package.
+
+**This comes after G-B1, not before it.** A workspace computes one build list
+across all its members, so the moment `go.work` exists every module resolves
+its shared dependencies at the highest version any member asks for. With three
+Gio versions still in play that would compile the v0.9 modules against v0.10
+and fail — for precisely the reasons B1.2 surveyed and B1.3–B1.6 fixed. Align
+the modules first, then wire them together.
+
+![[#ADR-006: One workspace while developing, tags at the seams]]
+
+#### B2.1: Establish the Go workspace
+
+- [ ] Write `go.work` at the root of this repo listing all twenty modules under `.repos/`, plus the nested `prism/gallery` and `prism/button/gallery`.
+- [ ] Confirm that from each module, `go build ./... && go test ./...` resolves its siblings from the working tree rather than the module cache.
+- [ ] Confirm the resolved Gio and rx versions are the single ones G-B1 settled on — if the workspace pulls something higher, a module was missed and B1 is not actually done.
+- [ ] Confirm the same commands under `GOWORK=off` still pass, resolving from published tags. This is what CI sees, and the gap between the two is what ADR-006 manages.
+- [ ] Write `scripts/check-no-workspace.sh`: run the whole stack with `GOWORK=off` and report which modules fail and why. Expect failures from B3.3 onward; the script records the debt, it does not pay it.
+- [ ] Confirm no member repo carries a `replace` directive, and note in the script header that none may be added — a committed `replace` in a public module breaks every consumer outside this working tree.
+- [ ] Commit `go.work` and the script here; `go.work.sum` is gitignored by A1.1.
+
+### G-B3: Invert the foundation
 
 Move the token and theme contract down into spectrum so the theme runtime is
 beneath the components it themes. Alias shims keep prism's import paths alive
 for one release.
 
-#### B2.1: Move the tokens into spectrum
+#### B3.1: Move the tokens into spectrum
 
 - [ ] Copy `prism/tokens/*.go` (including tests) to `.repos/spectrum/tokens/`.
 - [ ] Keep the package name `tokens` and every exported identifier unchanged.
 - [ ] `go build ./... && go test ./...` in spectrum; commit.
 
-#### B2.2: Move the theme contract into spectrum
+#### B3.2: Move the theme contract into spectrum
 
 - [ ] Copy `prism/theme/*.go` (including tests) to `.repos/spectrum/theme/`, repointing its tokens import.
 - [ ] Repoint `spectrum/system` and `spectrum/window` at the local theme package; drop the prism requirement from spectrum's `go.mod` if nothing else needs it.
 - [ ] `go build ./... && go test ./...` in spectrum; commit.
 
-#### B2.3: Leave alias shims in prism
+#### B3.3: Leave alias shims in prism
 
 - [ ] Replace `prism/tokens`'s bodies with type aliases and variable re-exports pointing at `spectrum/tokens`.
 - [ ] Do the same for `prism/theme`.
 - [ ] Mark both packages `Deprecated:` with the replacement path.
 - [ ] Confirm prism, pulse, cadence and markdown all still compile with no source changes; commit in prism.
 
-#### B2.4: Move transition into pulse
+#### B3.4: Move transition into pulse
 
 `spectrum/transition` depends on `pulse/tween`, which would make the foundation
 depend on the effects layer. It is animation code; it belongs in pulse.
@@ -363,7 +371,7 @@ depend on the effects layer. It is animation code; it belongs in pulse.
 - [ ] Leave a deprecated alias shim at `spectrum/transition`.
 - [ ] Build and test both; commit in each.
 
-#### B2.5: Make the layering enforceable
+#### B3.5: Make the layering enforceable
 
 - [ ] Write `scripts/check-layers.sh` here: for each module, `go list -deps` and assert only the edges ADR-001's tier table permits — the whole table, including the tier 0 leaves and the support-library row, not just the six-module spine.
 - [ ] Teach it the nested-module exemption: `prism/gallery` and `mvu/example` may import above their parent's tier; their parents may not.
@@ -1361,15 +1369,21 @@ means both:
   running `go get` sees.
 
 **The two diverge at seams.** A seam is any task that creates or changes a
-dependency edge, and B2.3 is the first: `prism/tokens` becomes an alias for a
+dependency edge, and B3.3 is the first: `prism/tokens` becomes an alias for a
 `spectrum/tokens` that no published spectrum tag contains. At each seam the
 lower module is tagged and pushed before the upper module's `go.mod` names it —
-a stop-and-ask, per the plan preamble. `scripts/check-no-workspace.sh` (B0.1)
+a stop-and-ask, per the plan preamble. `scripts/check-no-workspace.sh` (B2.1)
 reports the outstanding debt at any point.
 
-The seams are: B2.3 (spectrum gains tokens and theme), C1.3 (theme gains
+The seams are: B3.3 (spectrum gains tokens and theme), C1.3 (theme gains
 Typography), D2.2 (the derived role set), E1.2 (density), E3.1 (motion). Each
 is a goal boundary, which is where the preamble already puts push decisions.
+
+**The workspace is established in B2.1, after G-B1 and not before.** A
+workspace resolves shared dependencies at the highest version any member
+requires, so joining twenty modules while three Gio versions are still in play
+would break the modules on the older ones — a self-inflicted failure that looks
+exactly like the drift G-B1 exists to fix. Align, then join.
 
 **Why not `replace` directives.** They would have to be committed to be useful
 to the next task, and a committed `replace` in a public module breaks every
