@@ -1511,8 +1511,9 @@ consulting.
 
 Every repository gets the same two files, in the same shape.
 
-`AGENTS.md` — about thirty wrapped lines, rendered by `scripts/sync-agents.sh`
-from `templates/AGENTS.md` and never hand-written in the repo it lands in:
+`AGENTS.md` — twenty-five wrapped lines for a leaf, forty-odd once the golden
+paragraph is there, rendered by `scripts/sync-agents.sh` from
+`templates/AGENTS.md` and never hand-written in the repo it lands in:
 
 - One sentence: what this repo is.
 - Which layer it occupies, per ADR-001.
