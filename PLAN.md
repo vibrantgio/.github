@@ -572,6 +572,52 @@ what makes the system VibrantGio's rather than a port.
 G-E1 is firm. G-E2 and G-E3 stay provisional; re-cut them when Phase D lands.
 
 ![[#ADR-005: MD3's system, not MD3's look]]
+
+### G-E0: Token export and the prototyping surface
+
+Every decision in this phase is a look-and-feel decision, and each one is far
+cheaper to judge in a browser than by regenerating Gio goldens. Build the export
+first so the rest of Phase E can use it.
+
+The foundations are *derived* values — once ADR-002's engine exists, emitting
+them is a serialiser, not a second design system. The target is the project
+layout `claude.ai/design` consumes: `theme.json` as the machine-readable
+parameters, `styles.css` as the token sheet, and foundation pages that render
+the scales at real sizes. Components are explicitly out of scope here; they are
+Phase G, after they stop changing.
+
+Generated output lives in `design/` at the root of this plan repo and is
+committed, so every push is a reviewable diff.
+
+#### E0.1: The token serialiser
+
+- [ ] Create `spectrum/export`: given a `theme.Theme` emission, write `theme.json` and the `:root` / dark token sheet of `styles.css`.
+- [ ] Emit the token families Claude Design expects: `--color-*` (role bases plus their tonal ramps), `--font-*`, `--space-*`, `--radius-*`, `--shadow-*`.
+- [ ] Record the generative parameters in `theme.json` — seed hue, saturation, any pinned roles, density, base radius, heading and body faces — so the theme is reproducible from the file alone.
+- [ ] Write a round-trip test: parse the emitted CSS back and assert every value matches the Go token it came from, so the two cannot drift.
+- [ ] Add `cmd/vg-tokens` writing the pair into a target directory.
+- [ ] Build, test, commit in spectrum.
+
+#### E0.2: The foundation pages
+
+Static HTML that reads only from the emitted token sheet — no hard-coded values,
+so a theme change reflows every page.
+
+- [ ] Generate `foundations/color.html`: each role with its full ramp, the step-purpose notes, and the measured contrast of each text pair against its ground.
+- [ ] Generate `foundations/type.html`: every type role at its real size, weight, line height and tracking, in the actual faces.
+- [ ] Generate `foundations/layout.html`: the spacing scale, radius scale and elevation steps as rendered specimens.
+- [ ] Generate `readme.md` for the project describing the system and naming the token families — the file a human or an agent reads first.
+- [ ] Confirm every page renders correctly against a dark theme emission as well as light.
+- [ ] Build, test, commit in spectrum; commit the generated `design/` here.
+
+#### E0.3: Push to Claude Design
+
+- [ ] Run `cmd/vg-tokens` into `design/`, then push it to the VibrantGio design project with DesignSync — plan first, write the sentinel, write the files, re-arm the sentinel.
+- [ ] Open the project and confirm the foundation pages render as generated.
+- [ ] Write `scripts/push-design.sh` capturing the regenerate-and-push sequence so later phases re-push in one step.
+- [ ] Record the project UUID here in the plan repo, next to the script.
+- [ ] Commit here.
+
 ### G-E1: Density
 Desktop density is the sharpest divergence from MD3, and the one users feel
 first. Targets come from shadcn/ui's metrics rather than being invented, per
@@ -748,6 +794,110 @@ Tasks here are provisional; re-cut them when Phase E lands.
 - [ ] Tag all three.
 - [ ] Update every workbench app's `go.mod` to the released tags; build, test, run each.
 - [ ] Drop the deprecated alias shims from prism and spectrum, and tag the majors that removes.
+
+## Phase G: The design-agent surface
+
+Phase E exported the foundations. This phase adds the component layer, which
+turns `claude.ai/design` from a token reference into a place where a design
+agent composes whole screens out of VibrantGio's own parts — screens that then
+port to Gio because they were built from the same tokens and the same
+component vocabulary.
+
+**Not the converter path.** `/design-sync`'s converter expects a JavaScript
+design system: a lockfile, a bundlable `dist/`, React components on
+`window.<globalName>.*`, `.d.ts` prop contracts. VibrantGio is Go and Gio, so
+none of it applies. The skill is explicit that the upload *format* is the
+contract and the converter is only one route to it. Produce the layout directly.
+
+**The shape to copy is a CSS-class system** — a token sheet plus a class
+vocabulary (`.btn`, `.card`, `.input`, `.table`, `.nav`, `.dialog`) with plain
+HTML component pages whose markup can be read and copied. Six component pages
+and five foundations is the whole proven surface; this is not a port of all
+thirty prism and cadence packages.
+
+**Fidelity is the whole game.** A component that renders wrong here renders
+wrong in every design the agent ever builds with it. The mirror is a second
+implementation and will drift unless something holds it — so it is verified
+against prism's and cadence's existing golden images, not by eye. That
+harness is G1.1 and everything else depends on it.
+
+Sequenced after Phase F because components are rewritten throughout C, D and E;
+mirroring them earlier is rework.
+
+### G-G1: The mirror and its harness
+
+#### G1.1: Golden comparison harness
+
+Without this, the rest of the phase is guesswork dressed as work.
+
+- [ ] Write a harness that renders a component page headless at a fixed viewport and captures a screenshot.
+- [ ] Align it with the Gio goldens: same nominal size, same theme emission, same component state.
+- [ ] Emit a per-component difference score against the corresponding `testdata/golden` image.
+- [ ] Pick and justify a tolerance — text shaping and antialiasing differ between Gio and a browser, so the bar is "reads as the same component", not pixel equality.
+- [ ] Prove it: run it against one deliberately wrong variant and confirm it fails.
+- [ ] Commit here.
+
+#### G1.2: The component class vocabulary
+
+- [ ] Define the class layer in `styles.css`, built only on the tokens E0.1 emits — no literal colours, sizes or radii.
+- [ ] Cover the interaction states explicitly: hover, pressed, keyboard focus ring, disabled, selected.
+- [ ] Derive state colours from the tonal ramp rather than ad-hoc mixes, matching how prism resolves them.
+- [ ] Confirm the sheet still passes E0.1's round-trip test.
+- [ ] Commit here.
+
+### G-G2: The component pages
+
+One task per group. Each page is plain, readable HTML; each ends green against
+the G1.1 harness for every variant and state it shows.
+
+#### G2.1: Buttons, tags and forms
+
+- [ ] Build `components/buttons.html`: every prism/button variant, size and state, plus tags.
+- [ ] Build `components/forms.html`: text field, checkbox, radio and dropdown on native elements, no script.
+- [ ] Run the harness against prism's button and input goldens; close the gaps.
+- [ ] Commit here.
+
+#### G2.2: Cards, elevation and tables
+
+- [ ] Build `components/cards.html`: the card pattern and each elevation step.
+- [ ] Build `components/table.html`: cadence/table's header, row rules, sort affordance and zebra treatment.
+- [ ] Run the harness against the cadence card and table goldens; close the gaps.
+- [ ] Commit here.
+
+#### G2.3: Navigation
+
+- [ ] Build `components/navigation.html`: navbar, sidebar, tabs and breadcrumb.
+- [ ] Include the selected, hover and focus states for each.
+- [ ] Run the harness against the corresponding cadence goldens; close the gaps.
+- [ ] Commit here.
+
+#### G2.4: Overlays
+
+- [ ] Build `components/dialog.html`: modal over its backdrop at the top elevation, plus popover, tooltip and toast.
+- [ ] Show the scrim and the focus-trapped state, since those carry the elevation and colour decisions.
+- [ ] Run the harness against the cadence overlay goldens; close the gaps.
+- [ ] Commit here.
+
+### G-G3: Ship it
+
+#### G3.1: The conventions header
+
+This file is inlined into the design agent's system prompt. It is the difference
+between an agent that uses the vocabulary and one that invents its own, so every
+sentence must be something the agent can act on without guessing.
+
+- [ ] Write `.design-sync/conventions.md`: the class families with their real names, the token families, where the truth lives, and one idiomatic build snippet taken from a page that already passes the harness.
+- [ ] State the Gio-specific caveats a browser cannot express — no native backdrop blur, different text shaping — so designs are not built on affordances that will not port.
+- [ ] Validate it: every class, token and component name it mentions must exist in the emitted `styles.css` or the component pages. Cut or fix anything that does not resolve.
+- [ ] Commit here.
+
+#### G3.2: Push and validate with the agent
+
+- [ ] Regenerate the full bundle and push it with `scripts/push-design.sh`.
+- [ ] Ask the design agent to compose a screen that exercises a shell, a table, a modal and a form.
+- [ ] Check the result against the conventions: real classes, real tokens, no invented vocabulary.
+- [ ] Record what the agent got wrong as follow-up work — that list is the honest measure of whether the surface is good.
+- [ ] Commit here.
 
 ## Reference
 
