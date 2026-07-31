@@ -694,29 +694,38 @@ diffs.
 - [ ] Build, test, commit.
 
 ### G-E4: Blur
+Gio exposes no blur primitive and no custom shaders — `op/paint` offers
+`ColorOp`, `ImageOp`, `LinearGradientOp`, `PushOpacity`, and an `ImageFilter`
+that only selects linear vs nearest *scaling*. But `gioui.org/gpu/headless`
+provides the missing piece: `NewWindow(w, h)`, `Frame(*op.Ops)` and
+`Screenshot(*image.RGBA)` render an op list to an offscreen GPU surface and
+read the pixels back. That is a real backdrop-blur pipeline built from Gio's
+own primitives — render the layer behind, read it, blur it, paint it as an
+`ImageOp`. The org already depends on this package: it is what
+`prism/internal/golden` and every cadence and pulse golden test are built on.
 
-Gio exposes no blur and no shader access — `op/paint` offers `ColorOp`,
-`ImageOp`, `LinearGradientOp`, `PushOpacity`, and an `ImageFilter` that only
-selects linear vs nearest *scaling*. There is also no framebuffer readback, so
-blurring live content behind a widget is not merely slow, it is unavailable.
-This goal is therefore about **static imagery and cached effects**, not
-backdrop translucency. Do not plan a component around live backdrop blur.
-
-Own the implementation rather than importing one. All three candidates were
+Own the blur itself rather than importing one. All three candidates were
 measured and all three are compromised: `disintegration/imaging` works but has
 been unmaintained since 2021; `anthonynsimon/bild`'s Gaussian is roughly twice
 as slow and its `Box` is 16× slower than its own Gaussian, which looks like a
 bug; `esimov/stackblur-go` silently returns a uniform image from an
 `*image.RGBA` source and reports no error.
 
-Measured baseline to beat, at 1440×900 with radius 20 on a ten-core Apple
-Silicon machine — a 60 fps frame budget is 16.7 ms:
+Measured on a ten-core Apple Silicon machine; a 60 fps frame budget is 16.7 ms.
+Full pipeline for a 1440×900 backdrop — headless render, readback, blur —
+where the divisor is the resolution the backdrop is *rendered* at, since the
+blur destroys that detail anyway:
 
-    imaging.Blur            45.0 ms
-    bild.Gaussian           92.7 ms
-    bild.Box              1510   ms
-    downscale ÷4 + blur     19.2 ms
-    downscale ÷4, 320×900    4.4 ms
+    ÷1  1440×900   69.2 ms
+    ÷2   720×450   12.9 ms
+    ÷4   360×225    3.8 ms      <- the working configuration
+    ÷8   180×112    1.6 ms
+
+Two caveats that shape the design. `headless.NewWindow` costs 1.1 ms, so the
+offscreen surface is allocated per size and reused, never per frame. And
+headless rendering is not available on every platform — the golden harness
+already calls `t.Skipf` when it is not — so anything shipping this at runtime
+needs a defined fallback rather than a crash.
 
 #### E4.1: The blur kernel
 
@@ -727,28 +736,38 @@ trivially parallelisable.
 - [ ] Create `pulse/blur`: a separable 3-pass box blur over `image.NRGBA`, horizontal then vertical, parallelised across `runtime.NumCPU()`.
 - [ ] Test convergence against a reference Gaussian: compare per-channel variance reduction and assert the difference stays within a few percent.
 - [ ] Test the edges — a blur that darkens or wraps at the borders is the usual bug; assert a uniform input stays uniform right up to the edge.
-- [ ] Benchmark at the sizes above and record the numbers in the package doc next to the baseline it replaces.
+- [ ] Benchmark against the table above and record the numbers in the package doc.
 - [ ] Build, test, commit in pulse.
 
-#### E4.2: Cached blur for Gio
+#### E4.2: Cached blur for static imagery
 
-The cost must be paid once per source change, never per frame.
+The simple case, and the one with no platform caveat: a known source image
+blurred once and reused.
 
-- [ ] Add a helper that blurs a source image and returns a `paint.ImageOp`, caching the result keyed on source identity, radius and target size.
-- [ ] Support the downscale-blur-upscale path for large radii, where the detail is destroyed anyway — expose the divisor and default it from the radius.
-- [ ] Test that a repeated call with unchanged inputs does no work.
-- [ ] Test that a size or radius change invalidates correctly.
+- [ ] Add a helper that blurs a source image and returns a `paint.ImageOp`, caching on source identity, radius and target size.
+- [ ] Support the downscale-blur-upscale path for large radii; expose the divisor and default it from the radius.
+- [ ] Test that a repeated call with unchanged inputs does no work, and that a size or radius change invalidates.
 - [ ] Build, test, commit in pulse.
 
-#### E4.3: Evaluate blur-based glow
+#### E4.3: The headless backdrop pipeline
+
+- [ ] Add a backdrop type that owns a `headless.Window`, renders a caller-supplied layer into it at a reduced resolution, reads it back, blurs it, and yields a `paint.ImageOp` stretched to full size.
+- [ ] Allocate the headless window per size and reuse it; reallocate only on resize.
+- [ ] Choose the divisor from the blur radius so callers ask for a look, not a resolution.
+- [ ] Handle unavailable headless rendering explicitly — a documented fallback (flat tinted surface), never a panic.
+- [ ] Decide and document the refresh policy: this runs on the events thread and stalls it, so it must be driven by content change, not by every frame.
+- [ ] Benchmark the assembled pipeline and confirm it matches the table above.
+- [ ] Build, test, commit in pulse.
+
+#### E4.4: Evaluate blur-based glow
 
 `pulse/glow` composes eight linear gradients — four edges, four corners —
-because Gio has no radial gradient. A real blur would give a true radial
-falloff and would work for arbitrary shapes rather than rectangles only. Whether
-it is *better* depends on whether the cache holds when the glow animates.
+because Gio has no radial gradient. A real blur gives a true radial falloff and
+works for arbitrary shapes, not rectangles only. Whether it *wins* depends on
+whether the cache holds while the glow animates.
 
 - [ ] Prototype a glow that renders the shape offscreen, blurs it, and paints the result.
-- [ ] Compare it against the current eight-gradient halo: visual quality, and cost per frame when the glow is animating and the cache misses.
+- [ ] Compare against the current eight-gradient halo: visual quality, and cost per frame when the glow animates and the cache misses.
 - [ ] Decide. Keep the gradient path if the animated case cannot be cached cheaply — a correct approximation beats a slow exact answer.
 - [ ] Record the decision and its evidence in `pulse/glow`'s package doc either way.
 - [ ] Build, test, commit in pulse.
@@ -887,16 +906,25 @@ mirroring them earlier is rework.
 ### G-G1: The mirror and its harness
 
 #### G1.1: Golden comparison harness
-
 Without this, the rest of the phase is guesswork dressed as work.
 
-- [ ] Write a harness that renders a component page headless at a fixed viewport and captures a screenshot.
-- [ ] Align it with the Gio goldens: same nominal size, same theme emission, same component state.
-- [ ] Emit a per-component difference score against the corresponding `testdata/golden` image.
-- [ ] Pick and justify a tolerance — text shaping and antialiasing differ between Gio and a browser, so the bar is "reads as the same component", not pixel equality.
-- [ ] Prove it: run it against one deliberately wrong variant and confirm it fails.
-- [ ] Commit here.
+**The Gio half already exists.** `prism/internal/golden` renders a widget into a
+`gioui.org/gpu/headless` window and returns the pixels — `Capture`, `Render` and
+`PixelDiff` — and every cadence and pulse golden test is built on it. Reuse it;
+do not write a second Gio capture path. What is new is the browser side and the
+comparison metric.
 
+`PixelDiff` counts exact byte mismatches, which is right for catching a
+regression between two Gio renders and useless across two different renderers.
+This task needs a perceptual metric instead.
+
+- [ ] Promote `prism/internal/golden`'s capture to an importable package, or add a small exported wrapper — it is `internal` today and Phase G needs it from outside prism.
+- [ ] Write the browser half: render a component page headless at a fixed viewport and capture a screenshot.
+- [ ] Align the two: same nominal size, same theme emission, same component state.
+- [ ] Implement a perceptual comparison — downscale both and compare in a perceptual space, or score structural similarity. Text shaping and antialiasing differ between Gio and a browser, so the bar is "reads as the same component", not pixel equality.
+- [ ] Pick and justify the tolerance from real pairs, not in the abstract.
+- [ ] Prove it: run it against one deliberately wrong variant and confirm it fails, and against a re-render of the same component and confirm it passes.
+- [ ] Commit here.
 #### G1.2: The component class vocabulary
 
 - [ ] Define the class layer in `styles.css`, built only on the tokens E0.1 emits — no literal colours, sizes or radii.
@@ -947,7 +975,7 @@ between an agent that uses the vocabulary and one that invents its own, so every
 sentence must be something the agent can act on without guessing.
 
 - [ ] Write `.design-sync/conventions.md`: the class families with their real names, the token families, where the truth lives, and one idiomatic build snippet taken from a page that already passes the harness.
-- [ ] State the Gio-specific caveats a browser cannot express — no native backdrop blur, different text shaping — so designs are not built on affordances that will not port.
+- [ ] State the Gio-specific caveats — text shaping differs, and blur is a cached offscreen pass driven by content change rather than a live CSS `backdrop-filter`, so a design that assumes continuous blur under motion will not port.
 - [ ] Validate it: every class, token and component name it mentions must exist in the emitted `styles.css` or the component pages. Cut or fix anything that does not resolve.
 - [ ] Commit here.
 
