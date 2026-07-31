@@ -1439,3 +1439,20 @@ No layer is tagged while `scripts/check-layers.sh` fails, and none while
 `scripts/check-no-workspace.sh` does. The deprecated alias shims from ADR-001
 and ADR-003 are removed only in the final major bump, after every in-org
 consumer has moved off them.
+
+**No double-digit component in any tag. Ever.** A version component never
+reaches two digits: when a series hits `.9`, the next release rolls the
+component above it.
+
+```
+v0.0.9  ->  v0.1.0        never v0.0.10
+v0.1.9  ->  v0.2.0        never v0.1.10
+v0.9.0  ->  v1.0.0        never v0.10.0
+```
+
+This is not a preference to weigh against others — it is a hard rule. A tag is
+immutable the moment the proxy sees it, so a `v0.0.10` cannot be withdrawn,
+only buried under a correction that leaves it in the list forever. Check the
+existing tags before cutting a new one: `prism` is at `v0.0.9` and `markdown`,
+`seen` and `kiwi` are close behind, so the next tag for each of them is a minor
+bump, not a patch.
