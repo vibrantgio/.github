@@ -1818,11 +1818,37 @@ each fail with `unknown revision`, while the versions that replaced them
 resolve normally.
 
 **`GOPRIVATE` covers `github.com/vibrantgio/*` here**, so `proxy.golang.org` is
-bypassed entirely for this org and every module resolves straight from GitHub.
-That is why a deleted tag really is gone rather than pinned in the proxy's
-immutable storage — but it also means the proxy's own endpoints say nothing
-useful about these modules, and `git ls-remote` is the only authority worth
-consulting.
+bypassed entirely for this org and every module resolves straight from GitHub —
+which is why `git ls-remote` is the authority worth consulting from *this*
+machine.
+
+**But that is a fact about this machine, not about the modules, and reading it
+as the latter was a mistake.** These are public repositories, so anyone whose
+`GOPRIVATE` does not cover them resolves through the proxy and verifies against
+`sum.golang.org` — and doing so records the version there permanently. Rene
+installed `workbench/launcher@latest` on a Raspberry Pi with no `GOPRIVATE` set,
+which did exactly that. Measured afterwards: `proxy.golang.org/…/mvu/@v/list`
+returns 25 versions and `prism` 12, so the proxy plainly does know these
+modules; `sum.golang.org/lookup/…/seen/context/gio@v0.0.7` and
+`ivg/raster/gio@v0.1.6` both return 200.
+
+**What that costs: the retraction window closes per version, and nothing local
+tells you it has.** A version recorded in the checksum database is immutable
+forever. Retag it and every consumer who is not `GOPRIVATE`-covered gets a
+permanent checksum mismatch — the same failure `workbench/launcher` shows
+today, but unfixable, because no repair to the origin can change what the log
+already contains. Evicting both Go caches proves only what *this* machine can
+still fetch; it says nothing about the log.
+
+G-B1's eight deletions escaped this, and by luck rather than judgement:
+`seen/context/gio@v0.0.8` and `ivg/raster/gio@v0.1.7` both return **404** from
+`sum.golang.org`, so nothing had ever fetched them publicly and the retag was
+free. The versions that replaced them are now recorded and no longer are.
+
+So before retracting or moving any tag, `curl -o /dev/null -w '%{http_code}'
+https://sum.golang.org/lookup/github.com/vibrantgio/<module>@<version>`. A 404
+means the window is open. A 200 means it shut — pick the next version number
+instead, and do not spend time debating it.
 
 ### The repo doc contract
 
