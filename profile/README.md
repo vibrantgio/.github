@@ -1,6 +1,6 @@
-# VibrantGio
+# Vibrant Gio
 
-VibrantGio is a design system for native desktop applications on macOS, Windows
+Vibrant Gio is a design system for native desktop applications on macOS, Windows
 and Linux, written in pure Go on [Gio](https://gioui.org). An application is a
 Model-View-Update loop over [reactivego/rx](https://github.com/reactivego/rx)
 observables — state, theme and rendering are all driven reactively — and the
@@ -10,7 +10,7 @@ semantic roles rather than a transcription of the Android widget set.
 ## Start here
 
 - **[llms.txt](https://raw.githubusercontent.com/vibrantgio/.github/master/llms.txt)** —
-  the canonical guide for writing VibrantGio applications, and the file to hand
+  the canonical guide for writing Vibrant Gio applications, and the file to hand
   a coding assistant. Module inventory with current tags, the application
   skeleton, MVU and rx semantics, typography, and the pitfalls that are not
   guessable. It exists exactly once, in

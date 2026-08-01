@@ -7,13 +7,13 @@ things.
 
 **[`profile/README.md`](profile/README.md) — the organization page.** GitHub
 renders it at [github.com/vibrantgio](https://github.com/vibrantgio): what
-VibrantGio is, where to start reading, and the layered table of the whole stack.
+Vibrant Gio is, where to start reading, and the layered table of the whole stack.
 That file, not this one, is the org page. This README renders only on
 [this repository's own page](https://github.com/vibrantgio/.github), so the two
 are edited separately and say different things.
 
 **[`llms.txt`](llms.txt) — the canonical agent guide.** The file to hand a
-coding assistant before it writes a line of VibrantGio code: the module
+coding assistant before it writes a line of Vibrant Gio code: the module
 inventory with current tags, the application skeleton, MVU and rx semantics,
 typography, and the pitfalls that are not guessable. Its canonical URL is
 

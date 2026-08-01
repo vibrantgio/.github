@@ -116,7 +116,7 @@ content, so there is one version to read and one to edit (ADR-004).
 **It covers writing Gio code against these libraries, not working this plan.**
 Module inventory and current tags, the application skeleton, the MVU loop and
 rx semantics, typography, layers, icons, the pitfalls that are not guessable —
-read it before you write a line of VibrantGio application code. It says nothing
+read it before you write a line of Vibrant Gio application code. It says nothing
 about tasks, checkboxes, commits or the working tree; for those, this file and
 `PLAN.md` are the answer. Editing the guide is itself plan work, so the rules
 above still apply to it.

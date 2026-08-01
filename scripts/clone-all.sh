@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Clone every VibrantGio repository into .repos/ beneath this one.
+# Clone every Vibrant Gio repository into .repos/ beneath this one.
 #
 # This repo — vibrantgio/.github — is the parent directory, not a clone. It is
 # the plan root and the org front door; the twenty siblings live under .repos/

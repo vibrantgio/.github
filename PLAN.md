@@ -1,4 +1,4 @@
-# VibrantGio — one coherent design system
+# Vibrant Gio — one coherent design system
 
 Turn twenty-one loosely related repositories into a single design system for
 native desktop apps on macOS/Windows/Linux, built on Gio, whose design
@@ -96,7 +96,7 @@ wrong; the app code is F1.1's to fix.
 opens with screenshots and never mentions the guide, DESIGN.md, or where to
 start.
 
-- [x] Open with a one-paragraph statement of what VibrantGio is and what it targets.
+- [x] Open with a one-paragraph statement of what Vibrant Gio is and what it targets.
 - [x] Immediately follow with a **Start here** block linking `llms.txt`, `workbench/DESIGN.md`, and `workbench/todos/`.
 - [x] Keep the layered stack table; correct it to ADR-001's tier table — all nineteen modules, not just the six-module spine — and mark layers that are mid-migration.
 - [x] Keep the screenshots, moved below the entry points.
@@ -945,7 +945,7 @@ palette, so choosing your own colours means giving up OS dark-mode tracking.
 
 ## Phase E: Reimagined for desktop
 Where MD3 assumes touch and Android, diverge deliberately and say why. This is
-what makes the system VibrantGio's rather than a port.
+what makes the system Vibrant Gio's rather than a port.
 
 G-E1 is firm. G-E2 and G-E3 stay provisional; re-cut them when Phase D lands.
 
@@ -995,7 +995,7 @@ so a theme change reflows every page.
 
 #### E0.3: Push to Claude Design
 
-- [ ] Run `cmd/vg-tokens` into `design/`, then push it to the VibrantGio design project with DesignSync — plan first, write the sentinel, write the files, re-arm the sentinel.
+- [ ] Run `cmd/vg-tokens` into `design/`, then push it to the Vibrant Gio design project with DesignSync — plan first, write the sentinel, write the files, re-arm the sentinel.
 - [ ] Open the project and confirm the foundation pages render as generated.
 - [ ] Write `scripts/push-design.sh` capturing the regenerate-and-push sequence so later phases re-push in one step.
 - [ ] Record the project UUID here in the plan repo, next to the script.
@@ -1394,13 +1394,13 @@ that local-only work cannot finish.
 
 Phase E exported the foundations. This phase adds the component layer, which
 turns `claude.ai/design` from a token reference into a place where a design
-agent composes whole screens out of VibrantGio's own parts — screens that then
+agent composes whole screens out of Vibrant Gio's own parts — screens that then
 port to Gio because they were built from the same tokens and the same
 component vocabulary.
 
 **Not the converter path.** `/design-sync`'s converter expects a JavaScript
 design system: a lockfile, a bundlable `dist/`, React components on
-`window.<globalName>.*`, `.d.ts` prop contracts. VibrantGio is Go and Gio, so
+`window.<globalName>.*`, `.d.ts` prop contracts. Vibrant Gio is Go and Gio, so
 none of it applies. The skill is explicit that the upload *format* is the
 contract and the converter is only one route to it. Produce the layout directly.
 
@@ -1662,7 +1662,7 @@ four under `ivg/raster/gio/example`, three under `svg/driver/gio/example`, four
 in `traer/gio` — but the other eight are real: `todos` (2), `iconbrowser` (2),
 `launcher` (1) and `mindchat` (3), four of the seven workbench applications. So
 "every one of them a demo" is false. `style` is not a vestige nobody uses; it is
-how every VibrantGio application that draws its own text gets its shaper, and
+how every Vibrant Gio application that draws its own text gets its shaper, and
 llms.txt's typography section teaches `style.FontFaces()` as the correct
 wiring. That does not weaken the ADR — the scale still cannot vary with the
 theme, which is the actual argument — but it does mean C1.4's deprecation
