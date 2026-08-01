@@ -554,6 +554,24 @@ that names a tag you are about to cut turns a 36-module green sweep into
 
 ![[#ADR-006: One workspace while developing, tags at the seams]]
 
+#### B2.0: Repair the seen/context/gio go.sum pin
+
+`workbench/launcher` and `svg/driver/seen` do not build: both pin
+`github.com/vibrantgio/seen/context/gio v0.0.7` to a hash of content that
+exists nowhere. Diagnosed in full under [[#Defects found but not fixed]] — do
+not re-litigate whether a push fixes it. It does not: git and the proxy agree
+with each other and both disagree with `go.sum`.
+
+This runs **before** B2.1, and the ordering is the point. Every one of the 36
+modules becomes a workspace member, so once `go.work` exists the bad `go.sum`
+entry is never consulted and both modules build green in the tree while staying
+broken for everyone outside it. Fix it while the breakage is still observable.
+
+- [ ] In each of the two modules, drop the two `seen/context/gio v0.0.7` lines from `go.sum` and re-run `go mod tidy`. Tidy alone will not do it: it verifies before it rewrites.
+- [ ] Sweep all 36 modules for the same stale pair, not just these two — the bad hash could have been recorded anywhere that ever resolved that tag.
+- [ ] Build and test both modules, with no workspace in effect. Confirm `go env GOWORK` is empty first, so the repair is verified against published tags rather than masked by the tree.
+- [ ] Strike the entry in [[#Defects found but not fixed]], leaving the record in place.
+
 #### B2.1: Establish the Go workspace
 
 - [ ] Write `go.work` at the root of this repo listing all **36** modules — nineteen repository roots (`workbench` has no root module of its own), the ten nested ones: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio` and `svg/driver/{gio,pdf,raster,seen}`, and `workbench`'s seven apps: `feeds`, `iconbrowser`, `launcher`, `mindchat`, `sitedocs`, `todos`, `watchlist`. Generate the list with `find .repos -name go.mod`; do not hand-maintain it. (`prism/button/gallery` and `prism/icon/gallery` are packages, not modules.)
@@ -1249,9 +1267,12 @@ Defects found while doing other work, in code no other goal touches. This goal
 sits before G-F3 deliberately: each one changes rendering or behaviour, so it
 has to land before the tags do, not after.
 
-One task per entry. When the register grows, this goal grows with it — and when
-a task lands, strike the entry rather than deleting it, so the record of what
-was wrong outlives the fix.
+One task per entry, except where an entry has to be fixed sooner than Phase F —
+the `seen/context/gio` pin is scheduled as B2.0, since it breaks two builds
+today. An entry can be scheduled anywhere; the register is the record, not the
+queue. When the register grows, this goal grows with it — and when a task
+lands, strike the entry rather than deleting it, so the record of what was
+wrong outlives the fix.
 
 #### FX.1: Correct the svg fill-rule inversion
 
@@ -1270,19 +1291,7 @@ on both values. Work in `.repos/svg`.
 `seen/context/gio v0.0.7`. That is recorded separately and is not this task's
 to fix — build and test the root module and `driver/raster`.
 
-#### FX.2: Repair the seen/context/gio go.sum pin
-
-`workbench/launcher` and `svg/driver/seen` do not build. Both pin
-`github.com/vibrantgio/seen/context/gio v0.0.7` to a hash of content that
-exists nowhere. Diagnosed fully in the register — do not re-litigate whether a
-push fixes it; it does not.
-
-- [ ] In each of the two modules, drop the two `seen/context/gio v0.0.7` lines from `go.sum` and re-run `go mod tidy`. Tidy alone will not do it: it verifies before it rewrites.
-- [ ] Sweep every one of the 36 modules for the same stale pair, not just these two — the same bad hash could be recorded anywhere that ever resolved that tag.
-- [ ] Build and test both modules. `workbench/launcher` is one of the apps F1.1 migrates, so it has to compile before Phase F starts, not after.
-- [ ] Strike the register entry.
-
-#### FX.3: Make pulse/spring's defaults usable
+#### FX.2: Make pulse/spring's defaults usable
 
 `spring.Options{}` takes ~873 frames to settle, and overriding one field silently
 takes the rest from the same soft defaults.
@@ -1294,7 +1303,7 @@ takes the rest from the same soft defaults.
 - [ ] Check `motion` and `springbutton`, which pass explicit values today and must not move. Regenerate goldens only if they legitimately do; build, test, commit.
 - [ ] Strike the register entry.
 
-#### FX.4: Give pulse/depth a rounded interior and an opacity
+#### FX.3: Give pulse/depth a rounded interior and an opacity
 
 `depth.go:86` fills the shadow interior with `clip.Rect` at full alpha, so all
 three callers get square dark wedges behind their rounded corners.
@@ -1306,7 +1315,7 @@ three callers get square dark wedges behind their rounded corners.
 - [ ] Regenerate the moved goldens in this task and say so in the commit body; build, test, commit.
 - [ ] Strike the register entry. Coordinate with E2.2, which decides when a shadow is appropriate at all — this task only fixes the geometry of one that is.
 
-#### FX.5: Guard tween against a nil Lerp
+#### FX.4: Guard tween against a nil Lerp
 
 `At` reaches `tw.Lerp` only for `0 < n < Frames`, so the panic hides behind any
 test that samples the endpoints.
@@ -1315,7 +1324,7 @@ test that samples the endpoints.
 - [ ] Test the interior, not just `At(0)` and `At(Frames)`.
 - [ ] Build, test, commit; strike the register entry.
 
-#### FX.6: Make spectrum's appearance stream shared and live
+#### FX.5: Make spectrum's appearance stream shared and live
 
 Two defects in the same stream: the observable is cold, so every subscription
 polls independently, and `preferences.Observe` completes after one read.
@@ -1325,7 +1334,7 @@ polls independently, and `preferences.Observe` completes after one read.
 - [ ] Make `preferences.Observe` emit on write, or rename it to something that does not promise a stream. Whichever, `Save` and `Observe` must agree.
 - [ ] Build, test, commit; strike both register entries.
 
-#### FX.7: Give cadence/sidebar a scroll region
+#### FX.6: Give cadence/sidebar a scroll region
 
 A nav list taller than the viewport runs off the bottom edge with no way to
 reach the rest.
@@ -1335,7 +1344,7 @@ reach the rest.
 - [ ] Consider whether the 192/48 dp constants should respond to the horizontal constraint, and record the decision either way.
 - [ ] Regenerate goldens; build, test, commit; strike the register entry.
 
-#### FX.8: Let the theme reach highlighted code
+#### FX.7: Let the theme reach highlighted code
 
 The chroma hook colours every run, so `Style.CodeColor` is unreachable and code
 blocks leave the token palette.
@@ -1345,7 +1354,7 @@ blocks leave the token palette.
 - [ ] Golden-test a code block in both themes, asserting the plain runs take the token colour.
 - [ ] Regenerate goldens; build, test, commit; strike the register entry. Sequence after D2.7 and C2.8 if either has landed, so this is not migrated twice.
 
-#### FX.9: Add the two missing LICENSE files
+#### FX.8: Add the two missing LICENSE files
 
 `gradient` and `circle` ship none; the other eighteen repos do.
 
@@ -1882,6 +1891,10 @@ bytes — git and the proxy agree. Both disagree with the `go.sum` entry
 (`cCJSzFNE…`), which pins content that exists in no repository. So this is a
 consumer-side repair, and no push closes it. `go mod tidy` alone cannot fix it
 either: it verifies before it rewrites. Confirmed still broken today.
+
+Scheduled as **B2.0**, not in G-FX. It blocks two builds now, F1.1 migrates one
+of the two broken modules, and B2.1's workspace would mask it — so Phase F is
+too late on all three counts.
 
 **`pulse/spring`'s zero-value options are unusable, and a partial override is
 worse than none.** `spring.go:114-121` fills `Stiffness`, `Damping` and `Mass`
