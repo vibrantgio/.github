@@ -1270,6 +1270,88 @@ on both values. Work in `.repos/svg`.
 `seen/context/gio v0.0.7`. That is recorded separately and is not this task's
 to fix — build and test the root module and `driver/raster`.
 
+#### FX.2: Repair the seen/context/gio go.sum pin
+
+`workbench/launcher` and `svg/driver/seen` do not build. Both pin
+`github.com/vibrantgio/seen/context/gio v0.0.7` to a hash of content that
+exists nowhere. Diagnosed fully in the register — do not re-litigate whether a
+push fixes it; it does not.
+
+- [ ] In each of the two modules, drop the two `seen/context/gio v0.0.7` lines from `go.sum` and re-run `go mod tidy`. Tidy alone will not do it: it verifies before it rewrites.
+- [ ] Sweep every one of the 36 modules for the same stale pair, not just these two — the same bad hash could be recorded anywhere that ever resolved that tag.
+- [ ] Build and test both modules. `workbench/launcher` is one of the apps F1.1 migrates, so it has to compile before Phase F starts, not after.
+- [ ] Strike the register entry.
+
+#### FX.3: Make pulse/spring's defaults usable
+
+`spring.Options{}` takes ~873 frames to settle, and overriding one field silently
+takes the rest from the same soft defaults.
+
+- [ ] Replace `DefaultStiffness`/`DefaultDamping`/`DefaultMass` with a combination that settles in a sane frame count, or make the zero `Options` an error rather than a 15-second animation. Pick one and say which in the commit body.
+- [ ] Fix the partial-override trap at `spring.go:114-121`: deriving `Damping` from whatever `Stiffness` and `Mass` end up being — critical damping is `2√(km)` — is the fix that makes a one-field override behave.
+- [ ] Test the settle time of the zero `Options` and of `Options{Stiffness: 80}` alone, asserting frame counts rather than "it looks right".
+- [ ] Update the package comments A3.6 wrote: they document the current behaviour accurately, so they become wrong the moment this lands.
+- [ ] Check `motion` and `springbutton`, which pass explicit values today and must not move. Regenerate goldens only if they legitimately do; build, test, commit.
+- [ ] Strike the register entry.
+
+#### FX.4: Give pulse/depth a rounded interior and an opacity
+
+`depth.go:86` fills the shadow interior with `clip.Rect` at full alpha, so all
+three callers get square dark wedges behind their rounded corners.
+
+- [ ] Take a corner radius on the shadow call and clip the interior to a matching `clip.RRect`.
+- [ ] Add an opacity control, and drop `cadence/toast`'s `PushOpacity` workaround once it exists.
+- [ ] Update `cadence/card`, `cadence/toast` and `workbench/mindchat` to pass the radius they already round their foregrounds to.
+- [ ] Golden-test a rounded surface over a shadow — the wedges are exactly what a golden catches and no unit test will.
+- [ ] Regenerate the moved goldens in this task and say so in the commit body; build, test, commit.
+- [ ] Strike the register entry. Coordinate with E2.2, which decides when a shadow is appropriate at all — this task only fixes the geometry of one that is.
+
+#### FX.5: Guard tween against a nil Lerp
+
+`At` reaches `tw.Lerp` only for `0 < n < Frames`, so the panic hides behind any
+test that samples the endpoints.
+
+- [ ] Decide the contract and implement it: either return the nearest endpoint when `Lerp` is nil, or panic immediately on construction with a message naming the field. Constructing-time failure is the better of the two — it cannot reach a frame.
+- [ ] Test the interior, not just `At(0)` and `At(Frames)`.
+- [ ] Build, test, commit; strike the register entry.
+
+#### FX.6: Make spectrum's appearance stream shared and live
+
+Two defects in the same stream: the observable is cold, so every subscription
+polls independently, and `preferences.Observe` completes after one read.
+
+- [ ] Multicast `Live`/`FromSource` so *n* subscribers share one poll loop. Verify with the shape A3.5 used — count source reads with a counting `Source` at one and three subscribers, and assert they match.
+- [ ] Check every workbench app still tracks dark mode afterwards; each subscribes at least twice, via `BackdropLayer` and `ContentLayer`.
+- [ ] Make `preferences.Observe` emit on write, or rename it to something that does not promise a stream. Whichever, `Save` and `Observe` must agree.
+- [ ] Build, test, commit; strike both register entries.
+
+#### FX.7: Give cadence/sidebar a scroll region
+
+A nav list taller than the viewport runs off the bottom edge with no way to
+reach the rest.
+
+- [ ] Wrap the item loop in a scrollable list — `prism/list` is the one the rest of cadence uses.
+- [ ] Golden-test a list long enough to overflow, in both the expanded and collapsed widths.
+- [ ] Consider whether the 192/48 dp constants should respond to the horizontal constraint, and record the decision either way.
+- [ ] Regenerate goldens; build, test, commit; strike the register entry.
+
+#### FX.8: Let the theme reach highlighted code
+
+The chroma hook colours every run, so `Style.CodeColor` is unreachable and code
+blocks leave the token palette.
+
+- [ ] Emit no colour for runs chroma would render in its default foreground, so the documented `Style.CodeColor` fallback at `style.go:20` actually fires.
+- [ ] Fail loudly on an unrecognised style name instead of falling back to a dark-background default that renders near-white on the light theme.
+- [ ] Golden-test a code block in both themes, asserting the plain runs take the token colour.
+- [ ] Regenerate goldens; build, test, commit; strike the register entry. Sequence after D2.7 and C2.8 if either has landed, so this is not migrated twice.
+
+#### FX.9: Add the two missing LICENSE files
+
+`gradient` and `circle` ship none; the other eighteen repos do.
+
+- [ ] Copy the licence the rest of the organization uses, with the same holder and year convention. Do not invent a different one.
+- [ ] Commit in each repo; strike the register entry.
+
 ### G-F3: Release
 
 #### F3.1: Tag the foundation
@@ -1790,6 +1872,72 @@ be validated through the Gio path — it needs a raster or pdf golden.
 
 Found in A3.9; also recorded in `svg`'s own README, which is the only place a
 reader of that repo would see it.
+
+**Two modules do not build, on a `go.sum` pin of content that was never
+published.** `workbench/launcher` and `svg/driver/seen` both stop with
+`verifying github.com/vibrantgio/seen/context/gio@v0.0.7: checksum mismatch`.
+A2.4 chased this to the end: `git ls-remote` shows GitHub carrying the tag, a
+`GOPROXY=direct` fetch hashes to `OJip+UYN…`, and the proxy serves the same
+bytes — git and the proxy agree. Both disagree with the `go.sum` entry
+(`cCJSzFNE…`), which pins content that exists in no repository. So this is a
+consumer-side repair, and no push closes it. `go mod tidy` alone cannot fix it
+either: it verifies before it rewrites. Confirmed still broken today.
+
+**`pulse/spring`'s zero-value options are unusable, and a partial override is
+worse than none.** `spring.go:114-121` fills `Stiffness`, `Damping` and `Mass`
+from their defaults *field by field*. `DefaultStiffness = 0.4` with
+`DefaultDamping = 0.7` takes ~873 frames — about 15 seconds at 60 Hz — to
+settle to 0.005, so `spring.Options{}` is not a usable default. Worse, setting
+one field takes the others from those same soft defaults: `Options{Stiffness:
+80}` alone lands at ζ ≈ 0.04, which rings for thousands of frames. Neither
+in-module consumer goes near the defaults (motion uses k=80, springbutton
+k=300), which is why nothing caught it. A3.6 documented both in the package
+comments; the behaviour is unchanged.
+
+**`pulse/depth` paints a hard rectangle under every rounded caller.**
+`depth.go:86` fills the shadow's interior with `clip.Rect(shadowBounds)` at
+full alpha. All three callers — `cadence/card`, `cadence/toast` and
+`workbench/mindchat` — draw a rounded foreground over it, leaving square dark
+wedges at the corners. It also exposes no opacity control, which is why
+`cadence/toast` wraps it in a `PushOpacity`. Distinct from E2.2, which decides
+*when* a shadow is appropriate; this is the geometry being wrong when one is.
+
+**`pulse/tween` panics on a nil `Lerp`, but only in the interior.** `At` returns
+the endpoints without interpolating and reaches `tw.Lerp(...)` at
+`tween.go:61` only for `0 < n < Frames`, so a test that samples `At(0)` and
+`At(Frames)` passes against a `Tween` that will panic on the first real frame.
+
+**`spectrum`'s appearance observable is cold, so *n* consumers means *n*
+pollers.** Nothing in `Live → FromSource` or `LiveTheme`'s `rx.Map` multicasts,
+so every subscription starts its own poll loop. A3.5 measured it: one
+subscriber produced 4 source reads, three produced 222. Every workbench app
+subscribes at least twice — `BackdropLayer(th)` and `ContentLayer(th, …)`. The
+darwin source throttles *accent* to one exec per `accentInterval`
+(`system_darwin.go:28`), but that cache lives on the `Source`, so it does not
+dedupe across subscriptions and does not cover the appearance read at all.
+
+**`spectrum/preferences.Observe` completes after one read.**
+`preferences.go:121-129` is `rx.Defer` around `rx.Of(p)`, so it emits the
+loaded value once and completes. A later `Save` notifies nobody, which makes
+the "observable" name misleading for the one job it exists to do.
+
+**`cadence/sidebar` paints past the bottom of the screen.** Items are stacked at
+a fixed 48 dp pitch with no scroll region (`sidebar.go:19-21`, `itemDp = 48`),
+so a nav list taller than the viewport simply runs off the edge with no way to
+reach the rest. The 192/48 dp column widths are local constants that ignore the
+horizontal constraint as well.
+
+**`markdown/highlight` makes `Style.CodeColor` unreachable.** The chroma hook
+emits a colour for *every* run it produces, so the fallback documented at
+`style.go:20` never fires and code blocks leave the token palette entirely.
+Separately, an unrecognised style name falls back to chroma's dark-background
+default, which renders near-white — illegible on the light theme, and silent.
+D2.7 migrates markdown to the new roles and C2.8 moves it to theme typography;
+neither would notice a path that bypasses the tokens altogether.
+
+**`gradient` and `circle` ship no LICENSE file.** The other eighteen repos have
+one. They are public modules, so this is a packaging defect rather than a
+cosmetic one.
 
 ### Release protocol
 
