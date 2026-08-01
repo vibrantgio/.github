@@ -1241,6 +1241,35 @@ re-close a cycle from the other direction.
 - [ ] Confirm every link from the org page resolves.
 - [ ] Commit here.
 
+### G-FX: Clear the defect register
+
+> Included from [[#Defects found but not fixed]]
+
+Defects found while doing other work, in code no other goal touches. This goal
+sits before G-F3 deliberately: each one changes rendering or behaviour, so it
+has to land before the tags do, not after.
+
+One task per entry. When the register grows, this goal grows with it — and when
+a task lands, strike the entry rather than deleting it, so the record of what
+was wrong outlives the fix.
+
+#### FX.1: Correct the svg fill-rule inversion
+
+`svg/parser/svgcursor.go:133` sets `UseNonZeroWinding` when the document asked
+for `evenodd` and clears it when the document asked for `nonzero` — backwards
+on both values. Work in `.repos/svg`.
+
+- [ ] Fix the line. `nonzero` is the SVG initial value, so the condition is `!strings.EqualFold(v, "evenodd")` — or spell it positively against `"nonzero"` and let anything else fall through to the default. Leave `defaultstyle.go:14` alone; its `UseNonZeroWinding: true` is already correct.
+- [ ] Add a regression test with a self-intersecting path — a five-pointed star drawn as one closed subpath is the standard case, since it renders with a filled centre under non-zero and a hollow centre under even-odd. Assert both `fill-rule` values, and assert that a path stating neither still gets non-zero.
+- [ ] Drive the test through `driver/raster`, not `driver/gio`. `driver/gio/driver.go:59` is an empty `SetWinding` — deliberately, because `clip.Outline` is non-zero only — so the Gio path cannot observe this defect and cannot validate the fix. `driver/pdf` and `driver/seen` honour the flag too, but raster is the one that yields a comparable image.
+- [ ] Check the repo's own SVG fixtures for any that state `fill-rule` and whose goldens therefore move. Regenerate them in this task and say so in the commit body, per the plan's green-before-commit rule.
+- [ ] Note in `svg/README.md` that the defect is fixed — A3.9 documented it there as live, and that text is now wrong.
+- [ ] Strike the entry in [[#Defects found but not fixed]], leaving the record in place.
+
+`svg/driver/seen` does not build on a stale consumer-side `go.sum` pin of
+`seen/context/gio v0.0.7`. That is recorded separately and is not this task's
+to fix — build and test the root module and `driver/raster`.
+
 ### G-F3: Release
 
 #### F3.1: Tag the foundation
