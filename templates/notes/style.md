@@ -8,7 +8,9 @@ the deprecation window; the exported symbols get `Deprecated:` markers and the
 major bump, F3.3.
 
 It also carries a real bug that C1.4 fixes rather than inherits: `H1` and `H2`
-are both 96 dp, where MD2's H2 is 60. Do not copy those numbers forward.
+are both 96 sp — `TextStyle.Size` is `unit.Sp`, not `unit.Dp` — where MD2's H2
+is 60. They differ only in weight, so a document using both gets no size
+hierarchy. Do not copy those numbers forward.
 
 Nothing in the design system imports `style` — that is the point of ADR-003.
 Its consumers are demo mains under mvu, ivg, svg and traer, plus the workbench

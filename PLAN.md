@@ -423,10 +423,10 @@ measured-until-proven like everything else.
 Six small repos, a one-pager each — what it does, its one type or function, and
 where it sits.
 
-- [ ] Write READMEs for font, style, textdraw, gradient, circle.
-- [ ] Expand backdrop's one-line README to the same shape.
-- [ ] In `style` and `font`, state that they are not yet wired into the component stack and that Phase C fixes this.
-- [ ] Commit in each of the six repos.
+- [x] Write READMEs for font, style, textdraw, gradient, circle.
+- [x] Expand backdrop's one-line README to the same shape.
+- [x] In `style` and `font`, state that they are not yet wired into the component stack and that Phase C fixes this.
+- [x] Commit in each of the six repos.
 
 #### A3.9: support library READMEs
 
@@ -643,7 +643,12 @@ is nowhere in the theme to put a typeface, so all seventeen `Props` structs and
 #### C1.4: Deprecate the standalone type scale
 
 `style`'s MD2 scale is superseded, and it carries a real bug — `H1` and `H2` are
-both 96 dp, where MD2's H2 is 60.
+both 96 sp (`textdraw.TextStyle.Size` is `unit.Sp`, not `unit.Dp`), where MD2's
+H2 is 60. The two differ only in weight, Thin and Light, so a document using
+both gets no size hierarchy at all.
+
+Four workbench applications import `style`, not zero — see the correction in
+ADR-003 — so these markers land on shipped code.
 
 - [ ] Mark every exported symbol in `style` `Deprecated:` with the `spectrum/tokens.Typography` replacement.
 - [ ] Fix the `H2` size to 60 so the deprecated path is at least correct.
@@ -1528,9 +1533,21 @@ inside library code. gofont is not merely used by the examples — it is the
 compiled-in default of the component library. Meanwhile `font` and `style`, the
 repos that package Roboto and a type scale, have no consumer in library source
 anywhere in the organization: `font` is imported by `style` and by two `mvu`
-examples, and `style` by thirteen mains, every one of them a demo — two in
-`mvu/example`, four under `ivg/raster/gio/example`, three under
-`svg/driver/gio/example`, four in `traer/gio`.
+examples, and `style` only by application code.
+
+A3.8 re-measured that last clause and it was wrong in a way that matters.
+`"github.com/vibrantgio/style"` is imported by twenty-one files, not thirteen.
+Thirteen are the demo mains the original count named — two in `mvu/example`,
+four under `ivg/raster/gio/example`, three under `svg/driver/gio/example`, four
+in `traer/gio` — but the other eight are real: `todos` (2), `iconbrowser` (2),
+`launcher` (1) and `mindchat` (3), four of the seven workbench applications. So
+"every one of them a demo" is false. `style` is not a vestige nobody uses; it is
+how every VibrantGio application that draws its own text gets its shaper, and
+llms.txt's typography section teaches `style.FontFaces()` as the correct
+wiring. That does not weaken the ADR — the scale still cannot vary with the
+theme, which is the actual argument — but it does mean C1.4's deprecation
+markers land on symbols that four shipped applications import, and F2's
+migration is a real migration rather than a cleanup.
 
 `style` is frozen rather than deleted: its MD2 scale is superseded by
 `Typography`, and it keeps working through the deprecation window.
