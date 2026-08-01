@@ -556,19 +556,26 @@ that names a tag you are about to cut turns a 36-module green sweep into
 
 #### B2.0: Repair the seen/context/gio go.sum pin
 
-`workbench/launcher` and `svg/driver/seen` do not build: both pin
-`github.com/vibrantgio/seen/context/gio v0.0.7` to a hash of content that
+`workbench/launcher` and `svg/driver/seen` do not build **from a clone**: both
+pin `github.com/vibrantgio/seen/context/gio v0.0.7` to hashes of content that
 exists nowhere. Diagnosed in full under [[#Defects found but not fixed]] — do
-not re-litigate whether a push fixes it. It does not: git and the proxy agree
-with each other and both disagree with `go.sum`.
+not re-litigate whether a push fixes it. It does not: git, the proxy and
+`sum.golang.org` all agree with each other and all disagree with `go.sum`.
+
+Do not be reassured by `go install …/launcher@latest` working — it does, on a
+clean machine, because `go install pkg@version` never consults a dependency
+module's `go.sum` and falls through to the checksum database. That path is
+healthy and stays healthy. This task is about the clone-and-build path, which
+is the one every later task uses.
 
 This runs **before** B2.1, and the ordering is the point. Every one of the 36
 modules becomes a workspace member, so once `go.work` exists the bad `go.sum`
 entry is never consulted and both modules build green in the tree while staying
 broken for everyone outside it. Fix it while the breakage is still observable.
 
-- [ ] In each of the two modules, drop the two `seen/context/gio v0.0.7` lines from `go.sum` and re-run `go mod tidy`. Tidy alone will not do it: it verifies before it rewrites.
-- [ ] Sweep all 36 modules for the same stale pair, not just these two — the bad hash could have been recorded anywhere that ever resolved that tag.
+- [ ] In each of the two modules, drop the two `seen/context/gio v0.0.7` lines from `go.sum` and re-run `go mod tidy`. Tidy alone will not do it: it verifies before it rewrites. Both lines are wrong — the `h1:` and the `/go.mod` — so removing one is not enough.
+- [ ] Sweep all 36 modules for the same stale pair, not just these two — the bad hashes could have been recorded anywhere that ever resolved that tag.
+- [ ] Check what `go mod tidy` writes back against `sum.golang.org` (`curl https://sum.golang.org/lookup/github.com/vibrantgio/seen/context/gio@v0.0.7`): `h1:OJip+UYN…` and `/go.mod h1:qmUvReYG…`. `GOPRIVATE` covers `github.com/vibrantgio/*` on the development machine, so the checksum database is *not* consulted automatically — this cross-check has to be done by hand or the repair could re-record a wrong hash unnoticed.
 - [ ] Build and test both modules, with no workspace in effect. Confirm `go env GOWORK` is empty first, so the repair is verified against published tags rather than masked by the tree.
 - [ ] Strike the entry in [[#Defects found but not fixed]], leaving the record in place.
 
@@ -1882,15 +1889,31 @@ be validated through the Gio path — it needs a raster or pdf golden.
 Found in A3.9; also recorded in `svg`'s own README, which is the only place a
 reader of that repo would see it.
 
-**Two modules do not build, on a `go.sum` pin of content that was never
-published.** `workbench/launcher` and `svg/driver/seen` both stop with
-`verifying github.com/vibrantgio/seen/context/gio@v0.0.7: checksum mismatch`.
-A2.4 chased this to the end: `git ls-remote` shows GitHub carrying the tag, a
-`GOPROXY=direct` fetch hashes to `OJip+UYN…`, and the proxy serves the same
-bytes — git and the proxy agree. Both disagree with the `go.sum` entry
-(`cCJSzFNE…`), which pins content that exists in no repository. So this is a
-consumer-side repair, and no push closes it. `go mod tidy` alone cannot fix it
-either: it verifies before it rewrites. Confirmed still broken today.
+**Two modules do not build *from a clone*, on a `go.sum` pin of content that
+was never published.** `workbench/launcher` and `svg/driver/seen` both stop
+with `verifying github.com/vibrantgio/seen/context/gio@v0.0.7: checksum
+mismatch`. A2.4 chased this to the end: `git ls-remote` shows GitHub carrying
+the tag, a `GOPROXY=direct` fetch hashes to `OJip+UYN…`, and the proxy serves
+the same bytes. `sum.golang.org` publishes the same hash again, plus a `/go.mod`
+hash of `qmUvReYG…`. Git, the proxy and the checksum database all agree with
+each other, and all three disagree with the committed `go.sum`, whose **both**
+lines are wrong — `cCJSzFNE…` and `prWx6vpY…` pin content that exists in no
+repository. So this is a consumer-side repair, no push closes it, and `go mod
+tidy` alone cannot do it either: it verifies before it rewrites.
+
+**Scope, measured — this does not reach users.** `go install
+github.com/vibrantgio/workbench/launcher@latest` succeeds on a machine with no
+Vibrant Gio code present; Rene did it on a Raspberry Pi, and it reproduces
+here. The reason is that `go install pkg@version` synthesizes an empty main
+module, so the *target* module's `go.sum` is never consulted — a dependency's
+`go.sum` never is — and verification falls through to `sum.golang.org`, which
+holds the correct hash. A committed `go.sum` is only load-bearing when that
+module is the **main** module, which is exactly the clone-and-build path. So
+the breakage hits contributors and this plan, not anyone installing the
+published command. (`GOPRIVATE` covering `github.com/vibrantgio/*` on the
+development machine is *not* the cause: the mismatch is against the main
+module's own `go.sum`, which fails whether or not the checksum database is
+consulted.)
 
 Scheduled as **B2.0**, not in G-FX. It blocks two builds now, F1.1 migrates one
 of the two broken modules, and B2.1's workspace would mask it — so Phase F is
