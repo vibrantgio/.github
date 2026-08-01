@@ -1730,6 +1730,38 @@ Describe the layer and the role, not the API surface — the API surface changes
 in Phases B through E, and F2.3 is where READMEs are brought up to the shipped
 reality.
 
+### Defects found but not fixed
+
+Real defects turned up while doing other work, in code no phase of this plan
+touches. They are recorded here so they survive the task that found them. None
+is scheduled; each needs a task cut for it before it gets fixed.
+
+**`svg` inverts the SVG `fill-rule` property.** `parser/svgcursor.go:133` reads
+
+```go
+case "fill-rule":
+	curStyle.UseNonZeroWinding = strings.EqualFold(v, "evenodd")
+```
+
+which is backwards. Per the SVG specification `fill-rule` takes `nonzero` (the
+initial value) or `evenodd`, so this sets non-zero winding exactly when the
+document asked for even-odd, and clears it when the document asked for
+non-zero. `defaultstyle.go:14` has the correct default (`UseNonZeroWinding:
+true`), so only paths that *state* a `fill-rule` are affected — and they are
+affected whichever value they state. The fix is one line, but it changes
+rendering, so it needs a self-intersecting-path regression test alongside it.
+
+What makes it survivable, and easy to miss: `driver/draw.go:43` forwards the
+flag to every driver's `SetWinding`, and the Gio driver's is an empty body —
+`driver/gio/driver.go:59`, deliberately, because `clip.Outline` is non-zero
+only and Gio exposes no even-odd rule. So the defect is *invisible* under the
+one driver the design system uses, and live under the three that honour the
+flag: `driver/raster`, `driver/pdf` and `driver/seen`. A fix therefore cannot
+be validated through the Gio path — it needs a raster or pdf golden.
+
+Found in A3.9; also recorded in `svg`'s own README, which is the only place a
+reader of that repo would see it.
+
 ### Release protocol
 
 Modules are tagged bottom-up, one layer at a time, and each layer is verified
