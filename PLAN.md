@@ -430,10 +430,10 @@ where it sits.
 
 #### A3.9: support library READMEs
 
-- [ ] Write READMEs for seen and kiwi.
-- [ ] Expand svg's stub README to the doc contract's shape.
-- [ ] Leave ivg, csg, noise, traer READMEs as they are; add only the canonical-guide link.
-- [ ] Commit in each repo touched.
+- [x] Write READMEs for seen and kiwi.
+- [x] Expand svg's stub README to the doc contract's shape.
+- [x] Leave ivg, csg, noise, traer READMEs as they are; add only the canonical-guide link.
+- [x] Commit in each repo touched.
 
 ## Phase B: Repair the module graph
 
