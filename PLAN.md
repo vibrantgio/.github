@@ -1393,8 +1393,8 @@ that local-only work cannot finish.
 - [ ] Promote `prism/internal/golden`'s capture to an exported package *before* the major is cut. G1.1 needs it from outside prism, and finding that out after the bump costs a whole second prism release for a one-line visibility change.
 - [ ] Update cadence and markdown to the released tags; build and test. mvu was tagged in F3.1.
 - [ ] Tag both; ask Rene to push.
-- [ ] Update every workbench app's `go.mod` to the released tags; build, test, run each. Tag the nested demo modules — `prism/gallery`, `mvu/example` — here too; they sit above everything they demonstrate.
-- [ ] Drop the deprecated alias shims from prism and spectrum, and tag the majors that removes.
+- [ ] Drop the deprecated alias shims from prism and spectrum, and tag the majors that removes. **This comes before the nested demos, not after.** `prism/gallery` imports both `prism/theme` and `prism/tokens` — the two packages B3.3 leaves as shims and this step deletes. A nested tag mirrors its root's version, so tagging `prism/gallery` first would mirror a root that the very next step supersedes, and the demo would need a second tag at the major's number to get back in correspondence.
+- [ ] Update every workbench app's `go.mod` to the released tags; build, test, run each. Tag the nested demo modules — `prism/gallery`, `mvu/example` — here, once, at their roots' final numbers. `mvu/example` does not import the shims, but `prism/gallery` does, so it has to be updated off them before it is tagged at all.
 - [ ] Run `scripts/check-no-workspace.sh` one last time, after the majors. Green here means every `go.mod` in the org is honest without the workspace propping it up — which is the actual definition of released.
 
 ## Phase G: The design-agent surface
@@ -1840,15 +1840,18 @@ today, but unfixable, because no repair to the origin can change what the log
 already contains. Evicting both Go caches proves only what *this* machine can
 still fetch; it says nothing about the log.
 
-G-B1's eight deletions escaped this, and by luck rather than judgement:
-`seen/context/gio@v0.0.8` and `ivg/raster/gio@v0.1.7` both return **404** from
-`sum.golang.org`, so nothing had ever fetched them publicly and the retag was
-free. The versions that replaced them are now recorded and no longer are.
+**Do not turn that into a habit of probing.** [[#Release protocol]] already
+owns this and states the rule correctly: `sum.golang.org/lookup` *computes and
+appends* an entry that is missing, so probing a live version is one of the ways
+it gets spent. Use `git ls-remote`, which is authoritative and inert, and probe
+only when a version is final or when the answer changes the next action. The
+protocol also already records that all eight versions G-B1 deleted were clean
+on both the proxy and the sumdb — that measurement does not need repeating
+here.
 
-So before retracting or moving any tag, `curl -o /dev/null -w '%{http_code}'
-https://sum.golang.org/lookup/github.com/vibrantgio/<module>@<version>`. A 404
-means the window is open. A 200 means it shut — pick the next version number
-instead, and do not spend time debating it.
+What this passage adds is only the correction above: the org is *not* invisible
+to the proxy, so "nothing has fetched it publicly" is an assumption with an
+expiry date, not a standing property.
 
 ### The repo doc contract
 
