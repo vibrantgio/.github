@@ -581,14 +581,14 @@ broken for everyone outside it. Fix it while the breakage is still observable.
 
 #### B2.1: Establish the Go workspace
 
-- [ ] Write `go.work` at the root of this repo listing all **36** modules — nineteen repository roots (`workbench` has no root module of its own), the ten nested ones: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio` and `svg/driver/{gio,pdf,raster,seen}`, and `workbench`'s seven apps: `feeds`, `iconbrowser`, `launcher`, `mindchat`, `sitedocs`, `todos`, `watchlist`. Generate the list with `find .repos -name go.mod`; do not hand-maintain it. (`prism/button/gallery` and `prism/icon/gallery` are packages, not modules.)
-- [ ] Confirm that from each module, `go build ./... && go test ./...` resolves its siblings from the working tree rather than the module cache.
-- [ ] Confirm the resolved Gio and rx versions are the single ones G-B1 settled on — if the workspace pulls something higher, a module was missed and B1 is not actually done.
-- [ ] Confirm the same commands under `GOWORK=off` still pass, resolving from published tags. This is what CI sees, and the gap between the two is what ADR-006 manages. Both sweeps were green at 36/36 when the G-B1 baseline was tagged; this task is about making that repeatable, not discovering it.
-- [ ] Write `scripts/check-no-workspace.sh`: run the whole stack with `GOWORK=off` and report which modules fail and why. Expect failures from B3.3 onward; the script records the debt, it does not pay it.
-- [ ] Confirm no member repo carries a `replace` directive, and note in the script header that none may be added — a committed `replace` in a public module breaks every consumer outside this working tree.
-- [ ] Settle whether `go.work` is committed here: A1.1's `.gitignore` ignores it *and* `go.work.sum`, while this step was written assuming the file itself is committed and only the sum ignored. ADR-006 forbids it only in *member* repos, so either is defensible — decide, then make `.gitignore` and this step agree.
-- [ ] Commit the script here, and `go.work` too if the step above says so.
+- [x] Write `go.work` at the root of this repo listing all **36** modules — nineteen repository roots (`workbench` has no root module of its own), the ten nested ones: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio` and `svg/driver/{gio,pdf,raster,seen}`, and `workbench`'s seven apps: `feeds`, `iconbrowser`, `launcher`, `mindchat`, `sitedocs`, `todos`, `watchlist`. Generate the list with `find .repos -name go.mod`; do not hand-maintain it. (`prism/button/gallery` and `prism/icon/gallery` are packages, not modules.)
+- [x] Confirm that from each module, `go build ./... && go test ./...` resolves its siblings from the working tree rather than the module cache.
+- [x] Confirm the resolved Gio and rx versions are the single ones G-B1 settled on — if the workspace pulls something higher, a module was missed and B1 is not actually done.
+- [x] Confirm the same commands under `GOWORK=off` still pass, resolving from published tags. This is what CI sees, and the gap between the two is what ADR-006 manages. Both sweeps were green at 36/36 when the G-B1 baseline was tagged; this task is about making that repeatable, not discovering it.
+- [x] Write `scripts/check-no-workspace.sh`: run the whole stack with `GOWORK=off` and report which modules fail and why. Expect failures from B3.3 onward; the script records the debt, it does not pay it.
+- [x] Confirm no member repo carries a `replace` directive, and note in the script header that none may be added — a committed `replace` in a public module breaks every consumer outside this working tree.
+- [x] Settle whether `go.work` is committed here. **Decided by Rene: it is committed.** A1.1's `.gitignore` ignored both it and `go.work.sum`; the `go.work` line is now removed and only `go.work.sum` stays ignored. ADR-006 forbids a workspace only in *member* repos, and this repo is not one — it holds no module. Committing it means the 36-module list is reviewable and identical for everyone, rather than being silently regenerated per machine.
+- [x] Commit the script and `go.work` here. Note in `go.work`'s header that the members live under the gitignored `.repos/`, so the file is committed while the checkout it points at is not — `scripts/clone-all.sh` has to run first or every `use` line dangles.
 ### G-B3: Invert the foundation
 
 Move the token and theme contract down into spectrum so the theme runtime is
