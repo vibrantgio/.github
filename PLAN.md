@@ -573,11 +573,11 @@ modules becomes a workspace member, so once `go.work` exists the bad `go.sum`
 entry is never consulted and both modules build green in the tree while staying
 broken for everyone outside it. Fix it while the breakage is still observable.
 
-- [ ] In each of the two modules, drop the two `seen/context/gio v0.0.7` lines from `go.sum` and re-run `go mod tidy`. Tidy alone will not do it: it verifies before it rewrites. Both lines are wrong — the `h1:` and the `/go.mod` — so removing one is not enough.
-- [ ] Sweep all 36 modules for the same stale pair, not just these two — the bad hashes could have been recorded anywhere that ever resolved that tag.
-- [ ] Check what `go mod tidy` writes back against `sum.golang.org` (`curl https://sum.golang.org/lookup/github.com/vibrantgio/seen/context/gio@v0.0.7`): `h1:OJip+UYN…` and `/go.mod h1:qmUvReYG…`. `GOPRIVATE` covers `github.com/vibrantgio/*` on the development machine, so the checksum database is *not* consulted automatically — this cross-check has to be done by hand or the repair could re-record a wrong hash unnoticed.
-- [ ] Build and test both modules, with no workspace in effect. Confirm `go env GOWORK` is empty first, so the repair is verified against published tags rather than masked by the tree.
-- [ ] Strike the entry in [[#Defects found but not fixed]], leaving the record in place.
+- [x] In each of the two modules, drop the two `seen/context/gio v0.0.7` lines from `go.sum` and re-run `go mod tidy`. Tidy alone will not do it: it verifies before it rewrites. Both lines are wrong — the `h1:` and the `/go.mod` — so removing one is not enough.
+- [x] Sweep all 36 modules for the same stale pair, not just these two — the bad hashes could have been recorded anywhere that ever resolved that tag.
+- [x] Check what `go mod tidy` writes back against `sum.golang.org` (`curl https://sum.golang.org/lookup/github.com/vibrantgio/seen/context/gio@v0.0.7`): `h1:OJip+UYN…` and `/go.mod h1:qmUvReYG…`. `GOPRIVATE` covers `github.com/vibrantgio/*` on the development machine, so the checksum database is *not* consulted automatically — this cross-check has to be done by hand or the repair could re-record a wrong hash unnoticed.
+- [x] Build and test both modules, with no workspace in effect. Confirm `go env GOWORK` is empty first, so the repair is verified against published tags rather than masked by the tree.
+- [x] Strike the entry in [[#Defects found but not fixed]], leaving the record in place.
 
 #### B2.1: Establish the Go workspace
 
@@ -1944,9 +1944,20 @@ development machine is *not* the cause: the mismatch is against the main
 module's own `go.sum`, which fails whether or not the checksum database is
 consulted.)
 
-Scheduled as **B2.0**, not in G-FX. It blocks two builds now, F1.1 migrates one
-of the two broken modules, and B2.1's workspace would mask it — so Phase F is
-too late on all three counts.
+~~Scheduled as **B2.0**, not in G-FX. It blocks two builds now, F1.1 migrates
+one of the two broken modules, and B2.1's workspace would mask it — so Phase F
+is too late on all three counts.~~
+
+**Fixed in B2.0.** The org-wide sweep found the bad hashes in exactly two
+`go.sum` files — `svg/driver/seen` and `workbench/launcher`, the two already
+known — and nowhere else in the 34. Dropping both lines and re-tidying
+recorded `h1:OJip+UYN…` and `/go.mod h1:qmUvReYG…`, matching what
+`sum.golang.org` publishes; `go mod tidy` changed those two lines and nothing
+else in either file. Both modules build and test green with `GOWORK` empty, so
+the repair is verified against the published tag rather than masked by the
+tree. Kept here because the diagnosis is the part worth not relearning: a
+`go.sum` can disagree with git, the proxy *and* the checksum database at once,
+and `go install pkg@version` will not show it to you.
 
 **`pulse/spring`'s zero-value options are unusable, and a partial override is
 worse than none.** `spring.go:114-121` fills `Stiffness`, `Damping` and `Mass`
