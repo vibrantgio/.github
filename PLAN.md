@@ -1359,10 +1359,10 @@ re-close a cycle from the other direction.
 
 #### F2.1: Rewrite llms.txt for the shipped system
 
-- [ ] C3.3 already replaced the typography section; rewrite the rest to the same standard — seed-derived colour in ADR-007's vocabulary (ramps, pins, step walks — not MD3 role tables), palette injection and the OS accent, density, the elevation ladder, MD3 motion and the a11y observables, and when to reach for pulse's blur.
-- [ ] Update the module inventory and the minimal `go.mod`. The version numbers cannot be final before G-F3 cuts the tags; F3.5 owns that touch-up, so write the inventory here and leave the numbers honest about being pre-release.
-- [ ] Rewrite the pitfalls section against what actually bit during Phases B–E — the workspace/`GOWORK=off` double meaning of green, B2.0's `go.sum` lesson, goldens regenerated in the task that moves them.
-- [ ] Commit here.
+- [x] C3.3 already replaced the typography section; rewrite the rest to the same standard — seed-derived colour in ADR-007's vocabulary (ramps, pins, step walks — not MD3 role tables), palette injection and the OS accent, density, the elevation ladder, MD3 motion and the a11y observables, and when to reach for pulse's blur.
+- [x] Update the module inventory and the minimal `go.mod`. The version numbers cannot be final before G-F3 cuts the tags; F3.5 owns that touch-up, so write the inventory here and leave the numbers honest about being pre-release.
+- [x] Rewrite the pitfalls section against what actually bit during Phases B–E — the workspace/`GOWORK=off` double meaning of green, B2.0's `go.sum` lesson, goldens regenerated in the task that moves them.
+- [x] Commit here.
 
 #### F2.2: Rewrite DESIGN.md
 

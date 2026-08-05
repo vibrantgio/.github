@@ -17,43 +17,96 @@ feeds/, watchlist/, mindchat/, iconbrowser/, launcher/) are the canonical
 usage references — todos/ is the minimal complete app; read it first, and read
 the larger ones before inventing a pattern.
 
+THE SHORT VERSION, before the detail: the theme observable carries the whole
+look. Components take it and need nothing else — typeface, colour, density,
+elevation and motion all arrive through it. Application code reads tokens
+from the theme, never constructs a shaper (the theme's Typography owns the
+one shaper), and never writes a colour literal (colours come off the theme's
+seed-derived ramps). Both rules are enforced by lints that fail `go test`,
+and therefore CI, in the four component repos.
+
 ## Modules and versions
 
-All modules live under github.com/vibrantgio/<name>. Current tags:
+All modules live under github.com/vibrantgio/<name>, layered per ADR-001's
+tier table: a module imports only modules in strictly lower tiers, plus the
+support row — enforced in CI by the org's check-layers script. Current tags:
 
+  tier 0 — leaves
   mvu       v0.4.3   MVU runtime: NewWindow, Loop/Run, Message/Command,
                      MessageOp
-  prism     v0.1.4   components: button, input, list, richtext, scrollbar,
-                     icon, layout, theme, tokens, a11y, initial, keyed,
-                     coordination, cache, bench
-  spectrum  v0.0.9   theme runtime: theme (Theme, the token observables),
-                     tokens (Typography + the design tokens), system
-                     (LiveTheme), window, preferences, transition
-  pulse     v0.0.8   effects: tween, spring, springbutton, glow, depth,
-                     motion, conductor
-  cadence   v0.2.4   patterns: shell, navbar, sidebar, table, pagination,
+  font      v0.0.4   Roboto, six weights, regular and italic — plus Roboto
+                     Mono, normal and bold each with italics, all OFL; the
+                     default typography's faces. The mono face is newer
+                     than this tag; see the pre-release note below.
+  textdraw  v0.0.4   low-level glyph text drawing
+  backdrop  v0.0.3   solid colour fill widget
+  gradient  v0.0.3   linear gradient fill widget
+  circle    v0.0.4   precise circle via Bezier
+  style     v0.0.6   FROZEN (ADR-003): the old MD2 type scale and
+                     FontFaces(); superseded by spectrum/tokens Typography
+                     (§Typography) — never add it to a new app
+
+  tier 1 — the foundation
+  spectrum  v0.0.15  the theme runtime and every design token: tokens
+                     (colour ramps and pins, Typography, Density, Motion,
+                     Elevation, spacing/radius), color (the CIELAB/OKLCh
+                     engine and APCA), theme (Theme, the token observables),
+                     system (LiveTheme, palette injection, the OS accent),
+                     a11y (OS accessibility observables), export (token
+                     serialiser + cmd/vg-tokens), window, preferences
+
+  tier 2
+  prism     v0.1.8   components: button, input, list, richtext, scrollbar,
+                     icon, layout, keyed, initial, cache, coordination, bench
+
+  tier 3
+  pulse     v0.0.12  effects: blur (Gaussian kernel, cached blur, backdrop
+                     pipeline), depth, glow, motion, spring, springbutton,
+                     transition, tween, conductor
+
+  tier 4
+  cadence   v0.2.8   patterns: shell, navbar, sidebar, table, pagination,
                      tabs, modal, alert, popover, tooltip, toast, card,
                      accordion, breadcrumb, hero, feature, pricing,
                      testimonial
-  markdown  v0.0.7   GFM document rendering on prism widgets (subpackages:
+  markdown  v0.0.8   GFM document rendering on prism widgets (subpackages:
                      highlight — chroma syntax colours; svgimage — SVG
                      images via vibrantgio/svg)
+
+  support libraries — consumed by the design system, never depend on it
   seen      v0.0.7   3D scene graph rendered to SVG or Gio
   traer     v0.0.8   particle physics (springs, attractions, Verlet)
   svg       v0.0.8   SVG parse + render
   ivg       v0.1.6   IconVG icons, Material icons bundled
-  backdrop  v0.0.3   solid colour fill widget
-  gradient  v0.0.3   linear gradient fill widget
   noise     v0.0.3   Perlin and Simplex noise, 2D/3D
-  style     v0.0.6   DEPRECATED, frozen: the old MD2 type scale and
-                     FontFaces(); superseded by spectrum/tokens Typography
-                     (§Typography) — do not add it to a new app
-  textdraw  v0.0.4   low-level glyph text drawing
-  font      v0.0.4   Roboto faces: six weights (Thin..Black), regular and
-                     italic; spectrum's default typography uses them
-  circle    v0.0.4   precise circle via Bezier
   kiwi      v0.0.6   Cassowary constraint solver
   csg       v0.0.1   constructive solid geometry on meshes (BSP trees)
+
+EVERY TAG ABOVE IS PRE-RELEASE, and two of them are honestly behind their
+repos: the newest spectrum and font tags predate the mono face and the
+Typography.Code style, which exist in the working trees (and in this guide)
+but not yet in any published version. The release now in progress tags the
+stack bottom-up. Its planned numbers: spectrum and pulse tag v0.1.0 next —
+their v0.0.10+ tags violated the org's no-double-digit rule and are buried,
+never reused — and the deprecation sweep that follows is a breaking release
+planned at spectrum v0.2.0, prism v0.2.0, pulse v0.1.1, cadence v0.3.0 and
+markdown v0.1.0. This section is re-checked against the tags actually cut
+when they land; until then, treat the numbers above as "what `go get`
+resolves today", not as the released system.
+
+DO NOT USE IN NEW CODE — deprecated surfaces the pending major deletes:
+
+  - the alias packages prism/tokens, prism/theme and prism/a11y (import the
+    spectrum/... path they forward to) and spectrum/transition (import
+    pulse/transition);
+  - the MD3 colour aliases on ColorTokens: OnBackground, OnSurface,
+    SurfaceVariant, OnSurfaceVariant, Outline (§Colour has the ramp-step
+    replacements);
+  - elevation levels 4 and 5 (the desktop ladder tops out at 3);
+  - the static `Render(…, tokens.TypeScale, …)` signatures on prism,
+    cadence and markdown components — golden-test surfaces that are re-cut
+    to TextStyle + Density in the major. Drive components through their
+    theme-driven entry points (button.Button, table.Table, …) instead.
 
 ## Nested modules
 
@@ -121,8 +174,10 @@ version; watchlist/main.go the production-sized one):
           app.Title("My app"),
           app.Size(unit.Dp(1100), unit.Dp(760)),
       )
-      // spectrum/window wraps the mvu window with a live OS theme
-      // (dark mode + accent colour tracked at the given poll interval).
+      // spectrum/window wraps the mvu window with a live OS theme: dark
+      // mode, the OS accent colour and the accessibility preferences all
+      // tracked at the given poll interval. Options brand it — see
+      // §Branding for WithSeed/WithPalette.
       w := specwin.New(mvuWin, specsystem.LiveTheme(time.Second))
 
       // Model observable: mvu.Loop scans Update over the window's
@@ -219,15 +274,18 @@ mvu.Loop.
      if activity > 0.01 { gtx.Execute(op.InvalidateCmd{}) }
 
    Invalidation is window-global (every widget re-lays-out), so expensive
-   widgets should cache ops when inputs are unchanged (prism/cache). Respect
-   reduced motion: prism/a11y exposes OS preferences as observables; pulse
-   components consult them and snap to the target state.
+   widgets should cache ops when inputs are unchanged (prism/cache).
+   Respect reduced motion: while the OS preference is on, the theme's
+   Motion observable emits zero durations and animated components snap to
+   their targets — take durations and springs from the theme's MotionScale
+   and the preference costs you nothing (§Motion).
 
 ## Layers and composition
 
-w.Render(layers...) takes one or more rx.Observable[layout.Widget] values;
-they stack back-to-front (background first). A typical app has a backdrop
-layer and a content layer built from a cadence/shell:
+w.Render(build) takes a function from the theme observable to the layer
+stack — one or more rx.Observable[layout.Widget] values, stacked
+back-to-front (background first). A typical app has a backdrop layer and a
+content layer built from a cadence/shell:
 
   - cadence/shell: application shells in four variants — SidebarHeaderMain,
     SplitPane (draggable divider, either axis), ThreeColumn (resizable
@@ -242,15 +300,241 @@ layer and a content layer built from a cadence/shell:
     cadence/alert (inline banners).
 
 Every component takes the theme observable for visual configuration and
-props structs for content. Prism theme/tokens supply the typed design values
-(Tailwind-aligned: 4-pt spacing scale, 50-950 colour shades); never use
-string-keyed style maps. prism/list can render a visible scrollbar via
-list.LayoutScrollbar (anchor Occupy reserves a right gutter, Overlay floats
-the bar over the trailing edge; default style from scrollbar.FromTokens).
+props structs for content, and the theme carries the whole look: colour,
+typography, density, elevation and motion all arrive through it, so a
+correct app wires the theme once and styles nothing per component.
+spectrum/tokens supplies the typed design values (ADR-007 colour ramps,
+a 4-pt spacing scale, named radius stops); never use string-keyed style
+maps. prism/list can render a visible scrollbar via list.LayoutScrollbar
+(anchor Occupy reserves a right gutter, Overlay floats the bar over the
+trailing edge; default style from scrollbar.FromTokens).
 
 Pulse components are explicit VARIANTS of prism components, e.g.
 pulse/springbutton wraps prism/button with physics-driven press/release —
 opt in per call site, never a global decorator.
+
+Widget closures that run outside any rx scope (static component slots,
+table cell closures, navbar widgets) cannot subscribe the theme lazily —
+they would miss the current emission. The reference apps solve this with a
+small adapter that subscribes the theme's token streams once into an
+atomic cell and hands frame-time code a loader func: see mirrorTokens in
+workbench feeds/app.go, and the same hand-off in watchlist and sitedocs.
+
+## Colour: one seed, ramps, pins, step walks
+
+COLOUR IS DERIVED, NOT PICKED (ADR-007, landed in Phase D). One seed colour
+generates the entire palette — both modes — through the CIELAB/OKLCh engine
+in spectrum/color:
+
+  light, dark := tokens.FromSeed(seed)  // paired ColorTokens; the light
+                                        // Primary pin is the seed exactly
+
+Application code never writes a colour literal. The no-literal-colour lint
+fails `go test`, and therefore CI, on a color.NRGBA literal in prism, pulse,
+cadence and markdown (allow-listed exceptions only); write application code
+to the same standard. Every colour you need is on the tokens.ColorTokens
+value the theme's Color observable emits.
+
+The vocabulary (this replaces MD3's role tables — see the deprecated alias
+list in §Modules):
+
+  - RAMPS. ColorTokens.Ramps holds five roles — Neutral, Primary,
+    Secondary, Tertiary, Error — each a nine-step Ramp addressed
+    Step(100)..Step(900), where THE STEP IS THE MEANING: 100–300 tinted
+    fills, hovers and subtle borders; 500 the mid reference and strong
+    border; 700–900 text over tinted fills and pressed states. Light and
+    dark are PAIRED scales: the same step keeps the same job in both modes,
+    so neutral 200 is a light card on a light ground and a dark card on a
+    dark one — there is no second table and no dark-mode special case.
+  - PINS. A brand colour rarely sits on the shared lightness scale, so each
+    accent role's solid fill is pinned separately from its ramp:
+    ColorTokens.Primary/Secondary/Tertiary/Error, each with an On* colour
+    guaranteed readable over it. Background and Text are pins too.
+  - THE SEMANTIC LAYER. Background (app ground), Surface (card — neutral
+    200), Divider (subtle border — neutral 300), Text (body text over
+    Background). Reach for these first; reach into the ramps when you need
+    a specific step.
+  - STATES ARE STEP WALKS, not alpha overlays. Hover is one step past the
+    component's ground, pressed/selected/dragged two, clamped at 900 —
+    resolved by StateColor (tinted surfaces) and SolidStateColor (pinned
+    fills, which walk toward the 900 depth). Disabled is an opacity
+    (tokens.Disabled, MD3's 38%); focus keeps the surface and strokes
+    FocusRing() (neutral 500).
+
+  // c is the tokens.ColorTokens the theme's Color observable emitted.
+  card    := c.Surface                              // neutral 200
+  hover   := c.StateColor(tokens.RoleNeutral, 200, tokens.StateHover)   // 300
+  pressed := c.StateColor(tokens.RoleNeutral, 200, tokens.StatePressed) // 400
+  label   := c.Ramps.Neutral.Step(700)              // low-contrast text
+  body    := c.Ramps.Neutral.Step(900)              // body text
+  accent  := c.Primary                              // the pinned brand base
+  accHov  := c.SolidStateColor(tokens.RolePrimary, tokens.StateHover)
+
+The generator guarantees contrast in APCA terms, in both modes: step 900
+reaches Lc 90 and step 700 Lc 60 over the 100/200 grounds, and every pin's
+On* colour reaches Lc 60 over its pin. So neutral 900 on Surface is always
+body-text safe and neutral 700 always label-safe — by construction, not by
+review. (WCAG 2 ratios are reported alongside but do not gate; APCA is the
+gate because WCAG 2 over-rates light-on-dark pairs.)
+
+## Branding: palette injection and the OS accent
+
+The default theme streams — theme.Default(), theme.AutoLightDark and
+spectrum/system's LiveTheme — emit the default seed's palette. Options on
+LiveTheme/FromSourceTheme brand an app without giving up live OS tracking:
+
+  // one brand colour; everything else derived, dark mode still live
+  specsystem.LiveTheme(time.Second, specsystem.WithSeed(brand))
+
+  // full control: both schemes supplied, OS still picks which is live
+  specsystem.LiveTheme(time.Second, specsystem.WithPalette(light, dark))
+
+Precedence, highest first: WithSeed/WithPalette pin the pair — the app
+chose its brand, the OS accent is ignored. With NO palette option the
+stream follows the OS accent colour live: macOS's accent choice (including
+graphite; multicolour means "no accent"), the Windows DWM accent, GNOME's
+named accent or KDE's kdeglobals RGB each become the seed of a derived
+pair, cached per seed. No accent at all falls back to the default palette.
+An accent change re-emits the theme just like a dark-mode flip.
+
+Accessibility composes ON TOP of whichever palette wins: while the OS
+reports increased contrast, the Color observable emits a high-contrast
+variant derived from the resolved palette's own seed (deeper text steps,
+divider from the strong-border step, stronger On* separation — same APCA
+gates, higher floors); while it reports reduced motion, Motion emits zero
+durations (§Motion). Apps do nothing to get either.
+
+spectrum/preferences persists an explicit in-app theme choice (light/dark/
+auto + a11y overrides) as JSON in the OS config dir, when an app offers its
+own control; interpreting the stored name is the app's job.
+
+## Density
+
+Desktop density is a theme token, not a per-component prop. tokens.Density
+carries the drawn control height and inner padding:
+
+  Comfortable   36 dp control, 16/8 dp padding   (the default)
+  Compact       28 dp control, 12/6 dp padding
+
+The numbers are measured, not invented — shadcn/ui's h-9/h-8 next to
+macOS's control sizes; the derivation table lives in spectrum/tokens
+density.go. Prism and cadence components read Density from the theme:
+buttons, inputs, checkboxes, list rows, table rows, navbar, sidebar items,
+tabs and pagination all size from it, so switching an app to Compact is a
+theme change, not a sweep. The theme's Density observable defaults to
+Comfortable; there is no LiveTheme option for it — an app that wants
+Compact swaps the field on the stream:
+
+  th := rx.Map(specsystem.LiveTheme(time.Second), func(t theme.Theme) theme.Theme {
+      t.Density = rx.Of(tokens.Compact)
+      return t
+  })
+
+The WCAG 2.5.5 pointer target (44 dp) is deliberately NOT part of Density:
+Density.MinHitTarget() is a constant, and components extend their pointer
+area beyond the drawn control to meet it — Compact shrinks the pixels,
+never the clickable area. Don't fight this: a 28 dp Compact button really
+does accept clicks a few dp outside its bounds, and neighbouring controls'
+slop overlapping is by design (the topmost input area wins).
+
+## Elevation: the surface ladder
+
+A raised surface reads as raised by TINT first, shadow second (ADR-005 for
+desktop). Elevation is a walk up the neutral ramp — the same move states
+make — with the level naming the rung:
+
+  level 0   the app background (the Background pin)
+  level 1   card / raised-in-place surface     — neutral 200
+  level 2   menus, toasts, higher panels       — neutral 300
+  level 3   the top of the desktop ladder      — neutral 400
+
+  surface := c.SurfaceAt(tokens.Level1)   // resolves the fill per mode
+
+Because the ramps are paired, a raised surface lightens in dark mode and
+darkens in light mode with no second rule — dark-mode surface tint, the
+thing MD3's tonal elevation existed to encode, falls out for free. State
+walks compose on top with the level's step as the ground: hover on a
+level-1 surface is StateColor(RoleNeutral, 200, StateHover) — neutral 300
+in both modes. Levels 4 and 5 exist only as shims (they clamp to level 3)
+and die in the pending major; desktop has no six-storey stack.
+
+Shadows survive as OPT-IN vibrancy via pulse/depth, and the verdict on when
+is recorded in that package's doc: a shadow marks what FLOATS AND CAN LEAVE
+— a toast, a popover, a menu, a drag preview — never what is raised in
+place, which reads as raised by its surface step alone. The cost backs the
+rule: a depth.Shadow is nine paint ops per frame, a surface step is one
+FillShape. Do not add a shadow to a card.
+
+## Motion
+
+tokens.MotionScale is the animation vocabulary, on the theme as the Motion
+observable. MD3's motion semantics at desktop pace:
+
+  - DURATION STOPS, fastest to slowest: DurXFast 50 ms (hover feedback),
+    DurFast 150 ms (small transitions), DurNormal 250 ms (standard
+    enter/exit), DurSlow 400 ms (emphasized/large, fades), DurXSlow 500 ms
+    (the ceiling; also the tooltip delay). Take durations from these stops,
+    never from local constants — pulse/motion's frame counts, toast's fade
+    and tooltip's delay all resolve from the theme already.
+  - EASINGS: the MD3 standard and emphasized families, each with
+    accelerate (exit) and decelerate (enter) variants, as cubic-bezier
+    control points (tokens.Bezier).
+  - SPRINGS, for the pulse physics path: SpringDefault (critically damped,
+    brisk), SpringSnappy (slight overshoot — button "pop"), SpringGentle
+    (soft). Use a preset or set mass/stiffness/damping together, never one
+    field alone.
+
+REDUCED MOTION: while the OS preference is on, the theme's Motion emits
+MotionScale.Reduced() — every duration zero, easings and springs unchanged.
+A duration-driven component therefore completes in zero frames and snaps; a
+spring-driven component must read the zero durations as the snap signal and
+jump to its target (no finite spring settles in one frame). Derive your
+animation lengths from the scale and this behaviour is free.
+
+The raw accessibility streams live in spectrum/a11y (A11yPrefs:
+ReduceMotion, HighContrast, IncreaseTextSize — polled observables via
+a11y.Live). Prefer the composed theme — Motion and Color already reflect
+the first two; reach for the raw stream only for something the theme does
+not encode, such as IncreaseTextSize.
+
+## Blur (pulse/blur)
+
+Gio has no blur primitive; pulse/blur owns one — a parallel three-pass box
+approximation of a Gaussian, plus the two supported ways to ship it:
+
+  - STATIC IMAGERY: blur.Cache. A known source image blurred once and
+    reused — a hero image behind text, a frosted thumbnail:
+
+      var cache blur.Cache                    // long-lived, e.g. per layer
+      op := cache.Image(src, sigma)           // paint.ImageOp, cached on
+                                              // source identity+sigma+size
+
+    Repeat calls with unchanged inputs do no work. Large radii render at a
+    reduced size and upscale on the GPU (the divisor defaults from sigma).
+
+  - BACKDROPS: blur.Backdrop — the "blurred behind the dialog" pipeline.
+    It renders a caller-supplied layer into an offscreen headless GPU
+    window at reduced resolution, reads back, blurs, and serves a
+    paint.ImageOp. Two contracts to honour:
+      1. REFRESH POLICY. Update runs the whole pipeline synchronously on
+         the calling goroutine (milliseconds — for a 1440×900 backdrop,
+         ~3 ms at the default divisor and 29 ms at full resolution,
+         against a 16.7 ms frame budget). Call Update only when the
+         content behind the blur
+         actually changed — a scroll settled, a dialog opened — and paint
+         the cached Op() every frame in between; Op is free.
+      2. FALLBACK. Headless GPU rendering is not available everywhere.
+         Update returns the error and Op reports ok == false; paint a flat
+         tinted scrim instead — blur.FallbackOp(tint) is ready-made, and
+         blur.Available() answers up front. Never assume the blur.
+
+  - WHAT NOT TO BLUR: animated glows. This was prototyped, measured and
+    rejected (the evidence is in pulse/glow's package doc): an animating
+    blur-glow costs 0.2–0.8 ms of events-thread CPU plus an allocation and
+    texture upload per glow per frame, against ~0.5 µs for glow's
+    eight-gradient halo, and no cache holds while the radius or intensity
+    animates. Use pulse/glow for halos; a correct approximation beats a
+    slow exact answer.
 
 ## Typography
 
@@ -266,19 +550,22 @@ correct type:
 
 The contract lives in spectrum/tokens.Typography: one tokens.TextStyle per
 Material Design 3 type role — Display, Headline, Title, Label and Body,
-each Large/Medium/Small, fifteen roles in all. A TextStyle carries Typeface,
-Weight (CSS-style numeric: 400 regular, 500 medium; tokens.FontWeight
-converts to Gio's font.Weight), and Size, LineHeight and Tracking in dp.
-Typography also carries Faces, the font collection, and Shaper(), which
-builds ONE text.Shaper from Faces on first call — system fonts excluded —
-and caches it in the value; it is safe for concurrent use and shared by
-every component. spectrum/theme.Theme.Typography is an
-rx.Observable[tokens.Typography]; theme.Default(), theme.AutoLightDark and
-spectrum/system's LiveTheme all emit tokens.DefaultTypography, whose
-fifteen roles name "Roboto" and whose Faces are vibrantgio/font's Roboto
-faces. Roboto is the default because the DEFAULT TYPOGRAPHY names it —
-restyle an app by putting a different Typography on the theme, never by
-wiring fonts per component.
+each Large/Medium/Small, fifteen roles in all — plus Code, a sixteenth
+style outside the MD3 grid: BodyMedium's metrics on the mono face, the
+style code renders in (MD3 has no code role, so the org added one). A
+TextStyle carries Typeface, Weight (CSS-style numeric: 400 regular, 500
+medium; tokens.FontWeight converts to Gio's font.Weight), and Size,
+LineHeight and Tracking in dp. Typography also carries Faces, the font
+collection, and Shaper(), which builds ONE text.Shaper from Faces on first
+call — system fonts excluded — and caches it in the value; it is safe for
+concurrent use and shared by every component. spectrum/theme.Theme.Typography
+is an rx.Observable[tokens.Typography]; theme.Default(), theme.AutoLightDark
+and spectrum/system's LiveTheme all emit tokens.DefaultTypography, whose
+fifteen roles name "Roboto", whose Code names "Roboto Mono", and whose
+Faces are vibrantgio/font's Roboto faces plus the Roboto Mono faces Code
+resolves against. Roboto is the default because the DEFAULT TYPOGRAPHY
+names it — restyle an app by putting a different Typography on the theme,
+never by wiring fonts per component.
 
 Text you draw yourself with textdraw follows the same source: subscribe
 th.Typography, take metrics from a role and the shaper from typ.Shaper().
@@ -287,7 +574,9 @@ prism/richtext's Layout and Render, cadence/shell's golden
 Render/RenderThreeColumn/RenderStackedPage — want that same typ.Shaper()
 value. theme.Theme.Type (tokens.TypeScale, dp sizes only) survives for
 size-only consumers such as markdown.FromTokens; the Typography roles
-carry the full metrics and are the source of truth.
+carry the full metrics and are the source of truth. (TypeScale and the
+static Render signatures riding it are part of the frozen surface the
+pending major re-cuts — see §Modules.)
 
 THE RULES
 
@@ -295,34 +584,23 @@ THE RULES
     pre-ADR-003 practice; Typography.Shaper() is the only shaper an app
     needs. The style module (style.FontFaces() and the H1-H6 scale) is
     the old way — deprecated and frozen; do not add it to a new app.
-  - Never gofont — and the build now enforces it. The no-gofont lint
+  - Never gofont — and the build enforces it. The no-gofont lint
     (internal/lint in prism, pulse, cadence and markdown) fails `go test`,
     and therefore CI, on any gioui.org/font/gofont import in those four
     repos; the old practice no longer merely looks wrong, it fails the
-    build. The silent gofont fallback components used to build when
-    Props.Shaper was nil is gone: nil now means the theme's shaper, which
-    is correct. cadence/feature's unconditional gofont shaper — the one
-    hole the old guide warned about — is gone with it.
+    build. nil Props.Shaper means the theme's shaper, which is correct.
   - Props.Shaper is a DELIBERATE override only. The prop survives on the
     text-drawing components for the rare call site that must shape with a
     different collection; leave it nil everywhere else. If you find
     yourself passing it routinely, you are reimplementing the old defect.
 
-KNOWN GAPS (both true today; the plan tracks both)
-
-  - No monospace face. The theme shaper excludes system fonts and the org
-    ships no mono face, so markdown's default Style.Mono ("Go Mono,
-    monospace") resolves nothing and code fences and inline code render
-    in Roboto until a mono face decision lands.
-  - The workbench apps have not caught up. The LIBRARY contract has moved;
-    the apps still carry pre-ADR-003 font wiring, and Phase F1/F2 migrates
-    them. todos, iconbrowser and launcher build shapers from the
-    deprecated style.FontFaces(); feeds, watchlist and sitedocs build a
-    NoSystemFonts+gofont shaper; mindchat appends gofont.Collection() to
-    style.FontFaces(). Copy their architecture, not their font wiring: a
-    component call that passes no Shaper is the correct modern pattern,
-    and an app-built shaper passed as an override is exactly what F1
-    deletes.
+The workbench apps embody all of this: as of Phase F1, no app builds a
+shaper, imports style or gofont, or passes Props.Shaper — copy any of them.
+One pre-release seam remains: the mono face and the Code style are newer
+than the latest published spectrum and font tags, so a build resolved from
+tags (rather than the org's development workspace) renders code in Roboto
+until the release tags land. The guide describes the system as it ships in
+the working tree; §Modules records the honest tag state.
 
 ## Markdown documents
 
@@ -346,10 +624,14 @@ viewport would fight the outer one.
     task-list checkboxes, strikethrough, blockquote bars, rules, and GFM
     tables (columns shrink within their slack, floored at the widest word;
     a table that cannot fit scrolls horizontally).
-  - Code fences render monospace on a surface with horizontal overflow
+  - Code renders in the theme's mono face: FromTokens resolves Style.Mono
+    and CodeSize from the Typography Code style (Roboto Mono in the default
+    faces), on a tinted neutral-300 surface with horizontal overflow
     scroll. Syntax colours are opt-in: style.Highlight =
     highlight.New("github") / "github-dark" (markdown/highlight, chroma) —
-    pick by background luma so themes match.
+    pick by background luma so themes match (sitedocs/docs.go shows the
+    light/dark switch). If you supply a custom Typography, set Style.Mono
+    and CodeSize from its Code role after FromTokens.
   - Images: paragraph-sole ![alt](url) blocks only; the library performs NO
     I/O. Set style.Images to an ImageProvider (raster pixels) and/or a
     WidgetImageProvider (vector widgets); markdown/svgimage serves .svg
@@ -385,7 +667,8 @@ published as IconVG data in golang.org/x/exp/shiny/materialdesign/icons
 
 Names are Category+Name: ActionSettings, AVPlayArrow, AVStop, AVPause,
 AVFiberManualRecord, ContentAddCircle, ContentClear, NavigationClose, ...
-Colour the glyph from the palette (theme tokens), never a hard-coded colour.
+Colour the glyph from the theme's tokens — the pinned Primary for accent
+glyphs, a neutral text step otherwise — never a hard-coded colour.
 Run `go run ./iconbrowser/` (in the workbench repo) to search the set visually.
 
 Arbitrary SVG assets (brand marks, logos) render via vibrantgio/svg:
@@ -402,7 +685,7 @@ func(gtx, sizePx, col), not a widget; keep IVG icons in your own clickable
 until an adapter exists. Cadence draws its built-in chevrons/X with hand-
 coded clip paths on purpose (golden determinism); leave those alone.
 
-## Pitfalls (each of these caused a real bug in the example apps)
+## Pitfalls in an application (each caused a real bug in the example apps)
 
 - A Defer factory reruns per subscription: sharing an observable that owns
   state across two subscribers duplicates the state. Share/Publish upstream.
@@ -414,10 +697,13 @@ coded clip paths on purpose (golden determinism); leave those alone.
 - Component prop values are captured at construction unless they come from
   the model observable — pagination Page/PageCount, table sort state, etc.
   must flow from the Model, not be captured as static ints.
-- Radius tokens: pass tokens.Radius values; pill shapes use the provided
-  clamped helpers (an unclamped huge radius floods the canvas in Gio clips).
-- spectrum/system.LiveTheme polls the OS; 1s is the intended default. Do not
-  poll faster than needed.
+- Radius tokens: tokens.Radius.Full is a 9999 dp pill sentinel and Gio's
+  clip.RRect does not clamp — pass it raw and paint sprays across the
+  canvas. Use prism/layout.Pill, which clamps to min(w,h)/2.
+- spectrum/system.LiveTheme polls the OS. The reference apps pass one
+  second; the appearance stream is cold today — each subscriber runs its
+  own poll loop — so wire LiveTheme once per window and let the theme
+  observable fan out, rather than calling it per layer.
 - gio input areas OCCLUDE pointer events by default. A window-wide
   event.Op area registered only for KEY events (a global shortcut) must be
   wrapped in pointer.PassOp and laid out first, under the content —
@@ -426,6 +712,46 @@ coded clip paths on purpose (golden determinism); leave those alone.
 - seen is a multi-module repo: require both github.com/vibrantgio/seen and
   github.com/vibrantgio/seen/context/gio at the same tag when using the Gio
   context.
+
+## Pitfalls when working on the org's repos (each cost real time in B–E)
+
+- GREEN HAS TWO MEANINGS, and a change is done only when it has both.
+  Development runs under the org's single go.work, resolving siblings from
+  the working tree; CI and every stranger's `go get` run without it,
+  resolving each go.mod against published tags. A cross-repo change can be
+  green in the tree and broken for the world — that gap is permanent
+  between a seam landing and its tags being cut. Verify both: build/test
+  normally, then again under `GOWORK=off`; the org's
+  check-no-workspace.sh script reports the outstanding debt. Never commit
+  a `replace` directive or a go.work file into a member repo.
+- A STALE go.sum CAN PIN CONTENT THAT WAS NEVER PUBLISHED, and nothing
+  heals it automatically: `go mod tidy` VERIFIES before it rewrites, so it
+  refuses to fix the very lines that are wrong. Delete both lines for the
+  bad version — the `h1:` and the `/go.mod` — then re-run tidy, and
+  cross-check what it writes against sum.golang.org by hand if GOPRIVATE
+  covers the org (with GOPRIVATE set, the checksum db is never consulted,
+  so a wrong hash can be re-recorded unnoticed). The workspace masks this
+  entire failure class — go.sum is not consulted under go.work — so
+  verify the repair with GOWORK=off, from a clean module cache.
+- GOLDENS REGENERATE IN THE TASK THAT MOVES THEM — never in a follow-up,
+  and the commit body says so. Anything that changes rendering (a token, a
+  face, a density) moves golden images in every repo downstream. The
+  regeneration flag is per test binary and MUST FOLLOW the package list:
+  `go test ./button ./input ... -golden.update` — placed before the
+  packages, `go test` hands `./...` to the test binary and silently tests
+  the current directory only. And `./...` works only where every test
+  package has goldens (markdown); in prism, pulse, spectrum and cadence,
+  packages without goldens reject the undeclared flag, so name the golden
+  packages one by one (each repo's AGENTS.md carries the measured
+  command line).
+- TAGS ARE FOREVER, SO SPEND THEM CAREFULLY. No version component ever
+  reaches two digits (v0.0.9 → v0.1.0, never v0.0.10); once the proxy or
+  sum.golang.org has seen a version it is immutable, and a wrong tag can
+  only be buried by the next number, never reused. While a tag is in
+  flux, check state with `git ls-remote` — probing proxy.golang.org or
+  sum.golang.org CAUSES the version to be recorded. Nested-module tags
+  mirror their root's version (§Nested modules); a nested tag never runs
+  on its own counter.
 
 ## Minimal go.mod for a new app
 
@@ -436,32 +762,39 @@ coded clip paths on purpose (golden determinism); leave those alone.
   require (
       gioui.org v0.10.1
       github.com/reactivego/rx v0.3.0
-      github.com/vibrantgio/cadence v0.2.4
+      github.com/vibrantgio/cadence v0.2.8
       github.com/vibrantgio/mvu v0.4.3
-      github.com/vibrantgio/prism v0.1.4
-      github.com/vibrantgio/spectrum v0.0.9
+      github.com/vibrantgio/prism v0.1.8
+      github.com/vibrantgio/spectrum v0.0.15
       github.com/vibrantgio/textdraw v0.0.4
   )
 
-Typography needs no module of its own: it travels on the theme, which comes
-with spectrum (see §Typography); do NOT add the deprecated style module to
-a new app. textdraw is a direct requirement as soon as you draw text
-yourself with textdraw.Text/Label — todos does. github.com/vibrantgio/font
-arrives INDIRECTLY, as spectrum's dependency; `go mod tidy` marks it
-`// indirect` and only promotes it if you import a face package yourself
-(mvu/example/edit imports font/roboto/regular/normal to load a single
-face).
+These are today's pre-release tags (see §Modules for what they honestly
+contain and the planned release numbers; this block is updated when the
+release tags land). Typography and colour need no module of their own: both
+travel on the theme, which comes with spectrum; do NOT add the deprecated
+style module to a new app. textdraw is a direct requirement as soon as you
+draw text yourself with textdraw.Text/Label — todos does.
+github.com/vibrantgio/font arrives INDIRECTLY, as spectrum's dependency;
+`go mod tidy` marks it `// indirect` and only promotes it if you import a
+face package yourself.
 
 Add markdown/pulse/backdrop/seen/traer as needed. All repos are public on
 GitHub.
 
 ## Where to look for working code
 
-All of these are directories in github.com/vibrantgio/workbench:
+All of these are directories in github.com/vibrantgio/workbench. As of
+Phase F1 all seven apps embody the current contract — spectrum imports (no
+alias paths), ramp/pin colours (no MD3 aliases), theme typography (no
+app-built shaper), theme-driven component entry points — so copy any of
+them without the caveats older guides carried:
 
   todos/      START HERE: the minimal complete app (~700 lines) — the
               canonical bootstrap, pure testable reducers (redux_test.go),
-              prism button/checkbox/list, a modal dialog, live light/dark
+              prism button/checkbox/list, a modal dialog, live light/dark;
+              theme.go is the minimal token-adapter recipe (PaletteFrom
+              resolving ADR-007 steps, TypeFrom picking Typography roles)
   iconbrowser/ searchable Material-icon grid — prism TextField with
               per-keystroke MessageOp updates, subscription-scoped scroll
               and editor state, ivg icon rendering at scale
@@ -473,25 +806,28 @@ All of these are directories in github.com/vibrantgio/workbench:
               run as mvu commands — a completion STREAMS dozens of messages
               back through the loop, routed by stream id so switching/
               renaming/deleting chats mid-stream stays safe. Message bodies
-              render as markdown (chroma-highlighted fences, links opening
-              the OS browser, bundled SVG provider icons; markdown.go's
-              degrade() + docCache are the chat-consumer recipe). Also:
-              SplitPane shell with a collapsible, resizable sidebar,
-              trash-backed session-wide undo (Cmd/Ctrl-Z), the modal-form
-              recipe (Seed/FocusTag/DynamicFocusTags/HideClose), list
-              scrollbars, and a global-shortcut key area done right.
-              Chatting needs OPENAI_API_KEY in the environment (or .env)
-              on first run to seed the config
+              render as markdown (chroma-highlighted fences with code in
+              the mono face, links opening the OS browser, bundled SVG
+              provider icons; markdown.go's degrade() + docCache are the
+              chat-consumer recipe). Also: SplitPane shell with a
+              collapsible, resizable sidebar, trash-backed session-wide
+              undo (Cmd/Ctrl-Z), the modal-form recipe
+              (Seed/FocusTag/DynamicFocusTags/HideClose), list scrollbars,
+              and a global-shortcut key area done right. Chatting needs
+              OPENAI_API_KEY in the environment (or .env) on first run to
+              seed the config
   launcher/   the workbench front door — a seen 3D triangle field composited
               as an mvu background layer (palette re-keyed per theme emission
               via an atomic handoff to the animation tick), hero + cadence
               cards over it, and one streaming mvu.Command per launched app
               (Started, then Exited when the process ends)
   feeds/      table-heavy app: sort/filter/pagination, tabs, split pane,
-              modal forms, toasts
+              modal forms, toasts; app.go's mirrorTokens is the reference
+              theme-to-frame-time adapter (§Layers)
   sitedocs/   marketing + docs shell: hero/feature/pricing/testimonial,
               accordion sidebar, breadcrumbs; the docs pages are embedded
               .md sources rendered with vibrantgio/markdown (content/*.md +
-              docs_content.go route table — the docs-app recipe)
+              docs_content.go route table — the docs-app recipe, including
+              the light/dark highlight switch)
   DESIGN.md   the architecture document — read §Key Architectural Patterns
               and §Threading & Lifecycle before writing new components
