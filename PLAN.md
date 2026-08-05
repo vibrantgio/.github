@@ -1239,12 +1239,12 @@ on top of them.
 
 #### E5.1: Re-emit and re-push
 
-- [ ] Extend `spectrum/export` with what Phase E added: the density tokens, the tonal-elevation surface roles replacing `--shadow-*` as the default, and MD3's easing and duration sets.
-- [ ] Add density, the elevation model and the motion set to `theme.json`'s generative parameters, so the file still reproduces the theme on its own.
-- [ ] Regenerate `foundations/layout.html` against tonal elevation rather than shadow depths, and show the spacing and control metrics at both density settings.
-- [ ] Confirm E0.1's round-trip test still passes across the widened token set — it is the only thing stopping the CSS and the Go tokens drifting.
-- [ ] Run `scripts/push-design.sh`; open the project and confirm the foundation pages render.
-- [ ] Build, test, commit in spectrum; commit the regenerated `design/` here.
+- [x] Extend `spectrum/export` with what Phase E added: the density tokens, the tonal-elevation surface roles replacing `--shadow-*` as the default, and MD3's easing and duration sets.
+- [x] Add density, the elevation model and the motion set to `theme.json`'s generative parameters, so the file still reproduces the theme on its own.
+- [x] Regenerate `foundations/layout.html` against tonal elevation rather than shadow depths, and show the spacing and control metrics at both density settings.
+- [x] Confirm E0.1's round-trip test still passes across the widened token set — it is the only thing stopping the CSS and the Go tokens drifting.
+- [x] Run `scripts/push-design.sh`; open the project and confirm the foundation pages render.
+- [x] Build, test, commit in spectrum; commit the regenerated `design/` here.
 
 ## Phase F: Prove it, document it, release it
 
