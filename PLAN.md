@@ -908,10 +908,10 @@ ADR-007 replaces MD3's alpha state layers: hover and pressed are adjacent ramp
 steps relative to the ground, which keeps every state a real, addressable
 colour the token sheet can emit.
 
-- [ ] Add a resolver from (role, ground, state) to a colour: hover one step past the ground, pressed and selected two, solid-fill states walking from the pin toward 900.
-- [ ] Keep disabled as an opacity and focus as the focus-ring colour; dragged follows pressed.
-- [ ] Test that resolved states stay on the ramp and are monotonic along it.
-- [ ] Build, test, commit.
+- [x] Add a resolver from (role, ground, state) to a colour: hover one step past the ground, pressed and selected two, solid-fill states walking from the pin toward 900.
+- [x] Keep disabled as an opacity and focus as the focus-ring colour; dragged follows pressed.
+- [x] Test that resolved states stay on the ramp and are monotonic along it.
+- [x] Build, test, commit.
 
 #### D2.4: Contrast conformance
 
