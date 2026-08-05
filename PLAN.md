@@ -1130,11 +1130,11 @@ ADR-005 takes MD3's motion semantics; this is where they land. It is also an
 ADR-006 seam — spectrum's widened `MotionScale` is tagged before pulse and
 cadence consume it.
 
-- [ ] Replace `MotionScale`'s CSS easing presets with MD3's standard and emphasized sets (standard, accelerate, decelerate, in both families), keeping the `Bezier` shape the export can already serialise.
-- [ ] Map the five existing duration stops onto MD3's duration roles rather than adopting all sixteen — desktop wants fewer stops and faster ones; record the mapping and its reasoning in the token doc comment the way `density.go` records its metrics table.
-- [ ] Add spring specifications — mass, stiffness, damping presets — for the pulse physics path, coordinating with FX.2, whose defaults fix decides what a usable preset even is.
-- [ ] Wire the first consumers, because today there are none: `pulse/motion`'s frame counts, toast's `fadeWindow` and tooltip's `DefaultDelay` resolve from `Theme.Motion` rather than local constants.
-- [ ] Regenerate the moved goldens; build, test, commit in spectrum, then pulse and cadence.
+- [x] Replace `MotionScale`'s CSS easing presets with MD3's standard and emphasized sets (standard, accelerate, decelerate, in both families), keeping the `Bezier` shape the export can already serialise.
+- [x] Map the five existing duration stops onto MD3's duration roles rather than adopting all sixteen — desktop wants fewer stops and faster ones; record the mapping and its reasoning in the token doc comment the way `density.go` records its metrics table.
+- [x] Add spring specifications — mass, stiffness, damping presets — for the pulse physics path, coordinating with FX.2, whose defaults fix decides what a usable preset even is.
+- [x] Wire the first consumers, because today there are none: `pulse/motion`'s frame counts, toast's `fadeWindow` and tooltip's `DefaultDelay` resolve from `Theme.Motion` rather than local constants.
+- [x] Regenerate the moved goldens; build, test, commit in spectrum, then pulse and cadence.
 
 #### E3.2: Accessibility preferences reach the theme
 
