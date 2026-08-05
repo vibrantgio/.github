@@ -705,10 +705,10 @@ file may import `gofont` when the group is done.
 
 #### C2.3: prism remaining packages
 
-- [ ] Migrate richtext, list, scrollbar and layout.
-- [ ] Migrate `prism/gallery` (nested module) and `prism/button/gallery`.
-- [ ] Confirm no `gofont` import remains anywhere in prism, tests included.
-- [ ] Regenerate goldens; build, test, commit.
+- [x] Migrate richtext, list, scrollbar and layout.
+- [x] Migrate `prism/gallery` (nested module) and `prism/button/gallery`.
+- [x] Confirm no `gofont` import remains anywhere in prism, tests included.
+- [x] Regenerate goldens; build, test, commit.
 
 #### C2.4: pulse
 
