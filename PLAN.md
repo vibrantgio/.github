@@ -1041,11 +1041,11 @@ diffs.
 
 #### E1.2: The density token
 
-- [ ] Add `Density` to `spectrum/tokens` with `Comfortable` and `Compact`, carrying control height, inner padding and the minimum hit target.
-- [ ] Add it to `theme.Theme` as an observable, alongside Typography.
-- [ ] Keep the WCAG 2.5.5 minimum hit target independent of density — `Compact` may shrink the visual control but never the pointer target.
-- [ ] Unit-test that both settings satisfy the hit-target floor.
-- [ ] Build, test, commit in spectrum.
+- [x] Add `Density` to `spectrum/tokens` with `Comfortable` and `Compact`, carrying control height, inner padding and the minimum hit target.
+- [x] Add it to `theme.Theme` as an observable, alongside Typography.
+- [x] Keep the WCAG 2.5.5 minimum hit target independent of density — `Compact` may shrink the visual control but never the pointer target.
+- [x] Unit-test that both settings satisfy the hit-target floor.
+- [x] Build, test, commit in spectrum.
 
 #### E1.3: Density through prism
 
