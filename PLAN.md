@@ -878,11 +878,11 @@ Tones 10–70 are unaffected and already exact.
 
 #### D1.4: Tones and contrast
 
-- [ ] Add `Tone(hue, chroma float64, tone int) color.NRGBA` — tone 0–100 on the L\* axis at fixed OKLCh hue and chroma.
-- [ ] Add WCAG relative-luminance and contrast-ratio helpers.
-- [ ] Test that tone is monotonic in luminance across all thirteen MD3 stops.
-- [ ] Regression-test the `#6750A4` palette: tone 40 must reproduce the seed exactly.
-- [ ] Build, test, commit.
+- [x] Add `Tone(hue, chroma float64, tone int) color.NRGBA` — tone 0–100 on the L\* axis at fixed OKLCh hue and chroma.
+- [x] Add WCAG relative-luminance and contrast-ratio helpers.
+- [x] Test that tone is monotonic in luminance across all thirteen MD3 stops.
+- [x] Regression-test the `#6750A4` palette: tone 40 must reproduce the seed exactly.
+- [x] Build, test, commit.
 ### G-D2: The functional ramps
 Re-cut by D0.1 to ADR-007's model: nine-step functional ramps (100–900) with
 pinned bases, a paired dark ramp instead of a second role table, interaction
