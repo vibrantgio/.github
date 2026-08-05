@@ -929,8 +929,8 @@ colour the token sheet can emit.
 
 #### D2.6: Migrate cadence to the ramps
 
-- [ ] Same, across all eighteen packages.
-- [ ] Regenerate goldens; build, test, commit.
+- [x] Same, across all eighteen packages.
+- [x] Regenerate goldens; build, test, commit.
 
 #### D2.7: Migrate pulse and markdown to the ramps
 
