@@ -718,8 +718,8 @@ file may import `gofont` when the group is done.
 
 #### C2.5: cadence — data and navigation
 
-- [ ] Migrate table, tabs, sidebar, navbar, pagination.
-- [ ] Regenerate goldens; build, test, commit.
+- [x] Migrate table, tabs, sidebar, navbar, pagination.
+- [x] Regenerate goldens; build, test, commit.
 
 #### C2.6: cadence — overlays
 
