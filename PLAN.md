@@ -744,10 +744,10 @@ The rule that prevents this whole class of regression.
 
 #### C3.1: The no-gofont lint
 
-- [ ] Write a Go test that walks the module and fails on any `gioui.org/font/gofont` import.
-- [ ] Add it to prism, pulse, cadence and markdown.
-- [ ] Confirm it fails when a gofont import is reintroduced deliberately, then passes.
-- [ ] Wire it into each repo's CI; commit in each.
+- [x] Write a Go test that walks the module and fails on any `gioui.org/font/gofont` import.
+- [x] Add it to prism, pulse, cadence and markdown.
+- [x] Confirm it fails when a gofont import is reintroduced deliberately, then passes.
+- [x] Wire it into each repo's CI; commit in each.
 
 #### C3.2: The no-literal-colour lint
 
