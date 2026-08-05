@@ -1138,11 +1138,11 @@ cadence consume it.
 
 #### E3.2: Accessibility preferences reach the theme
 
-- [ ] Move the a11y source into spectrum as `spectrum/a11y`, leaving a deprecated alias package in prism for F3.3's shim sweep. The layering requires the move: `spectrum/preferences` already imports `prism/a11y`, the recorded upward edge in `scripts/check-layers.sh`.
-- [ ] Delete the `spectrum->prism` entry from that script's `RECORDED_EDGES` and its `recorded_reason`, and commit that here — the lint drops back to one recorded edge (B3.4's shim, which F3.3 removes).
-- [ ] Route the observables into the theme so components read one source: `LiveTheme` composes `ReduceMotion` into the Motion emission — durations to zero, animated components snap — and `HighContrast` into the Color emission, selecting E3.3's variant. Until E3.3 lands the hook selects the default palette, so the wiring is testable now.
-- [ ] Test that reduced motion snaps: an animated component under `ReduceMotion` reaches its target in one frame.
-- [ ] Build, test, commit in spectrum and prism.
+- [x] Move the a11y source into spectrum as `spectrum/a11y`, leaving a deprecated alias package in prism for F3.3's shim sweep. The layering requires the move: `spectrum/preferences` already imports `prism/a11y`, the recorded upward edge in `scripts/check-layers.sh`.
+- [x] Delete the `spectrum->prism` entry from that script's `RECORDED_EDGES` and its `recorded_reason`, and commit that here — the lint drops back to one recorded edge (B3.4's shim, which F3.3 removes).
+- [x] Route the observables into the theme so components read one source: `LiveTheme` composes `ReduceMotion` into the Motion emission — durations to zero, animated components snap — and `HighContrast` into the Color emission, selecting E3.3's variant. Until E3.3 lands the hook selects the default palette, so the wiring is testable now.
+- [x] Test that reduced motion snaps: an animated component under `ReduceMotion` reaches its target in one frame.
+- [x] Build, test, commit in spectrum and prism.
 
 #### E3.3: High-contrast palette
 

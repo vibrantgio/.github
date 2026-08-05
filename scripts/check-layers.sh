@@ -75,16 +75,13 @@ tier_of() {
 # still exits 0, until the named task removes the edge and the entry.
 #   spectrum->pulse — only via the deprecated alias shim spectrum/transition
 #     (B3.4); the shim and this entry die in F3.3.
-#   spectrum->prism — spectrum/preferences imports prism/a11y; E3.2 moves the
-#     a11y source into spectrum and removes this entry.
 # ---------------------------------------------------------------------------
 ALLOWED_EDGES="style->font style->textdraw"
-RECORDED_EDGES="spectrum->pulse spectrum->prism"
+RECORDED_EDGES="spectrum->pulse"
 
 recorded_reason() {
   case "$1" in
     "spectrum->pulse") echo "deprecated alias shim spectrum/transition (B3.4); removed by F3.3" ;;
-    "spectrum->prism") echo "spectrum/preferences imports prism/a11y; removed by E3.2" ;;
   esac
 }
 
