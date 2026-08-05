@@ -603,9 +603,9 @@ for one release.
 
 #### B3.2: Move the theme contract into spectrum
 
-- [ ] Copy `prism/theme/*.go` (including tests) to `.repos/spectrum/theme/`, repointing its tokens import.
-- [ ] Repoint `spectrum/system` and `spectrum/window` at the local theme package; drop the prism requirement from spectrum's `go.mod` if nothing else needs it.
-- [ ] `go build ./... && go test ./...` in spectrum; commit.
+- [x] Copy `prism/theme/*.go` (including tests) to `.repos/spectrum/theme/`, repointing its tokens import.
+- [x] Repoint `spectrum/system` and `spectrum/window` at the local theme package; drop the prism requirement from spectrum's `go.mod` if nothing else needs it.
+- [x] `go build ./... && go test ./...` in spectrum; commit.
 
 #### B3.3: Leave alias shims in prism
 
