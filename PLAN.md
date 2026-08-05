@@ -1289,9 +1289,9 @@ here is the survey.
 
 #### F0.2: Wire markdown to it
 
-- [ ] Resolve `Style.Mono` and `CodeSize` from the theme's `Code` role in markdown's theme path, so inline code and code blocks leave Roboto.
-- [ ] Confirm highlight's bold and italic runs shape in the mono face rather than falling back to Roboto's weights.
-- [ ] Regenerate the moved goldens and say so in the commit body; build, test, commit in markdown.
+- [x] Resolve `Style.Mono` and `CodeSize` from the theme's `Code` role in markdown's theme path, so inline code and code blocks leave Roboto.
+- [x] Confirm highlight's bold and italic runs shape in the mono face rather than falling back to Roboto's weights.
+- [x] Regenerate the moved goldens and say so in the commit body; build, test, commit in markdown.
 
 FX.7 regenerates these same goldens for the token palette; this task lands
 first, so the mono face is already under FX.7's goldens rather than moving
