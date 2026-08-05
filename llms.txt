@@ -23,18 +23,19 @@ All modules live under github.com/vibrantgio/<name>. Current tags:
 
   mvu       v0.4.3   MVU runtime: NewWindow, Loop/Run, Message/Command,
                      MessageOp
-  prism     v0.1.2   components: button, input, list, richtext, scrollbar,
+  prism     v0.1.4   components: button, input, list, richtext, scrollbar,
                      icon, layout, theme, tokens, a11y, initial, keyed,
                      coordination, cache, bench
-  spectrum  v0.0.6   theme runtime: system (LiveTheme), window, preferences,
-                     transition
-  pulse     v0.0.6   effects: tween, spring, springbutton, glow, depth,
+  spectrum  v0.0.9   theme runtime: theme (Theme, the token observables),
+                     tokens (Typography + the design tokens), system
+                     (LiveTheme), window, preferences, transition
+  pulse     v0.0.8   effects: tween, spring, springbutton, glow, depth,
                      motion, conductor
-  cadence   v0.2.3   patterns: shell, navbar, sidebar, table, pagination,
+  cadence   v0.2.4   patterns: shell, navbar, sidebar, table, pagination,
                      tabs, modal, alert, popover, tooltip, toast, card,
                      accordion, breadcrumb, hero, feature, pricing,
                      testimonial
-  markdown  v0.0.6   GFM document rendering on prism widgets (subpackages:
+  markdown  v0.0.7   GFM document rendering on prism widgets (subpackages:
                      highlight — chroma syntax colours; svgimage — SVG
                      images via vibrantgio/svg)
   seen      v0.0.7   3D scene graph rendered to SVG or Gio
@@ -44,11 +45,12 @@ All modules live under github.com/vibrantgio/<name>. Current tags:
   backdrop  v0.0.3   solid colour fill widget
   gradient  v0.0.3   linear gradient fill widget
   noise     v0.0.3   Perlin and Simplex noise, 2D/3D
-  style     v0.0.5   type scale (H1-H6, Subtitle, Body, Button, Caption,
-                     Overline) and FontFaces() — the app's shaper collection
+  style     v0.0.6   DEPRECATED, frozen: the old MD2 type scale and
+                     FontFaces(); superseded by spectrum/tokens Typography
+                     (§Typography) — do not add it to a new app
   textdraw  v0.0.4   low-level glyph text drawing
   font      v0.0.4   Roboto faces: six weights (Thin..Black), regular and
-                     italic; style pulls in the five it uses
+                     italic; spectrum's default typography uses them
   circle    v0.0.4   precise circle via Bezier
   kiwi      v0.0.6   Cassowary constraint solver
   csg       v0.0.1   constructive solid geometry on meshes (BSP trees)
@@ -252,93 +254,75 @@ opt in per call site, never a global decorator.
 
 ## Typography
 
-Vibrant Gio ships Roboto, and nothing in the libraries gives it to you by
-default. Build ONE *text.Shaper from style.FontFaces() and hand it to every
-component that draws text:
+THE THEME OWNS THE TYPEFACE (ADR-003, landed in Phase C). Every component
+that draws text takes its type style and its *text.Shaper from the theme
+observable it already receives — application code does nothing to get
+correct type:
 
-  import (
-      "gioui.org/text"
+  import "github.com/vibrantgio/prism/button"
 
-      "github.com/vibrantgio/prism/button"
-      "github.com/vibrantgio/style"
-  )
+  // th is the spectrum/theme.Theme the app passes to every component.
+  btn := button.Button(th, button.Props{Label: "Save"}) // renders Roboto
 
-  // Once per window, at layer-building scope (inside buildLayers, or an
-  // rx.Defer) — never per frame, and never shared between windows: a
-  // Shaper owns caches and is not safe for concurrent use.
-  shaper := text.NewShaper(text.WithCollection(style.FontFaces()))
+The contract lives in spectrum/tokens.Typography: one tokens.TextStyle per
+Material Design 3 type role — Display, Headline, Title, Label and Body,
+each Large/Medium/Small, fifteen roles in all. A TextStyle carries Typeface,
+Weight (CSS-style numeric: 400 regular, 500 medium; tokens.FontWeight
+converts to Gio's font.Weight), and Size, LineHeight and Tracking in dp.
+Typography also carries Faces, the font collection, and Shaper(), which
+builds ONE text.Shaper from Faces on first call — system fonts excluded —
+and caches it in the value; it is safe for concurrent use and shared by
+every component. spectrum/theme.Theme.Typography is an
+rx.Observable[tokens.Typography]; theme.Default(), theme.AutoLightDark and
+spectrum/system's LiveTheme all emit tokens.DefaultTypography, whose
+fifteen roles name "Roboto" and whose Faces are vibrantgio/font's Roboto
+faces. Roboto is the default because the DEFAULT TYPOGRAPHY names it —
+restyle an app by putting a different Typography on the theme, never by
+wiring fonts per component.
 
-  btn := button.Button(th, button.Props{Label: "Save", Shaper: shaper})
-
-style.FontFaces() returns the five regular Roboto weights — Thin, Light,
-Normal, Medium, Bold — as []textdraw.FontFace, which is a type ALIAS for
-gioui.org/font.FontFace, so it drops straight into text.WithCollection. The
-collection's typefaces become the shaper's default families, and components
-lay their labels out with a zero font.Font{} (empty Typeface, Normal
-weight), which therefore resolves to Roboto. That is the entire mechanism:
-there is no typography theme token yet — Phase C adds one and this section
-is replaced when it lands.
+Text you draw yourself with textdraw follows the same source: subscribe
+th.Typography, take metrics from a role and the shaper from typ.Shaper().
+The positional-shaper APIs — markdown's doc.Layout(gtx, shaper, style),
+prism/richtext's Layout and Render, cadence/shell's golden
+Render/RenderThreeColumn/RenderStackedPage — want that same typ.Shaper()
+value. theme.Theme.Type (tokens.TypeScale, dp sizes only) survives for
+size-only consumers such as markdown.FromTokens; the Typography roles
+carry the full metrics and are the source of truth.
 
 THE RULES
 
-  - Never gofont. gioui.org/font/gofont is Gio's own typeface, not this
-    design system's; an app that ships it does not look like Vibrant Gio.
-  - Never text.NoSystemFonts(). Leave system fonts loaded: they are the
-    fallback for glyphs Roboto lacks and for explicitly named families —
-    markdown.FromTokens sets Style.Mono to the typeface list "Go Mono,
-    monospace", and the generic monospace family is what resolves code
-    spans when the collection carries no monospace face.
-  - Never append the two collections
-    (append(style.FontFaces(), gofont.Collection()...)). It loads two type
-    systems into one window; Roboto still wins for Latin text, so the
-    mixing only shows up on the glyphs that fall through.
+  - Never construct a shaper. text.NewShaper in application code is the
+    pre-ADR-003 practice; Typography.Shaper() is the only shaper an app
+    needs. The style module (style.FontFaces() and the H1-H6 scale) is
+    the old way — deprecated and frozen; do not add it to a new app.
+  - Never gofont — and the build now enforces it. The no-gofont lint
+    (internal/lint in prism, pulse, cadence and markdown) fails `go test`,
+    and therefore CI, on any gioui.org/font/gofont import in those four
+    repos; the old practice no longer merely looks wrong, it fails the
+    build. The silent gofont fallback components used to build when
+    Props.Shaper was nil is gone: nil now means the theme's shaper, which
+    is correct. cadence/feature's unconditional gofont shaper — the one
+    hole the old guide warned about — is gone with it.
+  - Props.Shaper is a DELIBERATE override only. The prop survives on the
+    text-drawing components for the rare call site that must shape with a
+    different collection; leave it nil everywhere else. If you find
+    yourself passing it routinely, you are reimplementing the old defect.
 
-THE Shaper PROP IS NOT OPTIONAL TODAY. Every component that draws text
-builds text.NewShaper(text.NoSystemFonts(),
-text.WithCollection(gofont.Collection())) for itself when Props.Shaper is
-nil. Nothing warns you — the app renders, in the wrong typeface. The prop
-exists on:
+KNOWN GAPS (both true today; the plan tracks both)
 
-  prism    button.Props, input.TextFieldProps, input.DropdownProps
-  pulse    springbutton (it takes button.Props, Shaper included)
-  cadence  navbar, sidebar, tabs, table, pagination, breadcrumb, accordion,
-           modal, alert, tooltip, toast, hero, pricing, testimonial
-
-Some places take the shaper positionally instead: markdown's
-doc.Layout(gtx, shaper, style), prism/richtext's Layout and Render, and
-cadence/shell's Render/RenderThreeColumn/RenderStackedPage (the
-golden-image API). cadence/shell's observable API, Shell(th, props), has no
-shaper of its own: the navbar's travels in Props.Navbar.Shaper, and the
-sidebar arrives as a widget stream you built yourself
-(sidebar.Sidebar(th, sidebar.Props{Shaper: shaper, ...})).
-
-cadence/feature is the one hole: Feature() has NO Shaper prop and builds
-the gofont shaper unconditionally, so a feature grid renders in Go fonts
-whatever you pass. Until Phase C removes the fallbacks, keep it out of an
-app whose typeface matters — or accept the mismatch knowingly.
-prism/input's checkbox and radio need no shaper; they draw no text.
-
-THE TYPE SCALE. style also exports textdraw.TextStyle values — H1-H6,
-Subtitle1/2, BodyText1/2, Button, Caption, SmallButton, Overline — for text
-you draw yourself with textdraw.Text/Label (todos/theme.go aliases H5 and
-H6 for exactly that). Prism and cadence do NOT read them: they size their
-own text from prism/tokens.TypeScale, carried on the theme as
-theme.Theme.Type (MD3 roles in dp). The two scales are kept in step by hand
-until Phase C unifies them.
-
-REFERENCE CODE. launcher/view.go is the one to copy end to end: one shaper
-built at layer scope AND actually handed to the components — hero.Render(
-shaper, hero.Props{Shaper: shaper, ...}) and button.Render(shaper, ...).
-todos/view.go and iconbrowser/view.go build the shaper the same correct
-way and then only spend it on their own textdraw calls: every component
-they construct leaves the prop off, so todos/upsertdialog.go's two
-button.Button calls and iconbrowser/view.go's input.TextField render in
-gofont — in iconbrowser's case three lines below the shaper it ignores.
-Copy how those two BUILD the shaper; do not copy how they wire it. Do NOT
-copy the font wiring of feeds/app.go, watchlist/app.go or sitedocs/main.go
-— all three build the NoSystemFonts+gofont shaper — nor mindchat/view.go,
-which appends gofont.Collection() to style.FontFaces(). Phase F fixes all
-of them.
+  - No monospace face. The theme shaper excludes system fonts and the org
+    ships no mono face, so markdown's default Style.Mono ("Go Mono,
+    monospace") resolves nothing and code fences and inline code render
+    in Roboto until a mono face decision lands.
+  - The workbench apps have not caught up. The LIBRARY contract has moved;
+    the apps still carry pre-ADR-003 font wiring, and Phase F1/F2 migrates
+    them. todos, iconbrowser and launcher build shapers from the
+    deprecated style.FontFaces(); feeds, watchlist and sitedocs build a
+    NoSystemFonts+gofont shaper; mindchat appends gofont.Collection() to
+    style.FontFaces(). Copy their architecture, not their font wiring: a
+    component call that passes no Shaper is the correct modern pattern,
+    and an app-built shaper passed as an override is exactly what F1
+    deletes.
 
 ## Markdown documents
 
@@ -351,7 +335,8 @@ instead of hand-coding text layouts:
                                          // link, and image state across frames
   style  := markdown.FromTokens(colors, typescale)
   style.Text.OnLinkClick = func(gtx layout.Context, url string) { ... }
-  doc.Layout(gtx, shaper, style)         // scrolling viewport, O(visible)
+  doc.Layout(gtx, typ.Shaper(), style)   // scrolling viewport, O(visible);
+                                         // typ is the theme's Typography
 
 doc.LayoutColumn(...) lays out at natural height with no internal scroll —
 use it inside an outer scrolling context (a chat row, a card); Layout's own
@@ -451,21 +436,21 @@ coded clip paths on purpose (golden determinism); leave those alone.
   require (
       gioui.org v0.10.1
       github.com/reactivego/rx v0.3.0
-      github.com/vibrantgio/cadence v0.2.3
+      github.com/vibrantgio/cadence v0.2.4
       github.com/vibrantgio/mvu v0.4.3
-      github.com/vibrantgio/prism v0.1.2
-      github.com/vibrantgio/spectrum v0.0.6
-      github.com/vibrantgio/style v0.0.5
+      github.com/vibrantgio/prism v0.1.4
+      github.com/vibrantgio/spectrum v0.0.9
       github.com/vibrantgio/textdraw v0.0.4
   )
 
-style is not optional: it is where the app's shaper collection comes from
-(see §Typography). textdraw is a direct requirement as soon as you draw
-text yourself with textdraw.Text/Label or name a style.TextStyle in your
-own code — todos does both. github.com/vibrantgio/font arrives INDIRECTLY,
-as style's dependency; `go mod tidy` marks it `// indirect` and only
-promotes it if you import a face package yourself (mvu/example/edit imports
-font/roboto/regular/normal to load a single face).
+Typography needs no module of its own: it travels on the theme, which comes
+with spectrum (see §Typography); do NOT add the deprecated style module to
+a new app. textdraw is a direct requirement as soon as you draw text
+yourself with textdraw.Text/Label — todos does. github.com/vibrantgio/font
+arrives INDIRECTLY, as spectrum's dependency; `go mod tidy` marks it
+`// indirect` and only promotes it if you import a face package yourself
+(mvu/example/edit imports font/roboto/regular/normal to load a single
+face).
 
 Add markdown/pulse/backdrop/seen/traer as needed. All repos are public on
 GitHub.

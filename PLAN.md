@@ -762,10 +762,10 @@ canonical guide is the plan's own front door; leaving it wrong through Phases D
 and E teaches every assistant exactly the defect Phase C existed to remove.
 F2.1 rewrites the whole file — this is the one section that cannot wait for it.
 
-- [ ] Replace `llms.txt`'s `## Typography` section with the theme-owned contract: read `Typography` from the theme, never construct a shaper, never pass `Shaper` except as a deliberate override.
-- [ ] Note that the no-gofont lint now runs in CI, so the old practice fails the build rather than merely being discouraged.
-- [ ] Keep the known-wrong app list — F1 is what fixes those — but say plainly that the library contract has moved and the apps have not caught up yet.
-- [ ] Commit here.
+- [x] Replace `llms.txt`'s `## Typography` section with the theme-owned contract: read `Typography` from the theme, never construct a shaper, never pass `Shaper` except as a deliberate override.
+- [x] Note that the no-gofont lint now runs in CI, so the old practice fails the build rather than merely being discouraged.
+- [x] Keep the known-wrong app list — F1 is what fixes those — but say plainly that the library contract has moved and the apps have not caught up yet.
+- [x] Commit here.
 
 ## Phase D: Generative colour
 Material Design's real contribution is not its palette, it is that colour is
