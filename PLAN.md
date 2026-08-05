@@ -723,8 +723,8 @@ file may import `gofont` when the group is done.
 
 #### C2.6: cadence — overlays
 
-- [ ] Migrate tooltip, alert, accordion, toast, popover, modal.
-- [ ] Regenerate goldens; build, test, commit.
+- [x] Migrate tooltip, alert, accordion, toast, popover, modal.
+- [x] Regenerate goldens; build, test, commit.
 
 #### C2.7: cadence — content and shells
 
