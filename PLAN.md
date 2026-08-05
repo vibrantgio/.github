@@ -609,10 +609,10 @@ for one release.
 
 #### B3.3: Leave alias shims in prism
 
-- [ ] Replace `prism/tokens`'s bodies with type aliases and variable re-exports pointing at `spectrum/tokens`.
-- [ ] Do the same for `prism/theme`.
-- [ ] Mark both packages `Deprecated:` with the replacement path.
-- [ ] Confirm prism, pulse, cadence and markdown all still compile with no source changes; commit in prism.
+- [x] Replace `prism/tokens`'s bodies with type aliases and variable re-exports pointing at `spectrum/tokens`.
+- [x] Do the same for `prism/theme`.
+- [x] Mark both packages `Deprecated:` with the replacement path.
+- [x] Confirm prism, pulse, cadence and markdown all still compile with no source changes; commit in prism.
 
 #### B3.4: Move transition into pulse
 
