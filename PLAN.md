@@ -699,9 +699,9 @@ file may import `gofont` when the group is done.
 
 #### C2.2: prism/input
 
-- [ ] Migrate textfield, dropdown, checkbox and radio the same way.
-- [ ] Remove every `gofont` import in the package.
-- [ ] Regenerate goldens; build, test, commit.
+- [x] Migrate textfield, dropdown, checkbox and radio the same way.
+- [x] Remove every `gofont` import in the package.
+- [x] Regenerate goldens; build, test, commit.
 
 #### C2.3: prism remaining packages
 
