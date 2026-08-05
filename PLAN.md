@@ -1033,11 +1033,11 @@ Establish the numbers before changing any component, so every later task has one
 table to work from and reviewers can argue with the source rather than the
 diffs.
 
-- [ ] Record shadcn/ui's control metrics: default and small button heights, input height, base radius, and the spacing step between stacked controls.
-- [ ] Record MD3's equivalents alongside them, and macOS's 28 pt standard control height as the native reference point.
-- [ ] Write the three-way table into `spectrum/tokens/density.go` as a doc comment — it is the justification for every number below it.
-- [ ] Pick `Comfortable` and `Compact` values from that table; keep prism's existing 44 dp as `Comfortable` only if the table supports it.
-- [ ] Commit here in the plan repo if the table changes ADR-005's claims; otherwise commit in spectrum.
+- [x] Record shadcn/ui's control metrics: default and small button heights, input height, base radius, and the spacing step between stacked controls.
+- [x] Record MD3's equivalents alongside them, and macOS's 28 pt standard control height as the native reference point.
+- [x] Write the three-way table into `spectrum/tokens/density.go` as a doc comment — it is the justification for every number below it.
+- [x] Pick `Comfortable` and `Compact` values from that table; keep prism's existing 44 dp as `Comfortable` only if the table supports it.
+- [x] Commit here in the plan repo if the table changes ADR-005's claims; otherwise commit in spectrum.
 
 #### E1.2: The density token
 
