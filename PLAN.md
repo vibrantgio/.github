@@ -644,11 +644,11 @@ is nowhere in the theme to put a typeface, so all seventeen `Props` structs and
 
 #### C1.1: TextStyle and Typography
 
-- [ ] In `spectrum/tokens`, add `TextStyle{Typeface, Weight, Size, LineHeight, Tracking}`.
-- [ ] Add `Typography` with one `TextStyle` per MD3 role — Display/Headline/Title/Label/Body × Large/Medium/Small.
-- [ ] Populate `DefaultTypography` with the MD3 metrics: sizes as today, plus the matching line heights and tracking.
-- [ ] Unit-test that every role has a non-zero size, weight and line height.
-- [ ] Build, test, commit in spectrum.
+- [x] In `spectrum/tokens`, add `TextStyle{Typeface, Weight, Size, LineHeight, Tracking}`.
+- [x] Add `Typography` with one `TextStyle` per MD3 role — Display/Headline/Title/Label/Body × Large/Medium/Small.
+- [x] Populate `DefaultTypography` with the MD3 metrics: sizes as today, plus the matching line heights and tracking.
+- [x] Unit-test that every role has a non-zero size, weight and line height.
+- [x] Build, test, commit in spectrum.
 
 #### C1.2: Make Roboto the default face
 
