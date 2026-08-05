@@ -1223,11 +1223,11 @@ because Gio has no radial gradient. A real blur gives a true radial falloff and
 works for arbitrary shapes, not rectangles only. Whether it *wins* depends on
 whether the cache holds while the glow animates.
 
-- [ ] Prototype a glow that renders the shape offscreen, blurs it, and paints the result.
-- [ ] Compare against the current eight-gradient halo: visual quality, and cost per frame when the glow animates and the cache misses.
-- [ ] Decide. Keep the gradient path if the animated case cannot be cached cheaply — a correct approximation beats a slow exact answer.
-- [ ] Record the decision and its evidence in `pulse/glow`'s package doc either way.
-- [ ] Build, test, commit in pulse.
+- [x] Prototype a glow that renders the shape offscreen, blurs it, and paints the result.
+- [x] Compare against the current eight-gradient halo: visual quality, and cost per frame when the glow animates and the cache misses.
+- [x] Decide. Keep the gradient path if the animated case cannot be cached cheaply — a correct approximation beats a slow exact answer.
+- [x] Record the decision and its evidence in `pulse/glow`'s package doc either way.
+- [x] Build, test, commit in pulse.
 
 ### G-E5: Re-export the foundations
 
