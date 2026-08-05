@@ -1338,11 +1338,11 @@ which is the point: the apps prove the theme carries the whole look.
 
 #### F1.5: mindchat
 
-- [ ] Remove the appended `gofont.Collection()` — this app still mixes both font sets in one shaper (`view.go`).
-- [ ] Migrate per the goal's pattern; confirm the markdown chat bodies and chroma highlighting match the palette, and code spans render in the mono face.
-- [ ] Keep its `depth.Shadow` — E2.2's verdict let mindchat and toast keep theirs — and leave its square-cornered geometry to FX.3 rather than fixing it here.
+- [x] Remove the appended `gofont.Collection()` — this app still mixes both font sets in one shaper (`view.go`).
+- [x] Migrate per the goal's pattern; confirm the markdown chat bodies and chroma highlighting match the palette, and code spans render in the mono face.
+- [x] Keep its `depth.Shadow` — E2.2's verdict let mindchat and toast keep theirs — and leave its square-cornered geometry to FX.3 rather than fixing it here.
 - [ ] Run it; confirm the split pane, modals and streaming indicators.
-- [ ] Build, test, commit.
+- [x] Build, test, commit.
 
 #### F1.6: The mvu examples
 mvu is tier 0, and `mvu/example` is already its own module (tagged
