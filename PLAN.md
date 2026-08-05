@@ -1101,16 +1101,16 @@ FX.3 and the defect register both point here for "when is a shadow
 appropriate at all"; this task owns that verdict, FX.3 owns the geometry of
 the shadows that keep theirs.
 
-- [ ] Decide, per ADR-005, when a shadow is right: it marks what floats and can leave — toast, popover — not what is raised in place, which reads as raised by its surface step. Audit the `depth.Shadow` callers — `cadence/card`'s `Elevated` variant, `cadence/toast`, `workbench/mindchat` — against that criterion and record each verdict.
-- [ ] Keep `pulse/depth` an explicit effect, never a component default; document in its package doc when a shadow is right, when a surface step is, and the cost difference in Gio — a dozen gradient fills per shadow versus one `FillShape` for a step.
-- [ ] Build, test, commit in pulse; commit here if the verdicts change this plan's text.
+- [x] Decide, per ADR-005, when a shadow is right: it marks what floats and can leave — toast, popover — not what is raised in place, which reads as raised by its surface step. Audit the `depth.Shadow` callers — `cadence/card`'s `Elevated` variant, `cadence/toast`, `workbench/mindchat` — against that criterion and record each verdict.
+- [x] Keep `pulse/depth` an explicit effect, never a component default; document in its package doc when a shadow is right, when a surface step is, and the cost difference in Gio — eight gradient fills plus an interior fill per shadow (measured; the earlier "a dozen" was an estimate) versus one `FillShape` for a step.
+- [x] Build, test, commit in pulse; commit here if the verdicts change this plan's text.
 
 #### E2.3: Migrate prism and cadence to the ladder
 
 Split out of the pre-D E2.1, which bundled the token change and the migration
 into one oversized task. E2.2's verdicts come first; this task executes them.
 
-- [ ] cadence: resolve every raised surface through the ladder — card at level 1 (the outlined variant keeps its step-500 stroke; `Elevated` becomes a level-2 fill, its shadow surviving only if E2.2 kept it), modal, popover and tooltip picking their level deliberately (record the choice in each package doc), toast replacing its hand-rolled `Step(300)` fill with a level-2 resolution under its accent tint.
+- [ ] cadence: resolve every raised surface through the ladder — card at level 1 (the outlined variant keeps its step-500 stroke; `Elevated` becomes a level-2 fill, dropping its shadow — E2.2's verdict: a card is raised in place, not floating), modal, popover and tooltip picking their level deliberately (record the choice in each package doc), toast replacing its hand-rolled `Step(300)` fill with a level-2 resolution under its accent tint.
 - [ ] prism: `input/dropdown`'s menu surface takes its level from the ladder rather than flat `Surface`; sweep the other `Surface` consumers for any that are really a raised level.
 - [ ] Regenerate the moved goldens and say so in the commit body; build, test, commit in prism and cadence.
 ### G-E3: Motion and accessibility as theme inputs
@@ -1383,7 +1383,7 @@ three callers get square dark wedges behind their rounded corners.
 
 - [ ] Take a corner radius on the shadow call and clip the interior to a matching `clip.RRect`.
 - [ ] Add an opacity control, and drop `cadence/toast`'s `PushOpacity` workaround once it exists.
-- [ ] Update `cadence/card`, `cadence/toast` and `workbench/mindchat` to pass the radius they already round their foregrounds to.
+- [ ] Update `cadence/toast` and `workbench/mindchat` to pass the radius they already round their foregrounds to — `cadence/card` drops out: E2.2 ruled its `Elevated` shadow a surface step, and E2.3 removes it.
 - [ ] Golden-test a rounded surface over a shadow — the wedges are exactly what a golden catches and no unit test will.
 - [ ] Regenerate the moved goldens in this task and say so in the commit body; build, test, commit.
 - [ ] Strike the register entry. Coordinate with E2.2, which decides when a shadow is appropriate at all — this task only fixes the geometry of one that is.
