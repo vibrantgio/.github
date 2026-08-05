@@ -995,12 +995,12 @@ exist yet.
 
 #### E0.1: The token serialiser
 
-- [ ] Create `spectrum/export`: given a `theme.Theme` emission, write `theme.json` and the `:root` / dark token sheet of `styles.css`.
-- [ ] Emit the token families Claude Design expects: `--color-<role>-100…900` ramps plus the pinned bases (`--color-bg`, `--color-surface`, `--color-text`, `--color-accent`, …) per ADR-007 — the exact families the reference project documents — then `--font-*`, `--space-*`, `--radius-*`, and `--shadow-*` from today's elevation levels — E2.1 replaces those with surface roles and E5.1 re-emits them.
-- [ ] Record the generative parameters in `theme.json` — seed hue, saturation, any pinned roles, base radius, heading and body faces — so the theme is reproducible from the file alone. Density and the motion set belong here too but are E5.1's; they do not exist yet.
-- [ ] Write a round-trip test: parse the emitted CSS back and assert every value matches the Go token it came from, so the two cannot drift.
-- [ ] Add `cmd/vg-tokens` writing the pair into a target directory.
-- [ ] Build, test, commit in spectrum.
+- [x] Create `spectrum/export`: given a `theme.Theme` emission, write `theme.json` and the `:root` / dark token sheet of `styles.css`.
+- [x] Emit the token families Claude Design expects: `--color-<role>-100…900` ramps plus the pinned bases (`--color-bg`, `--color-surface`, `--color-text`, `--color-accent`, …) per ADR-007 — the exact families the reference project documents — then `--font-*`, `--space-*`, `--radius-*`, and `--shadow-*` from today's elevation levels — E2.1 replaces those with surface roles and E5.1 re-emits them.
+- [x] Record the generative parameters in `theme.json` — seed hue, saturation, any pinned roles, base radius, heading and body faces — so the theme is reproducible from the file alone. Density and the motion set belong here too but are E5.1's; they do not exist yet.
+- [x] Write a round-trip test: parse the emitted CSS back and assert every value matches the Go token it came from, so the two cannot drift.
+- [x] Add `cmd/vg-tokens` writing the pair into a target directory.
+- [x] Build, test, commit in spectrum.
 
 #### E0.2: The foundation pages
 
