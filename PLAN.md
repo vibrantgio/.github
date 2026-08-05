@@ -968,7 +968,10 @@ palette, so choosing your own colours means giving up OS dark-mode tracking.
 Where MD3 assumes touch and Android, diverge deliberately and say why. This is
 what makes the system Vibrant Gio's rather than a port.
 
-G-E1 is firm. G-E2 and G-E3 stay provisional; re-cut them when Phase D lands.
+G-E1 is firm. G-E2 and G-E3 were provisional until Phase D landed; both have
+now been re-cut against ADR-007 as shipped — the MD3 vocabulary they were
+first written in (`SurfaceContainer` roles, WCAG AAA gates) no longer exists
+to map to.
 
 ![[#ADR-005: MD3's system, not MD3's look]]
 
@@ -1062,42 +1065,91 @@ diffs.
 - [x] Add a golden per component at each density.
 - [x] Build, test, commit in cadence.
 ### G-E2: Tonal elevation
+The pre-D cut of this goal asked E2.1 to "map each `ElevationLevel` to its
+`SurfaceContainer` role". No such role exists any more: ADR-007 retired MD3's
+role tables, and the landed `ColorTokens` carries ramps, pins and a thin
+semantic layer instead. What survives is the idea ADR-005 kept — on desktop a
+raised surface reads as raised by tint first and shadow second — and ADR-007
+gives it a sharper form than MD3 ever had: elevation is to surfaces what D2.3
+made states to fills, a walk up the neutral ramp. Level 0 is the app
+background (the `bg` pin on the step-100 ground), level 1 the card surface
+(step 200), each level above one step further. Because the dark ramp is a
+paired scale, a raised surface lightens in dark mode and darkens in light
+mode with no second rule — MD3's dark-mode surface tint, the one thing tonal
+elevation existed to encode, falls out of the pairing for free.
 
-#### E2.1: Elevation becomes a surface role
+The landed code is already halfway there without saying so: modal, popover
+and tooltip all paint `Surface` (step 200), `cadence/toast` hand-rolls a
+step-300 fill under its shadow, and only card and toast cast shadows at all.
+What is missing is the token that names the ladder: `ElevationScale` still
+holds MD3's six shadow depths in dp, `theme.Theme.Elevation` emits it to no
+subscribers, and `pulse/depth` reads the package variable directly. Shadows
+are not deleted — ADR-005's desktop reading is subtle shadows *plus* surface
+steps — they become the secondary, opt-in cue E2.2 scopes.
 
-- [ ] Map each `ElevationLevel` to its `SurfaceContainer` role rather than a shadow depth in dp.
-- [ ] Migrate prism and cadence surfaces to the tonal mapping.
-- [ ] Regenerate goldens; build, test, commit.
+#### E2.1: Elevation becomes a surface step
+
+- [ ] Redefine `ElevationScale` in `spectrum/tokens`: each level carries the neutral ramp step of its surface fill — level 0 the `bg` pin over the step-100 ground, level 1 step 200, level 2 step 300, level 3 step 400 — alongside its shadow depth in dp, which survives as the secondary cue. Keep all six named levels so `pulse/depth` and the cadence call sites still compile; levels 4 and 5 clamp to level 3's step, exactly D2.3's clamp, with a doc comment marking them for F3.3's shim sweep — desktop has no six-storey stack.
+- [ ] Add the resolver from (`ColorTokens`, `ElevationLevel`) to the surface colour; test that every level's fill sits on the neutral ramp, that the clamp holds, and that D2.3's state walks compose on top — hover on a level-1 surface is step 300 in both modes, courtesy of the paired scales.
+- [ ] Keep `theme.Theme.Elevation` emitting the remapped scale — the observable finally carries something worth subscribing to.
+- [ ] Leave the `--shadow-*` emission in `spectrum/export` untouched; E5.1 replaces it with the surface roles once the migration lands, per E0.1's note.
+- [ ] Build, test, commit in spectrum.
 
 #### E2.2: Shadows become opt-in vibrancy
 
-- [ ] Keep `pulse/depth` as an explicit effect, not a default.
-- [ ] Document when a shadow is right and when tonal elevation is, and the cost difference in Gio.
-- [ ] Build, test, commit.
+FX.3 and the defect register both point here for "when is a shadow
+appropriate at all"; this task owns that verdict, FX.3 owns the geometry of
+the shadows that keep theirs.
 
+- [ ] Decide, per ADR-005, when a shadow is right: it marks what floats and can leave — toast, popover — not what is raised in place, which reads as raised by its surface step. Audit the `depth.Shadow` callers — `cadence/card`'s `Elevated` variant, `cadence/toast`, `workbench/mindchat` — against that criterion and record each verdict.
+- [ ] Keep `pulse/depth` an explicit effect, never a component default; document in its package doc when a shadow is right, when a surface step is, and the cost difference in Gio — a dozen gradient fills per shadow versus one `FillShape` for a step.
+- [ ] Build, test, commit in pulse; commit here if the verdicts change this plan's text.
+
+#### E2.3: Migrate prism and cadence to the ladder
+
+Split out of the pre-D E2.1, which bundled the token change and the migration
+into one oversized task. E2.2's verdicts come first; this task executes them.
+
+- [ ] cadence: resolve every raised surface through the ladder — card at level 1 (the outlined variant keeps its step-500 stroke; `Elevated` becomes a level-2 fill, its shadow surviving only if E2.2 kept it), modal, popover and tooltip picking their level deliberately (record the choice in each package doc), toast replacing its hand-rolled `Step(300)` fill with a level-2 resolution under its accent tint.
+- [ ] prism: `input/dropdown`'s menu surface takes its level from the ladder rather than flat `Surface`; sweep the other `Surface` consumers for any that are really a raised level.
+- [ ] Regenerate the moved goldens and say so in the commit body; build, test, commit in prism and cadence.
 ### G-E3: Motion and accessibility as theme inputs
+This goal survives Phase D better than G-E2 did — nothing here leaned on the
+retired role tables — but the ground truth moved anyway. `tokens.Motion`
+holds CSS easing names that nothing consumes: toast fades over a local
+400 ms constant, tooltip delays over a local 500 ms, and `pulse/motion`
+counts its own frames. The a11y observables live a tier too high —
+`spectrum/preferences` imports `prism/a11y`, the upward edge
+`scripts/check-layers.sh` records against E3.2. And D2.4 left the
+high-contrast gate as a skipped test naming E3.3, in ADR-007's APCA terms,
+where the pre-D cut still asked for a WCAG AAA assertion.
 
 #### E3.1: MD3 motion
 
-- [ ] Replace the CSS easing names with MD3's standard and emphasized easing sets.
-- [ ] Add MD3's duration stops alongside them.
-- [ ] Add spring specifications for the pulse physics path.
-- [ ] Update pulse to consume them; regenerate goldens; build, test, commit.
+ADR-005 takes MD3's motion semantics; this is where they land. It is also an
+ADR-006 seam — spectrum's widened `MotionScale` is tagged before pulse and
+cadence consume it.
+
+- [ ] Replace `MotionScale`'s CSS easing presets with MD3's standard and emphasized sets (standard, accelerate, decelerate, in both families), keeping the `Bezier` shape the export can already serialise.
+- [ ] Map the five existing duration stops onto MD3's duration roles rather than adopting all sixteen — desktop wants fewer stops and faster ones; record the mapping and its reasoning in the token doc comment the way `density.go` records its metrics table.
+- [ ] Add spring specifications — mass, stiffness, damping presets — for the pulse physics path, coordinating with FX.2, whose defaults fix decides what a usable preset even is.
+- [ ] Wire the first consumers, because today there are none: `pulse/motion`'s frame counts, toast's `fadeWindow` and tooltip's `DefaultDelay` resolve from `Theme.Motion` rather than local constants.
+- [ ] Regenerate the moved goldens; build, test, commit in spectrum, then pulse and cadence.
 
 #### E3.2: Accessibility preferences reach the theme
 
-- [ ] Route `prism/a11y`'s reduced-motion and contrast observables into the theme so components read one source.
-- [ ] Move the a11y source into spectrum if the layering requires it; leave an alias in prism.
-- [ ] Test that reduced motion makes animated components snap to their target.
-- [ ] Build, test, commit.
+- [ ] Move the a11y source into spectrum as `spectrum/a11y`, leaving a deprecated alias package in prism for F3.3's shim sweep. The layering requires the move: `spectrum/preferences` already imports `prism/a11y`, the recorded upward edge in `scripts/check-layers.sh`.
+- [ ] Delete the `spectrum->prism` entry from that script's `RECORDED_EDGES` and its `recorded_reason`, and commit that here — the lint drops back to one recorded edge (B3.4's shim, which F3.3 removes).
+- [ ] Route the observables into the theme so components read one source: `LiveTheme` composes `ReduceMotion` into the Motion emission — durations to zero, animated components snap — and `HighContrast` into the Color emission, selecting E3.3's variant. Until E3.3 lands the hook selects the default palette, so the wiring is testable now.
+- [ ] Test that reduced motion snaps: an animated component under `ReduceMotion` reaches its target in one frame.
+- [ ] Build, test, commit in spectrum and prism.
 
 #### E3.3: High-contrast palette
 
-- [ ] Derive a high-contrast variant from the same seed by widening tone separation.
-- [ ] Switch to it when the OS reports increased contrast.
-- [ ] Assert WCAG AAA on the variant's On*/base pairs.
-- [ ] Build, test, commit.
-
+- [ ] Derive the variant from the same seed — a `FromSeed` option, not a third hand-written scheme — by widening tone separation where it counts: deepen the 700 text step toward the 900 depth, resolve `Divider` from step 500 rather than 300, and push each pinned base's on-colour further from its base.
+- [ ] Gate it in APCA, not WCAG AAA — ADR-007 retired ratio gates: un-skip `TestAPCAContrastGateHighContrast` in `spectrum/tokens/contrast_test.go`, the gap D2.4 recorded, with the variant's floors above the defaults — step 700 at Lc ≥ 90 where the default asks 60, pinned on-colours at Lc ≥ 75 — and report WCAG AAA alongside without gating on it, ADR-007's arrangement exactly.
+- [ ] Switch to the variant when the OS reports increased contrast, through E3.2's observable — flip the hook E3.2 left.
+- [ ] Build, test, commit in spectrum.
 ### G-E4: Blur
 Gio exposes no blur primitive and no custom shaders — `op/paint` offers
 `ColorOp`, `ImageOp`, `LinearGradientOp`, `PushOpacity`, and an `ImageFilter`
