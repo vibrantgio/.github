@@ -924,8 +924,8 @@ colour the token sheet can emit.
 
 #### D2.5: Migrate prism to the ramps
 
-- [ ] Replace flat-token uses with the semantic alias or ramp step that matches each surface's meaning, resolving states through D2.3.
-- [ ] Regenerate goldens; build, test, commit.
+- [x] Replace flat-token uses with the semantic alias or ramp step that matches each surface's meaning, resolving states through D2.3.
+- [x] Regenerate goldens; build, test, commit.
 
 #### D2.6: Migrate cadence to the ramps
 
