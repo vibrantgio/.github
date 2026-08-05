@@ -1016,11 +1016,11 @@ so a theme change reflows every page.
 
 #### E0.3: Push to Claude Design
 
-- [ ] Run `cmd/vg-tokens` into `design/`, then push it to the Vibrant Gio design project with DesignSync — plan first, write the sentinel, write the files, re-arm the sentinel.
-- [ ] Open the project and confirm the foundation pages render as generated.
-- [ ] Write `scripts/push-design.sh` capturing the regenerate-and-push sequence so later phases re-push in one step.
-- [ ] Record the project UUID here in the plan repo, next to the script.
-- [ ] Commit here.
+- [x] Run `cmd/vg-tokens` into `design/`, then push it to the Vibrant Gio design project with DesignSync — plan first, write the sentinel, write the files, re-arm the sentinel.
+- [x] Open the project and confirm the foundation pages render as generated.
+- [x] Write `scripts/push-design.sh` capturing the regenerate-and-push sequence so later phases re-push in one step.
+- [x] Record the project UUID here in the plan repo, next to the script.
+- [x] Commit here.
 
 ### G-E1: Density
 Desktop density is the sharpest divergence from MD3, and the one users feel
