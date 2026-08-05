@@ -675,10 +675,10 @@ both gets no size hierarchy at all.
 Four workbench applications import `style`, not zero — see the correction in
 ADR-003 — so these markers land on shipped code.
 
-- [ ] Mark every exported symbol in `style` `Deprecated:` with the `spectrum/tokens.Typography` replacement.
-- [ ] Fix the `H2` size to 60 so the deprecated path is at least correct.
-- [ ] Note in `style`'s README that it is frozen.
-- [ ] Build, test, commit in style.
+- [x] Mark every exported symbol in `style` `Deprecated:` with the `spectrum/tokens.Typography` replacement.
+- [x] Fix the `H2` size to 60 so the deprecated path is at least correct.
+- [x] Note in `style`'s README that it is frozen.
+- [x] Build, test, commit in style.
 
 ### G-C2: Migrate components off gofont
 
