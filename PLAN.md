@@ -1319,10 +1319,10 @@ which is the point: the apps prove the theme carries the whole look.
 
 #### F1.2: feeds
 
-- [ ] Remove the `gofont` shaper and every per-component `Shaper` pass-through — `app.go` builds it, `sidebar.go` alone threads it through four signatures — and the sim and wiring tests that construct their own follow.
-- [ ] Migrate per the goal's pattern; `articles.go` drives components through static `Render` calls that become theme-driven here.
+- [x] Remove the `gofont` shaper and every per-component `Shaper` pass-through — `app.go` builds it, `sidebar.go` alone threads it through four signatures — and the sim and wiring tests that construct their own follow.
+- [x] Migrate per the goal's pattern; `articles.go` drives components through static `Render` calls that become theme-driven here.
 - [ ] Run it; confirm the table, tabs, modals and toasts render correctly at density, and that pagination — which dropped its prism/button bridge for density's sake (E1.4) — still matches the buttons beside it.
-- [ ] Build, test, commit.
+- [x] Build, test, commit.
 
 #### F1.3: watchlist
 
