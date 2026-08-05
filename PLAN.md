@@ -1049,11 +1049,11 @@ diffs.
 
 #### E1.3: Density through prism
 
-- [ ] Replace the hardcoded `minHeight = 44dp` in `prism/button` with the density-derived value.
-- [ ] Apply density to input, checkbox, radio, dropdown and list row height.
-- [ ] Apply density to `prism/icon`'s default sizes — an icon that stays put while its control shrinks is the tell that density is only half-wired.
-- [ ] Add a golden per component at each density.
-- [ ] Build, test, commit in prism.
+- [x] Replace the hardcoded `minHeight = 44dp` in `prism/button` with the density-derived value.
+- [x] Apply density to input, checkbox, radio, dropdown and list row height.
+- [x] Apply density to `prism/icon`'s default sizes — an icon that stays put while its control shrinks is the tell that density is only half-wired.
+- [x] Add a golden per component at each density.
+- [x] Build, test, commit in prism.
 
 #### E1.4: Density through cadence
 
