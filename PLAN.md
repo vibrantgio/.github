@@ -597,9 +597,9 @@ for one release.
 
 #### B3.1: Move the tokens into spectrum
 
-- [ ] Copy `prism/tokens/*.go` (including tests) to `.repos/spectrum/tokens/`.
-- [ ] Keep the package name `tokens` and every exported identifier unchanged.
-- [ ] `go build ./... && go test ./...` in spectrum; commit.
+- [x] Copy `prism/tokens/*.go` (including tests) to `.repos/spectrum/tokens/`.
+- [x] Keep the package name `tokens` and every exported identifier unchanged.
+- [x] `go build ./... && go test ./...` in spectrum; commit.
 
 #### B3.2: Move the theme contract into spectrum
 
