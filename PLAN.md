@@ -1326,9 +1326,9 @@ which is the point: the apps prove the theme carries the whole look.
 
 #### F1.3: watchlist
 
-- [ ] Same migration per the goal's pattern — `maincontent.go` and the modals lean hardest on the deprecated aliases and static `Render` calls; keep the `wiring_test.go` AutoConnect count correct.
+- [x] Same migration per the goal's pattern — `maincontent.go` and the modals lean hardest on the deprecated aliases and static `Render` calls; keep the `wiring_test.go` AutoConnect count correct.
 - [ ] Run it; confirm CRUD, context menus and popovers.
-- [ ] Build, test, commit.
+- [x] Build, test, commit.
 
 #### F1.4: sitedocs
 
