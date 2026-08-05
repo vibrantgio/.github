@@ -869,12 +869,12 @@ seed `#6750A4`, it costs 41 chroma and 20° of hue at the light end — tone 100
 lands on `#ffefff` instead of white, tone 0 on `#01003f` instead of black.
 Tones 10–70 are unaffected and already exact.
 
-- [ ] Implement chroma reduction at constant L\* and constant OKLCh hue to bring an out-of-gamut colour into sRGB.
-- [ ] Replace every independent per-channel clamp on the conversion path.
-- [ ] Test the hard cases: saturated blues and purples at tones 0, 90, 95, 99 and 100.
-- [ ] Assert tone 100 is exactly white and tone 0 exactly black, for every hue.
-- [ ] Assert a mapped result is always in gamut and its hue never moves more than 1°.
-- [ ] Build, test, commit.
+- [x] Implement chroma reduction at constant L\* and constant OKLCh hue to bring an out-of-gamut colour into sRGB.
+- [x] Replace every independent per-channel clamp on the conversion path.
+- [x] Test the hard cases: saturated blues and purples at tones 0, 90, 95, 99 and 100.
+- [x] Assert tone 100 is exactly white and tone 0 exactly black, for every hue.
+- [x] Assert a mapped result is always in gamut and its hue never moves more than 1°.
+- [x] Build, test, commit.
 
 #### D1.4: Tones and contrast
 
