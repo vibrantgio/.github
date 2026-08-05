@@ -1190,11 +1190,11 @@ Three successive box blurs approximate a Gaussian to within a few percent —
 the same approach CSS implementations use — and a separable box blur is
 trivially parallelisable.
 
-- [ ] Create `pulse/blur`: a separable 3-pass box blur over `image.NRGBA`, horizontal then vertical, parallelised across `runtime.NumCPU()`.
-- [ ] Test convergence against a reference Gaussian: compare per-channel variance reduction and assert the difference stays within a few percent.
-- [ ] Test the edges — a blur that darkens or wraps at the borders is the usual bug; assert a uniform input stays uniform right up to the edge.
-- [ ] Benchmark against the table above and record the numbers in the package doc.
-- [ ] Build, test, commit in pulse.
+- [x] Create `pulse/blur`: a separable 3-pass box blur over `image.NRGBA`, horizontal then vertical, parallelised across `runtime.NumCPU()`.
+- [x] Test convergence against a reference Gaussian: compare per-channel variance reduction and assert the difference stays within a few percent.
+- [x] Test the edges — a blur that darkens or wraps at the borders is the usual bug; assert a uniform input stays uniform right up to the edge.
+- [x] Benchmark against the table above and record the numbers in the package doc.
+- [x] Build, test, commit in pulse.
 
 #### E4.2: Cached blur for static imagery
 
