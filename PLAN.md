@@ -1312,10 +1312,10 @@ which is the point: the apps prove the theme carries the whole look.
 
 #### F1.1: The apps that are already close
 
-- [ ] Migrate todos, iconbrowser and launcher per the goal's pattern.
-- [ ] Drop their manual `style.FontFaces()` shaper construction — typography now comes from the theme, and these three are among the last consumers holding ADR-003's `style` freeze window open.
+- [x] Migrate todos, iconbrowser and launcher per the goal's pattern.
+- [x] Drop their manual `style.FontFaces()` shaper construction — typography now comes from the theme, and these three are among the last consumers holding ADR-003's `style` freeze window open.
 - [ ] Run each; confirm it renders in Roboto, switches light/dark live, and sits at the 36 dp Comfortable control height rather than the pre-E 44.
-- [ ] Commit in workbench.
+- [x] Commit in workbench.
 
 #### F1.2: feeds
 
