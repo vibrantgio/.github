@@ -1057,10 +1057,10 @@ diffs.
 
 #### E1.4: Density through cadence
 
-- [ ] Apply density to table row height, navbar height, sidebar item height, tabs and pagination controls.
-- [ ] Check the overlays — modal, popover, tooltip, toast — for control metrics that should follow density too.
-- [ ] Add a golden per component at each density.
-- [ ] Build, test, commit in cadence.
+- [x] Apply density to table row height, navbar height, sidebar item height, tabs and pagination controls.
+- [x] Check the overlays — modal, popover, tooltip, toast — for control metrics that should follow density too.
+- [x] Add a golden per component at each density.
+- [x] Build, test, commit in cadence.
 ### G-E2: Tonal elevation
 
 #### E2.1: Elevation becomes a surface role
