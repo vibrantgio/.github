@@ -896,11 +896,11 @@ states as step walks, and APCA as the contrast gate.
 
 #### D2.2: Derive paired ramps from a seed
 
-- [ ] Add `FromSeed(seed color.NRGBA) (light, dark ColorTokens)`: both ramps per role on ADR-007's shared lightness scale, dark as the paired scale — same step, same job — with the primary base pinned to the seed exactly.
-- [ ] Golden-test the default seed `#6750A4` against a recorded palette; the pinned base must reproduce the seed byte-for-byte.
-- [ ] Replace `DefaultLight`/`DefaultDark` with values derived from the default seed.
-- [ ] Remove the verbatim Tailwind ramp from the semantic layer. Per ADR-002 it may survive only as an optional named palette provider — never behind a role name, which is the arrangement that made the tokens three design systems in a trench coat.
-- [ ] Build, test, commit.
+- [x] Add `FromSeed(seed color.NRGBA) (light, dark ColorTokens)`: both ramps per role on ADR-007's shared lightness scale, dark as the paired scale — same step, same job — with the primary base pinned to the seed exactly.
+- [x] Golden-test the default seed `#6750A4` against a recorded palette; the pinned base must reproduce the seed byte-for-byte.
+- [x] Replace `DefaultLight`/`DefaultDark` with values derived from the default seed.
+- [x] Remove the verbatim Tailwind ramp from the semantic layer. Per ADR-002 it may survive only as an optional named palette provider — never behind a role name, which is the arrangement that made the tokens three design systems in a trench coat.
+- [x] Build, test, commit.
 
 #### D2.3: States as step walks
 
