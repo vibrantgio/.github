@@ -775,8 +775,8 @@ package wears MD3's names over Tailwind's values, ships thirteen flat colours,
 and exposes no way for an application to supply a palette at all.
 
 G-D1 is firm — the approach was validated against the MD3 default seed before
-this plan was written. G-D2 and G-D3 are provisional; re-cut them against what
-Phases B and C actually landed before starting G-D2.
+this plan was written. G-D2 was re-cut by D0.1 to ADR-007's model. G-D3 stays
+provisional; re-cut it against what Phase D actually lands before starting it.
 
 ![[#ADR-002: CIELAB tone with OKLCh hue and chroma]]
 
@@ -810,24 +810,28 @@ If spectrum's ramp and that surface's ramp disagree, every prototype speaks a
 different vocabulary from the app it is prototyping — the exact incoherence this
 plan exists to remove.
 
+D0.1 has run and decided: the functional family wins, in Claude Design's nine-step vocabulary, with Radix's paired dark scales and APCA guarantees folded in.
+
+![[#ADR-007: Nine functional steps, paired dark ramps, APCA contrast]]
+
 #### D0.1: Spike — choose the ramp model and the contrast metric
 
 Timeboxed. The deliverable is a recommendation with evidence, not an
 implementation — write no code into `spectrum`. A throwaway script is fine and
 should be thrown away.
 
-- [ ] Read each model's own account of itself: Radix's twelve-step purposes and paired dark scales, MD3's role→tone table, and the Claude Design project's readme and `theme.json` for the 100–900 OKLCH ramp.
-- [ ] If that last project is not reachable from this machine, say so plainly and decide between the two models that are. Do not block on it, and do not guess at a ramp you could not read.
-- [ ] Lay all three against the same surfaces: app background, card, hover, pressed, subtle border, strong border, solid fill, low-contrast text, body text.
-- [ ] Note where nine steps cannot express something twelve can, and whether prism and cadence actually need that distinction.
-- [ ] Generate all three mappings from the `#6750A4` seed with a throwaway script and compare the resulting surfaces side by side, light and dark.
-- [ ] Evaluate APCA (Lc) against WCAG 2 ratios on the light-on-dark pairs specifically — WCAG 2 is known to over-rate them, and spectrum tracks OS dark mode by default.
-- [ ] Weigh the prototyping argument explicitly: matching Claude Design's ramp keeps one vocabulary across the app and the design surface, and that is worth real points against a model that scores better in isolation.
-- [ ] Decide, and write the outcome into `## Reference` as ADR-007, embedded into Phase D.
-- [ ] Amend ADR-002 wherever the decision contradicts it. That ADR currently commits to keeping "MD3's role vocabulary and its tone-assignment tables", which a functional-step model replaces outright. Its *mathematics* — CIELAB tone with OKLCh hue and chroma — survives all three models and is not reopened here.
-- [ ] Re-cut G-D2 to match the decision, and adjust D2.4's contrast target if APCA wins.
-- [ ] Check the three later places that already assume a ramp shape — E0.1's `--color-*` token families, E0.2's colour page and its step-purpose notes, and G1.2's class vocabulary — and re-cut whichever no longer reads true.
-- [ ] Commit in the plan repo.
+- [x] Read each model's own account of itself: Radix's twelve-step purposes and paired dark scales, MD3's role→tone table, and the Claude Design project's readme and `theme.json` for the 100–900 OKLCH ramp.
+- [x] If that last project is not reachable from this machine, say so plainly and decide between the two models that are. Do not block on it, and do not guess at a ramp you could not read.
+- [x] Lay all three against the same surfaces: app background, card, hover, pressed, subtle border, strong border, solid fill, low-contrast text, body text.
+- [x] Note where nine steps cannot express something twelve can, and whether prism and cadence actually need that distinction.
+- [x] Generate all three mappings from the `#6750A4` seed with a throwaway script and compare the resulting surfaces side by side, light and dark.
+- [x] Evaluate APCA (Lc) against WCAG 2 ratios on the light-on-dark pairs specifically — WCAG 2 is known to over-rate them, and spectrum tracks OS dark mode by default.
+- [x] Weigh the prototyping argument explicitly: matching Claude Design's ramp keeps one vocabulary across the app and the design surface, and that is worth real points against a model that scores better in isolation.
+- [x] Decide, and write the outcome into `## Reference` as ADR-007, embedded into Phase D.
+- [x] Amend ADR-002 wherever the decision contradicts it. That ADR currently commits to keeping "MD3's role vocabulary and its tone-assignment tables", which a functional-step model replaces outright. Its *mathematics* — CIELAB tone with OKLCh hue and chroma — survives all three models and is not reopened here.
+- [x] Re-cut G-D2 to match the decision, and adjust D2.4's contrast target if APCA wins.
+- [x] Check the three later places that already assume a ramp shape — E0.1's `--color-*` token families, E0.2's colour page and its step-purpose notes, and G1.2's class vocabulary — and re-cut whichever no longer reads true.
+- [x] Commit in the plan repo.
 
 ### G-D1: The colour engine
 Built in `spectrum/color`, with no external dependency. The CIELAB conversion
@@ -879,49 +883,59 @@ Tones 10–70 are unaffected and already exact.
 - [ ] Test that tone is monotonic in luminance across all thirteen MD3 stops.
 - [ ] Regression-test the `#6750A4` palette: tone 40 must reproduce the seed exactly.
 - [ ] Build, test, commit.
-### G-D2: The role set
+### G-D2: The functional ramps
+Re-cut by D0.1 to ADR-007's model: nine-step functional ramps (100–900) with
+pinned bases, a paired dark ramp instead of a second role table, interaction
+states as step walks, and APCA as the contrast gate.
 
-#### D2.1: Define the full MD3 role set
+#### D2.1: Define the ramp vocabulary
 
-- [ ] Extend `ColorTokens` to the full set: Primary/Secondary/Tertiary/Error each with On, Container and OnContainer; Surface with the five SurfaceContainer levels; OnSurface, OnSurfaceVariant; Outline, OutlineVariant; InverseSurface, InverseOnSurface, InversePrimary; Scrim, Shadow.
-- [ ] Keep every field name currently in use so nothing breaks.
+- [ ] Extend `ColorTokens` to ADR-007's shape: a nine-step `Ramp` type (steps 100–900); ramps for Neutral, Primary, Secondary, Tertiary and Error; a pinned base per accent role; and the thin semantic layer — background, surface, text, divider — resolved from ramp steps.
+- [ ] Keep every field name currently in use as an alias into a ramp step or a pin, so nothing breaks; mark the MD3-only names deprecated for F3.3's shim deletion.
 - [ ] Build, test, commit.
 
-#### D2.2: Derive a palette from a seed
+#### D2.2: Derive paired ramps from a seed
 
-- [ ] Add `FromSeed(seed color.NRGBA) (light, dark ColorTokens)` using the MD3 tone assignments.
-- [ ] Golden-test the default seed against a recorded palette.
+- [ ] Add `FromSeed(seed color.NRGBA) (light, dark ColorTokens)`: both ramps per role on ADR-007's shared lightness scale, dark as the paired scale — same step, same job — with the primary base pinned to the seed exactly.
+- [ ] Golden-test the default seed `#6750A4` against a recorded palette; the pinned base must reproduce the seed byte-for-byte.
 - [ ] Replace `DefaultLight`/`DefaultDark` with values derived from the default seed.
 - [ ] Remove the verbatim Tailwind ramp from the semantic layer. Per ADR-002 it may survive only as an optional named palette provider — never behind a role name, which is the arrangement that made the tokens three design systems in a trench coat.
 - [ ] Build, test, commit.
 
-#### D2.3: State layers
+#### D2.3: States as step walks
 
-- [ ] Add hover, focus, pressed, dragged and disabled opacity tokens.
-- [ ] Add a helper that composites a state layer over a role colour.
+ADR-007 replaces MD3's alpha state layers: hover and pressed are adjacent ramp
+steps relative to the ground, which keeps every state a real, addressable
+colour the token sheet can emit.
+
+- [ ] Add a resolver from (role, ground, state) to a colour: hover one step past the ground, pressed and selected two, solid-fill states walking from the pin toward 900.
+- [ ] Keep disabled as an opacity and focus as the focus-ring colour; dragged follows pressed.
+- [ ] Test that resolved states stay on the ramp and are monotonic along it.
 - [ ] Build, test, commit.
 
 #### D2.4: Contrast conformance
 
-- [ ] Test that every On*/base pair meets WCAG AA in both light and dark.
+- [ ] Add an APCA (Lc) helper alongside D1.4's WCAG helpers.
+- [ ] Test ADR-007's guarantees in both ramps: step 900 at Lc ≥ 90 and step 700 at Lc ≥ 60 over the step-100 and step-200 grounds; each pinned base's on-colour at Lc ≥ 60 over the base.
+- [ ] Report WCAG 2 AA for the same pairs alongside — conformance claims cite it — without gating on it.
+- [ ] Fix the scale tunings that fail: the spike already measured light-mode 900-on-200 at Lc 87, so the 900 stop deepens.
 - [ ] Test the same for the high-contrast variant once E3.3 lands, or record the gap.
-- [ ] Fix any tone assignment that fails; commit.
+- [ ] Commit.
 
-#### D2.5: Migrate prism to the new roles
+#### D2.5: Migrate prism to the ramps
 
-- [ ] Replace flat-token uses with the role that matches each surface's meaning.
+- [ ] Replace flat-token uses with the semantic alias or ramp step that matches each surface's meaning, resolving states through D2.3.
 - [ ] Regenerate goldens; build, test, commit.
 
-#### D2.6: Migrate cadence to the new roles
+#### D2.6: Migrate cadence to the ramps
 
 - [ ] Same, across all eighteen packages.
 - [ ] Regenerate goldens; build, test, commit.
 
-#### D2.7: Migrate pulse and markdown to the new roles
+#### D2.7: Migrate pulse and markdown to the ramps
 
-- [ ] Same, including `pulse/transition`'s per-field interpolation, which must cover every new role.
+- [ ] Same, including `pulse/transition`'s per-field interpolation, which must cover every ramp step and pin.
 - [ ] Regenerate goldens; build, test, commit.
-
 ### G-D3: Let applications and the OS drive the palette
 
 #### D3.1: Palette injection
@@ -982,7 +996,7 @@ exist yet.
 #### E0.1: The token serialiser
 
 - [ ] Create `spectrum/export`: given a `theme.Theme` emission, write `theme.json` and the `:root` / dark token sheet of `styles.css`.
-- [ ] Emit the token families Claude Design expects: `--color-*` (role bases plus their tonal ramps, in whatever shape ADR-007 chose), `--font-*`, `--space-*`, `--radius-*`, and `--shadow-*` from today's elevation levels — E2.1 replaces those with surface roles and E5.1 re-emits them.
+- [ ] Emit the token families Claude Design expects: `--color-<role>-100…900` ramps plus the pinned bases (`--color-bg`, `--color-surface`, `--color-text`, `--color-accent`, …) per ADR-007 — the exact families the reference project documents — then `--font-*`, `--space-*`, `--radius-*`, and `--shadow-*` from today's elevation levels — E2.1 replaces those with surface roles and E5.1 re-emits them.
 - [ ] Record the generative parameters in `theme.json` — seed hue, saturation, any pinned roles, base radius, heading and body faces — so the theme is reproducible from the file alone. Density and the motion set belong here too but are E5.1's; they do not exist yet.
 - [ ] Write a round-trip test: parse the emitted CSS back and assert every value matches the Go token it came from, so the two cannot drift.
 - [ ] Add `cmd/vg-tokens` writing the pair into a target directory.
@@ -993,7 +1007,7 @@ exist yet.
 Static HTML that reads only from the emitted token sheet — no hard-coded values,
 so a theme change reflows every page.
 
-- [ ] Generate `foundations/color.html`: each role with its full ramp, annotated in ADR-007's own terms — step purposes if it chose a functional ramp, tone values if it chose MD3's — and the measured contrast of each text pair against its ground.
+- [ ] Generate `foundations/color.html`: each role with its full 100–900 ramp and its pin, annotated with ADR-007's step purposes — 100–300 tinted fills and hovers, 500 mid, 700–900 text and pressed — and the measured APCA Lc (with the WCAG ratio alongside) of each text pair against its ground.
 - [ ] Generate `foundations/type.html`: every type role at its real size, weight, line height and tracking, in the actual faces.
 - [ ] Generate `foundations/layout.html`: the spacing scale, radius scale and elevation steps as rendered specimens. Elevation as it stands today; E5.1 re-renders it once E2.1 has remapped it to surface roles.
 - [ ] Generate `readme.md` for the project describing the system and naming the token families — the file a human or an agent reads first.
@@ -1240,7 +1254,7 @@ re-close a cycle from the other direction.
 #### F2.1: Rewrite llms.txt for the shipped system
 
 - [ ] Replace the Phase A typography section with the theme-owned contract — no shapers passed by hand.
-- [ ] Document seed-derived colour, palette injection, density and the role set.
+- [ ] Document seed-derived colour, palette injection, density and the functional ramps.
 - [ ] Update the module inventory and the minimal `go.mod` to the released tags.
 - [ ] Rewrite the pitfalls section against what actually bit during Phases B–E.
 - [ ] Commit here.
@@ -1586,18 +1600,21 @@ shims are deleted in F3.3, which is the major bump.
 
 ### ADR-002: CIELAB tone with OKLCh hue and chroma
 **Decision.** Derive tonal palettes on two axes: **tone is CIELAB L\***, exactly
-as MD3 defines it, and **hue and chroma come from OKLCh**. Keep MD3's role
-vocabulary and its tone-assignment tables; replace both the colour mathematics
-and the hardcoded values now in `prism/tokens`.
+as MD3 defines it, and **hue and chroma come from OKLCh**. Replace both the
+colour mathematics and the hardcoded values now in `prism/tokens`. *(As
+originally written this ADR also kept MD3's role vocabulary and its
+tone-assignment tables; D0.1 amended that — see below.)*
 
 This is HCT's architecture with OKLab substituted for CAM16.
 
-**Its role vocabulary is subject to D0.1.** The G-D0 spike reopens the question
-of how tones are *assigned* — MD3's role→tone tables, Radix's twelve functional
-steps, or the nine-step ramp — and D0.1 amends this ADR if the answer is not
-MD3. The mathematics is not reopened: CIELAB tone with OKLCh hue and chroma
-survives whichever model wins, because all three need a perceptually even
-lightness axis and none of them supplies one.
+**Its role vocabulary was subject to D0.1, and D0.1 has answered.** The G-D0
+spike reopened the question of how tones are *assigned* — MD3's role→tone
+tables, Radix's twelve functional steps, or the nine-step ramp — and ADR-007
+chose the nine-step functional ramp with paired dark scales. MD3's
+tone-assignment tables are therefore retired; the MD3 role *names* survive
+only as deprecated aliases until F3.3. The mathematics was not reopened:
+CIELAB tone with OKLCh hue and chroma survives, because all three candidates
+need a perceptually even lightness axis and none of them supplies one.
 
 **Why not what's there now.** The current token package is three design systems
 in a trench coat: MD3 type roles, a verbatim Tailwind v3 palette wearing MD3
@@ -1611,7 +1628,10 @@ that buys little on a desktop screen and is substantial to implement correctly.
 **Why not plain OKLCh.** OKLab's L is not CIELAB L\*. Deriving tones from it
 means "tone 40" stops meaning what Google means by it, and every MD3
 tone-assignment table has to be re-derived by eye. Keeping L\* as the tone axis
-keeps that vocabulary for free.
+keeps that vocabulary for free. *(ADR-007 later retired the tables themselves,
+but the axis still pays: G-D1 was validated against MD3's published palettes,
+tone numbers stay comparable with Google's, and the D0.1 spike script
+reproduced the seed exactly at tone 40 on this axis.)*
 
 **Why OKLCh for the other two axes.** Holding CIELAB `a,b` constant while
 sweeping L\* does not hold *perceived* hue constant — the blue shift is exactly
@@ -1762,7 +1782,7 @@ a stop-and-ask, per the plan preamble. `scripts/check-no-workspace.sh` (B2.1)
 reports the outstanding debt at any point.
 
 The seams are: B3.3 (spectrum gains tokens and theme), C1.3 (theme gains
-Typography), D2.2 (the derived role set), E1.2 (density), E3.1 (motion). Each
+Typography), D2.2 (the derived ramps), E1.2 (density), E3.1 (motion). Each
 is a goal boundary, which is where the preamble already puts push decisions.
 
 **The workspace is established in B2.1, after G-B1 and not before.** A
@@ -1852,6 +1872,136 @@ here.
 What this passage adds is only the correction above: the org is *not* invisible
 to the proxy, so "nothing has fetched it publicly" is an assumption with an
 expiry date, not a standing property.
+
+### ADR-007: Nine functional steps, paired dark ramps, APCA contrast
+
+**Decision.** Tone stops map to roles the functional way, in Claude Design's
+vocabulary: every colour role carries a **nine-step ramp, 100–900**, where the
+step *is* the meaning — 100–300 tinted fills, hovers and subtle borders, 500
+the mid-value reference, 700–900 text over tinted fills and pressed states —
+and the role's **base is pinned separately** from the ramp, exactly as the
+reference project's `theme.json` pins `accent`. **Dark mode is a paired ramp,
+not a second table**: the generator emits light and dark scales in which the
+same step keeps the same job — Radix's pairing mechanism under Claude Design's
+numbering — so a component asks for neutral-200 and gets a light card on a
+light ground and a dark card on a dark one, with no second assignment table to
+drift. **The contrast gate is APCA**: in both ramps, step 900 must reach Lc 90
+and step 700 Lc 60 over the step-100 and step-200 grounds, and each pinned
+base's on-colour Lc 60 over the base. WCAG 2 ratios are still computed and
+reported — conformance claims cite them — but they do not gate the palette.
+
+MD3's role→tone tables are retired. A thin semantic layer — background,
+surface, text, divider, plus the pinned role bases — sits over the ramps so
+call sites read intent; the MD3-named fields now in use survive as deprecated
+aliases resolved into ramp steps until F3.3 deletes the shims.
+
+**The surface mapping.** Identical in both modes, because the dark ramp is
+paired rather than re-assigned:
+
+| Surface | Step |
+| --- | --- |
+| app background | neutral-100 (or the pinned `bg`) |
+| card / raised surface | neutral-200 |
+| hovered element background | one step past its ground (200 → 300) |
+| pressed / selected background | two steps past its ground |
+| subtle border, separator | neutral-300 |
+| strong border, focusable edge | neutral-500 |
+| solid fill | the pinned role base |
+| solid hover / pressed | one / two steps from the pin toward 900 |
+| low-contrast text | neutral-700 (Lc ≥ 60 guaranteed) |
+| body / high-contrast text | neutral-900 (Lc ≥ 90 guaranteed) |
+
+**The evidence.** All three models were generated from the seed `#6750A4` by a
+throwaway script implementing ADR-002's math — CIELAB tone, OKLCh hue and
+chroma, chroma-reduction gamut mapping — which reproduces the seed exactly at
+tone 40. The Radix columns re-hue its published violet scales to the seed's
+hue and chroma; the Claude Design columns use the shared lightness scale
+measured from the reference project's own ramps (steps 100–900 ≈ L\* 97, 92,
+85, 74, 63, 51, 39, 28, 18). MD3 states are its 8%/12% overlays; the other two
+walk ramp steps.
+
+| Surface | MD3 light | Radix light | CD light | MD3 dark | Radix dark | CD dark |
+| --- | --- | --- | --- | --- | --- | --- |
+| app background | `#faf9ff` | `#fcfcfe` | `#f5f4fc` | `#141318` | `#14121c` | `#18171c` |
+| card | `#eeedf4` | `#f9f8fe` | `#e8e7ee` | `#201f24` | `#191622` | `#222126` |
+| hover | `#dddce3` | `#e9e5f9` | `#d4d3da` | `#2f2e34` | `#32284f` | `#2e2e33` |
+| pressed | `#d5d4db` | `#dfdbf6` | `#b7b6bd` | `#37363c` | `#3c315b` | `#47464c` |
+| subtle border | `#c7c5d3` | `#d3ccf2` | `#d4d3da` | `#474551` | `#463b68` | `#2e2e33` |
+| strong border | `#787582` | `#c1b8e6` | `#98979e` | `#918f9d` | `#554a7b` | `#9e9da4` |
+| solid fill | `#6750a4` | `#735cb1` | `#6750a4` | `#cbbeff` | `#735cb1` | `#a690ea` |
+| low-contrast text | `#474551` | `#68559f` | `#5d5c62` | `#c7c5d3` | `#b8abeb` | `#cccbd2` |
+| body text | `#1c1b20` | `#332851` | `#2b2a30` | `#e3e2e9` | `#e2def6` | `#eeedf4` |
+
+All three set a competent table — the differences are in who maintains what.
+MD3's dark column exists because a second hand-written table says so; the other
+two derive it. Radix alone keeps the brand colour identical in dark mode
+(step 9 unchanged); MD3 and this ADR lighten the fill and accept that dark
+mode shifts the accent, which is also what every Material app already does.
+
+**Where nine cannot say what twelve can.** Hover background and subtle border
+collide on step 300 (visible in the CD columns above), and there is no
+dedicated solid-hover stop. Neither costs this org anything: prism and cadence
+carry exactly two border weights — `Outline` and `OutlineVariant`, which map to
+500 and 300 — and derive hover as a state resolution rather than a distinct
+token; MD3 itself makes hover an 8% overlay, not a stop. Radix's extra
+resolution (hover 4 and active 5 distinct from the border trio 6–8, a solid
+hover at 10) buys precision nothing in prism or cadence consumes.
+
+**The seed sits deep, so bases are pins.** `#6750A4` is L\* 40 — step-700
+depth on the shared scale, where 500 sits at L\* 63. Reading the solid fill
+off the ramp would lighten the brand colour to `#a08ae4`; pinning reproduces
+it exactly. This is the reference project's own practice, not a deviation: its
+`.btn-primary` uses `--color-accent` — the pin — while the ramp supplies tints
+and text shades.
+
+**Why APCA and not WCAG 2.** Spectrum tracks OS dark mode by default, and
+WCAG 2's known failure mode is over-rating light-on-dark. Measured on this
+seed's own dark palettes: outline-strength text `#918f9d` on an MD3 card
+`#201f24` scores WCAG 5.17:1 — a clean AA pass — at APCA Lc −41, unreadable
+as body text. The seed's tone 60 `#9983dc` on the dark ground passes AA at
+5.85:1 with Lc −42; tone 50 passes AA-large at 4.13:1 with Lc −30. Every one
+of those would sail through a ratio gate and fail readers. On pairs that are
+genuinely fine the two metrics agree (dark-mode body text lands Lc −87…−96
+across all three models), so APCA costs nothing where WCAG was right. Radix
+reaches Lc 60/90 by hand-tuning; here the generator meets the same numbers by
+test. One tuning the spike already caught: the measured scale's light-mode
+900-on-200 pair lands at Lc 87, just under the gate, so D2.4 will push the 900
+stop slightly deeper.
+
+**Why not MD3's tables.** The design knowledge lives in two hand-written
+role→tone tables that must be kept in step — dual authorship of dark mode, the
+exact drift this plan keeps removing elsewhere — feeding a twenty-six-name
+role set whose meaning lives in documentation rather than structure. Its
+states are alpha overlays a token sheet cannot address, and its conformance
+anchor is the ratio shown above over-rating every dark pair. Its tone
+*mathematics* is kept in full (ADR-002); only the assignment tables retire.
+
+**Why not Radix's twelve.** The strongest model in isolation, and this ADR
+takes its two best ideas — paired scales and APCA guarantees. But its step
+numbers are its vocabulary, and that vocabulary collides with the surface this
+org prototypes on: G-E0 pushes the tokens into a Claude Design project whose
+entire convention — readme, foundation pages, component CSS — speaks
+`--color-*-100…900`. Adopting step-9/step-11 would put a translation table
+between every prototype and the app it prototypes, the exact incoherence this
+plan exists to remove, and the plan weights that argument explicitly. Its
+scales are also hand-tuned per hue rather than generated, so "adopt Radix"
+really means "build a different generator and borrow its numbering" — and the
+numbering is the part that costs.
+
+**Consequences.**
+
+- **G-D2** is re-cut to this model: D2.1 defines the ramp type, pins and
+  semantic layer with the MD3 names as deprecated aliases; D2.2 derives paired
+  light/dark ramps from a seed with the base pinned to it exactly; D2.3
+  resolves interaction states as step walks rather than opacity overlays;
+  D2.4 gates on the Lc numbers above and reports WCAG AA alongside.
+- **E0.1** emits `--color-<role>-100…900` plus the pinned bases — the exact
+  families the reference project documents.
+- **E0.2**'s colour page annotates step purposes and the measured Lc of each
+  text pair.
+- **G1.2** already assumed ramp-derived states and stands unchanged.
+- **ADR-002** is amended: its mathematics stands untouched; its "keep MD3's
+  role vocabulary and its tone-assignment tables" clause is superseded here.
 
 ### The repo doc contract
 
