@@ -890,9 +890,9 @@ states as step walks, and APCA as the contrast gate.
 
 #### D2.1: Define the ramp vocabulary
 
-- [ ] Extend `ColorTokens` to ADR-007's shape: a nine-step `Ramp` type (steps 100–900); ramps for Neutral, Primary, Secondary, Tertiary and Error; a pinned base per accent role; and the thin semantic layer — background, surface, text, divider — resolved from ramp steps.
-- [ ] Keep every field name currently in use as an alias into a ramp step or a pin, so nothing breaks; mark the MD3-only names deprecated for F3.3's shim deletion.
-- [ ] Build, test, commit.
+- [x] Extend `ColorTokens` to ADR-007's shape: a nine-step `Ramp` type (steps 100–900); ramps for Neutral, Primary, Secondary, Tertiary and Error; a pinned base per accent role; and the thin semantic layer — background, surface, text, divider — resolved from ramp steps.
+- [x] Keep every field name currently in use as an alias into a ramp step or a pin, so nothing breaks; mark the MD3-only names deprecated for F3.3's shim deletion.
+- [x] Build, test, commit.
 
 #### D2.2: Derive paired ramps from a seed
 
