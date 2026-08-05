@@ -734,9 +734,9 @@ file may import `gofont` when the group is done.
 
 #### C2.8: markdown
 
-- [ ] Migrate the document renderer, highlight and svgimage to theme typography.
-- [ ] Confirm no `gofont` import remains, tests included.
-- [ ] Regenerate goldens; build, test, commit.
+- [x] Migrate the document renderer, highlight and svgimage to theme typography.
+- [x] Confirm no `gofont` import remains, tests included.
+- [x] Regenerate goldens; build, test, commit.
 
 ### G-C3: Lock it in
 
