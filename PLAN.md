@@ -652,11 +652,11 @@ is nowhere in the theme to put a typeface, so all seventeen `Props` structs and
 
 #### C1.2: Make Roboto the default face
 
-- [ ] Add `Faces []font.FontFace` to `Typography`, defaulting to `vibrantgio/font/roboto.FontFaces()`.
-- [ ] Add a `Shaper()` method that builds the shaper once, lazily, and caches it.
-- [ ] Add `github.com/vibrantgio/font` to spectrum's `go.mod`.
-- [ ] Test that the default shaper resolves Roboto for every weight the scale names.
-- [ ] Build, test, commit in spectrum.
+- [x] Add `Faces []font.FontFace` to `Typography`, defaulting to `vibrantgio/font/roboto.FontFaces()`.
+- [x] Add a `Shaper()` method that builds the shaper once, lazily, and caches it.
+- [x] Add `github.com/vibrantgio/font` to spectrum's `go.mod`.
+- [x] Test that the default shaper resolves Roboto for every weight the scale names.
+- [x] Build, test, commit in spectrum.
 
 #### C1.3: Put typography in the theme
 
