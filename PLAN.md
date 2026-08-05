@@ -934,8 +934,8 @@ colour the token sheet can emit.
 
 #### D2.7: Migrate pulse and markdown to the ramps
 
-- [ ] Same, including `pulse/transition`'s per-field interpolation, which must cover every ramp step and pin.
-- [ ] Regenerate goldens; build, test, commit.
+- [x] Same, including `pulse/transition`'s per-field interpolation, which must cover every ramp step and pin.
+- [x] Regenerate goldens; build, test, commit.
 ### G-D3: Let applications and the OS drive the palette
 
 #### D3.1: Palette injection
