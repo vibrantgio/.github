@@ -692,10 +692,10 @@ file may import `gofont` when the group is done.
 
 #### C2.1: prism/button
 
-- [ ] Take the shaper and `LabelLarge` style from the theme's `Typography`.
-- [ ] Remove the `gofont` import and the inline fallback shaper.
-- [ ] Keep `Props.Shaper` as an override; document it as such.
-- [ ] Regenerate goldens; build, test, commit.
+- [x] Take the shaper and `LabelLarge` style from the theme's `Typography`.
+- [x] Remove the `gofont` import and the inline fallback shaper.
+- [x] Keep `Props.Shaper` as an override; document it as such.
+- [x] Regenerate goldens; build, test, commit.
 
 #### C2.2: prism/input
 
