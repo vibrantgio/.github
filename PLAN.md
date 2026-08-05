@@ -1351,10 +1351,10 @@ does not apply here. Keep it that way: pointing the example at theme typography
 while it shared mvu's module would make the foundation require spectrum and
 re-close a cycle from the other direction.
 
-- [ ] Drop the `style` dependency from `mvu/example`; use theme typography. Note `example/go.mod` also requires `github.com/vibrantgio/font` DIRECTLY, because `edit` imports `font/roboto/regular/normal` for a single face — drop that too.
-- [ ] Update `edit` and `04-hello` — the only two consumers of `style` inside `mvu/example`. Org-wide there are fifteen more: the workbench apps `todos`, `iconbrowser`, `launcher` and `mindchat` (covered by F1.1-F1.5), plus eleven example programs under `ivg/raster/gio`, `svg/driver/gio` and `traer/gio` that Phase F does not touch.
-- [ ] Run `scripts/check-layers.sh`; confirm mvu itself still requires nothing above tier 0.
-- [ ] Build, test, commit.
+- [x] Drop the `style` dependency from `mvu/example`; use theme typography. Note `example/go.mod` also requires `github.com/vibrantgio/font` DIRECTLY, because `edit` imports `font/roboto/regular/normal` for a single face — drop that too.
+- [x] Update `edit` and `04-hello` — the only two consumers of `style` inside `mvu/example`. Org-wide there are fifteen more: the workbench apps `todos`, `iconbrowser`, `launcher` and `mindchat` (covered by F1.1-F1.5), plus eleven example programs under `ivg/raster/gio`, `svg/driver/gio` and `traer/gio` that Phase F does not touch.
+- [x] Run `scripts/check-layers.sh`; confirm mvu itself still requires nothing above tier 0.
+- [x] Build, test, commit.
 ### G-F2: Regenerate the documentation
 
 #### F2.1: Rewrite llms.txt for the shipped system
