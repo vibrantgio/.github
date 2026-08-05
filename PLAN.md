@@ -1146,10 +1146,10 @@ cadence consume it.
 
 #### E3.3: High-contrast palette
 
-- [ ] Derive the variant from the same seed — a `FromSeed` option, not a third hand-written scheme — by widening tone separation where it counts: deepen the 700 text step toward the 900 depth, resolve `Divider` from step 500 rather than 300, and push each pinned base's on-colour further from its base.
-- [ ] Gate it in APCA, not WCAG AAA — ADR-007 retired ratio gates: un-skip `TestAPCAContrastGateHighContrast` in `spectrum/tokens/contrast_test.go`, the gap D2.4 recorded, with the variant's floors above the defaults — step 700 at Lc ≥ 90 where the default asks 60, pinned on-colours at Lc ≥ 75 — and report WCAG AAA alongside without gating on it, ADR-007's arrangement exactly.
-- [ ] Switch to the variant when the OS reports increased contrast, through E3.2's observable — flip the hook E3.2 left.
-- [ ] Build, test, commit in spectrum.
+- [x] Derive the variant from the same seed — a `FromSeed` option, not a third hand-written scheme — by widening tone separation where it counts: deepen the 700 text step toward the 900 depth, resolve `Divider` from step 500 rather than 300, and push each pinned base's on-colour further from its base.
+- [x] Gate it in APCA, not WCAG AAA — ADR-007 retired ratio gates: un-skip `TestAPCAContrastGateHighContrast` in `spectrum/tokens/contrast_test.go`, the gap D2.4 recorded, with the variant's floors above the defaults — step 700 at Lc ≥ 90 where the default asks 60, pinned on-colours at Lc ≥ 75 — and report WCAG AAA alongside without gating on it, ADR-007's arrangement exactly.
+- [x] Switch to the variant when the OS reports increased contrast, through E3.2's observable — flip the hook E3.2 left.
+- [x] Build, test, commit in spectrum.
 ### G-E4: Blur
 Gio exposes no blur primitive and no custom shaders — `op/paint` offers
 `ColorOp`, `ImageOp`, `LinearGradientOp`, `PushOpacity`, and an `ImageFilter`
