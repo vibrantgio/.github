@@ -728,9 +728,9 @@ file may import `gofont` when the group is done.
 
 #### C2.7: cadence — content and shells
 
-- [ ] Migrate card, hero, feature, pricing, testimonial, breadcrumb, shell.
-- [ ] Confirm no `gofont` import remains anywhere in cadence.
-- [ ] Regenerate goldens; build, test, commit.
+- [x] Migrate card, hero, feature, pricing, testimonial, breadcrumb, shell.
+- [x] Confirm no `gofont` import remains anywhere in cadence.
+- [x] Regenerate goldens; build, test, commit.
 
 #### C2.8: markdown
 
