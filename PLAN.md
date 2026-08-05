@@ -856,10 +856,10 @@ dependencies; lift the math in rather than taking the package as a dependency.
 Hue and chroma come from OKLab. This is the axis pair plain CIELAB `a,b` cannot
 hold perceptually constant.
 
-- [ ] Add sRGB ↔ linear sRGB ↔ OKLab ↔ OKLCh conversions alongside the CIELAB chain.
-- [ ] Round-trip tests across the sRGB cube at 1% tolerance.
-- [ ] Test against published OKLab reference values.
-- [ ] Build, test, commit.
+- [x] Add sRGB ↔ linear sRGB ↔ OKLab ↔ OKLCh conversions alongside the CIELAB chain.
+- [x] Round-trip tests across the sRGB cube at 1% tolerance.
+- [x] Test against published OKLab reference values.
+- [x] Build, test, commit.
 
 #### D1.3: Gamut mapping
 
