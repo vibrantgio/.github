@@ -1251,42 +1251,96 @@ on top of them.
 A design system is only coherent if its own reference applications agree. Right
 now seven apps give three different answers about fonts alone.
 
-Tasks here are provisional; re-cut them when Phase E lands.
+The tasks here were provisional until Phase E landed; it has, 18/18, and they
+are now re-cut against the system as shipped: theme-owned typography, density,
+the elevation ladder, MD3 motion and the a11y observables all emitting from
+`theme.Theme`, with ADR-007's ramps underneath and blur in pulse. "Agree" is
+no longer only about fonts, though the font disagreement is still real —
+every one of the seven apps still imports the `prism/tokens` or `prism/theme`
+alias paths, reads the deprecated MD3 colour aliases, and five drive
+components through the frozen static `Render(…, TypeScale, …)` signatures.
+The apps are the last consumers of every deprecated surface in the org, so
+G-F1 is what empties the deprecation windows that F3.3's sweep then closes.
 
 ![[#Release protocol]]
 
+### G-F0: The mono face
+
+C2.8's migration surfaced an org-level gap and recorded it in its commit: no
+monospace face ships anywhere, so markdown code blocks — and
+`markdown/style.Style.Mono`, the field that exists to name one — resolve to
+Roboto. Two reference apps render code (sitedocs' docs pages, mindchat's chat
+bodies), so the gap is visible in exactly the apps G-F1 makes agree, and it
+has to close before G-F2 freezes the documentation and G-F3 tags.
+
+The face is Roboto Mono. The theme's default face is Roboto, Roboto Mono is
+its designed companion in the same superfamily under the same licence the
+`font` repo already packages, and MD3 itself pairs the two. That is a
+decision this plan can make without a survey task; recording the reasoning
+here is the survey.
+
+#### F0.1: Package the face and give the theme a code style
+
+- [ ] Add `font/robotomono`, mirroring `font/roboto`'s per-weight package layout only as far as real use: regular and italic in the weights the highlight path shapes — normal and bold suffice.
+- [ ] In `spectrum/tokens`, add a `Code` TextStyle to `Typography` — BodyMedium's metrics on the mono face — and append the mono faces to `DefaultTypography.Faces` so the default shaper resolves them.
+- [ ] Test that the default shaper resolves the mono face at every weight and style the highlight path uses.
+- [ ] Extend `spectrum/export` with the code role and run `scripts/push-design.sh`, so the design project stays level per E5.1; commit the regenerated `design/` here.
+- [ ] This widens spectrum's API — an ADR-006 seam whose tag is F3.1's, since Phase F ends in the release; until then the workspace covers it and `scripts/check-no-workspace.sh` reports the debt. Build, test, commit in font and spectrum.
+
+#### F0.2: Wire markdown to it
+
+- [ ] Resolve `Style.Mono` and `CodeSize` from the theme's `Code` role in markdown's theme path, so inline code and code blocks leave Roboto.
+- [ ] Confirm highlight's bold and italic runs shape in the mono face rather than falling back to Roboto's weights.
+- [ ] Regenerate the moved goldens and say so in the commit body; build, test, commit in markdown.
+
+FX.7 regenerates these same goldens for the token palette; this task lands
+first, so the mono face is already under FX.7's goldens rather than moving
+them a third time.
+
 ### G-F1: Make the example apps agree
+
+The migration pattern, once per app: imports move off the `prism/tokens` and
+`prism/theme` alias paths onto spectrum's; colours move off the deprecated
+MD3 aliases — `OnBackground`, `OnSurface`, `SurfaceVariant`,
+`OnSurfaceVariant`, `Outline` — onto the ramps, pins and semantic fields;
+text comes from the theme's Typography, so no app-built shaper, no
+`style.FontFaces()`, no gofont; and components are driven through their
+theme-driven entry points rather than the frozen static
+`Render(…, TypeScale, …)` signatures F3.3 re-cuts. Density, the elevation
+ladder and MD3 motion then arrive through the theme with no per-app work —
+which is the point: the apps prove the theme carries the whole look.
 
 #### F1.1: The apps that are already close
 
-- [ ] Migrate todos, iconbrowser and launcher to the new theme API.
-- [ ] Drop their manual `style.FontFaces()` shaper construction — typography now comes from the theme.
-- [ ] Run each; confirm it renders in Roboto and switches light/dark live.
+- [ ] Migrate todos, iconbrowser and launcher per the goal's pattern.
+- [ ] Drop their manual `style.FontFaces()` shaper construction — typography now comes from the theme, and these three are among the last consumers holding ADR-003's `style` freeze window open.
+- [ ] Run each; confirm it renders in Roboto, switches light/dark live, and sits at the 36 dp Comfortable control height rather than the pre-E 44.
 - [ ] Commit in workbench.
 
 #### F1.2: feeds
 
-- [ ] Remove the `gofont` shaper and every per-component `Shaper` pass-through.
-- [ ] Migrate to the new theme and role tokens.
-- [ ] Run it; confirm the table, tabs, modals and toasts all render correctly.
+- [ ] Remove the `gofont` shaper and every per-component `Shaper` pass-through — `app.go` builds it, `sidebar.go` alone threads it through four signatures — and the sim and wiring tests that construct their own follow.
+- [ ] Migrate per the goal's pattern; `articles.go` drives components through static `Render` calls that become theme-driven here.
+- [ ] Run it; confirm the table, tabs, modals and toasts render correctly at density, and that pagination — which dropped its prism/button bridge for density's sake (E1.4) — still matches the buttons beside it.
 - [ ] Build, test, commit.
 
 #### F1.3: watchlist
 
-- [ ] Same migration; keep the `wiring_test.go` AutoConnect count correct.
+- [ ] Same migration per the goal's pattern — `maincontent.go` and the modals lean hardest on the deprecated aliases and static `Render` calls; keep the `wiring_test.go` AutoConnect count correct.
 - [ ] Run it; confirm CRUD, context menus and popovers.
 - [ ] Build, test, commit.
 
 #### F1.4: sitedocs
 
-- [ ] Same migration, including the markdown-rendered docs pages.
+- [ ] Same migration, including the markdown-rendered docs pages — after F0.2 they are the first app surface where code renders in the mono face; confirm it.
 - [ ] Run it; confirm hero, pricing, accordion sidebar and the docs routes.
 - [ ] Build, test, commit.
 
 #### F1.5: mindchat
 
-- [ ] Remove the appended `gofont.Collection()` — this app currently mixes both font sets.
-- [ ] Migrate to the new theme; confirm the markdown chat bodies and chroma highlighting still match the palette.
+- [ ] Remove the appended `gofont.Collection()` — this app still mixes both font sets in one shaper (`view.go`).
+- [ ] Migrate per the goal's pattern; confirm the markdown chat bodies and chroma highlighting match the palette, and code spans render in the mono face.
+- [ ] Keep its `depth.Shadow` — E2.2's verdict let mindchat and toast keep theirs — and leave its square-cornered geometry to FX.3 rather than fixing it here.
 - [ ] Run it; confirm the split pane, modals and streaming indicators.
 - [ ] Build, test, commit.
 
@@ -1305,10 +1359,9 @@ re-close a cycle from the other direction.
 
 #### F2.1: Rewrite llms.txt for the shipped system
 
-- [ ] Replace the Phase A typography section with the theme-owned contract — no shapers passed by hand.
-- [ ] Document seed-derived colour, palette injection, density and the functional ramps.
-- [ ] Update the module inventory and the minimal `go.mod` to the released tags.
-- [ ] Rewrite the pitfalls section against what actually bit during Phases B–E.
+- [ ] C3.3 already replaced the typography section; rewrite the rest to the same standard — seed-derived colour in ADR-007's vocabulary (ramps, pins, step walks — not MD3 role tables), palette injection and the OS accent, density, the elevation ladder, MD3 motion and the a11y observables, and when to reach for pulse's blur.
+- [ ] Update the module inventory and the minimal `go.mod`. The version numbers cannot be final before G-F3 cuts the tags; F3.5 owns that touch-up, so write the inventory here and leave the numbers honest about being pre-release.
+- [ ] Rewrite the pitfalls section against what actually bit during Phases B–E — the workspace/`GOWORK=off` double meaning of green, B2.0's `go.sum` lesson, goldens regenerated in the task that moves them.
 - [ ] Commit here.
 
 #### F2.2: Rewrite DESIGN.md
@@ -1320,9 +1373,9 @@ re-close a cycle from the other direction.
 
 #### F2.3: Refresh every repo README
 
-- [ ] Update the prism, spectrum, pulse and cadence READMEs against the shipped API.
+- [ ] Update the prism, spectrum, pulse and cadence READMEs against the shipped API — spectrum grew export, a11y and the elevation ladder since its README was written; pulse grew blur and the motion presets.
 - [ ] Remove the "arrives in a later phase" notes now satisfied.
-- [ ] Update the deprecation notes in style, textdraw and the prism alias shims.
+- [ ] Update the deprecation notes in `style`, the not-deprecated clarification in textdraw, and the alias shims — `prism/tokens`, `prism/theme`, `prism/a11y`, `spectrum/transition` — saying plainly that F3.3 deletes the shims and what happens to `style` (F3.4 records it).
 - [ ] Commit in each repo touched.
 
 #### F2.4: Refresh the org front door
@@ -1367,10 +1420,13 @@ to fix — build and test the root module and `driver/raster`.
 #### FX.2: Make pulse/spring's defaults usable
 
 `spring.Options{}` takes ~873 frames to settle, and overriding one field silently
-takes the rest from the same soft defaults.
+takes the rest from the same soft defaults. E3.1 has since landed usable
+presets — `tokens.Motion.SpringDefault` (k=80, critically damped) is what
+`pulse/motion.DefaultSpring` already resolves to — so this fix aligns with a
+published number rather than inventing one.
 
-- [ ] Replace `DefaultStiffness`/`DefaultDamping`/`DefaultMass` with a combination that settles in a sane frame count, or make the zero `Options` an error rather than a 15-second animation. Pick one and say which in the commit body.
-- [ ] Fix the partial-override trap at `spring.go:114-121`: deriving `Damping` from whatever `Stiffness` and `Mass` end up being — critical damping is `2√(km)` — is the fix that makes a one-field override behave.
+- [ ] Replace `DefaultStiffness`/`DefaultDamping`/`DefaultMass` with `tokens.Motion.SpringDefault`'s values, or make the zero `Options` an error rather than a 15-second animation. Pick one and say which in the commit body.
+- [ ] Fix the partial-override trap at `spring.go:114-121`: deriving `Damping` from whatever `Stiffness` and `Mass` end up being — critical damping is `2√(km)` — is the fix that makes a one-field override behave. `pulse/motion.Options.Spring` documents the same trap around its `DefaultSpring` fallback; fix or re-document it to match whichever contract this task picks.
 - [ ] Test the settle time of the zero `Options` and of `Options{Stiffness: 80}` alone, asserting frame counts rather than "it looks right".
 - [ ] Update the package comments A3.6 wrote: they document the current behaviour accurately, so they become wrong the moment this lands.
 - [ ] Check `motion` and `springbutton`, which pass explicit values today and must not move. Regenerate goldens only if they legitimately do; build, test, commit.
@@ -1378,15 +1434,20 @@ takes the rest from the same soft defaults.
 
 #### FX.3: Give pulse/depth a rounded interior and an opacity
 
-`depth.go:86` fills the shadow interior with `clip.Rect` at full alpha, so all
-three callers get square dark wedges behind their rounded corners.
+`depth.go:86` fills the shadow interior with `clip.Rect` at full alpha, so its
+callers get square dark wedges behind their rounded corners. E2.2's verdicts
+and E2.3's migration have since landed: `cadence/card`'s `Elevated` shadow is
+gone — raised in place is a surface step now — leaving two callers,
+`cadence/toast` and `workbench/mindchat`, both at `Level3`, both keeping
+their shadows as things that float. The when-is-a-shadow-right question is
+settled; only the geometry of the survivors remains.
 
 - [ ] Take a corner radius on the shadow call and clip the interior to a matching `clip.RRect`.
 - [ ] Add an opacity control, and drop `cadence/toast`'s `PushOpacity` workaround once it exists.
-- [ ] Update `cadence/toast` and `workbench/mindchat` to pass the radius they already round their foregrounds to — `cadence/card` drops out: E2.2 ruled its `Elevated` shadow a surface step, and E2.3 removes it.
+- [ ] Update `cadence/toast` and `workbench/mindchat` to pass the radius they already round their foregrounds to.
 - [ ] Golden-test a rounded surface over a shadow — the wedges are exactly what a golden catches and no unit test will.
 - [ ] Regenerate the moved goldens in this task and say so in the commit body; build, test, commit.
-- [ ] Strike the register entry. Coordinate with E2.2, which decides when a shadow is appropriate at all — this task only fixes the geometry of one that is.
+- [ ] Strike the register entry.
 
 #### FX.4: Guard tween against a nil Lerp
 
@@ -1400,9 +1461,13 @@ test that samples the endpoints.
 #### FX.5: Make spectrum's appearance stream shared and live
 
 Two defects in the same stream: the observable is cold, so every subscription
-polls independently, and `preferences.Observe` completes after one read.
+polls independently, and `preferences.Observe` completes after one read. E3.2
+raised the stakes since this was recorded: `LiveTheme` now composes the a11y
+observables — built on the same cold `FromSource` shape, moved down as
+`spectrum/a11y` — so each subscriber multiplies pollers across two sources,
+not one.
 
-- [ ] Multicast `Live`/`FromSource` so *n* subscribers share one poll loop. Verify with the shape A3.5 used — count source reads with a counting `Source` at one and three subscribers, and assert they match.
+- [ ] Multicast `Live`/`FromSource` so *n* subscribers share one poll loop, and give `spectrum/a11y`'s same-shaped stream the same fix. Verify with the shape A3.5 used — count source reads with a counting `Source` at one and three subscribers, and assert they match.
 - [ ] Check every workbench app still tracks dark mode afterwards; each subscribes at least twice, via `BackdropLayer` and `ContentLayer`.
 - [ ] Make `preferences.Observe` emit on write, or rename it to something that does not promise a stream. Whichever, `Save` and `Observe` must agree.
 - [ ] Build, test, commit; strike both register entries.
@@ -1410,11 +1475,14 @@ polls independently, and `preferences.Observe` completes after one read.
 #### FX.6: Give cadence/sidebar a scroll region
 
 A nav list taller than the viewport runs off the bottom edge with no way to
-reach the rest.
+reach the rest. E1.4 changed the arithmetic but not the defect: the item
+pitch is now `Density.ControlHeight` — 36/28 dp rather than the register's
+48 — so the list overflows a few items later and just as irrecoverably; the
+package doc says so itself.
 
 - [ ] Wrap the item loop in a scrollable list — `prism/list` is the one the rest of cadence uses.
-- [ ] Golden-test a list long enough to overflow, in both the expanded and collapsed widths.
-- [ ] Consider whether the 192/48 dp constants should respond to the horizontal constraint, and record the decision either way.
+- [ ] Golden-test a list long enough to overflow, in both the expanded and collapsed widths and at both densities.
+- [ ] Consider whether the 192/48 dp column-width constants — still local, still ignoring the horizontal constraint — should respond to it, and record the decision either way.
 - [ ] Regenerate goldens; build, test, commit; strike the register entry.
 
 #### FX.7: Let the theme reach highlighted code
@@ -1425,7 +1493,7 @@ blocks leave the token palette.
 - [ ] Emit no colour for runs chroma would render in its default foreground, so the documented `Style.CodeColor` fallback at `style.go:20` actually fires.
 - [ ] Fail loudly on an unrecognised style name instead of falling back to a dark-background default that renders near-white on the light theme.
 - [ ] Golden-test a code block in both themes, asserting the plain runs take the token colour.
-- [ ] Regenerate goldens; build, test, commit; strike the register entry. Sequence after D2.7 and C2.8 if either has landed, so this is not migrated twice.
+- [ ] Regenerate goldens; build, test, commit; strike the register entry. D2.7 and C2.8 both landed, so the double-migration risk this task once dodged is gone — but F0.2 moves the same goldens for the mono face, so it goes first.
 
 #### FX.8: Add the two missing LICENSE files
 
@@ -1436,6 +1504,12 @@ blocks leave the token palette.
 
 ### G-F3: Release
 
+The Release protocol's double-digit rule was violated before this goal ran:
+spectrum v0.0.10–v0.0.15 and pulse v0.0.10–v0.0.12 are on the remotes,
+immutable — the protocol's violation note records how. The burial rule sets
+this goal's numbers: spectrum's next tag is **v0.1.0**, pulse's is
+**v0.1.0**, and neither repo ever sees another v0.0.x.
+
 #### F3.1: Tag the foundation
 
 A tag has to reach GitHub before the layer above it can resolve it, so every
@@ -1444,23 +1518,59 @@ that local-only work cannot finish.
 
 - [ ] Verify `scripts/check-layers.sh` passes across the stack.
 - [ ] Run `scripts/check-no-workspace.sh`: the whole stack, `GOWORK=off`, green. The workspace has been covering version skew since Phase B and this is where that debt comes due.
-- [ ] Tag mvu first — `spectrum/window` imports it, so it is tier 0 and everything waits on it — then font and spectrum.
+- [ ] Tag mvu first — `spectrum/window` imports it, so it is tier 0 and everything waits on it — then font, then spectrum at **v0.1.0**, the burial number. Font before spectrum, pushed before spectrum's `go.mod` pins it: C1.2 made spectrum require it, the tier-0/tier-1 edge in ADR-001.
 - [ ] Ask Rene to push the tags. Do not push them.
 - [ ] Confirm the tags resolve from a clean module cache with the workspace disabled.
 
 #### F3.2: Tag the component layers
 
-- [ ] Update prism and pulse to the released spectrum tag; build and test.
-- [ ] Tag prism, then pulse; ask Rene to push each before the next one moves.
+- [ ] Update prism and pulse to spectrum v0.1.0; build and test.
+- [ ] Tag prism in series — v0.1.9; its v0.1.x series is clean — then pulse at **v0.1.0**, burying its v0.0.10–12; ask Rene to push each before the next one moves.
 - [ ] Confirm resolution from a clean cache, workspace disabled.
 
-#### F3.3: Tag the pattern layer and the apps
+#### F3.3: The major-bump shim sweep
+
+The deprecation windows Phases B–E opened all close here, in one breaking
+release per repo, before the pattern layer and the demos tag. What the sweep
+covers, verified against the code rather than remembered:
+
+- the three prism alias packages — `prism/tokens`, `prism/theme` (B3.3),
+  `prism/a11y` (E3.2);
+- the `spectrum/transition` forwarder (B3.4), and with it the
+  `spectrum->pulse` entry in `check-layers.sh`'s `RECORDED_EDGES` — the lint
+  drops to zero recorded edges;
+- `ColorTokens`' five deprecated MD3 aliases (D2.1): `OnBackground`,
+  `OnSurface`, `SurfaceVariant`, `OnSurfaceVariant`, `Outline`;
+- `ElevationScale`'s `Level4`/`Level5` depths and `Step4`/`Step5` clamps
+  (E2.1) — the desktop ladder tops out at level 3;
+- the frozen static render surface that predates C1.1 and E1.2:
+  `TypeScale`/`DefaultTypeScale` and every `Render(…, tokens.TypeScale, …)`
+  signature — in prism, `button.Render`/`RenderIcon`,
+  `input.Render`/`RenderDropdown` and `richtext.FromTokens`; cadence's and
+  markdown's are F3.4's. These are re-cut to take `TextStyle` and `Density`,
+  not deleted — the golden tests ride them.
 
 - [ ] Promote `prism/internal/golden`'s capture to an exported package *before* the major is cut. G1.1 needs it from outside prism, and finding that out after the bump costs a whole second prism release for a one-line visibility change.
-- [ ] Update cadence and markdown to the released tags; build and test. mvu was tagged in F3.1.
-- [ ] Tag both; ask Rene to push.
-- [ ] Drop the deprecated alias shims from prism and spectrum, and tag the majors that removes. **This comes before the nested demos, not after.** `prism/gallery` imports both `prism/theme` and `prism/tokens` — the two packages B3.3 leaves as shims and this step deletes. A nested tag mirrors its root's version, so tagging `prism/gallery` first would mirror a root that the very next step supersedes, and the demo would need a second tag at the major's number to get back in correspondence.
-- [ ] Update every workbench app's `go.mod` to the released tags; build, test, run each. Tag the nested demo modules — `prism/gallery`, `mvu/example` — here, once, at their roots' final numbers. `mvu/example` does not import the shims, but `prism/gallery` does, so it has to be updated off them before it is tagged at all.
+- [ ] Sweep spectrum per the list; tag **v0.2.0**.
+- [ ] Sweep prism — the alias packages go, its static signatures re-cut — and re-cut `pulse/springbutton`'s one call into `button.Render`, which the signature change breaks. Regenerate the moved goldens.
+- [ ] Tag prism **v0.2.0**, then pulse **v0.1.1** — pulse's own API is unchanged, so it moves in patch; ask Rene to push each in order.
+- [ ] Confirm resolution from a clean cache, workspace disabled.
+
+#### F3.4: Re-cut the pattern layer onto the majors
+
+Split from the sweep for size: cadence's static `Render` surface spans
+eighteen packages, and every one moves goldens.
+
+- [ ] Update cadence and markdown to spectrum v0.2.0 and prism v0.2.0; re-cut their static signatures — every cadence package's `Render`, plus `markdown/style.FromTokens` — to `TextStyle` and `Density`, matching prism's re-cut.
+- [ ] Regenerate the moved goldens and say so in the commit body.
+- [ ] Tag cadence **v0.3.0** and markdown **v0.1.0**; ask Rene to push.
+- [ ] Record the end of `style`'s ADR-003 freeze window: G-F1 moved the last in-org consumers off it, so it is archived at v0.0.6 — frozen, never re-tagged — rather than swept. Note it in its README and in ADR-003.
+
+#### F3.5: Tag the apps and the nested demos
+
+- [ ] Update every workbench app's `go.mod` to the released tags; build, test, run each.
+- [ ] Tag the nested demo modules — `prism/gallery`, `mvu/example` — here, once, at their roots' final numbers. The majors came first deliberately: a nested tag mirrors its root's version, so tagging `prism/gallery` before the prism major would mirror a superseded root and cost a second tag at the major's number to get back in correspondence. `prism/gallery` imports `prism/theme` and `prism/tokens`, the shims F3.3 deletes, so it is updated off them before it is tagged at all; `mvu/example` never imported them.
+- [ ] Touch up llms.txt's module inventory and minimal `go.mod` to the tags actually cut — the finalization F2.1 deferred here.
 - [ ] Run `scripts/check-no-workspace.sh` one last time, after the majors. Green here means every `go.mod` in the org is honest without the workspace propping it up — which is the actual definition of released.
 
 ## Phase G: The design-agent surface
@@ -1834,8 +1944,10 @@ a stop-and-ask, per the plan preamble. `scripts/check-no-workspace.sh` (B2.1)
 reports the outstanding debt at any point.
 
 The seams are: B3.3 (spectrum gains tokens and theme), C1.3 (theme gains
-Typography), D2.2 (the derived ramps), E1.2 (density), E3.1 (motion). Each
-is a goal boundary, which is where the preamble already puts push decisions.
+Typography), D2.2 (the derived ramps), E1.2 (density), E3.1 (motion), F0.1
+(the mono face — its seam tag is F3.1's, since Phase F ends in the release).
+Each is a goal boundary, which is where the preamble already puts push
+decisions.
 
 **The workspace is established in B2.1, after G-B1 and not before.** A
 workspace resolves shared dependencies at the highest version any member
@@ -2232,13 +2344,16 @@ Modules are tagged bottom-up, one layer at a time, and each layer is verified
 from a clean module cache before the layer above it moves:
 
 ```
-mvu  →  font, spectrum  →  prism  →  pulse  →  cadence, markdown  →  workbench apps
+mvu, font  →  spectrum  →  prism  →  pulse  →  cadence, markdown  →  workbench apps
 ```
 
 mvu is tagged first, not with the pattern layer: `spectrum/window` imports it,
-which makes it tier 0 in ADR-001 and puts everything else behind it. The nested
-demo modules — `prism/gallery`, `mvu/example` — tag last with the apps, since
-they sit above everything they demonstrate.
+which makes it tier 0 in ADR-001 and puts everything else behind it. font sits
+beside it, not beside spectrum — C1.2 made spectrum require it for the default
+Roboto faces, ADR-001's tier-0/tier-1 edge, so an earlier draft of this
+diagram that grouped `font, spectrum` in one round was stale the day that
+edge landed. The nested demo modules — `prism/gallery`, `mvu/example` — tag
+last with the apps, since they sit above everything they demonstrate.
 
 No layer is tagged while `scripts/check-layers.sh` fails, and none while
 `scripts/check-no-workspace.sh` does. The deprecated alias shims from ADR-001
@@ -2259,6 +2374,14 @@ This is not a preference to weigh against others — it is a hard rule. A tag is
 immutable the moment the proxy sees it, so a `v0.0.10` cannot be withdrawn,
 only buried under a correction that leaves it in the list forever. Check the
 existing tags before cutting a new one.
+
+**Violated once, recorded honestly.** The D2 through E5 boundary rounds cut
+their seam tags without consulting this section: spectrum ran v0.0.10 through
+v0.0.15 and pulse v0.0.10 through v0.0.12, and all nine are on the remotes,
+immutable. The remedy is the rule's own: bury them. Spectrum's next tag is
+**v0.1.0** and pulse's is **v0.1.0** — never another v0.0.x in either repo —
+and G-F3's tasks name those numbers explicitly so the correction cannot be
+missed a second time.
 
 **A nested module's tag mirrors its root's version.** A module in a
 subdirectory is tagged `<subdir>/vX.Y.Z`, and that tag requires the root at
