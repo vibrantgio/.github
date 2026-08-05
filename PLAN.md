@@ -1366,10 +1366,10 @@ re-close a cycle from the other direction.
 
 #### F2.2: Rewrite DESIGN.md
 
-- [ ] Rewrite `workbench/DESIGN.md` around the new layering, the generative colour model and the desktop divergences.
-- [ ] Fold ADR-001 through ADR-007 in as decision records — including ADR-006, whose workspace rule is the one an outside contributor cannot infer from the repos.
-- [ ] Keep the old document as `DESIGN-v1.md` for history.
-- [ ] Commit in workbench.
+- [x] Rewrite `workbench/DESIGN.md` around the new layering, the generative colour model and the desktop divergences.
+- [x] Fold ADR-001 through ADR-007 in as decision records — including ADR-006, whose workspace rule is the one an outside contributor cannot infer from the repos.
+- [x] Keep the old document as `DESIGN-v1.md` for history.
+- [x] Commit in workbench.
 
 #### F2.3: Refresh every repo README
 
