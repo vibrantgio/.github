@@ -952,10 +952,10 @@ palette, so choosing your own colours means giving up OS dark-mode tracking.
 
 `spectrum/system` already reads `AppleAccentColor` and then discards it.
 
-- [ ] Map the accent index (−1..7) to its seed colour.
-- [ ] Regenerate the palette when the accent changes.
-- [ ] Test with a fake `Source` driving each index.
-- [ ] Build, test, commit.
+- [x] Map the accent index (−1..7) to its seed colour.
+- [x] Regenerate the palette when the accent changes.
+- [x] Test with a fake `Source` driving each index.
+- [x] Build, test, commit.
 
 #### D3.3: Windows and Linux accent sources
 
