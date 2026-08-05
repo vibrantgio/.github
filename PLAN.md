@@ -1201,10 +1201,10 @@ trivially parallelisable.
 The simple case, and the one with no platform caveat: a known source image
 blurred once and reused.
 
-- [ ] Add a helper that blurs a source image and returns a `paint.ImageOp`, caching on source identity, radius and target size.
-- [ ] Support the downscale-blur-upscale path for large radii; expose the divisor and default it from the radius.
-- [ ] Test that a repeated call with unchanged inputs does no work, and that a size or radius change invalidates.
-- [ ] Build, test, commit in pulse.
+- [x] Add a helper that blurs a source image and returns a `paint.ImageOp`, caching on source identity, radius and target size.
+- [x] Support the downscale-blur-upscale path for large radii; expose the divisor and default it from the radius.
+- [x] Test that a repeated call with unchanged inputs does no work, and that a size or radius change invalidates.
+- [x] Build, test, commit in pulse.
 
 #### E4.3: The headless backdrop pipeline
 
