@@ -660,10 +660,10 @@ is nowhere in the theme to put a typeface, so all seventeen `Props` structs and
 
 #### C1.3: Put typography in the theme
 
-- [ ] Add `Typography rx.Observable[tokens.Typography]` to `theme.Theme`.
-- [ ] Update `theme.Default()`, `theme.AutoLightDark()`, `system.LiveTheme()` and `system.FromSourceTheme()` to emit it.
-- [ ] Update the prism alias shim so `prism/theme.Theme` still matches.
-- [ ] Build and test spectrum and prism; commit in each.
+- [x] Add `Typography rx.Observable[tokens.Typography]` to `theme.Theme`.
+- [x] Update `theme.Default()`, `theme.AutoLightDark()`, `system.LiveTheme()` and `system.FromSourceTheme()` to emit it.
+- [x] Update the prism alias shim so `prism/theme.Theme` still matches.
+- [x] Build and test spectrum and prism; commit in each.
 
 #### C1.4: Deprecate the standalone type scale
 
