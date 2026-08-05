@@ -959,10 +959,10 @@ palette, so choosing your own colours means giving up OS dark-mode tracking.
 
 #### D3.3: Windows and Linux accent sources
 
-- [ ] Read the Windows accent colour from the registry.
-- [ ] Read the GNOME/KDE accent where available; fall back to the seed otherwise.
-- [ ] Document per platform what is and is not supported.
-- [ ] Build, test, commit.
+- [x] Read the Windows accent colour from the registry.
+- [x] Read the GNOME/KDE accent where available; fall back to the seed otherwise.
+- [x] Document per platform what is and is not supported.
+- [x] Build, test, commit.
 
 ## Phase E: Reimagined for desktop
 Where MD3 assumes touch and Android, diverge deliberately and say why. This is
