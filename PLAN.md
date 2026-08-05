@@ -619,9 +619,9 @@ for one release.
 `spectrum/transition` depends on `pulse/tween`, which would make the foundation
 depend on the effects layer. It is animation code; it belongs in pulse.
 
-- [ ] Copy `spectrum/transition` to `.repos/pulse/transition`, repointing imports at `spectrum/tokens`.
-- [ ] Leave a deprecated alias shim at `spectrum/transition`.
-- [ ] Build and test both; commit in each.
+- [x] Copy `spectrum/transition` to `.repos/pulse/transition`, repointing imports at `spectrum/tokens`.
+- [x] Leave a deprecated alias shim at `spectrum/transition`.
+- [x] Build and test both; commit in each.
 
 #### B3.5: Make the layering enforceable
 
