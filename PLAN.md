@@ -1332,9 +1332,9 @@ which is the point: the apps prove the theme carries the whole look.
 
 #### F1.4: sitedocs
 
-- [ ] Same migration, including the markdown-rendered docs pages — after F0.2 they are the first app surface where code renders in the mono face; confirm it.
+- [x] Same migration, including the markdown-rendered docs pages — after F0.2 they are the first app surface where code renders in the mono face; confirm it.
 - [ ] Run it; confirm hero, pricing, accordion sidebar and the docs routes.
-- [ ] Build, test, commit.
+- [x] Build, test, commit.
 
 #### F1.5: mindchat
 
