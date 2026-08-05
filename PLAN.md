@@ -1110,9 +1110,9 @@ the shadows that keep theirs.
 Split out of the pre-D E2.1, which bundled the token change and the migration
 into one oversized task. E2.2's verdicts come first; this task executes them.
 
-- [ ] cadence: resolve every raised surface through the ladder — card at level 1 (the outlined variant keeps its step-500 stroke; `Elevated` becomes a level-2 fill, dropping its shadow — E2.2's verdict: a card is raised in place, not floating), modal, popover and tooltip picking their level deliberately (record the choice in each package doc), toast replacing its hand-rolled `Step(300)` fill with a level-2 resolution under its accent tint.
-- [ ] prism: `input/dropdown`'s menu surface takes its level from the ladder rather than flat `Surface`; sweep the other `Surface` consumers for any that are really a raised level.
-- [ ] Regenerate the moved goldens and say so in the commit body; build, test, commit in prism and cadence.
+- [x] cadence: resolve every raised surface through the ladder — card at level 1 (the outlined variant keeps its step-500 stroke; `Elevated` becomes a level-2 fill, dropping its shadow — E2.2's verdict: a card is raised in place, not floating), modal, popover and tooltip picking their level deliberately (record the choice in each package doc), toast replacing its hand-rolled `Step(300)` fill with a level-2 resolution under its accent tint.
+- [x] prism: `input/dropdown`'s menu surface takes its level from the ladder rather than flat `Surface`; sweep the other `Surface` consumers for any that are really a raised level.
+- [x] Regenerate the moved goldens and say so in the commit body; build, test, commit in prism and cadence.
 ### G-E3: Motion and accessibility as theme inputs
 This goal survives Phase D better than G-E2 did — nothing here leaned on the
 retired role tables — but the ground truth moved anyway. `tokens.Motion`
