@@ -1208,13 +1208,13 @@ blurred once and reused.
 
 #### E4.3: The headless backdrop pipeline
 
-- [ ] Add a backdrop type that owns a `headless.Window`, renders a caller-supplied layer into it at a reduced resolution, reads it back, blurs it, and yields a `paint.ImageOp` stretched to full size.
-- [ ] Allocate the headless window per size and reuse it; reallocate only on resize.
-- [ ] Choose the divisor from the blur radius so callers ask for a look, not a resolution.
-- [ ] Handle unavailable headless rendering explicitly — a documented fallback (flat tinted surface), never a panic.
-- [ ] Decide and document the refresh policy: this runs on the events thread and stalls it, so it must be driven by content change, not by every frame.
-- [ ] Benchmark the assembled pipeline and confirm it matches the table above.
-- [ ] Build, test, commit in pulse.
+- [x] Add a backdrop type that owns a `headless.Window`, renders a caller-supplied layer into it at a reduced resolution, reads it back, blurs it, and yields a `paint.ImageOp` stretched to full size.
+- [x] Allocate the headless window per size and reuse it; reallocate only on resize.
+- [x] Choose the divisor from the blur radius so callers ask for a look, not a resolution.
+- [x] Handle unavailable headless rendering explicitly — a documented fallback (flat tinted surface), never a panic.
+- [x] Decide and document the refresh policy: this runs on the events thread and stalls it, so it must be driven by content change, not by every frame.
+- [x] Benchmark the assembled pipeline and confirm it matches the table above.
+- [x] Build, test, commit in pulse.
 
 #### E4.4: Evaluate blur-based glow
 
