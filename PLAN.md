@@ -1281,11 +1281,11 @@ here is the survey.
 
 #### F0.1: Package the face and give the theme a code style
 
-- [ ] Add `font/robotomono`, mirroring `font/roboto`'s per-weight package layout only as far as real use: regular and italic in the weights the highlight path shapes — normal and bold suffice.
-- [ ] In `spectrum/tokens`, add a `Code` TextStyle to `Typography` — BodyMedium's metrics on the mono face — and append the mono faces to `DefaultTypography.Faces` so the default shaper resolves them.
-- [ ] Test that the default shaper resolves the mono face at every weight and style the highlight path uses.
-- [ ] Extend `spectrum/export` with the code role and run `scripts/push-design.sh`, so the design project stays level per E5.1; commit the regenerated `design/` here.
-- [ ] This widens spectrum's API — an ADR-006 seam whose tag is F3.1's, since Phase F ends in the release; until then the workspace covers it and `scripts/check-no-workspace.sh` reports the debt. Build, test, commit in font and spectrum.
+- [x] Add `font/robotomono`, mirroring `font/roboto`'s per-weight package layout only as far as real use: regular and italic in the weights the highlight path shapes — normal and bold suffice.
+- [x] In `spectrum/tokens`, add a `Code` TextStyle to `Typography` — BodyMedium's metrics on the mono face — and append the mono faces to `DefaultTypography.Faces` so the default shaper resolves them.
+- [x] Test that the default shaper resolves the mono face at every weight and style the highlight path uses.
+- [x] Extend `spectrum/export` with the code role and run `scripts/push-design.sh`, so the design project stays level per E5.1; commit the regenerated `design/` here.
+- [x] This widens spectrum's API — an ADR-006 seam whose tag is F3.1's, since Phase F ends in the release; until then the workspace covers it and `scripts/check-no-workspace.sh` reports the debt. Build, test, commit in font and spectrum.
 
 #### F0.2: Wire markdown to it
 
