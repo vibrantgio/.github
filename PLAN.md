@@ -1089,11 +1089,11 @@ steps — they become the secondary, opt-in cue E2.2 scopes.
 
 #### E2.1: Elevation becomes a surface step
 
-- [ ] Redefine `ElevationScale` in `spectrum/tokens`: each level carries the neutral ramp step of its surface fill — level 0 the `bg` pin over the step-100 ground, level 1 step 200, level 2 step 300, level 3 step 400 — alongside its shadow depth in dp, which survives as the secondary cue. Keep all six named levels so `pulse/depth` and the cadence call sites still compile; levels 4 and 5 clamp to level 3's step, exactly D2.3's clamp, with a doc comment marking them for F3.3's shim sweep — desktop has no six-storey stack.
-- [ ] Add the resolver from (`ColorTokens`, `ElevationLevel`) to the surface colour; test that every level's fill sits on the neutral ramp, that the clamp holds, and that D2.3's state walks compose on top — hover on a level-1 surface is step 300 in both modes, courtesy of the paired scales.
-- [ ] Keep `theme.Theme.Elevation` emitting the remapped scale — the observable finally carries something worth subscribing to.
-- [ ] Leave the `--shadow-*` emission in `spectrum/export` untouched; E5.1 replaces it with the surface roles once the migration lands, per E0.1's note.
-- [ ] Build, test, commit in spectrum.
+- [x] Redefine `ElevationScale` in `spectrum/tokens`: each level carries the neutral ramp step of its surface fill — level 0 the `bg` pin over the step-100 ground, level 1 step 200, level 2 step 300, level 3 step 400 — alongside its shadow depth in dp, which survives as the secondary cue. Keep all six named levels so `pulse/depth` and the cadence call sites still compile; levels 4 and 5 clamp to level 3's step, exactly D2.3's clamp, with a doc comment marking them for F3.3's shim sweep — desktop has no six-storey stack.
+- [x] Add the resolver from (`ColorTokens`, `ElevationLevel`) to the surface colour; test that every level's fill sits on the neutral ramp, that the clamp holds, and that D2.3's state walks compose on top — hover on a level-1 surface is step 300 in both modes, courtesy of the paired scales.
+- [x] Keep `theme.Theme.Elevation` emitting the remapped scale — the observable finally carries something worth subscribing to.
+- [x] Leave the `--shadow-*` emission in `spectrum/export` untouched; E5.1 replaces it with the surface roles once the migration lands, per E0.1's note.
+- [x] Build, test, commit in spectrum.
 
 #### E2.2: Shadows become opt-in vibrancy
 
