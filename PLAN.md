@@ -625,11 +625,11 @@ depend on the effects layer. It is animation code; it belongs in pulse.
 
 #### B3.5: Make the layering enforceable
 
-- [ ] Write `scripts/check-layers.sh` here: for each module, `go list -deps` and assert only the edges ADR-001's tier table permits — the whole table, including the tier 0 leaves and the support-library row, not just the six-module spine.
-- [ ] Teach it the nested-module exemption: `prism/gallery` and `mvu/example` may import above their parent's tier; their parents may not.
-- [ ] Run it across all twenty modules; fix or record any violation it finds.
-- [ ] Wire it into each core repo's CI workflow. A1.1's inventory says which repos have a `.github/workflows/` at all — where there is none, add a minimal build-and-test workflow first, since the check has to run somewhere.
-- [ ] Commit the script here and the workflow change in each repo.
+- [x] Write `scripts/check-layers.sh` here: for each module, `go list -deps` and assert only the edges ADR-001's tier table permits — the whole table, including the tier 0 leaves and the support-library row, not just the six-module spine.
+- [x] Teach it the nested-module exemption: `prism/gallery` and `mvu/example` may import above their parent's tier; their parents may not.
+- [x] Run it across all twenty modules; fix or record any violation it finds.
+- [x] Wire it into each core repo's CI workflow. A1.1's inventory says which repos have a `.github/workflows/` at all — where there is none, add a minimal build-and-test workflow first, since the check has to run somewhere.
+- [x] Commit the script here and the workflow change in each repo.
 
 ## Phase C: The theme owns the typeface
 
