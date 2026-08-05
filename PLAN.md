@@ -915,12 +915,12 @@ colour the token sheet can emit.
 
 #### D2.4: Contrast conformance
 
-- [ ] Add an APCA (Lc) helper alongside D1.4's WCAG helpers.
-- [ ] Test ADR-007's guarantees in both ramps: step 900 at Lc ≥ 90 and step 700 at Lc ≥ 60 over the step-100 and step-200 grounds; each pinned base's on-colour at Lc ≥ 60 over the base.
-- [ ] Report WCAG 2 AA for the same pairs alongside — conformance claims cite it — without gating on it.
-- [ ] Fix the scale tunings that fail: the spike already measured light-mode 900-on-200 at Lc 87, so the 900 stop deepens.
-- [ ] Test the same for the high-contrast variant once E3.3 lands, or record the gap.
-- [ ] Commit.
+- [x] Add an APCA (Lc) helper alongside D1.4's WCAG helpers.
+- [x] Test ADR-007's guarantees in both ramps: step 900 at Lc ≥ 90 and step 700 at Lc ≥ 60 over the step-100 and step-200 grounds; each pinned base's on-colour at Lc ≥ 60 over the base.
+- [x] Report WCAG 2 AA for the same pairs alongside — conformance claims cite it — without gating on it.
+- [x] Fix the scale tunings that fail: the spike already measured light-mode 900-on-200 at Lc 87, so the 900 stop deepens.
+- [x] Test the same for the high-contrast variant once E3.3 lands, or record the gap.
+- [x] Commit.
 
 #### D2.5: Migrate prism to the ramps
 
@@ -1966,7 +1966,16 @@ across all three models), so APCA costs nothing where WCAG was right. Radix
 reaches Lc 60/90 by hand-tuning; here the generator meets the same numbers by
 test. One tuning the spike already caught: the measured scale's light-mode
 900-on-200 pair lands at Lc 87, just under the gate, so D2.4 will push the 900
-stop slightly deeper.
+stop slightly deeper. *(D2.4 landed two tunings, both larger than "slightly":
+APCA's soft black clamp caps even pure black near Lc 92 over the L\* 92
+step-200 ground, so the light 900 stop deepened from the measured L\* 18 to
+L\* 6 — the depth where all five ramps clear Lc 90 with margin — and the dark
+pins rose from the measured L\* 65, a mid-tone no text of any colour reaches
+Lc 60 over (black tops out near 52, white near 57), to L\* 82, the dark
+scale's step-700 depth beside MD3's dark accent tone 80. The dark fill
+recorded above, `#a690ea`, survives as the dark primary ramp's step 500; the
+shipped dark pin for this seed is `#d0c4ff`. The evidence table itself is the
+spike's measurement and stands unchanged.)*
 
 **Why not MD3's tables.** The design knowledge lives in two hand-written
 role→tone tables that must be kept in step — dual authorship of dark mode, the
