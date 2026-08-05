@@ -751,9 +751,9 @@ The rule that prevents this whole class of regression.
 
 #### C3.2: The no-literal-colour lint
 
-- [ ] Write a test that fails on `color.NRGBA{...}` literals outside `spectrum/tokens` — and `spectrum/color` too, which D1.1 creates a phase from now.
-- [ ] Add it to prism, pulse, cadence and markdown; allow-list the deliberate exceptions with a comment explaining each.
-- [ ] Wire into CI; commit in each.
+- [x] Write a test that fails on `color.NRGBA{...}` literals outside `spectrum/tokens` — and `spectrum/color` too, which D1.1 creates a phase from now.
+- [x] Add it to prism, pulse, cadence and markdown; allow-list the deliberate exceptions with a comment explaining each.
+- [x] Wire into CI; commit in each.
 
 #### C3.3: Refresh the guide's typography section
 
