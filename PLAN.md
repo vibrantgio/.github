@@ -1007,12 +1007,12 @@ exist yet.
 Static HTML that reads only from the emitted token sheet — no hard-coded values,
 so a theme change reflows every page.
 
-- [ ] Generate `foundations/color.html`: each role with its full 100–900 ramp and its pin, annotated with ADR-007's step purposes — 100–300 tinted fills and hovers, 500 mid, 700–900 text and pressed — and the measured APCA Lc (with the WCAG ratio alongside) of each text pair against its ground.
-- [ ] Generate `foundations/type.html`: every type role at its real size, weight, line height and tracking, in the actual faces.
-- [ ] Generate `foundations/layout.html`: the spacing scale, radius scale and elevation steps as rendered specimens. Elevation as it stands today; E5.1 re-renders it once E2.1 has remapped it to surface roles.
-- [ ] Generate `readme.md` for the project describing the system and naming the token families — the file a human or an agent reads first.
-- [ ] Confirm every page renders correctly against a dark theme emission as well as light.
-- [ ] Build, test, commit in spectrum; commit the generated `design/` here.
+- [x] Generate `foundations/color.html`: each role with its full 100–900 ramp and its pin, annotated with ADR-007's step purposes — 100–300 tinted fills and hovers, 500 mid, 700–900 text and pressed — and the measured APCA Lc (with the WCAG ratio alongside) of each text pair against its ground.
+- [x] Generate `foundations/type.html`: every type role at its real size, weight, line height and tracking, in the actual faces.
+- [x] Generate `foundations/layout.html`: the spacing scale, radius scale and elevation steps as rendered specimens. Elevation as it stands today; E5.1 re-renders it once E2.1 has remapped it to surface roles.
+- [x] Generate `readme.md` for the project describing the system and naming the token families — the file a human or an agent reads first.
+- [x] Confirm every page renders correctly against a dark theme emission as well as light.
+- [x] Build, test, commit in spectrum; commit the generated `design/` here.
 
 #### E0.3: Push to Claude Design
 
