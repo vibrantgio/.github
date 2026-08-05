@@ -844,12 +844,12 @@ MD3's tone *is* CIELAB L\*, so this axis is what the whole palette hangs from.
 `reactivego/luminance` already implements the chain correctly and without
 dependencies; lift the math in rather than taking the package as a dependency.
 
-- [ ] Create `spectrum/color`; lift the sRGB ↔ XYZ(D65) ↔ CIELAB conversions from that package's `luminance.go`.
-- [ ] Keep the D65 white point and the CIE ϵ/κ constants exactly as they are.
-- [ ] Leave behind `Lighten`, `Darken`, `LightenRGBA`, `DarkenRGBA` and `Kn` — a chroma.js port tuned to the retired MD2 Color Tool, and MD3 has no lighten/darken concept.
-- [ ] Note in the file header that these functions came out of MD2-era tone work, so a later reader does not go looking for MD3 semantics in them.
-- [ ] Write the round-trip tests the original never had: the sRGB cube at 1% tolerance, plus published CIELAB reference values.
-- [ ] Build, test, commit.
+- [x] Create `spectrum/color`; lift the sRGB ↔ XYZ(D65) ↔ CIELAB conversions from that package's `luminance.go`.
+- [x] Keep the D65 white point and the CIE ϵ/κ constants exactly as they are.
+- [x] Leave behind `Lighten`, `Darken`, `LightenRGBA`, `DarkenRGBA` and `Kn` — a chroma.js port tuned to the retired MD2 Color Tool, and MD3 has no lighten/darken concept.
+- [x] Note in the file header that these functions came out of MD2-era tone work, so a later reader does not go looking for MD3 semantics in them.
+- [x] Write the round-trip tests the original never had: the sRGB cube at 1% tolerance, plus published CIELAB reference values.
+- [x] Build, test, commit.
 
 #### D1.2: OKLab and OKLCh
 
