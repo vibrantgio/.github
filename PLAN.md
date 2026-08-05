@@ -943,10 +943,10 @@ colour the token sheet can emit.
 The gap that makes branding impossible today: `LiveTheme` hardcodes the default
 palette, so choosing your own colours means giving up OS dark-mode tracking.
 
-- [ ] Add options so a caller supplies a seed or a full palette and still gets live light/dark switching.
-- [ ] Update `LiveTheme` and `FromSourceTheme` to take them.
-- [ ] Test that a custom seed survives a light→dark transition.
-- [ ] Build, test, commit.
+- [x] Add options so a caller supplies a seed or a full palette and still gets live light/dark switching.
+- [x] Update `LiveTheme` and `FromSourceTheme` to take them.
+- [x] Test that a custom seed survives a light→dark transition.
+- [x] Build, test, commit.
 
 #### D3.2: Wire the macOS accent
 
