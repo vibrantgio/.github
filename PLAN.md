@@ -712,9 +712,9 @@ file may import `gofont` when the group is done.
 
 #### C2.4: pulse
 
-- [ ] Migrate springbutton and depth.
-- [ ] Confirm no `gofont` import remains in pulse.
-- [ ] Regenerate goldens; build, test, commit.
+- [x] Migrate springbutton and depth.
+- [x] Confirm no `gofont` import remains in pulse.
+- [x] Regenerate goldens; build, test, commit.
 
 #### C2.5: cadence — data and navigation
 
