@@ -1978,11 +1978,11 @@ Flooring rows at 44 would cost Compact most of its value in exactly the dense
 tables and lists it exists for, so the promise is narrowed rather than the
 density weakened.
 
-- [ ] Rewrite `MinHitTarget`'s doc to say what it actually guarantees — standalone controls, not stacked rows — and record the 2.5.8-versus-2.5.5 distinction beside `density.go`'s metrics table, with the measured 28 dp and both thresholds, so the next reader can check the claim instead of trusting it.
-- [ ] Give `prism/list` keyboard traversal of the whole list: arrow keys move the selection, the list scrolls the selection into view, and Home/End reach the ends. The gap is that focus tags exist only for laid-out rows, so traversal cannot be built on Tab alone — which is why this is the list's job and not each caller's.
-- [ ] Move `cadence/sidebar` onto it, since FX.6's scroll region is what exposed the gap. Check whether `cadence/table` and `prism/input`'s dropdown menu have the same shape, and say so either way rather than leaving it to be rediscovered.
-- [ ] Test it where it actually fails today: a list long enough to virtualise, asserting the selection reaches a row that was never laid out in the first frame, driven through a real `input.Router` as `g53c`'s right-click test is.
-- [ ] Regenerate any moved goldens; build, test, commit in every repo touched. If the `prism/list` work alone fills the task, land it, check off what is done, and split the cadence migration out — the plan's sizing rule outranks finishing the list in one go.
+- [x] Rewrite `MinHitTarget`'s doc to say what it actually guarantees — standalone controls, not stacked rows — and record the 2.5.8-versus-2.5.5 distinction beside `density.go`'s metrics table, with the measured 28 dp and both thresholds, so the next reader can check the claim instead of trusting it.
+- [x] Give `prism/list` keyboard traversal of the whole list: arrow keys move the selection, the list scrolls the selection into view, and Home/End reach the ends. The gap is that focus tags exist only for laid-out rows, so traversal cannot be built on Tab alone — which is why this is the list's job and not each caller's.
+- [x] Move `cadence/sidebar` onto it, since FX.6's scroll region is what exposed the gap. Check whether `cadence/table` and `prism/input`'s dropdown menu have the same shape, and say so either way rather than leaving it to be rediscovered.
+- [x] Test it where it actually fails today: a list long enough to virtualise, asserting the selection reaches a row that was never laid out in the first frame, driven through a real `input.Router` as `g53c`'s right-click test is.
+- [x] Regenerate any moved goldens; build, test, commit in every repo touched. If the `prism/list` work alone fills the task, land it, check off what is done, and split the cadence migration out — the plan's sizing rule outranks finishing the list in one go.
 
 #### F4.8: Release the fixes
 
