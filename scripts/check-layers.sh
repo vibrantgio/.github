@@ -73,15 +73,18 @@ tier_of() {
 #
 # RECORDED_EDGES: known transitional violations. The check reports them and
 # still exits 0, until the named task removes the edge and the entry.
-#   spectrum->pulse — only via the deprecated alias shim spectrum/transition
-#     (B3.4); the shim and this entry die in F3.3.
+#   Empty since F3.3. The last entry was spectrum->pulse, carried only by the
+#   deprecated spectrum/transition alias shim (B3.4); the shim went in
+#   spectrum v0.2.0 and the entry went with it, so every upward edge the
+#   phases opened is now closed and any new one is a hard failure. An entry
+#   added back here must name the task that removes it again.
 # ---------------------------------------------------------------------------
 ALLOWED_EDGES="style->font style->textdraw"
-RECORDED_EDGES="spectrum->pulse"
+RECORDED_EDGES=""
 
 recorded_reason() {
   case "$1" in
-    "spectrum->pulse") echo "deprecated alias shim spectrum/transition (B3.4); removed by F3.3" ;;
+    *) echo "transitional edge, no reason recorded" ;;
   esac
 }
 
