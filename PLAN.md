@@ -1490,10 +1490,10 @@ package doc says so itself.
 The chroma hook colours every run, so `Style.CodeColor` is unreachable and code
 blocks leave the token palette.
 
-- [ ] Emit no colour for runs chroma would render in its default foreground, so the documented `Style.CodeColor` fallback at `style.go:20` actually fires.
-- [ ] Fail loudly on an unrecognised style name instead of falling back to a dark-background default that renders near-white on the light theme.
-- [ ] Golden-test a code block in both themes, asserting the plain runs take the token colour.
-- [ ] Regenerate goldens; build, test, commit; strike the register entry. D2.7 and C2.8 both landed, so the double-migration risk this task once dodged is gone — but F0.2 moves the same goldens for the mono face, so it goes first.
+- [x] Emit no colour for runs chroma would render in its default foreground, so the documented `Style.CodeColor` fallback at `style.go:20` actually fires.
+- [x] Fail loudly on an unrecognised style name instead of falling back to a dark-background default that renders near-white on the light theme.
+- [x] Golden-test a code block in both themes, asserting the plain runs take the token colour.
+- [x] Regenerate goldens; build, test, commit; strike the register entry. D2.7 and C2.8 both landed, so the double-migration risk this task once dodged is gone — but F0.2 moves the same goldens for the mono face, so it goes first.
 
 #### FX.8: Add the two missing LICENSE files
 
@@ -2414,13 +2414,34 @@ recorded rather than fought: the list virtualizes offscreen rows, so a row's
 focus tag exists only while it is laid out and Arrow traversal reaches the
 rows currently in view.
 
-**`markdown/highlight` makes `Style.CodeColor` unreachable.** The chroma hook
+~~**`markdown/highlight` makes `Style.CodeColor` unreachable.** The chroma hook
 emits a colour for *every* run it produces, so the fallback documented at
 `style.go:20` never fires and code blocks leave the token palette entirely.
 Separately, an unrecognised style name falls back to chroma's dark-background
 default, which renders near-white — illegible on the light theme, and silent.
 D2.7 migrates markdown to the new roles and C2.8 moves it to theme typography;
-neither would notice a path that bypasses the tokens altogether.
+neither would notice a path that bypasses the tokens altogether.~~
+
+**Fixed in FX.7.** `New` resolves the style's plain-text foreground once —
+`style.Get(chroma.Text).Colour`, which is precisely what chroma's `Get`
+inherits (Background, then Text) for a token type the style never mentions —
+and emits the zero colour for every run resolving to it, so `Style.CodeColor`
+themes the plain runs while keywords, strings and comments keep chroma's own.
+One wrinkle worth keeping: a minority of styles declare *no* foreground and
+restate their body colour per token type instead — `github` is one, its
+`Background` entry carries only `bg:#f7f7f7` — so for those the `Punctuation`
+colour stands in, punctuation being the least semantic ink a style ever
+colours. An unrecognised name now panics in `New` rather than returning an
+error: the signature stays a one-value constructor, and both callers
+(`workbench/sitedocs`, `workbench/mindchat`) build highlighters in
+package-level `var` declarations, where the panic fires at process start on
+*either* theme instead of at the first code block on one of them. Two
+highlight goldens pin the block per theme (`go-snippet-dark` is new), and a
+pixel test counts exact `CodeColor` pixels and asserts they move with the
+token; it fails on all three counts against the old hook. The ripple was
+larger than the register suggested: `sitedocs`'s six docs-page goldens moved
+too, since its fenced shell blocks were rendering in chroma's `#1f2328`
+rather than the page's Neutral 700.
 
 **`gradient` and `circle` ship no LICENSE file.** The other eighteen repos have
 one. They are public modules, so this is a packaging defect rather than a
