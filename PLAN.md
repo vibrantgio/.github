@@ -1480,10 +1480,10 @@ pitch is now `Density.ControlHeight` — 36/28 dp rather than the register's
 48 — so the list overflows a few items later and just as irrecoverably; the
 package doc says so itself.
 
-- [ ] Wrap the item loop in a scrollable list — `prism/list` is the one the rest of cadence uses.
-- [ ] Golden-test a list long enough to overflow, in both the expanded and collapsed widths and at both densities.
-- [ ] Consider whether the 192/48 dp column-width constants — still local, still ignoring the horizontal constraint — should respond to it, and record the decision either way.
-- [ ] Regenerate goldens; build, test, commit; strike the register entry.
+- [x] Wrap the item loop in a scrollable list — `prism/list` is the one the rest of cadence uses.
+- [x] Golden-test a list long enough to overflow, in both the expanded and collapsed widths and at both densities.
+- [x] Consider whether the 192/48 dp column-width constants — still local, still ignoring the horizontal constraint — should respond to it, and record the decision either way.
+- [x] Regenerate goldens; build, test, commit; strike the register entry.
 
 #### FX.7: Let the theme reach highlighted code
 
@@ -2393,11 +2393,26 @@ documented in the package comment, is that writes from other processes or
 editors are not observed — there is no file watcher, only the in-process
 notification.
 
-**`cadence/sidebar` paints past the bottom of the screen.** Items are stacked at
+~~**`cadence/sidebar` paints past the bottom of the screen.** Items are stacked at
 a fixed 48 dp pitch with no scroll region (`sidebar.go:19-21`, `itemDp = 48`),
 so a nav list taller than the viewport simply runs off the edge with no way to
 reach the rest. The 192/48 dp column widths are local constants that ignore the
-horizontal constraint as well.
+horizontal constraint as well.~~
+
+**Fixed in FX.6.** The item loop below the toggle is now a prism/list scroll
+region — the bare `list.Layout`, the same idiom `cadence/table`'s body uses:
+wheel/touch scrolling, no scrollbar, O(visible) rows. Non-overflowing layouts
+are pixel-identical (the four existing goldens passed unregenerated); four new
+goldens pin twelve items at every width × density combination, scrolled to the
+bottom through the live pointer path with the last item Active, so the
+previously unreachable end of the list is the highlighted row against the
+bottom edge. The 192/48 dp widths were reconsidered and kept fixed, rationale
+in the package doc: density scopes to vertical rhythm (E1.4 heights), and
+clamping to the horizontal constraint would introduce a third, unpredictable
+width where the two-width swap is the pattern's contract. One consequence
+recorded rather than fought: the list virtualizes offscreen rows, so a row's
+focus tag exists only while it is laid out and Arrow traversal reaches the
+rows currently in view.
 
 **`markdown/highlight` makes `Style.CodeColor` unreachable.** The chroma hook
 emits a colour for *every* run it produces, so the fallback documented at
