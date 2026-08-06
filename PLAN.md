@@ -1547,9 +1547,24 @@ that does not exist yet. F3.5's final run cannot go green until it does.
 
 #### F3.2: Tag the component layers
 
-- [ ] Update prism and pulse to spectrum v0.1.0; build and test.
-- [ ] Tag prism in series — v0.1.9; its v0.1.x series is clean — then pulse at **v0.1.0**, burying its v0.0.10–12; ask Rene to push each before the next one moves.
-- [ ] Confirm resolution from a clean cache, workspace disabled.
+- [x] Update prism and pulse to spectrum v0.1.0; build and test.
+- [x] Tag prism in series — v0.1.9; its v0.1.x series is clean — then pulse at **v0.1.0**, burying its v0.0.10–12; ask Rene to push each before the next one moves.
+- [x] Confirm resolution from a clean cache, workspace disabled.
+
+Tags cut and pushed: prism **v0.1.9**, pulse **v0.1.0** — pulse's burial
+number, its v0.0.x series closed for good. Both pinned to spectrum v0.1.0,
+mvu v0.4.4 and font v0.0.5; both green with `GOWORK=off`. A throwaway
+`GOMODCACHE` resolved prism v0.1.9 and pulse v0.1.0 straight off the proxy,
+pulling spectrum v0.1.0, mvu v0.4.4 and font v0.0.5 transitively, and ran a
+program calling `blur.Gaussian` and reaching `button.Render`.
+
+`check-no-workspace.sh` holds at **30/36**: prism and pulse were already in
+the passing set, so the honest pins bought correctness rather than a count.
+The same six remain — cadence, markdown, the three workbench apps and
+`svg/driver/raster` — and F3.1's table still names their owners.
+
+`prism/gallery` is untouched and still builds under the workspace on its
+stale v0.1.5/v0.0.7 pins. It is F3.5's to re-pin and tag.
 
 #### F3.3: The major-bump shim sweep
 
