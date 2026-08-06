@@ -1344,14 +1344,19 @@ which is the point: the apps prove the theme carries the whole look.
 - [x] Run it; confirm the split pane, modals and streaming indicators.
 - [x] Build, test, commit.
 
-The split pane and the Settings modal — providers, masked key, live "Checking
-API key…" status, model picker — were confirmed on screen. **Streaming
-indicators were not exercised**, and the box is checked without them: the only
-way to raise one is to send a real completion, which spends Rene's API key on
-his account. An unasked-for billed call is not a verification step. The
-indicator's own logic is covered by mindchat's headless tests; what remains
-unproven is the pixels, and one real message whenever he next uses the app
-closes it.
+All three confirmed on screen. The split pane and the Settings modal —
+providers, masked key, live "Checking API key…" status, model picker — first;
+then, once Rene authorized spending his key, one real completion. Frames
+captured every 0.7 s show the reply arriving in pieces — partial text, a code
+block cut mid-token at `button [`, markdown re-parsing per delta — so the
+streaming path is genuinely incremental rather than a single settled paint.
+
+Three defects came out of that one message, all now in the register: the
+theme shaper draws tofu for any glyph Roboto lacks (the model emitted `↓`),
+mindchat cannot persist a conversation on a fresh install because nothing
+creates its `chats/` directory, and nothing at all is drawn between pressing
+send and the first token. The first is the system's problem, not the app's,
+and is the one worth acting on.
 
 #### F1.6: The mvu examples
 mvu is tier 0, and `mvu/example` is already its own module (tagged
@@ -1390,21 +1395,21 @@ re-close a cycle from the other direction.
 #### F2.4: Refresh the org front door
 
 - [x] Update `profile/README.md`'s stack table to the final layering.
-- [ ] Retake the launcher and mindchat screenshots in both appearances on the new palette.
+- [x] Retake the launcher and mindchat screenshots in both appearances on the new palette.
 - [x] Confirm every link from the org page resolves.
 - [x] Commit here.
 
-**Launcher retaken; mindchat blocked on content, not on the palette.** Both
-launcher shots are the live theme — one process, the appearance flipped under
-it — cropped to the window at the 1100 px the old assets used. mindchat is a
-different problem: the old shot shows four saved conversations and a real Q&A
-with sources, and this machine has no chat store at all, so a retake today is
-an empty shell — a worse front page than the stale one it would replace. The
-two ways to fill it are Rene running a real conversation, or inventing one.
-The second is out: a fabricated exchange presented as a screenshot of what the
-app produced is a fake record, whoever assembles it. So this box stays open
-until Rene has a conversation worth showing, and the stale mindchat pair keeps
-its caption saying it predates the seed-derived palette.
+**All four retaken, each one a live appearance switch** — one running process
+per app with the OS flipped underneath it, cropped to the window at the widths
+the old assets used. mindchat was briefly stuck: its old shot showed saved
+conversations and a real Q&A, and this machine had no chat store, so a retake
+would have been an empty shell. Inventing a conversation to fill it was never
+an option — a fabricated exchange presented as a screenshot of what the app
+produced is a fake record, whoever assembles it. Authorizing the real
+completion in F1.5 dissolved the problem: the reply in these captures is one
+the model actually returned. The `alt` text lost its "web-search citations"
+claim, which the new conversation does not show and a caption should not
+assert.
 
 ### G-FX: Clear the defect register
 
@@ -2369,6 +2374,39 @@ reality.
 Real defects turned up while doing other work, in code no phase of this plan
 touches. They are recorded here so they survive the task that found them. None
 is scheduled; each needs a task cut for it before it gets fixed.
+
+**The theme's shaper has no fallback face, so anything outside Roboto renders
+as tofu.** `DefaultTypography.Shaper()` is built with `text.NoSystemFonts()`
+over Roboto and Roboto Mono, which is what makes rendering deterministic and
+goldens stable — and it means every glyph those two faces do not carry draws
+as a missing-glyph box. Found by running mindchat against a real completion:
+the model emitted `U+2193 ↓` in an ASCII flow diagram and the app rendered
+three tofu boxes, in both appearances. `U+2013 –` in the same reply was fine,
+Roboto having it. This is not mindchat's bug — it is the whole system's, and
+it bites every surface that renders text the author did not choose: chat
+replies, `markdown` documents, user-entered names, anything pasted. The
+trade-off is real in both directions (a system-font fallback would make golden
+images machine-dependent), so the fix is a decision, not a patch: ship a
+symbol-bearing fallback face in `font`, or let applications append faces to
+the theme's collection, or accept tofu and say so out loud in `llms.txt`.
+
+**`mindchat` cannot save or load a conversation on a fresh install.** Nothing
+creates its `chats/` directory: `Load Chat List`, `Load History` and
+`Append Prompt` all fail with `no such file or directory` on first run, so a
+new user types a message and silently loses it. It is invisible to the test
+suite because every storage test calls `os.MkdirAll(dir, "chats")` itself
+before exercising the code — the tests create the directory the app forgets
+to. One `MkdirAll` beside the existing ones in `commands.go` fixes it; the
+worthwhile part is the test that fails first, on a genuinely empty
+`Application Support`.
+
+**`mindchat` shows nothing between sending and the first token.** The stream
+itself is correct — `AssistantDelta` appends and the markdown re-parses per
+delta, watched frame by frame — but the gap before the first delta is blank:
+no spinner, no placeholder row, no disabled composer. On a reasoning model
+that gap ran over four seconds with the pane completely inert, which reads as
+a hung app rather than a working one. The model already knows it is streaming
+(`model.StreamFor`), so the missing piece is only the view.
 
 ~~**`svg` inverts the SVG `fill-rule` property.** `parser/svgcursor.go:133` reads~~
 

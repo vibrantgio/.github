@@ -31,14 +31,15 @@ semantic roles rather than a transcription of the Android widget set.
   <img src="launcher-light.png" alt="Workbench launcher in light mode" width="49%">
 </p>
 <p>
-  <img src="mindchat-dark.png" alt="MindChat in dark mode — streaming chat client with providers, model picker, and web-search citations" width="49%">
+  <img src="mindchat-dark.png" alt="MindChat in dark mode — streaming chat client with providers, model picker, and markdown replies with highlighted code" width="49%">
   <img src="mindchat-light.png" alt="MindChat in light mode" width="49%">
 </p>
 
 The [workbench](https://github.com/vibrantgio/workbench) launcher and MindChat,
 each captured in the OS dark and light appearance — spectrum re-themes every
-window live when the system switches. These captures predate the seed-derived
-palette (ADR-007); a retake on the current palette is pending.
+window live when the system switches, and these four shots are that switch: one
+running process per app, the appearance flipped underneath it, on the
+seed-derived palette (ADR-007).
 
 ## The stack
 
