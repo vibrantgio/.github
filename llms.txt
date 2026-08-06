@@ -559,8 +559,11 @@ TextStyle carries Typeface, Weight (CSS-style numeric: 400 regular, 500
 medium; tokens.FontWeight converts to Gio's font.Weight), and Size,
 LineHeight and Tracking in dp. Typography also carries Faces, the font
 collection, and Shaper(), which builds ONE text.Shaper from Faces on first
-call — system fonts excluded — and caches it in the value; it is safe for
-concurrent use and shared by every component. spectrum/theme.Theme.Typography
+call — with the platform's own fonts behind them as fallback — and caches it
+in the value; it is safe for concurrent use and shared by every component.
+The fallback is deliberate: Roboto and Roboto Mono carry no arrow, no
+box-drawing character and no dingbat, so a shaper confined to them draws tofu
+for text a real application genuinely receives. spectrum/theme.Theme.Typography
 is an rx.Observable[tokens.Typography]; theme.Default(), theme.AutoLightDark
 and spectrum/system's LiveTheme all emit tokens.DefaultTypography, whose
 fifteen roles name "Roboto", whose Code names "Roboto Mono", and whose
@@ -594,6 +597,34 @@ THE RULES
     text-drawing components for the rare call site that must shape with a
     different collection; leave it nil everywhere else. If you find
     yourself passing it routinely, you are reimplementing the old defect.
+  - A GOLDEN TEST PINS ITS FACES; APPLICATION CODE DOES NOT. Typography
+    has two shaper constructors and they are not interchangeable.
+    Shaper() is the application one: Faces first, then the platform's own
+    fonts, so all text resolves — including the glyphs no embedded face
+    was ever going to carry. DeterministicShaper() is the test one: Faces
+    and nothing else, system fonts off, so the same text shapes to the
+    same pixels on every machine. Every golden and pixel test in prism,
+    pulse, cadence, markdown and the workbench apps calls the second.
+    A golden written against Shaper() passes on the machine that wrote it
+    and fails on one with a different font set — silently, and only for
+    whoever runs it next. That failure is the whole reason the two exist.
+
+WHEN A TEST NEEDS A GLYPH THE DEFAULT FACES LACK, widen the collection
+rather than reach for the system. WithFaces returns a copy of the
+Typography with extra faces appended last and both shaper caches cleared,
+so the default family still wins for text naming no typeface:
+
+  typ := tokens.DefaultTypography.WithFaces(notosansmono.FontFace())
+  shaper := typ.DeterministicShaper()
+
+font/notosansmono is the org's optional symbol face — box drawing, blocks,
+geometric shapes, arrows, maths operators — deliberately absent from
+DefaultTypography.Faces because Shaper()'s system fallback already covers
+what it carries. Add it where there is no system to fall back on: a
+container, a kiosk, anything shipping its own world. And do not then put
+the symbol in a golden image: the face serving it is exactly the
+machine-dependent thing goldens exist to avoid, so assert that the shaper
+resolved the rune to a real face and keep it out of the pixels.
 
 The workbench apps embody all of this: as of Phase F1, no app builds a
 shaper, imports style or gofont, or passes Props.Shaper — copy any of them.
@@ -744,7 +775,11 @@ coded clip paths on purpose (golden determinism); leave those alone.
   package has goldens (markdown); in prism, pulse, spectrum and cadence,
   packages without goldens reject the undeclared flag, so name the golden
   packages one by one (each repo's AGENTS.md carries the measured
-  command line).
+  command line). A golden also PINS ITS FACES with
+  tokens.DefaultTypography.DeterministicShaper(), never the application
+  default Shaper() (§Typography) — and workbench/watchlist stores its
+  goldens in `testdata/` directly, not `testdata/golden/`, so a sweep
+  keyed on the conventional path silently skips it.
 - TAGS ARE FOREVER, SO SPEND THEM CAREFULLY. No version component ever
   reaches two digits (v0.0.9 → v0.1.0, never v0.0.10); once the proxy or
   sum.golang.org has seen a version it is immutable, and a wrong tag can

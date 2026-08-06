@@ -1781,10 +1781,10 @@ F4.2 changes what `DefaultTypography.Shaper()` means, and roughly a hundred
 golden tests call it. This is the task that keeps the images machine
 independent.
 
-- [ ] Repoint every golden and pixel test in prism, pulse, cadence, markdown and the workbench apps at F4.2's deterministic constructor. The apps' own rendering keeps the fallback default — it is only the tests that pin.
-- [ ] Confirm the images are byte-identical afterwards. They must be: the deterministic configuration is what the default did until F4.2. A moved pixel here means the swap was not inert and needs understanding before anything is regenerated.
-- [ ] Add the rule to each repo's `AGENTS.md` and to `llms.txt`: a golden test pins its faces, application code does not. A new golden written against the default shaper will pass locally and fail on a machine with different fonts, which is the failure this task exists to make impossible.
-- [ ] Build, test, commit in every repo touched.
+- [x] Repoint every golden and pixel test in prism, pulse, cadence, markdown and the workbench apps at F4.2's deterministic constructor. The apps' own rendering keeps the fallback default — it is only the tests that pin.
+- [x] Confirm the images are byte-identical afterwards. They must be: the deterministic configuration is what the default did until F4.2. A moved pixel here means the swap was not inert and needs understanding before anything is regenerated.
+- [x] Add the rule to each repo's `AGENTS.md` and to `llms.txt`: a golden test pins its faces, application code does not. A new golden written against the default shaper will pass locally and fail on a machine with different fonts, which is the failure this task exists to make impossible.
+- [x] Build, test, commit in every repo touched.
 
 #### F4.4: Put real text in the goldens
 
