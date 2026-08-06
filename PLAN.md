@@ -1957,11 +1957,11 @@ does.
 The last two colour literals in the system, and the only entries left in
 C3.2's allow-list that are not deliberate alpha compositing.
 
-- [ ] Add success and warning roles to `spectrum/tokens`, derived like every other role rather than picked by hand — ADR-007's ramp model already says how, and the seed's hue is the only input a new role needs.
-- [ ] Migrate `cadence/alert` and `cadence/toast` onto them. The two packages currently carry byte-identical copies of the same four Tailwind values, so the duplication and the divergence risk go with the literals.
-- [ ] Gate the new roles in APCA exactly as D2.4 gates the others, and record the measured Lc — a status colour that fails contrast is worse than a neutral one, because it is the colour a user is being asked to read in a hurry.
-- [ ] Delete both entries from `check-layers`'s sibling, the `noliteralcolor` allow-list, and confirm the lint still passes with them gone.
-- [ ] Regenerate the moved goldens; build, test, commit in spectrum and cadence.
+- [x] Add success and warning roles to `spectrum/tokens`, derived like every other role rather than picked by hand — ADR-007's ramp model already says how, and the seed's hue is the only input a new role needs.
+- [x] Migrate `cadence/alert` and `cadence/toast` onto them. The two packages currently carry byte-identical copies of the same four Tailwind values, so the duplication and the divergence risk go with the literals.
+- [x] Gate the new roles in APCA exactly as D2.4 gates the others, and record the measured Lc — a status colour that fails contrast is worse than a neutral one, because it is the colour a user is being asked to read in a hurry.
+- [x] Delete both entries from `check-layers`'s sibling, the `noliteralcolor` allow-list, and confirm the lint still passes with them gone.
+- [x] Regenerate the moved goldens; build, test, commit in spectrum and cadence.
 
 #### F4.7: Make a virtualised list reachable from the keyboard
 
