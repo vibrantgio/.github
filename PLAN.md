@@ -1499,8 +1499,8 @@ blocks leave the token palette.
 
 `gradient` and `circle` ship none; the other eighteen repos do.
 
-- [ ] Copy the licence the rest of the organization uses, with the same holder and year convention. Do not invent a different one.
-- [ ] Commit in each repo; strike the register entry.
+- [x] Copy the licence the rest of the organization uses, with the same holder and year convention. Do not invent a different one.
+- [x] Commit in each repo; strike the register entry.
 
 ### G-F3: Release
 
@@ -2443,9 +2443,17 @@ larger than the register suggested: `sitedocs`'s six docs-page goldens moved
 too, since its fenced shell blocks were rendering in chroma's `#1f2328`
 rather than the page's Neutral 700.
 
-**`gradient` and `circle` ship no LICENSE file.** The other eighteen repos have
+~~**`gradient` and `circle` ship no LICENSE file.** The other eighteen repos have
 one. They are public modules, so this is a packaging defect rather than a
-cosmetic one.
+cosmetic one.~~
+
+**Fixed in FX.8.** Both take the MIT text the other twelve org-authored repos
+carry, byte-identical, under `Copyright (c) 2026 the vibrantgio authors`. The
+remaining six licences in the organization differ because those repos are
+ports and keep their upstream terms — Go Authors, Gio authors, Evan Wallace,
+Nucleic, Steven R Wiley — which is exactly why the convention had to be read
+off the org-authored twelve rather than off whatever sat next door. `gradient`
+and `circle` are original code, so neither inherits an upstream licence.
 
 ### Release protocol
 
