@@ -1845,11 +1845,59 @@ The same measurement turned up a second, smaller lie: a Compact button renders
 2×6 dp of padding exceeds it. It reproduces with an empty label, so it predates
 F4.4 and is not text's doing.
 
-- [ ] Decide what the line height is for on a single-line label, and say so where a caller reads it. Either the label paths honour it — giving the line box the role's height rather than the glyph ink's, which is what a design system means by line height and what every CSS engine does — or the contract is narrowed to multi-line text and the docs on `TextStyle`, `button.Render` and the components stop implying otherwise. Do not leave both readings alive.
-- [ ] Whichever way it goes, pin it with a test that fails against today's behaviour: single-line labels at two different line heights either differ, or are asserted equal with the reason written beside the assertion.
-- [ ] Fix or explain the 29-versus-28 dp Compact button. If a control's height is the greater of `ControlHeight` and its content box, `Density.ControlHeight` is a floor and not a height, and `density.go`'s metrics table should say the word it means.
-- [ ] Fix the third false sizing claim, found by F4.4b: a `prism/button` label never grows its button. `cadence/hero`'s `ctaGtx` clamps a CTA cell to `ctaIntrinsicWidth` (120 dp), the button then clamps its label to that width less 2×PaddingX at `MaxLines: 1`, and the growth branch compares against a width the label was already clamped to — so it cannot fire, and "Read the docs" renders as "Read the do…". `ctaIntrinsicWidth`'s own doc says wider labels still grow the button. One of the two is wrong; decide which, and note that all three items in this task are the same defect wearing different clothes — a measured claim in a doc comment that nobody made a test assert.
+- [x] Decide what the line height is for on a single-line label, and say so where a caller reads it. Either the label paths honour it — giving the line box the role's height rather than the glyph ink's, which is what a design system means by line height and what every CSS engine does — or the contract is narrowed to multi-line text and the docs on `TextStyle`, `button.Render` and the components stop implying otherwise. Do not leave both readings alive.
+- [x] Whichever way it goes, pin it with a test that fails against today's behaviour: single-line labels at two different line heights either differ, or are asserted equal with the reason written beside the assertion.
+- [x] Fix or explain the 29-versus-28 dp Compact button. If a control's height is the greater of `ControlHeight` and its content box, `Density.ControlHeight` is a floor and not a height, and `density.go`'s metrics table should say the word it means.
+- [x] Fix the third false sizing claim, found by F4.4b: a `prism/button` label never grows its button. `cadence/hero`'s `ctaGtx` clamps a CTA cell to `ctaIntrinsicWidth` (120 dp), the button then clamps its label to that width less 2×PaddingX at `MaxLines: 1`, and the growth branch compares against a width the label was already clamped to — so it cannot fire, and "Read the docs" renders as "Read the do…". `ctaIntrinsicWidth`'s own doc says wider labels still grow the button. One of the two is wrong; decide which, and note that all three items in this task are the same defect wearing different clothes — a measured claim in a doc comment that nobody made a test assert.
 - [ ] Regenerate the moved goldens — the honouring path moves every text golden in the org, so if that is the decision, budget for it and say so rather than half-landing it.
+- [x] Build, test, commit in every repo touched.
+
+**Split, and the last box is deliberately open.** The decision was to honour
+the line height, and the regeneration it implies did not fit one task. What
+landed: `spectrum/typeset` plus the contract on `TextStyle.LineHeight`,
+`Density.ControlHeight` documented as the floor it always was, `prism` adopted
+with twelve goldens regenerated and eyeballed, and the hero CTA clamp fixed.
+What did not: `cadence`'s twenty-one label sites, measured at **42 moved
+goldens across nine packages**. That is [[#F4.4d: Sweep the line box through
+cadence]], and the open checkbox above is its first line rather than work
+F4.4c still owes.
+
+#### F4.4d: Sweep the line box through cadence
+
+F4.4c decided the contract and built the mechanism: `tokens.TextStyle.LineHeight`
+is the height of the line box, `spectrum/typeset` is how a component gets it,
+and `prism` — button, textfield, dropdown — draws through it. It did not sweep
+the layer above, and said so rather than half-eyeballing it: adopting typeset
+across `cadence`'s twenty-one label sites was measured to move **42 golden
+images in nine packages** (alert, breadcrumb, feature, hero, navbar, pricing,
+shell, testimonial, tooltip), which is more regeneration and more eyeballing
+than one task holds. `pulse` and `markdown` measured clean.
+
+Until this lands, cadence's components hand the line height to
+`widget.Label` and it does nothing there — a defect against a contract that is
+now written down, not a second reading of it.
+
+The adoption is mechanical and was proven to build: every site is
+`wl.Layout(gtx, shaper, f, unit.Sp(style.Size), txt, material)` becoming
+`typeset.Layout(gtx, shaper, wl, f, unit.Sp(style.Size), txt, material)`, plus
+the import. `table/table.go` has one multi-line call.
+
+- [ ] Adopt `spectrum/typeset` at every `widget.Label` site in `cadence`, and
+      replace the per-package `styleLabel`/`styleFont` copies — `hero`,
+      `pricing` and `testimonial` each carry one — with `typeset.Label` and
+      `typeset.Font`, so the rule has one definition in the org.
+- [ ] Watch for capture windows sized off `Density.ControlHeight`. F4.4c hit
+      one in `prism/input`: the open dropdown's window was `ControlHeight` per
+      row and clipped 4 px off the last option once rows grew to their line
+      box. Any cadence test that computes a window from `ControlHeight` has the
+      same bug waiting.
+- [ ] Regenerate the moved goldens and **eyeball every one** — the count is
+      about 42, so budget for it. `cadence/feature`'s `TestFeatureLineHeightGolden`
+      is the one existing test that already asserted line height on wrapped
+      text; check it still says something true now that wrapped runs come out
+      at whole multiples of the line height.
+- [ ] Re-check `pulse`, `markdown` and the seven workbench applications after
+      the sweep, not before: they measured clean against the prism-only change.
 - [ ] Build, test, commit in every repo touched.
 
 #### F4.5: Repair mindchat's first run

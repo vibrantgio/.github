@@ -572,6 +572,21 @@ resolves against. Roboto is the default because the DEFAULT TYPOGRAPHY
 names it — restyle an app by putting a different Typography on the theme,
 never by wiring fonts per component.
 
+LINE HEIGHT NEEDS spectrum/typeset. TextStyle.LineHeight is the height of the
+line box, the CSS meaning, and handing it to gioui.org/widget.Label does NOT
+produce that. Gio baselines the first line at its own ascent and spends the
+line height only on the gap to the next, and widget.Label reports glyph ink as
+its size — so a MaxLines:1 label, which nearly every control is, measures the
+same at any line height at all, and wrapped text lands one deficit short of a
+whole multiple. Draw text through spectrum/typeset instead: typeset.Font(style,
+fallback) builds the font.Font, typeset.Label(style, maxLines) the widget.Label
+with the line height installed, and typeset.Layout(gtx, shaper, lbl, f, size,
+txt, material) lays it out and pads the result to the line box. That is also
+why a control's drawn height is max(Density.ControlHeight, lineBox +
+2*PaddingY): ControlHeight is a FLOOR, not a height, and a Comfortable text
+field (BodyLarge, 24 dp line box) draws 40 dp against that 36 dp floor while a
+Comfortable button (LabelLarge, 20 dp) draws exactly 36.
+
 Text you draw yourself with textdraw follows the same source: subscribe
 th.Typography, take metrics from a role and the shaper from typ.Shaper().
 The positional-shaper APIs — markdown's doc.Layout(gtx, shaper, style),
