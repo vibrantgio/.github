@@ -1986,11 +1986,11 @@ density weakened.
 
 #### F4.8: Release the fixes
 
-- [ ] Run `scripts/check-layers.sh` and `scripts/check-no-workspace.sh`; both green before any tag moves, exactly as F3.1 required.
-- [ ] Tag bottom-up per the Release protocol. Spectrum's default rendering changes, so it is a minor bump — **v0.4.0** — and the layers above move in patch unless their own API moved. Check `git tag | sort -V` in every repo before choosing: the no-double-digit rule is absolute, and spectrum and pulse are the two repos already carrying buried tags.
-- [ ] Re-pin, re-tag and push each layer in order, confirming resolution from a clean module cache with the workspace disabled.
-- [ ] Regenerate `design/` and re-push it: F4.6 adds two roles to the token sheet, so the design surface is stale the moment spectrum is tagged.
-- [ ] Strike the register entries these tasks fixed, leaving the record in place.
+- [x] Run `scripts/check-layers.sh` and `scripts/check-no-workspace.sh`; both green before any tag moves, exactly as F3.1 required.
+- [x] Tag bottom-up per the Release protocol. Spectrum's default rendering changes, so it is a minor bump — **v0.4.0** — and the layers above move in patch unless their own API moved. Check `git tag | sort -V` in every repo before choosing: the no-double-digit rule is absolute, and spectrum and pulse are the two repos already carrying buried tags.
+- [x] Re-pin, re-tag and push each layer in order, confirming resolution from a clean module cache with the workspace disabled.
+- [x] Regenerate `design/` and re-push it: F4.6 adds two roles to the token sheet, so the design surface is stale the moment spectrum is tagged.
+- [x] Strike the register entries these tasks fixed, leaving the record in place.
 
 ## Phase G: The design-agent surface
 
@@ -2483,6 +2483,35 @@ Measured after evicting both: `raster/gio@v0.1.7` and `seen/context/gio@v0.0.8`
 each fail with `unknown revision`, while the versions that replaced them
 resolve normally.
 
+**A fourth, found by F4.8 and worse than the other three: a moved tag does not
+withdraw a version, it forks it.** `svg/driver/gio` v0.0.7 was mirrored by the
+proxy at one commit and the tag was later re-pointed at another
+(`2f73e47`, "point style, svg and context/gio at their new tags"). Both sets of
+bytes now live under the same number, permanently, and *which one you get
+depends on who you are*: `sum.golang.org` publishes
+`h1:nxt47wSVe2057LCvvwylMesuS+qHgmoxZJ+TD/+JdvU=` and serves it to everyone
+resolving through the proxy, while a machine whose `GOPRIVATE` covers the org
+resolves from git and gets `h1:puxoeud0r83rRSgJN74bqkYgVErqya4mp0IAzaJQ+Q0=`.
+The `/go.mod` hashes differ too, which is the quickest way to see it: the
+published go.mod requires style v0.0.3 / svg v0.0.6 / textdraw v0.0.3, the
+tagged one style v0.0.5 / svg v0.0.7 / textdraw v0.0.4.
+
+Three things this teaches that the first three lessons do not. **A warm module
+cache hides it completely** — whichever copy landed first wins and nothing
+re-verifies, which is why `check-no-workspace.sh` read a truthful 36/36 at F3.5
+and a truthful 33/36 at F4.8 with no code change between them; the difference
+was `go clean -modcache`. **It is invisible to consumers and fatal to
+contributors**, the same asymmetry B2.0 recorded: a dependency's `go.sum` is
+never consulted, so only the clone-and-build path fails. And **`go get` cannot
+repair it**, because it verifies before it rewrites — the poisoned lines must be
+deleted from `go.sum` by hand first, exactly as B2.0 found.
+
+The remedy is the protocol's own: bury the number. `driver/gio/v0.0.9` mirrors
+the root and was never published under either set of bytes, so git, the proxy
+and the checksum database agree about it from the start. Deleting or re-pointing
+the v0.0.7 tag again would fix nothing and would break the consumers it
+currently works for.
+
 **`GOPRIVATE` covers `github.com/vibrantgio/*` here**, so `proxy.golang.org` is
 bypassed entirely for this org and every module resolves straight from GitHub —
 which is why `git ls-remote` is the authority worth consulting from *this*
@@ -2699,7 +2728,7 @@ entry starts unscheduled and needs a task cut for it before it gets fixed —
 G-FX cut one per entry for the first eight, and G-F4 does the same for the
 three that running the apps turned up.
 
-**The theme's shaper has no fallback face, so anything outside Roboto renders
+~~**The theme's shaper has no fallback face, so anything outside Roboto renders
 as tofu.** `DefaultTypography.Shaper()` is built with `text.NoSystemFonts()`
 over Roboto and Roboto Mono, which is what makes rendering deterministic and
 goldens stable — and it means every glyph those two faces do not carry draws
@@ -2712,7 +2741,23 @@ replies, `markdown` documents, user-entered names, anything pasted. The
 trade-off is real in both directions (a system-font fallback would make golden
 images machine-dependent), so the fix is a decision, not a patch: ship a
 symbol-bearing fallback face in `font`, or let applications append faces to
-the theme's collection, or accept tofu and say so out loud in `llms.txt`.
+the theme's collection, or accept tofu and say so out loud in `llms.txt`.~~
+
+**Fixed in F4.2**, by taking all three of the offered options rather than
+choosing between them, which is what made the trade-off dissolve instead of
+being paid. `Typography.Shaper()` no longer passes `text.NoSystemFonts()`, so
+the default resolves every glyph through the platform's fonts;
+`DeterministicShaper()` is the second, separately memoised configuration that
+pins the collection and disables system fonts, and F4.3 moved roughly a
+hundred golden tests onto it, byte-identically — which is the proof the two
+configurations really are the same for the glyphs a golden may contain.
+`Typography.WithFaces()` is the documented one-liner for appending, and
+`font/notosansmono` is the optional symbol face for applications that cannot
+rely on system fonts at all. It is deliberately *not* in
+`DefaultTypography.Faces`. Symbol coverage is asserted as resolution — shaping
+`U+2193 ↓` and its neighbours must return a real face, not the missing-glyph
+glyph — and never as an image, so no golden depends on which fonts a machine
+has. Recorded as an amendment to ADR-003.
 
 ~~**`mindchat` cannot save or load a conversation on a fresh install.** Nothing
 creates its `chats/` directory: `Load Chat List`, `Load History` and

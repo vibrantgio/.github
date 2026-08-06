@@ -34,9 +34,14 @@ support row — enforced in CI by the org's check-layers script. Current tags:
   tier 0 — leaves
   mvu       v0.4.4   MVU runtime: NewWindow, Loop/Run, Message/Command,
                      MessageOp
-  font      v0.0.5   Roboto, six weights, regular and italic — plus Roboto
+  font      v0.1.0   Roboto, six weights, regular and italic — plus Roboto
                      Mono, normal and bold each with italics, all OFL; the
-                     default typography's faces
+                     default typography's faces. Also notosansmono, the
+                     OPTIONAL symbol face (arrows, box drawing, maths): it is
+                     NOT in DefaultTypography.Faces, because the default
+                     shaper falls back to the platform's fonts. Append it
+                     with Typography.WithFaces() only when you cannot rely on
+                     system fonts — a container, a kiosk
   textdraw  v0.0.4   low-level glyph text drawing
   backdrop  v0.0.3   solid colour fill widget
   gradient  v0.0.3   linear gradient fill widget
@@ -46,7 +51,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      (§Typography) — never add it to a new app
 
   tier 1 — the foundation
-  spectrum  v0.3.0   the theme runtime and every design token: tokens
+  spectrum  v0.4.0   the theme runtime and every design token: tokens
                      (colour ramps and pins, Typography, Density, Motion,
                      Elevation, spacing/radius), color (the CIELAB/OKLCh
                      engine and APCA), theme (Theme, the token observables),
@@ -55,20 +60,20 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      serialiser + cmd/vg-tokens), window, preferences
 
   tier 2
-  prism     v0.2.0   components: button, input, list, richtext, scrollbar,
+  prism     v0.3.1   components: button, input, list, richtext, scrollbar,
                      icon, layout, keyed, initial, cache, coordination, bench
 
   tier 3
-  pulse     v0.1.1   effects: blur (Gaussian kernel, cached blur, backdrop
+  pulse     v0.1.2   effects: blur (Gaussian kernel, cached blur, backdrop
                      pipeline), depth, glow, motion, spring, springbutton,
                      transition, tween, conductor
 
   tier 4
-  cadence   v0.3.0   patterns: shell, navbar, sidebar, table, pagination,
+  cadence   v0.3.1   patterns: shell, navbar, sidebar, table, pagination,
                      tabs, modal, alert, popover, tooltip, toast, card,
                      accordion, breadcrumb, hero, feature, pricing,
                      testimonial
-  markdown  v0.1.0   GFM document rendering on prism widgets (subpackages:
+  markdown  v0.1.2   GFM document rendering on prism widgets (subpackages:
                      highlight — chroma syntax colours; svgimage — SVG
                      images via vibrantgio/svg)
 
@@ -82,9 +87,9 @@ support row — enforced in CI by the org's check-layers script. Current tags:
   csg       v0.0.1   constructive solid geometry on meshes (BSP trees)
 
 EVERY TAG ABOVE IS RELEASED AND CURRENT. The numbers are what the release
-cut, not what was planned: spectrum went v0.1.0 → v0.2.0 → v0.3.0, prism to
-v0.2.0, pulse to v0.1.1, cadence to v0.3.0, markdown to v0.1.0, mvu to
-v0.4.4, font to v0.0.5 and svg to v0.0.9. The v0.0.10+ tags some of these
+cut, not what was planned: spectrum went v0.1.0 → v0.2.0 → v0.3.0 → v0.4.0,
+prism to v0.3.1, pulse to v0.1.2, cadence to v0.3.1, markdown to v0.1.2, mvu
+to v0.4.4, font to v0.1.0 and svg to v0.0.9. The v0.0.10+ tags some of these
 repos carry are buried and never reused — they violated the org's
 no-double-digit rule (§Versioning). style stays frozen at v0.0.6.
 
@@ -122,7 +127,7 @@ ivg repo, not `v0.1.6`.
 
   github.com/vibrantgio/ivg/raster/gio        v0.1.6   Gio rasterizer +
                                                        Widget() for IconVG
-  github.com/vibrantgio/svg/driver/gio        v0.0.7   SVG -> Gio ops,
+  github.com/vibrantgio/svg/driver/gio        v0.0.9   SVG -> Gio ops,
                                                        IconWidget()
   github.com/vibrantgio/svg/driver/raster     v0.0.9   SVG -> raster image
   github.com/vibrantgio/svg/driver/pdf        v0.0.7   SVG -> PDF
@@ -133,14 +138,14 @@ ivg repo, not `v0.1.6`.
                                                        for traer physics
   github.com/vibrantgio/kiwi/gio              v0.0.6   Gio layout on the
                                                        kiwi solver
-  github.com/vibrantgio/prism/gallery         v0.2.0   the prism component
+  github.com/vibrantgio/prism/gallery         v0.3.0   the prism component
                                                        gallery app
   github.com/vibrantgio/mvu/example           v0.4.4   numbered mvu examples,
                                                        00-reference upward
 
 A nested module's version mirrors its root's: `driver/raster/v0.0.9` requires
 `svg v0.0.9`. A root can be ahead of a nested module that did not change —
-`svg v0.0.9` with `driver/gio v0.0.7` is correct, not drift. When a root and
+`svg v0.0.9` with `driver/pdf v0.0.7` is correct, not drift. When a root and
 its nested module are both used, require them at matching versions: `seen`
 and `seen/context/gio` are the case you will hit first.
 
@@ -813,10 +818,10 @@ coded clip paths on purpose (golden determinism); leave those alone.
   require (
       gioui.org v0.10.1
       github.com/reactivego/rx v0.3.0
-      github.com/vibrantgio/cadence v0.3.0
+      github.com/vibrantgio/cadence v0.3.1
       github.com/vibrantgio/mvu v0.4.4
-      github.com/vibrantgio/prism v0.2.0
-      github.com/vibrantgio/spectrum v0.3.0
+      github.com/vibrantgio/prism v0.3.1
+      github.com/vibrantgio/spectrum v0.4.0
       github.com/vibrantgio/textdraw v0.0.4
   )
 
