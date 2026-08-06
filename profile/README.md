@@ -72,10 +72,12 @@ table, and CI enforces it.
 The inversion ADR-001 called for has landed: the token and theme contract lives
 in `spectrum`, theme transitions live in `pulse`, and every component takes its
 typeface and colours from the theme rather than compiling in its own. The old
-paths survive only as deprecated forwarding aliases — `prism/tokens`,
-`prism/theme`, `prism/a11y` and `spectrum/transition` — until the next breaking
-release deletes them. `style` is frozen rather than deleted, and carries the
-table's one intra-tier edge: it imports `font` and `textdraw`, both tier 0.
+forwarding aliases — `prism/tokens`, `prism/theme`, `prism/a11y` and
+`spectrum/transition` — were deleted by the breaking release (prism v0.2.0,
+spectrum v0.3.0); import the `spectrum/…` and `pulse/transition` paths they
+used to forward to. `style` is frozen at v0.0.6 rather than deleted, and
+carries the table's one intra-tier edge: it imports `font` and `textdraw`,
+both tier 0.
 
 Ten further modules live in subdirectories of the repositories above:
 `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`,
