@@ -1380,10 +1380,10 @@ re-close a cycle from the other direction.
 
 #### F2.4: Refresh the org front door
 
-- [ ] Update `profile/README.md`'s stack table to the final layering.
+- [x] Update `profile/README.md`'s stack table to the final layering.
 - [ ] Retake the launcher and mindchat screenshots in both appearances on the new palette.
-- [ ] Confirm every link from the org page resolves.
-- [ ] Commit here.
+- [x] Confirm every link from the org page resolves.
+- [x] Commit here.
 
 ### G-FX: Clear the defect register
 

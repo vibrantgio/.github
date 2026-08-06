@@ -37,27 +37,28 @@ semantic roles rather than a transcription of the Android widget set.
 
 The [workbench](https://github.com/vibrantgio/workbench) launcher and MindChat,
 each captured in the OS dark and light appearance — spectrum re-themes every
-window live when the system switches.
+window live when the system switches. These captures predate the seed-derived
+palette (ADR-007); a retake on the current palette is pending.
 
 ## The stack
 
 Nineteen modules, one per repository, layered. A module may import only modules
 in a strictly lower tier, plus anything in the support row; the support
-libraries import nothing else from the organization. Rows marked † are
-mid-migration.
+libraries import nothing else from the organization. This is ADR-001's tier
+table, and CI enforces it.
 
 | Tier | Module | What it is |
 | --- | --- | --- |
 | 0 | [mvu](https://github.com/vibrantgio/mvu) | Model-View-Update runtime for Gio: `NewWindow`, the update/view loop, messages, commands, and the `MessageOp` widget protocol |
-| 0 | [font](https://github.com/vibrantgio/font) | Roboto packaged as Gio faces — six weights, Thin to Black, regular and italic |
-| 0 † | [style](https://github.com/vibrantgio/style) | Type scale (H1–H6, Subtitle, Body, Button, Caption, Overline) and `FontFaces()`, the app's shaper collection today |
+| 0 | [font](https://github.com/vibrantgio/font) | Roboto and Roboto Mono packaged as Gio faces — six weights, Thin to Black, regular and italic, plus the mono face for code |
+| 0 | [style](https://github.com/vibrantgio/style) | Frozen (ADR-003): the old MD2 type scale and `FontFaces()`, superseded by spectrum's Typography — kept for existing consumers, never added to a new app |
 | 0 | [textdraw](https://github.com/vibrantgio/textdraw) | Low-level text drawing: glyph-level control, measurement, alignment, label backgrounds |
 | 0 | [backdrop](https://github.com/vibrantgio/backdrop) | Solid colour fill widget |
 | 0 | [gradient](https://github.com/vibrantgio/gradient) | Linear gradient fill widget |
 | 0 | [circle](https://github.com/vibrantgio/circle) | Mathematically precise circles via Bézier approximation |
-| 1 † | [spectrum](https://github.com/vibrantgio/spectrum) | Reactive theme runtime: live OS dark-mode and accent tracking, preference persistence, window integration, animated theme transitions |
-| 2 † | [prism](https://github.com/vibrantgio/prism) | Component foundation: button, input, list, richtext, scrollbar, icon, layout, a11y, keyed identity, coordination, cache — and, for now, the `tokens` and `theme` contract |
-| 3 | [pulse](https://github.com/vibrantgio/pulse) | Effects layer: tween, spring, springbutton, glow, depth, motion, and a shared animation conductor |
+| 1 | [spectrum](https://github.com/vibrantgio/spectrum) | The theme runtime and every design token: colour ramps and pins derived from one seed by the CIELAB/OKLCh engine, Typography, Density, Motion, Elevation; live OS dark-mode, accent-colour and accessibility tracking, preference persistence, window integration, token export |
+| 2 | [prism](https://github.com/vibrantgio/prism) | Component foundation: button, input, list, richtext, scrollbar, icon, layout, keyed identity, initial values, cache, coordination, bench |
+| 3 | [pulse](https://github.com/vibrantgio/pulse) | Effects layer: tween, spring, springbutton, transition, glow, depth, blur, motion, and a shared animation conductor |
 | 4 | [cadence](https://github.com/vibrantgio/cadence) | Pattern library: shell, navbar, sidebar, table, pagination, tabs, modal, alert, popover, tooltip, toast, card, accordion, breadcrumb, hero, feature, pricing, testimonial |
 | 4 | [markdown](https://github.com/vibrantgio/markdown) | GFM document rendering on prism widgets, with chroma syntax highlighting and SVG images |
 | — | [ivg](https://github.com/vibrantgio/ivg) | IconVG: compact binary format for vector icons, with a converter for the Material Design icon set |
@@ -68,15 +69,13 @@ mid-migration.
 | — | [noise](https://github.com/vibrantgio/noise) | Perlin and Simplex noise, 2D and 3D |
 | — | [traer](https://github.com/vibrantgio/traer) | Particle-system physics: springs, attractions, Verlet integration |
 
-† **Mid-migration.** The token and theme contract still lives in `prism/tokens`
-and `prism/theme`, so `spectrum` — the theme runtime — imports the component
-library it exists to theme, and reaches up to `pulse/tween` for its transitions.
-Moving that contract down into `spectrum`, and `spectrum/transition` up into
-`pulse`, is in progress; until it lands, tiers 1 and 2 hold edges the rule above
-forbids. Components also still compile in `gioui.org/font/gofont` rather than
-taking their faces from `style` and `font`. `style` carries the one intra-tier
-edge — it imports `font` and `textdraw`, both tier 0 — and is frozen at its
-current scale rather than deleted.
+The inversion ADR-001 called for has landed: the token and theme contract lives
+in `spectrum`, theme transitions live in `pulse`, and every component takes its
+typeface and colours from the theme rather than compiling in its own. The old
+paths survive only as deprecated forwarding aliases — `prism/tokens`,
+`prism/theme`, `prism/a11y` and `spectrum/transition` — until the next breaking
+release deletes them. `style` is frozen rather than deleted, and carries the
+table's one intra-tier edge: it imports `font` and `textdraw`, both tier 0.
 
 Ten further modules live in subdirectories of the repositories above:
 `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`,
