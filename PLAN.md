@@ -1467,10 +1467,10 @@ observables — built on the same cold `FromSource` shape, moved down as
 `spectrum/a11y` — so each subscriber multiplies pollers across two sources,
 not one.
 
-- [ ] Multicast `Live`/`FromSource` so *n* subscribers share one poll loop, and give `spectrum/a11y`'s same-shaped stream the same fix. Verify with the shape A3.5 used — count source reads with a counting `Source` at one and three subscribers, and assert they match.
-- [ ] Check every workbench app still tracks dark mode afterwards; each subscribes at least twice, via `BackdropLayer` and `ContentLayer`.
-- [ ] Make `preferences.Observe` emit on write, or rename it to something that does not promise a stream. Whichever, `Save` and `Observe` must agree.
-- [ ] Build, test, commit; strike both register entries.
+- [x] Multicast `Live`/`FromSource` so *n* subscribers share one poll loop, and give `spectrum/a11y`'s same-shaped stream the same fix. Verify with the shape A3.5 used — count source reads with a counting `Source` at one and three subscribers, and assert they match.
+- [x] Check every workbench app still tracks dark mode afterwards; each subscribes at least twice, via `BackdropLayer` and `ContentLayer`.
+- [x] Make `preferences.Observe` emit on write, or rename it to something that does not promise a stream. Whichever, `Save` and `Observe` must agree.
+- [x] Build, test, commit; strike both register entries.
 
 #### FX.6: Give cadence/sidebar a scroll region
 
@@ -2354,19 +2354,44 @@ needed and nil, instead of an anonymous nil function call. Endpoints still
 never touch `Lerp`; tests now pin both sides — nil-`Lerp` endpoints survive,
 nil-`Lerp` interior panics with the field-naming message.
 
-**`spectrum`'s appearance observable is cold, so *n* consumers means *n*
+~~**`spectrum`'s appearance observable is cold, so *n* consumers means *n*
 pollers.** Nothing in `Live → FromSource` or `LiveTheme`'s `rx.Map` multicasts,
 so every subscription starts its own poll loop. A3.5 measured it: one
 subscriber produced 4 source reads, three produced 222. Every workbench app
 subscribes at least twice — `BackdropLayer(th)` and `ContentLayer(th, …)`. The
 darwin source throttles *accent* to one exec per `accentInterval`
 (`system_darwin.go:28`), but that cache lives on the `Source`, so it does not
-dedupe across subscriptions and does not cover the appearance read at all.
+dedupe across subscriptions and does not cover the appearance read at all.~~
 
-**`spectrum/preferences.Observe` completes after one read.**
+**Fixed in FX.5.** `system.FromSource`/`Live` and `a11y.FromSource`/`Live`
+now multicast through one shared shape (`internal/poll.Shared`): rx
+`Behavior` — replay-latest, conflating — plus `RefCount`, so one observable
+value runs one poll loop however many subscribers attach, a late subscriber
+immediately replays the current value, and the loop stops at zero
+subscribers (restarting, latest-first, on the next one). A never-escaping
+seed slot keeps the pre-first-read state invisible, and per-subscriber
+`DistinctUntilChanged` keeps the emit-on-change contract. Counting-`Source`
+tests in the A3.5 shape — gated reads, so the counts are deterministic —
+prove identical read counts at one and three subscribers for the appearance
+stream, the a11y stream, and `FromSourceTheme`'s composition (one
+appearance poller AND one a11y poller for n theme subscribers). All seven
+workbench apps hand one `LiveTheme` to both layers and test green; sharing
+remains per observable value, so distinct `LiveTheme` calls still cost
+their own loops.
+
+~~**`spectrum/preferences.Observe` completes after one read.**
 `preferences.go:121-129` is `rx.Defer` around `rx.Of(p)`, so it emits the
 loaded value once and completes. A later `Save` notifies nobody, which makes
-the "observable" name misleading for the one job it exists to do.
+the "observable" name misleading for the one job it exists to do.~~
+
+**Fixed in FX.5.** Emit-on-write, the plan's preferred reading:
+`Observe`/`ObserveFrom` emit the persisted value on subscription, then
+re-emit on every in-process `Save`/`SaveTo` to the same (cleaned) path — a
+per-path `rx.Subject` seeded from disk, duplicates collapsed, never
+completing. `Save` and `Observe` now agree; the remaining honest limit,
+documented in the package comment, is that writes from other processes or
+editors are not observed — there is no file watcher, only the in-process
+notification.
 
 **`cadence/sidebar` paints past the bottom of the screen.** Items are stacked at
 a fixed 48 dp pitch with no scroll region (`sidebar.go:19-21`, `itemDp = 48`),
