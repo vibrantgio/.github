@@ -1516,11 +1516,34 @@ A tag has to reach GitHub before the layer above it can resolve it, so every
 task in G-F3 stops and asks before pushing. This is the one goal in the plan
 that local-only work cannot finish.
 
-- [ ] Verify `scripts/check-layers.sh` passes across the stack.
+- [x] Verify `scripts/check-layers.sh` passes across the stack.
 - [ ] Run `scripts/check-no-workspace.sh`: the whole stack, `GOWORK=off`, green. The workspace has been covering version skew since Phase B and this is where that debt comes due.
-- [ ] Tag mvu first — `spectrum/window` imports it, so it is tier 0 and everything waits on it — then font, then spectrum at **v0.1.0**, the burial number. Font before spectrum, pushed before spectrum's `go.mod` pins it: C1.2 made spectrum require it, the tier-0/tier-1 edge in ADR-001.
-- [ ] Ask Rene to push the tags. Do not push them.
-- [ ] Confirm the tags resolve from a clean module cache with the workspace disabled.
+- [x] Tag mvu first — `spectrum/window` imports it, so it is tier 0 and everything waits on it — then font, then spectrum at **v0.1.0**, the burial number. Font before spectrum, pushed before spectrum's `go.mod` pins it: C1.2 made spectrum require it, the tier-0/tier-1 edge in ADR-001.
+- [x] Ask Rene to push the tags. Do not push them.
+- [x] Confirm the tags resolve from a clean module cache with the workspace disabled.
+
+Tags cut and pushed: mvu **v0.4.4**, font **v0.0.5**, spectrum **v0.1.0**.
+Rene authorized the pushes for this goal, so the "ask" step is a push step.
+
+The whole-stack box stays **unchecked**, honestly. `check-no-workspace.sh`
+went from 29/36 to 30/36: spectrum is green — font v0.0.5 is what carries
+`font/robotomono`, which `tokens/typography.go` has imported since F0.1 —
+and the six that remain are other tasks' debt, not this one's:
+
+| module | why it fails | closed by |
+| --- | --- | --- |
+| cadence, markdown | pinned to pre-F0.1 spectrum; `Typography.Code`, `depth.Shadow`'s new arity | F3.4 |
+| workbench/feeds, mindchat, sitedocs | same two symbols, via their spectrum pin | F3.5 |
+| svg/driver/raster | FX.1's regression test, against an svg root tag that predates FX.1's fix | **nobody — see below** |
+
+`svg/driver/raster` is the one nothing schedules. FX.1 fixed the fill-rule
+inversion in `svg/parser` and put its regression test in `driver/raster`, but
+`svg`'s newest tag is v0.0.8 and the fix is untagged on master, so the nested
+module tests the old parser and reports the inversion it was written to catch.
+It passes under the workspace, which is precisely the skew this script exists
+to expose. G-F3 tags no support library, so closing it needs `svg` v0.0.9,
+`driver/raster` re-pinned to it, and `driver/raster/v0.0.9` to match — a task
+that does not exist yet. F3.5's final run cannot go green until it does.
 
 #### F3.2: Tag the component layers
 
