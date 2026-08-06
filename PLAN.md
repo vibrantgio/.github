@@ -1754,11 +1754,11 @@ only on `n > 0` — so a golden whose dimensions moved compares as a pass. Every
 golden in the org has been guarded by this for the whole plan, and the density
 work in G-E1 moved control sizes everywhere.
 
-- [ ] Make a size mismatch a failure in `prism/golden.Render`, naming both dimensions in the message — the whole point is that the diff count is meaningless once the bounds differ, so `-1` must not reach a `> 0` test.
-- [ ] Decide what `PixelDiff` itself should return and say so in its doc: a sentinel that reads as "no answer" is what caused this, and a second return value or a documented panic are both honest; a count that silently means failure is not.
-- [ ] Sweep every golden name in the org for collisions — E1.3 found `prism/input`'s checkbox and textfield both writing `light-focused.png` into one shared `testdata/golden` directory, which only survived because the sizes differed and the comparison went quiet. Rename per component, regenerate the freed names.
-- [ ] Re-run every golden suite in prism, pulse, cadence, markdown and the workbench apps. Anything that starts failing was already broken and was being hidden; fix or regenerate it deliberately, and say in the commit body which of the two each one was.
-- [ ] Build, test, commit in every repo touched.
+- [x] Make a size mismatch a failure in `prism/golden.Render`, naming both dimensions in the message — the whole point is that the diff count is meaningless once the bounds differ, so `-1` must not reach a `> 0` test.
+- [x] Decide what `PixelDiff` itself should return and say so in its doc: a sentinel that reads as "no answer" is what caused this, and a second return value or a documented panic are both honest; a count that silently means failure is not.
+- [x] Sweep every golden name in the org for collisions — E1.3 found `prism/input`'s checkbox and textfield both writing `light-focused.png` into one shared `testdata/golden` directory, which only survived because the sizes differed and the comparison went quiet. Rename per component, regenerate the freed names.
+- [x] Re-run every golden suite in prism, pulse, cadence, markdown and the workbench apps. Anything that starts failing was already broken and was being hidden; fix or regenerate it deliberately, and say in the commit body which of the two each one was.
+- [x] Build, test, commit in every repo touched.
 
 #### F4.2: Give the theme a fallback face, and make determinism a setting
 
