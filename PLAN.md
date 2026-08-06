@@ -1591,6 +1591,17 @@ eighteen packages, and every one moves goldens.
 
 #### F3.5: Tag the apps and the nested demos
 
+F3.1's `check-no-workspace.sh` run surfaced a repo no other task in this goal
+owns. FX.1 fixed the fill-rule inversion in `svg/parser` and put its regression
+test in `svg/driver/raster` — but svg's newest tag is v0.0.8, the fix is
+untagged, and `driver/raster` pins v0.0.7, so without the workspace it tests
+the parser the fix replaced and fails the very test written to catch the bug.
+G-F3's layers are the design-system spine; svg is a support library, which is
+how it fell through. It lands here because the root-tag-then-nested-tag
+mirroring is exactly this task's mechanic, and because the last checkbox below
+cannot honestly go green while any `go.mod` in the org still lies.
+
+- [ ] Tag svg — v0.0.9, carrying FX.1's fix — then re-pin `driver/raster` onto it and tag `driver/raster/v0.0.9`, mirroring the root as the protocol requires. Confirm the FX.1 regression test passes with the workspace disabled, which is the only configuration that proves the tag carries the fix.
 - [ ] Update every workbench app's `go.mod` to the released tags; build, test, run each.
 - [ ] Tag the nested demo modules — `prism/gallery`, `mvu/example` — here, once, at their roots' final numbers. The majors came first deliberately: a nested tag mirrors its root's version, so tagging `prism/gallery` before the prism major would mirror a superseded root and cost a second tag at the major's number to get back in correspondence. `prism/gallery` imports `prism/theme` and `prism/tokens`, the shims F3.3 deletes, so it is updated off them before it is tagged at all; `mvu/example` never imported them.
 - [ ] Touch up llms.txt's module inventory and minimal `go.mod` to the tags actually cut — the finalization F2.1 deferred here.
