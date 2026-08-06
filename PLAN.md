@@ -1936,11 +1936,11 @@ broken application, not a moved baseline, and no amount of `-golden.update`
 will touch it. Find what stopped producing a widget before regenerating
 anything, because a golden regenerated over a broken layer records the break.
 
-- [ ] Fix `feeds`'s empty layer 0 first, and say in the commit body which change caused it — the shaper split (F4.2), the pinning sweep (F4.3) and the line box (F4.4c) are the candidates, and `git stash` against each is how the last four tasks attributed their own failures.
-- [ ] Then the goldens: `feeds` 2 (`add-feed-modal-{light,dark}`), `watchlist` 2, `sitedocs` 8. Regenerate only after the layer is fixed, and only where the movement is explained by the line box or the shaper pin — anything else is a second defect wearing the same clothes.
-- [ ] Move the apps onto `spectrum/typeset` wherever they draw a label directly, for the same reason cadence did: `llms.txt` now tells every consumer never to hand `LineHeight` to `widget.Label`, and the reference applications are the worst possible place to contradict it.
-- [ ] Check that every app's live-path test passes `Props.Shaper` explicitly — F4.4, F4.4b and F4.4d found six between them that silently took the theme's fallback, which after F4.2 binds a golden to whatever fonts the machine happens to have.
-- [ ] Delete the `.actual.png` debris these failures have been leaving; eyeball every regenerated image; build, test, commit in workbench.
+- [x] Fix `feeds`'s empty layer 0 first, and say in the commit body which change caused it — the shaper split (F4.2), the pinning sweep (F4.3) and the line box (F4.4c) are the candidates, and `git stash` against each is how the last four tasks attributed their own failures.
+- [x] Then the goldens: `feeds` 2 (`add-feed-modal-{light,dark}`), `watchlist` 2, `sitedocs` 8. Regenerate only after the layer is fixed, and only where the movement is explained by the line box or the shaper pin — anything else is a second defect wearing the same clothes.
+- [x] Move the apps onto `spectrum/typeset` wherever they draw a label directly, for the same reason cadence did: `llms.txt` now tells every consumer never to hand `LineHeight` to `widget.Label`, and the reference applications are the worst possible place to contradict it.
+- [x] Check that every app's live-path test passes `Props.Shaper` explicitly — F4.4, F4.4b and F4.4d found six between them that silently took the theme's fallback, which after F4.2 binds a golden to whatever fonts the machine happens to have.
+- [x] Delete the `.actual.png` debris these failures have been leaving; eyeball every regenerated image; build, test, commit in workbench.
 
 #### F4.5: Repair mindchat's first run
 
