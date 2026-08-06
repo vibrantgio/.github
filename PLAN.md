@@ -1947,10 +1947,10 @@ anything, because a golden regenerated over a broken layer records the break.
 Two defects in one app, both of which any first-time user meets and no test
 does.
 
-- [ ] Create the chat directory before it is read or written — `os.MkdirAll` beside the existing calls in `commands.go`. `Load Chat List`, `Load History` and `Append Prompt` all fail on a fresh install today, so a new user's first message is accepted by the composer and silently lost.
-- [ ] Write the test that fails first, against a genuinely empty `Application Support`. The existing storage tests call `os.MkdirAll(dir, "chats")` in their own setup — they create the directory the app forgets, which is precisely why the suite is green and the app is broken. Make at least one test exercise the app's own directory handling instead of standing in for it.
-- [ ] Draw something between sending and the first token. The stream is correct once it starts, but the gap before it is blank — over four seconds against a reasoning model, with no spinner, no placeholder row and a live composer — which reads as a hung application. `model.StreamFor` already knows the request is in flight, so this is a view change; use the theme's motion stops rather than a local duration.
-- [ ] Build, test, commit in workbench.
+- [x] Create the chat directory before it is read or written — `os.MkdirAll` beside the existing calls in `commands.go`. `Load Chat List`, `Load History` and `Append Prompt` all fail on a fresh install today, so a new user's first message is accepted by the composer and silently lost.
+- [x] Write the test that fails first, against a genuinely empty `Application Support`. The existing storage tests call `os.MkdirAll(dir, "chats")` in their own setup — they create the directory the app forgets, which is precisely why the suite is green and the app is broken. Make at least one test exercise the app's own directory handling instead of standing in for it.
+- [x] Draw something between sending and the first token. The stream is correct once it starts, but the gap before it is blank — over four seconds against a reasoning model, with no spinner, no placeholder row and a live composer — which reads as a hung application. `model.StreamFor` already knows the request is in flight, so this is a view change; use the theme's motion stops rather than a local duration.
+- [x] Build, test, commit in workbench.
 
 #### F4.6: Promote success and warning to tokens
 
@@ -2714,7 +2714,7 @@ images machine-dependent), so the fix is a decision, not a patch: ship a
 symbol-bearing fallback face in `font`, or let applications append faces to
 the theme's collection, or accept tofu and say so out loud in `llms.txt`.
 
-**`mindchat` cannot save or load a conversation on a fresh install.** Nothing
+~~**`mindchat` cannot save or load a conversation on a fresh install.** Nothing
 creates its `chats/` directory: `Load Chat List`, `Load History` and
 `Append Prompt` all fail with `no such file or directory` on first run, so a
 new user types a message and silently loses it. It is invisible to the test
@@ -2722,15 +2722,50 @@ suite because every storage test calls `os.MkdirAll(dir, "chats")` itself
 before exercising the code — the tests create the directory the app forgets
 to. One `MkdirAll` beside the existing ones in `commands.go` fixes it; the
 worthwhile part is the test that fails first, on a genuinely empty
-`Application Support`.
+`Application Support`.~~
 
-**`mindchat` shows nothing between sending and the first token.** The stream
+**Fixed in F4.5.** `EnsureChatDir` in `commands.go` runs first in the startup
+sequence. The failure was reproduced against the real binary before anything
+was changed — `HOME` pointed at an empty directory, which is what
+`app.DataDir`'s `os.UserConfigDir` reads on macOS — and the log said
+`Failed: Load Chat List … no such file or directory`, exactly as reported.
+`TestFirstRunOnAnEmptyDataDir` now drives the application's own startup
+sequence against `t.TempDir()` and creates no directory of its own.
+
+**A second first-run failure was hiding behind the first, and only surfaced
+once it was fixed.** `Init`'s fallback config named `"monoid.jsonl"` — a file
+that exists on one developer's machine — so with `chats/` created, the next
+line of the log was `Failed: Load History … chats/monoid.jsonl`. The fallback
+now names no last chat, which is what a fresh install has; the Config
+reduction has always had the empty-`LastChat` branch for it, and it was simply
+unreachable on the one path that needed it. Neither error was fatal —
+`mvu.Loop` catches per command — but they merge: `Load Chat List` and
+`Load History` are issued as one `DoConcurrent`, so the first failure killed
+the second before it ran, which is why only one of the three ever appeared in
+the log at a time.
+
+~~**`mindchat` shows nothing between sending and the first token.** The stream
 itself is correct — `AssistantDelta` appends and the markdown re-parses per
 delta, watched frame by frame — but the gap before the first delta is blank:
 no spinner, no placeholder row, no disabled composer. On a reasoning model
 that gap ran over four seconds with the pane completely inert, which reads as
 a hung app rather than a working one. The model already knows it is streaming
-(`model.StreamFor`), so the missing piece is only the view.
+(`model.StreamFor`), so the missing piece is only the view.~~
+
+**Fixed in F4.5.** A pending row, appended by `visibleHistory` from the moment
+`StreamFor` registers the stream until the first delta opens the assistant
+row, drawn as three accent dots in the assistant bubble — in the body line
+box, so the row does not resize when the answer replaces it — pulsing in a
+wave that travels across them. The composer stays live: mindchat streams
+several chats at once, so disabling it would be wrong.
+
+Every duration comes from the theme's motion stops (one `DurXSlow` per dot,
+each leading the next by one stop); `StreamDot`'s own `const period = 1200`
+went the same way. Reduce-motion is read from the theme's composed
+`MotionScale` rather than a second `a11y.Live` subscription of the app's own —
+`llms.txt` §Motion asks for exactly that, and mindchat was the counter-example.
+Zero stops mean three still, solid dots and no `InvalidateCmd`, which the
+tests assert through `input.Router`'s wakeup rather than through pixels.
 
 ~~**`svg` inverts the SVG `fill-rule` property.** `parser/svgcursor.go:133` reads~~
 
