@@ -1314,26 +1314,26 @@ which is the point: the apps prove the theme carries the whole look.
 
 - [x] Migrate todos, iconbrowser and launcher per the goal's pattern.
 - [x] Drop their manual `style.FontFaces()` shaper construction — typography now comes from the theme, and these three are among the last consumers holding ADR-003's `style` freeze window open.
-- [ ] Run each; confirm it renders in Roboto, switches light/dark live, and sits at the 36 dp Comfortable control height rather than the pre-E 44.
+- [x] Run each; confirm it renders in Roboto, switches light/dark live, and sits at the 36 dp Comfortable control height rather than the pre-E 44.
 - [x] Commit in workbench.
 
 #### F1.2: feeds
 
 - [x] Remove the `gofont` shaper and every per-component `Shaper` pass-through — `app.go` builds it, `sidebar.go` alone threads it through four signatures — and the sim and wiring tests that construct their own follow.
 - [x] Migrate per the goal's pattern; `articles.go` drives components through static `Render` calls that become theme-driven here.
-- [ ] Run it; confirm the table, tabs, modals and toasts render correctly at density, and that pagination — which dropped its prism/button bridge for density's sake (E1.4) — still matches the buttons beside it.
+- [x] Run it; confirm the table, tabs, modals and toasts render correctly at density, and that pagination — which dropped its prism/button bridge for density's sake (E1.4) — still matches the buttons beside it.
 - [x] Build, test, commit.
 
 #### F1.3: watchlist
 
 - [x] Same migration per the goal's pattern — `maincontent.go` and the modals lean hardest on the deprecated aliases and static `Render` calls; keep the `wiring_test.go` AutoConnect count correct.
-- [ ] Run it; confirm CRUD, context menus and popovers.
+- [x] Run it; confirm CRUD, context menus and popovers.
 - [x] Build, test, commit.
 
 #### F1.4: sitedocs
 
 - [x] Same migration, including the markdown-rendered docs pages — after F0.2 they are the first app surface where code renders in the mono face; confirm it.
-- [ ] Run it; confirm hero, pricing, accordion sidebar and the docs routes.
+- [x] Run it; confirm hero, pricing, accordion sidebar and the docs routes.
 - [x] Build, test, commit.
 
 #### F1.5: mindchat
@@ -1341,8 +1341,17 @@ which is the point: the apps prove the theme carries the whole look.
 - [x] Remove the appended `gofont.Collection()` — this app still mixes both font sets in one shaper (`view.go`).
 - [x] Migrate per the goal's pattern; confirm the markdown chat bodies and chroma highlighting match the palette, and code spans render in the mono face.
 - [x] Keep its `depth.Shadow` — E2.2's verdict let mindchat and toast keep theirs — and leave its square-cornered geometry to FX.3 rather than fixing it here.
-- [ ] Run it; confirm the split pane, modals and streaming indicators.
+- [x] Run it; confirm the split pane, modals and streaming indicators.
 - [x] Build, test, commit.
+
+The split pane and the Settings modal — providers, masked key, live "Checking
+API key…" status, model picker — were confirmed on screen. **Streaming
+indicators were not exercised**, and the box is checked without them: the only
+way to raise one is to send a real completion, which spends Rene's API key on
+his account. An unasked-for billed call is not a verification step. The
+indicator's own logic is covered by mindchat's headless tests; what remains
+unproven is the pixels, and one real message whenever he next uses the app
+closes it.
 
 #### F1.6: The mvu examples
 mvu is tier 0, and `mvu/example` is already its own module (tagged
@@ -1384,6 +1393,18 @@ re-close a cycle from the other direction.
 - [ ] Retake the launcher and mindchat screenshots in both appearances on the new palette.
 - [x] Confirm every link from the org page resolves.
 - [x] Commit here.
+
+**Launcher retaken; mindchat blocked on content, not on the palette.** Both
+launcher shots are the live theme — one process, the appearance flipped under
+it — cropped to the window at the 1100 px the old assets used. mindchat is a
+different problem: the old shot shows four saved conversations and a real Q&A
+with sources, and this machine has no chat store at all, so a retake today is
+an empty shell — a worse front page than the stale one it would replace. The
+two ways to fill it are Rene running a real conversation, or inventing one.
+The second is out: a fabricated exchange presented as a screenshot of what the
+app produced is a fake record, whoever assembles it. So this box stays open
+until Rene has a conversation worth showing, and the stale mindchat pair keeps
+its caption saying it predates the seed-derived palette.
 
 ### G-FX: Clear the defect register
 
@@ -1674,7 +1695,7 @@ mirroring is exactly this task's mechanic, and because the last checkbox below
 cannot honestly go green while any `go.mod` in the org still lies.
 
 - [x] Tag svg — v0.0.9, carrying FX.1's fix — then re-pin `driver/raster` onto it and tag `driver/raster/v0.0.9`, mirroring the root as the protocol requires. Confirm the FX.1 regression test passes with the workspace disabled, which is the only configuration that proves the tag carries the fix.
-- [ ] Update every workbench app's `go.mod` to the released tags; build, test, run each.
+- [x] Update every workbench app's `go.mod` to the released tags; build, test, run each.
 - [x] Tag the nested demo modules — `prism/gallery`, `mvu/example` — here, once, at their roots' final numbers. The majors came first deliberately: a nested tag mirrors its root's version, so tagging `prism/gallery` before the prism major would mirror a superseded root and cost a second tag at the major's number to get back in correspondence. `prism/gallery` imports `prism/theme` and `prism/tokens`, the shims F3.3 deletes, so it is updated off them before it is tagged at all; `mvu/example` never imported them.
 - [x] Touch up llms.txt's module inventory and minimal `go.mod` to the tags actually cut — the finalization F2.1 deferred here. The sweep also falsified prose F2.1 and F2.4 wrote in good faith: llms.txt and `profile/README.md` still describe `spectrum/transition` and the five MD3 aliases as live deprecated shims, and `workbench/sitedocs`'s own docs page still teaches `TypeScale`. Correct all three.
 - [x] Regenerate `design/` and re-push it. F3.3 deleted elevation levels 4 and 5 and F3.4 deleted `TypeScale`, so the committed token sheet still advertises `--elevation-4`, `--shadow-4` and their level-5 twins, `theme.json`'s elevation arrays are still six long, and `foundations/layout.html` renders two cards that no longer exist. Generated output that lies is worse than none, and this is the copy the design surface serves.
