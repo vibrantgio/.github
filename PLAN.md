@@ -1896,7 +1896,7 @@ the import. `table/table.go` has one multi-line call.
       is the one existing test that already asserted line height on wrapped
       text; check it still says something true now that wrapped runs come out
       at whole multiples of the line height.
-- [ ] Re-check `pulse`, `markdown` and the seven workbench applications after
+- [x] Re-check `pulse`, `markdown` and the seven workbench applications after
       the sweep, not before: they measured clean against the prism-only change.
 
 **Half of that re-check came back dirty, and the premise was wrong.** `pulse`
@@ -1919,6 +1919,28 @@ green — the box is what stops the release believing its own reference apps
 agree.
 
 - [x] Build, test, commit in every repo touched.
+
+#### F4.4e: Bring workbench back to green
+
+The apps were left behind. `workbench`'s last commit is F4.3's, and F4.4,
+F4.4b, F4.4c and F4.4d each measured it "clean" and moved on — three of those
+measurements were taken while it was already failing. F4.4d caught it and
+reported it rather than absorbing it, which is why this task exists at all.
+
+Verified directly, not taken on report: `todos`, `iconbrowser`, `launcher` and
+`mindchat` are green. The other three are not.
+
+**One of these is not a golden.** `feeds`'s `TestBuildLayersConstructsWithoutPanic`
+fails with *"layer 0 produced no widget"* — a layer that builds nothing is a
+broken application, not a moved baseline, and no amount of `-golden.update`
+will touch it. Find what stopped producing a widget before regenerating
+anything, because a golden regenerated over a broken layer records the break.
+
+- [ ] Fix `feeds`'s empty layer 0 first, and say in the commit body which change caused it — the shaper split (F4.2), the pinning sweep (F4.3) and the line box (F4.4c) are the candidates, and `git stash` against each is how the last four tasks attributed their own failures.
+- [ ] Then the goldens: `feeds` 2 (`add-feed-modal-{light,dark}`), `watchlist` 2, `sitedocs` 8. Regenerate only after the layer is fixed, and only where the movement is explained by the line box or the shaper pin — anything else is a second defect wearing the same clothes.
+- [ ] Move the apps onto `spectrum/typeset` wherever they draw a label directly, for the same reason cadence did: `llms.txt` now tells every consumer never to hand `LineHeight` to `widget.Label`, and the reference applications are the worst possible place to contradict it.
+- [ ] Check that every app's live-path test passes `Props.Shaper` explicitly — F4.4, F4.4b and F4.4d found six between them that silently took the theme's fallback, which after F4.2 binds a golden to whatever fonts the machine happens to have.
+- [ ] Delete the `.actual.png` debris these failures have been leaving; eyeball every regenerated image; build, test, commit in workbench.
 
 #### F4.5: Repair mindchat's first run
 
