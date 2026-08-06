@@ -1532,7 +1532,7 @@ and the six that remain are other tasks' debt, not this one's:
 
 | module | why it fails | closed by |
 | --- | --- | --- |
-| cadence, markdown | pinned to pre-F0.1 spectrum; `Typography.Code`, `depth.Shadow`'s new arity | F3.4 |
+| cadence, markdown | pinned to pre-F0.1 spectrum; `Typography.Code`, `depth.Shadow`'s new arity | F3.4 — **closed** |
 | workbench/feeds, mindchat, sitedocs | same two symbols, via their spectrum pin | F3.5 |
 | svg/driver/raster | FX.1's regression test, against an svg root tag that predates FX.1's fix | **nobody — see below** |
 
@@ -1621,10 +1621,41 @@ them), `cadence/modal/modal.go:234` (`button.RenderIcon`, which now takes a
 note it takes no `Density`, a paragraph having no control to size). The three
 workbench apps and `sitedocs` fail only transitively through these four.
 
-- [ ] Update cadence and markdown to spectrum v0.2.0 and prism v0.2.0; re-cut their static signatures — every cadence package's `Render`, plus `markdown/style.FromTokens` — to `TextStyle` and `Density`, matching prism's re-cut.
-- [ ] Regenerate the moved goldens and say so in the commit body.
-- [ ] Tag cadence **v0.3.0** and markdown **v0.1.0**; ask Rene to push.
-- [ ] Record the end of `style`'s ADR-003 freeze window: G-F1 moved the last in-org consumers off it, so it is archived at v0.0.6 — frozen, never re-tagged — rather than swept. Note it in its README and in ADR-003.
+- [x] Update cadence and markdown to spectrum v0.2.0 and prism v0.2.0; re-cut their static signatures — every cadence package's `Render`, plus `markdown/style.FromTokens` — to `TextStyle` and `Density`, matching prism's re-cut.
+- [x] Regenerate the moved goldens and say so in the commit body.
+- [x] Tag cadence **v0.3.0** and markdown **v0.1.0**; ask Rene to push.
+- [x] Record the end of `style`'s ADR-003 freeze window: G-F1 moved the last in-org consumers off it, so it is archived at v0.0.6 — frozen, never re-tagged — rather than swept. Note it in its README and in ADR-003.
+
+Tags cut and pushed: spectrum **v0.3.0**, cadence **v0.3.0**, markdown
+**v0.1.0**. `check-no-workspace.sh` moves 30/36 → **31/36**.
+
+**Two findings worth carrying forward.** First, `theme.Theme.Type` went with
+`TypeScale` in spectrum v0.3.0. The task's brief asked for an honest call on
+whether the field itself had to go; grepping all twenty-one repositories, four
+constructors wrote it (`theme.Default`, `theme.AutoLightDark`, `system`'s live
+theme, `window`'s test themes) and *nothing anywhere read the value* — the
+in-org readers moved to `Typography` in C1.1, E1.2 and F3.3, and
+`spectrum/export`'s own package doc already said in as many words that
+`Theme.Type` is not consumed. Retyping a field nobody reads would have meant
+inventing a purpose for it, so it is deleted.
+
+Second, cadence's re-cut is not uniform, on purpose. Fifteen of the nineteen
+entry points take a single role's `TextStyle`, matching prism; the four that
+draw several roles (`hero`, `pricing`, `feature`, `testimonial`) take the whole
+`tokens.Typography`, because four `TextStyle` parameters in a row are four
+chances to transpose two of them. A `Density` follows only the nine that
+actually size a control. Both rules are written into cadence's README.
+
+**What F3.5 inherits.** `prism/gallery` now *fails* `check-no-workspace.sh`
+rather than merely being stale: F3.3 repointed it at `spectrum/a11y` without
+adding spectrum to its `go.mod`. Same owner, slightly larger job. And the
+transitive breakage from this task's majors is exactly four applications, not
+the three F3.1's table names: **sitedocs** and **mindchat** break in production
+code (`tokens.TypeScale`, `Theme.Type`, `markdown.FromTokens`), **feeds** and
+**watchlist** break in tests only (`alert.Render`, `table.Render`,
+`tokens.DefaultTypeScale`); `todos`, `iconbrowser` and `launcher` build clean.
+One doc file also still names the deleted type:
+`workbench/sitedocs/content/prism-tokens.md`.
 
 #### F3.5: Tag the apps and the nested demos
 
@@ -1931,6 +1962,24 @@ migration is a real migration rather than a cleanup.
 
 `style` is frozen rather than deleted: its MD2 scale is superseded by
 `Typography`, and it keeps working through the deprecation window.
+
+**The window closed in F3.4, by archival rather than by a sweep.** Every other
+repository's deprecation window ended in a major release that deleted the
+shims — F3.3 for spectrum and prism, F3.4 for cadence and markdown. `style`
+could not end the same way, because `style` is not a module carrying some
+deprecated surface: since C1.4 it is *entirely* deprecated surface, so a sweep
+would have emptied the module. What made the other ending available was G-F1,
+which moved the last in-org consumers — `todos`, `iconbrowser`, `launcher`,
+`mindchat` — onto the theme's typography and left `style` with no importer
+inside the organization at all. Eleven example mains in the support
+repositories (`ivg/raster/gio/example`, `svg/driver/gio/example`, `traer/gio`)
+still import it and are deliberately left alone.
+
+So the repository is **archived at v0.0.6 — frozen, never re-tagged.** The
+tag and the import path keep resolving forever, which is the whole reason to
+archive rather than delete: the eleven demos go on building. There will be no
+v0.0.7. The `check-layers.sh` permission for the `style -> font`/`textdraw`
+intra-tier edge stays, since the module and its edge still exist.
 
 ### ADR-004: The canonical agent guide lives here
 
