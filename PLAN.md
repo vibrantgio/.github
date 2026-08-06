@@ -1849,7 +1849,7 @@ F4.4 and is not text's doing.
 - [x] Whichever way it goes, pin it with a test that fails against today's behaviour: single-line labels at two different line heights either differ, or are asserted equal with the reason written beside the assertion.
 - [x] Fix or explain the 29-versus-28 dp Compact button. If a control's height is the greater of `ControlHeight` and its content box, `Density.ControlHeight` is a floor and not a height, and `density.go`'s metrics table should say the word it means.
 - [x] Fix the third false sizing claim, found by F4.4b: a `prism/button` label never grows its button. `cadence/hero`'s `ctaGtx` clamps a CTA cell to `ctaIntrinsicWidth` (120 dp), the button then clamps its label to that width less 2×PaddingX at `MaxLines: 1`, and the growth branch compares against a width the label was already clamped to — so it cannot fire, and "Read the docs" renders as "Read the do…". `ctaIntrinsicWidth`'s own doc says wider labels still grow the button. One of the two is wrong; decide which, and note that all three items in this task are the same defect wearing different clothes — a measured claim in a doc comment that nobody made a test assert.
-- [ ] Regenerate the moved goldens — the honouring path moves every text golden in the org, so if that is the decision, budget for it and say so rather than half-landing it.
+- [x] Regenerate the moved goldens — the honouring path moves every text golden in the org, so if that is the decision, budget for it and say so rather than half-landing it.
 - [x] Build, test, commit in every repo touched.
 
 **Split, and the last box is deliberately open.** The decision was to honour
