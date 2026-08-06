@@ -1715,6 +1715,125 @@ seven, which covers rendering but not window creation, event delivery or the
 live theme stream. Launch the seven apps once at an unlocked session and check
 the box; nothing else in this task is outstanding.
 
+### G-F4: Fixes found by running it
+
+Everything in this goal was found by running the seven apps for real, which is
+the one thing the plan had never done until the release was already cut. None
+of it was caught by a test, and the reason is the same in every case: the test
+suite was arranged to be *stable* rather than to be *true*.
+
+**The principle these fixes restore.** Determinism is a property a test
+configures for itself. It is never a limit real use pays for. The org had this
+backwards in two places at once, and they compound. `Typography.Shaper()` hard
+codes `text.NoSystemFonts()` — a choice that exists so golden images do not
+depend on which fonts a machine has — with the result that every application
+built on the system silently draws a missing-glyph box for any character
+Roboto and Roboto Mono do not carry. And where that would have been visible,
+the goldens look away: `prism/button`'s cases pass `Label: ""` with the
+comment *"empty label: no font rasterisation, deterministic pixels"*. So the
+default renders badly, and the tests are blind to it by construction. Neither
+half is defensible on its own; together they are how a design system ships a
+typography defect through five phases of work about typography.
+
+The fix inverts it. The default resolves text — all text, including glyphs
+outside the embedded faces. Tests pin their faces *explicitly*, which is
+stricter than what they have now, because a test that says what it wants
+cannot drift when the default changes. Symbol coverage is then checked the way
+the evidence actually supports: assert the shaper resolves a glyph to a real
+face, and keep those symbols out of the golden images, where a machine-
+dependent face would be exactly the fragility the goldens exist to avoid.
+
+Ordering is load-bearing. F4.1 comes first because the golden harness cannot
+currently fail on a size change, so every later task in this goal would be
+grading its own work with a broken instrument.
+
+#### F4.1: Make the golden harness fail on a size change
+
+`PixelDiff` returns `-1` when two images differ in size, and `Render` fails
+only on `n > 0` — so a golden whose dimensions moved compares as a pass. Every
+golden in the org has been guarded by this for the whole plan, and the density
+work in G-E1 moved control sizes everywhere.
+
+- [ ] Make a size mismatch a failure in `prism/golden.Render`, naming both dimensions in the message — the whole point is that the diff count is meaningless once the bounds differ, so `-1` must not reach a `> 0` test.
+- [ ] Decide what `PixelDiff` itself should return and say so in its doc: a sentinel that reads as "no answer" is what caused this, and a second return value or a documented panic are both honest; a count that silently means failure is not.
+- [ ] Sweep every golden name in the org for collisions — E1.3 found `prism/input`'s checkbox and textfield both writing `light-focused.png` into one shared `testdata/golden` directory, which only survived because the sizes differed and the comparison went quiet. Rename per component, regenerate the freed names.
+- [ ] Re-run every golden suite in prism, pulse, cadence, markdown and the workbench apps. Anything that starts failing was already broken and was being hidden; fix or regenerate it deliberately, and say in the commit body which of the two each one was.
+- [ ] Build, test, commit in every repo touched.
+
+#### F4.2: Give the theme a fallback face, and make determinism a setting
+
+The defect the register calls tofu, fixed at its root rather than papered over
+per application.
+
+- [ ] Drop `text.NoSystemFonts()` from `Typography.Shaper()`, so the default shaper falls back to the platform's fonts for glyphs the embedded faces lack. Verified against Gio v0.10.1: the option only sets `disableSystemFonts`, so removing it restores the fallback the toolkit already implements.
+- [ ] Add an explicit deterministic constructor beside it — a `ShaperOptions`-style argument or a second method, whichever reads better next to the existing lazy cache — that pins the collection and disables system fonts. Document each one by what it is *for*, not by what it does: the default is what applications should use, the deterministic one is what golden tests must use.
+- [ ] Keep the cache correct across both: the memoised shaper is currently a single field, and two configurations must not hand back each other's shaper.
+- [ ] Test symbol coverage the way the evidence supports it — assert that shaping `U+2193 ↓`, and a handful of other characters outside Roboto's coverage, returns glyphs from a real face rather than the missing-glyph glyph. This is a resolution assertion, not an image: these characters must never enter a golden, because the face that serves them is exactly the machine-dependent thing goldens cannot pin.
+- [ ] Record the reversal as an amendment to ADR-003 — the ADR gave the theme the typeface and never said the theme should refuse every other typeface — naming the two-configuration rule so the next reader does not re-derive `NoSystemFonts` as a default.
+- [ ] Build, test, commit in spectrum.
+
+#### F4.3: Move every golden onto the deterministic shaper
+
+F4.2 changes what `DefaultTypography.Shaper()` means, and roughly a hundred
+golden tests call it. This is the task that keeps the images machine
+independent.
+
+- [ ] Repoint every golden and pixel test in prism, pulse, cadence, markdown and the workbench apps at F4.2's deterministic constructor. The apps' own rendering keeps the fallback default — it is only the tests that pin.
+- [ ] Confirm the images are byte-identical afterwards. They must be: the deterministic configuration is what the default did until F4.2. A moved pixel here means the swap was not inert and needs understanding before anything is regenerated.
+- [ ] Add the rule to each repo's `AGENTS.md` and to `llms.txt`: a golden test pins its faces, application code does not. A new golden written against the default shaper will pass locally and fail on a machine with different fonts, which is the failure this task exists to make impossible.
+- [ ] Build, test, commit in every repo touched.
+
+#### F4.4: Put real text in the goldens
+
+With the faces pinned by configuration, the reason the goldens avoid text is
+gone — and text is where the last two phases of work actually landed.
+
+- [ ] Replace the deliberately empty labels with real ones wherever a component draws text, starting with the `Label: ""` cases in `prism/button` that name the old constraint in their comment.
+- [ ] Cover what the typography contract actually promises and no golden currently pins: the role's typeface, its weight, its size and its line height. A regression in any of them is invisible today, which is how F3.3's re-cut of every static signature onto `TextStyle` moved zero pixels.
+- [ ] Include one monospace case, since `Code` is the newest role and `markdown`'s code path is the one that changed most recently.
+- [ ] Keep symbols out, per F4.2 — Latin text in the embedded faces is reproducible, and that is the line.
+- [ ] Regenerate, eyeball every new image, and say in the commit body how many were added; build, test, commit.
+
+#### F4.5: Repair mindchat's first run
+
+Two defects in one app, both of which any first-time user meets and no test
+does.
+
+- [ ] Create the chat directory before it is read or written — `os.MkdirAll` beside the existing calls in `commands.go`. `Load Chat List`, `Load History` and `Append Prompt` all fail on a fresh install today, so a new user's first message is accepted by the composer and silently lost.
+- [ ] Write the test that fails first, against a genuinely empty `Application Support`. The existing storage tests call `os.MkdirAll(dir, "chats")` in their own setup — they create the directory the app forgets, which is precisely why the suite is green and the app is broken. Make at least one test exercise the app's own directory handling instead of standing in for it.
+- [ ] Draw something between sending and the first token. The stream is correct once it starts, but the gap before it is blank — over four seconds against a reasoning model, with no spinner, no placeholder row and a live composer — which reads as a hung application. `model.StreamFor` already knows the request is in flight, so this is a view change; use the theme's motion stops rather than a local duration.
+- [ ] Build, test, commit in workbench.
+
+#### F4.6: Promote success and warning to tokens
+
+The last two colour literals in the system, and the only entries left in
+C3.2's allow-list that are not deliberate alpha compositing.
+
+- [ ] Add success and warning roles to `spectrum/tokens`, derived like every other role rather than picked by hand — ADR-007's ramp model already says how, and the seed's hue is the only input a new role needs.
+- [ ] Migrate `cadence/alert` and `cadence/toast` onto them. The two packages currently carry byte-identical copies of the same four Tailwind values, so the duplication and the divergence risk go with the literals.
+- [ ] Gate the new roles in APCA exactly as D2.4 gates the others, and record the measured Lc — a status colour that fails contrast is worse than a neutral one, because it is the colour a user is being asked to read in a hurry.
+- [ ] Delete both entries from `check-layers`'s sibling, the `noliteralcolor` allow-list, and confirm the lint still passes with them gone.
+- [ ] Regenerate the moved goldens; build, test, commit in spectrum and cadence.
+
+#### F4.7: Settle the two accessibility questions the density work left open
+
+Both were recorded as deliberate consequences rather than defects, which is
+the right instinct and the wrong stopping point: neither has been decided
+against the standard it touches.
+
+- [ ] Decide whether a Compact stacked row may sit below the 44 dp pointer target. E1.3 extended the hit area for standalone controls and deliberately did not for list rows, dropdown options and table rows, because adjacent rows would steal each other's slop — so at Compact those targets are 28 dp, and `Density.MinHitTarget` promises they are not. Either the promise is narrowed to standalone controls in its own doc, or stacked rows get a floor; pick one and say why in `density.go` beside the metrics table.
+- [ ] Decide what keyboard traversal owes a virtualised list. FX.6 gave `cadence/sidebar` a scroll region and, with it, focus tags that exist only for rows currently laid out — so Tab reaches what is on screen and cannot reach the rest. Record the decision in the package doc either way; if it stands, say plainly that keyboard users cannot reach an off-screen row, because that sentence is the argument for changing it later.
+- [ ] Whatever each decision implies, do it — including nothing, with the reasoning written down.
+- [ ] Build, test, commit in every repo touched.
+
+#### F4.8: Release the fixes
+
+- [ ] Run `scripts/check-layers.sh` and `scripts/check-no-workspace.sh`; both green before any tag moves, exactly as F3.1 required.
+- [ ] Tag bottom-up per the Release protocol. Spectrum's default rendering changes, so it is a minor bump — **v0.4.0** — and the layers above move in patch unless their own API moved. Check `git tag | sort -V` in every repo before choosing: the no-double-digit rule is absolute, and spectrum and pulse are the two repos already carrying buried tags.
+- [ ] Re-pin, re-tag and push each layer in order, confirming resolution from a clean module cache with the workspace disabled.
+- [ ] Regenerate `design/` and re-push it: F4.6 adds two roles to the token sheet, so the design surface is stale the moment spectrum is tagged.
+- [ ] Strike the register entries these tasks fixed, leaving the record in place.
+
 ## Phase G: The design-agent surface
 
 Phase E exported the foundations. This phase adds the component layer, which
@@ -2372,8 +2491,10 @@ reality.
 ### Defects found but not fixed
 
 Real defects turned up while doing other work, in code no phase of this plan
-touches. They are recorded here so they survive the task that found them. None
-is scheduled; each needs a task cut for it before it gets fixed.
+touches. They are recorded here so they survive the task that found them. An
+entry starts unscheduled and needs a task cut for it before it gets fixed —
+G-FX cut one per entry for the first eight, and G-F4 does the same for the
+three that running the apps turned up.
 
 **The theme's shaper has no fallback face, so anything outside Roboto renders
 as tofu.** `DefaultTypography.Shaper()` is built with `text.NoSystemFonts()`
