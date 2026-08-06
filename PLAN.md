@@ -1442,12 +1442,12 @@ gone — raised in place is a surface step now — leaving two callers,
 their shadows as things that float. The when-is-a-shadow-right question is
 settled; only the geometry of the survivors remains.
 
-- [ ] Take a corner radius on the shadow call and clip the interior to a matching `clip.RRect`.
-- [ ] Add an opacity control, and drop `cadence/toast`'s `PushOpacity` workaround once it exists.
-- [ ] Update `cadence/toast` and `workbench/mindchat` to pass the radius they already round their foregrounds to.
-- [ ] Golden-test a rounded surface over a shadow — the wedges are exactly what a golden catches and no unit test will.
-- [ ] Regenerate the moved goldens in this task and say so in the commit body; build, test, commit.
-- [ ] Strike the register entry.
+- [x] Take a corner radius on the shadow call and clip the interior to a matching `clip.RRect`.
+- [x] Add an opacity control, and drop `cadence/toast`'s `PushOpacity` workaround once it exists.
+- [x] Update `cadence/toast` and `workbench/mindchat` to pass the radius they already round their foregrounds to.
+- [x] Golden-test a rounded surface over a shadow — the wedges are exactly what a golden catches and no unit test will.
+- [x] Regenerate the moved goldens in this task and say so in the commit body; build, test, commit.
+- [x] Strike the register entry.
 
 #### FX.4: Guard tween against a nil Lerp
 
@@ -2319,13 +2319,27 @@ motion's documented "frame 52" for the same preset is its 0.85→1 amplitude,
 not a contradiction of the 68. motion and springbutton pass explicit values
 and did not move; no goldens regenerated.
 
-**`pulse/depth` paints a hard rectangle under every rounded caller.**
+~~**`pulse/depth` paints a hard rectangle under every rounded caller.**
 `depth.go:86` fills the shadow's interior with `clip.Rect(shadowBounds)` at
 full alpha. All three callers — `cadence/card`, `cadence/toast` and
 `workbench/mindchat` — draw a rounded foreground over it, leaving square dark
 wedges at the corners. It also exposes no opacity control, which is why
 `cadence/toast` wraps it in a `PushOpacity`. Distinct from E2.2, which decides
-*when* a shadow is appropriate; this is the geometry being wrong when one is.
+*when* a shadow is appropriate; this is the geometry being wrong when one is.~~
+
+**Fixed in FX.3.** `Shadow` takes two new parameters, `radius int` (pixels)
+and `opacity float32`: the interior fill is now a `clip.RRect` at the
+caller's radius, the edge bands shorten by the radius, and the corner tiles
+grow inward to a `(radius+extent)²` square minus the quarter disc — covering
+the notch a rounded interior would otherwise leave transparent — with the
+diagonal gradient's inner stop shifted `radius/2` inside the corner, which is
+exactly the shift that keeps the ramp seam-continuous with the shortened
+bands. Radius 0 with opacity 1 reproduces the old geometry pixel-identically
+(the six level goldens passed unregenerated). Opacity scales the peak alpha,
+so `cadence/toast` now passes its fade alpha straight through instead of
+wrapping the call in `PushOpacity`; both callers pass the radius they round
+their foregrounds to. The one remaining trap — the un-themed black — stays
+documented in the package comment.
 
 **`pulse/tween` panics on a nil `Lerp`, but only in the interior.** `At` returns
 the endpoints without interpolating and reaches `tw.Lerp(...)` at
