@@ -1769,8 +1769,11 @@ per application.
 - [ ] Add an explicit deterministic constructor beside it — a `ShaperOptions`-style argument or a second method, whichever reads better next to the existing lazy cache — that pins the collection and disables system fonts. Document each one by what it is *for*, not by what it does: the default is what applications should use, the deterministic one is what golden tests must use.
 - [ ] Keep the cache correct across both: the memoised shaper is currently a single field, and two configurations must not hand back each other's shaper.
 - [ ] Test symbol coverage the way the evidence supports it — assert that shaping `U+2193 ↓`, and a handful of other characters outside Roboto's coverage, returns glyphs from a real face rather than the missing-glyph glyph. This is a resolution assertion, not an image: these characters must never enter a golden, because the face that serves them is exactly the machine-dependent thing goldens cannot pin.
-- [ ] Record the reversal as an amendment to ADR-003 — the ADR gave the theme the typeface and never said the theme should refuse every other typeface — naming the two-configuration rule so the next reader does not re-derive `NoSystemFonts` as a default.
-- [ ] Build, test, commit in spectrum.
+- [ ] Package a symbol face in `font`, mirroring `robotomono`'s layout — a Noto-Symbols-class face under its own licence file, one weight, no more than the coverage actually argued for: arrows, box-drawing, common maths and punctuation.
+- [ ] Keep it **optional**, which is the whole of its design. It is not in `DefaultTypography.Faces`: out of the box the system fallback covers symbols and everything else besides, and an application that cannot rely on system fonts — a container, a kiosk, anything shipping its own world — appends this face instead. Give that append a documented one-liner rather than making each caller rebuild the collection by hand.
+- [ ] Make the deterministic configuration able to include it too, so a component that legitimately draws an arrow stays testable without reaching for a machine's fonts. This does not license symbols into golden images; F4.4 still keeps them out.
+- [ ] Record the reversal as an amendment to ADR-003 — the ADR gave the theme the typeface and never said the theme should refuse every other typeface — naming the two-configuration rule so the next reader does not re-derive `NoSystemFonts` as a default, and naming the optional face so nobody mistakes it for the fallback.
+- [ ] Build, test, commit in font and spectrum.
 
 #### F4.3: Move every golden onto the deterministic shaper
 
@@ -1815,16 +1818,26 @@ C3.2's allow-list that are not deliberate alpha compositing.
 - [ ] Delete both entries from `check-layers`'s sibling, the `noliteralcolor` allow-list, and confirm the lint still passes with them gone.
 - [ ] Regenerate the moved goldens; build, test, commit in spectrum and cadence.
 
-#### F4.7: Settle the two accessibility questions the density work left open
+#### F4.7: Make a virtualised list reachable from the keyboard
 
-Both were recorded as deliberate consequences rather than defects, which is
-the right instinct and the wrong stopping point: neither has been decided
-against the standard it touches.
+Both accessibility questions the density work left open are now decided. The
+pointer-target one resolves into a doc change; this task is the other one.
 
-- [ ] Decide whether a Compact stacked row may sit below the 44 dp pointer target. E1.3 extended the hit area for standalone controls and deliberately did not for list rows, dropdown options and table rows, because adjacent rows would steal each other's slop — so at Compact those targets are 28 dp, and `Density.MinHitTarget` promises they are not. Either the promise is narrowed to standalone controls in its own doc, or stacked rows get a floor; pick one and say why in `density.go` beside the metrics table.
-- [ ] Decide what keyboard traversal owes a virtualised list. FX.6 gave `cadence/sidebar` a scroll region and, with it, focus tags that exist only for rows currently laid out — so Tab reaches what is on screen and cannot reach the rest. Record the decision in the package doc either way; if it stands, say plainly that keyboard users cannot reach an off-screen row, because that sentence is the argument for changing it later.
-- [ ] Whatever each decision implies, do it — including nothing, with the reasoning written down.
-- [ ] Build, test, commit in every repo touched.
+**The hit-target promise narrows to AA, deliberately.** E1.3 extended the hit
+area for standalone controls and not for list rows, dropdown options or table
+rows, because adjacent rows would steal each other's slop — so at Compact
+those targets are 28 dp while `Density.MinHitTarget` promises 44. The 44 dp
+figure is WCAG 2.5.5 Target Size (Enhanced), which is **AAA**; the level that
+governs at AA is 2.5.8 Target Size (Minimum), at 24 dp, which 28 dp clears.
+Flooring rows at 44 would cost Compact most of its value in exactly the dense
+tables and lists it exists for, so the promise is narrowed rather than the
+density weakened.
+
+- [ ] Rewrite `MinHitTarget`'s doc to say what it actually guarantees — standalone controls, not stacked rows — and record the 2.5.8-versus-2.5.5 distinction beside `density.go`'s metrics table, with the measured 28 dp and both thresholds, so the next reader can check the claim instead of trusting it.
+- [ ] Give `prism/list` keyboard traversal of the whole list: arrow keys move the selection, the list scrolls the selection into view, and Home/End reach the ends. The gap is that focus tags exist only for laid-out rows, so traversal cannot be built on Tab alone — which is why this is the list's job and not each caller's.
+- [ ] Move `cadence/sidebar` onto it, since FX.6's scroll region is what exposed the gap. Check whether `cadence/table` and `prism/input`'s dropdown menu have the same shape, and say so either way rather than leaving it to be rediscovered.
+- [ ] Test it where it actually fails today: a list long enough to virtualise, asserting the selection reaches a row that was never laid out in the first frame, driven through a real `input.Router` as `g53c`'s right-click test is.
+- [ ] Regenerate any moved goldens; build, test, commit in every repo touched. If the `prism/list` work alone fills the task, land it, check off what is done, and split the cadence migration out — the plan's sizing rule outranks finishing the list in one go.
 
 #### F4.8: Release the fixes
 
@@ -1879,7 +1892,7 @@ regression between two Gio renders and useless across two different renderers.
 This task needs a perceptual metric instead.
 
 - [ ] Use prism's exported golden capture, promoted in F3.3. If that bullet was skipped, go back and do it there and re-tag — do not reach into `internal` from here, and do not write a second Gio capture path.
-- [ ] Pick the browser automation and record why. chromedp keeps the harness one Go test with no second toolchain; Playwright shapes text better and drags in Node. Neither is installed today, so check before committing to one.
+- [ ] The browser automation is **chromedp**, decided by Rene on toolchain grounds: it keeps the harness one Go test in the same `go test` run as everything else, where Playwright would shape text better but split a pure-Go organisation across two toolchains. Neither was installed, so this task installs Chrome or Chromium first and records the version it pinned — a mirror comparison that silently changes renderer is worthless.
 - [ ] Write the browser half: render a component page headless at a fixed viewport and capture a screenshot.
 - [ ] Align the two: same nominal size, same theme emission, same component state.
 - [ ] Implement a perceptual comparison — downscale both and compare in a perceptual space, or score structural similarity. Text shaping and antialiasing differ between Gio and a browser, so the bar is "reads as the same component", not pixel equality.
