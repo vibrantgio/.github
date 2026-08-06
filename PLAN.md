@@ -1765,15 +1765,15 @@ work in G-E1 moved control sizes everywhere.
 The defect the register calls tofu, fixed at its root rather than papered over
 per application.
 
-- [ ] Drop `text.NoSystemFonts()` from `Typography.Shaper()`, so the default shaper falls back to the platform's fonts for glyphs the embedded faces lack. Verified against Gio v0.10.1: the option only sets `disableSystemFonts`, so removing it restores the fallback the toolkit already implements.
-- [ ] Add an explicit deterministic constructor beside it — a `ShaperOptions`-style argument or a second method, whichever reads better next to the existing lazy cache — that pins the collection and disables system fonts. Document each one by what it is *for*, not by what it does: the default is what applications should use, the deterministic one is what golden tests must use.
-- [ ] Keep the cache correct across both: the memoised shaper is currently a single field, and two configurations must not hand back each other's shaper.
-- [ ] Test symbol coverage the way the evidence supports it — assert that shaping `U+2193 ↓`, and a handful of other characters outside Roboto's coverage, returns glyphs from a real face rather than the missing-glyph glyph. This is a resolution assertion, not an image: these characters must never enter a golden, because the face that serves them is exactly the machine-dependent thing goldens cannot pin.
-- [ ] Package a symbol face in `font`, mirroring `robotomono`'s layout — a Noto-Symbols-class face under its own licence file, one weight, no more than the coverage actually argued for: arrows, box-drawing, common maths and punctuation.
-- [ ] Keep it **optional**, which is the whole of its design. It is not in `DefaultTypography.Faces`: out of the box the system fallback covers symbols and everything else besides, and an application that cannot rely on system fonts — a container, a kiosk, anything shipping its own world — appends this face instead. Give that append a documented one-liner rather than making each caller rebuild the collection by hand.
-- [ ] Make the deterministic configuration able to include it too, so a component that legitimately draws an arrow stays testable without reaching for a machine's fonts. This does not license symbols into golden images; F4.4 still keeps them out.
-- [ ] Record the reversal as an amendment to ADR-003 — the ADR gave the theme the typeface and never said the theme should refuse every other typeface — naming the two-configuration rule so the next reader does not re-derive `NoSystemFonts` as a default, and naming the optional face so nobody mistakes it for the fallback.
-- [ ] Build, test, commit in font and spectrum.
+- [x] Drop `text.NoSystemFonts()` from `Typography.Shaper()`, so the default shaper falls back to the platform's fonts for glyphs the embedded faces lack. Verified against Gio v0.10.1: the option only sets `disableSystemFonts`, so removing it restores the fallback the toolkit already implements.
+- [x] Add an explicit deterministic constructor beside it — a `ShaperOptions`-style argument or a second method, whichever reads better next to the existing lazy cache — that pins the collection and disables system fonts. Document each one by what it is *for*, not by what it does: the default is what applications should use, the deterministic one is what golden tests must use.
+- [x] Keep the cache correct across both: the memoised shaper is currently a single field, and two configurations must not hand back each other's shaper.
+- [x] Test symbol coverage the way the evidence supports it — assert that shaping `U+2193 ↓`, and a handful of other characters outside Roboto's coverage, returns glyphs from a real face rather than the missing-glyph glyph. This is a resolution assertion, not an image: these characters must never enter a golden, because the face that serves them is exactly the machine-dependent thing goldens cannot pin.
+- [x] Package a symbol face in `font`, mirroring `robotomono`'s layout — a Noto-Symbols-class face under its own licence file, one weight, no more than the coverage actually argued for: arrows, box-drawing, common maths and punctuation.
+- [x] Keep it **optional**, which is the whole of its design. It is not in `DefaultTypography.Faces`: out of the box the system fallback covers symbols and everything else besides, and an application that cannot rely on system fonts — a container, a kiosk, anything shipping its own world — appends this face instead. Give that append a documented one-liner rather than making each caller rebuild the collection by hand.
+- [x] Make the deterministic configuration able to include it too, so a component that legitimately draws an arrow stays testable without reaching for a machine's fonts. This does not license symbols into golden images; F4.4 still keeps them out.
+- [x] Record the reversal as an amendment to ADR-003 — the ADR gave the theme the typeface and never said the theme should refuse every other typeface — naming the two-configuration rule so the next reader does not re-derive `NoSystemFonts` as a default, and naming the optional face so nobody mistakes it for the fallback.
+- [x] Build, test, commit in font and spectrum.
 
 #### F4.3: Move every golden onto the deterministic shaper
 
@@ -2152,6 +2152,51 @@ tag and the import path keep resolving forever, which is the whole reason to
 archive rather than delete: the eleven demos go on building. There will be no
 v0.0.7. The `check-layers.sh` permission for the `style -> font`/`textdraw`
 intra-tier edge stays, since the module and its edge still exist.
+
+**Amendment (F4.2): owning the typeface is not refusing every other one.**
+The ADR gave `Typography` the face collection and a lazily built shaper. It
+never said the shaper should refuse the platform's fonts — but the
+implementation passed `text.NoSystemFonts()`, and so it did, for five phases.
+The reason was golden images: with system fonts off, a rendered component is
+the same pixels on every machine. The cost was paid by every application
+instead. Roboto and Roboto Mono carry no arrow, no box-drawing character and
+no dingbat, so `U+2193 ↓` — a language model's arrow, arriving in mindchat —
+drew a missing-glyph box, and every golden in the organization was blind to it
+by construction.
+
+**The rule is two configurations, and the default is the one applications
+want.**
+
+- `Typography.Shaper()` leaves system fonts **on**. Faces answer first; the
+  platform answers for what they lack. Applications and library components use
+  this, and nothing may disable system fonts to stabilise an output.
+- `Typography.DeterministicShaper()` pins the collection and turns system
+  fonts **off**. Golden and pixel tests use this, and only tests. It is a
+  second cached field, not a flag on the first: two configurations must never
+  hand back each other's shaper.
+
+Determinism is a property a test configures for itself; it is never a limit
+real use pays for. This is strictly stricter than what came before — a test
+that names its faces cannot drift when the default moves — and it is why F4.3
+repoints every golden in the organization rather than leaving them on the
+default.
+
+**The symbol face is optional, and that is not an oversight.**
+`font/notosansmono` packages one weight of Noto Sans Mono for the arrows, box
+drawing, block elements, geometric shapes and operators Roboto lacks. It is
+**not** in `tokens.DefaultTypography.Faces` and must not be added there. Out of
+the box the system fallback covers those characters and far more; embedding
+596 KB in every binary to duplicate the platform would be a poor trade, and
+would misname the thing — it is not the fallback. It is for an application with
+no platform to fall back on (a container, a kiosk) and for a test that
+legitimately draws a symbol while keeping its faces pinned. Both append it the
+same way: `tokens.DefaultTypography.WithFaces(notosansmono.FontFace())`.
+
+Symbol coverage is asserted at the glyph level — the shaper resolved this rune
+to a real face rather than to the missing-glyph glyph — and never as a golden
+image. The face that serves a symbol is exactly the machine-dependent thing a
+golden cannot pin, which is why F4.4 puts real Latin text in the goldens and
+keeps symbols out.
 
 ### ADR-004: The canonical agent guide lives here
 
