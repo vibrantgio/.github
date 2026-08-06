@@ -1373,10 +1373,10 @@ re-close a cycle from the other direction.
 
 #### F2.3: Refresh every repo README
 
-- [ ] Update the prism, spectrum, pulse and cadence READMEs against the shipped API — spectrum grew export, a11y and the elevation ladder since its README was written; pulse grew blur and the motion presets.
-- [ ] Remove the "arrives in a later phase" notes now satisfied.
-- [ ] Update the deprecation notes in `style`, the not-deprecated clarification in textdraw, and the alias shims — `prism/tokens`, `prism/theme`, `prism/a11y`, `spectrum/transition` — saying plainly that F3.3 deletes the shims and what happens to `style` (F3.4 records it).
-- [ ] Commit in each repo touched.
+- [x] Update the prism, spectrum, pulse and cadence READMEs against the shipped API — spectrum grew export, a11y and the elevation ladder since its README was written; pulse grew blur and the motion presets.
+- [x] Remove the "arrives in a later phase" notes now satisfied.
+- [x] Update the deprecation notes in `style`, the not-deprecated clarification in textdraw, and the alias shims — `prism/tokens`, `prism/theme`, `prism/a11y`, `spectrum/transition` — saying plainly that F3.3 deletes the shims and what happens to `style` (F3.4 records it).
+- [x] Commit in each repo touched.
 
 #### F2.4: Refresh the org front door
 
