@@ -1820,10 +1820,10 @@ dependent the moment there is one; and canvas sizes need growing wherever real
 text overflows a window that fitted an empty label — F4.1's bounds check makes
 that loud rather than silent, which is the instrument working.
 
-- [ ] Fill the empty and near-empty labels across `accordion`, `alert`, `breadcrumb`, `card`, `hero`, `modal`, `navbar`, `pagination`, `popover`, `pricing`, `shell`, `sidebar`, `table`, `tabs`, `testimonial`, `toast` and `tooltip`, preferring to strengthen an existing case over adding a parallel one.
-- [ ] Pass `Props.Shaper` explicitly in every live-path case, and grep the repo for any that still take the theme's fallback `Shaper()` in a test — after F4.2 that is a machine-dependent golden waiting to fail on someone else's laptop.
-- [ ] Keep symbols out, per F4.2: Latin text in the pinned faces is reproducible and that is the line.
-- [ ] Regenerate, eyeball every image, and say how many moved; build, test, commit in cadence.
+- [x] Fill the empty and near-empty labels across `accordion`, `alert`, `breadcrumb`, `card`, `hero`, `modal`, `navbar`, `pagination`, `popover`, `pricing`, `shell`, `sidebar`, `table`, `tabs`, `testimonial`, `toast` and `tooltip`, preferring to strengthen an existing case over adding a parallel one.
+- [x] Pass `Props.Shaper` explicitly in every live-path case, and grep the repo for any that still take the theme's fallback `Shaper()` in a test — after F4.2 that is a machine-dependent golden waiting to fail on someone else's laptop.
+- [x] Keep symbols out, per F4.2: Latin text in the pinned faces is reproducible and that is the line.
+- [x] Regenerate, eyeball every image, and say how many moved; build, test, commit in cadence.
 
 #### F4.4c: Make line height mean something, or stop claiming it
 
