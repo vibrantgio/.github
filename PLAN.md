@@ -1588,16 +1588,38 @@ covers, verified against the code rather than remembered:
   markdown's are F3.4's. These are re-cut to take `TextStyle` and `Density`,
   not deleted — the golden tests ride them.
 
-- [ ] Promote `prism/internal/golden`'s capture to an exported package *before* the major is cut. G1.1 needs it from outside prism, and finding that out after the bump costs a whole second prism release for a one-line visibility change.
-- [ ] Sweep spectrum per the list; tag **v0.2.0**.
-- [ ] Sweep prism — the alias packages go, its static signatures re-cut — and re-cut `pulse/springbutton`'s one call into `button.Render`, which the signature change breaks. Regenerate the moved goldens.
-- [ ] Tag prism **v0.2.0**, then pulse **v0.1.1** — pulse's own API is unchanged, so it moves in patch; ask Rene to push each in order.
-- [ ] Confirm resolution from a clean cache, workspace disabled.
+- [x] Promote `prism/internal/golden`'s capture to an exported package *before* the major is cut. G1.1 needs it from outside prism, and finding that out after the bump costs a whole second prism release for a one-line visibility change.
+- [x] Sweep spectrum per the list; tag **v0.2.0**.
+- [x] Sweep prism — the alias packages go, its static signatures re-cut — and re-cut `pulse/springbutton`'s one call into `button.Render`, which the signature change breaks. Regenerate the moved goldens.
+- [x] Tag prism **v0.2.0**, then pulse **v0.1.1** — pulse's own API is unchanged, so it moves in patch; ask Rene to push each in order.
+- [x] Confirm resolution from a clean cache, workspace disabled.
 
 #### F3.4: Re-cut the pattern layer onto the majors
 
 Split from the sweep for size: cadence's static `Render` surface spans
 eighteen packages, and every one moves goldens.
+
+**Two things F3.3 handed down.** First, `TypeScale`/`DefaultTypeScale` are
+still standing. The sweep list above names them, but the type lives in
+*spectrum*, which F3.3 had already tagged v0.2.0 by the time prism's
+signatures came off it — and cadence and markdown, whose re-cut is this
+task's, are its remaining users. So F3.3 took prism off `TypeScale` and left
+the type alone. Deleting it is this task's, and it is a spectrum release:
+re-cut cadence and markdown first, then cut **spectrum v0.3.0** dropping
+`TypeScale` and `DefaultTypeScale`, then pin cadence and markdown to v0.3.0
+rather than the v0.2.0 the checkbox below says. prism does not need a second
+tag — v0.2.0 already names no `TypeScale` and compiles against a spectrum
+without it.
+
+Second, prism v0.2.0's re-cut breaks exactly four call sites here, all
+verified by building against it: `cadence/hero/hero.go:362` and
+`cadence/pricing/pricing.go:396` (`button.Render`, now wanting `TextStyle` +
+`Density` — both feed it a local `ctaTypeScale(tok)` helper that goes with
+them), `cadence/modal/modal.go:234` (`button.RenderIcon`, which now takes a
+`Density` and no text style at all — an icon button draws no text), and
+`markdown/style.go:121` (`richtext.FromTokens`, now taking a `TextStyle`;
+note it takes no `Density`, a paragraph having no control to size). The three
+workbench apps and `sitedocs` fail only transitively through these four.
 
 - [ ] Update cadence and markdown to spectrum v0.2.0 and prism v0.2.0; re-cut their static signatures — every cadence package's `Render`, plus `markdown/style.FromTokens` — to `TextStyle` and `Density`, matching prism's re-cut.
 - [ ] Regenerate the moved goldens and say so in the commit body.
