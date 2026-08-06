@@ -1454,9 +1454,9 @@ settled; only the geometry of the survivors remains.
 `At` reaches `tw.Lerp` only for `0 < n < Frames`, so the panic hides behind any
 test that samples the endpoints.
 
-- [ ] Decide the contract and implement it: either return the nearest endpoint when `Lerp` is nil, or panic immediately on construction with a message naming the field. Constructing-time failure is the better of the two — it cannot reach a frame.
-- [ ] Test the interior, not just `At(0)` and `At(Frames)`.
-- [ ] Build, test, commit; strike the register entry.
+- [x] Decide the contract and implement it: either return the nearest endpoint when `Lerp` is nil, or panic immediately on construction with a message naming the field. Constructing-time failure is the better of the two — it cannot reach a frame.
+- [x] Test the interior, not just `At(0)` and `At(Frames)`.
+- [x] Build, test, commit; strike the register entry.
 
 #### FX.5: Make spectrum's appearance stream shared and live
 
@@ -2341,10 +2341,18 @@ wrapping the call in `PushOpacity`; both callers pass the radius they round
 their foregrounds to. The one remaining trap — the un-themed black — stays
 documented in the package comment.
 
-**`pulse/tween` panics on a nil `Lerp`, but only in the interior.** `At` returns
+~~**`pulse/tween` panics on a nil `Lerp`, but only in the interior.** `At` returns
 the endpoints without interpolating and reaches `tw.Lerp(...)` at
 `tween.go:61` only for `0 < n < Frames`, so a test that samples `At(0)` and
-`At(Frames)` passes against a `Tween` that will panic on the first real frame.
+`At(Frames)` passes against a `Tween` that will panic on the first real frame.~~
+
+**Fixed in FX.4.** Construction-time failure was the preferred contract, but
+`Tween` has no constructor — every caller builds a composite literal — so the
+fix is the closest honest equivalent: `At` panics with a message naming the
+`Lerp` field at the first interior frame, the moment the interpolator is
+needed and nil, instead of an anonymous nil function call. Endpoints still
+never touch `Lerp`; tests now pin both sides — nil-`Lerp` endpoints survive,
+nil-`Lerp` interior panics with the field-naming message.
 
 **`spectrum`'s appearance observable is cold, so *n* consumers means *n*
 pollers.** Nothing in `Live → FromSource` or `LiveTheme`'s `rx.Map` multicasts,
