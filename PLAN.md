@@ -1797,6 +1797,48 @@ gone — and text is where the last two phases of work actually landed.
 - [x] Keep symbols out, per F4.2 — Latin text in the embedded faces is reproducible, and that is the line.
 - [ ] Regenerate, eyeball every new image, and say in the commit body how many were added; build, test, commit.
 
+#### F4.4b: Put real text in cadence's goldens
+
+Split from F4.4 under the plan's sizing rule. prism and `cadence/feature` are
+done; the other sixteen cadence packages — roughly fifty stored images — are
+this task. Two findings from F4.4 carry over and will cost time if rediscovered:
+every live-path case must pass `Props.Shaper` explicitly or it silently binds
+to the machine's fonts, which is harmless with an empty label and machine
+dependent the moment there is one; and canvas sizes need growing wherever real
+text overflows a window that fitted an empty label — F4.1's bounds check makes
+that loud rather than silent, which is the instrument working.
+
+- [ ] Fill the empty and near-empty labels across `accordion`, `alert`, `breadcrumb`, `card`, `hero`, `modal`, `navbar`, `pagination`, `popover`, `pricing`, `shell`, `sidebar`, `table`, `tabs`, `testimonial`, `toast` and `tooltip`, preferring to strengthen an existing case over adding a parallel one.
+- [ ] Pass `Props.Shaper` explicitly in every live-path case, and grep the repo for any that still take the theme's fallback `Shaper()` in a test — after F4.2 that is a machine-dependent golden waiting to fail on someone else's laptop.
+- [ ] Keep symbols out, per F4.2: Latin text in the pinned faces is reproducible and that is the line.
+- [ ] Regenerate, eyeball every image, and say how many moved; build, test, commit in cadence.
+
+#### F4.4c: Make line height mean something, or stop claiming it
+
+F4.4 measured what the typography contract actually delivers and found a
+promise that is not kept. `tokens.TextStyle.LineHeight` reaches the shaper and
+then changes nothing on any single-line label in the organization: Gio's
+`calculateYOffsets` baselines the first line at that line's own ascent and
+spends the line height only on the gap to the next, while `widget.Label`
+reports glyph ink bounds as its size. A button rendered at line height 20, 32
+and 0 is byte-identical, and its label box is 17 px in all three. That covers
+`prism/button`, `prism/input/textfield` and the eleven `cadence` components
+laying out with `MaxLines: 1` — every place the role's line height is
+documented to arrive and does not. `button.Render`'s doc says "typeface,
+weight, size and line height all reach the shaper", which is true and
+misleading in the same sentence.
+
+The same measurement turned up a second, smaller lie: a Compact button renders
+**29 px against a `ControlHeight` of 28**, because the 17 px face box plus
+2×6 dp of padding exceeds it. It reproduces with an empty label, so it predates
+F4.4 and is not text's doing.
+
+- [ ] Decide what the line height is for on a single-line label, and say so where a caller reads it. Either the label paths honour it — giving the line box the role's height rather than the glyph ink's, which is what a design system means by line height and what every CSS engine does — or the contract is narrowed to multi-line text and the docs on `TextStyle`, `button.Render` and the components stop implying otherwise. Do not leave both readings alive.
+- [ ] Whichever way it goes, pin it with a test that fails against today's behaviour: single-line labels at two different line heights either differ, or are asserted equal with the reason written beside the assertion.
+- [ ] Fix or explain the 29-versus-28 dp Compact button. If a control's height is the greater of `ControlHeight` and its content box, `Density.ControlHeight` is a floor and not a height, and `density.go`'s metrics table should say the word it means.
+- [ ] Regenerate the moved goldens — the honouring path moves every text golden in the org, so if that is the decision, budget for it and say so rather than half-landing it.
+- [ ] Build, test, commit in every repo touched.
+
 #### F4.5: Repair mindchat's first run
 
 Two defects in one app, both of which any first-time user meets and no test
