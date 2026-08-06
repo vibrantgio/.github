@@ -1882,23 +1882,43 @@ The adoption is mechanical and was proven to build: every site is
 `typeset.Layout(gtx, shaper, wl, f, unit.Sp(style.Size), txt, material)`, plus
 the import. `table/table.go` has one multi-line call.
 
-- [ ] Adopt `spectrum/typeset` at every `widget.Label` site in `cadence`, and
+- [x] Adopt `spectrum/typeset` at every `widget.Label` site in `cadence`, and
       replace the per-package `styleLabel`/`styleFont` copies — `hero`,
       `pricing` and `testimonial` each carry one — with `typeset.Label` and
       `typeset.Font`, so the rule has one definition in the org.
-- [ ] Watch for capture windows sized off `Density.ControlHeight`. F4.4c hit
+- [x] Watch for capture windows sized off `Density.ControlHeight`. F4.4c hit
       one in `prism/input`: the open dropdown's window was `ControlHeight` per
       row and clipped 4 px off the last option once rows grew to their line
       box. Any cadence test that computes a window from `ControlHeight` has the
       same bug waiting.
-- [ ] Regenerate the moved goldens and **eyeball every one** — the count is
+- [x] Regenerate the moved goldens and **eyeball every one** — the count is
       about 42, so budget for it. `cadence/feature`'s `TestFeatureLineHeightGolden`
       is the one existing test that already asserted line height on wrapped
       text; check it still says something true now that wrapped runs come out
       at whole multiples of the line height.
 - [ ] Re-check `pulse`, `markdown` and the seven workbench applications after
       the sweep, not before: they measured clean against the prism-only change.
-- [ ] Build, test, commit in every repo touched.
+
+**Half of that re-check came back dirty, and the premise was wrong.** `pulse`
+and `markdown` are clean, as predicted. The applications are not, and two of
+the three were already red at F4.4d's start — `workbench` has not been touched
+since F4.3, so F4.4, F4.4b and F4.4c all left it behind. Measured after the
+cadence sweep:
+
+- `feeds` — 2 goldens, plus `TestBuildLayersConstructsWithoutPanic` failing
+  with *"layer 0 produced no widget"*. **Red before F4.4d.** That one is not a
+  golden refresh; it is a real construction failure and wants diagnosis.
+- `watchlist` — 2 goldens (`symbol-modal-light`/`-dark`). **Red before F4.4d.**
+- `sitedocs` — 8 goldens (`docs-{light,dark}-{prism-getting-started,
+  cadence-shells,mvu-loop}`, `{light,dark}-home`). Green before, moved by the
+  cadence sweep.
+
+Twelve goldens across three apps and one logic failure: a task, not a step. Cut
+it as its own before F4.5, and do not check this box until the applications are
+green — the box is what stops the release believing its own reference apps
+agree.
+
+- [x] Build, test, commit in every repo touched.
 
 #### F4.5: Repair mindchat's first run
 
