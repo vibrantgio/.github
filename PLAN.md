@@ -1406,12 +1406,12 @@ wrong outlives the fix.
 for `evenodd` and clears it when the document asked for `nonzero` — backwards
 on both values. Work in `.repos/svg`.
 
-- [ ] Fix the line. `nonzero` is the SVG initial value, so the condition is `!strings.EqualFold(v, "evenodd")` — or spell it positively against `"nonzero"` and let anything else fall through to the default. Leave `defaultstyle.go:14` alone; its `UseNonZeroWinding: true` is already correct.
-- [ ] Add a regression test with a self-intersecting path — a five-pointed star drawn as one closed subpath is the standard case, since it renders with a filled centre under non-zero and a hollow centre under even-odd. Assert both `fill-rule` values, and assert that a path stating neither still gets non-zero.
-- [ ] Drive the test through `driver/raster`, not `driver/gio`. `driver/gio/driver.go:59` is an empty `SetWinding` — deliberately, because `clip.Outline` is non-zero only — so the Gio path cannot observe this defect and cannot validate the fix. `driver/pdf` and `driver/seen` honour the flag too, but raster is the one that yields a comparable image.
-- [ ] Check the repo's own SVG fixtures for any that state `fill-rule` and whose goldens therefore move. Regenerate them in this task and say so in the commit body, per the plan's green-before-commit rule.
-- [ ] Note in `svg/README.md` that the defect is fixed — A3.9 documented it there as live, and that text is now wrong.
-- [ ] Strike the entry in [[#Defects found but not fixed]], leaving the record in place.
+- [x] Fix the line. `nonzero` is the SVG initial value, so the condition is `!strings.EqualFold(v, "evenodd")` — or spell it positively against `"nonzero"` and let anything else fall through to the default. Leave `defaultstyle.go:14` alone; its `UseNonZeroWinding: true` is already correct.
+- [x] Add a regression test with a self-intersecting path — a five-pointed star drawn as one closed subpath is the standard case, since it renders with a filled centre under non-zero and a hollow centre under even-odd. Assert both `fill-rule` values, and assert that a path stating neither still gets non-zero.
+- [x] Drive the test through `driver/raster`, not `driver/gio`. `driver/gio/driver.go:59` is an empty `SetWinding` — deliberately, because `clip.Outline` is non-zero only — so the Gio path cannot observe this defect and cannot validate the fix. `driver/pdf` and `driver/seen` honour the flag too, but raster is the one that yields a comparable image.
+- [x] Check the repo's own SVG fixtures for any that state `fill-rule` and whose goldens therefore move. Regenerate them in this task and say so in the commit body, per the plan's green-before-commit rule.
+- [x] Note in `svg/README.md` that the defect is fixed — A3.9 documented it there as live, and that text is now wrong.
+- [x] Strike the entry in [[#Defects found but not fixed]], leaving the record in place.
 
 `svg/driver/seen` does not build on a stale consumer-side `go.sum` pin of
 `seen/context/gio v0.0.7`. That is recorded separately and is not this task's
@@ -2215,31 +2215,44 @@ Real defects turned up while doing other work, in code no phase of this plan
 touches. They are recorded here so they survive the task that found them. None
 is scheduled; each needs a task cut for it before it gets fixed.
 
-**`svg` inverts the SVG `fill-rule` property.** `parser/svgcursor.go:133` reads
+~~**`svg` inverts the SVG `fill-rule` property.** `parser/svgcursor.go:133` reads~~
 
 ```go
 case "fill-rule":
 	curStyle.UseNonZeroWinding = strings.EqualFold(v, "evenodd")
 ```
 
-which is backwards. Per the SVG specification `fill-rule` takes `nonzero` (the
+~~which is backwards. Per the SVG specification `fill-rule` takes `nonzero` (the
 initial value) or `evenodd`, so this sets non-zero winding exactly when the
 document asked for even-odd, and clears it when the document asked for
 non-zero. `defaultstyle.go:14` has the correct default (`UseNonZeroWinding:
 true`), so only paths that *state* a `fill-rule` are affected — and they are
 affected whichever value they state. The fix is one line, but it changes
-rendering, so it needs a self-intersecting-path regression test alongside it.
+rendering, so it needs a self-intersecting-path regression test alongside it.~~
 
-What makes it survivable, and easy to miss: `driver/draw.go:43` forwards the
+~~What makes it survivable, and easy to miss: `driver/draw.go:43` forwards the
 flag to every driver's `SetWinding`, and the Gio driver's is an empty body —
 `driver/gio/driver.go:59`, deliberately, because `clip.Outline` is non-zero
 only and Gio exposes no even-odd rule. So the defect is *invisible* under the
 one driver the design system uses, and live under the three that honour the
 flag: `driver/raster`, `driver/pdf` and `driver/seen`. A fix therefore cannot
-be validated through the Gio path — it needs a raster or pdf golden.
+be validated through the Gio path — it needs a raster or pdf golden.~~
 
-Found in A3.9; also recorded in `svg`'s own README, which is the only place a
-reader of that repo would see it.
+~~Found in A3.9; also recorded in `svg`'s own README, which is the only place a
+reader of that repo would see it.~~
+
+**Fixed in FX.1.** The parser now keeps non-zero winding unless the document
+states `evenodd`. The regression test lives in `driver/raster` — a pentagram
+whose centre has winding number two, asserted filled under `nonzero`, hollow
+under `evenodd`, filled when unstated — and rasters through `srwiley/scanFT`,
+because the default `rasterx.ScannerGV` ignores `SetWinding` too, so even the
+stock raster path could not see the defect. No golden existed to move: the
+repository has no golden images at all, per its own README. One trap worth
+keeping: the "standard" star path that alternates outer and inner vertices is
+the *non*-self-intersecting outline, winding 1 everywhere, and cannot tell the
+rules apart — the discriminating path is the one that visits every second
+vertex. `svg`'s README now records the parse as fixed and the Gio driver's
+winding blindness as the remaining, separate limitation.
 
 **Two modules do not build *from a clone*, on a `go.sum` pin of content that
 was never published.** `workbench/launcher` and `svg/driver/seen` both stop
