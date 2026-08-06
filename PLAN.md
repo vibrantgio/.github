@@ -1792,9 +1792,9 @@ With the faces pinned by configuration, the reason the goldens avoid text is
 gone — and text is where the last two phases of work actually landed.
 
 - [ ] Replace the deliberately empty labels with real ones wherever a component draws text, starting with the `Label: ""` cases in `prism/button` that name the old constraint in their comment.
-- [ ] Cover what the typography contract actually promises and no golden currently pins: the role's typeface, its weight, its size and its line height. A regression in any of them is invisible today, which is how F3.3's re-cut of every static signature onto `TextStyle` moved zero pixels.
-- [ ] Include one monospace case, since `Code` is the newest role and `markdown`'s code path is the one that changed most recently.
-- [ ] Keep symbols out, per F4.2 — Latin text in the embedded faces is reproducible, and that is the line.
+- [x] Cover what the typography contract actually promises and no golden currently pins: the role's typeface, its weight, its size and its line height. A regression in any of them is invisible today, which is how F3.3's re-cut of every static signature onto `TextStyle` moved zero pixels.
+- [x] Include one monospace case, since `Code` is the newest role and `markdown`'s code path is the one that changed most recently.
+- [x] Keep symbols out, per F4.2 — Latin text in the embedded faces is reproducible, and that is the line.
 - [ ] Regenerate, eyeball every new image, and say in the commit body how many were added; build, test, commit.
 
 #### F4.5: Repair mindchat's first run
