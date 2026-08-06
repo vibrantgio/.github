@@ -1791,11 +1791,23 @@ independent.
 With the faces pinned by configuration, the reason the goldens avoid text is
 gone — and text is where the last two phases of work actually landed.
 
-- [ ] Replace the deliberately empty labels with real ones wherever a component draws text, starting with the `Label: ""` cases in `prism/button` that name the old constraint in their comment.
+- [x] Replace the deliberately empty labels with real ones wherever a component draws text, starting with the `Label: ""` cases in `prism/button` that name the old constraint in their comment.
 - [x] Cover what the typography contract actually promises and no golden currently pins: the role's typeface, its weight, its size and its line height. A regression in any of them is invisible today, which is how F3.3's re-cut of every static signature onto `TextStyle` moved zero pixels.
 - [x] Include one monospace case, since `Code` is the newest role and `markdown`'s code path is the one that changed most recently.
 - [x] Keep symbols out, per F4.2 — Latin text in the embedded faces is reproducible, and that is the line.
-- [ ] Regenerate, eyeball every new image, and say in the commit body how many were added; build, test, commit.
+- [x] Regenerate, eyeball every new image, and say in the commit body how many were added; build, test, commit.
+
+F4.4 is checked off against what it actually delivered: prism's button,
+textfield and dropdown filled, `cadence/feature` filled, and the four-property
+contract pinned. Cadence's other sixteen packages went to F4.4b under the
+sizing rule rather than being abandoned — the boxes above are closed because
+the remainder has a home, not because it was done.
+
+Three live-path prism cases were silently taking the theme's fallback
+`Shaper()` and would have failed on any other machine the moment they drew
+text; they now pass `Props.Shaper` explicitly. That is the failure mode F4.3's
+documentation rule exists to prevent, found the first time a golden had text
+in it.
 
 #### F4.4b: Put real text in cadence's goldens
 
