@@ -1425,12 +1425,12 @@ presets — `tokens.Motion.SpringDefault` (k=80, critically damped) is what
 `pulse/motion.DefaultSpring` already resolves to — so this fix aligns with a
 published number rather than inventing one.
 
-- [ ] Replace `DefaultStiffness`/`DefaultDamping`/`DefaultMass` with `tokens.Motion.SpringDefault`'s values, or make the zero `Options` an error rather than a 15-second animation. Pick one and say which in the commit body.
-- [ ] Fix the partial-override trap at `spring.go:114-121`: deriving `Damping` from whatever `Stiffness` and `Mass` end up being — critical damping is `2√(km)` — is the fix that makes a one-field override behave. `pulse/motion.Options.Spring` documents the same trap around its `DefaultSpring` fallback; fix or re-document it to match whichever contract this task picks.
-- [ ] Test the settle time of the zero `Options` and of `Options{Stiffness: 80}` alone, asserting frame counts rather than "it looks right".
-- [ ] Update the package comments A3.6 wrote: they document the current behaviour accurately, so they become wrong the moment this lands.
-- [ ] Check `motion` and `springbutton`, which pass explicit values today and must not move. Regenerate goldens only if they legitimately do; build, test, commit.
-- [ ] Strike the register entry.
+- [x] Replace `DefaultStiffness`/`DefaultDamping`/`DefaultMass` with `tokens.Motion.SpringDefault`'s values, or make the zero `Options` an error rather than a 15-second animation. Pick one and say which in the commit body.
+- [x] Fix the partial-override trap at `spring.go:114-121`: deriving `Damping` from whatever `Stiffness` and `Mass` end up being — critical damping is `2√(km)` — is the fix that makes a one-field override behave. `pulse/motion.Options.Spring` documents the same trap around its `DefaultSpring` fallback; fix or re-document it to match whichever contract this task picks.
+- [x] Test the settle time of the zero `Options` and of `Options{Stiffness: 80}` alone, asserting frame counts rather than "it looks right".
+- [x] Update the package comments A3.6 wrote: they document the current behaviour accurately, so they become wrong the moment this lands.
+- [x] Check `motion` and `springbutton`, which pass explicit values today and must not move. Regenerate goldens only if they legitimately do; build, test, commit.
+- [x] Strike the register entry.
 
 #### FX.3: Give pulse/depth a rounded interior and an opacity
 
@@ -2295,7 +2295,7 @@ tree. Kept here because the diagnosis is the part worth not relearning: a
 `go.sum` can disagree with git, the proxy *and* the checksum database at once,
 and `go install pkg@version` will not show it to you.
 
-**`pulse/spring`'s zero-value options are unusable, and a partial override is
+~~**`pulse/spring`'s zero-value options are unusable, and a partial override is
 worse than none.** `spring.go:114-121` fills `Stiffness`, `Damping` and `Mass`
 from their defaults *field by field*. `DefaultStiffness = 0.4` with
 `DefaultDamping = 0.7` takes ~873 frames — about 15 seconds at 60 Hz — to
@@ -2304,7 +2304,20 @@ one field takes the others from those same soft defaults: `Options{Stiffness:
 80}` alone lands at ζ ≈ 0.04, which rings for thousands of frames. Neither
 in-module consumer goes near the defaults (motion uses k=80, springbutton
 k=300), which is why nothing caught it. A3.6 documented both in the package
-comments; the behaviour is unchanged.
+comments; the behaviour is unchanged.~~
+
+**Fixed in FX.2.** Usable defaults, not an error: `DefaultStiffness`/
+`DefaultMass` are now 80/1 — `tokens.Motion.SpringDefault`'s values, hardcoded
+with a comment naming the token so spring stays a pure-physics leaf over traer.
+`DefaultDamping` is gone; a zero `Damping` derives critical damping `2·√(k·m)`
+from the *resolved* Stiffness and Mass, which is what makes a one-field
+override behave. Measured at invDt=60 for 0→1 at tolerance 0.005: zero
+`Options` settles at frame 68 (was 873), `Options{Stiffness: 80}` is asserted
+bit-identical to it, `Options{Stiffness: 300}` settles at frame 39 with no
+overshoot — all pinned by frame-count tests. One calibration worth keeping:
+motion's documented "frame 52" for the same preset is its 0.85→1 amplitude,
+not a contradiction of the 68. motion and springbutton pass explicit values
+and did not move; no goldens regenerated.
 
 **`pulse/depth` paints a hard rectangle under every rounded caller.**
 `depth.go:86` fills the shadow's interior with `clip.Rect(shadowBounds)` at
