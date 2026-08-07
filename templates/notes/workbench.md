@@ -1,3 +1,13 @@
+**`watchlist/` and `mindchat/` are the two exceptions to the sentence above.**
+`watchlist/` kept its two images in `testdata/` directly until F5.5, where a
+sweep keyed on the `golden/` path silently missed them; moving onto the shared
+harness moved them into line, since the harness resolves that path itself and
+no longer takes the caller's word for it. `mindchat/` has pixel tests too, but
+they diff two renders in memory rather than storing an image, so it links the
+harness without appearing in the list. F5.5 deleted the five inlined copies
+these apps carried between them — `sitedocs/` alone had two, in adjacent
+files.
+
 **The `.gitignore` denies everything by default.** Its first line is `*`, and
 what follows re-admits exactly: Markdown at any level, `LICENSE`, `llms.txt`,
 `.claude/skills/**`, and the seven application trees minus their compiled

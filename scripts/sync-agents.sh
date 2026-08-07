@@ -50,6 +50,17 @@ usage() {
 }
 
 # Wrap a paragraph to $WIDTH columns, without trailing blanks.
+#
+# fold, and not an awk reimplementation of it: fold counts characters, awk's
+# length() counts bytes, and this organization's prose is full of `→` and `—`.
+# Swapping one for the other silently reflowed all twenty AGENTS.md files by a
+# word or two per em dash. It is not worth twenty commits.
+#
+# What fold will not do is keep a word intact when the word is longer than the
+# width — it breaks mid-identifier and leaves the backticks unbalanced. So no
+# generated paragraph may contain a token that long. Put it on its own
+# indented line, outside the wrapped text, the way the golden block already
+# does with the `go test` command.
 wrap() {
 	printf '%s\n' "$1" | fold -s -w "$WIDTH" | sed 's/[[:space:]]*$//'
 }
@@ -133,6 +144,26 @@ tagshape() {
 # because it is only true where goldens exist, and its wording turns on
 # whether the clone has a workflow at all — measured, like everything else in
 # this function, never typed.
+#
+# F5.7 gave that paragraph a third state and a settled answer. The question
+# F5.4 left open — do the images run on CI? — has been asked of a real run
+# now, and the answer was no, everywhere. The follow-up question is the one
+# that decided what to write: install the drivers and they *do* run, and then
+# nine of pulse's twenty-one images fail, because every golden in the
+# organization was recorded on macOS and Linux mesa does not rasterise them
+# identically. So the paragraph no longer says "expect the answer to be that
+# they skipped" and leaves the reader to wonder whether that is an oversight.
+# It says the images are compared on a developer's machine, that this is
+# deliberate, and what was measured to make it deliberate.
+#
+# Which of the three states a clone is in is still measured rather than typed,
+# and the measurement is now two questions instead of one: is there a workflow,
+# and does it install the runtime GL drivers? The second is read off the
+# workflow's *executable* lines only. The driver names appear in that file
+# either way — the comment above its build step lists them precisely so nobody
+# repeats the experiment blind — so a grep that did not first drop comment
+# lines would report every repository as gating on pixels when none of them
+# does.
 goldens() {
 	local dir=.repos/$1 pkgs=() args=() flag="" path pkg i
 
@@ -146,12 +177,8 @@ goldens() {
 	golden=""
 	[ ${#pkgs[@]} -gt 0 ] || return 0
 
-	flag=$(find "$dir" -name '*.go' -not -path '*/.git/*' -exec awk '
-		match($0, /flag\.Bool\("[^"]*"/) {
-			name = substr($0, RSTART + 11, RLENGTH - 12)
-			if (index(name, "golden")) { print name; exit }
-		}' {} + | awk 'NR == 1')
-	[ -n "$flag" ] || die "$1 stores golden images but declares no golden flag — teach goldens() its shape"
+	flag=$(goldenflag "$1")
+	[ -n "$flag" ] || die "$1 stores golden images but no reachable golden flag declares one — teach goldenflag() its shape"
 
 	local lead trail note
 	if [ -f "$dir/go.mod" ]; then
@@ -164,10 +191,10 @@ goldens() {
 			done
 			note="Both halves of that line matter. \`go test\` cannot tell that an unfamiliar flag is boolean, so a flag placed before the packages swallows them: \`go test -$flag ./...\` tests whatever package the repository root holds, not \`./...\`. And \`./...\` cannot stand in for the list — this module has test packages that store no goldens, and a test binary rejects a flag it never declared."
 		fi
-		lead="**Golden images.** Tests in $(count ${#pkgs[@]} package) compare rendered output against PNGs committed under \`testdata/golden/\`. When a change legitimately moves pixels, regenerate them within the same change, look at what came out, and say so in the commit. From the repository root:"
+		lead="**Golden images.** Tests in $(count ${#pkgs[@]} package) compare rendered output against PNGs committed under \`testdata/golden/\`. $(harness "$1" "$flag") When a change legitimately moves pixels, regenerate them within the same change, look at what came out, and say so in the commit. From the repository root:"
 		trail="    go test ${args[*]} -$flag"
 	else
-		lead="**Golden images.** Tests in $(count ${#pkgs[@]} 'module directory' 'module directories') — $(dirlist "${pkgs[@]}") — compare rendered output against PNGs committed under \`testdata/golden/\`. When a change legitimately moves pixels, regenerate them within the same change, look at what came out, and say so in the commit. From inside the directory concerned:"
+		lead="**Golden images.** Tests in $(count ${#pkgs[@]} 'module directory' 'module directories') — $(dirlist "${pkgs[@]}") — compare rendered output against PNGs committed under \`testdata/golden/\`. $(harness "$1" "$flag") When a change legitimately moves pixels, regenerate them within the same change, look at what came out, and say so in the commit. From inside the directory concerned:"
 		trail="    go test . -$flag"
 		note="The flag comes last on purpose: \`go test\` cannot tell that an unfamiliar flag is boolean, so anything after it stops being a package argument."
 	fi
@@ -175,15 +202,169 @@ goldens() {
 	# What CI does with those images. A golden test that cannot open a
 	# headless window calls t.Skipf, and a skipped test passes, so a green
 	# run and a matching image are independent facts — which is what F5.4
-	# went looking for and what this paragraph refuses to let be forgotten.
-	local cistate
-	if [ -f "$dir/.github/workflows/ci.yml" ]; then
-		cistate="**A green CI run does not say these images matched.** The harness answers a failed \`headless.NewWindow\` with \`t.Skipf\`, and a skipped test passes, so the pixels and the build status are independent facts. Until F5.4 nothing could tell them apart: the workflow ran plain \`go test\`, which never prints a skip, and downloading a run log needs admin rights on the repository. The test step is verbose now, and the step after it publishes the verdict as a workflow annotation — and annotations, unlike logs, are public: the \`check-runs\` endpoint for the commit returns them with no token at all. Read it before treating green as a golden-image gate, and expect the answer to be that they skipped. The runner installs the GL *development* headers, where gio's own Linux CI also installs the drivers — \`libegl-mesa0\`, \`libglx-mesa0\`, \`libgl1-mesa-dri\`, \`mesa-libgallium\`, \`libgbm1\`, \`libegl1\`, \`mesa-vulkan-drivers\` — without which there is no EGL display to initialise and no Vulkan ICD for gio's fallback context to find."
+	# went looking for, what F5.7 settled, and what this paragraph refuses to
+	# let be forgotten.
+	local cistate wf=$dir/.github/workflows/ci.yml
+	if [ -f "$wf" ] && drivers "$wf"; then
+		cistate="**These images are compared on CI, and a red run may mean the pixels moved.** The workflow installs the runtime GL drivers, not only the \`-dev\` headers, so \`headless.NewWindow\` succeeds on the runner and every golden test renders and diffs instead of skipping. The \`$(cijob "$wf")\` job's *Were the golden images compared, or skipped?* step publishes which of the two actually happened, together with a per-image count of any mismatch, as a workflow annotation — and annotations, unlike run logs, need no token: \`GET /repos/vibrantgio/$1/commits/<sha>/check-runs\` returns them. Read it before assuming a failure is in the code, because the organization's goldens were recorded on macOS and a Linux renderer does not reproduce all of them exactly; F5.7 measured that at nine of pulse's twenty-one images."
+	elif [ -f "$wf" ]; then
+		cistate="**A green CI run does not say these images matched. They are compared only on a developer's machine, and that is deliberate.** The harness answers a failed \`headless.NewWindow\` with \`t.Skipf\`, a skipped test passes, and the runner has no GL driver for it to open — so the pixels and the build status are independent facts. The \`$(cijob "$wf")\` job's *Were the golden images compared, or skipped?* step, added by F5.4, publishes which of the two happened as a workflow annotation, readable without a token at \`GET /repos/vibrantgio/$1/commits/<sha>/check-runs\`; it has answered SKIPPED on every run. F5.7 then measured the alternative rather than leaving it as an open question. Adding the drivers gio's own Linux CI installs — \`libegl1\`, \`libegl-mesa0\`, \`libglx-mesa0\`, \`libgl1-mesa-dri\`, \`mesa-libgallium\`, \`libgbm1\`, \`mesa-vulkan-drivers\` — does work: on pulse the verdict flipped to COMPARED on the next run. Nine of that repository's twenty-one images then failed, 12782 pixels apart, while the three drawn on the CPU still matched exactly. Every golden in the organization was recorded on macOS, so the gate would not be asserting that the images are right, only that Linux mesa and Metal rasterise identically — which they do not, and need not. **So CI gates the build and the tests, never the pixels**, and moving an image is checked where it is regenerated."
 	else
-		cistate="**Nothing but a developer's machine has ever compared these images.** This repository has no CI workflow, so the stored PNGs are checked only where they are regenerated. That is a weaker guarantee than it looks even elsewhere in the organization: a golden test whose \`headless.NewWindow\` fails answers with \`t.Skipf\`, and a skipped test passes, so F5.4 made the four repositories that do have CI publish — as a public workflow annotation — whether their images were compared or merely skipped. Here there is no run to ask."
+		cistate="**Nothing but a developer's machine has ever compared these images.** This repository has no CI workflow, so the stored PNGs are checked only where they are regenerated. That is not the weaker half of an arrangement — it is the same guarantee the four repositories with CI have, for the reason F5.7 measured: a golden test whose \`headless.NewWindow\` fails answers with \`t.Skipf\` and passes, and installing the drivers that would make it render instead turns nine of pulse's twenty-one images red, because the organization's goldens were recorded on macOS and Linux mesa does not reproduce them exactly. CI there gates the build and the tests and not the pixels, by decision. Here there is simply no run to ask."
 	fi
 
-	golden=$(wrap "$lead")$'\n\n'"$trail"$'\n\n'$(wrap "$note")$'\n\n'$(wrap "$cistate")
+	# The deterministic-shaper paragraph, generated rather than typed for the
+	# same reason as everything else here: F5.6 wrote it into five AGENTS.md
+	# files by hand, byte-identical, and five copies of a paragraph is five
+	# chances for one of them to go stale. It belongs to golden tests rather
+	# than to any one repository, so it rides with this block and appears in
+	# exactly the repositories that store images.
+	# Three pieces rather than one paragraph, because the widen-the-collection
+	# call is 81 characters and wrap() will not break a word: it goes on its
+	# own line, like the go test command above it.
+	local shaper widen after
+	shaper="**A golden test pins its faces; application code does not.** Every golden and pixel test here builds its shaper with \`tokens.DefaultTypography.DeterministicShaper()\` — the default typography's faces and nothing else, system fonts off, so the stored PNGs are the same on every machine. Applications call \`Shaper()\` instead, which falls back to the platform's own fonts so that text outside Roboto and Roboto Mono still resolves. The two are not interchangeable: a golden written against \`Shaper()\` passes on the machine that wrote it and fails on one with a different font set, which is the failure the split constructor exists to make impossible."
+	widen="When a test genuinely needs a glyph the default faces lack, widen the collection rather than reach for the system:"
+	after="Then assert that the shaper resolved the rune, rather than storing the result as pixels. A stored image proves the glyph came out somewhere; only the assertion says which face drew it."
+
+	golden=$(wrap "$lead")$'\n\n'"$trail"$'\n\n'$(wrap "$note")$'\n\n'$(wrap "$cistate")$'\n\n'$(wrap "$shaper")$'\n\n'$(wrap "$widen")$'\n\n'"    tokens.DefaultTypography.WithFaces(notosansmono.FontFace()).DeterministicShaper()"$'\n\n'$(wrap "$after")
+}
+
+# The sentence about which harness these tests link, for repo $1 with flag $2.
+#
+# Measured, and the measurement is the point: F5.5 replaced twenty-nine
+# inlined harnesses with one, and the five AGENTS.md files that then named the
+# sharers by hand each named a different subset. Reading it off the clones
+# means the sentence cannot drift when a repository starts or stops storing
+# images.
+#
+# Two shapes, because the repository that *declares* the flag has the opposite
+# problem from the ones that link it: prism cannot break itself by adding a
+# second declaration, but it can move every stored image in the organization
+# with one edit — 185 of them, in four other repositories — and its own test
+# run would not show it.
+harness() {
+	local repo=$1 flag=$2 pkg=github.com/vibrantgio/prism/golden others
+	others=$(sharers "$repo")
+	if [ -n "$(flagdecl ".repos/$repo")" ]; then
+		printf '`%s` is the harness they use, and since F5.5 it is the organization'\''s only one: %s link it too, so a change to it moves every stored image in the organization and not only this repository'\''s. Regenerate all of them before believing a change here is pixel-neutral.' \
+			"$pkg" "$others"
+	else
+		printf 'They render through `%s`, which declares `-%s` and is shared with %s. Do not inline a copy of it, and do not declare a second `-%s`: two registrations of one flag name in a single test binary panic in `flag.Bool` at init, before any test runs.' \
+			"$pkg" "$flag" "$others" "$flag"
+	fi
+}
+
+# The other repositories under .repos/ that link the shared harness: every
+# clone but $1 and the one that declares the flag. "`a`, `b` and `c`".
+sharers() {
+	local out=() d name
+	for d in .repos/*/; do
+		name=$(basename "$d")
+		if [ "$name" = "$1" ]; then continue; fi
+		if ! imports "$d" github.com/vibrantgio/prism/golden; then continue; fi
+		if [ -n "$(flagdecl "$d")" ]; then continue; fi
+		out+=("$name")
+	done
+	namelist ${out[@]+"${out[@]}"}
+}
+
+# "`a`", "`a` and `b`", "`a`, `b` and `c`". dirlist's sibling, for things that
+# are not directories and so must not be spelled with a trailing slash.
+namelist() {
+	local out="" item
+	while [ $# -gt 0 ]; do
+		item="\`$1\`"
+		shift
+		if [ -z "$out" ]; then
+			out=$item
+		elif [ $# -eq 0 ]; then
+			out="$out and $item"
+		else
+			out="$out, $item"
+		fi
+	done
+	printf '%s' "$out"
+}
+
+# The golden-update flag that clone $1's test binaries accept.
+#
+# Until F5.5 every repository with goldens declared its own, so grepping the
+# clone found it. F5.5 replaced twenty-eight inlined harnesses with a single
+# one — github.com/vibrantgio/prism/golden — which declares the flag exactly
+# once and reaches every importing package through the linked test binary.
+# Three of the four repositories that store images therefore stopped declaring
+# anything themselves, and from F5.5 until F5.7 this script died on all three
+# with "declares no golden flag": it was still looking only in the clone, and
+# so pulse, cadence and markdown could not have their AGENTS.md regenerated at
+# all. F5.7 needed to regenerate exactly those, which is how it surfaced.
+#
+# So when the clone declares nothing, follow its import to the harness that
+# does, and read the name out of *that* clone rather than writing the string
+# down here. It belongs to prism/golden; a copy of it in this file would be a
+# second place to be wrong.
+goldenflag() {
+	local dir=.repos/$1 name
+	name=$(flagdecl "$dir")
+	if [ -z "$name" ] && imports "$dir" github.com/vibrantgio/prism/golden; then
+		name=$(flagdecl .repos/prism/golden)
+	fi
+	printf '%s' "$name"
+}
+
+# The golden-update flag declared by the Go sources under directory $1, or
+# empty. Separate from goldenflag() so the clone and the shared harness can be
+# asked the same question with the same code.
+flagdecl() {
+	find "$1" -name '*.go' -not -path '*/.git/*' -exec awk '
+		match($0, /flag\.Bool\("[^"]*"/) {
+			name = substr($0, RSTART + 11, RLENGTH - 12)
+			if (index(name, "golden")) { print name; exit }
+		}' {} + | awk 'NR == 1'
+}
+
+# True when any Go source under directory $1 imports package $2.
+#
+# find -print0 into xargs rather than `grep -r`: a recursive grep here silently
+# skips nothing today, but the organization's one repository with no root
+# module is walked by the same helpers, and `|| true` is required regardless —
+# `set -o pipefail` is in force above and grep exits 1 on no match, which would
+# take the whole script down on the first repository that does not import the
+# harness.
+imports() {
+	local hit
+	hit=$(find "$1" -name '*.go' -not -path '*/.git/*' -print0 |
+		xargs -0 grep -lF "\"$2\"" 2>/dev/null | awk 'NR == 1' || true)
+	[ -n "$hit" ]
+}
+
+# True when workflow $1 installs the runtime GL drivers, and not merely the
+# -dev headers — which is the difference between a golden test that renders
+# and one that skips.
+#
+# Comment lines are dropped before the match, and that is the whole subtlety.
+# Every one of these workflows names the driver packages in the comment above
+# its build step, deliberately, so that the next person to consider installing
+# them reads F5.7's measurement first. A grep over the raw file would find
+# those names in all four and report every repository as gating on pixels.
+#
+# libgl1-mesa-dri is the marker rather than any of the others because it is
+# unambiguous: `libegl1-mesa-dev` and `libgles2-mesa-dev` are already in the
+# apt line, so anything matching a shorter mesa prefix would hit a header
+# package. This name belongs to no -dev package.
+drivers() {
+	grep -vE '^[[:space:]]*#' "$1" | grep -q 'libgl1-mesa-dri'
+}
+
+# The name of the job that runs the tests in workflow $1: the first key under
+# `jobs:`. Read rather than assumed, like every other fact in this file — all
+# four workflows call it `build` today, and none of them promises to.
+cijob() {
+	awk '
+		/^jobs:/ { in_jobs = 1; next }
+		in_jobs && /^[[:space:]]+[A-Za-z0-9_-]+:/ {
+			sub(/^[[:space:]]+/, ""); sub(/:.*/, ""); print; exit
+		}' "$1"
 }
 
 # True when every test package of the root module in clone $1 stores goldens,

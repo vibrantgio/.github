@@ -3005,7 +3005,7 @@ rules apart — the discriminating path is the one that visits every second
 vertex. `svg`'s README now records the parse as fixed and the Gio driver's
 winding blindness as the remaining, separate limitation.
 
-**Two modules do not build *from a clone*, on a `go.sum` pin of content that
+~~**Two modules do not build *from a clone*, on a `go.sum` pin of content that
 was never published.** `workbench/launcher` and `svg/driver/seen` both stop
 with `verifying github.com/vibrantgio/seen/context/gio@v0.0.7: checksum
 mismatch`. A2.4 chased this to the end: `git ls-remote` shows GitHub carrying
@@ -3015,9 +3015,9 @@ hash of `qmUvReYG…`. Git, the proxy and the checksum database all agree with
 each other, and all three disagree with the committed `go.sum`, whose **both**
 lines are wrong — `cCJSzFNE…` and `prWx6vpY…` pin content that exists in no
 repository. So this is a consumer-side repair, no push closes it, and `go mod
-tidy` alone cannot do it either: it verifies before it rewrites.
+tidy` alone cannot do it either: it verifies before it rewrites.~~
 
-**Scope, measured — this does not reach users.** `go install
+~~**Scope, measured — this does not reach users.** `go install
 github.com/vibrantgio/workbench/launcher@latest` succeeds on a machine with no
 Vibrant Gio code present; Rene did it on a Raspberry Pi, and it reproduces
 here. The reason is that `go install pkg@version` synthesizes an empty main
@@ -3029,7 +3029,7 @@ the breakage hits contributors and this plan, not anyone installing the
 published command. (`GOPRIVATE` covering `github.com/vibrantgio/*` on the
 development machine is *not* the cause: the mismatch is against the main
 module's own `go.sum`, which fails whether or not the checksum database is
-consulted.)
+consulted.)~~
 
 ~~Scheduled as **B2.0**, not in G-FX. It blocks two builds now, F1.1 migrates
 one of the two broken modules, and B2.1's workspace would mask it — so Phase F
