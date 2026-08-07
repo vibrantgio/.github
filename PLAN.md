@@ -1992,6 +1992,120 @@ density weakened.
 - [x] Regenerate `design/` and re-push it: F4.6 adds two roles to the token sheet, so the design surface is stale the moment spectrum is tagged.
 - [x] Strike the register entries these tasks fixed, leaving the record in place.
 
+### G-F5: Repair what G-F4 shipped
+
+G-F4 fixed real defects and introduced three of its own, all released — the
+review that found them ran *after* the tags were cut. Each was invisible to
+its own tests, and in two cases the test actively hid it: `prism/list`'s
+fixture is the one viewport height that is an exact row multiple, and the
+shaper's cache is asserted by tests that hold a `Typography` in a variable,
+which is the one way production never uses it.
+
+**The constraint that shapes the first task, and which the code does not yet
+know.** Gio renders on a single goroutine. The rx observables do not paint
+anything — they assemble a forest of widgets that the frame event handler then
+renders, on that one goroutine. So a shaper does not need to be per-value, per
+component or per emission: one shaper per face collection, shared, is both
+correct and what the toolkit expects. `spectrum`'s current doc says the
+opposite of the truth in both directions at once — it promises the shaper is
+"safe for concurrent use from any number of goroutines", which Gio explicitly
+denies, while the value semantics that promise justifies are what stop the
+cache from ever being reused.
+
+This goal ends in a release, like G-F4, because two of the three bugs are in
+tagged code that applications resolve today.
+
+#### F5.1: Make the shaper cache survive a copy
+
+The headline defect. `Shaper()` and `DeterministicShaper()` take pointer
+receivers and cache into the receiver, but every production call site pulls a
+`Typography` **value** out of an rx tuple first — `typ := n.Second` at
+`prism/button/button.go:116`, and the same shape in `prism/input/textfield.go`,
+`prism/input/dropdown.go` and `pulse/springbutton`. The cache is written into a
+local that dies at the end of the map function, so it is never read back.
+
+Measured on this machine: a cold copy costs **280 µs and 1.69 MB** against
+**15.7 µs and 85 KB** warm. Every theme emission — a dark-mode toggle, a
+density change, the first subscription of each component — therefore rebuilds a
+full shaper per component. F4.2 made this materially worse without noticing:
+the default shaper now enumerates the platform's fonts as well as parsing
+sixteen embedded faces. The doc comments at `button.go:79`,
+`textfield.go:100` and `dropdown.go:63` all state the shaper is "built once and
+cached inside the theme's Typography value", which is false as wired.
+
+- [ ] Make the cache survive copying. The direct fix is to replace the two value-typed cache fields with a single pointer to an unexported holder, so every copy shares its source's cache and `rx.Of(tokens.DefaultTypography)` builds one shaper for the process rather than one per emission. `WithFaces` must allocate a **fresh** holder, since a different collection is a different shaper. Check nothing depends on `Typography` being comparable before adding a field — `Faces` already makes it non-comparable, so this should cost nothing, but verify rather than assume.
+- [ ] Write the regression test that fails today: take several copies of one `Typography` the way an rx emission does, call `Shaper()` on each, and assert they return the **same** `*text.Shaper`. Today that yields a distinct shaper per copy. Do the same for `DeterministicShaper`, and assert the two are still distinct from each other — F4.2's separation must survive this.
+- [ ] Correct the concurrency documentation to what is actually true, in both directions. Gio's own `text.Shaper` doc says the same shaper must not be used from two goroutines and will panic on its internal map; ours currently promises the opposite. Say instead that Gio renders on one goroutine, that the widget forest the observables assemble is laid out on that goroutine, and that the shaper is shared precisely because of it. A reader who believes the current sentence will eventually write the racing code it licenses.
+- [ ] Confirm the win where it is claimed: benchmark one component's map function before and after, and put the numbers in the commit body rather than asserting an improvement.
+- [ ] Fix the three component doc comments that describe the old, false caching story; build, test, commit in spectrum, prism and pulse.
+
+#### F5.2: Scroll a row fully into view
+
+`prism/list/list.go:302` tests the trailing edge with `case target >= p.First+p.Count`, and the three lines immediately below it compute `visible := p.Count; if p.OffsetLast < 0 { visible-- }` because `Position.Count` includes a partially visible trailing child. The window test still uses the raw count, so a target that *is* the clipped row counts as already visible and no scroll happens. The leading edge handles its mirror case correctly at line 298, which is the tell.
+
+The symptom is two-part: the selection lands on a clipped row, and the next arrow press then moves the viewport two rows, which contradicts the package's own "moves the short way" contract and the existing assertion in `keyboard_test.go:207`.
+
+- [ ] Hoist `visible` above the switch and use it in the window test. Note the extra subtraction for a partial *leading* child is not wanted — `Count` minus the trailing partial is already right.
+- [ ] Fix the fixture that hides it. `list_test.go:23` reads `viewH = 150 // viewport height in pixels; fits exactly 5 rows` against `rowPx = 30`, which is the one height where the bug cannot appear; real rows are 36 dp scaled by DPI and essentially never divide the viewport. Re-run the keyboard tests across several viewport heights that are deliberately *not* multiples, and keep one as a permanent case.
+- [ ] Reconcile `clampSelection` at `list.go:218` with its own doc: the comment says an out-of-range selection is dropped, the code clamps it to the last row, and `keyboard_test.go:294` asserts the clamp. The reachable consequence is that narrowing a filtered list from 100 items to 3 silently moves the selection rather than clearing it, so a caller driving a detail pane off `Selected()` shows an unrelated row. Decide which behaviour is right and make the code, the doc and the test agree.
+- [ ] Build, test, commit in prism.
+
+#### F5.3: Measure the natural line from the line, not the face
+
+`spectrum/typeset` probes the natural line height with the **empty string**, so it measures the primary face's ascent and descent. Gio takes a line's ascent as the maximum over that line's runs, so a line carrying a fallback run is taller than the probe and the deficit is computed against the wrong baseline. Under the fallback shaper that applications use, `"arrows →←"` renders a 25 px box where `LabelLarge` declares 20 — and the CSS mirror emits `line-height: 20`, so the two surfaces disagree for exactly the characters the fallback work existed to support.
+
+- [ ] Measure the natural line of the text actually being laid out rather than of a probe string, and confirm the deficit still lands the box on the role's line height for a mixed-face line. The core arithmetic is sound — a run of n lines measures `naturalLine + (n-1)×L`, so adding `L − naturalLine` once gives exactly `n×L` — so this is about which `naturalLine` goes into it.
+- [ ] Decide what to do about the constraint double-count, which is a trap rather than a bug: `widget.Label` constrains its own result, and `typeset` then adds the deficit on top, so a label given `Min.Y == Max.Y` — every `Flexed` child of a vertical `layout.Flex` — reports more than its slot. The org's components dodge it by zeroing `Constraints.Min` first, which is convention and not contract. Either constrain after the correction or document the requirement where a caller will read it.
+- [ ] Guard a negative `LineHeight`: `Label` tests `!= 0` where `Layout` bails at `<= 0`, so a negative value reaches `widget.Label` with `LineHeightScale: 1` and collapses wrapped lines on top of each other.
+- [ ] Regenerate any moved goldens and eyeball them; build, test, commit in every repo touched.
+
+#### F5.4: Find out whether CI runs the goldens at all
+
+Nobody knows, and the goldens are the organization's whole regression net —
+181 images, a harness repaired across 29 copies in F4.1, and every "CI is
+green" claim in this plan resting on them. The harness calls `t.Skipf` when
+`headless.NewWindow` fails; CI is a headless `ubuntu-latest` that installs GL
+*development headers*; and Gio's Linux path needs a working EGL with
+`EGL_KHR_surfaceless_context` at runtime. A skipped test passes, so a green
+run proves nothing either way. This is cheap to settle and expensive to keep
+guessing about.
+
+- [ ] Settle it with evidence: make CI report skips — `go test -v` piped through a skip count, or a probe that fails the job when the golden harness cannot open a window — and read an actual run rather than reasoning about the runner image.
+- [ ] If they are skipping, decide what to do: install a software renderer on the runner (Mesa's llvmpipe with `LIBGL_ALWAYS_SOFTWARE`, or Xvfb) so the images genuinely compare, or accept it and say so loudly in each repo's `AGENTS.md`, because "CI is green" currently reads as a much stronger claim than it may be.
+- [ ] Whatever the answer, write it where the next person looks: if the goldens do run, say which job and how it was verified; if they do not, say that the images are checked only on a developer's machine.
+- [ ] Commit the workflow change in each repo touched.
+
+#### F5.5: Delete twenty-eight golden harnesses
+
+F3.3 exported `prism/golden` so a caller outside prism could use it. Only
+prism imports it. There are **29** copies of the same harness in the tree, and
+when F4.1 found the size-mismatch bug it fixed the bug twenty-nine times
+instead of asking why there were twenty-nine copies. The next harness defect
+will cost the same again.
+
+- [ ] Move every repo onto `prism/golden`, deleting the local copies. Mind the layering: `prism` is tier 2, so `pulse`, `cadence`, `markdown` and the workbench apps may depend on it, but `spectrum` may not — if spectrum needs a harness, that is an argument for the package living lower, and `scripts/check-layers.sh` is the arbiter, not taste.
+- [ ] Keep the per-repo `-golden.update` flag working; it is declared once per package today, and a shared harness must not end up with two flags of the same name in one binary.
+- [ ] Confirm every image still compares byte-identically after the move — this is a refactor, and a moved pixel means it was not.
+- [ ] Build, test, commit in every repo touched.
+
+#### F5.6: Close the loose ends the review turned up
+
+Three small things that are each individually forgettable, which is why they
+are written down.
+
+- [ ] `Density`'s Compact `ControlHeight` of 28 dp was derived from **`LabelMedium`'s** line box — a role buttons never use — which F4.4c documented rather than corrected, and which is why a Compact button overflows its own token. Either re-derive the number from the role the control actually draws, or state in `density.go` that the figure is historical and what it should have been.
+- [ ] `cadence/card/card_test.go:88` and `cadence/popover/popover_test.go:99` still build `widget.Label` directly with `LineHeight`, so those goldens record a layout no correct caller now produces — they contradict the rule F4.3 wrote into `llms.txt` and every `AGENTS.md`, in the repo that rule most applies to.
+- [ ] `workbench` has no tags at all, so its applications are `go install …@latest` from an untagged repo. F3.5 never tagged them and F4.8 declined to invent a scheme, which was right; decide now whether the apps are released artifacts with versions or explicitly are not, and record the answer in the Release protocol either way.
+- [ ] Build, test, commit in every repo touched.
+
+#### F5.7: Release the repairs
+
+- [ ] `scripts/check-layers.sh` and `scripts/check-no-workspace.sh` green before any tag moves.
+- [ ] Tag bottom-up per the Release protocol, checking `git tag | sort -V` in every repo first. The no-double-digit rule is absolute, and spectrum and pulse still carry buried illegal tags that must never be resumed. F5.1 changes spectrum's internals but not its exported surface; F5.2 and F5.3 change behaviour, not signatures — so judge each bump against what actually moved rather than against how much work it was.
+- [ ] Confirm resolution from a clean module cache with the workspace disabled, and run `go clean -modcache` first: F4.8 learned that a warm cache can hide a genuinely broken pin for an entire task.
+- [ ] Regenerate and re-push `design/` if any token value moved.
+- [ ] Strike whatever this goal fixes in the register, leaving the struck text in place.
+
 ## Phase G: The design-agent surface
 
 Phase E exported the foundations. This phase adds the component layer, which
