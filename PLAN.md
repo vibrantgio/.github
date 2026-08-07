@@ -2123,11 +2123,11 @@ will cost the same again.
 Four small things that are each individually forgettable, which is why they
 are written down.
 
-- [ ] `Density`'s Compact `ControlHeight` of 28 dp was derived from **`LabelMedium`'s** line box — a role buttons never use — which F4.4c documented rather than corrected, and which is why a Compact button overflows its own token. Either re-derive the number from the role the control actually draws, or state in `density.go` that the figure is historical and what it should have been.
-- [ ] `cadence/card/card_test.go:88` and `cadence/popover/popover_test.go:99` still build `widget.Label` directly with `LineHeight`, so those goldens record a layout no correct caller now produces — they contradict the rule F4.3 wrote into `llms.txt` and every `AGENTS.md`, in the repo that rule most applies to.
-- [ ] `workbench` has no tags at all, so its applications are `go install …@latest` from an untagged repo. F3.5 never tagged them and F4.8 declined to invent a scheme, which was right; decide now whether the apps are released artifacts with versions or explicitly are not, and record the answer in the Release protocol either way.
-- [ ] Finish F5.1's doc sweep. The phrase *"built once and cached inside the theme's `Typography` value"* survives in thirteen cadence components — `accordion`, `alert`, `breadcrumb`, `feature`, `hero`, `modal`, `navbar`, `pagination`, `pricing`, `sidebar`, `table`, `tabs`, `testimonial`, `toast`. F5.1 fixed the three sites its own task named and stayed in scope, which was right. After that fix the sentence is no longer false — the shaper genuinely is built once — only imprecise about *inside* versus *behind* the value, so this is wording, not behaviour. Make it uniform, and prefer one sentence repeated verbatim over thirteen paraphrases.
-- [ ] Build, test, commit in every repo touched.
+- [x] `Density`'s Compact `ControlHeight` of 28 dp was derived from **`LabelMedium`'s** line box — a role buttons never use — which F4.4c documented rather than corrected, and which is why a Compact button overflows its own token. Either re-derive the number from the role the control actually draws, or state in `density.go` that the figure is historical and what it should have been.
+- [x] `cadence/card/card_test.go:88` and `cadence/popover/popover_test.go:99` still build `widget.Label` directly with `LineHeight`, so those goldens record a layout no correct caller now produces — they contradict the rule F4.3 wrote into `llms.txt` and every `AGENTS.md`, in the repo that rule most applies to.
+- [x] `workbench` has no tags at all, so its applications are `go install …@latest` from an untagged repo. F3.5 never tagged them and F4.8 declined to invent a scheme, which was right; decide now whether the apps are released artifacts with versions or explicitly are not, and record the answer in the Release protocol either way.
+- [x] Finish F5.1's doc sweep. The phrase *"built once and cached inside the theme's `Typography` value"* survives in thirteen cadence components — `accordion`, `alert`, `breadcrumb`, `feature`, `hero`, `modal`, `navbar`, `pagination`, `pricing`, `sidebar`, `table`, `tabs`, `testimonial`, `toast`. F5.1 fixed the three sites its own task named and stayed in scope, which was right. After that fix the sentence is no longer false — the shaper genuinely is built once — only imprecise about *inside* versus *behind* the value, so this is wording, not behaviour. Make it uniform, and prefer one sentence repeated verbatim over thirteen paraphrases.
+- [x] Build, test, commit in every repo touched.
 #### F5.7: Release the repairs
 This goal ends where G-F4 did, and inherits one unfinished question from
 [[#F5.4: Find out whether CI runs the goldens at all]]: whether the golden
@@ -3222,6 +3222,53 @@ Roboto faces, ADR-001's tier-0/tier-1 edge, so an earlier draft of this
 diagram that grouped `font, spectrum` in one round was stale the day that
 edge landed. The nested demo modules — `prism/gallery`, `mvu/example` — tag
 last with the apps, since they sit above everything they demonstrate.
+
+**The last round tags nothing: `workbench` is deliberately never tagged.**
+Decided in F5.6, after F3.5 left the repo untagged and F4.8 declined to invent
+a scheme. The seven applications — `launcher`, `todos`, `iconbrowser`,
+`watchlist`, `mindchat`, `feeds`, `sitedocs` — are reference applications, not
+released artifacts. They are installed and run from the branch tip:
+
+```
+go install github.com/vibrantgio/workbench/launcher@latest
+```
+
+and `@latest` against an untagged repo resolves to a pseudo-version of that
+tip, which is an honest answer — "this is the head of the demo repo" — rather
+than a version number implying a support promise the apps do not make. Four
+reasons, and the first is structural rather than a preference:
+
+- **There is no root module to mirror.** `workbench` has no `go.mod` at its
+  root; the seven apps are seven independent modules in seven subdirectories.
+  So the rule below — *a nested module's tag mirrors its root's version* — has
+  nothing to mirror, and the only tags that could exist are `launcher/vX.Y.Z`,
+  `todos/vX.Y.Z` and five more, each running its own counter. That is exactly
+  the drift the mirror rule forbids, with no root tag available to stop it.
+- **Nothing in the org depends on them.** `workbench` is the leaf of the
+  layer diagram. A version number's job is to let a consumer resolve a
+  coherent set, and there is no consumer: nothing requires these modules, so
+  the number would be read by no resolver, ever.
+- **They would be stale by construction.** The apps consume every library
+  below them and move whenever any of those move. Tagging them means either
+  re-cutting seven immutable tags on every library release, or letting seven
+  numbers claim a coherence they no longer have.
+- **The install path already works and is already documented.** `go install
+  pkg@latest` needs no tag, and B2.0 established that this path does not even
+  consult the target module's `go.sum`. Nothing about the user's experience
+  improves by adding a version to it.
+
+So the diagram's last round is a **verification** round, not a tagging round:
+after `cadence` and `markdown` are tagged, the workbench apps must build and
+run against the tags just cut, with `GOWORK=off`, and that is where the round
+ends. The nested demo modules `prism/gallery` and `mvu/example` still *do*
+tag with that round — they are submodules of tagged roots and the mirror rule
+does apply to them.
+
+Revisit only if one of the two premises fails: if some module comes to import
+an app, or if an app is ever presented to users as something to depend on
+rather than to read and copy. Until then, `git tag -l` in `workbench` returns
+nothing, and that is the intended state rather than an oversight — which is
+the whole reason this paragraph exists.
 
 No layer is tagged while `scripts/check-layers.sh` fails, and none while
 `scripts/check-no-workspace.sh` does. The deprecated alias shims from ADR-001
