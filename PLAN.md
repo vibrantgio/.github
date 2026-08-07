@@ -2073,7 +2073,7 @@ guessing about.
 - [ ] Settle it with evidence: make CI report skips — `go test -v` piped through a skip count, or a probe that fails the job when the golden harness cannot open a window — and read an actual run rather than reasoning about the runner image.
 - [ ] If they are skipping, decide what to do: install a software renderer on the runner (Mesa's llvmpipe with `LIBGL_ALWAYS_SOFTWARE`, or Xvfb) so the images genuinely compare, or accept it and say so loudly in each repo's `AGENTS.md`, because "CI is green" currently reads as a much stronger claim than it may be.
 - [ ] Whatever the answer, write it where the next person looks: if the goldens do run, say which job and how it was verified; if they do not, say that the images are checked only on a developer's machine.
-- [ ] Commit the workflow change in each repo touched.
+- [x] Commit the workflow change in each repo touched.
 
 #### F5.5: Delete twenty-eight golden harnesses
 
