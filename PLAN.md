@@ -2045,10 +2045,10 @@ cached inside the theme's Typography value", which is false as wired.
 
 The symptom is two-part: the selection lands on a clipped row, and the next arrow press then moves the viewport two rows, which contradicts the package's own "moves the short way" contract and the existing assertion in `keyboard_test.go:207`.
 
-- [ ] Hoist `visible` above the switch and use it in the window test. Note the extra subtraction for a partial *leading* child is not wanted — `Count` minus the trailing partial is already right.
-- [ ] Fix the fixture that hides it. `list_test.go:23` reads `viewH = 150 // viewport height in pixels; fits exactly 5 rows` against `rowPx = 30`, which is the one height where the bug cannot appear; real rows are 36 dp scaled by DPI and essentially never divide the viewport. Re-run the keyboard tests across several viewport heights that are deliberately *not* multiples, and keep one as a permanent case.
-- [ ] Reconcile `clampSelection` at `list.go:218` with its own doc: the comment says an out-of-range selection is dropped, the code clamps it to the last row, and `keyboard_test.go:294` asserts the clamp. The reachable consequence is that narrowing a filtered list from 100 items to 3 silently moves the selection rather than clearing it, so a caller driving a detail pane off `Selected()` shows an unrelated row. Decide which behaviour is right and make the code, the doc and the test agree.
-- [ ] Build, test, commit in prism.
+- [x] Hoist `visible` above the switch and use it in the window test. Note the extra subtraction for a partial *leading* child is not wanted — `Count` minus the trailing partial is already right.
+- [x] Fix the fixture that hides it. `list_test.go:23` reads `viewH = 150 // viewport height in pixels; fits exactly 5 rows` against `rowPx = 30`, which is the one height where the bug cannot appear; real rows are 36 dp scaled by DPI and essentially never divide the viewport. Re-run the keyboard tests across several viewport heights that are deliberately *not* multiples, and keep one as a permanent case.
+- [x] Reconcile `clampSelection` at `list.go:218` with its own doc: the comment says an out-of-range selection is dropped, the code clamps it to the last row, and `keyboard_test.go:294` asserts the clamp. The reachable consequence is that narrowing a filtered list from 100 items to 3 silently moves the selection rather than clearing it, so a caller driving a detail pane off `Selected()` shows an unrelated row. Decide which behaviour is right and make the code, the doc and the test agree.
+- [x] Build, test, commit in prism.
 
 #### F5.3: Measure the natural line from the line, not the face
 
