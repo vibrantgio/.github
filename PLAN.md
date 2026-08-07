@@ -2089,15 +2089,14 @@ will cost the same again.
 - [ ] Build, test, commit in every repo touched.
 
 #### F5.6: Close the loose ends the review turned up
-
-Three small things that are each individually forgettable, which is why they
+Four small things that are each individually forgettable, which is why they
 are written down.
 
 - [ ] `Density`'s Compact `ControlHeight` of 28 dp was derived from **`LabelMedium`'s** line box — a role buttons never use — which F4.4c documented rather than corrected, and which is why a Compact button overflows its own token. Either re-derive the number from the role the control actually draws, or state in `density.go` that the figure is historical and what it should have been.
 - [ ] `cadence/card/card_test.go:88` and `cadence/popover/popover_test.go:99` still build `widget.Label` directly with `LineHeight`, so those goldens record a layout no correct caller now produces — they contradict the rule F4.3 wrote into `llms.txt` and every `AGENTS.md`, in the repo that rule most applies to.
 - [ ] `workbench` has no tags at all, so its applications are `go install …@latest` from an untagged repo. F3.5 never tagged them and F4.8 declined to invent a scheme, which was right; decide now whether the apps are released artifacts with versions or explicitly are not, and record the answer in the Release protocol either way.
+- [ ] Finish F5.1's doc sweep. The phrase *"built once and cached inside the theme's `Typography` value"* survives in thirteen cadence components — `accordion`, `alert`, `breadcrumb`, `feature`, `hero`, `modal`, `navbar`, `pagination`, `pricing`, `sidebar`, `table`, `tabs`, `testimonial`, `toast`. F5.1 fixed the three sites its own task named and stayed in scope, which was right. After that fix the sentence is no longer false — the shaper genuinely is built once — only imprecise about *inside* versus *behind* the value, so this is wording, not behaviour. Make it uniform, and prefer one sentence repeated verbatim over thirteen paraphrases.
 - [ ] Build, test, commit in every repo touched.
-
 #### F5.7: Release the repairs
 
 - [ ] `scripts/check-layers.sh` and `scripts/check-no-workspace.sh` green before any tag moves.
