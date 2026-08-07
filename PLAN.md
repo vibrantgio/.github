@@ -2114,10 +2114,10 @@ when F4.1 found the size-mismatch bug it fixed the bug twenty-nine times
 instead of asking why there were twenty-nine copies. The next harness defect
 will cost the same again.
 
-- [ ] Move every repo onto `prism/golden`, deleting the local copies. Mind the layering: `prism` is tier 2, so `pulse`, `cadence`, `markdown` and the workbench apps may depend on it, but `spectrum` may not — if spectrum needs a harness, that is an argument for the package living lower, and `scripts/check-layers.sh` is the arbiter, not taste.
-- [ ] Keep the per-repo `-golden.update` flag working; it is declared once per package today, and a shared harness must not end up with two flags of the same name in one binary.
-- [ ] Confirm every image still compares byte-identically after the move — this is a refactor, and a moved pixel means it was not.
-- [ ] Build, test, commit in every repo touched.
+- [x] Move every repo onto `prism/golden`, deleting the local copies. Mind the layering: `prism` is tier 2, so `pulse`, `cadence`, `markdown` and the workbench apps may depend on it, but `spectrum` may not — if spectrum needs a harness, that is an argument for the package living lower, and `scripts/check-layers.sh` is the arbiter, not taste.
+- [x] Keep the per-repo `-golden.update` flag working; it is declared once per package today, and a shared harness must not end up with two flags of the same name in one binary.
+- [x] Confirm every image still compares byte-identically after the move — this is a refactor, and a moved pixel means it was not.
+- [x] Build, test, commit in every repo touched.
 
 #### F5.6: Close the loose ends the review turned up
 Four small things that are each individually forgettable, which is why they
