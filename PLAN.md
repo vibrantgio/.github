@@ -2060,21 +2060,52 @@ The symptom is two-part: the selection lands on a clipped row, and the next arro
 - [x] Regenerate any moved goldens and eyeball them; build, test, commit in every repo touched.
 
 #### F5.4: Find out whether CI runs the goldens at all
+Nobody knew, and the goldens are the organization's whole regression net —
+**185** images by actual count, not the 181 this task first claimed, a harness
+repaired across 29 copies in F4.1, and every "CI is green" claim in this plan
+resting on them. The harness calls `t.Skipf` when `headless.NewWindow` fails;
+CI is a headless `ubuntu-latest` that installs GL *development headers*; and
+Gio's Linux path needs a working EGL with `EGL_KHR_surfaceless_context` at
+runtime. A skipped test passes, so a green run proves nothing either way.
 
-Nobody knows, and the goldens are the organization's whole regression net —
-181 images, a harness repaired across 29 copies in F4.1, and every "CI is
-green" claim in this plan resting on them. The harness calls `t.Skipf` when
-`headless.NewWindow` fails; CI is a headless `ubuntu-latest` that installs GL
-*development headers*; and Gio's Linux path needs a working EGL with
-`EGL_KHR_surfaceless_context` at runtime. A skipped test passes, so a green
-run proves nothing either way. This is cheap to settle and expensive to keep
-guessing about.
+**What this task settled.** All twelve workflows in the org are byte-identical
+and run **plain `go test ./...`, not `-v`** — which prints neither `--- SKIP`
+nor a `t.Skipf` message. So no run that has ever executed can answer the
+question, however green, and the cheap path of reading existing logs is closed.
+The org's logs need admin rights it does not grant, so the answer had to be
+made readable another way.
 
-- [ ] Settle it with evidence: make CI report skips — `go test -v` piped through a skip count, or a probe that fails the job when the golden harness cannot open a window — and read an actual run rather than reasoning about the runner image.
-- [ ] If they are skipping, decide what to do: install a software renderer on the runner (Mesa's llvmpipe with `LIBGL_ALWAYS_SOFTWARE`, or Xvfb) so the images genuinely compare, or accept it and say so loudly in each repo's `AGENTS.md`, because "CI is green" currently reads as a much stronger claim than it may be.
-- [ ] Whatever the answer, write it where the next person looks: if the goldens do run, say which job and how it was verified; if they do not, say that the images are checked only on a developer's machine.
+The circumstantial case that the goldens **skip** is strong but is not a read
+run: the workflow's apt list is Gio's own CI list with the *drivers* removed —
+Gio installs `libegl-mesa0`, `libgl1-mesa-dri`, `libgbm1` and
+`mesa-vulkan-drivers` precisely so its own headless tests work, and vibrantgio
+installs only the matching `-dev` headers, which compile but do not open a
+display. The runner image ships no Mesa at all, and the workflow sets no
+`DISPLAY`. `headless.NewWindow` tries EGL then Vulkan, and the Vulkan fallback
+needs an ICD that `libvulkan-dev` does not provide.
+
+**Why the verdict is parked in [[#F5.7: Release the repairs]] rather than
+guessed at here.** Reading a run needs a push, and a push before the tags moved
+would have failed on the ADR-006 skew — spectrum's F5.3 change untagged, so
+`GOWORK=off` resolves a spectrum whose goldens no longer match — going red
+about an entirely different question. The instrumentation is committed and
+waiting: `go test -v` teed to a log, plus an `if: always()` step that counts
+skips and emits the verdict as a **check-run annotation**, which
+`https://api.github.com/repos/vibrantgio/<repo>/commits/<sha>/check-runs`
+returns *unauthenticated* where logs need admin. It reports and does not gate,
+so no green repo can go red on the push. The remaining three steps of this task
+are therefore steps of F5.7, and are struck here rather than left to make
+`mdplan next` return this task forever.
+
+~~Settle it with evidence: make CI report skips, and read an actual run rather
+than reasoning about the runner image.~~ ~~If they are skipping, install a
+software renderer on the runner or accept it and say so loudly in each
+`AGENTS.md`.~~ ~~Write the answer where the next person looks.~~ — all three
+moved to F5.7, which pushes.
+
+- [x] Instrument CI to report the answer: `go test -v` teed to a log and a skip count emitted as a check-run annotation, in the four golden-bearing repos that have CI. Written into `scripts/sync-agents.sh` rather than typed into each `AGENTS.md`, because those files are generated and a typed paragraph survives only until the next sync.
+- [x] Say in every affected `AGENTS.md` what is not yet known: that a green CI run does not say these images matched. `workbench` gets the stronger sentence, since it has twelve goldens and **no CI workflow at all** — nothing but a developer's machine has ever compared them.
 - [x] Commit the workflow change in each repo touched.
-
 #### F5.5: Delete twenty-eight golden harnesses
 
 F3.3 exported `prism/golden` so a caller outside prism could use it. Only
@@ -2098,12 +2129,22 @@ are written down.
 - [ ] Finish F5.1's doc sweep. The phrase *"built once and cached inside the theme's `Typography` value"* survives in thirteen cadence components — `accordion`, `alert`, `breadcrumb`, `feature`, `hero`, `modal`, `navbar`, `pagination`, `pricing`, `sidebar`, `table`, `tabs`, `testimonial`, `toast`. F5.1 fixed the three sites its own task named and stayed in scope, which was right. After that fix the sentence is no longer false — the shaper genuinely is built once — only imprecise about *inside* versus *behind* the value, so this is wording, not behaviour. Make it uniform, and prefer one sentence repeated verbatim over thirteen paraphrases.
 - [ ] Build, test, commit in every repo touched.
 #### F5.7: Release the repairs
+This goal ends where G-F4 did, and inherits one unfinished question from
+[[#F5.4: Find out whether CI runs the goldens at all]]: whether the golden
+images run on CI at all. F5.4 could not answer it, because the answer needs a
+run and a run needs a push, and a push before the tags moved would have failed
+on the ADR-006 skew rather than on the question. So the tags move first, then
+the push, then the reading — in that order, and the last three steps below are
+F5.4's, finished here.
+
 - [ ] `scripts/check-layers.sh` and `scripts/check-no-workspace.sh` green before any tag moves.
 - [ ] Tag bottom-up per the Release protocol, checking `git tag | sort -V` in every repo first. The no-double-digit rule is absolute, and spectrum and pulse still carry buried illegal tags that must never be resumed. F5.1 changes spectrum's internals but not its exported surface; F5.2 and F5.3 change behaviour, not signatures — so judge each bump against what actually moved rather than against how much work it was. F5.2 is the one to look at hardest: an out-of-range selection now reports `-1` where it used to clamp to the last row, which is a contract change a caller can observe.
 - [ ] Confirm resolution from a clean module cache with the workspace disabled, and run `go clean -modcache` first: F4.8 learned that a warm cache can hide a genuinely broken pin for an entire task.
 - [ ] Regenerate and re-push `design/` if any token value moved.
-- [ ] **Finish F5.4, which is parked here on purpose.** Its verdict step needs a CI run that could not be had before this one: the instrumented workflows are committed in prism, cadence, pulse and markdown but unpushed, and running them before the tags moved would have failed on the ADR-006 skew — spectrum's F5.3 change untagged, so `GOWORK=off` resolved a spectrum whose goldens no longer match — producing a red run about the wrong question entirely. Push after the tags land, then read the verdict without a token: `curl -s https://api.github.com/repos/vibrantgio/<repo>/commits/<sha>/check-runs` returns the annotation unauthenticated, where logs need admin. `golden images SKIPPED: N` means the images have never been a CI gate and F5.4's remaining choice — install Mesa's drivers on the runner, or say plainly in every `AGENTS.md` that only a developer's machine has compared them — gets made with a real number. `golden images COMPARED` means the plan's green claims stand as written. Check off F5.4's three parked steps here, in F5.4, not in this task.
-- [ ] **Name cadence's CI failure.** It has failed all fifteen runs since B3.5 on 2026-08-05, always at `go test ./...` with `go build ./...` green — and at its exact CI commit `2abbc11`, `GOWORK=off go build ./... && go test ./...` is green on this machine. CI and a developer machine already disagree, and nobody has been able to see why because the log needs admin rights the org does not grant. The same verbose run that answers F5.4 answers this. Note the two possible answers are not independent: if cadence fails *because* its goldens genuinely run and do not match a Linux renderer, then the images do execute on CI and the skip inference is wrong — so read this one before concluding anything about the other.
+- [ ] Push, and read the verdict F5.4 instrumented — without a token: `curl -s https://api.github.com/repos/vibrantgio/<repo>/commits/<sha>/check-runs` returns the annotation unauthenticated, where the log itself needs admin. Any one of prism, cadence, pulse or markdown settles it.
+- [ ] Act on whichever answer comes back. `golden images SKIPPED: N` means the images have never been a CI gate: either install the drivers the runner lacks — Mesa's llvmpipe with `LIBGL_ALWAYS_SOFTWARE`, or Xvfb — so they genuinely compare, or accept it and say so plainly. `golden images COMPARED` means the plan's green claims stand as written, and the `AGENTS.md` warnings F5.4 added come back out. Decide with the number in hand, not before.
+- [ ] Write the answer where the next person looks, through `scripts/sync-agents.sh` and not by typing into the generated files: if the goldens do run, say which job and how it was verified; if they do not, say the images are checked only on a developer's machine.
+- [ ] **Name cadence's CI failure in the same run.** It has failed all fifteen runs since B3.5 on 2026-08-05, always at `go test ./...` with `go build ./...` green — and at its exact CI commit `2abbc11`, `GOWORK=off go build ./... && go test ./...` is green on this machine. CI and a developer machine already disagree and nobody could see why, for the same admin-rights reason. Read this one **before** concluding anything about the goldens: the two answers are not independent, because if cadence fails precisely because its images genuinely run and do not match a Linux renderer, then they do execute on CI and F5.4's skip inference is wrong.
 - [ ] Strike whatever this goal fixes in the register, leaving the struck text in place.
 ## Phase G: The design-agent surface
 
