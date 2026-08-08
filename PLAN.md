@@ -2175,6 +2175,71 @@ harness is G1.1 and everything else depends on it.
 Sequenced after Phase F because components are rewritten throughout C, D and E;
 mirroring them earlier is rework.
 
+### G-G0: Make the guides tell the truth about the graph
+
+This phase builds a surface for a design agent. The surface it will read is
+`AGENTS.md` — twenty of them, one per repository, and right now nine of them
+describe a dependency graph that stopped being true in Phase B.
+
+`check-layers.sh` measures the real edges. Set its output beside what the
+guides claim:
+
+```
+measured                                    claimed by that repo's AGENTS.md
+markdown: font prism spectrum svg …         "it does not import mvu, spectrum,
+                                             pulse or cadence at all"
+prism:    … mvu spectrum svg …              "Spectrum imports it too today —
+                                             the inversion G-B3 corrects"
+pulse:    font mvu prism spectrum traer     "prism/theme, prism/tokens, and
+                                             spectrum imports pulse/tween today"
+cadence:  font mvu prism pulse spectrum     "prism/theme and prism/tokens"
+spectrum: font mvu                          "It imports mvu"
+```
+
+Every one of them is the pre-G-B3 topology, written in the present tense as
+though the inversion were still pending. G-B3 finished it; markdown's sentence
+is not stale but flatly false.
+
+**Why the gate that was just added cannot catch this.** `check-agents.sh`
+proves *file matches template*. These sentences match their template exactly —
+the falsehood is in `templates/repos.tsv` itself, faithfully rendered into
+twenty clean-looking files. The failure mode of a generator is not drift
+between source and output; it is a wrong source, reproduced perfectly.
+
+So the fix is not to retype the sentences. `check-layers.sh` already prints the
+true edge list for every repository, which means the layer sentence is a
+**measurement wearing prose clothes**, and it belongs on the generated side of
+`sync-agents.sh` with the module paragraph, the build paragraph and the golden
+paragraph — all of which are read from the clone precisely so they cannot say
+something the code does not.
+
+#### G0.1: Generate the layer sentence instead of typing it
+
+- [ ] Teach `sync-agents.sh` to derive the import list the way `check-layers.sh` does, and render the "**Layer.**" sentence from it — the tier from ADR-001's table, the edges from the clone. Keep the human half: which tier the repo sits in and any prose about *why* an edge is allowed (style's intra-tier edge to font and textdraw is the case to preserve) stay editable in `repos.tsv`; the list of what it actually imports stops being editable at all.
+- [ ] Handle the two directions a layer sentence talks about. Downward edges are measurable from the clone. "Who imports me" is not — it needs the other clones — so either measure it across `.repos/` the way `check-layers.sh` does, or drop the claim rather than let it rot. A guide that says nothing about its consumers is better than one that names the wrong ones.
+- [ ] Purge the pending-inversion tense wherever it survives. G-B3, E3.2, C1.2 and F3.3 are done; a guide written as though they were scheduled teaches an agent to expect edges that no longer exist. Name a finished goal only where knowing it happened changes what a reader should do.
+- [ ] Regenerate all twenty, and check `check-agents.sh` and `check-layers.sh` are both green.
+
+#### G0.2: Correct the role sentences and the notes that outlived their phase
+
+The `role` field and the per-repo notes are genuine prose and cannot be
+generated, so these are read-and-fix, one repository at a time. Known wrong,
+found while fixing the template drift:
+
+- [ ] `prism`'s role still claims it holds "the `theme` and `tokens` contract". G-B3 moved that to spectrum. `prism` is the component library; say that.
+- [ ] `font`'s layer names `style` and `mvu/example` as its direct importers; the real ones are `style`, `spectrum/tokens` and `spectrum/typeset`, and `mvu/example` is not among them. C1.2 is written as future work.
+- [ ] `style`'s layer and notes both say the four workbench apps consume it and that "Phase F migrates off it". Phase F did — no workbench file imports style. The remaining consumers are example mains under ivg, svg and traer. The notes also put F3.3's shim removal in the future while style sits at v0.0.6 with every `Deprecated:` marker already in place.
+- [ ] `workbench`'s row lists style among what its apps import. None do.
+- [ ] `cadence` imports `prism/icon`, which its row does not mention.
+- [ ] Read the other fourteen rather than trusting this list to be complete — it was assembled while fixing something else, and the only reason these nine were found is that four repositories happened to drift.
+
+#### G0.3: Close the loop so prose cannot outlive its phase again
+
+- [ ] The root `AGENTS.md` lists `clone-all.sh`, `inventory.sh` and `sync-agents.sh` in its `scripts/` line and omits `check-layers.sh`, `check-no-workspace.sh`, `push-design.sh` and `check-agents.sh`. Fix the list, and say what each gate refuses to let happen.
+- [ ] Record the lesson where it will be read, not only here: **editing a generated file is a silent no-op against the next sync**, and the reason three repositories carried correct text their templates denied is that nothing in the org made that mistake visible. `check-agents.sh` now does. Say so in `sync-agents.sh`'s header and in the root guide.
+- [ ] Consider whether `check-agents.sh` should also diff the rendered layer sentence against `check-layers.sh`'s measured edges once G0.1 makes them the same fact — if the sentence is generated from the measurement, the check is free and the whole class dies.
+- [ ] Build, test, commit and push in every repo touched. No tags: this is documentation, and the modules were released at F5.7.
+
 ### G-G1: The mirror and its harness
 
 #### G1.1: Golden comparison harness
