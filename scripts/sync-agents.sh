@@ -23,6 +23,15 @@
 # stages, commits or pushes: one task, one commit, and the commit is yours to
 # make in the repository itself. With -n it writes nothing at all.
 #
+# THE FILES THIS WRITES ARE GENERATED. Correcting one in the clone is the
+# mistake this script cannot see and the next run silently undoes: the
+# accurate words go, the stale template's come back. Fix the template — a
+# repos.tsv field, a notes file, or the shared wording here — and regenerate.
+# scripts/check-agents.sh is the gate that enforces that, and it exists
+# because the drift is not hypothetical: four of the twenty had diverged
+# before anything went looking, three of them with the *file* right and the
+# *template* wrong. Run it before believing a generated file.
+#
 # This repository's own AGENTS.md is not reachable from here and must not be:
 # .github is the parent directory of the clones, not one of them. It is
 # hand-written, describes a plan rather than a module, and task A1.6 wrote it.

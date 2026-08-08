@@ -3,14 +3,14 @@
 typeface, weight, size, line height, tracking — plus the face collection and a
 lazily built shaper. This module's MD2 scale is superseded by it. `style` is
 frozen rather than deleted, so every existing import keeps compiling through
-the deprecation window; the exported symbols get `Deprecated:` markers and the
-`spectrum/tokens.Typography` replacement in task C1.4, and the shims go in the
-major bump, F3.3.
+the deprecation window; every exported symbol carries a `Deprecated:` marker
+naming its `spectrum/tokens.Typography` replacement (C1.4), and the shims go
+in the major bump, F3.3.
 
-It also carries a real bug that C1.4 fixes rather than inherits: `H1` and `H2`
-are both 96 sp — `TextStyle.Size` is `unit.Sp`, not `unit.Dp` — where MD2's H2
-is 60. They differ only in weight, so a document using both gets no size
-hierarchy. Do not copy those numbers forward.
+One real bug was fixed rather than inherited: `H1` and `H2` were both 96 sp —
+`TextStyle.Size` is `unit.Sp`, not `unit.Dp` — where MD2's H2 is 60. They
+differed only in weight, so a document using both got no size hierarchy. C1.4
+set `H2` to 60. Do not copy these numbers forward.
 
 Nothing in the design system imports `style` — that is the point of ADR-003.
 Its consumers are demo mains under mvu, ivg, svg and traer, plus the workbench

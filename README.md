@@ -53,6 +53,11 @@ are gitignored; this repository is their parent directory, not one of them.
   the role sentence and the layer line — and those live in
   [`templates/repos.tsv`](templates/repos.tsv). The module and build paragraphs
   are measured from the clone, so they cannot drift. It never commits.
+- [`scripts/check-agents.sh`](scripts/check-agents.sh) — the gate on the above:
+  render every repository and fail on any whose committed `AGENTS.md` differs.
+  The fields that are *not* measured can drift, and did — the way it happens is
+  that a correction lands in the generated file instead of the template, and
+  the next render throws it away. This is what notices.
 
 Across the twenty repositories there are 36 modules — nineteen at repository
 roots, ten nested in subdirectories with tags that carry the subdirectory as a

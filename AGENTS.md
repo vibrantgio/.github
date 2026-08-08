@@ -55,6 +55,13 @@ sibling's `AGENTS.md` is generated — edit `templates/AGENTS.md` for wording th
 applies to all of them, `templates/repos.tsv` for one repo's role and layer
 line, and `templates/notes/<repo>.md` for anything longer; the module and build
 paragraphs are measured from the clone and are not written by hand.
+
+**Correcting a sibling's `AGENTS.md` in the clone is the mistake to avoid**, and
+`scripts/check-agents.sh` is what catches it: it renders all twenty and fails on
+any that differs from what its templates produce. Do not skip it because the
+words you are fixing are true — true words in the generated file are exactly the
+failure, because the next `sync-agents.sh` run replaces them with the stale
+template's. Four of the twenty had drifted that way before anything looked.
 `scripts/clone-all.sh` populates `.repos/` and pulls what is already there — run
 it if the directory is missing or stale. Almost all work happens inside
 `.repos/<name>`; the plan and the guide live here at the root.
