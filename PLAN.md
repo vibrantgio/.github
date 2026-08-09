@@ -2319,10 +2319,10 @@ the dismissing scrim, and every screen it composes would inherit them.
 
 #### G0A.4: Release the grammar
 
-- [ ] `scripts/check-layers.sh` and `scripts/check-no-workspace.sh` green before any tag moves.
-- [ ] Tag bottom-up per the Release protocol: prism minor (new exported API), cadence minor (new API and observable behaviour — the inert scrim is a contract change a caller can see), everything above re-pins as patch. Check `git tag | sort -V` first; no double-digit component, ever.
-- [ ] Confirm resolution from a clean module cache with the workspace disabled, `go clean -modcache` first.
-- [ ] `design/` should not move — no token value changes here — but verify rather than assume, and regenerate and re-push it if one did.
+- [x] `scripts/check-layers.sh` and `scripts/check-no-workspace.sh` green before any tag moves.
+- [x] Tag bottom-up per the Release protocol: prism minor (new exported API), cadence minor (new API and observable behaviour — the inert scrim is a contract change a caller can see), everything above re-pins as patch. Check `git tag | sort -V` first; no double-digit component, ever.
+- [x] Confirm resolution from a clean module cache with the workspace disabled, `go clean -modcache` first.
+- [x] `design/` should not move — no token value changes here — but verify rather than assume, and regenerate and re-push it if one did.
 
 ### G-G0B: Two things the grammar work uncovered
 
