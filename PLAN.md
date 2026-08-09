@@ -2456,48 +2456,93 @@ end of every task; a moved pixel means behaviour changed and must be explained
 before it is regenerated. Sequenced before G-G1 so the mirror is built against
 components whose internals are done moving.
 
+**Measured, not assumed.** G0C.1 ran the spike and
+[[#ADR-008: Coordination is frame state, a message, or a stream — never a bare Subject|ADR-008]]
+records what it found, including three claims above that did not survive it.
+Popover never subscribed to its own bus and neither did anything else, so the
+tax at that site was a mechanism delivering nothing, not the documented
+one-frame lag. No AutoConnect count and no ledger entry moved, because
+`modelObsConsumers` counts consumers of the application's model observable and
+never counted a `coordination.Subject`. And frame ownership did *not* hand the
+per-window scope over for free: it makes the right scope expressible and the
+wrong one detectable, but taking it costs threading a value through each
+application's composition root, which is now G0C.4's second job. The doctrine
+survived intact; the arithmetic under it did not.
+
 #### G0C.1: ADR-008 and the spike: popover arbitration as frame state
 
-- [ ] Convert `cadence/popover`'s `Arbitration` from a `coordination.Subject` to a plain arbiter owned by the frame goroutine, read during layout, written on the events that claim or release it. Smallest of the four buses, purely frame-scoped, no app consumer to migrate — the right specimen.
-- [ ] Measure what it deletes and what it costs, and write both down: the one-frame lag and its workarounds, AutoConnect counts in tests that existed only to absorb Subject delivery, subscription ledger entries; against any new ordering constraint the same-frame model introduces. Prove same-frame where it is real and document where next-frame remains.
-- [ ] All goldens byte-identical; `go test -race` on everything touched.
-- [ ] Write **ADR-008** into the Reference section from the measured result, not from this preamble: the doctrine (three destinations), the idiom the spike settled, and the layering rule for the surviving primitive. If the spike refutes part of the preamble, the ADR records what was learned — that is what the spike is for.
-- [ ] Re-cut the remaining tasks of this goal against what the spike learned, the way G0.2 was re-cut after G0.1.
-- [ ] Build, test, commit in cadence and the root.
+- [x] Convert `cadence/popover`'s `Arbitration` from a `coordination.Subject` to a plain arbiter owned by the frame goroutine, read during layout, written on the events that claim or release it. Smallest of the four buses, purely frame-scoped, no app consumer to migrate — the right specimen.
+- [x] Measure what it deletes and what it costs, and write both down: the one-frame lag and its workarounds, AutoConnect counts in tests that existed only to absorb Subject delivery, subscription ledger entries; against any new ordering constraint the same-frame model introduces. Prove same-frame where it is real and document where next-frame remains.
+- [x] All goldens byte-identical; `go test -race` on everything touched.
+- [x] Write **ADR-008** into the Reference section from the measured result, not from this preamble: the doctrine (three destinations), the idiom the spike settled, and the layering rule for the surviving primitive. If the spike refutes part of the preamble, the ADR records what was learned — that is what the spike is for.
+- [x] Re-cut the remaining tasks of this goal against what the spike learned, the way G0.2 was re-cut after G0.1.
+- [x] Build, test, commit in cadence and the root.
 
-#### G0C.2: Tooltip arbitration and the modal stack follow the idiom
+#### G0C.2: Tooltip arbitration follows the idiom
 
-- [ ] `cadence/tooltip`'s `Arbitration`: same conversion as the spike.
-- [ ] `cadence/modal`'s `Stack` is the harder call and gets its own decision: shells consume it to know a modal is open, which smells like app-meaningful state (destination 1) rather than frame state (destination 2). Decide against ADR-008, record the reasoning in the package doc, and migrate the shell consumers accordingly.
-- [ ] Goldens byte-identical; build, test, commit in cadence and any consumer touched.
+The spike's twin: the same 67-line file with the nouns changed, and — verified
+below, not assumed — the same zero subscribers. This is a transcription, so if
+it turns into a decision, stop and say which part of ADR-008 did not survive
+contact with tooltip.
+
+- [ ] `cadence/tooltip`'s `Arbitration` becomes an `Arbiter` on ADR-008's idiom: a plain struct with no synchronisation, identity taken from the participant's own state pointer rather than an `atomic.Int64`, `Props.Arbiter` naming the set and defaulting to a package-level one, and the claim hiding the incumbent from inside the claimant's layout pass instead of leaving it to poll "am I still top" once a frame. Diff the finished file against `popover/arbitration.go` and justify anything that is not a noun.
+- [ ] Confirm before deleting that `tooltip.Arbitration` and `tooltip.ArbitrationSnapshot` have no subscriber anywhere in the twenty-one repositories. Use `find … -print0 | xargs -0 grep`; `grep -r --include="*.go"` silently skips `workbench/`, which is where the consumers would be.
+- [ ] Tooltip's show path is not popover's — a delay timer and a hover/focus trigger sit in front of it. Check what a layout-time claim does to the timer (a tooltip that is timing out but not yet drawn has not claimed) and record the answer. If the claim has to sit somewhere other than the first drawn frame, that is a finding for ADR-008 rather than a local deviation.
+- [ ] Keep the `Props` change additive. That is what kept the spike from opening an ADR-006 seam: `check-no-workspace.sh` read 36/36 afterwards and should still read 36/36 here.
+- [ ] Goldens byte-identical; `go test -race ./tooltip/...`; build, test, commit in cadence.
+
+#### G0C.2b: The modal stack is the one that is really app state
+
+Split out of G0C.2 by the spike, which found the two halves are not the same
+size of problem. Tooltip is a copy; `modal.Stack` is the only one of the four
+buses that anything actually subscribes to, which makes it the only genuine
+destination-1 candidate and the only one where the migration is the work.
+
+- [ ] Enumerate the consumers before deciding anything, and put the list in the commit body: who subscribes to `modal.Stack`, what each does with the snapshot, and whether it needs the whole stack or only "is a modal open". The spike measured zero subscribers for popover and expects a non-zero answer here; if it is zero after all, `Stack` is frame state like the others and this task collapses into G0C.2.
+- [ ] Decide `Stack` against ADR-008's three destinations and record the reasoning in the package doc. Destination 1 — the model, via messages — is the likely answer and the goal preamble says so, but it is this task's decision, taken against the consumers above.
+- [ ] `isTop`, used inside modal to gate input to the topmost dialog, is frame state by ADR-008's test whichever way the consumer-facing half goes. Say whether you split the two and why.
+- [ ] Moving a consumer onto the message path changes app-facing API, so expect the ADR-006 seam to open here. Report which modules `check-no-workspace.sh` then fails for and confirm the failures are only that.
+- [ ] Goldens byte-identical; `go test -race` on modal and every consumer touched; build, test, commit in cadence and workbench.
 
 #### G0C.3: Toasts ride the loop
+
+The destination-1 case the spike could not exercise: popover's bus had no
+consumers at all, so nothing about it tested the message path. `toast.Notify`
+does, from seven real caller files, and its Subject is one of the three bare
+`rx.Subject`s left in non-test library code (the others are the primitive
+itself and `spectrum/preferences`, G0C.5).
 
 - [ ] Replace the `Notify` bus with the message path: cadence defines the message type, `toast.Stack` renders from props or model-derived input, apps route the message through `Update`. Toasts become model state — reproducible, testable through Update, visible in any model dump.
 - [ ] `Notify` is public API with seven caller files; keep it compiling through a deprecation window as a shim over the message path if that is cleanly possible, and say plainly if it is not.
 - [ ] Migrate all seven caller files in feeds and watchlist; the toast Subject empties. Confirm a toast raised from a command goroutine still arrives — that path is the loop's own (command → message → Update), which is the point.
-- [ ] Goldens byte-identical; build, test, commit in cadence and workbench.
+- [ ] This is where the seam opens if G0C.2b did not open it: workbench will be using cadence API that exists only in the working tree. Report which modules `check-no-workspace.sh` fails for and confirm the failures are only that.
+- [ ] Goldens byte-identical; `go test -race` on cadence and both applications; build, test, commit in cadence and workbench.
 
-#### G0C.4: The apps drop their per-row Subjects
+#### G0C.4: The apps drop their per-row Subjects and take their own Arbiter
 
-- [ ] `feeds` (`sidebar.go`, `articles.go`) and `watchlist` (`rowdelete.go`, `bulkdelete.go`, `sidebarcontext.go`): each per-row `rx.Subject[bool]` open flag becomes plain state read during layout, per ADR-008's destination 2. The "feeds idiom" comments describe the old mechanism by name — rewrite them to describe the new one.
-- [ ] The `modelObsConsumers` ledger should stop being load-bearing: every consumer this goal removes shrinks it, and if it can be deleted outright, delete it. Its remaining count is the honest measure of what still subscribes.
-- [ ] Goldens byte-identical; build, test, commit in workbench.
+Two app-side jobs that touch the same five files, so they are one task: the
+per-row Subjects go, and the applications take ownership of the arbitration
+scope the spike deliberately left borrowed.
+
+- [ ] `feeds` (`sidebar.go`, `articles.go`) and `watchlist` (`rowdelete.go`, `bulkdelete.go`, `sidebarcontext.go`, `maincontent.go`): each per-row `rx.Subject[bool]` open flag becomes plain state read during layout, per ADR-008's destination 2. The "feeds idiom" comments describe the old mechanism by name — rewrite them to describe the new one.
+- [ ] Thread a per-window `Arbiter` (popover's, and tooltip's after G0C.2) through each application's composition root, then delete cadence's package-level default so the wrong scope stops being reachable. ADR-008 records why the spike left it: a process-global lock-free value is correct for a single-window process and a data race in a two-window one, and every workbench application is single-window *today*. Seven call sites: feeds `sidebar.go` and `app.go`, watchlist `rowdelete.go`, `bulkdelete.go` and `sidebarcontext.go`, mindchat `modelmenu.go` and `settings.go`.
+- [ ] The ledger, corrected by the spike: `modelObsConsumers` (feeds 23, mindchat 10, launcher 1) counts cold subscriptions to the application's own model observable and never counted a `coordination.Subject` consumer, so only the per-row Subjects in this task can move it. Whatever it reads afterwards is the honest count; if it can be deleted outright, delete it.
+- [ ] Goldens byte-identical; `go test -race` on every application touched; build, test, commit in workbench and in cadence if the default arbiter's removal lands there.
 
 #### G0C.5: The surviving primitive moves to tier 0, and preferences comes off the bare Subject
 
 - [ ] Move the lifetime-safe Subject (whatever G0C.1–G0C.4 left of it) from `prism/coordination` down to mvu, per the layering finding — `check-layers.sh` is the arbiter, and prism re-exports or forwards through a deprecation window so no consumer breaks mid-goal.
 - [ ] `spectrum/preferences` — the last bare `rx.Subject` in library code — moves onto it. Its shape is a genuine stream and stays observable; the defect was only ever the unprotected primitive.
-- [ ] Sweep for any bare `rx.Subject` remaining in library code; the count after this task should be zero, and the count in app code should be whatever G0C.4 justified line by line.
+- [ ] Sweep for any bare `rx.Subject` remaining in library code; the count after this task should be zero, and the count in app code should be whatever G0C.4 justified line by line. Measured at G0C.1, the non-test library sites were three — `cadence/toast/toast.go` (G0C.3), `prism/coordination/types.go` (the primitive's own private per-leg subject, the sanctioned home) and `spectrum/preferences/preferences.go` (this task) — against eight files in feeds and watchlist. Re-measure rather than trusting those numbers; four tasks will have moved them.
 - [ ] Goldens byte-identical; build, test, commit in mvu, spectrum, prism and any consumer re-pinned.
 
 #### G0C.6: The gate, the guide, and the release
 
 - [ ] The gate, in the org's own style: a check script that fails on a bare `rx.Subject` outside the sanctioned homes ADR-008 names. Wire it beside `check-layers.sh`, `check-no-workspace.sh` and `check-agents.sh`.
+- [ ] The spike found a second smell the first gate will not catch: `popover.Arbitration` was an exported observable that nothing in twenty-one repositories subscribed to, and tooltip's was the same. Decide whether that is checkable cheaply — an exported `rx.Observable` in a component package with no consumer — and either add it or record why not. An uncatchable finding is still worth naming in `llms.txt`.
 - [ ] The guide: ADR-008's consequences into `llms.txt` and the AGENTS templates through `sync-agents.sh` — never typed into generated files.
-- [ ] The release, per the Release protocol, bottom-up: mvu moves (new home for the primitive), spectrum, prism and cadence follow with whatever bumps the diffs argue — judge each against what actually moved. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass; `design/` verified unmoved.
+- [ ] The release, per the Release protocol, bottom-up: mvu moves (new home for the primitive), spectrum, prism and cadence follow with whatever bumps the diffs argue — judge each against what actually moved. Cadence's is at least a minor: `popover.Arbitration`, `popover.ArbitrationSnapshot` and tooltip's pair are removed exported symbols, which is breaking however few importers they had. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass; `design/` verified unmoved.
 - [ ] Strike whatever this goal fixes in the register, leaving the struck text in place.
-
 ### G-G1: The mirror and its harness
 
 #### G1.1: Golden comparison harness
@@ -3172,6 +3217,138 @@ numbering is the part that costs.
 - **G1.2** already assumed ramp-derived states and stands unchanged.
 - **ADR-002** is amended: its mathematics stands untouched; its "keep MD3's
   role vocabulary and its tone-assignment tables" clause is superseded here.
+
+### ADR-008: Coordination is frame state, a message, or a stream — never a bare Subject
+
+**Decision.** Cross-widget coordination is sorted into three destinations, and
+`rx.Subject` used as a bus is not one of them.
+
+1. **Durable or app-meaningful state → the model, via messages.** Anything a
+   test would want to assert about, a model dump would want to show, or a
+   command goroutine would want to raise. Components emit `mvu.MessageOp` into
+   the ops queue during layout and the application routes it through `Update`
+   — the mechanism `prism/button` has used since the beginning.
+2. **Frame-scoped UI coordination → a plain value owned by the frame
+   goroutine**, written and read during layout. No mutex, no atomics, no
+   observable: Gio runs one frame on one goroutine, so the hazard a
+   synchronised bus guards against cannot arise, and a design that cannot
+   express the hazard beats one that guards against it (F5.1's shaper lesson).
+3. **Genuine streams → observables still, but never a bare `rx.Subject`.**
+   The theme, preferences, command results. Lifetime safety is the one
+   enduring job of the wrapped primitive.
+
+**The idiom destination 2 settles**, from the G0C.1 spike on `cadence/popover`:
+
+- The shared state is a **plain struct with no synchronisation**, and it says
+  so in its doc comment, because that sentence is the invariant.
+- It is **created by the composition root and passed in through Props**. The
+  value *is* the scope: popovers that share an `Arbiter` arbitrate with one
+  another and with nobody else, so one per window is both the right scope for
+  "which popover is open" and the only scope a lock-free value is safe at.
+- **Identity is the pointer to the participant's own state**, not a
+  synthesised id. It is unique for exactly as long as anything can reference
+  it, which is what an `atomic.Int64` counter was approximating.
+- **The write is the event, and it acts on the incumbent directly.** Claiming
+  top invokes the previous holder's `OnDismiss` there and then, inside the
+  claimant's layout pass. Nobody polls "am I still top" once per frame.
+
+**What the spike measured, in the deleting direction.** `popover/arbitration.go`
+went from 42 lines of code to 20, and lost the `prism/coordination` import,
+the `github.com/reactivego/rx` import, `sync`, `sync/atomic`, five
+package-level variables, an `init`, and two exported symbols
+(`Arbitration`, `ArbitrationSnapshot`). `popover.go` lost the per-frame
+dismissal poll and the `id int64` field. A claim–read–steal–read cycle costs
+7.9 ns instead of 71.2 ns on an M1 Max, both zero-allocation. No golden moved;
+`live` gates `event.Op` registration and not drawing, so nothing this touches
+can move a pixel.
+
+**Two things the preamble claimed that the spike refutes.**
+
+*The one-frame lag was not being paid here.* `coordination`'s own doc lists it
+first among its traps, but popover never subscribed to its own `Arbitration`
+observable — and neither did anything else, in any of the twenty-one
+repositories. Arbitration already read a mutex-guarded plain `int64`
+synchronously at frame time; the Subject beside it published into an empty
+subscriber list. So the tax at this site was not latency, it was **a bus that
+delivered nothing**: an `rx.Observer`, an `rx.Observable`, a `coordination`
+hub, and — had anyone ever subscribed — a goroutine and an eight-item ring
+buffer each. Tooltip's `Arbitration` is the same code and has the same zero
+subscribers. `modal.Stack` is the one of the four that is genuinely consumed,
+which is exactly why it is the hard call.
+
+*No AutoConnect count and no ledger entry changed.* `modelObsConsumers`
+(feeds 23, mindchat 10, launcher 1) counts cold subscriptions to the
+application's own model observable. It never counted `coordination.Subject`
+consumers, so removing one cannot shrink it. The census is real and it is a
+tax, but it is destination 2's per-row `rx.Subject[bool]` open flags that feed
+it, not the four buses.
+
+**What the spike measured, in the costing direction.**
+
+- **Scope did not come for free.** Frame ownership makes the right scope
+  *expressible* — one `Arbiter` per window — and makes the wrong one
+  *visible*, because a process-global lock-free value is a data race a
+  detector can catch rather than a design smell one has to argue about. It
+  does not make it *true*: a `Props` with no `Arbiter` still joins a
+  package-level default, which is correct for a single-window process and is
+  a race in a two-window one. All seven workbench applications are
+  single-window today. Taking the right scope costs threading a value through
+  each application's composition root, which is real work and is scheduled.
+- **A new ordering rule.** The claim now happens on the first frame a popover
+  is *drawn* open, not when its `Open` observable emits on the rx goroutine.
+  A popover that is open but never laid out — scrolled out of a list, in a
+  collapsed branch — no longer takes top, and symmetrically never releases
+  it. Both are more correct than what they replace, and both are new rules a
+  reader has to know.
+- **One frame of stale input registration.** An incumbent laid out *before*
+  the claimant has already registered its absorbers for that frame and goes
+  inert on the next one, so two popovers hold absorbers for exactly one
+  frame. Harmless as measured: no pixels, and the claimant's absorber is
+  registered later and therefore sits above the incumbent's.
+
+**Where same-frame is proven, and where next-frame remains.** Because the
+claimant dismisses the incumbent from inside its own layout pass, the
+dismissal lands in the frame the claim happens, **in both tree orders** —
+`TestArbitrationDismissesPriorPopover` runs incumbent-first and claimant-first
+and asserts one dismissal each, and a third frame asserts it does not re-fire.
+What remains next-frame is the incumbent's *disappearance*: `OnDismiss` flips
+the caller's `Open`, which travels back through `CombineLatest` → `Map` → the
+widget snapshot → `Invalidate` and lands on the following frame. That is the
+MVU loop's own latency, not the bus's, and this goal does not touch it. The
+honest summary is that frame ownership bought order-independence and the
+deletion of a mechanism, not lag-zero.
+
+**The layering rule for the surviving primitive.** `coordination` lives in
+prism, tier 2, which is *why* `spectrum/preferences` — tier 1, and unable to
+import upward — still holds the organization's one remaining bare
+`rx.Subject` in library code, with the slot leak and frozen-cursor stall
+G0B.1 removed from `coordination`. F5.5's rule applies: if a lower tier needs
+it, the package lives too high. Whatever lifetime-safe Subject survives
+destinations 1 and 2 belongs in **mvu, tier 0**, the FRP substrate that
+`spectrum` already depends on. `scripts/check-layers.sh` is the arbiter, and
+prism forwards through a deprecation window so no consumer breaks mid-goal.
+
+**Consequences.**
+
+- **G0C.2** converts `cadence/tooltip` — identical code, identical finding,
+  and its `Arbitration` has the same zero subscribers — and decides
+  `modal.Stack` separately, because it is the only one of the four with real
+  consumers and therefore the only genuine destination-1 candidate.
+- **G0C.4** threads a per-window `Arbiter` through the seven application call
+  sites and deletes the package-level default. Until it does, cadence's
+  overlay arbitration is process-global by default, documented as
+  single-window-only in the package doc and in cadence's README.
+- **Removing an exported symbol is a breaking change** even when nothing
+  imports it. `popover.Arbitration` and `popover.ArbitrationSnapshot` are
+  gone; cadence takes a minor bump at G0C.6, and tooltip's removal rides the
+  same one.
+- **The gate G0C.6 writes** should ban a bare `rx.Subject` outside the homes
+  this ADR names, and nothing more — pipelines, theme and genuine streams are
+  not what it is looking for.
+- **`Props` grew a field rather than a requirement**, which is why the
+  conversion opened no ADR-006 seam: `check-no-workspace.sh` still reads
+  36/36 after it. Keep the later conversions additive for as long as that is
+  honest, and say plainly at the task that stops being true.
 
 ### The repo doc contract
 
