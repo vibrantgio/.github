@@ -2367,6 +2367,28 @@ the list.
 - [ ] Sweep for any other `HideClose` caller and move it too. When the count reaches zero, say so in the deprecation note so whoever removes the flag knows the window is empty.
 - [ ] Regenerate mindchat's goldens, eyeball them, and build, test, commit in workbench.
 
+#### G0B.3: Release the Subject fix
+
+This goal did not plan a release because the ceiling looked like a capacity
+number. It was not. G0B.1 found the frozen-cursor stall underneath it — a
+departed subscriber leaves a cursor that `send()` still pins the ring window
+to, so `bufCap` emissions after **any** subscriber leaves, the producer blocks
+forever with nothing subscribed. `toast.Notify` runs on the Gio frame
+goroutine, so that is a hung window rather than a dropped signal, and it is in
+prism v0.5.0 and every tag before it. Three more process-global Subjects —
+`modal.Stack`, `popover.Arbitration`, `tooltip.Arbitration` — carry the
+identical exposure and were nowhere near the ceiling, so nothing would have
+found them.
+
+That makes this the most consequential release in the phase, and the reason to
+cut it promptly rather than fold it into the next convenient boundary.
+
+- [ ] `scripts/check-layers.sh`, `scripts/check-no-workspace.sh` and `scripts/check-agents.sh` green before any tag moves. Expect `workbench/feeds` to be the one failure at the start — it overruns prism v0.5.0's ceiling under `GOWORK=off` — and to clear when prism is tagged.
+- [ ] Tag bottom-up per the Release protocol: **prism v0.6.0** (minor — `MaxSubscribers` and `ErrSubscriberLimit` are new exported surface and delivery semantics changed materially, though `Subject`'s signature did not), then **cadence v0.4.1** (patch — no API change, re-pins prism so consumers get the fix through the module graph rather than only under the workspace). Judge whether `prism/gallery` needs the mirror tag. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while a tag is in flux, never a proxy probe.
+- [ ] Say what the release is for where an upgrader will see it. The tag message should name the stall, not the ceiling: a caller reading "raised the subscriber limit" will not understand they are taking a hang fix.
+- [ ] Confirm resolution from a clean module cache with the workspace disabled, `go clean -modcache` first.
+- [ ] Verify `design/` did not move — no token value should have changed — and regenerate and re-push it if one did.
+
 ### G-G1: The mirror and its harness
 
 #### G1.1: Golden comparison harness
