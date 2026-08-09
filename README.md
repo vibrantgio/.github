@@ -40,7 +40,7 @@ are gitignored; this repository is their parent directory, not one of them.
 `go.work`, committed here, joins all 36 of their modules so they resolve each
 other from the checkout — the members never carry a workspace themselves.
 
-Seven scripts live in `scripts/`. Four of them do work.
+Ten scripts live in `scripts/`. Five of them do work.
 
 - [`scripts/clone-all.sh`](scripts/clone-all.sh) — clone all twenty siblings
   into `.repos/`, pulling any already present. The whole set every time: the
@@ -59,12 +59,19 @@ Seven scripts live in `scripts/`. Four of them do work.
   from the clone and so cannot drift: the module, build and golden-image
   paragraphs, and both directions of the layer paragraph's dependency claim.
   It never commits.
+- [`scripts/sync-versions.sh`](scripts/sync-versions.sh) — write the measured
+  module versions into [`llms.txt`](llms.txt), reading `git tag` in every clone
+  and touching nothing but the version tokens. It is the last step of a
+  release, and it exists because `sync-agents.sh` cannot reach the canonical
+  guide — this repository is the parent of the clones, not one of them — so the
+  guide's table was the one that drifted, by three minors, under a line reading
+  "EVERY TAG ABOVE IS RELEASED AND CURRENT".
 - [`scripts/push-design.sh`](scripts/push-design.sh) — regenerate
   [`design/`](design) from spectrum's `cmd/vg-tokens` and print the DesignSync
   sequence that uploads it. There is no `designsync` binary: the script does
   the local half and hands the push to the agent running it.
 
-Three more answer a single yes-or-no question, and each refuses to let one kind
+Five more answer a single yes-or-no question, and each refuses to let one kind
 of wrong thing be committed quietly.
 
 - [`scripts/check-layers.sh`](scripts/check-layers.sh) — refuses an import from
@@ -86,6 +93,16 @@ of wrong thing be committed quietly.
   and fails on any whose committed file differs. The way the drift happens is
   that a correction lands in the generated file instead of the template, where
   it survives only until the next render throws it away; this is what notices.
+- [`scripts/check-versions.sh`](scripts/check-versions.sh) — refuses a typed
+  version number in `llms.txt`. It runs `sync-versions.sh -n` and fails on any
+  difference, so the guide cannot claim a tag the repositories do not carry.
+- [`scripts/check-subjects.sh`](scripts/check-subjects.sh) — refuses a bare
+  `rx.Subject` outside the one package ADR-008 still allows it in, and refuses
+  an exported package-level observable anywhere. The first leaks a subscription
+  slot per process and pins its producer; the second is the shape all four of
+  the coordination buses ADR-008 deleted arrived in, every one of them with no
+  subscriber in the entire organization. Occurrences in `_test.go` files are
+  counted and reported, never judged — the header says why.
 
 Across the twenty repositories there are 36 modules — nineteen at repository
 roots, ten nested in subdirectories with tags that carry the subdirectory as a

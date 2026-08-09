@@ -2570,13 +2570,13 @@ scope the spike deliberately left borrowed.
 
 #### G0C.6: The gate, the guide, and the release
 
-- [ ] The gate, in the org's own style: a check script that fails on a bare `rx.Subject` outside the sanctioned homes ADR-008 names. Wire it beside `check-layers.sh`, `check-no-workspace.sh` and `check-agents.sh`. G0C.5 left the census it has to reproduce: the only non-test library site is `prism/coordination/types.go`, which leaves with the deprecated package, so the gate's allowlist is `mvu/stream` and — for as long as it exists — `prism/coordination`. Application code is already at zero, and the 21 remaining occurrences are all in `_test.go` harnesses standing in for a model observable; decide whether the gate looks at test files at all, and say which.
-- [ ] The spike found a second smell the first gate will not catch: `popover.Arbitration` was an exported observable that nothing in twenty-one repositories subscribed to, and tooltip's was the same. Decide whether that is checkable cheaply — an exported `rx.Observable` in a component package with no consumer — and either add it or record why not. An uncatchable finding is still worth naming in `llms.txt`.
-- [ ] The guide: ADR-008's consequences into `llms.txt` and the AGENTS templates through `sync-agents.sh` — never typed into generated files.
-- [ ] **Close G0C.5's deprecation window, or say why it stays open.** `prism/coordination` is intact behind a `Deprecated:` marker and has exactly two users left in the organization, both demo mains: `prism/gallery/main.go` (a `Subject[string]` producer/consumer section) and `cadence/modal/gallery/main.go` (a `Subject[bool]` driving `Props.Open`). `mvu/stream.Value` covers both, and covers the second better — a seeded value means the modal's `CombineLatest` fires without waiting for the first emission. Moving them puts `cadence` and `prism/gallery` on the ADR-006 seam until the tags are cut, which is this task's own business, so it is cheap here and nowhere else. If the demos move and the package goes, prism takes a breaking removal in the same release; if the window stays open, say for how long and what closes it.
-- [ ] The release, per the Release protocol, bottom-up: **mvu first and alone at the bottom — the new `stream` subpackage is purely additive, a minor, and it is what `spectrum` is currently unresolvable without** (`check-no-workspace` reads 32/36 at the end of G0C.5; spectrum's single failure is `github.com/vibrantgio/mvu/stream` existing in no tag). Then spectrum, prism and cadence with whatever bumps the diffs argue — judge each against what actually moved. prism's diff is a deprecation notice and an AGENTS/README re-render unless the removal above lands, in which case it is breaking. Cadence's is at least a minor: `popover.Arbitration`, `popover.ArbitrationSnapshot` and tooltip's pair are removed exported symbols, which is breaking however few importers they had. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass; `design/` verified unmoved.
-- [ ] **`llms.txt`'s tag table is a hand-typed copy of a measurable fact, and it has drifted three minors.** Measured against `git tag | sort -V` at the start of this task: it claims prism **v0.3.1** where the tag is **v0.6.0**, cadence v0.3.1 where it is v0.4.1, spectrum v0.4.0 where it is v0.4.1, pulse v0.1.2 where it is v0.1.4, markdown v0.1.2 where it is v0.1.3 — five of eight wrong, under a line reading "EVERY TAG ABOVE IS RELEASED AND CURRENT". An assistant following the canonical guide would `go get prism@v0.3.1` and receive none of Phase G. This is G-G0's defect exactly, surviving in the one document `sync-agents.sh` cannot reach, because `.github` is the parent of the clones and not one of them. Fix the numbers, and then fix the reason: either generate the table (a small script beside the others, `check-agents.sh`-style, reading `git tag` in each clone) or state in the file how to re-derive it and add the check that fails when it drifts. Prefer generating it — the whole goal above this line is about facts that should not be typed. The nested-module tags a few lines below have the same exposure; check them too.
-- [ ] Strike whatever this goal fixes in the register, leaving the struck text in place.
+- [x] The gate, in the org's own style: a check script that fails on a bare `rx.Subject` outside the sanctioned homes ADR-008 names. Wire it beside `check-layers.sh`, `check-no-workspace.sh` and `check-agents.sh`. G0C.5 left the census it has to reproduce: the only non-test library site is `prism/coordination/types.go`, which leaves with the deprecated package, so the gate's allowlist is `mvu/stream` and — for as long as it exists — `prism/coordination`. Application code is already at zero, and the 21 remaining occurrences are all in `_test.go` harnesses standing in for a model observable; decide whether the gate looks at test files at all, and say which.
+- [x] The spike found a second smell the first gate will not catch: `popover.Arbitration` was an exported observable that nothing in twenty-one repositories subscribed to, and tooltip's was the same. Decide whether that is checkable cheaply — an exported `rx.Observable` in a component package with no consumer — and either add it or record why not. An uncatchable finding is still worth naming in `llms.txt`.
+- [x] The guide: ADR-008's consequences into `llms.txt` and the AGENTS templates through `sync-agents.sh` — never typed into generated files.
+- [x] **Close G0C.5's deprecation window, or say why it stays open.** `prism/coordination` is intact behind a `Deprecated:` marker and has exactly two users left in the organization, both demo mains: `prism/gallery/main.go` (a `Subject[string]` producer/consumer section) and `cadence/modal/gallery/main.go` (a `Subject[bool]` driving `Props.Open`). `mvu/stream.Value` covers both, and covers the second better — a seeded value means the modal's `CombineLatest` fires without waiting for the first emission. Moving them puts `cadence` and `prism/gallery` on the ADR-006 seam until the tags are cut, which is this task's own business, so it is cheap here and nowhere else. If the demos move and the package goes, prism takes a breaking removal in the same release; if the window stays open, say for how long and what closes it.
+- [x] The release, per the Release protocol, bottom-up: **mvu first and alone at the bottom — the new `stream` subpackage is purely additive, a minor, and it is what `spectrum` is currently unresolvable without** (`check-no-workspace` reads 32/36 at the end of G0C.5; spectrum's single failure is `github.com/vibrantgio/mvu/stream` existing in no tag). Then spectrum, prism and cadence with whatever bumps the diffs argue — judge each against what actually moved. prism's diff is a deprecation notice and an AGENTS/README re-render unless the removal above lands, in which case it is breaking. Cadence's is at least a minor: `popover.Arbitration`, `popover.ArbitrationSnapshot` and tooltip's pair are removed exported symbols, which is breaking however few importers they had. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass; `design/` verified unmoved.
+- [x] **`llms.txt`'s tag table is a hand-typed copy of a measurable fact, and it has drifted three minors.** Measured against `git tag | sort -V` at the start of this task: it claims prism **v0.3.1** where the tag is **v0.6.0**, cadence v0.3.1 where it is v0.4.1, spectrum v0.4.0 where it is v0.4.1, pulse v0.1.2 where it is v0.1.4, markdown v0.1.2 where it is v0.1.3 — five of eight wrong, under a line reading "EVERY TAG ABOVE IS RELEASED AND CURRENT". An assistant following the canonical guide would `go get prism@v0.3.1` and receive none of Phase G. This is G-G0's defect exactly, surviving in the one document `sync-agents.sh` cannot reach, because `.github` is the parent of the clones and not one of them. Fix the numbers, and then fix the reason: either generate the table (a small script beside the others, `check-agents.sh`-style, reading `git tag` in each clone) or state in the file how to re-derive it and add the check that fails when it drifts. Prefer generating it — the whole goal above this line is about facts that should not be typed. The nested-module tags a few lines below have the same exposure; check them too.
+- [x] Strike whatever this goal fixes in the register, leaving the struck text in place.
 ### G-G1: The mirror and its harness
 
 #### G1.1: Golden comparison harness
@@ -3908,6 +3908,160 @@ new package's only dependency is rx), `check-agents` 20/20 after re-rendering
 mvu's and prism's AGENTS.md from `templates/repos.tsv`, `go test -race` clean
 in mvu, spectrum and prism, and all seven applications build and test.
 
+**What G0C.6 amended, writing the gate — the deadness is not checkable and
+the shape is.** The ADR had already conceded that a grep for `rx.Subject`
+would not have caught any of the four dead buses. What it had not done was
+ask what *would*, and the answer separates into two questions with different
+answers.
+
+*The literal check — an exported observable with no consumer — is not
+buildable here at any price worth paying, for three measured reasons.* The
+organization is not the world: these are public modules, so "no consumer in
+twenty-one repositories" is not "no consumer", and every newly exported
+observable begins with no in-org reader, which makes the signal loudest
+exactly when it is least informative. The population is almost entirely
+legitimate: 84 non-test declarations in the organization name
+`rx.Observable`, and all but a handful are the theme parameter every
+component takes or the widget observable a component *is* — a check whose
+allowlist had to name them all would be a typed census, which is the defect
+this goal spent six tasks removing. And it cannot be spelled without a
+parser: `Arbitration rx.Observable[ArbitrationSnapshot]` inside a `var (`
+block and `Open rx.Observable[bool]` inside a `Props` struct are the same
+line of text, and the first was a dead bus while the second is prism and
+cadence's entire component contract.
+
+*The shape all four arrived in is checkable, and the gate checks it.* Every
+one was an exported package-level `var` of observable type, assigned from an
+`init()` and owned by nobody. A `var` at column zero is not a struct field,
+so that is decidable from the text, and it is the ADR's own third argument
+read as a rule: the value is the scope, so an observable nobody can be handed
+is an observable nobody owns. Verified against the defect rather than against
+an opinion — run over `cadence` at `dab2904~1`, the tree before this goal
+started, the rule reports `popover.Arbitration`, `tooltip.Arbitration`,
+`modal.Stack` and `toast.Notifications`, four out of four, and nothing else.
+It reads **0** across all 710 Go files today. It is not the deadness check
+and the script's header says so in as many words: an observable passed
+properly through `Props` with no subscriber is just as dead, and only a
+reader will notice. That is why the finding is *also* named in `llms.txt`,
+under §Coordination and again in the org-repo pitfalls, as the one thing on
+that list no tool will do for you.
+
+**The gate's three judgement calls, and the census it reproduced.**
+`scripts/check-subjects.sh` walks every Go file under `.repos/`, or the
+directories named on the command line so a repo's CI can run
+`check-subjects.sh .` the way it runs `check-layers.sh .`.
+
+- **It does not see comments or string literals**, because a small Go lexer
+  in the awk program removes them first. Without that it is useless here: the
+  organization mentions `rx.Subject` in prose forty-odd times, in the package
+  docs that explain why it is gone, and a gate that reports its own history
+  is a gate nobody runs twice. It resolves the import name too, so an aliased
+  `reactive "github.com/reactivego/rx"` is still caught, and a dot import —
+  which would defeat the resolution — is reported as a failure of its own
+  rather than passing quietly.
+- **It judges non-test files and counts test files.** The census G0C.5 left
+  reproduces exactly: one non-test library site, `prism/coordination/types.go`,
+  and 21 occurrences in 12 `_test.go` files, every one of them a hand-rolled
+  driver for an observable input a test needs to push values into. None of
+  the three defects can reach out of one — the slot leak is bounded by the
+  test binary, the producer that could be pinned is the test goroutine, and
+  the 50 µs delivery quantum is nobody's frame budget — so converting them
+  would buy nothing and would make the gate's first act a 21-file diff nobody
+  asked for. The count is printed on every run and `--tests` lists them, but
+  it is deliberately **not** pinned to a constant: `modelObsConsumers` earns
+  its ledger because a wrong number there breaks the application, and this
+  one would only be a second copy of something the script already measures.
+- **The allowlist has one entry, not the two the task named.** ADR-008
+  sanctions `mvu/stream` and `prism/coordination`, but only the second needs
+  an entry, because `mvu/stream` contains no bare `rx.Subject` at all — that
+  is G0C.5's finding restated: the primitive did not need writing, it needed
+  choosing. Listing a home that uses nothing would be an entry that can never
+  go stale, and an entry that can never be wrong says nothing. The one entry
+  goes when `prism/coordination` does, and the script's staleness note (in
+  `check-layers.sh`'s spirit) is what will say so.
+
+**The deprecation window stays open, with a date, and the demos moved
+anyway.** `prism/coordination` now has no users in the organization at all:
+`prism/gallery`'s Coordination page is the Stream page on
+`mvu/stream.Value[string]("")`, and `cadence/modal/gallery` drives
+`Props.Open` from `stream.Value(false)` — where the seed is a small
+improvement, since the modal's `CombineLatest` fires on the first frame
+instead of waiting for an emission. Moving them was cheap here and is the
+teaching argument as much as the census one: a gallery is documentation, and
+demonstrating a deprecated package in it teaches the wrong thing. But the
+package stays, and the reason is the Release protocol's own rule rather than
+a hesitation — a deprecated package is removed at the final major bump,
+beside ADR-001's and ADR-003's alias shims, so that a consumer outside the
+organization meets every removal at one version boundary. The `Deprecated:`
+notice itself only ships in prism v0.6.1; deleting the code in the same tag
+would be a deprecation window zero releases wide, which is not a window. So
+it goes at **prism v1.0.0**, the package doc and the README both name that
+number, and nothing else closes it. The consequence for this release is that
+prism's bump is a patch and not a breaking one.
+
+**`llms.txt`'s table is generated now, and the reason it was the one that
+drifted is structural.** Measured at the start of the task: prism v0.3.1
+against a real v0.6.0, cadence v0.3.1 against v0.4.1, spectrum v0.4.0 against
+v0.4.1, pulse v0.1.2 against v0.1.4, markdown v0.1.2 against v0.1.3 — five of
+eight, under a line reading "EVERY TAG ABOVE IS RELEASED AND CURRENT". The
+nested-module list a few lines below had the same exposure and one of the ten
+was three minors stale, `prism/gallery` at v0.3.0 against v0.6.0, and so did
+the §Minimal go.mod skeleton, which is the block an assistant copies. G0.1
+fixed exactly this defect for the twenty `AGENTS.md` files and could not
+reach this one: `sync-agents.sh` writes into the clones, and `.github` is the
+*parent* of the clones, not one of them — its own header says so. The
+canonical guide was therefore the single document in the organization with a
+generator's job and no generator. `scripts/sync-versions.sh` is that
+generator (highest legal tag per module from `git tag`, two-digit components
+skipped by the rule rather than by sort order, version tokens rewritten and
+nothing else on the line) and `scripts/check-versions.sh` is the gate, in the
+same relationship `check-agents.sh` has with `sync-agents.sh`: it runs
+`sync-versions.sh -n` and judges the report, so there is one renderer and one
+place for it to be wrong. Every prose paragraph that restated a number was
+rewritten to name none, including the nested-mirror examples, which now read
+`vX.Y.Z`. One pleasant accident worth knowing: the no-double-digit rule makes
+every legal tag exactly six characters, so the description column never
+moves.
+
+**The release, and what each bump was judged against.** Bottom-up, each layer
+green under `GOWORK=off go build ./... && go test ./...` after its re-pin and
+before its tag:
+
+- **mvu v0.5.0** — minor, and alone at the bottom. `mvu/stream` is purely
+  additive and is what `spectrum` was unresolvable without.
+- **spectrum v0.5.0** — minor. No exported signature moved, but
+  `preferences`' delivery policy did: a slow subscriber now converges on the
+  newest value instead of replaying every save, there is no subscriber
+  ceiling, and `SaveTo` cannot be wedged by a stalled observer. A contract
+  change a caller can observe is a minor even when the compiler cannot see
+  it, which is F5.2's rule.
+- **prism v0.6.1** — patch. The diff is the deprecation notice, its removal
+  date, the README line and a re-pin. The removal that would have made it
+  breaking is scheduled, not taken.
+- **prism gallery/v0.6.1** — the mirror rule, applied because the submodule
+  changed and its root's matching number was already spent on an older tag:
+  root first, tagged, pushed, then the submodule re-pinned on it. The
+  three-commit shape G0A.4 and G0B.3 used is unchanged, and the third commit
+  — the `AGENTS.md` re-render for the new nested tag — deliberately lands
+  after the tag it describes.
+- **cadence v0.5.0** — minor, and the one the goal was about. Six removed
+  exported symbols plus `toast.Notifications`, `toast.Notify`'s changed
+  signature, `Props.Toasts` as a requirement wearing a field's clothes, and a
+  nil `Arbiter` that used to mean "join the process" and now means
+  "arbitrate alone".
+- **workbench** — re-pinned on all four and **not tagged**, which is the
+  Release protocol's last round working as written: a verification round, not
+  a tagging round.
+
+`check-no-workspace` **32/36 → 36/36**, measured after `go clean -modcache`
+so no warm cache could hide a broken pin. `check-layers` OK, `check-agents`
+20/20, `check-subjects` OK, `check-versions` OK. `design/` regenerates
+byte-identically from `spectrum/cmd/vg-tokens`, so no token moved. And no
+golden moved: cadence's 84 still digest to `c30372cd…` and workbench's 16 to
+`e9d9cff5…`, the two numbers G0C.5 recorded, with prism's 100, pulse's 21 and
+markdown's 9 unchanged in git — `git diff` reports zero PNG differences in
+every repository since the task began.
+
 **Consequences.**
 
 - **G0C.2** converted `cadence/tooltip`: the same bus, the same zero
@@ -3940,6 +4094,17 @@ in mvu, spectrum and prism, and all seven applications build and test.
   so nothing moved down a tier. Fourteen lines were written at tier 0 and 292
   were deprecated in place. See the amendment above for the arrival numbers,
   the defect the wrapper kept, and why destination 3 is state and not events.
+- **G0C.6** built the gate, wrote the doctrine into `llms.txt` and the AGENTS
+  templates, dated `prism/coordination`'s removal, and cut the release that
+  closed the seam — mvu v0.5.0, spectrum v0.5.0, prism v0.6.1 with
+  gallery/v0.6.1, cadence v0.5.0, and workbench re-pinned but deliberately
+  untagged. `check-no-workspace` went 32/36 → 36/36 from a clean module
+  cache. Two findings are worth carrying past this goal: the second smell's
+  *deadness* cannot be checked from inside one organization, but the *shape*
+  it arrived in four times out of four can be, and is; and the canonical
+  guide was the one document in the organization with a generator's job and
+  no generator, which is why its version table had drifted three minors while
+  every generated `AGENTS.md` stayed true. See the amendment above.
 - **Removing an exported symbol is a breaking change** even when nothing
   imports it. `popover.Arbitration`, `popover.ArbitrationSnapshot`,
   `tooltip.Arbitration`, `tooltip.ArbitrationSnapshot`, `modal.Stack` and
@@ -3954,10 +4119,25 @@ in mvu, spectrum and prism, and all seven applications build and test.
   marker rather than forwarding it: a forwarder to `mvu/stream.Value` would
   compile everywhere and change delivery policy, subscriber ceiling and
   buffering under an unchanged signature. prism's next tag carries a doc
-  change and nothing else; the removal is a later one.
+  change and nothing else; the removal is a later one. **G0C.6 dated it:**
+  prism **v1.0.0**, with ADR-001's and ADR-003's alias shims, because the
+  Release protocol lands every removal on one version boundary and the notice
+  itself only shipped in v0.6.1 — deleting the code beside its own
+  deprecation notice is a window zero releases wide. The precondition is
+  already met: the last two users, both demo mains, moved in the same task.
 - **The gate G0C.6 writes** should ban a bare `rx.Subject` outside the homes
-  this ADR names, and nothing more — pipelines, theme and genuine streams are
-  not what it is looking for.
+  this ADR names, ~~and nothing more — pipelines, theme and genuine streams
+  are not what it is looking for.~~ **G0C.6 kept the intent and widened the
+  rule by exactly one clause, and the amendment above has the measurement
+  that argued for it.** No pipeline, theme or genuine stream is touched: the
+  second rule refuses an *exported package-level* observable, and every
+  legitimate observable in the organization is a parameter, a return value, a
+  struct field or a function result. Run against `cadence` before this goal
+  it reports all four deleted buses and nothing else; run against the tree
+  today it reports zero. It is still not the deadness check — that one is
+  unbuildable here, for three reasons the amendment records — and both the
+  script's header and `llms.txt` say so rather than implying coverage the
+  gate does not have.
 - **`Props` grew a field rather than a requirement**, which is why the
   destination-2 conversions opened no ADR-006 seam: `check-no-workspace.sh`
   still read 36/36 after all three. ~~Keep the later conversions additive for
@@ -4274,6 +4454,20 @@ completing. `Save` and `Observe` now agree; the remaining honest limit,
 documented in the package comment, is that writes from other processes or
 editors are not observed — there is no file watcher, only the in-process
 notification.
+
+**Amended by G0C.5, and the correction matters more than it looks.** The
+contract above is unchanged and still holds, but the `rx.Subject` under it is
+gone: the per-path stream is `mvu/stream.Value` now. The primitive FX.5
+reached for carried two defects of its own into the fix — a subscription slot
+leaked per window for the life of the process, and a subscriber that stopped
+draining pinned `SaveTo` forever, on the Gio frame goroutine — so the entry
+was closed with a mechanism that had a worse failure mode than the one it
+replaced, and nothing noticed for two phases. The behaviour a caller sees
+changed once, in G0C.5: a subscriber that falls behind converges on the
+newest preferences rather than replaying every save it missed, which is what
+a current-value stream should do. Kept here because the shape of the mistake
+is the reusable part: a defect can be genuinely fixed by a mechanism that is
+itself a defect, and the register will read as closed either way.
 
 ~~**`cadence/sidebar` paints past the bottom of the screen.** Items are stacked at
 a fixed 48 dp pitch with no scroll region (`sidebar.go:19-21`, `itemDp = 48`),

@@ -32,7 +32,7 @@ tier table: a module imports only modules in strictly lower tiers, plus the
 support row — enforced in CI by the org's check-layers script. Current tags:
 
   tier 0 — leaves
-  mvu       v0.4.4   MVU runtime: NewWindow, Loop/Run, Message/Command,
+  mvu       v0.5.0   MVU runtime: NewWindow, Loop/Run, Message/Command,
                      MessageOp; subpackage stream (Value, the one sanctioned
                      observable for state several consumers watch — ADR-008)
   font      v0.1.0   Roboto, six weights, regular and italic — plus Roboto
@@ -52,7 +52,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      (§Typography) — never add it to a new app
 
   tier 1 — the foundation
-  spectrum  v0.4.0   the theme runtime and every design token: tokens
+  spectrum  v0.5.0   the theme runtime and every design token: tokens
                      (colour ramps and pins, Typography, Density, Motion,
                      Elevation, spacing/radius), color (the CIELAB/OKLCh
                      engine and APCA), theme (Theme, the token observables),
@@ -61,21 +61,21 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      serialiser + cmd/vg-tokens), window, preferences
 
   tier 2
-  prism     v0.3.1   components: button, input, list, richtext, scrollbar,
+  prism     v0.6.1   components: button, input, list, richtext, scrollbar,
                      icon, layout, keyed, initial, cache, bench (coordination
                      is DEPRECATED — use mvu/stream.Value)
 
   tier 3
-  pulse     v0.1.2   effects: blur (Gaussian kernel, cached blur, backdrop
+  pulse     v0.1.4   effects: blur (Gaussian kernel, cached blur, backdrop
                      pipeline), depth, glow, motion, spring, springbutton,
                      transition, tween, conductor
 
   tier 4
-  cadence   v0.3.1   patterns: shell, navbar, sidebar, table, pagination,
+  cadence   v0.5.0   patterns: shell, navbar, sidebar, table, pagination,
                      tabs, modal, alert, popover, tooltip, toast, card,
                      accordion, breadcrumb, hero, feature, pricing,
                      testimonial
-  markdown  v0.1.2   GFM document rendering on prism widgets (subpackages:
+  markdown  v0.1.3   GFM document rendering on prism widgets (subpackages:
                      highlight — chroma syntax colours; svgimage — SVG
                      images via vibrantgio/svg)
 
@@ -88,12 +88,22 @@ support row — enforced in CI by the org's check-layers script. Current tags:
   kiwi      v0.0.6   Cassowary constraint solver
   csg       v0.0.1   constructive solid geometry on meshes (BSP trees)
 
-EVERY TAG ABOVE IS RELEASED AND CURRENT. The numbers are what the release
-cut, not what was planned: spectrum went v0.1.0 → v0.2.0 → v0.3.0 → v0.4.0,
-prism to v0.3.1, pulse to v0.1.2, cadence to v0.3.1, markdown to v0.1.2, mvu
-to v0.4.4, font to v0.1.0 and svg to v0.0.9. The v0.0.10+ tags some of these
-repos carry are buried and never reused — they violated the org's
-no-double-digit rule (§Versioning). style stays frozen at v0.0.6.
+EVERY TAG ABOVE IS RELEASED AND CURRENT, and every number in this file is
+GENERATED rather than typed: `scripts/sync-versions.sh` in the `.github` repo
+reads `git tag` in each clone and writes the highest legal tag into the tables
+above, the nested-module list below and the `go.mod` skeleton in §Minimal
+go.mod. `scripts/check-versions.sh` fails when they drift. So no paragraph
+here restates a version — a second copy of a measurable fact is the copy that
+goes stale, and this one did: before G0C.6 the table claimed prism v0.3.1
+where the tag was v0.6.0, and was wrong for five of the eight modules that
+matter, under this very sentence. If you are about to type a version number
+into this file, that is the defect and not the fix.
+
+Two things the generator will not tell you. Some of these repos carry v0.0.10
+and higher tags: they are buried and never reused, having violated the org's
+no-double-digit rule (§Versioning), and the generator skips them by that rule
+rather than by luck. And `style` is FROZEN (ADR-003) — its number is current
+because nothing will move it again, not because it is maintained.
 
 ALREADY DELETED — these do not exist in the tags above. If you find them in
 older code or an older answer, they are gone, not deprecated:
@@ -115,7 +125,14 @@ older code or an older answer, they are gone, not deprecated:
     whole `tokens.Typography` where a component spends several roles — plus
     a `tokens.Density` wherever a control is sized. Drive components through
     their theme-driven entry points (button.Button, table.Table, …) and the
-    theme supplies all of it for you.
+    theme supplies all of it for you;
+  - every cross-widget coordination bus cadence used to export:
+    popover.Arbitration, popover.ArbitrationSnapshot, tooltip.Arbitration,
+    tooltip.ArbitrationSnapshot, modal.Stack, modal.StackSnapshot and
+    toast.Notifications. ADR-008 replaced them (§Coordination); three of the
+    seven had no subscriber anywhere in the organization. toast.Notify still
+    exists but takes a layout.Context first — the compile error names the
+    fix.
 
 ## Nested modules
 
@@ -124,8 +141,8 @@ up in a repository listing and you will not guess them, but they are where the
 Gio rendering for several libraries actually lives. Their import path is the
 repo path plus the subdirectory, and — this is the part that trips up
 `go get` — their TAG carries the subdirectory as a prefix, so the tag for
-`github.com/vibrantgio/ivg/raster/gio v0.1.6` is `raster/gio/v0.1.6` in the
-ivg repo, not `v0.1.6`.
+`github.com/vibrantgio/ivg/raster/gio vX.Y.Z` is `raster/gio/vX.Y.Z` in the
+ivg repo, not `vX.Y.Z`. The numbers below are generated, as above.
 
   github.com/vibrantgio/ivg/raster/gio        v0.1.6   Gio rasterizer +
                                                        Widget() for IconVG
@@ -140,16 +157,17 @@ ivg repo, not `v0.1.6`.
                                                        for traer physics
   github.com/vibrantgio/kiwi/gio              v0.0.6   Gio layout on the
                                                        kiwi solver
-  github.com/vibrantgio/prism/gallery         v0.3.0   the prism component
+  github.com/vibrantgio/prism/gallery         v0.6.1   the prism component
                                                        gallery app
   github.com/vibrantgio/mvu/example           v0.4.4   numbered mvu examples,
                                                        00-reference upward
 
-A nested module's version mirrors its root's: `driver/raster/v0.0.9` requires
-`svg v0.0.9`. A root can be ahead of a nested module that did not change —
-`svg v0.0.9` with `driver/pdf v0.0.7` is correct, not drift. When a root and
-its nested module are both used, require them at matching versions: `seen`
-and `seen/context/gio` are the case you will hit first.
+A nested module's version mirrors its root's: `driver/raster/vX.Y.Z` requires
+`svg` at exactly `vX.Y.Z`. A root can be ahead of a nested module that did not
+change, so wherever the list above shows one behind its root that is correct
+and not drift. When a root and its nested module are both used, require them
+at matching versions: `seen` and `seen/context/gio` are the case you will hit
+first.
 
 External pins: gioui.org v0.10.1, github.com/reactivego/rx v0.3.0, go 1.25.1
 — every module in the org is on exactly these.
@@ -238,8 +256,10 @@ mvu.Loop.
          })
      })
 
-   Never put interaction state in rx.Subject. Never pass Defer-scoped state
-   to a goroutine. For per-row state in dynamic lists use prism/keyed:
+   Never put interaction state in rx.Subject — never put anything there;
+   §Coordination is where the three replacements are. Never pass
+   Defer-scoped state to a goroutine. For per-row state in dynamic lists
+   use prism/keyed:
    keyed.Defer(factory) returns a *keyed.Deferred[K,V] whose For(key) hands
    back the same value for the same key, so state survives reorder, insert
    and delete. Allocate the Deferred inside the rx.Defer closure, next to
@@ -254,8 +274,10 @@ mvu.Loop.
 
    The runtime extracts these from the ops buffer and delivers them to
    Update. Cadence/prism component callbacks receive gtx for exactly this
-   purpose. This is the bridge between components and MVU; FRP-style apps
-   may instead pass plain OnClick callbacks and wrap them in subjects.
+   purpose. This is the bridge between components and MVU, and it is the
+   answer for anything a test, a model dump or a command goroutine would
+   want to see — never a side channel out of the layout pass
+   (§Coordination).
    Modal forms: prism input.TextFieldProps.Seed pre-fills an uncontrolled
    field so an existing value can be EDITED (rebuild the field keyed on an
    epoch to reseed); TextFieldProps.FocusTag exposes the editor's focus
@@ -288,6 +310,75 @@ mvu.Loop.
    Motion observable emits zero durations and animated components snap to
    their targets — take durations and springs from the theme's MotionScale
    and the preference costs you nothing (§Motion).
+
+## Coordination between widgets (ADR-008)
+
+Two widgets that must agree — which popover is open, which modal is in
+front, what the filter says, that a toast should appear — have exactly three
+places to do it, and `rx.Subject` is not one of them. Pick by asking who
+needs to know, not by how important it feels:
+
+1. ANYTHING OUTSIDE THE FRAME NEEDS TO KNOW → A MESSAGE, in the model.
+   A test would assert on it, a model dump would show it, a command
+   goroutine would raise it. Emit `mvu.MessageOp` during layout (rule 3
+   above) and reduce it in Update. Toast requests, filter text, sort, page,
+   anything persisted.
+2. ONLY THIS FRAME NEEDS TO KNOW → A PLAIN VALUE THE FRAME OWNS, written
+   and read during layout. No mutex, no atomics, no observable: Gio runs one
+   frame on one goroutine, so the hazard a synchronised bus guards against
+   cannot arise. Popover, tooltip and modal arbitration; per-row open flags.
+3. SEVERAL CONSUMERS WATCH ONE CURRENT VALUE → AN OBSERVABLE, and exactly
+   one primitive: `mvu/stream.Value[T](seed)`, which returns the observer
+   and the observable. The theme, the OS preferences, the user's saved
+   settings. It CONFLATES — a slow consumer converges on the newest value
+   and never blocks the producer — so if every emission is load-bearing you
+   are at destination 1, not here.
+
+WHAT THIS LOOKS LIKE IN cadence. Arbitration is a plain value you create and
+pass in, and the value IS the scope:
+
+    popArb := popover.NewArbiter()      // one per WINDOW, in the build fn
+    tipArb := tooltip.NewArbiter()
+    mdlArb := modal.NewArbiter()
+    popover.Popover(th, popover.Props{Arbiter: popArb, ...})
+
+  - A nil Arbiter is legal and means ARBITRATE ALONE — the widget gets one
+    of its own. Two popovers that both forget one stay open together. There
+    is no package-level default any more; sharing is an act.
+  - popover.Props.OpenNow (`func() bool`) is read during layout, so a flag
+    the frame owns opens the popover on the frame it flips. Props.Open (an
+    observable) is still right when the flag lives in the model — a non-nil
+    OpenNow wins.
+  - Toasts are model state: `toast.Requested{Level,Text}` /
+    `toast.Expired{ID}` are messages, `toast.Queue` is the field you reduce
+    onto, `toast.Expire(id, lifetime)` is the command that arms expiry, and
+    `toast.Stack` takes them through `Props.Toasts`. Raise one with
+    `toast.Notify(gtx, level, text)` inside a callback, or `toast.Request`
+    where there is no frame. A Stack handed no Toasts renders an empty
+    column forever and nothing fails at build time.
+
+TWO SMELLS, ONE OF WHICH NO TOOL WILL FIND FOR YOU.
+
+  - A bare `rx.Subject` in library or application code. It leaks a
+    subscription slot for the life of the process (the 33rd subscriber dies
+    with "out of subject subscriptions") and a departed subscriber's frozen
+    cursor pins the producer — on the frame goroutine, that is a hung app.
+    `scripts/check-subjects.sh` in vibrantgio/.github fails on one.
+    prism/coordination, the 292-line wrapper that used to be the answer, is
+    DEPRECATED: it fixed the departed subscriber and not the live one, and
+    delivered 40× slower than rx's own Behavior, which is what
+    mvu/stream.Value wraps.
+  - AN EXPORTED OBSERVABLE THAT NOTHING SUBSCRIBES TO, which is the one that
+    actually happened. Four of these lived in cadence for eight phases —
+    popover.Arbitration, tooltip.Arbitration, modal.Stack and their
+    snapshots — every one published to on a real schedule, through the
+    approved wrapper, into an empty subscriber list; modal's rebuilt and
+    dropped a slice on every open. No grep can see this: mechanism looks
+    identical whether or not anyone is listening. So THE FIRST QUESTION
+    ABOUT AN EXPORTED OBSERVABLE IS NOT WHAT PUBLISHES TO IT BUT WHO READS
+    IT, and you have to go and look. What check-subjects.sh can do is refuse
+    the shape all four arrived in — an exported package-level observable,
+    owned by no one — and it does.
 
 ## Layers and composition
 
@@ -623,7 +714,7 @@ THE RULES
   - Never construct a shaper. text.NewShaper in application code is the
     pre-ADR-003 practice; Typography.Shaper() is the only shaper an app
     needs. The style module (style.FontFaces() and the H1-H6 scale) is
-    the old way — frozen at v0.0.6; do not add it to a new app.
+    the old way — frozen (§Modules has its tag); do not add it to a new app.
   - Never gofont — and the build enforces it. The no-gofont lint
     (internal/lint in prism, pulse, cadence and markdown) fails `go test`,
     and therefore CI, on any gioui.org/font/gofont import in those four
@@ -838,6 +929,24 @@ coded clip paths on purpose (golden determinism); leave those alone.
   worth carrying to any repo: an edit to a generated file looks like the
   most direct fix available, passes review, and is thrown away by the next
   render.
+- AND SO ARE THE VERSION NUMBERS IN THIS FILE. sync-agents.sh cannot reach
+  llms.txt — .github is the PARENT of the clones, not one of them — so for
+  eight phases the canonical guide was the one document with a generator's
+  job and no generator, and it drifted three minors. scripts/
+  sync-versions.sh now reads `git tag` in every clone and writes the version
+  tokens in §Modules, §Nested modules and §Minimal go.mod; check-versions.sh
+  fails when they disagree. Run sync-versions.sh in the same task that cuts
+  a tag, beside check-agents.sh — the generated AGENTS.md files embed tag
+  versions too, so a release moves both.
+- AN EXPORTED OBSERVABLE WITH NO SUBSCRIBER IS INVISIBLE TO EVERY TOOL, and
+  four of them lived in cadence for eight phases (§Coordination). Publishing
+  looks identical whether or not anyone is listening, so a grep for the
+  mechanism finds a healthy-looking bus. When you meet an exported
+  observable, find its readers before you believe in it —
+  `find . -name '*.go' -print0 | xargs -0 grep -n '<pkg>\.<Symbol>'`, over
+  all twenty clones, and read the hits rather than counting them. The org's
+  check-subjects.sh refuses the shape those four shared (an exported
+  package-level observable) and says plainly that it cannot check the rest.
 
 - A GITIGNORE-AWARE SEARCH FINDS NOTHING HERE, AND SAYS SO AS "no matches".
   The twenty clones live under .repos/ in vibrantgio/.github, and .repos/ is
@@ -863,10 +972,10 @@ coded clip paths on purpose (golden determinism); leave those alone.
   require (
       gioui.org v0.10.1
       github.com/reactivego/rx v0.3.0
-      github.com/vibrantgio/cadence v0.3.1
-      github.com/vibrantgio/mvu v0.4.4
-      github.com/vibrantgio/prism v0.3.1
-      github.com/vibrantgio/spectrum v0.4.0
+      github.com/vibrantgio/cadence v0.5.0
+      github.com/vibrantgio/mvu v0.5.0
+      github.com/vibrantgio/prism v0.6.1
+      github.com/vibrantgio/spectrum v0.5.0
       github.com/vibrantgio/textdraw v0.0.4
   )
 

@@ -40,9 +40,10 @@ but does not default the filename, so name `PLAN.md` explicitly).
       README.md           this repository's own page
       profile/README.md   what renders at github.com/vibrantgio
       scripts/            clone-all.sh, inventory.sh, sync-agents.sh,
-                          push-design.sh, and the three gates —
-                          check-layers.sh, check-no-workspace.sh,
-                          check-agents.sh
+                          sync-versions.sh, push-design.sh, and the five
+                          gates — check-layers.sh, check-no-workspace.sh,
+                          check-agents.sh, check-versions.sh,
+                          check-subjects.sh
       templates/          AGENTS.md, its per-repo rows in repos.tsv,
                           and notes/<repo>.md
       go.work             the 36-module development workspace (committed)
@@ -120,9 +121,9 @@ mistake is now loud instead of silent. Run it before believing anything a
 generated file says — and if you add another generated artifact here, add its
 gate in the same task, or you have added the next instance of this problem.
 
-## `scripts/` — four that do work, three that refuse
+## `scripts/` — five that do work, five that refuse
 
-Four produce something:
+Five produce something:
 
 - **`clone-all.sh`** clones all twenty siblings into `.repos/`, pulling any
   already present. The whole set every time: this plan edits the module graph,
@@ -132,12 +133,18 @@ Four produce something:
   the plan asserts is checked against this rather than remembered.
 - **`sync-agents.sh`** renders `templates/AGENTS.md` into named clones and
   reports a diff; `-n` writes nothing. It never stages or commits.
+- **`sync-versions.sh`** writes the measured module versions into `llms.txt`,
+  reading `git tag` in every clone and rewriting nothing but the version
+  tokens; `-n` writes nothing. It exists because `sync-agents.sh` cannot reach
+  `llms.txt` — this repository is the parent of the clones, not one of them —
+  which is exactly why the guide's version table was the one that drifted.
+  Run it after cutting a tag, in the same task.
 - **`push-design.sh`** regenerates `design/` from spectrum's `cmd/vg-tokens` and
   then prints the exact DesignSync sequence to run. There is no `designsync`
   binary — the upload half is a Claude-session step, so this script does the
   local half and hands over.
 
-Three answer one yes-or-no question each, and each exists to make a specific
+Five answer one yes-or-no question each, and each exists to make a specific
 class of wrong thing impossible to commit quietly:
 
 - **`check-layers.sh` refuses to let a module import a repository at or above
@@ -166,8 +173,24 @@ class of wrong thing impossible to commit quietly:
   differs, so the silent no-op above becomes a red check. It also names any
   clone with no row in `templates/repos.tsv`, because an unlisted repository is
   never rendered and therefore never judged.
+- **`check-versions.sh` refuses a typed version number in `llms.txt`.** It runs
+  `sync-versions.sh -n` and fails on any difference. Before G0C.6 the canonical
+  guide claimed prism v0.3.1 where the tag was v0.6.0 and was wrong for five of
+  eight modules, under a line reading "EVERY TAG ABOVE IS RELEASED AND
+  CURRENT"; nothing caught it because a number in prose has nothing to disagree
+  with.
+- **`check-subjects.sh` refuses a bare `rx.Subject` outside its one remaining
+  home, and an exported package-level observable anywhere.** ADR-008's gate.
+  The allowlist holds `prism/coordination` and will hold nothing once that
+  package is removed; `mvu/stream` is deliberately not on it, because the
+  sanctioned primitive contains no `rx.Subject` at all. The second rule catches
+  the shape — verified against cadence before this goal, where it reports all
+  four of the deleted buses and nothing else — but not the deadness: an
+  exported observable with no subscriber is invisible to any tool, and the
+  header says so rather than implying otherwise. `_test.go` occurrences are
+  counted, printed and never judged.
 
-Nothing runs these three for you: this repository has no CI of its own, and the
+Nothing runs these five for you: this repository has no CI of its own, and the
 per-repo CI can only see its own repo. Run them here before you believe the
 tree.
 
