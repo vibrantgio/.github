@@ -2544,10 +2544,10 @@ Two app-side jobs that touch the same five files, so they are one task: the
 per-row Subjects go, and the applications take ownership of the arbitration
 scope the spike deliberately left borrowed.
 
-- [ ] `feeds` (`sidebar.go`, `articles.go`) and `watchlist` (`rowdelete.go`, `bulkdelete.go`, `sidebarcontext.go`, `maincontent.go`): each per-row `rx.Subject[bool]` open flag becomes plain state read during layout, per ADR-008's destination 2. The "feeds idiom" comments describe the old mechanism by name — rewrite them to describe the new one.
-- [ ] Thread a per-window `Arbiter` (popover's, and tooltip's after G0C.2) through each application's composition root, then delete cadence's package-level default so the wrong scope stops being reachable. ADR-008 records why the spike left it: a process-global lock-free value is correct for a single-window process and a data race in a two-window one, and every workbench application is single-window *today*. Seven call sites: feeds `sidebar.go` and `app.go`, watchlist `rowdelete.go`, `bulkdelete.go` and `sidebarcontext.go`, mindchat `modelmenu.go` and `settings.go`.
-- [ ] The ledger, corrected by the spike: `modelObsConsumers` (feeds 23, mindchat 10, launcher 1) counts cold subscriptions to the application's own model observable and never counted a `coordination.Subject` consumer, so only the per-row Subjects in this task can move it. Whatever it reads afterwards is the honest count; if it can be deleted outright, delete it.
-- [ ] Goldens byte-identical; `go test -race` on every application touched; build, test, commit in workbench and in cadence if the default arbiter's removal lands there.
+- [x] `feeds` (`sidebar.go`, `articles.go`) and `watchlist` (`rowdelete.go`, `bulkdelete.go`, `sidebarcontext.go`, `maincontent.go`): each per-row `rx.Subject[bool]` open flag becomes plain state read during layout, per ADR-008's destination 2. The "feeds idiom" comments describe the old mechanism by name — rewrite them to describe the new one.
+- [x] Thread a per-window `Arbiter` (popover's, and tooltip's after G0C.2) through each application's composition root, then delete cadence's package-level default so the wrong scope stops being reachable. ADR-008 records why the spike left it: a process-global lock-free value is correct for a single-window process and a data race in a two-window one, and every workbench application is single-window *today*. Seven call sites: feeds `sidebar.go` and `app.go`, watchlist `rowdelete.go`, `bulkdelete.go` and `sidebarcontext.go`, mindchat `modelmenu.go` and `settings.go`.
+- [x] The ledger, corrected by the spike: `modelObsConsumers` (feeds 23, mindchat 10, launcher 1) counts cold subscriptions to the application's own model observable and never counted a `coordination.Subject` consumer, so only the per-row Subjects in this task can move it. Whatever it reads afterwards is the honest count; if it can be deleted outright, delete it.
+- [x] Goldens byte-identical; `go test -race` on every application touched; build, test, commit in workbench and in cadence if the default arbiter's removal lands there.
 
 #### G0C.5: The surviving primitive moves to tier 0, and preferences comes off the bare Subject
 
@@ -3301,9 +3301,12 @@ see the G0C.2b amendment below.**
 *No AutoConnect count and no ledger entry changed.* `modelObsConsumers`
 (feeds 23, mindchat 10, launcher 1) counts cold subscriptions to the
 application's own model observable. It never counted `coordination.Subject`
-consumers, so removing one cannot shrink it. The census is real and it is a
+consumers, so removing one cannot shrink it. ~~The census is real and it is a
 tax, but it is destination 2's per-row `rx.Subject[bool]` open flags that feed
-it, not the four buses.
+it, not the four buses.~~ **Struck by G0C.4, which removed all four of those
+flags and moved neither application's count: they subscribed the theme, not
+the model. The census is what reads the model, and this goal grows it — see
+the G0C.4 amendment below.**
 
 **What the spike measured, in the costing direction.**
 
@@ -3636,6 +3639,136 @@ symbols (`toast.Queue`, `toast.Requested`, `toast.Expire`, `toast.Expired`)
 and nothing else. That is the ADR-006 seam opening exactly where G0C.3
 predicted it, and G0C.6 owns the release.
 
+**What G0C.4 amended, from the seven applications — the first task on the
+other side of the seam.** The four cadence buses were library code with no
+users. This one is the users, and three things the ADR had recorded turned out
+to be wrong about them.
+
+**Destination 2 was not reachable from the application side, and that is a
+finding about the component, not about the apps.** Five bare `rx.Subject`s
+were left in workbench (re-measured with `find … -print0 | xargs -0 grep`, the
+only census this tree answers honestly): four `[bool]` popover open flags —
+feeds' per-row delete confirm, watchlist's per-row confirm, its per-name
+context menu and its bulk-delete confirm — and one `[string]`. Every one of
+the four had the same shape: a `Subject`, an `atomic.Bool` mirror beside it
+because the Subject's value arrives too late to read, and an `atomic.Value`
+holding the last widget the popover emitted. And not one of them could become
+"a plain value read during layout", because `popover.Props.Open` is an
+`rx.Observable[bool]`: the flag could only change by *re-emitting the widget*,
+and the emission crosses to the rx goroutine and back. There is no
+app-side conversion. Destination 2 needs the component to read the flag at
+frame time, so:
+
+- **`popover.Props.OpenNow func() bool`** is the idiom's fourth shape, and it
+  is the `Arbiter`'s own shape applied to open-ness: the caller owns a plain
+  value, the component reads it during layout, and the value *is* the scope.
+  `Open` stays for the destination-1 case, which is real and common — feeds'
+  Share popover and mindchat's two menus all hold their open flag in the
+  model, where a reducer and a test can reach it. A non-nil `OpenNow` wins,
+  and the stream then carries only the theme.
+- The read happens inside the returned widget, not in the `rx.Map` that builds
+  it, which is the whole point: no emission stands between the flip and the
+  frame that shows it. Everything downstream is untouched — the claim and the
+  release are edges over whatever `OpenNow` returns, which is why G0C.2's
+  latch rule needed no restating.
+- **Rule, generalized: a destination-2 conversion is a component change
+  whenever the state crosses a component boundary.** Frame ownership is only
+  expressible if the reader reads at frame time; a prop that is an observable
+  is a bus with one subscriber, and no amount of app-side work removes it.
+
+Measured, on an M1 Max: one open/close flip through the old path — publish,
+deliver, and the store the frame reads — costs **~200 µs and 1 allocation**
+when the receiver has parked, which is the only case a user ever produces (a
+trash icon is clicked after seconds of stillness); ~310 ns when it is hot,
+which never happens. The plain bool is **0.44 ns and no allocation**. The
+190,000× is not compute, it is `reactivego/rx`'s 50 µs spinlock quantum
+compounded across the hop, the same mechanism G0C.3 measured at 51.3 µs for
+one toast arrival. Gone with it: four `rx.Subject[bool]`s, four
+`rx.Observer[bool]` handles, five `atomic.Bool`s (the four open mirrors and
+watchlist's inline confirm-expansion flag), and one cross-goroutine write —
+bulk-delete's auto-close, which fired from the model-mirror subscription on
+the rx goroutine and was the single write in the three applications that a
+plain bool would have turned into a data race. It moved to the layout pass
+that has just decided the action is off screen, which is where it belonged.
+
+**The fifth Subject was a different animal, and it went to destination 1.**
+`feeds/articles.go`'s `rx.Subject[string]` is the articles-table filter text,
+and the comment above it said it "never needed to be model-derived". That is
+the wrong test. ADR-008's test is whether anything outside the frame needs to
+know, and two things did: the filter is half of what the table shows, so no
+test driving feeds through messages could set or assert the visible article
+set, and every keystroke already landed a *second* message (`SetPage{1}`) to
+force the page reset the filter change implies. It is also structurally
+unlike the other four — it feeds a derivation pipeline (`filtered` → `paged`,
+`pageCountObs`) rather than gating a widget, so a frame-time read has nowhere
+to go. `SetFilter{Text}` is now one message that does both halves, and the
+filter is model state like the sort and the page.
+
+**The ledger: one correction, one move, and no deletion.** ADR-008 recorded
+that destination 2's per-row `rx.Subject[bool]` flags "feed" `modelObsConsumers`
+and were what made the census real. **They did not.** Removing all four left
+feeds and watchlist exactly where they were, because none of them ever
+subscribed `modelObs` — they subscribed the *theme*, through the popover they
+fed. The census counts what reads the model, and ephemeral interaction state
+was never in it; the original claim was the same guess about the same four
+flags that the popover spike had already disproved for the buses. What did
+move it was the filter, which is destination 1: **feeds 24 → 26**, two rather
+than one because `filtered` is subscribed by both `paged` and `pageCountObs`.
+**watchlist stayed at 23.** So the ledger cannot be deleted, and G0C.4 is
+where that becomes clear: what it counts is precisely the destination-1 and
+destination-3 population, which this goal *grows*. It is not a tax this goal
+was removing — it is the honest size of the model's readership, and every
+number in it now belongs there.
+
+**The package-level default is gone, and the argument is worth keeping
+because it cannot be won on loudness.** G0C.3's rule was that a conversion
+should break loudly rather than deprecate quietly. It does not apply here:
+`Props.Arbiter` is an optional struct field, so *no* removal of the default
+can fail at compile time. The choice was therefore between two silent
+behaviours and a runtime panic, and a panic on a nil optional field in a
+toolkit whose package doc invites you to copy the source is not a real
+option. So: **a nil `Arbiter` now gets the widget one of its own.** Two
+popovers that both forget one stay open together; two modals that forget one
+both take input. Against that, the package-level default was itself silently
+wrong — it coupled every popover in the *process*, which is the right answer
+in a one-window app and a data race in a two-window one. Between a cosmetic
+fault anyone can see on screen and undefined behaviour nobody can see at all,
+the ADR's own F5.1 lesson decides it: there is now no package state for a
+second window to reach, so the hazard is not guarded against, it is
+unspellable. Sharing is an act, `NewArbiter` is the only way to perform it,
+and `TestNilArbiterArbitratesAlone` pins it in all three packages.
+
+**Where a window actually is, in an application that has never had two.** The
+scope had to land somewhere nameable. `spectrum/window.Render` calls the build
+function once per window, and each of the three applications composes every
+popover, tooltip and modal it owns inside exactly one layer built there —
+`feedsShellLayer`, `watchlistShellLayer`, `ContentLayer`. So the arbiters are
+created in those function bodies and threaded down through every builder that
+composes an arbitrable widget (fifteen call sites, not the seven the task
+predicted: modal's four and tooltip's two were not on the list). The
+alternative — creating them in `buildLayers` and passing them into the layer —
+is more literally the composition root and was rejected only because the layer
+function is also what ten tests subscribe directly; each of those now gets its
+own arbiters, which is the property cadence's own tests buy with
+`NewArbiter()`. The invariant is stated where the values are made: a second
+*arbitrable layer* would have to take them as parameters, because it would be
+composed beside this one rather than within it.
+
+**And taking the right scope opened the seam, exactly as the additive
+conversions predicted it would not.** `Props` grew a field rather than a
+requirement three times, and `check-no-workspace` read 36/36 after all three —
+*because no application passed one*. G0C.4 is where they do, and the field
+that was optional is now referenced: `popover.Arbiter`, `tooltip.Arbiter`,
+`modal.Arbiter` and `NewArbiter` exist in no cadence tag (v0.4.1 was cut at
+G0B.3), so **`check-no-workspace` went 34/36 → 33/36** and `workbench/mindchat`
+joined `feeds` and `watchlist` on the seam. Nothing else joined; the other four
+applications compose none of these components. G0C.6's release closes all
+three at once. All 84 cadence goldens and all 16 workbench goldens
+byte-identical — `Render` never consulted an arbiter and still does not, and
+`OpenNow` changes when a flag is read, not what is drawn from it.
+`check-layers` OK, `check-agents` 20/20, `go test -race` clean in cadence,
+feeds, watchlist and mindchat, and all seven applications build and test.
+
 **The layering rule for the surviving primitive.** `coordination` lives in
 prism, tier 2, which is *why* `spectrum/preferences` — tier 1, and unable to
 import upward — still holds the organization's one remaining bare
@@ -3662,17 +3795,25 @@ prism forwards through a deprecation window so no consumer breaks mid-goal.
   value the timer and the fade both read; and destination 1 puts entries
   *on* the AutoConnect ledger, which is the direction that census is meant
   to move.
-- **G0C.4** threads a per-window `Arbiter` through the seven application call
-  sites and deletes the package-level default. Modal's is a fourth kind of
-  call site and its own: no application passes an `Arbiter` today, so the
-  work is the same shape — hand each window's value to every modal composed
-  into that window's tree.
+- **G0C.4** took the arbitration scope into the three applications that have
+  one (fifteen call sites, not seven) and deleted the package-level default —
+  a nil `Arbiter` now gets a widget one of its own, because an optional Props
+  field cannot be removed loudly and an unspellable hazard beats a guarded
+  one. It also found that destination 2 is not reachable from an application
+  when the state crosses a component boundary: `popover.Props.OpenNow` is the
+  addition that made the four per-row open flags plain bools, and the fifth
+  Subject — feeds' filter text — turned out to be destination 1. See the
+  amendment above for the ledger correction and the seam it opened.
 - **Removing an exported symbol is a breaking change** even when nothing
   imports it. `popover.Arbitration`, `popover.ArbitrationSnapshot`,
   `tooltip.Arbitration`, `tooltip.ArbitrationSnapshot`, `modal.Stack` and
   `modal.StackSnapshot` are all gone; so is `toast.Notifications`, and
-  `toast.Notify` changed signature. cadence takes one minor bump at G0C.6
-  that carries all eight.
+  `toast.Notify` changed signature. G0C.4 adds one that is not a symbol at
+  all: a nil `Props.Arbiter` used to mean "join the process", and now means
+  "arbitrate alone" — a behaviour change with nothing for a compiler to catch,
+  which is why it is spelled out in three package docs and the README.
+  `popover.Props.OpenNow` is purely additive. cadence takes one minor bump at
+  G0C.6 that carries all of it.
 - **The gate G0C.6 writes** should ban a bare `rx.Subject` outside the homes
   this ADR names, and nothing more — pipelines, theme and genuine streams are
   not what it is looking for.
@@ -3683,6 +3824,12 @@ prism forwards through a deprecation window so no consumer breaks mid-goal.
   true.~~ **G0C.3 is where it stopped being true**: `toast.Props.Toasts` is a
   requirement wearing a field's clothes, `toast.Notify` broke outright, and
   the seam opened at 34/36 for `workbench/feeds` and `workbench/watchlist`.
+  **And G0C.4 shows the first half was never the reason**: an optional field
+  opens no seam only while nobody sets it. The three applications that took
+  their own arbiters now name `popover.Arbiter`, `tooltip.Arbiter`,
+  `modal.Arbiter` and `NewArbiter`, none of which exists in a cadence tag, so
+  `workbench/mindchat` joined the seam at 33/36. Additivity buys the *library*
+  a quiet release; it buys the consumers nothing until the tag is cut.
 
 ### The repo doc contract
 
