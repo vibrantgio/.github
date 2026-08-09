@@ -2485,11 +2485,11 @@ below, not assumed — the same zero subscribers. This is a transcription, so if
 it turns into a decision, stop and say which part of ADR-008 did not survive
 contact with tooltip.
 
-- [ ] `cadence/tooltip`'s `Arbitration` becomes an `Arbiter` on ADR-008's idiom: a plain struct with no synchronisation, identity taken from the participant's own state pointer rather than an `atomic.Int64`, `Props.Arbiter` naming the set and defaulting to a package-level one, and the claim hiding the incumbent from inside the claimant's layout pass instead of leaving it to poll "am I still top" once a frame. Diff the finished file against `popover/arbitration.go` and justify anything that is not a noun.
-- [ ] Confirm before deleting that `tooltip.Arbitration` and `tooltip.ArbitrationSnapshot` have no subscriber anywhere in the twenty-one repositories. Use `find … -print0 | xargs -0 grep`; `grep -r --include="*.go"` silently skips `workbench/`, which is where the consumers would be.
-- [ ] Tooltip's show path is not popover's — a delay timer and a hover/focus trigger sit in front of it. Check what a layout-time claim does to the timer (a tooltip that is timing out but not yet drawn has not claimed) and record the answer. If the claim has to sit somewhere other than the first drawn frame, that is a finding for ADR-008 rather than a local deviation.
-- [ ] Keep the `Props` change additive. That is what kept the spike from opening an ADR-006 seam: `check-no-workspace.sh` read 36/36 afterwards and should still read 36/36 here.
-- [ ] Goldens byte-identical; `go test -race ./tooltip/...`; build, test, commit in cadence.
+- [x] `cadence/tooltip`'s `Arbitration` becomes an `Arbiter` on ADR-008's idiom: a plain struct with no synchronisation, identity taken from the participant's own state pointer rather than an `atomic.Int64`, `Props.Arbiter` naming the set and defaulting to a package-level one, and the claim hiding the incumbent from inside the claimant's layout pass instead of leaving it to poll "am I still top" once a frame. Diff the finished file against `popover/arbitration.go` and justify anything that is not a noun.
+- [x] Confirm before deleting that `tooltip.Arbitration` and `tooltip.ArbitrationSnapshot` have no subscriber anywhere in the twenty-one repositories. Use `find … -print0 | xargs -0 grep`; `grep -r --include="*.go"` silently skips `workbench/`, which is where the consumers would be.
+- [x] Tooltip's show path is not popover's — a delay timer and a hover/focus trigger sit in front of it. Check what a layout-time claim does to the timer (a tooltip that is timing out but not yet drawn has not claimed) and record the answer. If the claim has to sit somewhere other than the first drawn frame, that is a finding for ADR-008 rather than a local deviation.
+- [x] Keep the `Props` change additive. That is what kept the spike from opening an ADR-006 seam: `check-no-workspace.sh` read 36/36 afterwards and should still read 36/36 here.
+- [x] Goldens byte-identical; `go test -race ./tooltip/...`; build, test, commit in cadence.
 
 #### G0C.2b: The modal stack is the one that is really app state
 
@@ -3318,6 +3318,61 @@ MVU loop's own latency, not the bus's, and this goal does not touch it. The
 honest summary is that frame ownership bought order-independence and the
 deletion of a mechanism, not lag-zero.
 
+**What G0C.2 amended, from `cadence/tooltip`.** The census held — no
+subscriber to `tooltip.Arbitration` or `tooltip.ArbitrationSnapshot` anywhere,
+re-taken with `find … -print0 | xargs -0 grep` because `grep -r
+--include="*.go"` was confirmed to see nothing at all under `.repos/workbench`
+in this tree, which is where a consumer would have been. But "identical code"
+was true only of the bus side. Tooltip's *show* path is a hover dwell, not a
+caller's `Open`, and it made two additions to the idiom:
+
+- **Claim on an edge; a poll is a latch you did not know you had.** Popover's
+  claim is guarded by `st.holds`, an edge over `Open`, so the spike never met
+  the question. Tooltip's guard was a *level* — "entry + delay is in the past"
+  stays true for as long as the pointer sits still. Under the per-frame poll
+  that was survivable: an overtaken-but-still-active tooltip took top back two
+  frames later (measured on the pre-conversion code). Under the direct write
+  it is not: the incumbent sees its own loss immediately, so a level-guarded
+  claim retakes top on its very next layout — and when the claimant sits
+  earlier in the widget tree, *inside the same frame and after the claimant
+  has painted*, putting two tooltips on screen every frame (measured on a
+  naive transcription). The poll was accidentally supplying the latch that
+  made a level-guarded claim safe. So: **every destination-2 conversion must
+  check that its claim condition is an edge, and latch it where it is not.**
+  Tooltip's latch is `tooltipState.claimed` — one dwell buys one show, a fresh
+  entry buys the next — which also retires the pre-existing flip-flop.
+- **Where no caller owns the state, the register *is* the visibility.**
+  Popover mirrors top in `st.holds` and needs `OnDismiss` to bring the
+  caller's `Open` back into step; that is why its `claim` takes a
+  `layout.Context`, fires a callback, and still leaves the incumbent's
+  disappearance to the next frame. A tooltip has no caller state: it is
+  visible exactly while it holds top. So `claim` is `a.top = st` — no context,
+  no callback, no `prev` — the store is the whole of the dismissal, and the
+  disappearance is same-frame too whenever the incumbent is laid out after the
+  claimant. Prefer deriving visibility from the register; mirror it only where
+  a caller owns the state.
+
+The delay timer itself moved nothing. Tooltip's claim was *already* at layout
+time before the conversion, because hover and focus are only observable during
+layout — so the ordering rule the spike had to buy, tooltip already had. And
+the dwell is upstream of arbitration rather than part of it: claiming at
+dwell-start would hide the incumbent for a dwell the user may abandon and
+leave the screen empty, so the claim stays on the first frame the tooltip
+draws, which is the rule above unchanged. A tooltip that is not laid out
+cannot be hovered and so cannot dwell either; timer and claim cannot get out
+of step. One pre-existing gap is untouched: a tooltip removed from the tree
+mid-dwell keeps its `entryAt`, so if it returns with the pointer still on it,
+the dwell counts wall-clock time it spent off-screen.
+
+Measured: `tooltip/arbitration.go` 42 code lines → 13 — popover's 20 less the
+callback plumbing, and it never needed the `gioui.org/layout` import either.
+Gone with it: `sync`, `sync/atomic`, `github.com/reactivego/rx`,
+`github.com/vibrantgio/prism/coordination`, five package-level variables, an
+`init`, `allocID`, `tooltipState.id` and `tooltipState.shown`. A
+claim–read–steal–read cycle costs 0.63 ns instead of 69.3 ns on an M1 Max,
+both zero-allocation. All 84 goldens byte-identical; `check-no-workspace`
+still 36/36.
+
 **The layering rule for the surviving primitive.** `coordination` lives in
 prism, tier 2, which is *why* `spectrum/preferences` — tier 1, and unable to
 import upward — still holds the organization's one remaining bare
@@ -3330,10 +3385,11 @@ prism forwards through a deprecation window so no consumer breaks mid-goal.
 
 **Consequences.**
 
-- **G0C.2** converts `cadence/tooltip` — identical code, identical finding,
-  and its `Arbitration` has the same zero subscribers — and decides
-  `modal.Stack` separately, because it is the only one of the four with real
-  consumers and therefore the only genuine destination-1 candidate.
+- **G0C.2** converted `cadence/tooltip`: the same bus, the same zero
+  subscribers, and two additions to the idiom that its dwell timer forced —
+  see the amendment above. `modal.Stack` is decided separately at G0C.2b,
+  because it is the only one of the four with real consumers and therefore
+  the only genuine destination-1 candidate.
 - **G0C.4** threads a per-window `Arbiter` through the seven application call
   sites and deletes the package-level default. Until it does, cadence's
   overlay arbitration is process-global by default, documented as
