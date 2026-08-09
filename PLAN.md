@@ -2215,10 +2215,10 @@ something the code does not.
 
 #### G0.1: Generate the layer sentence instead of typing it
 
-- [ ] Teach `sync-agents.sh` to derive the import list the way `check-layers.sh` does, and render the "**Layer.**" sentence from it — the tier from ADR-001's table, the edges from the clone. Keep the human half: which tier the repo sits in and any prose about *why* an edge is allowed (style's intra-tier edge to font and textdraw is the case to preserve) stay editable in `repos.tsv`; the list of what it actually imports stops being editable at all.
-- [ ] Handle the two directions a layer sentence talks about. Downward edges are measurable from the clone. "Who imports me" is not — it needs the other clones — so either measure it across `.repos/` the way `check-layers.sh` does, or drop the claim rather than let it rot. A guide that says nothing about its consumers is better than one that names the wrong ones.
-- [ ] Purge the pending-inversion tense wherever it survives. G-B3, E3.2, C1.2 and F3.3 are done; a guide written as though they were scheduled teaches an agent to expect edges that no longer exist. Name a finished goal only where knowing it happened changes what a reader should do.
-- [ ] Regenerate all twenty, and check `check-agents.sh` and `check-layers.sh` are both green.
+- [x] Teach `sync-agents.sh` to derive the import list the way `check-layers.sh` does, and render the "**Layer.**" sentence from it — the tier from ADR-001's table, the edges from the clone. Keep the human half: which tier the repo sits in and any prose about *why* an edge is allowed (style's intra-tier edge to font and textdraw is the case to preserve) stay editable in `repos.tsv`; the list of what it actually imports stops being editable at all.
+- [x] Handle the two directions a layer sentence talks about. Downward edges are measurable from the clone. "Who imports me" is not — it needs the other clones — so either measure it across `.repos/` the way `check-layers.sh` does, or drop the claim rather than let it rot. A guide that says nothing about its consumers is better than one that names the wrong ones.
+- [x] Purge the pending-inversion tense wherever it survives. G-B3, E3.2, C1.2 and F3.3 are done; a guide written as though they were scheduled teaches an agent to expect edges that no longer exist. Name a finished goal only where knowing it happened changes what a reader should do.
+- [x] Regenerate all twenty, and check `check-agents.sh` and `check-layers.sh` are both green.
 
 #### G0.2: Correct the role sentences and the notes that outlived their phase
 
