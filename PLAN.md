@@ -2313,9 +2313,9 @@ the dismissing scrim, and every screen it composes would inherit them.
 - [x] Build, test, commit in cadence and pulse.
 #### G0A.3: The invocation half lives in the app, and one app proves it
 
-- [ ] Bind the settings accelerator in the workbench app with the most natural settings surface — `key.ModShortcut` + `,`, opening a settings **panel** built on G0A.2; record which app and why. This is the pattern's reference implementation: app chrome owns arrival, the modal owns dismissal.
-- [ ] Write the pattern where consumers read it: modal's package doc states the two intents and what each mandates and forbids — the inert scrim, the Return rule, the ghost close — and `llms.txt` gets the one-line rule if it earns one.
-- [ ] Build, test, commit in workbench and cadence.
+- [x] Bind the settings accelerator in the workbench app with the most natural settings surface — `key.ModShortcut` + `,`, opening a settings **panel** built on G0A.2; record which app and why. This is the pattern's reference implementation: app chrome owns arrival, the modal owns dismissal.
+- [x] Write the pattern where consumers read it: modal's package doc states the two intents and what each mandates and forbids — the inert scrim, the Return rule, the ghost close — and `llms.txt` gets the one-line rule if it earns one.
+- [x] Build, test, commit in workbench and cadence.
 
 #### G0A.4: Release the grammar
 

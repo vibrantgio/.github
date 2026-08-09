@@ -259,9 +259,9 @@ mvu.Loop.
    epoch to reseed); TextFieldProps.FocusTag exposes the editor's focus
    tag, and cadence/modal's DynamicFocusTags puts it in the Tab cycle
    (first tag gets initial focus on open). cadence/modal sizes its surface
-   to the content, and Props.HideClose drops the corner close button when
-   footer Actions carry an explicit Cancel (see mindchat's rename modal
-   for the full recipe).
+   to the content (see mindchat's rename modal for the full recipe).
+   Props.HideClose is DEPRECATED; say Props.Decision instead — see the
+   dialog grammar in §Layers.
 
 4. Publish().AutoConnect(N) COUNTS ARE LOAD-BEARING. The model observable is
    multicast WITHOUT replay; AutoConnect(N) connects the upstream scan only
@@ -305,6 +305,20 @@ content layer built from a cadence/shell:
   - Overlays: cadence/modal (focus trap, escape), cadence/popover (anchored),
     cadence/tooltip (hover/focus), cadence/toast (transient stack),
     cadence/alert (inline banners).
+
+THE DIALOG GRAMMAR: a modal is a PANEL or a DECISION, and you say which by
+leaving cadence/modal's Props.Decision nil or setting it — never by setting
+affordances one at a time. A panel (nil) applies its changes live and gets a
+ghost close X, a dismissing backdrop and Escape; a decision (non-nil) gets
+right-aligned footer Actions, Return on Decision.DefaultAction, Escape on
+Cancel, no X, and an inert backdrop. A footer with Save/Cancel means you have
+a decision, not a panel with HideClose (deprecated). Return never reaches a
+destructive primary: Decision derives the default from Confirm+Destructive, so
+there is no field with which to bind it wrongly. THE ACCELERATOR IS NOT THE
+MODAL'S: ⌘,/Ctrl-, must be live when no dialog exists, so bind it in app
+chrome with Gio's key.ModShortcut (never a GOOS test) over a window-wide
+pointer.PassOp key area, landing a message that opens the panel. Reference
+implementation: workbench/feeds shortcut.go + preferences.go.
 
 Every component takes the theme observable for visual configuration and
 props structs for content, and the theme carries the whole look: colour,
@@ -881,7 +895,7 @@ them without the caveats older guides carried:
               chat-consumer recipe). Also: SplitPane shell with a
               collapsible, resizable sidebar, trash-backed session-wide
               undo (Cmd/Ctrl-Z), the modal-form recipe
-              (Seed/FocusTag/DynamicFocusTags/HideClose), list scrollbars,
+              (Seed/FocusTag/DynamicFocusTags), list scrollbars,
               and a global-shortcut key area done right. Chatting needs
               OPENAI_API_KEY in the environment (or .env) on first run to
               seed the config
@@ -892,7 +906,10 @@ them without the caveats older guides carried:
               (Started, then Exited when the process ends)
   feeds/      table-heavy app: sort/filter/pagination, tabs, split pane,
               modal forms, toasts; app.go's mirrorTokens is the reference
-              theme-to-frame-time adapter (§Layers)
+              theme-to-frame-time adapter (§Layers). Also the reference
+              implementation of the dialog grammar's invocation half:
+              shortcut.go binds ⌘,/Ctrl-, and preferences.go is the settings
+              PANEL it opens, whose two preferences apply live under it
   sitedocs/   marketing + docs shell: hero/feature/pricing/testimonial,
               accordion sidebar, breadcrumbs; the docs pages are embedded
               .md sources rendered with vibrantgio/markdown (content/*.md +
