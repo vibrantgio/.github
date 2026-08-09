@@ -2297,11 +2297,11 @@ the dismissing scrim, and every screen it composes would inherit them.
 
 #### G0A.1: Give prism/button an emphasis axis
 
-- [ ] Add the register to `Props` — **filled** (the default), **tonal**, **ghost** — with the zero value rendering exactly today's filled button, byte-identical goldens and all: this must be an additive minor, and the existing goldens not moving is the proof.
-- [ ] Derive each register's state colours from the tonal ramp the way the filled register already resolves its own — ghost rests transparent with the glyph/label on `onSurfaceVariant`, takes a tonal wash on hover, the standard treatments for pressed and disabled, and the focus ring unchanged: keyboard visibility does not scale down with emphasis.
-- [ ] Icon-only composes with every register. A ghost icon button keeps the full pointer target — the glyph quiets, the 44 dp square does not: visual weight and hit area are separate properties, and the target is the part of the mobile inheritance worth keeping.
-- [ ] New goldens for each register × state × both densities, regenerated per package and eyeballed; existing goldens untouched.
-- [ ] Build, test, commit in prism.
+- [x] Add the register to `Props` — **filled** (the default), **tonal**, **ghost** — with the zero value rendering exactly today's filled button, byte-identical goldens and all: this must be an additive minor, and the existing goldens not moving is the proof.
+- [x] Derive each register's state colours from the tonal ramp the way the filled register already resolves its own — ghost rests transparent with the glyph/label on `onSurfaceVariant`, takes a tonal wash on hover, the standard treatments for pressed and disabled, and the focus ring unchanged: keyboard visibility does not scale down with emphasis.
+- [x] Icon-only composes with every register. A ghost icon button keeps the full pointer target — the glyph quiets, the 44 dp square does not: visual weight and hit area are separate properties, and the target is the part of the mobile inheritance worth keeping.
+- [x] New goldens for each register × state × both densities, regenerated per package and eyeballed; existing goldens untouched.
+- [x] Build, test, commit in prism.
 
 #### G0A.2: Teach cadence/modal the two intents
 
