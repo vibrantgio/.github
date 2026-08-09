@@ -2237,12 +2237,12 @@ The lesson from G0.1 is the one to carry: **before correcting a sentence, ask
 whether it should exist.** A claim `go list`, `git tag` or the filesystem can
 answer belongs on the measured side, not in a better-worded template.
 
-- [ ] `templates/notes/svg.md` says `driver/seen` "does not build from a clean checkout" because of a bad `seen/context/gio v0.0.7` `go.sum` pin. `GOWORK=off go build ./...` in that module now succeeds; commit `9980f88` ("B2.0: Repair the seen/context/gio go.sum pin") appears to have fixed it and left the warning behind. Prove it properly — the claim is about a *clean* checkout, so `go clean -modcache` first, which is the F4.8 lesson — then correct or delete the paragraph.
-- [ ] Read all twenty role sentences against what the repository now is, not against what it was when the row was written. The role is the opening sentence a reader meets, and nothing measures it.
-- [ ] Read all nine `templates/notes/*.md` the same way — `cadence`, `markdown`, `noise`, `pulse`, `seen`, `style`, `svg`, `textdraw`, `workbench` — plus the two G0.1's drift fix added, `spectrum` and `font`. Three were purged of pending tense; the rest have not been read since they were written.
-- [ ] Do not trust any list in this plan to be complete, including this one. The nine false layer sentences were found only because four repositories happened to drift, and G0.1 then turned up three stale notes nobody had listed. Read, do not check off against a list.
-- [ ] Where a note states a fact that is checkable — a tag, a package count, a build outcome, a file's existence — either move it to the measured side or say in the note how to re-check it. A note that cannot go stale is worth more than one that is currently true.
-- [ ] `./scripts/check-agents.sh` green, and commit and push in every repo touched.
+- [x] `templates/notes/svg.md` says `driver/seen` "does not build from a clean checkout" because of a bad `seen/context/gio v0.0.7` `go.sum` pin. `GOWORK=off go build ./...` in that module now succeeds; commit `9980f88` ("B2.0: Repair the seen/context/gio go.sum pin") appears to have fixed it and left the warning behind. Prove it properly — the claim is about a *clean* checkout, so `go clean -modcache` first, which is the F4.8 lesson — then correct or delete the paragraph.
+- [x] Read all twenty role sentences against what the repository now is, not against what it was when the row was written. The role is the opening sentence a reader meets, and nothing measures it.
+- [x] Read all nine `templates/notes/*.md` the same way — `cadence`, `markdown`, `noise`, `pulse`, `seen`, `style`, `svg`, `textdraw`, `workbench` — plus the two G0.1's drift fix added, `spectrum` and `font`. Three were purged of pending tense; the rest have not been read since they were written.
+- [x] Do not trust any list in this plan to be complete, including this one. The nine false layer sentences were found only because four repositories happened to drift, and G0.1 then turned up three stale notes nobody had listed. Read, do not check off against a list.
+- [x] Where a note states a fact that is checkable — a tag, a package count, a build outcome, a file's existence — either move it to the measured side or say in the note how to re-check it. A note that cannot go stale is worth more than one that is currently true.
+- [x] `./scripts/check-agents.sh` green, and commit and push in every repo touched.
 #### G0.3: Close the loop so prose cannot outlive its phase again
 
 - [ ] The root `AGENTS.md` lists `clone-all.sh`, `inventory.sh` and `sync-agents.sh` in its `scripts/` line and omits `check-layers.sh`, `check-no-workspace.sh`, `push-design.sh` and `check-agents.sh`. Fix the list, and say what each gate refuses to let happen.

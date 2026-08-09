@@ -33,7 +33,9 @@ height. A control draws `max(ControlHeight, lineBox + 2×PaddingY)`, so a
 Comfortable text field in BodyLarge is 40 dp against a 36 dp floor while a
 Comfortable button in LabelLarge is exactly 36.
 
-**Golden images.** None. Spectrum stores no rendered output — it computes
-colour, type and layout values and asserts on numbers. The golden-image
-harness lives in `prism/golden`, and the repos that render use it from
-there.
+**Golden images.** None, and the absence above is that fact rather than an
+omission: `sync-agents.sh` renders a Golden images section only for a clone
+that has a `testdata/golden/` directory, and `find . -type d -name golden`
+here finds none. Spectrum stores no rendered output — it computes colour, type
+and layout values and asserts on numbers. The harness the repositories that do
+render share is `prism/golden`.
