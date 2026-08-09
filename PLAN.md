@@ -2304,14 +2304,13 @@ the dismissing scrim, and every screen it composes would inherit them.
 - [x] Build, test, commit in prism.
 
 #### G0A.2: Teach cadence/modal the two intents
-
 - [ ] Name the archetypes in the API — a **decision** dialog and a dismissable **panel** — and derive the affordances from the intent rather than exposing them severally. Decision: footer actions right-aligned, no X, scrim inert, Escape invokes Cancel, Return activates the designated default action. Panel: ghost icon-only close top-right, Escape and scrim click both close, footer optional.
 - [ ] Adopt Apple's default-action rule wholesale: a destructive primary is never the Return-bound default — when the primary destroys something, Cancel takes the default, and "Discard changes?" answering Return with Discard is the exact failure this forbids. Write the rule into the doc and enforce it in the API shape if it can be enforced cheaply.
 - [ ] The scrim change is behavioural, so it gets a test each way: a backdrop click on a decision dialog does nothing; on a panel it closes. Escape still works on both.
 - [ ] Reconcile `HideClose` with the intent model — it must keep compiling through a deprecation window, documented as derived (decision implies hidden), not silently ignored.
+- [ ] Fix `pulse/springbutton`, which G0A.1 found forwarding a `button.Props` to `button.Render` while building its `RenderState` field by field — so it drops `Props.Emphasis` on the floor and always draws filled. One line, but the adoption sweep is **two** components rather than the one this goal's preamble claimed: that count was measured inside cadence and springbutton lives in pulse. Check the same way for any other component that rebuilds a `RenderState` instead of forwarding one, and prefer a test that would have caught a silently dropped field over a test that only asserts this one.
 - [ ] Regenerate the moved goldens — the close affordance going ghost moves every open-state image — and eyeball them: the title should now out-weigh the X, and `light-open.png` becoming a *decision* fixture (no X at all) is the better fixture if the golden set is re-cut to show one of each intent.
-- [ ] Build, test, commit in cadence.
-
+- [ ] Build, test, commit in cadence and pulse.
 #### G0A.3: The invocation half lives in the app, and one app proves it
 
 - [ ] Bind the settings accelerator in the workbench app with the most natural settings surface — `key.ModShortcut` + `,`, opening a settings **panel** built on G0A.2; record which app and why. This is the pattern's reference implementation: app chrome owns arrival, the modal owns dismissal.
