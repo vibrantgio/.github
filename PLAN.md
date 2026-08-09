@@ -2519,11 +2519,11 @@ Note what `isTop` already is: a synchronous, mutex-guarded read of a
 package-level slice at frame time. That is ADR-008's frame state with an
 unnecessary mutex on it — the conversion is mostly deletion.
 
-- [ ] Re-verify the zero-subscriber census yourself before deleting exported API, with `find … -print0 | xargs -0 grep` over all twenty-one repos plus the root. The plan has been wrong about this once already.
-- [ ] Convert the stack to frame state per ADR-008 and the idiom G0C.1 and G0C.2 settled: identity from the participant's own state pointer rather than `stackNextID`, no mutex, ownership by the value the composition root passes in. `isTop`'s behaviour — only the topmost modal takes keyboard and pointer input, those beneath stay painted but inert — must survive exactly, and it is the thing to write the tests against.
-- [ ] Remove `Stack` and `StackSnapshot`. They are exported, so this is a breaking removal that rides G0C.6's release alongside popover's and tooltip's; say so in the commit body rather than leaving it for the tagger to discover. If you conclude they should be kept for out-of-org consumers, argue it — but weigh it against the fact that no in-org consumer ever appeared in the eight phases the observable has existed.
-- [ ] Record the corrected finding in ADR-008: three of four buses had no subscribers, `toast.Notifications` is the exception, and an exported observable with no reader is the second smell — the one the G0C.6 gate cannot catch by grepping for `rx.Subject`.
-- [ ] Goldens byte-identical; `go test -race` on modal and anything touched; build, test, commit in cadence and the root. Expect no ADR-006 seam — nothing app-facing changes if the census holds — and say so if one opens anyway.
+- [x] Re-verify the zero-subscriber census yourself before deleting exported API, with `find … -print0 | xargs -0 grep` over all twenty-one repos plus the root. The plan has been wrong about this once already.
+- [x] Convert the stack to frame state per ADR-008 and the idiom G0C.1 and G0C.2 settled: identity from the participant's own state pointer rather than `stackNextID`, no mutex, ownership by the value the composition root passes in. `isTop`'s behaviour — only the topmost modal takes keyboard and pointer input, those beneath stay painted but inert — must survive exactly, and it is the thing to write the tests against.
+- [x] Remove `Stack` and `StackSnapshot`. They are exported, so this is a breaking removal that rides G0C.6's release alongside popover's and tooltip's; say so in the commit body rather than leaving it for the tagger to discover. If you conclude they should be kept for out-of-org consumers, argue it — but weigh it against the fact that no in-org consumer ever appeared in the eight phases the observable has existed.
+- [x] Record the corrected finding in ADR-008: three of four buses had no subscribers, `toast.Notifications` is the exception, and an exported observable with no reader is the second smell — the one the G0C.6 gate cannot catch by grepping for `rx.Subject`.
+- [x] Goldens byte-identical; `go test -race` on modal and anything touched; build, test, commit in cadence and the root. Expect no ADR-006 seam — nothing app-facing changes if the census holds — and say so if one opens anyway.
 #### G0C.3: Toasts ride the loop
 
 The destination-1 case the spike could not exercise: popover's bus had no
@@ -3293,8 +3293,10 @@ subscriber list. So the tax at this site was not latency, it was **a bus that
 delivered nothing**: an `rx.Observer`, an `rx.Observable`, a `coordination`
 hub, and — had anyone ever subscribed — a goroutine and an eight-item ring
 buffer each. Tooltip's `Arbitration` is the same code and has the same zero
-subscribers. `modal.Stack` is the one of the four that is genuinely consumed,
-which is exactly why it is the hard call.
+subscribers. ~~`modal.Stack` is the one of the four that is genuinely
+consumed, which is exactly why it is the hard call.~~ **Struck by G0C.2b,
+which re-took that census and found `modal.Stack` had no subscriber either —
+see the G0C.2b amendment below.**
 
 *No AutoConnect count and no ledger entry changed.* `modelObsConsumers`
 (feeds 23, mindchat 10, launcher 1) counts cold subscriptions to the
@@ -3393,6 +3395,102 @@ claim–read–steal–read cycle costs 0.63 ns instead of 69.3 ns on an M1 Max,
 both zero-allocation. All 84 goldens byte-identical; `check-no-workspace`
 still 36/36.
 
+**What G0C.2b amended, from `cadence/modal` — and the census correction that
+matters most.** `modal.Stack` had no subscribers either. Re-taken with `find …
+-print0 | xargs -0 grep` over 707 Go files in all twenty-one repositories plus
+every non-Go file in the tree, the only hits for `Stack` or `StackSnapshot`
+were `stack.go`'s own definitions; the only other `Stack`s in the
+organization are `toast.Stack`, a widget constructor, and `shell.StackedPage`.
+The nine files that import `github.com/vibrantgio/cadence/modal` reference
+`Modal`, `Render`, `Props`, `Decision` and nothing else. `stack.go`'s doc
+comment had named the consumers it was built for — "downstream patterns
+(popover, tooltip, drag overlay) subscribe to learn when a modal is in front
+of them" — and none of the three ever arrived; the first two now own arbiters
+instead. So:
+
+- **Three of the four buses were carrying nothing at all.** That, and not the
+  one-frame lag `coordination` documents, is the argument for removing them.
+  `toast.Notifications` is the sole exception and the sole survivor: it has
+  real subscribers, is called from seven application files, and is
+  destination 1's problem at G0C.5, not this one's.
+- **An exported observable with no reader is the second smell, and the
+  G0C.6 gate cannot see it.** That gate greps for a bare `rx.Subject` outside
+  its sanctioned homes. Not one of these four would have tripped it: every
+  one went through `coordination.Subject`, the *approved* wrapper, and was
+  published to on a real schedule. What was wrong with them was invisible to
+  any grep — nobody was listening. An exported observable is indistinguishable
+  from a working one until you go looking for its subscribers, so the first
+  question about one is not what publishes to it but who reads it.
+- **It was the expensive one, too.** Popover's and tooltip's buses published a
+  scalar and allocated nothing. Modal's copied the whole open-modal slice into
+  a fresh `StackSnapshot` on every push and every pop, so the bus with no
+  readers was the one paying 3 allocations and 32 B per open/close cycle to
+  build snapshots that were immediately dropped.
+
+**And it was destination 2, not destination 1.** The goal preamble guessed the
+modal stack for the model — "durable or app-meaningful state" — and it is not:
+nothing outside the frame ever asked which modals are open, no test asserts on
+it and no model dump shows it, and its one reader is a modal asking *about
+itself*, during its own layout, whether it is the one in front. That is
+frame-scoped UI coordination by the ADR's own definition. The test for
+destination 1 is not "does this feel important", it is "does anything outside
+the frame need to know" — and here nothing did.
+
+**The idiom's third shape: a stack, not a register — because modals nest.**
+Popover and tooltip hold a single `top *state`, and a claimant evicts the
+incumbent outright. A modal opened from inside another one must not evict it:
+it covers it, and closing the inner one hands the front back. So modal's
+`Arbiter` holds an ordered `open []*modalState`, `claim`/`release` are
+`push`/`pop`, and `pop` must handle the middle of the stack — an outer modal
+whose `Open` goes false while an inner one is still up leaves without
+disturbing which modal is in front. Everything else is unchanged: no
+synchronisation, the participant's own state pointer for identity,
+`Props.Arbiter` naming the set, a package-level default for the
+single-window case.
+
+**A stack is level-safe, which is why G0C.2's trap did not appear here.**
+Modal's push was already guarded by an edge — `modalState.pushed` over `Open`,
+popover's shape — so the level question never arose. But the deeper reason is
+structural and worth having: a register's write is unconditionally "become
+top", which is exactly why a level-guarded claim lets two participants trade
+it every frame. A stack's push is "join if absent", so a modal already on the
+stack keeps the position it has and cannot climb over the modal covering it.
+The push is idempotent on its own; the edge is kept because it is what makes
+the matching pop exact, not because a level would have cost a frame.
+`TestArbiterPushDoesNotClimb` pins it.
+
+**The ordering cost, seen from the other side.** Popover books one frame of
+*stale* input registration: an incumbent laid out before the claimant keeps
+its absorbers for one more frame. Modal's is the mirror — one frame of
+*missing* registration. When a covered modal sits earlier in the tree than the
+modal leaving, it has already been laid out inert on the frame the pop
+happens, and registers its absorbers on the next one. A press in between
+reaches nothing rather than the wrong modal, and no pixel is involved. Against
+that, one thing got strictly better: push order is now layout order, so the
+modal at the front of the stack is the modal painted last, by construction.
+The Subject-era stack was ordered by whichever `Open` observable happened to
+emit first, which was related to paint order not at all.
+
+And the rule G0C.1 booked for popover — a widget that is open but never laid
+out neither joins nor leaves — bites slightly harder here, because a stale
+entry blocks input to everything beneath it rather than merely leaving nobody
+on top. The remedy is what every application in this organization already
+does: compose the modal into the tree unconditionally and let the closed
+widget paint nothing. It is stated in `modalState.track`'s doc, which is the
+one place the stack is written from.
+
+Measured: `stack.go` 61 code lines → `arbitration.go` 26. Gone with it:
+`sync`, `github.com/reactivego/rx`, `github.com/vibrantgio/prism/coordination`
+— the file has no imports left — four package-level variables, an `init`,
+`allocStackID`, `modalState.id`, and two exported symbols with zero consumers
+org-wide. A push–read–cover–read–uncover–read–close cycle costs 12.0 ns
+instead of 137.7 ns on an M1 Max, and 0 allocations instead of 3 (32 B). All
+84 goldens byte-identical — `live` gates `event.Op` registration and key
+draining, never drawing, which `TestACoveredModalIsStillPainted` asserts
+directly. `check-layers` OK, `check-no-workspace` 36/36, `check-agents` 20/20;
+no ADR-006 seam, because `Props` grew a field rather than a requirement and
+no application passes one yet.
+
 **The layering rule for the surviving primitive.** `coordination` lives in
 prism, tier 2, which is *why* `spectrum/preferences` — tier 1, and unable to
 import upward — still holds the organization's one remaining bare
@@ -3407,17 +3505,21 @@ prism forwards through a deprecation window so no consumer breaks mid-goal.
 
 - **G0C.2** converted `cadence/tooltip`: the same bus, the same zero
   subscribers, and two additions to the idiom that its dwell timer forced —
-  see the amendment above. `modal.Stack` is decided separately at G0C.2b,
-  because it is the only one of the four with real consumers and therefore
-  the only genuine destination-1 candidate.
+  see the amendment above.
+- **G0C.2b** converted `cadence/modal`, and settled the question G0C.2 had
+  left open by finding that there was no question: the modal stack is
+  destination 2 like the other two, not the destination-1 candidate the
+  preamble expected.
 - **G0C.4** threads a per-window `Arbiter` through the seven application call
-  sites and deletes the package-level default. Until it does, cadence's
-  overlay arbitration is process-global by default, documented as
-  single-window-only in the package doc and in cadence's README.
+  sites and deletes the package-level default. Modal's is a fourth kind of
+  call site and its own: no application passes an `Arbiter` today, so the
+  work is the same shape — hand each window's value to every modal composed
+  into that window's tree.
 - **Removing an exported symbol is a breaking change** even when nothing
-  imports it. `popover.Arbitration` and `popover.ArbitrationSnapshot` are
-  gone; cadence takes a minor bump at G0C.6, and tooltip's removal rides the
-  same one.
+  imports it. `popover.Arbitration`, `popover.ArbitrationSnapshot`,
+  `tooltip.Arbitration`, `tooltip.ArbitrationSnapshot`, `modal.Stack` and
+  `modal.StackSnapshot` are all gone; cadence takes one minor bump at G0C.6
+  that carries all six.
 - **The gate G0C.6 writes** should ban a bare `rx.Subject` outside the homes
   this ADR names, and nothing more — pipelines, theme and genuine streams are
   not what it is looking for.
