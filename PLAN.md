@@ -2429,8 +2429,12 @@ holds the org's one remaining bare `rx.Subject` in library code, with the
 same slot leak and frozen-cursor stall `coordination` now guards against
 (default `scap` 32; 128-deep buffer makes it slower to bite, not immune).
 F5.5 recorded the rule for the golden harness: if a lower tier needs it, the
-package lives too high. Whatever lifetime-safe primitive survives this goal
-belongs in mvu, tier 0, the FRP substrate — `check-layers.sh` is the arbiter.
+package lives too high. ~~Whatever lifetime-safe primitive survives this goal
+belongs in mvu, tier 0, the FRP substrate — `check-layers.sh` is the
+arbiter.~~ The rule holds and tier 0 is where the primitive landed, but not
+this primitive: G0C.5 found `coordination` had no library users left and rx's
+own `Behavior` already lifetime-safe, so fourteen lines were written at tier 0
+and 292 were deprecated in place.
 
 **Scope guard, in both directions.** This is not "remove rx": pipelines,
 theme, and genuine streams (preferences is one — a replay-1 value observed by
@@ -2466,8 +2470,13 @@ one-frame lag. No AutoConnect count and no ledger entry moved, because
 never counted a `coordination.Subject`. And frame ownership did *not* hand the
 per-window scope over for free: it makes the right scope expressible and the
 wrong one detectable, but taking it costs threading a value through each
-application's composition root, which is now G0C.4's second job. The doctrine
-survived intact; the arithmetic under it did not.
+application's composition root, which is now G0C.4's second job. And G0C.5
+found the surviving primitive was not the one this preamble points at:
+`github.com/reactivego/rx` had shipped a lifetime-safe multicast all along, so
+the fix was choosing a different rx primitive rather than wrapping the wrong
+one — and the wrapper this goal meant to relocate turns out to be both larger
+and 40× slower to deliver. The doctrine survived intact; the arithmetic under
+it did not.
 
 #### G0C.1: ADR-008 and the spike: popover arbitration as frame state
 
@@ -2551,17 +2560,21 @@ scope the spike deliberately left borrowed.
 
 #### G0C.5: The surviving primitive moves to tier 0, and preferences comes off the bare Subject
 
-- [ ] Move the lifetime-safe Subject (whatever G0C.1–G0C.4 left of it) from `prism/coordination` down to mvu, per the layering finding — `check-layers.sh` is the arbiter, and prism re-exports or forwards through a deprecation window so no consumer breaks mid-goal.
-- [ ] `spectrum/preferences` — the last bare `rx.Subject` in library code — moves onto it. Its shape is a genuine stream and stays observable; the defect was only ever the unprotected primitive.
-- [ ] Sweep for any bare `rx.Subject` remaining in library code; the count after this task should be zero, and the count in app code should be whatever G0C.4 justified line by line. Measured at G0C.1, the non-test library sites were three — `cadence/toast/toast.go` (G0C.3), `prism/coordination/types.go` (the primitive's own private per-leg subject, the sanctioned home) and `spectrum/preferences/preferences.go` (this task) — against eight files in feeds and watchlist. Re-measure rather than trusting those numbers; four tasks will have moved them.
-- [ ] Goldens byte-identical; build, test, commit in mvu, spectrum, prism and any consumer re-pinned.
+~~Move the lifetime-safe Subject (whatever G0C.1–G0C.4 left of it) from `prism/coordination` down to mvu, per the layering finding — `check-layers.sh` is the arbiter, and prism re-exports or forwards through a deprecation window so no consumer breaks mid-goal.~~ **Re-cut on the measurement, the way G0.2 and G0C.2b were.** The layering finding held; the package it named did not survive contact with two numbers. The census found `prism/coordination` had no library users left — two demo mains and nothing else — and a benchmark found rx v0.3.0's own `rx.Behavior` lifetime-safe where `rx.Subject` is not, 40× faster to arrive, and free of the *live*-consumer stall the 292-line wrapper had kept. So nothing moved down a tier:
+
+- [x] **A new tier-0 primitive, built from rx's own parts rather than moved.** `github.com/vibrantgio/mvu/stream` exports one function, `Value[T](seed)`, in fourteen lines: `rx.Behavior` over a source that hands its observer back at connect time, so the write is synchronous and an idle stream costs no goroutine. `check-layers` OK — mvu still imports nothing in the organization.
+- [x] **`prism/coordination` is deprecated in place, not forwarded.** A forwarder would compile everywhere and silently change delivery policy, ceiling and buffering; G0C.3's break-loudly rule forbids that. The package is unchanged and still tested, marked `Deprecated:` with the measurements in its doc. prism gains no import and so opens no seam.
+- [x] `spectrum/preferences` — the last bare `rx.Subject` in library code — moves onto it. Its shape is a genuine stream and stays observable; the defect was only ever the unprotected primitive. Two regression tests pin the two halves and both fail against the old code: `TestObserveSurvivesShellChurn` died on shell 32 (rx's 32 subscription slots, one spent per window that ever observed), and `TestSaveIsNotBlockedByAStalledObserver` wedged `SaveTo` behind an observer that stopped draining — the half the wrapper never fixed.
+- [x] Sweep for any bare `rx.Subject` remaining in library code; the count after this task should be zero, and the count in app code should be whatever G0C.4 justified line by line. **Re-measured with `find … -print0 | xargs -0 grep` over 710 Go files: non-test library sites are now one, `prism/coordination/types.go`'s own per-leg subject in the deprecated package, and it leaves with the package. In application code the count is zero — all eight workbench files that match `rx.Subject` match it inside a comment G0C.4 wrote about the flag it removed. The remaining 21 occurrences live in 12 test files, every one of them a harness: thirteen standing in for the application's model observable, eight feeding a component's props.**
+- [x] Goldens byte-identical; build, test, commit in mvu, spectrum, prism and any consumer re-pinned. **All 84 cadence and all 16 workbench goldens byte-identical, and prism's 100, pulse's 21 and markdown's 9 with them. `check-agents` 20/20 after re-rendering mvu's and prism's AGENTS.md; `check-no-workspace` 33/36 → 32/36, spectrum joining for the one reason that `mvu/stream` is in no tag yet. No consumer needed re-pinning.**
 
 #### G0C.6: The gate, the guide, and the release
 
-- [ ] The gate, in the org's own style: a check script that fails on a bare `rx.Subject` outside the sanctioned homes ADR-008 names. Wire it beside `check-layers.sh`, `check-no-workspace.sh` and `check-agents.sh`.
+- [ ] The gate, in the org's own style: a check script that fails on a bare `rx.Subject` outside the sanctioned homes ADR-008 names. Wire it beside `check-layers.sh`, `check-no-workspace.sh` and `check-agents.sh`. G0C.5 left the census it has to reproduce: the only non-test library site is `prism/coordination/types.go`, which leaves with the deprecated package, so the gate's allowlist is `mvu/stream` and — for as long as it exists — `prism/coordination`. Application code is already at zero, and the 21 remaining occurrences are all in `_test.go` harnesses standing in for a model observable; decide whether the gate looks at test files at all, and say which.
 - [ ] The spike found a second smell the first gate will not catch: `popover.Arbitration` was an exported observable that nothing in twenty-one repositories subscribed to, and tooltip's was the same. Decide whether that is checkable cheaply — an exported `rx.Observable` in a component package with no consumer — and either add it or record why not. An uncatchable finding is still worth naming in `llms.txt`.
 - [ ] The guide: ADR-008's consequences into `llms.txt` and the AGENTS templates through `sync-agents.sh` — never typed into generated files.
-- [ ] The release, per the Release protocol, bottom-up: mvu moves (new home for the primitive), spectrum, prism and cadence follow with whatever bumps the diffs argue — judge each against what actually moved. Cadence's is at least a minor: `popover.Arbitration`, `popover.ArbitrationSnapshot` and tooltip's pair are removed exported symbols, which is breaking however few importers they had. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass; `design/` verified unmoved.
+- [ ] **Close G0C.5's deprecation window, or say why it stays open.** `prism/coordination` is intact behind a `Deprecated:` marker and has exactly two users left in the organization, both demo mains: `prism/gallery/main.go` (a `Subject[string]` producer/consumer section) and `cadence/modal/gallery/main.go` (a `Subject[bool]` driving `Props.Open`). `mvu/stream.Value` covers both, and covers the second better — a seeded value means the modal's `CombineLatest` fires without waiting for the first emission. Moving them puts `cadence` and `prism/gallery` on the ADR-006 seam until the tags are cut, which is this task's own business, so it is cheap here and nowhere else. If the demos move and the package goes, prism takes a breaking removal in the same release; if the window stays open, say for how long and what closes it.
+- [ ] The release, per the Release protocol, bottom-up: **mvu first and alone at the bottom — the new `stream` subpackage is purely additive, a minor, and it is what `spectrum` is currently unresolvable without** (`check-no-workspace` reads 32/36 at the end of G0C.5; spectrum's single failure is `github.com/vibrantgio/mvu/stream` existing in no tag). Then spectrum, prism and cadence with whatever bumps the diffs argue — judge each against what actually moved. prism's diff is a deprecation notice and an AGENTS/README re-render unless the removal above lands, in which case it is breaking. Cadence's is at least a minor: `popover.Arbitration`, `popover.ArbitrationSnapshot` and tooltip's pair are removed exported symbols, which is breaking however few importers they had. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass; `design/` verified unmoved.
 - [ ] Strike whatever this goal fixes in the register, leaving the struck text in place.
 ### G-G1: The mirror and its harness
 
@@ -3774,10 +3787,125 @@ prism, tier 2, which is *why* `spectrum/preferences` — tier 1, and unable to
 import upward — still holds the organization's one remaining bare
 `rx.Subject` in library code, with the slot leak and frozen-cursor stall
 G0B.1 removed from `coordination`. F5.5's rule applies: if a lower tier needs
-it, the package lives too high. Whatever lifetime-safe Subject survives
+it, the package lives too high. ~~Whatever lifetime-safe Subject survives
 destinations 1 and 2 belongs in **mvu, tier 0**, the FRP substrate that
 `spectrum` already depends on. `scripts/check-layers.sh` is the arbiter, and
-prism forwards through a deprecation window so no consumer breaks mid-goal.
+prism forwards through a deprecation window so no consumer breaks mid-goal.~~
+**The rule held and the conclusion did not: G0C.5 found the primitive worth
+keeping was not this one, so nothing moved down a tier — a smaller one was
+built at tier 0 out of rx's own parts and `coordination` was deprecated in
+place. See the G0C.5 amendment below.**
+
+**What G0C.5 amended, from `spectrum/preferences` — the primitive did not
+need moving, it needed choosing.** The task was written to move
+`coordination.Subject` down to mvu so that tier 1 could reach it. Two
+measurements taken before moving it made that the wrong answer.
+
+**The census first.** After four conversions, `prism/coordination` had no
+library users at all. Its live importers were `prism/gallery/main.go` and
+`cadence/modal/gallery/main.go` — two demo mains — and nothing else; the three
+`cadence` files that still say "coordination" say it in historical comments,
+not imports. Bare `rx.Subject` in non-test library code was down to two sites:
+`coordination/types.go` (the primitive's own per-leg subject) and
+`preferences.go` (the target). In application code it was **zero** — all eight
+workbench files that match `rx.Subject` match it in a comment that G0C.4
+wrote about the flag it removed. So the whole question was what one package,
+`spectrum/preferences`, actually needs.
+
+**And rx already had it.** `github.com/reactivego/rx` v0.3.0 ships two
+multicasts besides `Subject`, and neither has `Subject`'s defect.
+`rx.Multicast` keeps a slice of channels and deletes the entry on
+unsubscribe; `rx.Behavior` keeps a map of receivers, deletes on unsubscribe,
+replays the current value to a new subscriber, conflates for a slow one, and
+never blocks the producer. G0B.1 wrapped `rx.Subject` in 292 lines of
+subscription registry to fix a leak that a *different rx primitive* did not
+have. Measured on an M1 Max, one full arrival cycle — publish, deliver, and
+the consumer's read:
+
+	bare rx.Subject                     51.8 µs   95 B   1 alloc
+	prism/coordination.Subject          52.0 µs   98 B   2 allocs
+	mvu/stream.Value                     1.3 µs   16 B   1 alloc
+
+The wrapper's arrival cost is `rx.Subject`'s, to the microsecond, because it
+delivered through a private `rx.Subject` per subscription — so it also
+inherited the 50 µs spinlock quantum G0C.3 measured at the toast bus and
+G0C.4 measured again at the popover flags. That is the third time one number
+has explained a cost in this goal.
+
+**It kept a defect, too, and that is the part the wrapper's own doc does not
+say.** `coordination` fixed the *departed* subscriber: a slot released on
+Unsubscribe, a leg buffer closed so a parked producer resumes. It did not fix
+the *live* one. Delivery still went through a blocking ring per subscription,
+so a consumer that stopped draining still pinned the producer forever — on
+the Gio frame goroutine, in the case the package was written for.
+`TestSaveIsNotBlockedByAStalledObserver` in spectrum is that defect at the
+real site: against the old code `SaveTo` wedges after 128 writes and the test
+times out; against `rx.Behavior`'s conflating write, 300 saves behind a
+wedged observer complete.
+
+**So the surviving primitive is fourteen lines, and it is at tier 0.**
+`github.com/vibrantgio/mvu/stream` exports one function.
+`Value[T](seed) (rx.Observer[T], rx.Observable[T])` is `rx.Behavior` over a
+source observable that does nothing but hand its own observer back when the
+Connectable connects. That last part is the only non-obvious line and it buys
+two things: the producer writes `Behavior`'s conflating cell *synchronously*,
+on its own goroutine, so a consumer subscribing microseconds after a write
+sees the written value rather than the previous one and then converging; and
+an idle stream costs **no goroutine**, where an `rx.Subject` or `rx.Multicast`
+source would have cost one forwarding goroutine per stream for the life of
+the process. `preferences` keeps a process-global registry of streams per
+path that is never pruned, so that is not a rounding error. Both properties
+are pinned — `TestTheWriteIsSynchronous` runs 200 write-then-subscribe cycles
+and `TestAnIdleStreamCostsNoGoroutine` builds fifty streams and counts.
+
+**The contract boundary this draws is the ADR's own triangle, closed.**
+`stream.Value` conflates: a consumer that falls behind converges on the newest
+value instead of replaying the ones it missed. That is right for state and
+wrong for events — and an event whose every occurrence is load-bearing is
+destination 1, a message, which the loop already delivers in order. So
+destination 3 is not "the observables we could not get rid of", it is
+**state that several consumers watch**, and anything else that reaches for it
+is at the wrong destination. It is written into the package doc in those
+words, because a primitive whose misuse is invisible is how the four dead
+buses happened.
+
+**The ceiling and the leak detector are gone, and losing them is the point.**
+`MaxSubscribers = 64` and `ErrSubscriberLimit` existed to turn rx's opaque
+"out of subject subscriptions" into an error that named the holders — a
+detector for a leak the design admitted. `rx.Behavior` has no slot to leak, so
+there is nothing to detect and nothing to cap: `TestThereIsNoSubscriberCeiling`
+runs 200 concurrent subscribers, three times the old limit. This is F5.1's
+shaper lesson again, in the direction the ADR keeps finding it: a design that
+cannot express the hazard beats one that guards against it. The ceiling was
+also a landmine in its own right — G0A.3's shell test was impossible until
+G0B.1 raised it from eight.
+
+**`coordination` is deprecated in place, not forwarded, and the reason is
+G0C.3's rule read backwards.** The task offered "re-exports or forwards
+through a deprecation window". A forwarder compiles and silently changes
+behaviour: `stream.Value` conflates where the hub queued, drops the
+subscriber ceiling, and has no `bufCap`. G0C.3's rule is that a conversion
+should break loudly rather than deprecate quietly — the same rule says that
+if you are *not* breaking, you must not change behaviour under an unchanged
+signature either. So the package is left exactly as it is, still tested,
+with `Deprecated:` on the package and on `Subject` and the measurements in
+its doc, and its removal scheduled. It also means prism gains no import and
+so opens no seam.
+
+**The seam, and it is one module.** `spectrum/preferences` imports
+`github.com/vibrantgio/mvu/stream`, which exists in no mvu tag, so
+`check-no-workspace` went **33/36 → 32/36**: `spectrum` joins `workbench/feeds`,
+`workbench/watchlist` and `workbench/mindchat`. Nothing else moved — prism
+does not import the new package, and `prism/gallery` and `cadence` resolve
+the published prism, whose `coordination` is unchanged. G0C.6 releases mvu
+first and the rest follows it.
+
+All 84 cadence goldens and all 16 workbench goldens byte-identical, and so are
+prism's 100, pulse's 21 and markdown's 9 — nothing in this task is on a draw
+path. `check-layers` OK (mvu still imports nothing in the organization; the
+new package's only dependency is rx), `check-agents` 20/20 after re-rendering
+mvu's and prism's AGENTS.md from `templates/repos.tsv`, `go test -race` clean
+in mvu, spectrum and prism, and all seven applications build and test.
 
 **Consequences.**
 
@@ -3804,6 +3932,13 @@ prism forwards through a deprecation window so no consumer breaks mid-goal.
   addition that made the four per-row open flags plain bools, and the fifth
   Subject — feeds' filter text — turned out to be destination 1. See the
   amendment above for the ledger correction and the seam it opened.
+- **G0C.5** put `spectrum/preferences` — the last bare `rx.Subject` in
+  library code — on `mvu/stream.Value`, and got there by not doing what the
+  task said: the census found `prism/coordination` had no library users left
+  and the benchmark found rx's own `Behavior` beat the wrapper on every axis,
+  so nothing moved down a tier. Fourteen lines were written at tier 0 and 292
+  were deprecated in place. See the amendment above for the arrival numbers,
+  the defect the wrapper kept, and why destination 3 is state and not events.
 - **Removing an exported symbol is a breaking change** even when nothing
   imports it. `popover.Arbitration`, `popover.ArbitrationSnapshot`,
   `tooltip.Arbitration`, `tooltip.ArbitrationSnapshot`, `modal.Stack` and
@@ -3813,7 +3948,12 @@ prism forwards through a deprecation window so no consumer breaks mid-goal.
   "arbitrate alone" — a behaviour change with nothing for a compiler to catch,
   which is why it is spelled out in three package docs and the README.
   `popover.Props.OpenNow` is purely additive. cadence takes one minor bump at
-  G0C.6 that carries all of it.
+  G0C.6 that carries all of it. **Deprecating one is not**, which is why
+  G0C.5 left `prism/coordination` byte-for-byte intact behind a `Deprecated:`
+  marker rather than forwarding it: a forwarder to `mvu/stream.Value` would
+  compile everywhere and change delivery policy, subscriber ceiling and
+  buffering under an unchanged signature. prism's next tag carries a doc
+  change and nothing else; the removal is a later one.
 - **The gate G0C.6 writes** should ban a bare `rx.Subject` outside the homes
   this ADR names, and nothing more — pipelines, theme and genuine streams are
   not what it is looking for.
