@@ -2388,11 +2388,11 @@ found them.
 That makes this the most consequential release in the phase, and the reason to
 cut it promptly rather than fold it into the next convenient boundary.
 
-- [ ] `scripts/check-layers.sh`, `scripts/check-no-workspace.sh` and `scripts/check-agents.sh` green before any tag moves. Expect `workbench/feeds` to be the one failure at the start — it overruns prism v0.5.0's ceiling under `GOWORK=off` — and to clear when prism is tagged.
-- [ ] Tag bottom-up per the Release protocol: **prism v0.6.0** (minor — `MaxSubscribers` and `ErrSubscriberLimit` are new exported surface and delivery semantics changed materially, though `Subject`'s signature did not), then **cadence v0.4.1** (patch — no API change, re-pins prism so consumers get the fix through the module graph rather than only under the workspace). Judge whether `prism/gallery` needs the mirror tag. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while a tag is in flux, never a proxy probe.
-- [ ] Say what the release is for where an upgrader will see it. The tag message should name the stall, not the ceiling: a caller reading "raised the subscriber limit" will not understand they are taking a hang fix.
-- [ ] Confirm resolution from a clean module cache with the workspace disabled, `go clean -modcache` first.
-- [ ] Verify `design/` did not move — no token value should have changed — and regenerate and re-push it if one did.
+- [x] `scripts/check-layers.sh`, `scripts/check-no-workspace.sh` and `scripts/check-agents.sh` green before any tag moves. Expect `workbench/feeds` to be the one failure at the start — it overruns prism v0.5.0's ceiling under `GOWORK=off` — and to clear when prism is tagged.
+- [x] Tag bottom-up per the Release protocol: **prism v0.6.0** (minor — `MaxSubscribers` and `ErrSubscriberLimit` are new exported surface and delivery semantics changed materially, though `Subject`'s signature did not), then **cadence v0.4.1** (patch — no API change, re-pins prism so consumers get the fix through the module graph rather than only under the workspace). Judge whether `prism/gallery` needs the mirror tag. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while a tag is in flux, never a proxy probe.
+- [x] Say what the release is for where an upgrader will see it. The tag message should name the stall, not the ceiling: a caller reading "raised the subscriber limit" will not understand they are taking a hang fix.
+- [x] Confirm resolution from a clean module cache with the workspace disabled, `go clean -modcache` first.
+- [x] Verify `design/` did not move — no token value should have changed — and regenerate and re-push it if one did.
 
 ### G-G1: The mirror and its harness
 
