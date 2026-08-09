@@ -2240,6 +2240,81 @@ found while fixing the template drift:
 - [ ] Consider whether `check-agents.sh` should also diff the rendered layer sentence against `check-layers.sh`'s measured edges once G0.1 makes them the same fact — if the sentence is generated from the measurement, the check is free and the whole class dies.
 - [ ] Build, test, commit and push in every repo touched. No tags: this is documentation, and the modules were released at F5.7.
 
+### G-G0A: The dialog grammar and the emphasis axis
+
+Rene surveyed the desktop field against `cadence/modal`'s golden and the
+verdict is in two parts. Apple's dialogs end in right-aligned footer actions —
+Cancel plus a default that answers Return — with Escape bound to Cancel and no
+X anywhere, and the scrim inert. Obsidian's and Claude.app's settings are the
+opposite surface: a small quiet X top-right, Escape and a scrim click close it,
+no footer because changes apply live, and an app accelerator (⌘,) opens it.
+That range is not a spectrum needing toggles. It is **two archetypes whose
+affordances travel together**, and a Props model that exposes them as
+independent booleans permits every wrong combination — including the one
+`light-open.png` records today: a decision dialog ("Discard changes?") wearing
+a panel's X, in filled primary, over a scrim that dismisses.
+
+Three defects hide in that sentence, in two repos:
+
+- **`prism/button` has no emphasis axis.** No filled/tonal/ghost distinction
+  exists — `Props` carries no such field — so every button in the org renders
+  filled primary, and the modal's close affordance is the loudest element on
+  its own surface, out-weighing the title beside it. MD3 has
+  filled/tonal/outlined/text; Fluent primary/standard/subtle; Apple
+  prominent/regular/plain. ADR-005's charter — MD3's *system*, reimagined for
+  native desktop — squarely covers the emphasis scale, and the close button is
+  not the motivation for it but the proof that its absence already produced a
+  wrong screen.
+- **The scrim dismisses unconditionally** (`modal.go:19`: "Escape and a
+  backdrop click invoke Props.OnClose"). For a decision dialog that is wrong on
+  Apple's terms whatever the X looks like: dismissal is a decision, and a stray
+  click must not make it for you.
+- **No action answers Return.** Desktop conventions on both platforms bind
+  Return to the default pushbutton; the modal has no notion of one.
+
+The accelerator is deliberately **not** a modal concern — the modal cannot own
+how you arrived. Gio ships the platform-correct modifier as `key.ModShortcut`
+(Cmd on darwin, Ctrl elsewhere; `io/key/mod_darwin.go`), so the binding is app
+chrome, one line, demonstrated in workbench rather than wired into cadence.
+
+Measured before scheduling: modal is the **only** icon-button consumer in
+cadence — toast auto-dismisses on its Lifetime and carries no X — so the
+adoption sweep is one component, not a campaign.
+
+Sequenced before G-G1 and G-G2 because the mirror's contract is fidelity:
+pages built now would faithfully teach the design agent the filled square and
+the dismissing scrim, and every screen it composes would inherit them.
+
+#### G0A.1: Give prism/button an emphasis axis
+
+- [ ] Add the register to `Props` — **filled** (the default), **tonal**, **ghost** — with the zero value rendering exactly today's filled button, byte-identical goldens and all: this must be an additive minor, and the existing goldens not moving is the proof.
+- [ ] Derive each register's state colours from the tonal ramp the way the filled register already resolves its own — ghost rests transparent with the glyph/label on `onSurfaceVariant`, takes a tonal wash on hover, the standard treatments for pressed and disabled, and the focus ring unchanged: keyboard visibility does not scale down with emphasis.
+- [ ] Icon-only composes with every register. A ghost icon button keeps the full pointer target — the glyph quiets, the 44 dp square does not: visual weight and hit area are separate properties, and the target is the part of the mobile inheritance worth keeping.
+- [ ] New goldens for each register × state × both densities, regenerated per package and eyeballed; existing goldens untouched.
+- [ ] Build, test, commit in prism.
+
+#### G0A.2: Teach cadence/modal the two intents
+
+- [ ] Name the archetypes in the API — a **decision** dialog and a dismissable **panel** — and derive the affordances from the intent rather than exposing them severally. Decision: footer actions right-aligned, no X, scrim inert, Escape invokes Cancel, Return activates the designated default action. Panel: ghost icon-only close top-right, Escape and scrim click both close, footer optional.
+- [ ] Adopt Apple's default-action rule wholesale: a destructive primary is never the Return-bound default — when the primary destroys something, Cancel takes the default, and "Discard changes?" answering Return with Discard is the exact failure this forbids. Write the rule into the doc and enforce it in the API shape if it can be enforced cheaply.
+- [ ] The scrim change is behavioural, so it gets a test each way: a backdrop click on a decision dialog does nothing; on a panel it closes. Escape still works on both.
+- [ ] Reconcile `HideClose` with the intent model — it must keep compiling through a deprecation window, documented as derived (decision implies hidden), not silently ignored.
+- [ ] Regenerate the moved goldens — the close affordance going ghost moves every open-state image — and eyeball them: the title should now out-weigh the X, and `light-open.png` becoming a *decision* fixture (no X at all) is the better fixture if the golden set is re-cut to show one of each intent.
+- [ ] Build, test, commit in cadence.
+
+#### G0A.3: The invocation half lives in the app, and one app proves it
+
+- [ ] Bind the settings accelerator in the workbench app with the most natural settings surface — `key.ModShortcut` + `,`, opening a settings **panel** built on G0A.2; record which app and why. This is the pattern's reference implementation: app chrome owns arrival, the modal owns dismissal.
+- [ ] Write the pattern where consumers read it: modal's package doc states the two intents and what each mandates and forbids — the inert scrim, the Return rule, the ghost close — and `llms.txt` gets the one-line rule if it earns one.
+- [ ] Build, test, commit in workbench and cadence.
+
+#### G0A.4: Release the grammar
+
+- [ ] `scripts/check-layers.sh` and `scripts/check-no-workspace.sh` green before any tag moves.
+- [ ] Tag bottom-up per the Release protocol: prism minor (new exported API), cadence minor (new API and observable behaviour — the inert scrim is a contract change a caller can see), everything above re-pins as patch. Check `git tag | sort -V` first; no double-digit component, ever.
+- [ ] Confirm resolution from a clean module cache with the workspace disabled, `go clean -modcache` first.
+- [ ] `design/` should not move — no token value changes here — but verify rather than assume, and regenerate and re-push it if one did.
+
 ### G-G1: The mirror and its harness
 
 #### G1.1: Golden comparison harness
@@ -2278,25 +2353,22 @@ from, not as a target.
 - [ ] Say which machine is authoritative, because CI cannot be. F5.7 read the verdict from a real run: the runner opens no headless window, so every Gio-side capture answers `t.Skipf` and a skipped test passes. A mirror harness wired into CI as it stands would go green without comparing anything — the same trap that hid cadence's failure for sixteen runs.
 - [ ] Commit here.
 #### G1.2: The component class vocabulary
-
 - [ ] Define the class layer in `styles.css`, built only on the tokens E0.1 emits — no literal colours, sizes or radii.
+- [ ] Name the emphasis registers G0A.1 added — `.btn` filled by default, with tonal and ghost modifier classes — resolved from the same ramp positions prism resolves, so the mirror and the Gio button disagree about nothing but antialiasing.
 - [ ] Cover the interaction states explicitly: hover, pressed, keyboard focus ring, disabled, selected.
 - [ ] Derive state colours from the tonal ramp rather than ad-hoc mixes, matching how prism resolves them.
 - [ ] Confirm the sheet still passes E0.1's round-trip test.
 - [ ] Commit here.
-
 ### G-G2: The component pages
 
 One task per group. Each page is plain, readable HTML; each ends green against
 the G1.1 harness for every variant and state it shows.
 
 #### G2.1: Buttons, tags and forms
-
-- [ ] Build `components/buttons.html`: every prism/button variant, size and state, plus tags.
+- [ ] Build `components/buttons.html`: every emphasis register — filled, tonal, ghost — in its enabled, hover, pressed, focus-ring and disabled states, the icon-only form beside them, at both densities; plus tags. There is no size prop and the page must not invent one: the heights come from `Density.ControlHeight`, so density is the size axis.
 - [ ] Build `components/forms.html`: text field, checkbox, radio and dropdown on native elements, no script.
 - [ ] Run the harness against prism's button and input goldens; close the gaps.
 - [ ] Commit here.
-
 #### G2.2: Cards, elevation and tables
 
 - [ ] Build `components/cards.html`: the card pattern and each elevation step.
@@ -2312,12 +2384,10 @@ the G1.1 harness for every variant and state it shows.
 - [ ] Commit here.
 
 #### G2.4: Overlays
-
-- [ ] Build `components/dialog.html`: modal over its backdrop at the top elevation, plus popover, tooltip and toast.
-- [ ] Show the scrim and the focus-trapped state, since those carry the elevation and colour decisions.
+- [ ] Build `components/dialog.html`: both modal intents from G0A.2 over their backdrops at the top elevation — the **decision** dialog with its right-aligned footer, Return-bound default and no X, and the dismissable **panel** with its ghost close top-right — plus popover, tooltip and toast.
+- [ ] Show the scrim and the focus-trapped state, since those carry the elevation and colour decisions — and say beside the decision dialog that its scrim is inert, because the mirror is the document an agent reads and the behaviour is part of the pattern.
 - [ ] Run the harness against the cadence overlay goldens; close the gaps.
 - [ ] Commit here.
-
 ### G-G3: Ship it
 
 #### G3.1: The conventions header
