@@ -2362,10 +2362,15 @@ This is also the honest test of the deprecation: `HideClose` must keep
 compiling and keep working until every in-org caller has moved, and mindchat is
 the list.
 
-- [ ] Convert mindchat's settings modal to a `Decision` — Save as `Confirm`, Cancel as `Cancel` — and confirm the derived behaviour is what the app already wanted: an inert backdrop (a stray click must not discard a half-typed API key), Escape invoking Cancel, Return committing Save.
-- [ ] Check whether Save is destructive in the sense the rule means. It overwrites stored provider configuration, which is not obviously recoverable — if it is not, `Destructive` makes Cancel the Return default, and that is a behaviour change the task should decide deliberately rather than inherit.
-- [ ] Sweep for any other `HideClose` caller and move it too. When the count reaches zero, say so in the deprecation note so whoever removes the flag knows the window is empty.
-- [ ] Regenerate mindchat's goldens, eyeball them, and build, test, commit in workbench.
+*Corrected while doing it:* mindchat is the list, but it is TWO entries, not
+one — the sweep found the rename modal beside the settings modal, the same
+shape (a Cancel/Rename footer, the X suppressed) and the same conversion. Both
+moved; the deprecation window is now empty.
+
+- [x] Convert mindchat's settings modal to a `Decision` — Save as `Confirm`, Cancel as `Cancel` — and confirm the derived behaviour is what the app already wanted: an inert backdrop (a stray click must not discard a half-typed API key), Escape invoking Cancel, Return committing Save.
+- [x] Check whether Save is destructive in the sense the rule means. It overwrites stored provider configuration, which is not obviously recoverable — if it is not, `Destructive` makes Cancel the Return default, and that is a behaviour change the task should decide deliberately rather than inherit.
+- [x] Sweep for any other `HideClose` caller and move it too. When the count reaches zero, say so in the deprecation note so whoever removes the flag knows the window is empty.
+- [x] Regenerate mindchat's goldens, eyeball them, and build, test, commit in workbench.
 
 #### G0B.3: Release the Subject fix
 
