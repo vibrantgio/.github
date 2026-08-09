@@ -2345,11 +2345,11 @@ wrong AutoConnect count, which is what made it expensive.
 G0A.3 worked around it rather than widening the seam mid-goal, so feeds cannot
 accept another shell-subscribing test today.
 
-- [ ] Find out why the cap is eight, before changing it. A number that low is either a deliberate backpressure decision worth documenting or an arbitrary default nobody revisited, and which one it is determines whether the fix is a larger number, a growable buffer, or returning the slot.
-- [ ] Decide whether `Unsubscribe` should return the slot. That is the actual leak — a long-running application that opens and closes eight shells has exhausted the Subject with nothing subscribed. Judge it against how rx's own operators expect Subject to behave, not against what would make this test pass.
-- [ ] Whatever the mechanism, make the failure name itself: exhausting the Subject must say what ran out and who holds the slots, because the current message surfaces on an innocent bystander in the same binary.
-- [ ] Add the test feeds could not have — a ninth shell subscription — and confirm the whole package still passes.
-- [ ] Build, test, commit in prism, cadence and workbench as needed. If prism's exported surface moves, that is a release, so say so rather than leaving it to the next tagger to notice.
+- [x] Find out why the cap is eight, before changing it. A number that low is either a deliberate backpressure decision worth documenting or an arbitrary default nobody revisited, and which one it is determines whether the fix is a larger number, a growable buffer, or returning the slot.
+- [x] Decide whether `Unsubscribe` should return the slot. That is the actual leak — a long-running application that opens and closes eight shells has exhausted the Subject with nothing subscribed. Judge it against how rx's own operators expect Subject to behave, not against what would make this test pass.
+- [x] Whatever the mechanism, make the failure name itself: exhausting the Subject must say what ran out and who holds the slots, because the current message surfaces on an innocent bystander in the same binary.
+- [x] Add the test feeds could not have — a ninth shell subscription — and confirm the whole package still passes.
+- [x] Build, test, commit in prism, cadence and workbench as needed. If prism's exported surface moves, that is a release, so say so rather than leaving it to the next tagger to notice.
 
 #### G0B.2: mindchat's settings modal is a decision wearing a panel's clothes
 
