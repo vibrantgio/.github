@@ -1158,8 +1158,8 @@ provides the missing piece: `NewWindow(w, h)`, `Frame(*op.Ops)` and
 `Screenshot(*image.RGBA)` render an op list to an offscreen GPU surface and
 read the pixels back. That is a real backdrop-blur pipeline built from Gio's
 own primitives — render the layer behind, read it, blur it, paint it as an
-`ImageOp`. The org already depends on this package: it is what
-`prism/internal/golden` and every cadence and pulse golden test are built on.
+`ImageOp`. The org already depends on this package: it is what `prism/golden`,
+and through it every golden test in the organization, is built on.
 
 Own the blur itself rather than importing one. All three candidates were
 measured and all three are compromised: `disintegration/imaging` works but has
@@ -2245,23 +2245,37 @@ found while fixing the template drift:
 #### G1.1: Golden comparison harness
 Without this, the rest of the phase is guesswork dressed as work.
 
-**The Gio half already exists.** `prism/internal/golden` renders a widget into a
-`gioui.org/gpu/headless` window and returns the pixels — `Capture`, `Render` and
-`PixelDiff` — and every cadence and pulse golden test is built on it. Reuse it;
-do not write a second Gio capture path. What is new is the browser side and the
-comparison metric.
+**The Gio half already exists, and is one shared package now.** `prism/golden`
+renders a widget into a `gioui.org/gpu/headless` window and returns the pixels
+— `Capture`, `Render`, `PixelDiff`, and since F5.5 also `Compare`,
+`CompareNRGBA` and `Save`. F3.3 promoted it out of `internal`; F5.5 then deleted
+the twenty-eight hand copies that had been shadowing it, so every golden test in
+prism, pulse, cadence, markdown and the workbench applications runs through this
+one package. Reuse it; do not write a second Gio capture path. What is new here
+is the browser side and the comparison metric.
 
 `PixelDiff` counts exact byte mismatches, which is right for catching a
 regression between two Gio renders and useless across two different renderers.
 This task needs a perceptual metric instead.
 
-- [ ] Use prism's exported golden capture, promoted in F3.3. If that bullet was skipped, go back and do it there and re-tag — do not reach into `internal` from here, and do not write a second Gio capture path.
-- [ ] The browser automation is **chromedp**, decided by Rene on toolchain grounds: it keeps the harness one Go test in the same `go test` run as everything else, where Playwright would shape text better but split a pure-Go organisation across two toolchains. Neither was installed, so this task installs Chrome or Chromium first and records the version it pinned — a mirror comparison that silently changes renderer is worthless.
+**How far apart two renderers actually are, measured rather than assumed.** F5.7
+installed the Linux GL drivers on a CI runner and compared macOS-recorded
+goldens against the same Gio code rendering under mesa: nine of pulse's
+twenty-one images differed, one by 36% of its frame, while the three drawn on
+the CPU matched byte for byte. That is a single engine disagreeing with itself
+across two platforms. Chrome against Gio is a wider gap than that by
+construction — so any tolerance tighter than same-engine cross-platform
+divergence is provably too tight. Treat that number as the floor to argue up
+from, not as a target.
+
+- [ ] Use `prism/golden`: exported by F3.3, consolidated by F5.5, and available from prism v0.4.0. Do not reach for a second Gio capture path.
+- [ ] The browser automation is **chromedp**, decided by Rene on toolchain grounds: it keeps the harness one Go test in the same `go test` run as everything else, where Playwright would shape text better but split a pure-Go organisation across two toolchains. Neither was installed, so this task installs Chrome or Chromium first and records the version it pinned — a mirror comparison that silently changes renderer is worthless. This is the organisation's first non-Go dependency; say so where the next person will meet it, not only here.
 - [ ] Write the browser half: render a component page headless at a fixed viewport and capture a screenshot.
-- [ ] Align the two: same nominal size, same theme emission, same component state.
+- [ ] Align the two: same nominal size, same theme emission, same component state. The Gio side must draw with `DeterministicShaper()` and not `Shaper()` — F4.2 split them precisely so a pixel comparison cannot depend on which fonts the machine happens to carry, and a mirror scored against a system-shaped render measures the machine rather than the mirror.
 - [ ] Implement a perceptual comparison — downscale both and compare in a perceptual space, or score structural similarity. Text shaping and antialiasing differ between Gio and a browser, so the bar is "reads as the same component", not pixel equality.
-- [ ] Pick and justify the tolerance from real pairs, not in the abstract.
+- [ ] Pick and justify the tolerance from real pairs, not in the abstract, and state where it sits against the F5.7 floor above.
 - [ ] Prove it: run it against one deliberately wrong variant and confirm it fails, and against a re-render of the same component and confirm it passes.
+- [ ] Say which machine is authoritative, because CI cannot be. F5.7 read the verdict from a real run: the runner opens no headless window, so every Gio-side capture answers `t.Skipf` and a skipped test passes. A mirror harness wired into CI as it stands would go green without comparing anything — the same trap that hid cadence's failure for sixteen runs.
 - [ ] Commit here.
 #### G1.2: The component class vocabulary
 
