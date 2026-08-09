@@ -2324,6 +2324,49 @@ the dismissing scrim, and every screen it composes would inherit them.
 - [ ] Confirm resolution from a clean module cache with the workspace disabled, `go clean -modcache` first.
 - [ ] `design/` should not move — no token value changes here — but verify rather than assume, and regenerate and re-push it if one did.
 
+### G-G0B: Two things the grammar work uncovered
+
+Neither belongs in G-G0A's release — one is a latent limit in a repo that
+release does not otherwise touch, the other is adoption work that the
+deprecation window makes safe to defer. Both were found by doing the work
+rather than by looking for them, and both will be expensive to rediscover.
+
+#### G0B.1: The eight-subscriber ceiling in the toast Subject
+
+`cadence/toast`'s `Notify` Subject is process-global and caps at eight
+concurrent subscribers — `prism/coordination.Subject` passes `scap=8` — every
+`feedsShellLayer` subscription takes one through `toast.Stack`, and rx does not
+return a slot on `Unsubscribe`. G0A.3 found `workbench/feeds` sitting at
+*exactly* eight: adding a ninth shell test made **a different, later** test in
+the same binary fail with "out of subject subscriptions". The symptom names
+neither the cause nor the test that caused it, and it reads convincingly like a
+wrong AutoConnect count, which is what made it expensive.
+
+G0A.3 worked around it rather than widening the seam mid-goal, so feeds cannot
+accept another shell-subscribing test today.
+
+- [ ] Find out why the cap is eight, before changing it. A number that low is either a deliberate backpressure decision worth documenting or an arbitrary default nobody revisited, and which one it is determines whether the fix is a larger number, a growable buffer, or returning the slot.
+- [ ] Decide whether `Unsubscribe` should return the slot. That is the actual leak — a long-running application that opens and closes eight shells has exhausted the Subject with nothing subscribed. Judge it against how rx's own operators expect Subject to behave, not against what would make this test pass.
+- [ ] Whatever the mechanism, make the failure name itself: exhausting the Subject must say what ran out and who holds the slots, because the current message surfaces on an innocent bystander in the same binary.
+- [ ] Add the test feeds could not have — a ninth shell subscription — and confirm the whole package still passes.
+- [ ] Build, test, commit in prism, cadence and workbench as needed. If prism's exported surface moves, that is a release, so say so rather than leaving it to the next tagger to notice.
+
+#### G0B.2: mindchat's settings modal is a decision wearing a panel's clothes
+
+It is the organization's one remaining consumer of `HideClose` in the shape
+G0A.2 deprecated: a draft-and-Save provider form with a Cancel/Save footer and
+the corner X suppressed. Under the grammar that *is* a decision dialog, and
+saying so in the API is the whole point of having named the archetypes.
+
+This is also the honest test of the deprecation: `HideClose` must keep
+compiling and keep working until every in-org caller has moved, and mindchat is
+the list.
+
+- [ ] Convert mindchat's settings modal to a `Decision` — Save as `Confirm`, Cancel as `Cancel` — and confirm the derived behaviour is what the app already wanted: an inert backdrop (a stray click must not discard a half-typed API key), Escape invoking Cancel, Return committing Save.
+- [ ] Check whether Save is destructive in the sense the rule means. It overwrites stored provider configuration, which is not obviously recoverable — if it is not, `Destructive` makes Cancel the Return default, and that is a behaviour change the task should decide deliberately rather than inherit.
+- [ ] Sweep for any other `HideClose` caller and move it too. When the count reaches zero, say so in the deprecation note so whoever removes the flag knows the window is empty.
+- [ ] Regenerate mindchat's goldens, eyeball them, and build, test, commit in workbench.
+
 ### G-G1: The mirror and its harness
 
 #### G1.1: Golden comparison harness
