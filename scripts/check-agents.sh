@@ -20,13 +20,21 @@
 # clone's AGENTS.md — sync-agents.sh will overwrite it, and until it does, the
 # repository and the org's source of truth disagree.
 #
-#   templates/repos.tsv        the role sentence and the layer line
+#   templates/repos.tsv        the role sentence and the layer line's tier half
 #   templates/notes/<repo>.md  anything longer, appended verbatim
 #   templates/AGENTS.md        wording shared by all twenty
 #
-# and the module, build and golden-image paragraphs are measured from the
-# clone by sync-agents.sh, so those are never edited anywhere: if one of them
+# and the module, build and golden-image paragraphs — and, since G0.1, both
+# directions of the layer paragraph's dependency claim — are measured from the
+# clones by sync-agents.sh, so those are never edited anywhere: if one of them
 # is wrong, the clone is what changed.
+#
+# G0.1 also closes this check's one blind spot for free. It proves the file
+# matches the template, which said nothing at all about whether the template
+# was right; nine layer sentences were false while every file here passed. Now
+# that the import lists are rendered from scripts/check-layers.sh's own walk of
+# the graph, a stale sentence and a stale render are the same failure, and this
+# check catches both.
 #
 # The rendering is not reimplemented here. `sync-agents.sh -n` already renders
 # and diffs and writes nothing, so this script runs exactly that and judges its
@@ -64,6 +72,16 @@ for name in $repos; do
 		exit 2
 	fi
 done
+
+# One measurement of the dependency graph for all twenty renders. sync-agents.sh
+# needs the whole graph to render either direction of a layer sentence, and it
+# walks all 36 modules with `go list` to get it — twenty times over, once per
+# invocation below, if left alone. The file is scratch, created here and
+# deleted on the way out, so the answer can never outlive the tree it was
+# measured from; a cached graph that did would be a typed fact again.
+VG_LAYER_EDGES=$(mktemp)
+export VG_LAYER_EDGES
+trap 'rm -f "$VG_LAYER_EDGES"' EXIT
 
 total=0
 pass=0

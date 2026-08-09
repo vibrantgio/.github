@@ -21,7 +21,10 @@ moved to `vibrantgio/.github` in task A1.2 (ADR-004); the three lines left
 behind point at its raw URL, which is the URL above. Do not restore content
 into it.
 
-**`README.md` and `DESIGN.md` are behind the code.** The README still
-describes three example applications where there are seven, and DESIGN.md
-predates the layering ADR-001 sets out. F2.2 and F2.3 rewrite them; until
-then, trust the application source over either document.
+**`README.md` and `DESIGN.md` have caught up.** They used to be behind the
+code — three example applications described where there were seven, and a
+DESIGN.md that predated ADR-001's layering — and this note used to say so.
+F2.2 rewrote DESIGN.md around the inverted layering and F2.3 rewrote the
+README around all seven applications, so read them as current. Where a
+document and the application source still disagree, the source wins and the
+document is a bug to file.

@@ -33,6 +33,37 @@
 #   scripts/check-layers.sh DIR [DIR..]  # check specific module directories;
 #                                        # this is what each repo's CI runs,
 #                                        # as `check-layers.sh .`
+#   scripts/check-layers.sh --edges      # emit the measured graph as TSV on
+#                                        # stdout and say nothing else there
+#
+# --edges exists so that the one derivation in this file can be *read* as well
+# as judged. scripts/sync-agents.sh renders every repository's "**Layer.**"
+# sentence out of it, which is the only reason those sentences cannot say
+# something `go list` denies (G0.1): before that they were typed into
+# templates/repos.tsv, and nine of the twenty had gone false. Two measurements
+# of one fact is exactly the defect that fixed, so there must not be a second
+# walk of the graph anywhere in the organization — extend this one.
+#
+# In --edges mode the judgment is unchanged, but the *scope* widens: the
+# default target becomes every module under .repos/, all 36, because a guide
+# has to describe the exempt ones too — workbench's applications are the only
+# consumers half the support libraries have, and `prism/gallery`'s edge to
+# pulse is the cycle the whole of phase B went after. They are measured and
+# emitted, still never judged. Human report lines go to stderr so stdout
+# carries nothing but the TSV, one line per edge:
+#
+#   <module>  <kind>  <tier>  <imported module>  <direct|indirect>  <pkgs,of,it>
+#
+# all paths relative to github.com/vibrantgio, kind one of root/demo/app/
+# adapter/untabled, tier `-` for anything not judged, and a module with no
+# organization imports emitted once with `-` in the last three fields so that
+# "imports nothing here" is a measured fact rather than an absent row.
+#
+# The edge list is the dependency *closure*, because that is what ADR-001
+# judges: cadence reaching font only through prism is still cadence depending
+# on font, and a tier rule that ignored inherited edges would be no rule. The
+# direct/indirect column keeps the other question answerable — what does this
+# module's own source name — so that neither has to be guessed from the other.
 #
 # CI distribution: the tier table lives in this one file, so each core repo's
 # workflow fetches the raw script from the .github repo and runs it against
@@ -96,20 +127,50 @@ in_list() { # word list -> 0 if word is in the space-separated list
 TIERED="mvu font style textdraw backdrop gradient circle spectrum prism pulse cadence markdown"
 SUPPORT="ivg svg seen csg kiwi noise traer"
 
-# Default target: every root module under .repos/ next to this script's repo.
-if [ "$#" -gt 0 ]; then
-  DIRS="$*"
+EDGES=0
+ARGS=""
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -e|--edges) EDGES=1 ;;
+    -h|--help)
+      sed -n '2,80p' "$0" | sed -n '/^# Usage:/,/^#$/p' | sed 's/^# \{0,1\}//'
+      exit 0 ;;
+    -*) echo "check-layers: unknown option: $1" >&2; exit 2 ;;
+    *)  ARGS="$ARGS $1" ;;
+  esac
+  shift
+done
+
+# The human report. In --edges mode stdout belongs to the TSV alone, so every
+# line of prose this script writes goes through here and lands on stderr.
+say() {
+  if [ "$EDGES" = 1 ]; then printf '%s\n' "$*" >&2; else printf '%s\n' "$*"; fi
+}
+
+# Default target: every root module under .repos/ next to this script's repo —
+# or, when the graph is being read rather than judged, every module there.
+if [ -n "$ARGS" ]; then
+  DIRS=$ARGS
 else
   root=$(cd "$(dirname "$0")/.." && pwd)
   DIRS=""
-  for name in $TIERED $SUPPORT; do
-    d="$root/.repos/$name"
-    if [ ! -f "$d/go.mod" ]; then
-      echo "error: $d/go.mod not found — run scripts/clone-all.sh first" >&2
+  if [ "$EDGES" = 1 ]; then
+    DIRS=$(find "$root/.repos" -name go.mod -not -path '*/.git/*' 2>/dev/null |
+      sed 's|/go\.mod$||' | sort)
+    if [ -z "$DIRS" ]; then
+      echo "error: no modules under $root/.repos — run scripts/clone-all.sh first" >&2
       exit 2
     fi
-    DIRS="$DIRS $d"
-  done
+  else
+    for name in $TIERED $SUPPORT; do
+      d="$root/.repos/$name"
+      if [ ! -f "$d/go.mod" ]; then
+        echo "error: $d/go.mod not found — run scripts/clone-all.sh first" >&2
+        exit 2
+      fi
+      DIRS="$DIRS $d"
+    done
+  fi
 fi
 
 violations=0
@@ -125,52 +186,100 @@ for dir in $DIRS; do
   mod=$(sed -n 's/^module[[:space:]]*//p' "$dir/go.mod" | head -1)
   case "$mod" in
     "$ORG"/*) ;;
-    *) echo "-- $mod: not a $ORG module, skipped"; continue ;;
+    *) say "-- $mod: not a $ORG module, skipped"; continue ;;
   esac
   rel=${mod#"$ORG"/}
+
+  # What sort of module this is, and therefore whether ADR-001 judges it. The
+  # four exempt kinds are still *measured* in --edges mode: a guide describes
+  # the graph, and the graph includes the demos and the applications.
+  kind=root
   case "$rel" in
-    prism/gallery|mvu/example)
-      echo "-- $rel: nested demo module, exempt (may import above its parent's tier)"
-      continue ;;
-    workbench/*)
-      echo "-- $rel: application, top of the stack, exempt"
-      continue ;;
-    */*)
-      echo "-- $rel: nested adapter module, outside the tier table, skipped"
-      continue ;;
+    prism/gallery|mvu/example) kind=demo ;;
+    workbench/*)               kind=app ;;
+    */*)                       kind=adapter ;;
   esac
   name=$rel
-  tier=$(tier_of "$name")
-  if [ -z "$tier" ]; then
-    echo "-- $name: not in the ADR-001 table, skipped"
+  tier=""
+  if [ "$kind" = root ]; then
+    tier=$(tier_of "$name")
+    [ -n "$tier" ] || kind=untabled
+  fi
+
+  judge=0
+  [ "$kind" = root ] && judge=1
+  if [ "$judge" = 0 ] && [ "$EDGES" = 0 ]; then
+    case "$kind" in
+      demo)     echo "-- $rel: nested demo module, exempt (may import above its parent's tier)" ;;
+      app)      echo "-- $rel: application, top of the stack, exempt" ;;
+      adapter)  echo "-- $rel: nested adapter module, outside the tier table, skipped" ;;
+      untabled) echo "-- $name: not in the ADR-001 table, skipped" ;;
+    esac
     continue
   fi
-  checked="$checked $name"
+  [ "$judge" = 1 ] && checked="$checked $name"
 
   # The module's own packages, excluding any nested module's (in workspace
   # mode ./... would otherwise match e.g. prism/gallery from inside prism —
-  # this filter is half of the nested-module exemption).
-  pkgs=$(cd "$dir" && go list -f '{{.ImportPath}} {{with .Module}}{{.Path}}{{end}}' ./... 2>&1) || {
+  # this filter is half of the nested-module exemption). Each line is
+  # "package module import import ...": the third field onward is what that
+  # package names in its own import block, which is how --edges tells a
+  # dependency this module reaches for itself from one it merely inherits.
+  # It rides on this call rather than a second `go list` — the direct edges
+  # and the closure are one measurement, asked once.
+  pkgs=$(cd "$dir" && go list -f '{{.ImportPath}} {{with .Module}}{{.Path}}{{else}}-{{end}}{{range .Imports}} {{.}}{{end}}' ./... 2>&1) || {
     echo "error: go list failed in $dir:" >&2
     echo "$pkgs" >&2
-    violations=$((violations + 1))
+    [ "$judge" = 1 ] && violations=$((violations + 1))
     continue
   }
   own=$(echo "$pkgs" | awk -v m="$mod" '$2 == m { print $1 }')
+  deppkgs=""
+  depmods=""
+  directmods=""
   if [ -z "$own" ]; then
-    echo "-- $name: no packages, skipped"
-    continue
+    say "-- $name: no packages, skipped"
+    [ "$EDGES" = 1 ] || continue
+  else
+    # Full non-test dependency closure, as "package module" pairs.
+    deppkgs=$(cd "$dir" && go list -deps -f '{{.ImportPath}} {{with .Module}}{{.Path}}{{end}}' $own 2>&1) || {
+      echo "error: go list -deps failed in $dir:" >&2
+      echo "$deppkgs" >&2
+      [ "$judge" = 1 ] && violations=$((violations + 1))
+      continue
+    }
+    depmods=$(echo "$deppkgs" | awk -v org="$ORG/" -v m="$mod" \
+      'index($2, org) == 1 && $2 != m { print $2 }' | sort -u)
+    if [ "$EDGES" = 1 ]; then
+      directmods=$(echo "$deppkgs" | awk -v m="$mod" -v want="$(
+        echo "$pkgs" | awk -v m="$mod" '$2 == m { for (i = 3; i <= NF; i++) print $i }' |
+          sort -u | tr '\n' ' ')" '
+        BEGIN { n = split(want, a, " "); for (i = 1; i <= n; i++) w[a[i]] = 1 }
+        ($1 in w) && $2 != "" && $2 != m { print $2 }' | sort -u | tr '\n' ' ')
+    fi
   fi
 
-  # Full non-test dependency closure, as "package module" pairs.
-  deppkgs=$(cd "$dir" && go list -deps -f '{{.ImportPath}} {{with .Module}}{{.Path}}{{end}}' $own 2>&1) || {
-    echo "error: go list -deps failed in $dir:" >&2
-    echo "$deppkgs" >&2
-    violations=$((violations + 1))
-    continue
-  }
-  depmods=$(echo "$deppkgs" | awk -v org="$ORG/" -v m="$mod" \
-    'index($2, org) == 1 && $2 != m { print $2 }' | sort -u)
+  # The measured graph, for readers rather than for judgment. A module with no
+  # organization imports still gets a row: "imports nothing here" is a fact
+  # sync-agents.sh has to be able to render, and an absent row cannot say it.
+  if [ "$EDGES" = 1 ]; then
+    if [ -z "$depmods" ]; then
+      printf '%s\t%s\t%s\t-\t-\t-\n' "$rel" "$kind" "${tier:--}"
+    else
+      for depmod in $depmods; do
+        case " $directmods " in
+          *" $depmod "*) via=direct ;;
+          *)             via=indirect ;;
+        esac
+        printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$rel" "$kind" "${tier:--}" \
+          "${depmod#"$ORG"/}" "$via" \
+          "$(echo "$deppkgs" | awk -v dm="$depmod" '$2 == dm { print $1 }' |
+             sed -e "s|^$depmod/||" -e "s|^$depmod\$|.|" | sort -u |
+             tr '\n' ',' | sed 's/,$//')"
+      done
+    fi
+    { [ "$judge" = 1 ] && [ -n "$own" ]; } || continue
+  fi
 
   edges=""
   bad=0
@@ -198,14 +307,14 @@ for dir in $DIRS; do
         edges="$edges $deprepo(allowed)"
       elif in_list "$edge" "$RECORDED_EDGES"; then
         used="$used $edge"
-        echo "   RECORDED  $name (tier $tier) -> $deprepo (tier $deptier): $(recorded_reason "$edge")"
-        echo "             pulls in: $pulled"
+        say "   RECORDED  $name (tier $tier) -> $deprepo (tier $deptier): $(recorded_reason "$edge")"
+        say "             pulls in: $pulled"
         edges="$edges $deprepo(recorded)"
       else
         [ -n "$verdict" ] || verdict="VIOLATION: tier $tier may not import tier $deptier"
-        echo "   $verdict"
-        echo "             edge: $mod -> $depmod"
-        echo "             pulls in: $pulled"
+        say "   $verdict"
+        say "             edge: $mod -> $depmod"
+        say "             pulls in: $pulled"
         bad=1
         violations=$((violations + 1))
         edges="$edges $deprepo(FORBIDDEN)"
@@ -215,9 +324,9 @@ for dir in $DIRS; do
     fi
   done
   if [ "$bad" = 0 ]; then
-    echo "ok $name (tier $tier):${edges:- no vibrantgio imports}"
+    say "ok $name (tier $tier):${edges:- no vibrantgio imports}"
   else
-    echo "FAIL $name (tier $tier):$edges"
+    say "FAIL $name (tier $tier):$edges"
   fi
 done
 
@@ -226,7 +335,7 @@ done
 for edge in $ALLOWED_EDGES $RECORDED_EDGES; do
   from=${edge%%->*}
   if in_list "$from" "$checked" && ! in_list "$edge" "$used"; then
-    echo "note: allowlist entry '$edge' matched nothing — the edge is gone; delete the entry so its return fails the check"
+    say "note: allowlist entry '$edge' matched nothing — the edge is gone; delete the entry so its return fails the check"
   fi
 done
 
@@ -234,4 +343,4 @@ if [ "$violations" -gt 0 ]; then
   echo "check-layers: FAILED ($violations violation(s))" >&2
   exit 1
 fi
-echo "check-layers: OK"
+say "check-layers: OK"

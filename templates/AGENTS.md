@@ -2,7 +2,7 @@
 
 {{ROLE}}
 
-**Layer.** {{LAYER}}
+**Layer.** {{LAYER}} {{GRAPH}} Both directions are measured rather than typed — `scripts/check-layers.sh --edges` reports the graph and `scripts/sync-agents.sh` renders these sentences from it — so correcting them here changes nothing.
 
 **Read the canonical guide before you write code against this module.** It is
 the organization's one agent guide — the module inventory with current tags,

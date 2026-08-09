@@ -10,14 +10,25 @@
 # lives in templates/AGENTS.md and is edited once.
 #
 # Two of the fields are per-repo and come from templates/repos.tsv — the
-# opening role sentence and the layer line. Three more are measured from the
-# clone itself, never typed: the module paragraph (root module path, nested
-# modules and their prefixed tags, or the absence of a root module), the
-# build-and-test paragraph that follows from it, and the golden-image
+# opening role sentence and the tier half of the layer line. Everything else
+# is measured from the clones, never typed: the module paragraph (root module
+# path, nested modules and their prefixed tags, or the absence of a root
+# module), the build-and-test paragraph that follows from it, the golden-image
 # paragraph — which packages keep stored PNGs, which flag regenerates them,
-# and where that flag has to go on the command line. Repositories without
-# goldens get no such paragraph. Anything longer goes in an optional
+# and where that flag has to go on the command line — and, since G0.1, both
+# halves of the layer paragraph's dependency claim. Repositories without
+# goldens get no golden paragraph. Anything longer goes in an optional
 # templates/notes/<repo>.md, appended verbatim.
+#
+# G0.1 is worth the sentence it took. The layer line used to be typed whole
+# into repos.tsv, and by the end of phase F nine of the twenty described a
+# topology that phase B had already inverted — markdown's said it "does not
+# import mvu, spectrum, pulse or cadence at all" while `go list` reported
+# spectrum among its dependencies, and four more were still written as though
+# G-B3 were scheduled rather than finished. check-agents.sh could not catch
+# any of it: those files matched their template exactly. A generator's failure
+# mode is not drift between source and output, it is a wrong source rendered
+# perfectly, and the only cure is to stop having a source to be wrong.
 #
 # It writes AGENTS.md and reports a unified diff of what it changed. It never
 # stages, commits or pushes: one task, one commit, and the commit is yours to
@@ -78,6 +89,195 @@ wrap() {
 field() {
 	awk -F'\t' -v repo="$1" -v col="$2" \
 		'$1 == repo { print $col; found = 1; exit } END { exit !found }' "$TABLE"
+}
+
+# ---------------------------------------------------------------------------
+# The measured dependency graph, and the two sentences rendered out of it.
+#
+# There is exactly one walk of this graph in the organization and it is in
+# scripts/check-layers.sh, which judges ADR-001's tier rule with it. `--edges`
+# is that same walk asked to report rather than judge: one TSV row per edge,
+# `module kind tier imported-module direct|indirect packages`, over all 36
+# modules under .repos/ rather than the 19 it judges — a guide has to describe
+# the demos, the adapters and the workbench applications too.
+#
+# A second derivation here would reintroduce, one level up, precisely the
+# defect G0.1 removed: two statements of one fact, free to disagree. So if a
+# layer sentence needs something the TSV does not carry, widen check-layers.sh.
+#
+# check-layers.sh exiting non-zero means a forbidden edge exists. Nothing is
+# regenerated then — twenty guides describing a graph that violates its own
+# rule is not a documentation problem, and printing them as though it were
+# would bury it.
+# ---------------------------------------------------------------------------
+GRAPH=""
+
+# VG_LAYER_EDGES names a file the measurement may be kept in for the life of
+# one caller's run. check-agents.sh sets it because it invokes this script
+# twenty times and the graph is the same graph every time; a bare run does not
+# and measures afresh. It is a scratch file, never committed: a cached copy of
+# a measurement that outlived the tree it was taken from is a typed fact again.
+CACHE=${VG_LAYER_EDGES:-}
+
+measure() {
+	[ -z "$GRAPH" ] || return 0
+	if [ -n "$CACHE" ] && [ -s "$CACHE" ]; then
+		GRAPH=$(cat "$CACHE")
+		return 0
+	fi
+	GRAPH=$(scripts/check-layers.sh --edges 2> /dev/null) ||
+		die "scripts/check-layers.sh --edges failed: a forbidden edge exists, and every Layer paragraph is rendered from that measurement. Run it directly to see which, and fix the graph before the guides."
+	[ -n "$GRAPH" ] || die "scripts/check-layers.sh --edges measured nothing — run scripts/clone-all.sh"
+	[ -z "$CACHE" ] || printf '%s\n' "$GRAPH" > "$CACHE"
+}
+
+# The modules repo $1's root module depends on, $2 being direct, indirect or
+# any. Edges into the repo's own nested modules are dropped: check-layers.sh
+# calls those a violation, so a guide has nothing to say about one.
+rootedges() {
+	printf '%s\n' "$GRAPH" | awk -F'\t' -v r="$1" -v via="$2" '
+		$1 != r || $4 == "-" { next }
+		$4 == r || index($4, r "/") == 1 { next }
+		via == "any" || $5 == via { print $4 }' | sort -u
+}
+
+# Field $2 (1 for the importer, 4 for the imported) of every edge from a
+# nested module of repo $1 to something the root module does not already
+# depend on. These are the edges ADR-001 exempts — a demo may import above its
+# parent's tier — and therefore the ones most easily mistaken for the
+# repository's own: `prism/gallery` imports pulse, prism does not.
+nestedextra() {
+	local own
+	# Space-separated, not newline: awk's -v takes no literal newline, and the
+	# one that slipped through here died with "newline in string" on every
+	# repository whose root module has an edge at all.
+	own=$(rootedges "$1" any | tr '\n' ' ')
+	printf '%s\n' "$GRAPH" | awk -F'\t' -v r="$1" -v col="$2" -v own="$own" '
+		BEGIN { n = split(own, a, " "); for (i = 1; i <= n; i++) have[a[i]] = 1 }
+		index($1, r "/") != 1 || $4 == "-" { next }
+		$4 == r || index($4, r "/") == 1 { next }
+		!($4 in have) { print $col }' | sort -u
+}
+
+# The modules of kind $2 outside repo $1 that depend on any module of it. This
+# is the direction a single clone cannot answer, which is why the layer line
+# used to guess at it and why every guess had rotted; from .repos/ it is the
+# same measurement read the other way round.
+consumers() {
+	printf '%s\n' "$GRAPH" | awk -F'\t' -v r="$1" -v k="$2" '
+		$2 != k { next }
+		$1 == r || index($1, r "/") == 1 { next }
+		$4 == r || index($4, r "/") == 1 { print $1 }' | sort -u
+}
+
+# True when repo $1 has a root module in the graph. Only workbench does not.
+hasroot() {
+	printf '%s\n' "$GRAPH" | awk -F'\t' -v r="$1" '$1 == r { f = 1 } END { exit !f }'
+}
+
+# The measured half of the Layer paragraph for repo $1: what it depends on,
+# and what depends on it. Sets the global `graph`.
+#
+# Module granularity throughout, and deliberately. ADR-001's rule is
+# module-level, check-layers.sh judges module-level, and the package column of
+# the measurement is the *closure's* packages — rendering it would have this
+# file say cadence imports `prism/icon` when cadence only inherits it through
+# `prism/list`. The role sentence above already names the packages that matter,
+# and it names this repository's, which is the set a reader is here for.
+layerline() {
+	local repo=$1 direct indirect extra from apps n
+	local -a parts=()
+	measure
+
+	direct=$(rootedges "$repo" direct)
+	indirect=$(rootedges "$repo" indirect)
+	extra=$(nestedextra "$repo" 4)
+	from=$(nestedextra "$repo" 1)
+
+	if ! hasroot "$repo"; then
+		# workbench: no root module, so its applications are the whole story.
+		n=$(printf '%s\n' "$GRAPH" | awk -F'\t' -v r="$repo" \
+			'index($1, r "/") == 1 { m[$1] = 1 } END { print length(m) }')
+		if [ -n "$extra" ]; then
+			graph="Its $(count "$n" application) import, between them, $(namelist $extra)."
+		else
+			graph="Its $(count "$n" application) import nothing else in the organization."
+		fi
+	elif [ -z "$direct" ] && [ -z "$indirect" ]; then
+		graph="Its root module imports nothing else in the organization."
+	elif [ -z "$indirect" ]; then
+		graph="Its root module imports $(namelist $direct)."
+	elif [ -z "$direct" ]; then
+		graph="Its root module's organization dependencies are $(namelist $indirect), every one of them inherited rather than named in its own source."
+	else
+		graph="Its root module imports $(namelist $direct), and reaches $(namelist $indirect) through them."
+	fi
+
+	if [ -n "$extra" ] && hasroot "$repo"; then
+		local subject object
+		if [ "$(lines "$from")" = 1 ]; then
+			subject="Its nested $(namelist $from) module adds"
+		else
+			subject="Its nested modules $(namelist $from) add"
+		fi
+		if [ "$(lines "$extra")" = 1 ]; then
+			object="that edge is"
+		else
+			object="those edges are"
+		fi
+		if [ "$(lines "$from")" = 1 ]; then
+			object="$object the nested module's and not the root's"
+		else
+			object="$object theirs and not the root module's"
+		fi
+		graph="$graph $subject $(namelist $extra) — $object."
+	fi
+
+	# The other direction. Root modules first, because a tiered consumer is a
+	# fact about the design system; demos, adapters and applications after and
+	# named as exempt, because "imported only by a demo" is a different thing
+	# from "imported by the layer above" and the tier rule does not bind them.
+	# Both clauses are passive so that neither has to agree with a subject that
+	# may be one module or fourteen.
+	local roots demos adapters
+	roots=$(consumers "$repo" root)
+	demos=$(consumers "$repo" demo)
+	adapters=$(consumers "$repo" adapter)
+	apps=$(consumers "$repo" app)
+
+	[ -z "$demos" ] || parts+=("the demo $(plural "$demos" module) $(namelist $demos)")
+	[ -z "$adapters" ] || parts+=("the adapter $(plural "$adapters" module) $(namelist $adapters)")
+	if [ -n "$apps" ]; then
+		n=$(printf '%s\n' "$GRAPH" | awk -F'\t' '$2 == "app" { m[$1] = 1 } END { print length(m) }')
+		if [ "$(lines "$apps")" = "$n" ]; then
+			parts+=("all $(count "$n" 'workbench application')")
+		else
+			parts+=("the workbench $(plural "$apps" application) $(namelist $(printf '%s\n' "$apps" | sed 's|.*/||'))")
+		fi
+	fi
+
+	local exempt=""
+	[ ${#parts[@]} -eq 0 ] || exempt=$(joinitems "${parts[@]}")
+	if [ -n "$roots" ] && [ -n "$exempt" ]; then
+		graph="$graph Imported by $(namelist $roots). Outside the tier table, also by $exempt."
+	elif [ -n "$roots" ]; then
+		graph="$graph Imported by $(namelist $roots)."
+	elif [ -n "$exempt" ]; then
+		graph="$graph No other repository's root module imports it; outside the tier table it is imported by $exempt."
+	else
+		graph="$graph Nothing in the organization imports it."
+	fi
+}
+
+# How many entries the newline-separated list $1 has. An empty list is zero,
+# which `wc -l` on a bare printf would call one.
+lines() {
+	if [ -z "$1" ]; then printf '0'; else printf '%s\n' "$1" | wc -l | tr -d ' '; fi
+}
+
+# Noun $2, pluralized when the newline-separated list $1 has more than one.
+plural() {
+	if [ "$(lines "$1")" = 1 ]; then printf '%s' "$2"; else printf '%ss' "$2"; fi
 }
 
 # The module and build paragraphs for repo $1, measured from its clone.
@@ -278,12 +478,12 @@ sharers() {
 	namelist ${out[@]+"${out[@]}"}
 }
 
-# "`a`", "`a` and `b`", "`a`, `b` and `c`". dirlist's sibling, for things that
-# are not directories and so must not be spelled with a trailing slash.
-namelist() {
+# "a", "a and b", "a, b and c" — over items already spelled out, which the two
+# list helpers below are and the layer line's consumer phrases are not.
+joinitems() {
 	local out="" item
 	while [ $# -gt 0 ]; do
-		item="\`$1\`"
+		item=$1
 		shift
 		if [ -z "$out" ]; then
 			out=$item
@@ -294,6 +494,17 @@ namelist() {
 		fi
 	done
 	printf '%s' "$out"
+}
+
+# "`a`", "`a` and `b`", "`a`, `b` and `c`". dirlist's sibling, for things that
+# are not directories and so must not be spelled with a trailing slash.
+namelist() {
+	local -a out=()
+	while [ $# -gt 0 ]; do
+		out+=("\`$1\`")
+		shift
+	done
+	joinitems ${out[@]+"${out[@]}"}
 }
 
 # The golden-update flag that clone $1's test binaries accept.
@@ -408,19 +619,12 @@ bare() {
 
 # "`a/`", "`a/` and `b/`", "`a/`, `b/` and `c/`".
 dirlist() {
-	local out="" item
+	local -a out=()
 	while [ $# -gt 0 ]; do
-		item="\`$1/\`"
+		out+=("\`$1/\`")
 		shift
-		if [ -z "$out" ]; then
-			out=$item
-		elif [ $# -eq 0 ]; then
-			out="$out and $item"
-		else
-			out="$out, $item"
-		fi
 	done
-	printf '%s' "$out"
+	joinitems ${out[@]+"${out[@]}"}
 }
 
 # Count $1 of noun $2, spelled out: "one nested module", "seven modules".
@@ -447,9 +651,10 @@ render() {
 	[ -n "$layer" ] || die "$TABLE: '$repo' has no layer line"
 	if [ -f "$NOTES_DIR/$repo.md" ]; then notes=$(cat "$NOTES_DIR/$repo.md"); fi
 
-	local modules build golden
+	local modules build golden graph
 	survey "$repo"
 	goldens "$repo"
+	layerline "$repo"
 
 	while IFS= read -r line; do
 		# {{GOLDEN}} and {{NOTES}} are optional blocks, already wrapped —
@@ -473,6 +678,7 @@ render() {
 		out=${out//'{{REPO}}'/$repo}
 		out=${out//'{{ROLE}}'/$role}
 		out=${out//'{{LAYER}}'/$layer}
+		out=${out//'{{GRAPH}}'/$graph}
 		out=${out//'{{MODULES}}'/$modules}
 		out=${out//'{{BUILD}}'/$build}
 		case $out in
