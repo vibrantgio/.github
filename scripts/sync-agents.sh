@@ -34,14 +34,30 @@
 # stages, commits or pushes: one task, one commit, and the commit is yours to
 # make in the repository itself. With -n it writes nothing at all.
 #
-# THE FILES THIS WRITES ARE GENERATED. Correcting one in the clone is the
-# mistake this script cannot see and the next run silently undoes: the
-# accurate words go, the stale template's come back. Fix the template — a
-# repos.tsv field, a notes file, or the shared wording here — and regenerate.
-# scripts/check-agents.sh is the gate that enforces that, and it exists
-# because the drift is not hypothetical: four of the twenty had diverged
-# before anything went looking, three of them with the *file* right and the
-# *template* wrong. Run it before believing a generated file.
+# THE FILES THIS WRITES ARE GENERATED, AND EDITING A GENERATED FILE IS A
+# SILENT NO-OP. That is the whole lesson, and nothing about it is specific to
+# this organization: a correction typed into an output survives exactly until
+# the generator runs again. It is a tempting mistake because it looks like the
+# most direct possible fix — the words in front of you are wrong, you make
+# them right, the diff is clean. But the wrong words are still in the input.
+# The next render puts them back, nothing complains in between, and by the
+# time anyone notices it looks like someone else undid the work.
+#
+# So: fix the template — a repos.tsv field, a notes file, or the shared
+# wording here — and regenerate. Never the clone's AGENTS.md, not even when
+# the words you are writing there are true; true words in a generated file are
+# the exact shape of this failure, because they read as correct and pass
+# review while the template stays false underneath them.
+#
+# The reason it happened here for several phases is that nothing made it
+# visible. A generated file with no gate on it is not generated — it is a file
+# a script happened to write once — and this one had no gate until
+# scripts/check-agents.sh. Four of the twenty had diverged before anything
+# went looking, three of them with the *file* right and the *template* wrong,
+# so the next run of this script would have reverted accurate documentation to
+# false statements. check-agents.sh re-renders all twenty and fails on any
+# difference, which is what turned a silent no-op into a red check. Run it
+# before believing a generated file.
 #
 # This repository's own AGENTS.md is not reachable from here and must not be:
 # .github is the parent directory of the clones, not one of them. It is

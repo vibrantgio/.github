@@ -37,6 +37,10 @@ one commit.
 
 The sibling repositories are cloned into `.repos/<name>` beneath this one and
 are gitignored; this repository is their parent directory, not one of them.
+`go.work`, committed here, joins all 36 of their modules so they resolve each
+other from the checkout — the members never carry a workspace themselves.
+
+Seven scripts live in `scripts/`. Four of them do work.
 
 - [`scripts/clone-all.sh`](scripts/clone-all.sh) — clone all twenty siblings
   into `.repos/`, pulling any already present. The whole set every time: the
@@ -49,15 +53,39 @@ are gitignored; this repository is their parent directory, not one of them.
 - [`scripts/sync-agents.sh`](scripts/sync-agents.sh) — render
   [`templates/AGENTS.md`](templates/AGENTS.md) into named clones and report a
   diff, writing nothing with `-n`. Every repository carries the same
-  `AGENTS.md` in the same shape (ADR-004); only two fields differ per repo —
-  the role sentence and the layer line — and those live in
-  [`templates/repos.tsv`](templates/repos.tsv). The module and build paragraphs
-  are measured from the clone, so they cannot drift. It never commits.
-- [`scripts/check-agents.sh`](scripts/check-agents.sh) — the gate on the above:
-  render every repository and fail on any whose committed `AGENTS.md` differs.
-  The fields that are *not* measured can drift, and did — the way it happens is
-  that a correction lands in the generated file instead of the template, and
-  the next render throws it away. This is what notices.
+  `AGENTS.md` in the same shape (ADR-004); only two fields are typed per repo —
+  the role sentence and the tier half of the layer line — and those live in
+  [`templates/repos.tsv`](templates/repos.tsv). Everything else is measured
+  from the clone and so cannot drift: the module, build and golden-image
+  paragraphs, and both directions of the layer paragraph's dependency claim.
+  It never commits.
+- [`scripts/push-design.sh`](scripts/push-design.sh) — regenerate
+  [`design/`](design) from spectrum's `cmd/vg-tokens` and print the DesignSync
+  sequence that uploads it. There is no `designsync` binary: the script does
+  the local half and hands the push to the agent running it.
+
+Three more answer a single yes-or-no question, and each refuses to let one kind
+of wrong thing be committed quietly.
+
+- [`scripts/check-layers.sh`](scripts/check-layers.sh) — refuses an import from
+  a module into a repository at or above its own tier. It runs `go list -deps`
+  over the nineteen root modules and judges every `github.com/vibrantgio` edge
+  against ADR-001's tier table, so the layering is measured rather than
+  intended; the twelve repositories that have CI fetch this same file and run
+  it as `check-layers.sh .`. Its `--edges` mode reports that one walk as TSV instead
+  of judging it, and the layer sentence in all twenty `AGENTS.md` files is
+  rendered from that.
+- [`scripts/check-no-workspace.sh`](scripts/check-no-workspace.sh) — refuses to
+  let the workspace flatter the tree. It builds and tests all 36 modules with
+  `GOWORK=off`, the way CI, `go get` and pkg.go.dev see them, because under
+  `go.work` a module compiles against a sibling's working copy while its own
+  `go.mod` still points at a stale tag. It also fails on a `replace` directive
+  in any member.
+- [`scripts/check-agents.sh`](scripts/check-agents.sh) — refuses a generated
+  `AGENTS.md` that was corrected in the clone. It re-renders every repository
+  and fails on any whose committed file differs. The way the drift happens is
+  that a correction lands in the generated file instead of the template, where
+  it survives only until the next render throws it away; this is what notices.
 
 Across the twenty repositories there are 36 modules — nineteen at repository
 roots, ten nested in subdirectories with tags that carry the subdirectory as a

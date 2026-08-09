@@ -36,6 +36,31 @@
 # the graph, a stale sentence and a stale render are the same failure, and this
 # check catches both.
 #
+# G0.3 asked the obvious follow-up — should this script also diff the rendered
+# layer sentence against check-layers.sh's measured edges? No, and the reason
+# is written down here so it is not proposed again. The sentence *is* the
+# measurement, formatted. Comparing the two compares a string derived from X
+# against X: it agrees by construction, and it would agree just as happily if
+# the renderer were wrong. A check that cannot fail is not a gate. Making the
+# comparison meaningful would mean deriving the graph a second way, which is
+# exactly the duplicate walk G0.1 abolished and check-layers.sh's header
+# forbids.
+#
+# The two ways a rendered layer sentence could still be stale are both closed
+# already, by construction rather than by a new comparison:
+#
+#   - A file committed while the graph has since moved. This script re-measures
+#     and re-renders on every run and diffs against what is committed, so that
+#     is the failure it already reports.
+#   - A stale measurement fed to the renderer. sync-agents.sh reads the graph
+#     from $VG_LAYER_EDGES when that names a non-empty file — a cache an
+#     outside caller could in principle point at anything. This script does not
+#     inherit it: it assigns its own mktemp below before exporting, so a
+#     poisoned value cannot reach the renders being judged, and the file is
+#     deleted on the way out. A bare sync-agents.sh run with a poisoned cache
+#     could write a wrong sentence, and then this check fails on the file it
+#     wrote.
+#
 # The rendering is not reimplemented here. `sync-agents.sh -n` already renders
 # and diffs and writes nothing, so this script runs exactly that and judges its
 # report. One renderer, one place for it to be wrong.

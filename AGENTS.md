@@ -39,8 +39,14 @@ but does not default the filename, so name `PLAN.md` explicitly).
       AGENTS.md           this file
       README.md           this repository's own page
       profile/README.md   what renders at github.com/vibrantgio
-      scripts/            clone-all.sh, inventory.sh, sync-agents.sh
-      templates/          AGENTS.md and its per-repo rows in repos.tsv
+      scripts/            clone-all.sh, inventory.sh, sync-agents.sh,
+                          push-design.sh, and the three gates —
+                          check-layers.sh, check-no-workspace.sh,
+                          check-agents.sh
+      templates/          AGENTS.md, its per-repo rows in repos.tsv,
+                          and notes/<repo>.md
+      go.work             the 36-module development workspace (committed)
+      design/             the token bundle push-design.sh uploads
       .repos/             <- gitignored; the twenty sibling repositories
         mvu/ spectrum/ prism/ pulse/ cadence/ markdown/
         font/ style/ textdraw/ backdrop/ gradient/ circle/
@@ -52,16 +58,12 @@ That is a load-bearing fact: `scripts/sync-agents.sh` renders an `AGENTS.md`
 into a named repo under `.repos/` and deliberately cannot reach here, which is
 why this file is hand-written and describes a plan rather than a module. Every
 sibling's `AGENTS.md` is generated — edit `templates/AGENTS.md` for wording that
-applies to all of them, `templates/repos.tsv` for one repo's role and layer
-line, and `templates/notes/<repo>.md` for anything longer; the module and build
-paragraphs are measured from the clone and are not written by hand.
+applies to all of them, `templates/repos.tsv` for one repo's role sentence and
+the tier half of its layer line, and `templates/notes/<repo>.md` for anything
+longer. The rest is measured from the clone and cannot be written by hand at
+all: the module paragraph, the build and golden-image paragraphs, and both
+directions of the layer paragraph's dependency claim.
 
-**Correcting a sibling's `AGENTS.md` in the clone is the mistake to avoid**, and
-`scripts/check-agents.sh` is what catches it: it renders all twenty and fails on
-any that differs from what its templates produce. Do not skip it because the
-words you are fixing are true — true words in the generated file are exactly the
-failure, because the next `sync-agents.sh` run replaces them with the stale
-template's. Four of the twenty had drifted that way before anything looked.
 `scripts/clone-all.sh` populates `.repos/` and pulls what is already there — run
 it if the directory is missing or stale. Almost all work happens inside
 `.repos/<name>`; the plan and the guide live here at the root.
@@ -71,18 +73,103 @@ ten nested in subdirectories whose tags carry the subdirectory as a prefix, and
 seven example applications in `workbench`, which has no root module of its own.
 `find .repos -name go.mod` is the list — do not hand-maintain it.
 
-**There is no `go.work` here yet, and the modules do not resolve against each
-other's working copies.** Each one resolves its siblings from published tags,
-so a cross-repo change is invisible to the other side until it is tagged and
-pushed. Task B2.1 (goal `G-B2`) is what writes the workspace over all 36
-modules, and it comes after G-B1 on purpose: a workspace resolves shared
-dependencies at the highest version any member asks for, so joining the modules
-while their Gio versions were still spread would have broken the ones on the
-older version. G-B1 has aligned them; the workspace is B2.1's job, not an
-earlier task's. `.gitignore` lists both `go.work` and `go.work.sum`, so
-whatever B2.1 settles, the workspace is an artifact of this tree and no member
-repo ever gets a `replace` directive. ADR-006 in `PLAN.md` is the full
-argument.
+**`go.work` here joins all 36 of them**, so a module resolves its siblings from
+the working tree rather than from published tags. B2.1 generated it from `find
+.repos -name go.mod` and it is committed — this repo holds no module, so
+ADR-006's ban on workspaces applies to the members, not to their parent, and a
+committed file means the member list is reviewable and identical on every
+machine. `.gitignore` ignores `go.work.sum` and `.repos/`, not `go.work`: the
+file is committed while the checkout it points at is not, so `clone-all.sh` has
+to have run or every `use` line dangles.
+
+That convenience is also the standing trap, and it is why green has two
+meanings. Outside this tree — CI, `go get`, pkg.go.dev — each `go.mod` resolves
+against published tags, so a cross-repo change is invisible to the other side
+until it is tagged and pushed, and a module can build here while being broken
+for everyone. `scripts/check-no-workspace.sh` is what measures that gap. No
+member repo ever gets a `go.work` or a `replace` directive. ADR-006 in
+`PLAN.md` is the full argument.
+
+## Editing a generated file is a silent no-op
+
+It is the mistake this organization actually made, and it is worth stating in
+the general form, because nothing about it is specific to this plan: a
+correction typed into a generated file survives exactly until the generator
+runs again. It looks like the most direct possible fix — the words in front of
+you are wrong, you make them right, the diff is clean, the commit is honest.
+But the file is an output. The wrong words are still in the input, and the next
+render puts them back. Nothing complains in between, which is why the mistake
+can be made repeatedly by careful people: the failure is not visible at the
+moment it is made, and by the time it is visible it looks like someone else
+undid your work.
+
+Here that means **correcting a sibling's `AGENTS.md` inside `.repos/<name>` is
+never the fix.** Fix the template it was rendered from — a `repos.tsv` field, a
+notes file, or the shared wording in `templates/AGENTS.md` — and regenerate.
+Do not skip that because the words you are fixing are true. True words in a
+generated file are precisely the failure mode: they read as correct, they pass
+review, and the next `sync-agents.sh` run replaces them with the stale
+template's false ones. Four of the twenty had drifted that way before anything
+went looking, three of them with the *file* right and the *template* wrong.
+
+The general lesson has a general remedy: a generated file with no gate on it is
+not generated, it is a file a script happened to write once. The remedy is a
+check that re-renders the file and fails on any difference, and for the twenty
+`AGENTS.md` files that check is `scripts/check-agents.sh`. It is why the
+mistake is now loud instead of silent. Run it before believing anything a
+generated file says — and if you add another generated artifact here, add its
+gate in the same task, or you have added the next instance of this problem.
+
+## `scripts/` — four that do work, three that refuse
+
+Four produce something:
+
+- **`clone-all.sh`** clones all twenty siblings into `.repos/`, pulling any
+  already present. The whole set every time: this plan edits the module graph,
+  and no task can see an edge whose other end is missing.
+- **`inventory.sh`** surveys those clones and prints a Markdown table — README,
+  `AGENTS.md`, `doc.go`, CI, Gio and rx versions, modules per repo. Every count
+  the plan asserts is checked against this rather than remembered.
+- **`sync-agents.sh`** renders `templates/AGENTS.md` into named clones and
+  reports a diff; `-n` writes nothing. It never stages or commits.
+- **`push-design.sh`** regenerates `design/` from spectrum's `cmd/vg-tokens` and
+  then prints the exact DesignSync sequence to run. There is no `designsync`
+  binary — the upload half is a Claude-session step, so this script does the
+  local half and hands over.
+
+Three answer one yes-or-no question each, and each exists to make a specific
+class of wrong thing impossible to commit quietly:
+
+- **`check-layers.sh` refuses to let a module import a repository at or above
+  its own tier.** It runs `go list -deps` over the 19 root modules and judges
+  every `github.com/vibrantgio` edge against ADR-001's tier table, so the
+  layering is a measured property rather than an intention. Demo and adapter
+  nested modules are exempt and skipped; their parents do not inherit the
+  exemption. All twelve repositories that have CI fetch this same file from
+  this repo's raw URL and run it as `check-layers.sh .`; the eight without CI
+  are the support libraries and `workbench`, which the tier table exempts
+  anyway. Its `--edges` mode reports that one
+  walk as TSV over all 36 modules instead of judging it, and that is where
+  every `AGENTS.md`'s layer sentence comes from — there must not be a second
+  walk of the graph anywhere in the organization.
+- **`check-no-workspace.sh` refuses to let the workspace flatter you.** It
+  builds and tests all 36 modules with `GOWORK=off`, which is how CI,
+  pkg.go.dev and every consumer outside this tree see them. Under `go.work` a
+  module compiles against a sibling's working copy while its own `go.mod` still
+  points at a stale tag; this is what notices the difference, and the size of
+  that difference is exactly the cross-repo tag debt ADR-006 manages. It also
+  fails on a `replace` directive in any member — the most tempting wrong way to
+  make it go green, and one that would silently redirect every outside
+  consumer.
+- **`check-agents.sh` refuses to let a generated `AGENTS.md` be corrected in
+  the clone.** It re-renders all twenty and fails on any whose committed file
+  differs, so the silent no-op above becomes a red check. It also names any
+  clone with no row in `templates/repos.tsv`, because an unlisted repository is
+  never rendered and therefore never judged.
+
+Nothing runs these three for you: this repository has no CI of its own, and the
+per-repo CI can only see its own repo. Run them here before you believe the
+tree.
 
 ## Four rules you must not discover late
 
