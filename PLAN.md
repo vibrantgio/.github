@@ -2221,18 +2221,28 @@ something the code does not.
 - [x] Regenerate all twenty, and check `check-agents.sh` and `check-layers.sh` are both green.
 
 #### G0.2: Correct the role sentences and the notes that outlived their phase
-
 The `role` field and the per-repo notes are genuine prose and cannot be
-generated, so these are read-and-fix, one repository at a time. Known wrong,
-found while fixing the template drift:
+generated, so these are read-and-fix, one repository at a time.
 
-- [ ] `prism`'s role still claims it holds "the `theme` and `tokens` contract". G-B3 moved that to spectrum. `prism` is the component library; say that.
-- [ ] `font`'s layer names `style` and `mvu/example` as its direct importers; the real ones are `style`, `spectrum/tokens` and `spectrum/typeset`, and `mvu/example` is not among them. C1.2 is written as future work.
-- [ ] `style`'s layer and notes both say the four workbench apps consume it and that "Phase F migrates off it". Phase F did — no workbench file imports style. The remaining consumers are example mains under ivg, svg and traer. The notes also put F3.3's shim removal in the future while style sits at v0.0.6 with every `Deprecated:` marker already in place.
-- [ ] `workbench`'s row lists style among what its apps import. None do.
-- [ ] `cadence` imports `prism/icon`, which its row does not mention.
-- [ ] Read the other fourteen rather than trusting this list to be complete — it was assembled while fixing something else, and the only reason these nine were found is that four repositories happened to drift.
+**Most of the original list is already gone, and by the right mechanism.**
+G0.1 moved the layer sentence to the measured side, which fixed `font`'s,
+`style`'s, `cadence`'s and `workbench`'s import claims structurally rather than
+by retyping them — and its pending-tense purge took `notes/style.md`,
+`notes/textdraw.md` and `notes/workbench.md` with it. `prism`'s role no longer
+claims the theme and tokens contract. What is left is the half a generator
+cannot reach: the opening role sentence, and the prose in
+`templates/notes/<repo>.md`.
 
+The lesson from G0.1 is the one to carry: **before correcting a sentence, ask
+whether it should exist.** A claim `go list`, `git tag` or the filesystem can
+answer belongs on the measured side, not in a better-worded template.
+
+- [ ] `templates/notes/svg.md` says `driver/seen` "does not build from a clean checkout" because of a bad `seen/context/gio v0.0.7` `go.sum` pin. `GOWORK=off go build ./...` in that module now succeeds; commit `9980f88` ("B2.0: Repair the seen/context/gio go.sum pin") appears to have fixed it and left the warning behind. Prove it properly — the claim is about a *clean* checkout, so `go clean -modcache` first, which is the F4.8 lesson — then correct or delete the paragraph.
+- [ ] Read all twenty role sentences against what the repository now is, not against what it was when the row was written. The role is the opening sentence a reader meets, and nothing measures it.
+- [ ] Read all nine `templates/notes/*.md` the same way — `cadence`, `markdown`, `noise`, `pulse`, `seen`, `style`, `svg`, `textdraw`, `workbench` — plus the two G0.1's drift fix added, `spectrum` and `font`. Three were purged of pending tense; the rest have not been read since they were written.
+- [ ] Do not trust any list in this plan to be complete, including this one. The nine false layer sentences were found only because four repositories happened to drift, and G0.1 then turned up three stale notes nobody had listed. Read, do not check off against a list.
+- [ ] Where a note states a fact that is checkable — a tag, a package count, a build outcome, a file's existence — either move it to the measured side or say in the note how to re-check it. A note that cannot go stale is worth more than one that is currently true.
+- [ ] `./scripts/check-agents.sh` green, and commit and push in every repo touched.
 #### G0.3: Close the loop so prose cannot outlive its phase again
 
 - [ ] The root `AGENTS.md` lists `clone-all.sh`, `inventory.sh` and `sync-agents.sh` in its `scripts/` line and omits `check-layers.sh`, `check-no-workspace.sh`, `push-design.sh` and `check-agents.sh`. Fix the list, and say what each gate refuses to let happen.
