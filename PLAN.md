@@ -2491,19 +2491,39 @@ contact with tooltip.
 - [x] Keep the `Props` change additive. That is what kept the spike from opening an ADR-006 seam: `check-no-workspace.sh` read 36/36 afterwards and should still read 36/36 here.
 - [x] Goldens byte-identical; `go test -race ./tooltip/...`; build, test, commit in cadence.
 
-#### G0C.2b: The modal stack is the one that is really app state
+#### G0C.2b: The modal stack is a bus with nobody on it
+Split out of G0C.2 by the spike on the belief that `modal.Stack` was the one
+bus with real subscribers, and therefore the only genuine destination-1
+decision. **That belief was wrong, and the census is already taken:
+`modal.Stack` has zero subscribers in all twenty-one repositories** — measured
+with `find … -print0 | xargs -0 grep`, the form that does not skip
+`workbench/`. The only `Stack` hits elsewhere are `toast.Stack`, an unrelated
+widget constructor, and `shell.StackedPage`.
 
-Split out of G0C.2 by the spike, which found the two halves are not the same
-size of problem. Tooltip is a copy; `modal.Stack` is the only one of the four
-buses that anything actually subscribes to, which makes it the only genuine
-destination-1 candidate and the only one where the migration is the work.
+`stack.go`'s own doc comment says it outright: *"Downstream patterns (popover,
+tooltip, drag overlay) subscribe to learn when a modal is in front of them;
+modal itself reads the stack synchronously via `isTop` at frame time and does
+not subscribe."* Those downstream patterns never arrived, and the first two now
+own arbiters of their own. So `Stack` is a published-to, never-read observable
+kept alive for a consumer that does not exist — and every `stackPush`/`stackPop`
+pays a Subject emission for it.
 
-- [ ] Enumerate the consumers before deciding anything, and put the list in the commit body: who subscribes to `modal.Stack`, what each does with the snapshot, and whether it needs the whole stack or only "is a modal open". The spike measured zero subscribers for popover and expects a non-zero answer here; if it is zero after all, `Stack` is frame state like the others and this task collapses into G0C.2.
-- [ ] Decide `Stack` against ADR-008's three destinations and record the reasoning in the package doc. Destination 1 — the model, via messages — is the likely answer and the goal preamble says so, but it is this task's decision, taken against the consumers above.
-- [ ] `isTop`, used inside modal to gate input to the topmost dialog, is frame state by ADR-008's test whichever way the consumer-facing half goes. Say whether you split the two and why.
-- [ ] Moving a consumer onto the message path changes app-facing API, so expect the ADR-006 seam to open here. Report which modules `check-no-workspace.sh` then fails for and confirm the failures are only that.
-- [ ] Goldens byte-identical; `go test -race` on modal and every consumer touched; build, test, commit in cadence and workbench.
+So all four buses had zero subscribers, and `toast.Notifications` is the only
+one anything genuinely consumes. That is a stronger result than the goal
+predicted and it belongs in ADR-008: the argument for removing the bus is not
+that the lag was costly, it is that **three of the four buses were carrying
+nothing at all**, and nobody could see that because an exported observable with
+no subscriber looks exactly like a working one.
 
+Note what `isTop` already is: a synchronous, mutex-guarded read of a
+package-level slice at frame time. That is ADR-008's frame state with an
+unnecessary mutex on it — the conversion is mostly deletion.
+
+- [ ] Re-verify the zero-subscriber census yourself before deleting exported API, with `find … -print0 | xargs -0 grep` over all twenty-one repos plus the root. The plan has been wrong about this once already.
+- [ ] Convert the stack to frame state per ADR-008 and the idiom G0C.1 and G0C.2 settled: identity from the participant's own state pointer rather than `stackNextID`, no mutex, ownership by the value the composition root passes in. `isTop`'s behaviour — only the topmost modal takes keyboard and pointer input, those beneath stay painted but inert — must survive exactly, and it is the thing to write the tests against.
+- [ ] Remove `Stack` and `StackSnapshot`. They are exported, so this is a breaking removal that rides G0C.6's release alongside popover's and tooltip's; say so in the commit body rather than leaving it for the tagger to discover. If you conclude they should be kept for out-of-org consumers, argue it — but weigh it against the fact that no in-org consumer ever appeared in the eight phases the observable has existed.
+- [ ] Record the corrected finding in ADR-008: three of four buses had no subscribers, `toast.Notifications` is the exception, and an exported observable with no reader is the second smell — the one the G0C.6 gate cannot catch by grepping for `rx.Subject`.
+- [ ] Goldens byte-identical; `go test -race` on modal and anything touched; build, test, commit in cadence and the root. Expect no ADR-006 seam — nothing app-facing changes if the census holds — and say so if one opens anyway.
 #### G0C.3: Toasts ride the loop
 
 The destination-1 case the spike could not exercise: popover's bus had no
