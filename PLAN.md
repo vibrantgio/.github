@@ -2532,11 +2532,11 @@ does, from seven real caller files, and its Subject is one of the three bare
 `rx.Subject`s left in non-test library code (the others are the primitive
 itself and `spectrum/preferences`, G0C.5).
 
-- [ ] Replace the `Notify` bus with the message path: cadence defines the message type, `toast.Stack` renders from props or model-derived input, apps route the message through `Update`. Toasts become model state — reproducible, testable through Update, visible in any model dump.
-- [ ] `Notify` is public API with seven caller files; keep it compiling through a deprecation window as a shim over the message path if that is cleanly possible, and say plainly if it is not.
-- [ ] Migrate all seven caller files in feeds and watchlist; the toast Subject empties. Confirm a toast raised from a command goroutine still arrives — that path is the loop's own (command → message → Update), which is the point.
-- [ ] This is where the seam opens if G0C.2b did not open it: workbench will be using cadence API that exists only in the working tree. Report which modules `check-no-workspace.sh` fails for and confirm the failures are only that.
-- [ ] Goldens byte-identical; `go test -race` on cadence and both applications; build, test, commit in cadence and workbench.
+- [x] Replace the `Notify` bus with the message path: cadence defines the message type, `toast.Stack` renders from props or model-derived input, apps route the message through `Update`. Toasts become model state — reproducible, testable through Update, visible in any model dump.
+- [x] `Notify` is public API with seven caller files; keep it compiling through a deprecation window as a shim over the message path if that is cleanly possible, and say plainly if it is not.
+- [x] Migrate all seven caller files in feeds and watchlist; the toast Subject empties. Confirm a toast raised from a command goroutine still arrives — that path is the loop's own (command → message → Update), which is the point.
+- [x] This is where the seam opens if G0C.2b did not open it: workbench will be using cadence API that exists only in the working tree. Report which modules `check-no-workspace.sh` fails for and confirm the failures are only that.
+- [x] Goldens byte-identical; `go test -race` on cadence and both applications; build, test, commit in cadence and workbench.
 
 #### G0C.4: The apps drop their per-row Subjects and take their own Arbiter
 
@@ -3412,7 +3412,8 @@ instead. So:
   one-frame lag `coordination` documents, is the argument for removing them.
   `toast.Notifications` is the sole exception and the sole survivor: it has
   real subscribers, is called from seven application files, and is
-  destination 1's problem at G0C.5, not this one's.
+  destination 1's problem at ~~G0C.5~~ **G0C.3** (mis-numbered here when
+  written), not this one's.
 - **An exported observable with no reader is the second smell, and the
   G0C.6 gate cannot see it.** That gate greps for a bare `rx.Subject` outside
   its sanctioned homes. Not one of these four would have tripped it: every
@@ -3491,6 +3492,150 @@ directly. `check-layers` OK, `check-no-workspace` 36/36, `check-agents` 20/20;
 no ADR-006 seam, because `Props` grew a field rather than a requirement and
 no application passes one yet.
 
+**What G0C.3 amended, from `cadence/toast` — the one bus that was carrying
+something, and the first destination-1 conversion.** Three of the four buses
+had no readers. This one had exactly one per composed stack, which makes it a
+different problem: not dead mechanism, but live mechanism in the wrong place.
+An event that wants to be a Message was taking a side door past `Update`, so a
+toast existed on screen and nowhere in the model.
+
+- **The message types are cadence's, and they are cadence's first.** No
+  package in the design system had ever exported a message type; components
+  emitted the *application's* messages through callbacks that take a
+  `layout.Context`. Destination 1 forces the change, because the event needs
+  a name that both the widget raising it and the reducer receiving it can
+  say. `toast.Requested{Level, Text, At, Lifetime}` and `toast.Expired{ID}`
+  are that name, `toast.Queue` is the model state they reduce onto, and
+  `toast.Expire` is the command that arms the second one. cadence takes a
+  direct `mvu` dependency for `mvu.MessageOp` and `mvu.Command` — tier 4 to
+  tier 0, which `check-layers` permits and `check-agents` made visible: the
+  rendered "Layer." sentence moved `mvu` from reached-through-prism to
+  directly imported, and `sync-agents.sh cadence` is part of this task's diff
+  because of it.
+- **How time enters the loop: as a message, on a command, from the org's own
+  idiom.** `Expire(id, after)` is `rx.Timer` mapped to `Expired{ID}` — the
+  exact shape `mindchat/commands.go`'s `ExpireDelete` has used for its undo
+  bar, chosen over `time.Sleep` for the same reason: a timer command is
+  cancellable, so quitting with a toast up does not block the runner's
+  teardown. A stale `Expired` needs no generation guard, because `Remove` of
+  an absent ID is a no-op.
+- **The lifetime moved onto the toast, and that is what keeps two clocks from
+  disagreeing.** `Props.Lifetime` was a per-stack setting; the timer is armed
+  per toast. Two numbers that must match are a defect waiting, so
+  `Toast.Lifetime` is now authoritative — `Queue.Add` fills it from the
+  request or from `DefaultLifetime`, the reducer arms `Expire(t.ID,
+  t.Lifetime)` off the queued value, and the fade reads the same field.
+  `Props.Lifetime` survives demoted to the fallback for toasts built by hand
+  (goldens, demos).
+- **Expiry is destination 1; the alpha is destination 2 — in one component.**
+  The widget no longer prunes. It computes each toast's alpha from `Toast.At`
+  and `gtx.Now`, paints, and schedules one `InvalidateCmd` at the earliest
+  fade start (per-frame while anything is fading). A toast past its lifetime
+  paints *nothing* and waits for `Expired` to take it out of the model —
+  `TestAnExpiredToastPaintsNothing` asserts the frame is pixel-identical to
+  an empty stack's. So the disappearance is a message and the fade is frame
+  state, and neither has to know about the other.
+
+**`Notify` could not be shimmed, and saying so is the finding.** The task
+asked for a deprecation window "if that is cleanly possible". It is not, and
+the reason generalizes to every destination-1 conversion:
+
+- A message reaches the loop through `mvu.MessageOp.Add(gtx.Ops)`, and mvu's
+  collector is keyed on the *exact* `*op.Ops` the frame is being recorded
+  into. `Notify(level, text)` has no `gtx` and no way to obtain one.
+- The only shim that would deliver anything routes through a process-global
+  "current window's ops" or "current app's message channel" — which is the
+  same process-global side channel being deleted, is wrong the moment there
+  are two windows, and reintroduces exactly the cross-goroutine hazard a
+  single-goroutine renderer cannot otherwise express.
+- The shim that *does* compile is worse. `func Notify(level Level, text
+  string) Requested` keeps all seven call sites building, because Go allows a
+  call with return values as a statement — and every one of them silently
+  stops raising toasts. A silent behavioural regression at seven sites beats
+  a loud compile failure at none.
+
+So the name is kept and the signature breaks: `Notify(gtx, level, text)`.
+Every caller gets "not enough arguments in call to toast.Notify … have
+(toast.Level, string) want (layout.Context, toast.Level, string)", which names
+the fix. `Request(level, text)` is the same message for code with no frame.
+**Rule: a destination-1 conversion cannot preserve a frameless entry point,
+and should break loudly rather than deprecate quietly.**
+
+**`Props` grew a requirement this time, not a field — the honesty note the
+G0C.2b consequence asked for.** Popover, tooltip and modal each gained an
+optional `Arbiter` and opened no seam. `Props.Toasts` is different: a `Stack`
+that is handed none compiles, runs, and shows an empty column forever, with
+nothing to fail at build time. `TestStackWithNoToastsRendersEmpty` pins that
+behaviour rather than pretending it away. It is why cadence's next tag carries
+a behaviour change and not merely six removed symbols.
+
+**The ledger moved, and upward.** ADR-008 recorded that no `modelObsConsumers`
+count could change, because destination 2's buses never touched the model
+observable. Destination 1's conversion does the opposite: the queue is model
+state, so `toast.Stack` now subscribes a derivation of `modelObs` like every
+other component. feeds went 23 → 24 and watchlist 22 → 23, both re-measured by
+each app's `TestModelObsConsumerCountMatchesConst`. A census in a test is still
+a tax; this is the direction that tax is *supposed* to move when state comes
+home.
+
+**The one-frame lag was real here — and the message path does not fix it.**
+G0C.1 could not find the tax `coordination` documents because popover had no
+subscriber. Toast had one, and the cost is measurable: one full arrival cycle
+— publish, deliver, enqueue, and the frame's read — took **51.3 µs and 2–3
+allocations** through `coordination.Subject`, against **61 ns and 1
+allocation** for the reduction that replaced it (`Queue.Add`, read, `Remove`;
+M1 Max, stable across runs). The 51 µs is not compute: `reactivego/rx`'s
+subject receiver spinlocks in 50 µs increments when the sender is idle, so
+that is the bus's delivery quantum, measured. But the *frame* count is
+unchanged and it must be said plainly — the old path enqueued after the frame
+that called `Notify` had been laid out, so the toast drew on the next one, and
+the new path hands the message to `mvu.Window` after `e.Frame`, so it also
+draws on the next one. Destination 1 buys no lag-zero either. What it buys is
+that the toast is in the model.
+
+**What nothing in this organization can test, and what stands in for it.**
+`mvu.MessageOp`'s collector is registered by `mvu.Window` on the frame's own
+`*op.Ops` and is unreachable from outside mvu — `prism/input`'s textfield test
+says so in as many words and uses `OnChange` as its proxy. Toast has no such
+proxy, so no test can assert that `Notify` delivered. The evidence that stands
+in for it is structural and is stronger than it sounds: at all seven migrated
+sites the toast now rides the *same* `.Add(gtx.Ops)` call the neighbouring
+application message already used — `DeleteSymbol`, `BulkDelete`,
+`SubmitSymbol`, `SubmitRenameWatchlist`, `DeleteWatchlist`, `SubmitFeed`,
+`ConfirmDelete` — and existing tests assert those effects. A wrong ops buffer
+would have broken the delete long before it broke the toast. Exporting a test
+seam for the collector is an mvu change and is not this goal's.
+
+**The command goroutine, proven at a real site.** All seven callers are
+synchronous today: each writes to disk inside the confirm/submit callback, by
+a decision logged in FEEDBACK-G5.3.md that keeps the write synchronous with
+the click. So the proof is the watchlist row delete done the other way —
+`TestToastFromACommandGoroutineArrives` runs the real `mvu.Loop` over the real
+`Update`, with a command built from the app's own `deleteSymbolAt`,
+`documentOf` and `saveStore`, and asserts the toast it returns reaches the
+model, renders in a live `toast.Stack`, and that the file really was written
+on that goroutine. Nothing in the command knows it is on one. What this
+unblocks and does not do: watchlist's saves can now move into commands, since
+the only thing a command lacked was a way to report — the remaining obstacle
+is that `Update` does not carry the store path, which is a separate task.
+
+Measured: `toast.go` 383 code lines → 390 — this is the one conversion in the
+goal that does not shrink, and it should not, because nothing was deleted so
+much as relocated. Gone: `sync`, `sync/atomic`,
+`github.com/vibrantgio/prism/coordination`, the package-scoped `publish`,
+`Notifications` and `nextID`, an `init`, the mutex-guarded `stackState` with
+its `enqueue`/`snapshot` pair, the per-subscription `rx.Defer` scope and the
+`StartWith` ping that seeded it. Arrived: two message types, a `Queue` with
+four methods, `Expire`, `Request`, and `Props.Toasts`. All 84 cadence goldens
+and all 16 workbench goldens byte-identical — the golden path is `Render`,
+which never touched the Subject and now takes alpha 1 explicitly where it used
+to take it from a zero `addedAt`. `check-layers` OK, `check-agents` 20/20
+after re-rendering cadence's AGENTS.md, and **`check-no-workspace` 34/36**:
+`workbench/feeds` and `workbench/watchlist` fail on four undefined cadence
+symbols (`toast.Queue`, `toast.Requested`, `toast.Expire`, `toast.Expired`)
+and nothing else. That is the ADR-006 seam opening exactly where G0C.3
+predicted it, and G0C.6 owns the release.
+
 **The layering rule for the surviving primitive.** `coordination` lives in
 prism, tier 2, which is *why* `spectrum/preferences` — tier 1, and unable to
 import upward — still holds the organization's one remaining bare
@@ -3510,6 +3655,13 @@ prism forwards through a deprecation window so no consumer breaks mid-goal.
   left open by finding that there was no question: the modal stack is
   destination 2 like the other two, not the destination-1 candidate the
   preamble expected.
+- **G0C.3** converted `cadence/toast`, the only bus with a reader and
+  therefore the only destination-1 case in the goal — see the amendment
+  above for the three rules it added: a destination-1 conversion cannot keep
+  a frameless entry point and must break loudly; the lifetime belongs on the
+  value the timer and the fade both read; and destination 1 puts entries
+  *on* the AutoConnect ledger, which is the direction that census is meant
+  to move.
 - **G0C.4** threads a per-window `Arbiter` through the seven application call
   sites and deletes the package-level default. Modal's is a fourth kind of
   call site and its own: no application passes an `Arbiter` today, so the
@@ -3518,15 +3670,19 @@ prism forwards through a deprecation window so no consumer breaks mid-goal.
 - **Removing an exported symbol is a breaking change** even when nothing
   imports it. `popover.Arbitration`, `popover.ArbitrationSnapshot`,
   `tooltip.Arbitration`, `tooltip.ArbitrationSnapshot`, `modal.Stack` and
-  `modal.StackSnapshot` are all gone; cadence takes one minor bump at G0C.6
-  that carries all six.
+  `modal.StackSnapshot` are all gone; so is `toast.Notifications`, and
+  `toast.Notify` changed signature. cadence takes one minor bump at G0C.6
+  that carries all eight.
 - **The gate G0C.6 writes** should ban a bare `rx.Subject` outside the homes
   this ADR names, and nothing more — pipelines, theme and genuine streams are
   not what it is looking for.
 - **`Props` grew a field rather than a requirement**, which is why the
-  conversion opened no ADR-006 seam: `check-no-workspace.sh` still reads
-  36/36 after it. Keep the later conversions additive for as long as that is
-  honest, and say plainly at the task that stops being true.
+  destination-2 conversions opened no ADR-006 seam: `check-no-workspace.sh`
+  still read 36/36 after all three. ~~Keep the later conversions additive for
+  as long as that is honest, and say plainly at the task that stops being
+  true.~~ **G0C.3 is where it stopped being true**: `toast.Props.Toasts` is a
+  requirement wearing a field's clothes, `toast.Notify` broke outright, and
+  the seam opened at 34/36 for `workbench/feeds` and `workbench/watchlist`.
 
 ### The repo doc contract
 
