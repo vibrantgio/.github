@@ -2394,6 +2394,110 @@ cut it promptly rather than fold it into the next convenient boundary.
 - [x] Confirm resolution from a clean module cache with the workspace disabled, `go clean -modcache` first.
 - [x] Verify `design/` did not move — no token value should have changed — and regenerate and re-push it if one did.
 
+### G-G0C: Coordination belongs to the loop or the frame, not to a bus
+
+Rene's architectural read, which the tree confirms at every site checked: rx
+earns its keep in this organization in exactly two places — carrying
+slow-changing broadcast sources into component pipelines (the theme), and
+carrying command results back into the MVU loop as messages. `Subject` as a
+cross-widget coordination bus is a third thing, and it fights both of the
+first two. It holds state outside the model, it delivers a frame late, and it
+imports concurrency hazards a single-goroutine renderer cannot otherwise
+express. Subject is normally indicative of an architecture problem; here the
+evidence is unusually explicit:
+
+- `prism/coordination`'s own doc lists its first known trap as **"One-frame
+  lag. Subject delivery is asynchronous."** The package documents the tax of
+  its own mechanism.
+- G0B.1: the primitive imported a producer stall — a concurrency failure —
+  into a toolkit that renders on one goroutine. That is F5.1's shaper lesson
+  generalized: a design that cannot express the hazard beats one that guards
+  against it.
+- `workbench/feeds` maintains a ledger test (`modelObsConsumers` in
+  `wiring_test.go`, bumped 16→23 by G0A.3) counting subscription consumers so
+  AutoConnect numbers stay right. A census in a test is the tax made visible.
+- `toast.Notify` — called from seven real app files — is the loop worked
+  around rather than leveraged: an event that wants to be a Message takes a
+  side door past `Update`, so toasts are invisible to the model and
+  untestable through it. The mechanism for doing it right already exists and
+  is the org's own: components emit `mvu.MessageOp` into the ops queue and
+  the app routes; `prism/button` has done exactly that since the beginning.
+
+**The layering finding that shapes the fix.** `coordination` lives in prism,
+tier 2 — which is *why* `spectrum/preferences` (tier 1, cannot import upward)
+holds the org's one remaining bare `rx.Subject` in library code, with the
+same slot leak and frozen-cursor stall `coordination` now guards against
+(default `scap` 32; 128-deep buffer makes it slower to bite, not immune).
+F5.5 recorded the rule for the golden harness: if a lower tier needs it, the
+package lives too high. Whatever lifetime-safe primitive survives this goal
+belongs in mvu, tier 0, the FRP substrate — `check-layers.sh` is the arbiter.
+
+**Scope guard, in both directions.** This is not "remove rx": pipelines,
+theme, and genuine streams (preferences is one — a replay-1 value observed by
+several windows) stay observable. And same-frame response is not automatic:
+within one frame, event→state→layout ordering depends on tree order, so a
+sibling laid out before the state changed still sees the old value until the
+next frame. The spike measures that honestly rather than promising lag-zero.
+
+**Three destinations**, decided per site rather than by slogan:
+
+1. Durable or app-meaningful state → the model, via messages. Toast requests;
+   probably the modal stack.
+2. Frame-scoped UI coordination → plain values owned by the frame goroutine,
+   read during layout. Popover and tooltip arbitration; per-row open flags.
+   Note the Subjects today are process-global while UI arbitration's correct
+   scope is per-window — frame ownership gives the right scope for free.
+3. Genuine streams → observables still, but never a bare `rx.Subject`;
+   lifetime safety is the one enduring job of the wrapped primitive.
+
+**The refactor's honesty constraint: no golden moves.** This goal changes
+mechanism, not pixels. Every stored PNG must compare byte-identically at the
+end of every task; a moved pixel means behaviour changed and must be explained
+before it is regenerated. Sequenced before G-G1 so the mirror is built against
+components whose internals are done moving.
+
+#### G0C.1: ADR-008 and the spike: popover arbitration as frame state
+
+- [ ] Convert `cadence/popover`'s `Arbitration` from a `coordination.Subject` to a plain arbiter owned by the frame goroutine, read during layout, written on the events that claim or release it. Smallest of the four buses, purely frame-scoped, no app consumer to migrate — the right specimen.
+- [ ] Measure what it deletes and what it costs, and write both down: the one-frame lag and its workarounds, AutoConnect counts in tests that existed only to absorb Subject delivery, subscription ledger entries; against any new ordering constraint the same-frame model introduces. Prove same-frame where it is real and document where next-frame remains.
+- [ ] All goldens byte-identical; `go test -race` on everything touched.
+- [ ] Write **ADR-008** into the Reference section from the measured result, not from this preamble: the doctrine (three destinations), the idiom the spike settled, and the layering rule for the surviving primitive. If the spike refutes part of the preamble, the ADR records what was learned — that is what the spike is for.
+- [ ] Re-cut the remaining tasks of this goal against what the spike learned, the way G0.2 was re-cut after G0.1.
+- [ ] Build, test, commit in cadence and the root.
+
+#### G0C.2: Tooltip arbitration and the modal stack follow the idiom
+
+- [ ] `cadence/tooltip`'s `Arbitration`: same conversion as the spike.
+- [ ] `cadence/modal`'s `Stack` is the harder call and gets its own decision: shells consume it to know a modal is open, which smells like app-meaningful state (destination 1) rather than frame state (destination 2). Decide against ADR-008, record the reasoning in the package doc, and migrate the shell consumers accordingly.
+- [ ] Goldens byte-identical; build, test, commit in cadence and any consumer touched.
+
+#### G0C.3: Toasts ride the loop
+
+- [ ] Replace the `Notify` bus with the message path: cadence defines the message type, `toast.Stack` renders from props or model-derived input, apps route the message through `Update`. Toasts become model state — reproducible, testable through Update, visible in any model dump.
+- [ ] `Notify` is public API with seven caller files; keep it compiling through a deprecation window as a shim over the message path if that is cleanly possible, and say plainly if it is not.
+- [ ] Migrate all seven caller files in feeds and watchlist; the toast Subject empties. Confirm a toast raised from a command goroutine still arrives — that path is the loop's own (command → message → Update), which is the point.
+- [ ] Goldens byte-identical; build, test, commit in cadence and workbench.
+
+#### G0C.4: The apps drop their per-row Subjects
+
+- [ ] `feeds` (`sidebar.go`, `articles.go`) and `watchlist` (`rowdelete.go`, `bulkdelete.go`, `sidebarcontext.go`): each per-row `rx.Subject[bool]` open flag becomes plain state read during layout, per ADR-008's destination 2. The "feeds idiom" comments describe the old mechanism by name — rewrite them to describe the new one.
+- [ ] The `modelObsConsumers` ledger should stop being load-bearing: every consumer this goal removes shrinks it, and if it can be deleted outright, delete it. Its remaining count is the honest measure of what still subscribes.
+- [ ] Goldens byte-identical; build, test, commit in workbench.
+
+#### G0C.5: The surviving primitive moves to tier 0, and preferences comes off the bare Subject
+
+- [ ] Move the lifetime-safe Subject (whatever G0C.1–G0C.4 left of it) from `prism/coordination` down to mvu, per the layering finding — `check-layers.sh` is the arbiter, and prism re-exports or forwards through a deprecation window so no consumer breaks mid-goal.
+- [ ] `spectrum/preferences` — the last bare `rx.Subject` in library code — moves onto it. Its shape is a genuine stream and stays observable; the defect was only ever the unprotected primitive.
+- [ ] Sweep for any bare `rx.Subject` remaining in library code; the count after this task should be zero, and the count in app code should be whatever G0C.4 justified line by line.
+- [ ] Goldens byte-identical; build, test, commit in mvu, spectrum, prism and any consumer re-pinned.
+
+#### G0C.6: The gate, the guide, and the release
+
+- [ ] The gate, in the org's own style: a check script that fails on a bare `rx.Subject` outside the sanctioned homes ADR-008 names. Wire it beside `check-layers.sh`, `check-no-workspace.sh` and `check-agents.sh`.
+- [ ] The guide: ADR-008's consequences into `llms.txt` and the AGENTS templates through `sync-agents.sh` — never typed into generated files.
+- [ ] The release, per the Release protocol, bottom-up: mvu moves (new home for the primitive), spectrum, prism and cadence follow with whatever bumps the diffs argue — judge each against what actually moved. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass; `design/` verified unmoved.
+- [ ] Strike whatever this goal fixes in the register, leaving the struck text in place.
+
 ### G-G1: The mirror and its harness
 
 #### G1.1: Golden comparison harness
