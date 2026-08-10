@@ -2591,12 +2591,14 @@ documentation has been translating the names into English at every mention
 since phase A. A name that needs a gloss at every use is a hand-typed copy of
 a fact, and this organization already knows what happens to those.
 
-**The mapping** (G0D.1's ADR ratifies the two open calls, the rest is
-settled): `spectrum → theme`, `prism → widgets` (or `components` — open),
-`pulse → effects`, `cadence → patterns`. `theme` vs `tokens` is the other open
-call; the recommendation is `theme`, the thing applications actually touch.
-The tier chain then reads `mvu → theme → widgets → effects → patterns →
-markdown` and explains itself in the import paths.
+**The mapping, ratified by Rene at drafting time**: `spectrum → theme`,
+`prism → components`, `pulse → effects`, `cadence → patterns`. The two calls
+that were open — `theme` vs `tokens`, `widgets` vs `components` — Rene took
+`theme` (the thing applications actually touch) and `components` (the word
+the role sentence and llms.txt already use). G0D.1's ADR records the
+decisions; it does not reopen them. The tier chain then reads `mvu → theme →
+components → effects → patterns → markdown` and explains itself in the
+import paths.
 
 **What deliberately does not rename.** `mvu` — it names the architecture, not
 a vibe. `markdown`, `font`, `workbench` and the tier-0 leaves — already
@@ -2614,7 +2616,7 @@ prism–pulse cycle that once pinned half the organization to `prism v0.0.3` is
 exactly the failure repo boundaries make impossible; the two also churn at
 different rates — all of G-G0C hammered cadence while prism took a doc-only
 patch. The split was never the problem. Two names that don't say which is
-which was the problem, and `widgets` vs `patterns` says it.
+which was the problem, and `components` vs `patterns` says it.
 
 **Sequenced before G-G1, for G-G0C's own reason.** The mirror and the
 component pages bake module paths into a whole new artifact surface, and
@@ -2653,7 +2655,7 @@ passes at every step with only the names in its table different.
 
 #### G0D.1: ADR-009: the names, the tag policy, and the procedure
 
-- [ ] Write **ADR-009** into the Reference section: ratify the two open name calls (`theme` vs `tokens`; `widgets` vs `components`), record the full mapping and the deliberate non-renames, and say in one paragraph why the prism/cadence split survives (the pulse-between-them topology, the cycle scar, the churn asymmetry).
+- [ ] Write **ADR-009** into the Reference section: record the name calls Rene ratified (`theme`, not `tokens`; `components`, not `widgets`; `effects`; `patterns`), the full mapping and the deliberate non-renames, and say in one paragraph why the prism/cadence split survives (the pulse-between-them topology, the cycle scar, the churn asymmetry).
 - [ ] Settle the tag policy for the new paths and write it into the ADR: continue the old numbering (theme's first tag succeeds spectrum v0.5.0) or start fresh at v0.1.0. Weigh continuity of meaning against a clean break from the buried double-digit tags; either way, no double-digit component, ever.
 - [ ] Settle the afterlife of the old paths: frozen, never re-tagged, resolvable forever via GitHub redirect and proxy cache. Decide where the old→new ledger lives in `llms.txt` — the ALREADY DELETED section is the model, but renamed is not deleted; say which heading the assistant reading the guide will find it under.
 - [ ] Re-run the name census with `find … -print0 | xargs -0 grep` over the root and all clones, diff it against the goal preamble's list, and write the verified sweep list into the ADR as the procedure one rename follows. Note the one step an agent may not be able to take alone: the GitHub repository rename itself (`gh repo rename` needs org auth; the web UI is the fallback) — the task stops and asks tersely if it cannot.
@@ -2669,7 +2671,7 @@ The bottom-most rename and the widest: everything above tier 1 imports it.
 - [ ] Report the `check-no-workspace` count — the seam opens here and stays open until G0D.6; confirm every failure is the renamed path existing in no tag, and nothing else.
 - [ ] Commit in every repo touched and the root.
 
-#### G0D.3: prism becomes widgets
+#### G0D.3: prism becomes components
 
 - [ ] The G0D.2 procedure with the nouns changed, plus this rename's own two: `check-subjects.sh`'s allowlist entry (`prism/coordination` follows the deprecated package to its new path — the gate must fail closed during the transition, not skip), and the nested module `prism/gallery`, whose module path and future nested tag rename with it.
 - [ ] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
@@ -2687,8 +2689,8 @@ The bottom-most rename and the widest: everything above tier 1 imports it.
 
 #### G0D.6: The ledger, the guide, and the release
 
-- [ ] The ledger: the old→new table into `llms.txt` under the heading ADR-009 chose, in the ALREADY DELETED section's voice — an assistant meeting `prism` in older code must learn in one line that it is `widgets` now, renamed not deleted, and that the old path is frozen.
-- [ ] The release, per the Release protocol, bottom-up on the new paths with ADR-009's tag policy: theme, widgets (and its nested gallery), effects, patterns, and re-pins upward through markdown and the workbench apps. `git tag | sort -V` first in each; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass.
+- [ ] The ledger: the old→new table into `llms.txt` under the heading ADR-009 chose, in the ALREADY DELETED section's voice — an assistant meeting `prism` in older code must learn in one line that it is `components` now, renamed not deleted, and that the old path is frozen.
+- [ ] The release, per the Release protocol, bottom-up on the new paths with ADR-009's tag policy: theme, components (and its nested gallery), effects, patterns, and re-pins upward through markdown and the workbench apps. `git tag | sort -V` first in each; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass.
 - [ ] The verification pass: `check-no-workspace` back to 36/36, `check-versions` OK against the new tags, `check-agents` 20/20, `check-layers` OK, `check-subjects` OK with the renamed allowlist, all goldens byte-identical, `design/` verified unmoved.
 - [ ] Strike whatever this goal fixes in the register, leaving the struck text in place, and re-render anything `sync-versions.sh` owns one last time.
 
