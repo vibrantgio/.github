@@ -286,11 +286,14 @@ REPORT=$(printf '%s\n' "$FILES" | tr '\n' '\0' | xargs -0 awk \
 
 		# Resolve the local name for rx from the import block. The pattern is
 		# anchored on the whole raw line, so a commented-out or quoted import
-		# cannot match it: a comment line begins with the slashes.
+		# cannot match it: a comment line begins with the slashes. A comment
+		# TRAILING the spec is allowed — anchoring to bare end-of-line would
+		# leave the import unresolved and silently skip the whole file, the
+		# one failure mode a gate must not have.
 		if (!wasblock && !wasraw && rxname == "" && !dotrx &&
-		    $0 ~ /^[ \t]*(import[ \t]+)?([A-Za-z_][A-Za-z0-9_]*[ \t]+|\.[ \t]+|_[ \t]+)?"github\.com\/reactivego\/rx"[ \t]*$/) {
+		    $0 ~ /^[ \t]*(import[ \t]+)?([A-Za-z_][A-Za-z0-9_]*[ \t]+|\.[ \t]+|_[ \t]+)?"github\.com\/reactivego\/rx"[ \t]*(\/\/.*|\/\*.*\*\/[ \t]*)?$/) {
 			spec = $0
-			sub(/[ \t]*"github\.com\/reactivego\/rx"[ \t]*$/, "", spec)
+			sub(/[ \t]*"github\.com\/reactivego\/rx"[ \t]*(\/\/.*|\/\*.*\*\/[ \t]*)?$/, "", spec)
 			sub(/^[ \t]*/, "", spec)
 			sub(/^import([ \t]+|$)/, "", spec)
 			sub(/[ \t]+$/, "", spec)
