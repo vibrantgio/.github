@@ -2655,11 +2655,11 @@ passes at every step with only the names in its table different.
 
 #### G0D.1: ADR-009: the names, the tag policy, and the procedure
 
-- [ ] Write **ADR-009** into the Reference section: record the name calls Rene ratified (`theme`, not `tokens`; `components`, not `widgets`; `effects`; `patterns`), the full mapping and the deliberate non-renames, and say in one paragraph why the prism/cadence split survives (the pulse-between-them topology, the cycle scar, the churn asymmetry).
-- [ ] Settle the tag policy for the new paths and write it into the ADR: continue the old numbering (theme's first tag succeeds spectrum v0.5.0) or start fresh at v0.1.0. Weigh continuity of meaning against a clean break from the buried double-digit tags; either way, no double-digit component, ever.
-- [ ] Settle the afterlife of the old paths: frozen, never re-tagged, resolvable forever via GitHub redirect and proxy cache. Decide where the old→new ledger lives in `llms.txt` — the ALREADY DELETED section is the model, but renamed is not deleted; say which heading the assistant reading the guide will find it under.
-- [ ] Re-run the name census with `find … -print0 | xargs -0 grep` over the root and all clones, diff it against the goal preamble's list, and write the verified sweep list into the ADR as the procedure one rename follows. Note the one step an agent may not be able to take alone: the GitHub repository rename itself (`gh repo rename` needs org auth; the web UI is the fallback) — the task stops and asks tersely if it cannot.
-- [ ] Commit in the root.
+- [x] Write **ADR-009** into the Reference section: record the name calls Rene ratified (`theme`, not `tokens`; `components`, not `widgets`; `effects`; `patterns`), the full mapping and the deliberate non-renames, and say in one paragraph why the prism/cadence split survives (the pulse-between-them topology, the cycle scar, the churn asymmetry).
+- [x] Settle the tag policy for the new paths and write it into the ADR: continue the old numbering (theme's first tag succeeds spectrum v0.5.0) or start fresh at v0.1.0. Weigh continuity of meaning against a clean break from the buried double-digit tags; either way, no double-digit component, ever.
+- [x] Settle the afterlife of the old paths: frozen, never re-tagged, resolvable forever via GitHub redirect and proxy cache. Decide where the old→new ledger lives in `llms.txt` — the ALREADY DELETED section is the model, but renamed is not deleted; say which heading the assistant reading the guide will find it under.
+- [x] Re-run the name census with `find … -print0 | xargs -0 grep` over the root and all clones, diff it against the goal preamble's list, and write the verified sweep list into the ADR as the procedure one rename follows. Note the one step an agent may not be able to take alone: the GitHub repository rename itself (`gh repo rename` needs org auth; the web UI is the fallback) — the task stops and asks tersely if it cannot.
+- [x] Commit in the root.
 
 #### G0D.2: spectrum becomes theme
 
@@ -4268,6 +4268,162 @@ every repository since the task began.
   `modal.Arbiter` and `NewArbiter`, none of which exists in a cadence tag, so
   `workbench/mindchat` joined the seam at 33/36. Additivity buys the *library*
   a quiet release; it buys the consumers nothing until the tag is cut.
+
+### ADR-009: Rename to the words the docs already use; the numbers keep counting
+
+**Decision.** The four tier names that explain nothing become the four words
+`templates/repos.tsv` has been glossing them with since phase A: `spectrum →
+theme`, `prism → components`, `pulse → effects`, `cadence → patterns`. The two
+calls that were open were ratified by Rene at G-G0D drafting time and this ADR
+records them rather than reopening them: **`theme`, not `tokens`** — tokens
+are one thing the module carries, but the theme is the thing an application
+actually touches, and the role sentence has always led with "the token, theme
+and a11y *contract*", singular; and **`components`, not `widgets`** — because
+"components: button, input, list…" is the sentence repos.tsv already types and
+llms.txt already renders, and a rename whose whole argument is "use the word
+the docs already use" does not get to introduce a third word. The tier chain
+then reads `mvu → theme → components → effects → patterns → markdown` and
+needs no gloss, which was the defect being fixed.
+
+**What deliberately does not rename.** `mvu` names the architecture. `markdown`,
+`font`, `workbench` and the tier-0 leaves are already literal. The support
+libraries — `kiwi`, `traer`, `ivg`, `svg`, `seen`, `noise`, `csg` — keep their
+upstream-heritage names. The org name Vibrant Gio is untouched. And history
+keeps the old names everywhere it already uses them: past goals in this plan,
+the ADRs above this one, commit messages, buried tags, `workbench`'s
+PLAN/BASELINE/DESIGN-v1/FEEDBACK archives, `prism`'s own retired PLAN.md, and
+the CI workflows' narrative comments about F5.7's pulse experiment — those
+comments cite a measurement made under a name, and rewriting the name would
+forge the measurement. One non-rename is subtler:
+`markdown/testdata/corpus.md` contains "a prism link" to
+`github.com/vibrantgio/prism`, and that corpus is rendered into golden images
+— touching the URL moves pixels, the redirect keeps it resolving forever, so
+it stays, byte for byte.
+
+**The prism/cadence split survives, in one paragraph.** Rene asked whether
+patterns should be distinct from the component library at all. It should:
+`effects` sits *between* them in the tier table, so folding them together
+would either drag effects below the components it decorates or push blur and
+springs up into the pattern layer; the prism–pulse import cycle that once
+pinned half the organization to `prism v0.0.3` is exactly the failure a repo
+boundary makes structurally impossible; and the two churn at different rates —
+all of G-G0C hammered cadence's tags (v0.4.1 → v0.5.0 and every task in
+between) while prism took a doc-only patch (v0.6.0 → v0.6.1). The split was
+never the problem. Two names that don't say which is which was the problem,
+and `components` vs `patterns` says it.
+
+**Tag policy: the numbers keep counting.** In Go a new module path starts with
+an empty version history, so the choice was real: begin each new path at
+v0.1.0, or continue where the frozen path stopped. The renames continue. The
+first tag on each new path is the next minor after the old path's last —
+which is not merely "continuity of meaning" but the pre-v1 convention doing
+its ordinary job, because a changed import path *is* a breaking change and a
+breaking change before v1 bumps the minor:
+
+- `theme` starts at **v0.6.0**, succeeding `spectrum` v0.5.0;
+- `components` starts at **v0.7.0**, succeeding `prism` v0.6.1 — and its
+  nested module starts at `gallery/v0.7.0`, succeeding `gallery/v0.6.1`, per
+  the existing rule that a nested tag mirrors its root;
+- `effects` starts at **v0.2.0**, succeeding `pulse` v0.1.4;
+- `patterns` starts at **v0.6.0**, succeeding `cadence` v0.5.0.
+
+The clean-break alternative fails on arithmetic before it fails on taste: a
+fresh `effects v0.1.0` would *sort before* the frozen `pulse v0.1.4` it
+supersedes, so any reader — human or tool — comparing the two paths side by
+side on the proxy would conclude the successor is the older code. A version
+number is a fact about how far the code has come, and resetting it types a
+false fact by hand. Continuation also buys the clean break the reset was
+after: the buried tags that violated the rule stay buried on the frozen
+paths (`spectrum` v0.0.10–v0.0.15, `pulse` v0.0.10–v0.0.12), and the new
+paths begin above them and never mint another — **no
+double-digit tag component, ever, on any path, same as before**. When a minor
+reaches 9, the next breaking change is v1.0.0, not v0.10.0.
+
+**The afterlife of the old paths.** Each GitHub repository is renamed in
+place, so the old URL redirects forever. The old module paths are **frozen,
+never re-tagged**: every existing tag's `go.mod` declares the old path, so the
+GitHub redirect plus the module proxy cache serve
+`github.com/vibrantgio/spectrum@v0.5.0` and everything below it indefinitely,
+and anything out there pinned to an old version keeps building without a
+change. Nothing new can honestly appear on an old path anyway — the renamed
+repository's `go.mod` now declares the new one — and the policy makes the
+accident impossible to excuse: a tag on a frozen path is a defect, full stop.
+The old→new ledger lives in **llms.txt under `## Modules and versions`**,
+directly after the ALREADY DELETED block, because that is where an assistant
+holding an old import path will already be looking — but under its own
+introducer, `RENAMED`, because renamed is not deleted: ALREADY DELETED says
+"this is gone, stop looking", RENAMED says "the path changed, the code did
+not; old path frozen at the tag shown, new work on the new path only", with
+the four mappings and both numbers on each line.
+
+**The census, re-taken, and what the preamble missed.** Re-run at G0D.1 with
+the gitignore-immune form (`find . -name '*.go' -print0 | xargs -0 grep`, and
+every non-Go file enumerated explicitly), because `.repos/` is gitignored and
+a gitignore-aware grep silently reports a clean tree. Measured: **217 of 710
+Go files** import one of the four; **14 `go.mod` files** name them (the four
+module lines themselves, `markdown`'s, and the nine app/demo modules);
+`llms.txt` has **86 matching lines — exactly the preamble's count**. Every
+surface the preamble listed is confirmed, with line counts:
+`check-layers.sh` (18), `check-subjects.sh` (8, including the
+`prism/coordination` allowlist), `sync-versions.sh` (10), `push-design.sh`
+(3), `check-versions.sh` (2), `clone-all.sh` (1), `inventory.sh` (1),
+`templates/repos.tsv` (13), root `AGENTS.md` (5), root `README.md` (1),
+`go.work` (5, regenerated never hand-edited), the
+`templates/notes/{spectrum,pulse,cadence}.md` filenames, and all twenty
+generated per-repo `AGENTS.md`. The preamble missed eight surfaces, which is
+why the census is re-run rather than trusted:
+
+1. **`scripts/sync-agents.sh` is functional, not just prose**: it probes
+   `imports "$d" github.com/vibrantgio/prism/golden` and reads
+   `.repos/prism/golden` to render the goldens paragraph — a hand-typed
+   module path in the generator itself;
+2. **`profile/README.md`** — the org front door's tier table, 12 lines;
+3. **fifteen per-repo `README.md`s** — the tier-chain sentence and org links,
+   in the four themselves and in eleven neighbours down to `circle`'s;
+4. **`workbench/sitedocs/content/`** — nine of eleven page *filenames* are
+   old-name slugs (`prism-primitives.md`, `pulse-effects.md`, …), plus the
+   prose inside: this is the very mirror surface G-G0D is sequenced before
+   G-G1 to protect;
+5. **`workbench/DESIGN.md`** (67 lines) and the `run-workbench` skill — the
+   living workbench docs, as distinct from its archived ones;
+6. **`design/readme.md` and `design/styles.css`** — generated by
+   `spectrum/export`'s `vg-tokens`, so the generator's self-citation renames
+   and the directory re-renders;
+7. **notes content beyond the three renamed filenames** — `font.md`,
+   `spectrum.md`, `style.md`, `textdraw.md`, `workbench.md` mention the four
+   in prose;
+8. **`go.sum` files and the stray built binaries sitting in app directories**
+   — mechanical, regenerated by the toolchain and the build, listed so nobody
+   sweeps them by hand.
+
+**The procedure one rename follows**, bottom-up (`spectrum`, then `prism`,
+`pulse`, `cadence`), with `go.work` keeping everything building and
+`check-no-workspace` degrading one rename at a time until G0D.6's release
+wave closes the seam:
+
+1. **Rename the GitHub repository**: `gh repo rename <new> --repo
+   vibrantgio/<old>`. This is the one step an agent may not be able to take
+   alone — it needs org-admin auth, and the web UI (Settings → General →
+   Rename) is the fallback. If the rename cannot be executed, the task stops
+   and asks tersely; it does not proceed to step 2 against a repo whose
+   remote still answers to the old name.
+2. **Move the clone**: `git remote set-url` to the new URL, rename
+   `.repos/<old>` to `.repos/<new>`.
+3. **Change the identity**: the `module` line in `go.mod` and in any nested
+   module, then every self-import.
+4. **Change the importers**: import lines and `go.mod` require lines in every
+   downstream module — the 217-file census above is the worklist, filtered to
+   the path being renamed.
+5. **Sweep the hand-typed surfaces**: the verified list above — scripts,
+   templates, notes, root README/AGENTS, profile, llms.txt prose, sitedocs
+   filenames and prose, workbench living docs, sync-agents.sh's paths.
+6. **Regenerate everything generated**: `go.work` (per G0.2's rule),
+   `sync-agents.sh` for the per-repo AGENTS.md files, `vg-tokens` for
+   `design/`, `sync-versions.sh` for llms.txt's tables; `go mod tidy` for the
+   go.sums.
+7. **Prove nothing moved**: `go build ./... && go test -race ./...` green in
+   every module touched, every golden PNG byte-identical, `check-layers.sh`
+   passing with only the names in its table different.
 
 ### The repo doc contract
 
