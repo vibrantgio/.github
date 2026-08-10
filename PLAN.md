@@ -2577,6 +2577,121 @@ scope the spike deliberately left borrowed.
 - [x] The release, per the Release protocol, bottom-up: **mvu first and alone at the bottom — the new `stream` subpackage is purely additive, a minor, and it is what `spectrum` is currently unresolvable without** (`check-no-workspace` reads 32/36 at the end of G0C.5; spectrum's single failure is `github.com/vibrantgio/mvu/stream` existing in no tag). Then spectrum, prism and cadence with whatever bumps the diffs argue — judge each against what actually moved. prism's diff is a deprecation notice and an AGENTS/README re-render unless the removal above lands, in which case it is breaking. Cadence's is at least a minor: `popover.Arbitration`, `popover.ArbitrationSnapshot` and tooltip's pair are removed exported symbols, which is breaking however few importers they had. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass; `design/` verified unmoved.
 - [x] **`llms.txt`'s tag table is a hand-typed copy of a measurable fact, and it has drifted three minors.** Measured against `git tag | sort -V` at the start of this task: it claims prism **v0.3.1** where the tag is **v0.6.0**, cadence v0.3.1 where it is v0.4.1, spectrum v0.4.0 where it is v0.4.1, pulse v0.1.2 where it is v0.1.4, markdown v0.1.2 where it is v0.1.3 — five of eight wrong, under a line reading "EVERY TAG ABOVE IS RELEASED AND CURRENT". An assistant following the canonical guide would `go get prism@v0.3.1` and receive none of Phase G. This is G-G0's defect exactly, surviving in the one document `sync-agents.sh` cannot reach, because `.github` is the parent of the clones and not one of them. Fix the numbers, and then fix the reason: either generate the table (a small script beside the others, `check-agents.sh`-style, reading `git tag` in each clone) or state in the file how to re-derive it and add the check that fails when it drifts. Prefer generating it — the whole goal above this line is about facts that should not be typed. The nested-module tags a few lines below have the same exposure; check them too.
 - [x] Strike whatever this goal fixes in the register, leaving the struck text in place.
+
+### G-G0D: The four names that explain nothing become the four words the docs already use
+
+Rene's finding, and it is about the reader rather than the code: `spectrum`,
+`prism`, `pulse` and `cadence` are opaque. He cannot keep them apart, and he
+owns the organization. The evidence that the names are the defect and not the
+reader is one command away: every role sentence in `templates/repos.tsv`
+already describes its repo in a plain word the name then hides — spectrum is
+"the token, theme and `a11y` contract", prism is "components: button, input,
+list…", pulse is "effects: blur…", cadence is "composed patterns". The
+documentation has been translating the names into English at every mention
+since phase A. A name that needs a gloss at every use is a hand-typed copy of
+a fact, and this organization already knows what happens to those.
+
+**The mapping** (G0D.1's ADR ratifies the two open calls, the rest is
+settled): `spectrum → theme`, `prism → widgets` (or `components` — open),
+`pulse → effects`, `cadence → patterns`. `theme` vs `tokens` is the other open
+call; the recommendation is `theme`, the thing applications actually touch.
+The tier chain then reads `mvu → theme → widgets → effects → patterns →
+markdown` and explains itself in the import paths.
+
+**What deliberately does not rename.** `mvu` — it names the architecture, not
+a vibe. `markdown`, `font`, `workbench` and the tier-0 leaves — already
+literal. The support libraries — `kiwi`, `traer`, `ivg`, `svg`, `seen`,
+`noise`, `csg` — keep their upstream-heritage names. The org name Vibrant Gio
+is untouched. And history keeps the old names everywhere it already uses
+them: past goals in this plan, ADRs, commit messages, buried tags. Only
+living surfaces rename; a plan that rewrote its own past to match its present
+would be forging the record.
+
+**The prism/cadence split survives, and the rename is what makes it legible.**
+Rene asked whether cadence should be distinct from the component library at
+all. It should: `pulse` sits between them in the tier table, and the
+prism–pulse cycle that once pinned half the organization to `prism v0.0.3` is
+exactly the failure repo boundaries make impossible; the two also churn at
+different rates — all of G-G0C hammered cadence while prism took a doc-only
+patch. The split was never the problem. Two names that don't say which is
+which was the problem, and `widgets` vs `patterns` says it.
+
+**Sequenced before G-G1, for G-G0C's own reason.** The mirror and the
+component pages bake module paths into a whole new artifact surface, and
+G1.1's chromedp harness is built against it. G-G0C went first so the mirror
+would be built against components whose internals were done moving; names are
+more surface than internals. Renaming after G-G1 means regenerating
+everything it built.
+
+**The mechanics, stated once.** In Go the module path is the identity, so a
+rename is a new module path: the GitHub repository renames (old URLs redirect
+forever), `go.mod`'s module line changes, every importer's import lines
+change, and tags start again on the new path — the old path stays resolvable
+through the redirect and the proxy cache for anything pinned, frozen and
+never re-tagged. The blast radius is in-org only: G0C.2b's census found no
+out-of-org consumer in eight phases of looking. The renames land in the
+working tree bottom-up with `go.work` keeping everything building;
+`check-no-workspace` degrades one rename at a time and G0D.6's release wave
+closes the seam once, at the end — the G0C.3/G0C.6 pattern.
+
+**Where the names are typed, measured at drafting time.** Beyond `go.mod` and
+import lines: `llms.txt` (86 matching lines, prose plus generated tables —
+the tables regenerate via `sync-versions.sh`, the prose is the sweep),
+`check-layers.sh`'s tier table, `clone-all.sh`'s STACK array,
+`check-subjects.sh`'s allowlist (`prism/coordination`), `sync-versions.sh`
+and `check-versions.sh`'s module lists, `inventory.sh`, `push-design.sh`,
+`templates/repos.tsv` rows, `templates/notes/{spectrum,pulse,cadence}.md`
+filenames, `go.work` (regenerated, never hand-edited, per G0.2's rule), the
+root `README.md` and `AGENTS.md`, and every generated per-repo `AGENTS.md`
+(which re-render). G0D.1 re-runs this census with the gitignore-immune
+`find … -print0 | xargs -0 grep` form rather than trusting this paragraph.
+
+**The honesty constraint carries over.** A rename moves no pixels: every
+golden PNG byte-identical at the end of every task, `go test -race` green in
+everything touched, and the tier topology unchanged — `check-layers.sh`
+passes at every step with only the names in its table different.
+
+#### G0D.1: ADR-009: the names, the tag policy, and the procedure
+
+- [ ] Write **ADR-009** into the Reference section: ratify the two open name calls (`theme` vs `tokens`; `widgets` vs `components`), record the full mapping and the deliberate non-renames, and say in one paragraph why the prism/cadence split survives (the pulse-between-them topology, the cycle scar, the churn asymmetry).
+- [ ] Settle the tag policy for the new paths and write it into the ADR: continue the old numbering (theme's first tag succeeds spectrum v0.5.0) or start fresh at v0.1.0. Weigh continuity of meaning against a clean break from the buried double-digit tags; either way, no double-digit component, ever.
+- [ ] Settle the afterlife of the old paths: frozen, never re-tagged, resolvable forever via GitHub redirect and proxy cache. Decide where the old→new ledger lives in `llms.txt` — the ALREADY DELETED section is the model, but renamed is not deleted; say which heading the assistant reading the guide will find it under.
+- [ ] Re-run the name census with `find … -print0 | xargs -0 grep` over the root and all clones, diff it against the goal preamble's list, and write the verified sweep list into the ADR as the procedure one rename follows. Note the one step an agent may not be able to take alone: the GitHub repository rename itself (`gh repo rename` needs org auth; the web UI is the fallback) — the task stops and asks tersely if it cannot.
+- [ ] Commit in the root.
+
+#### G0D.2: spectrum becomes theme
+
+The bottom-most rename and the widest: everything above tier 1 imports it.
+
+- [ ] Rename the repository on GitHub per ADR-009's procedure, rename `.repos/spectrum` to match, change the module line, and sweep every importer's import lines and qualified identifiers in the working tree — prism, pulse, cadence, markdown, workbench and the galleries.
+- [ ] Sweep the hand-typed sites the census assigns to this rename: tier table, STACK array, `templates/repos.tsv` row, `templates/notes/spectrum.md` filename and contents, root README/AGENTS prose, `llms.txt` prose. Regenerate `go.work` from `find .repos -name go.mod`; regenerate AGENTS renders; `check-agents` must read 20/20.
+- [ ] `go test -race` across every touched module; `check-layers` OK with `theme` in tier 1; all goldens byte-identical.
+- [ ] Report the `check-no-workspace` count — the seam opens here and stays open until G0D.6; confirm every failure is the renamed path existing in no tag, and nothing else.
+- [ ] Commit in every repo touched and the root.
+
+#### G0D.3: prism becomes widgets
+
+- [ ] The G0D.2 procedure with the nouns changed, plus this rename's own two: `check-subjects.sh`'s allowlist entry (`prism/coordination` follows the deprecated package to its new path — the gate must fail closed during the transition, not skip), and the nested module `prism/gallery`, whose module path and future nested tag rename with it.
+- [ ] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
+
+#### G0D.4: pulse becomes effects
+
+- [ ] The G0D.2 procedure with the nouns changed; `templates/notes/pulse.md` renames with it. The blur section heading in `llms.txt` (`pulse/blur`) is prose, not a generated table — the sweep owns it.
+- [ ] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
+
+#### G0D.5: cadence becomes patterns
+
+- [ ] The G0D.2 procedure with the nouns changed; `templates/notes/cadence.md` renames with it. The top of the design system proper renames last, so after this task no import line in the organization says spectrum, prism, pulse or cadence.
+- [ ] Verify that claim rather than assuming it: the census, re-run, finds the four old names only in history — this plan's past goals, ADRs, commit messages — and in the ledger. Anything else found is this task's to fix.
+- [ ] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
+
+#### G0D.6: The ledger, the guide, and the release
+
+- [ ] The ledger: the old→new table into `llms.txt` under the heading ADR-009 chose, in the ALREADY DELETED section's voice — an assistant meeting `prism` in older code must learn in one line that it is `widgets` now, renamed not deleted, and that the old path is frozen.
+- [ ] The release, per the Release protocol, bottom-up on the new paths with ADR-009's tag policy: theme, widgets (and its nested gallery), effects, patterns, and re-pins upward through markdown and the workbench apps. `git tag | sort -V` first in each; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass.
+- [ ] The verification pass: `check-no-workspace` back to 36/36, `check-versions` OK against the new tags, `check-agents` 20/20, `check-layers` OK, `check-subjects` OK with the renamed allowlist, all goldens byte-identical, `design/` verified unmoved.
+- [ ] Strike whatever this goal fixes in the register, leaving the struck text in place, and re-render anything `sync-versions.sh` owns one last time.
+
 ### G-G1: The mirror and its harness
 
 #### G1.1: Golden comparison harness
