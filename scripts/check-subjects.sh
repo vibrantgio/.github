@@ -40,7 +40,7 @@
 #   - It cannot even be spelled without a parser. `Arbitration
 #     rx.Observable[ArbitrationSnapshot]` inside a `var (` block and `Open
 #     rx.Observable[bool]` inside a Props struct are the same line of text; the
-#     first was one of the four dead buses and the second is components and cadence's
+#     first was one of the four dead buses and the second is components and patterns'
 #     entire component contract.
 #
 # So the deadness check is not attempted. The first question to ask about an

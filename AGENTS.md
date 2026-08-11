@@ -49,7 +49,7 @@ but does not default the filename, so name `PLAN.md` explicitly).
       go.work             the 36-module development workspace (committed)
       design/             the token bundle push-design.sh uploads
       .repos/             <- gitignored; the twenty sibling repositories
-        mvu/ theme/ components/ effects/ cadence/ markdown/
+        mvu/ theme/ components/ effects/ patterns/ markdown/
         font/ style/ textdraw/ backdrop/ gradient/ circle/
         ivg/ svg/ seen/ csg/ kiwi/ noise/ traer/
         workbench/

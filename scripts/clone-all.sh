@@ -17,7 +17,7 @@ cd "$(dirname "$0")/.."
 mkdir -p .repos
 
 # The stack, bottom to top.
-STACK=(mvu theme components effects cadence markdown)
+STACK=(mvu theme components effects patterns markdown)
 
 # Leaf libraries: typography, drawing helpers.
 LEAVES=(font style textdraw backdrop gradient circle)

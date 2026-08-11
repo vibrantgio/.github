@@ -21,7 +21,6 @@ go 1.25.1
 
 use (
 	./.repos/backdrop
-	./.repos/cadence
 	./.repos/circle
 	./.repos/components
 	./.repos/components/gallery
@@ -37,6 +36,7 @@ use (
 	./.repos/mvu
 	./.repos/mvu/example
 	./.repos/noise
+	./.repos/patterns
 	./.repos/seen
 	./.repos/seen/context/gio
 	./.repos/style

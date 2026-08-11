@@ -39,7 +39,7 @@ document and the application source still disagree, the source wins and the
 document is a bug to file.
 
 **Arbiters are created in each application's layer function, and that is the
-composition root that matters.** ADR-008 gave `cadence`'s popover, tooltip and
+composition root that matters.** ADR-008 gave `patterns`'s popover, tooltip and
 modal a plain `Arbiter` passed through `Props`, and the value *is* the scope —
 one set per window. `theme/window.Render` calls the build function once per
 window, and `feeds`, `watchlist` and `mindchat` each compose every arbitrable

@@ -13,7 +13,7 @@
 #   |  1   | theme                                            |
 #   |  2   | components                                       |
 #   |  3   | effects                                          |
-#   |  4   | cadence, markdown                                |
+#   |  4   | patterns, markdown                                |
 #   |  —   | ivg, svg, seen, csg, kiwi, noise, traer (support)|
 #
 # Nested-module exemption (ADR-001): the demo modules components/gallery and
@@ -60,7 +60,7 @@
 # "imports nothing here" is a measured fact rather than an absent row.
 #
 # The edge list is the dependency *closure*, because that is what ADR-001
-# judges: cadence reaching font only through components is still cadence depending
+# judges: patterns reaching font only through components is still patterns depending
 # on font, and a tier rule that ignored inherited edges would be no rule. The
 # direct/indirect column keeps the other question answerable — what does this
 # module's own source name — so that neither has to be guessed from the other.
@@ -86,7 +86,7 @@ tier_of() {
     theme)                                            echo 1 ;;
     components)                                       echo 2 ;;
     effects)                                          echo 3 ;;
-    cadence|markdown)                                 echo 4 ;;
+    patterns|markdown)                                 echo 4 ;;
     ivg|svg|seen|csg|kiwi|noise|traer)                echo S ;;
     *)                                                echo "" ;;
   esac
@@ -124,7 +124,7 @@ in_list() { # word list -> 0 if word is in the space-separated list
   return 1
 }
 
-TIERED="mvu font style textdraw backdrop gradient circle theme components effects cadence markdown"
+TIERED="mvu font style textdraw backdrop gradient circle theme components effects patterns markdown"
 SUPPORT="ivg svg seen csg kiwi noise traer"
 
 EDGES=0

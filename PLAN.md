@@ -2683,9 +2683,9 @@ The bottom-most rename and the widest: everything above tier 1 imports it.
 
 #### G0D.5: cadence becomes patterns
 
-- [ ] The G0D.2 procedure with the nouns changed; `templates/notes/cadence.md` renames with it. The top of the design system proper renames last, so after this task no import line in the organization says spectrum, prism, pulse or cadence.
-- [ ] Verify that claim rather than assuming it: the census, re-run, finds the four old names only in history — this plan's past goals, ADRs, commit messages — and in the ledger. Anything else found is this task's to fix.
-- [ ] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
+- [x] The G0D.2 procedure with the nouns changed; `templates/notes/cadence.md` renames with it. The top of the design system proper renames last, so after this task no import line in the organization says spectrum, prism, pulse or cadence.
+- [x] Verify that claim rather than assuming it: the census, re-run, finds the four old names only in history — this plan's past goals, ADRs, commit messages — and in the ledger. Anything else found is this task's to fix.
+- [x] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
 
 #### G0D.6: The ledger, the guide, and the release
 

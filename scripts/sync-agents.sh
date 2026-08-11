@@ -197,7 +197,7 @@ hasroot() {
 # Module granularity throughout, and deliberately. ADR-001's rule is
 # module-level, check-layers.sh judges module-level, and the package column of
 # the measurement is the *closure's* packages — rendering it would have this
-# file say cadence imports `components/icon` when cadence only inherits it through
+# file say patterns imports `components/icon` when patterns only inherits it through
 # `components/list`. The role sentence above already names the packages that matter,
 # and it names this repository's, which is the set a reader is here for.
 layerline() {

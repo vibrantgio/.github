@@ -71,7 +71,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      transition, tween, conductor
 
   tier 4
-  cadence   v0.5.0   patterns: shell, navbar, sidebar, table, pagination,
+  patterns  v0.5.0   patterns: shell, navbar, sidebar, table, pagination,
                      tabs, modal, alert, popover, tooltip, toast, card,
                      accordion, breadcrumb, hero, feature, pricing,
                      testimonial
@@ -121,7 +121,7 @@ older code or an older answer, they are gone, not deprecated:
   - elevation levels 4 and 5 — the desktop ladder tops out at 3, and asking
     for a higher level now panics rather than clamping;
   - tokens.TypeScale entirely. The static `Render(…)` signatures on components,
-    cadence and markdown take a role's `tokens.TextStyle` instead — or the
+    patterns and markdown take a role's `tokens.TextStyle` instead — or the
     whole `tokens.Typography` where a component spends several roles — plus
     a `tokens.Density` wherever a control is sized. Drive components through
     their theme-driven entry points (button.Button, table.Table, …) and the
@@ -273,7 +273,7 @@ mvu.Loop.
      mvu.MessageOp{Message: SelectItem{ID: id}}.Add(gtx.Ops)
 
    The runtime extracts these from the ops buffer and delivers them to
-   Update. Cadence/components component callbacks receive gtx for exactly this
+   Update. Patterns/components component callbacks receive gtx for exactly this
    purpose. This is the bridge between components and MVU, and it is the
    answer for anything a test, a model dump or a command goroutine would
    want to see — never a side channel out of the layout pass
@@ -281,8 +281,8 @@ mvu.Loop.
    Modal forms: components input.TextFieldProps.Seed pre-fills an uncontrolled
    field so an existing value can be EDITED (rebuild the field keyed on an
    epoch to reseed); TextFieldProps.FocusTag exposes the editor's focus
-   tag, and cadence/modal's DynamicFocusTags puts it in the Tab cycle
-   (first tag gets initial focus on open). cadence/modal sizes its surface
+   tag, and patterns/modal's DynamicFocusTags puts it in the Tab cycle
+   (first tag gets initial focus on open). patterns/modal sizes its surface
    to the content (see mindchat's rename modal for the full recipe).
    Props.HideClose is DEPRECATED; say Props.Decision instead — see the
    dialog grammar in §Layers.
@@ -334,7 +334,7 @@ needs to know, not by how important it feels:
    and never blocks the producer — so if every emission is load-bearing you
    are at destination 1, not here.
 
-WHAT THIS LOOKS LIKE IN cadence. Arbitration is a plain value you create and
+WHAT THIS LOOKS LIKE IN patterns. Arbitration is a plain value you create and
 pass in, and the value IS the scope:
 
     popArb := popover.NewArbiter()      // one per WINDOW, in the build fn
@@ -385,22 +385,22 @@ TWO SMELLS, ONE OF WHICH NO TOOL WILL FIND FOR YOU.
 w.Render(build) takes a function from the theme observable to the layer
 stack — one or more rx.Observable[layout.Widget] values, stacked
 back-to-front (background first). A typical app has a backdrop layer and a
-content layer built from a cadence/shell:
+content layer built from a patterns/shell:
 
-  - cadence/shell: application shells in four variants — SidebarHeaderMain,
+  - patterns/shell: application shells in four variants — SidebarHeaderMain,
     SplitPane (draggable divider, either axis), ThreeColumn (resizable
     aside), StackedPage (pinned navbar over a shell-owned section scroll,
     for marketing pages; sections are widget streams, ContentMaxWidth caps
     the column).
-  - cadence/navbar + cadence/sidebar fill the shell's slots.
-  - Content composes cadence/table (sortable/filterable/virtualised),
-    cadence/tabs, cadence/card, cadence/pagination, ...
-  - Overlays: cadence/modal (focus trap, escape), cadence/popover (anchored),
-    cadence/tooltip (hover/focus), cadence/toast (transient stack),
-    cadence/alert (inline banners).
+  - patterns/navbar + patterns/sidebar fill the shell's slots.
+  - Content composes patterns/table (sortable/filterable/virtualised),
+    patterns/tabs, patterns/card, patterns/pagination, ...
+  - Overlays: patterns/modal (focus trap, escape), patterns/popover (anchored),
+    patterns/tooltip (hover/focus), patterns/toast (transient stack),
+    patterns/alert (inline banners).
 
 THE DIALOG GRAMMAR: a modal is a PANEL or a DECISION, and you say which by
-leaving cadence/modal's Props.Decision nil or setting it — never by setting
+leaving patterns/modal's Props.Decision nil or setting it — never by setting
 affordances one at a time. A panel (nil) applies its changes live and gets a
 ghost close X, a dismissing backdrop and Escape; a decision (non-nil) gets
 right-aligned footer Actions, Return on Decision.DefaultAction, Escape on
@@ -445,7 +445,7 @@ in theme/color:
 
 Application code never writes a colour literal. The no-literal-colour lint
 fails `go test`, and therefore CI, on a color.NRGBA literal in components, effects,
-cadence and markdown (allow-listed exceptions only); write application code
+patterns and markdown (allow-listed exceptions only); write application code
 to the same standard. Every colour you need is on the tokens.ColorTokens
 value the theme's Color observable emits.
 
@@ -532,7 +532,7 @@ carries the drawn control height and inner padding:
 
 The numbers are measured, not invented — shadcn/ui's h-9/h-8 next to
 macOS's control sizes; the derivation table lives in theme/tokens
-density.go. Components and cadence read Density from the theme:
+density.go. Components and patterns read Density from the theme:
 buttons, inputs, checkboxes, list rows, table rows, navbar, sidebar items,
 tabs and pagination all size from it, so switching an app to Compact is a
 theme change, not a sweep. The theme's Density observable defaults to
@@ -702,7 +702,7 @@ Comfortable button (LabelLarge, 20 dp) draws exactly 36.
 Text you draw yourself with textdraw follows the same source: subscribe
 th.Typography, take metrics from a role and the shaper from typ.Shaper().
 The positional-shaper APIs — markdown's doc.Layout(gtx, shaper, style),
-components/richtext's Layout and Render, cadence/shell's golden
+components/richtext's Layout and Render, patterns/shell's golden
 Render/RenderThreeColumn/RenderStackedPage — want that same typ.Shaper()
 value. There is no second, size-only type source any more: theme.Theme.Type
 and tokens.TypeScale are deleted, and markdown.FromTokens takes the whole
@@ -716,7 +716,7 @@ THE RULES
     needs. The style module (style.FontFaces() and the H1-H6 scale) is
     the old way — frozen (§Modules has its tag); do not add it to a new app.
   - Never gofont — and the build enforces it. The no-gofont lint
-    (internal/lint in components, effects, cadence and markdown) fails `go test`,
+    (internal/lint in components, effects, patterns and markdown) fails `go test`,
     and therefore CI, on any gioui.org/font/gofont import in those four
     repos; the old practice no longer merely looks wrong, it fails the
     build. nil Props.Shaper means the theme's shaper, which is correct.
@@ -731,7 +731,7 @@ THE RULES
     was ever going to carry. DeterministicShaper() is the test one: Faces
     and nothing else, system fonts off, so the same text shapes to the
     same pixels on every machine. Every golden and pixel test in components,
-    effects, cadence, markdown and the workbench apps calls the second.
+    effects, patterns, markdown and the workbench apps calls the second.
     A golden written against Shaper() passes on the machine that wrote it
     and fails on one with a different font set — silently, and only for
     whoever runs it next. That failure is the whole reason the two exist.
@@ -841,7 +841,7 @@ vibrantgio-owned set would register into components/icon (an empty name→icon
 Registry today) and swap in behind the same widgets. Do not plumb shiny
 icons into components/button Props.Icon — that field wants a clip.Path painter
 func(gtx, sizePx, col), not a widget; keep IVG icons in your own clickable
-until an adapter exists. Cadence draws its built-in chevrons/X with hand-
+until an adapter exists. Patterns draws its built-in chevrons/X with hand-
 coded clip paths on purpose (golden determinism); leave those alone.
 
 ## Pitfalls in an application (each caused a real bug in the example apps)
@@ -899,7 +899,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
   `go test ./button ./input ... -golden.update` — placed before the
   packages, `go test` hands `./...` to the test binary and silently tests
   the current directory only. And `./...` works only where every test
-  package has goldens (markdown); in components, effects, theme and cadence,
+  package has goldens (markdown); in components, effects, theme and patterns,
   packages without goldens reject the undeclared flag, so name the golden
   packages one by one (each repo's AGENTS.md carries the measured
   command line). A golden also PINS ITS FACES with
@@ -972,7 +972,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
   require (
       gioui.org v0.10.1
       github.com/reactivego/rx v0.3.0
-      github.com/vibrantgio/cadence v0.5.0
+      github.com/vibrantgio/patterns v0.5.0
       github.com/vibrantgio/mvu v0.5.0
       github.com/vibrantgio/components v0.6.1
       github.com/vibrantgio/theme v0.5.0
@@ -1027,7 +1027,7 @@ them without the caveats older guides carried:
               seed the config
   launcher/   the workbench front door — a seen 3D triangle field composited
               as an mvu background layer (palette re-keyed per theme emission
-              via an atomic handoff to the animation tick), hero + cadence
+              via an atomic handoff to the animation tick), hero + patterns
               cards over it, and one streaming mvu.Command per launched app
               (Started, then Exited when the process ends)
   feeds/      table-heavy app: sort/filter/pagination, tabs, split pane,
