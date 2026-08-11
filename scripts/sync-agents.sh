@@ -161,7 +161,7 @@ rootedges() {
 # nested module of repo $1 to something the root module does not already
 # depend on. These are the edges ADR-001 exempts — a demo may import above its
 # parent's tier — and therefore the ones most easily mistaken for the
-# repository's own: `components/gallery` imports pulse, components does not.
+# repository's own: `components/gallery` imports effects, components does not.
 nestedextra() {
 	local own
 	# Space-separated, not newline: awk's -v takes no literal newline, and the

@@ -66,7 +66,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      is DEPRECATED — use mvu/stream.Value)
 
   tier 3
-  pulse     v0.1.4   effects: blur (Gaussian kernel, cached blur, backdrop
+  effects   v0.1.4   blur (Gaussian kernel, cached blur, backdrop
                      pipeline), depth, glow, motion, spring, springbutton,
                      transition, tween, conductor
 
@@ -110,8 +110,8 @@ older code or an older answer, they are gone, not deprecated:
 
   - the alias packages prism/tokens, prism/theme and prism/a11y (import the
     theme/... path they used to forward to) and spectrum/transition
-    (import pulse/transition — that is where the colour-token tween lives,
-    and it is why theme no longer depends on pulse at all);
+    (import effects/transition — that is where the colour-token tween lives,
+    and it is why theme no longer depends on effects at all);
   - the MD3 colour aliases on ColorTokens: OnBackground, OnSurface,
     SurfaceVariant, OnSurfaceVariant, Outline. Each was a fixed resolution
     off the neutral ramp and nothing is unreachable — OnBackground was
@@ -423,8 +423,8 @@ maps. components/list can render a visible scrollbar via list.LayoutScrollbar
 (anchor Occupy reserves a right gutter, Overlay floats the bar over the
 trailing edge; default style from scrollbar.FromTokens).
 
-Pulse components are explicit VARIANTS of components widgets, e.g.
-pulse/springbutton wraps components/button with physics-driven press/release —
+Effects components are explicit VARIANTS of components widgets, e.g.
+effects/springbutton wraps components/button with physics-driven press/release —
 opt in per call site, never a global decorator.
 
 Widget closures that run outside any rx scope (static component slots,
@@ -444,7 +444,7 @@ in theme/color:
                                         // Primary pin is the seed exactly
 
 Application code never writes a colour literal. The no-literal-colour lint
-fails `go test`, and therefore CI, on a color.NRGBA literal in components, pulse,
+fails `go test`, and therefore CI, on a color.NRGBA literal in components, effects,
 cadence and markdown (allow-listed exceptions only); write application code
 to the same standard. Every colour you need is on the tokens.ColorTokens
 value the theme's Color observable emits.
@@ -572,7 +572,7 @@ level-1 surface is StateColor(RoleNeutral, 200, StateHover) — neutral 300
 in both modes. Levels 4 and 5 are GONE — they used to clamp onto level 3;
 asking for one now panics. Desktop has no six-storey stack.
 
-Shadows survive as OPT-IN vibrancy via pulse/depth, and the verdict on when
+Shadows survive as OPT-IN vibrancy via effects/depth, and the verdict on when
 is recorded in that package's doc: a shadow marks what FLOATS AND CAN LEAVE
 — a toast, a popover, a menu, a drag preview — never what is raised in
 place, which reads as raised by its surface step alone. The cost backs the
@@ -588,12 +588,12 @@ observable. MD3's motion semantics at desktop pace:
     DurFast 150 ms (small transitions), DurNormal 250 ms (standard
     enter/exit), DurSlow 400 ms (emphasized/large, fades), DurXSlow 500 ms
     (the ceiling; also the tooltip delay). Take durations from these stops,
-    never from local constants — pulse/motion's frame counts, toast's fade
+    never from local constants — effects/motion's frame counts, toast's fade
     and tooltip's delay all resolve from the theme already.
   - EASINGS: the MD3 standard and emphasized families, each with
     accelerate (exit) and decelerate (enter) variants, as cubic-bezier
     control points (tokens.Bezier).
-  - SPRINGS, for the pulse physics path: SpringDefault (critically damped,
+  - SPRINGS, for the effects physics path: SpringDefault (critically damped,
     brisk), SpringSnappy (slight overshoot — button "pop"), SpringGentle
     (soft). Use a preset or set mass/stiffness/damping together, never one
     field alone.
@@ -611,9 +611,9 @@ a11y.Live). Prefer the composed theme — Motion and Color already reflect
 the first two; reach for the raw stream only for something the theme does
 not encode, such as IncreaseTextSize.
 
-## Blur (pulse/blur)
+## Blur (effects/blur)
 
-Gio has no blur primitive; pulse/blur owns one — a parallel three-pass box
+Gio has no blur primitive; effects/blur owns one — a parallel three-pass box
 approximation of a Gaussian, plus the two supported ways to ship it:
 
   - STATIC IMAGERY: blur.Cache. A known source image blurred once and
@@ -643,11 +643,11 @@ approximation of a Gaussian, plus the two supported ways to ship it:
          blur.Available() answers up front. Never assume the blur.
 
   - WHAT NOT TO BLUR: animated glows. This was prototyped, measured and
-    rejected (the evidence is in pulse/glow's package doc): an animating
+    rejected (the evidence is in effects/glow's package doc): an animating
     blur-glow costs 0.2–0.8 ms of events-thread CPU plus an allocation and
     texture upload per glow per frame, against ~0.5 µs for glow's
     eight-gradient halo, and no cache holds while the radius or intensity
-    animates. Use pulse/glow for halos; a correct approximation beats a
+    animates. Use effects/glow for halos; a correct approximation beats a
     slow exact answer.
 
 ## Typography
@@ -716,7 +716,7 @@ THE RULES
     needs. The style module (style.FontFaces() and the H1-H6 scale) is
     the old way — frozen (§Modules has its tag); do not add it to a new app.
   - Never gofont — and the build enforces it. The no-gofont lint
-    (internal/lint in components, pulse, cadence and markdown) fails `go test`,
+    (internal/lint in components, effects, cadence and markdown) fails `go test`,
     and therefore CI, on any gioui.org/font/gofont import in those four
     repos; the old practice no longer merely looks wrong, it fails the
     build. nil Props.Shaper means the theme's shaper, which is correct.
@@ -731,7 +731,7 @@ THE RULES
     was ever going to carry. DeterministicShaper() is the test one: Faces
     and nothing else, system fonts off, so the same text shapes to the
     same pixels on every machine. Every golden and pixel test in components,
-    pulse, cadence, markdown and the workbench apps calls the second.
+    effects, cadence, markdown and the workbench apps calls the second.
     A golden written against Shaper() passes on the machine that wrote it
     and fails on one with a different font set — silently, and only for
     whoever runs it next. That failure is the whole reason the two exist.
@@ -899,7 +899,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
   `go test ./button ./input ... -golden.update` — placed before the
   packages, `go test` hands `./...` to the test binary and silently tests
   the current directory only. And `./...` works only where every test
-  package has goldens (markdown); in components, pulse, theme and cadence,
+  package has goldens (markdown); in components, effects, theme and cadence,
   packages without goldens reject the undeclared flag, so name the golden
   packages one by one (each repo's AGENTS.md carries the measured
   command line). A golden also PINS ITS FACES with
@@ -988,7 +988,7 @@ github.com/vibrantgio/font arrives INDIRECTLY, as theme's dependency;
 `go mod tidy` marks it `// indirect` and only promotes it if you import a
 face package yourself.
 
-Add markdown/pulse/backdrop/seen/traer as needed. All repos are public on
+Add markdown/effects/backdrop/seen/traer as needed. All repos are public on
 GitHub.
 
 ## Where to look for working code

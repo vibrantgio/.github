@@ -26,6 +26,7 @@ use (
 	./.repos/components
 	./.repos/components/gallery
 	./.repos/csg
+	./.repos/effects
 	./.repos/font
 	./.repos/gradient
 	./.repos/ivg
@@ -36,7 +37,6 @@ use (
 	./.repos/mvu
 	./.repos/mvu/example
 	./.repos/noise
-	./.repos/pulse
 	./.repos/seen
 	./.repos/seen/context/gio
 	./.repos/style

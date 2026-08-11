@@ -59,7 +59,7 @@ table, and CI enforces it.
 | 0 | [circle](https://github.com/vibrantgio/circle) | Mathematically precise circles via Bézier approximation |
 | 1 | [theme](https://github.com/vibrantgio/theme) | The theme runtime and every design token: colour ramps and pins derived from one seed by the CIELAB/OKLCh engine, Typography, Density, Motion, Elevation; live OS dark-mode, accent-colour and accessibility tracking, preference persistence, window integration, token export |
 | 2 | [components](https://github.com/vibrantgio/components) | Component foundation: button, input, list, richtext, scrollbar, icon, layout, keyed identity, initial values, cache, coordination, bench |
-| 3 | [pulse](https://github.com/vibrantgio/pulse) | Effects layer: tween, spring, springbutton, transition, glow, depth, blur, motion, and a shared animation conductor |
+| 3 | [effects](https://github.com/vibrantgio/effects) | Effects layer: tween, spring, springbutton, transition, glow, depth, blur, motion, and a shared animation conductor |
 | 4 | [cadence](https://github.com/vibrantgio/cadence) | Pattern library: shell, navbar, sidebar, table, pagination, tabs, modal, alert, popover, tooltip, toast, card, accordion, breadcrumb, hero, feature, pricing, testimonial |
 | 4 | [markdown](https://github.com/vibrantgio/markdown) | GFM document rendering on components widgets, with chroma syntax highlighting and SVG images |
 | — | [ivg](https://github.com/vibrantgio/ivg) | IconVG: compact binary format for vector icons, with a converter for the Material Design icon set |
@@ -71,11 +71,11 @@ table, and CI enforces it.
 | — | [traer](https://github.com/vibrantgio/traer) | Particle-system physics: springs, attractions, Verlet integration |
 
 The inversion ADR-001 called for has landed: the token and theme contract lives
-in `theme`, theme transitions live in `pulse`, and every component takes its
+in `theme`, theme transitions live in `effects`, and every component takes its
 typeface and colours from the theme rather than compiling in its own. The old
 forwarding aliases — `prism/tokens`, `prism/theme`, `prism/a11y` and
 `spectrum/transition` — were deleted by the breaking release (prism v0.2.0,
-spectrum v0.3.0); import the `theme/…` and `pulse/transition` paths they
+spectrum v0.3.0); import the `theme/…` and `effects/transition` paths they
 used to forward to. `style` is frozen at v0.0.6 rather than deleted, and
 carries the table's one intra-tier edge: it imports `font` and `textdraw`,
 both tier 0.

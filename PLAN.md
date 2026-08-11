@@ -2678,8 +2678,8 @@ The bottom-most rename and the widest: everything above tier 1 imports it.
 
 #### G0D.4: pulse becomes effects
 
-- [ ] The G0D.2 procedure with the nouns changed; `templates/notes/pulse.md` renames with it. The blur section heading in `llms.txt` (`pulse/blur`) is prose, not a generated table — the sweep owns it.
-- [ ] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
+- [x] The G0D.2 procedure with the nouns changed; `templates/notes/pulse.md` renames with it. The blur section heading in `llms.txt` (`pulse/blur`) is prose, not a generated table — the sweep owns it.
+- [x] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
 
 #### G0D.5: cadence becomes patterns
 

@@ -48,7 +48,7 @@
 #
 # WHICH TAG IS "THE" VERSION. The highest tag in the repository under `sort
 # -V`, skipping any tag with a two-digit component. Those exist: theme
-# carries v0.0.10 through v0.0.15 and pulse v0.0.10 through v0.0.12, cut before
+# carries v0.0.10 through v0.0.15 and effects v0.0.10 through v0.0.12, cut before
 # anyone read the protocol, immutable on the remotes and buried by the
 # protocol's own remedy. They sort *below* v0.1.0 and so would lose anyway, but
 # they are skipped explicitly and counted, because a rule enforced by luck is

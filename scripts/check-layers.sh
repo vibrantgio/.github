@@ -12,7 +12,7 @@
 #   |  0   | mvu, font, style, textdraw, backdrop, gradient, circle |
 #   |  1   | theme                                            |
 #   |  2   | components                                       |
-#   |  3   | pulse                                            |
+#   |  3   | effects                                          |
 #   |  4   | cadence, markdown                                |
 #   |  —   | ivg, svg, seen, csg, kiwi, noise, traer (support)|
 #
@@ -48,7 +48,7 @@
 # default target becomes every module under .repos/, all 36, because a guide
 # has to describe the exempt ones too — workbench's applications are the only
 # consumers half the support libraries have, and `components/gallery`'s edge to
-# pulse is the cycle the whole of phase B went after. They are measured and
+# effects is the cycle the whole of phase B went after. They are measured and
 # emitted, still never judged. Human report lines go to stderr so stdout
 # carries nothing but the TSV, one line per edge:
 #
@@ -85,7 +85,7 @@ tier_of() {
     mvu|font|style|textdraw|backdrop|gradient|circle) echo 0 ;;
     theme)                                            echo 1 ;;
     components)                                       echo 2 ;;
-    pulse)                                            echo 3 ;;
+    effects)                                          echo 3 ;;
     cadence|markdown)                                 echo 4 ;;
     ivg|svg|seen|csg|kiwi|noise|traer)                echo S ;;
     *)                                                echo "" ;;
@@ -124,7 +124,7 @@ in_list() { # word list -> 0 if word is in the space-separated list
   return 1
 }
 
-TIERED="mvu font style textdraw backdrop gradient circle theme components pulse cadence markdown"
+TIERED="mvu font style textdraw backdrop gradient circle theme components effects cadence markdown"
 SUPPORT="ivg svg seen csg kiwi noise traer"
 
 EDGES=0
