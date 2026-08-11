@@ -83,7 +83,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
   seen      v0.0.7   3D scene graph rendered to SVG or Gio
   traer     v0.0.8   particle physics (springs, attractions, Verlet)
   svg       v0.0.9   SVG parse + render
-  ivg       v0.1.6   IconVG icons, Material icons bundled
+  ivg       v0.1.7   IconVG icons, Material icons bundled
   noise     v0.0.3   Perlin and Simplex noise, 2D/3D
   kiwi      v0.0.6   Cassowary constraint solver
   csg       v0.0.1   constructive solid geometry on meshes (BSP trees)
@@ -163,7 +163,7 @@ repo path plus the subdirectory, and — this is the part that trips up
 `github.com/vibrantgio/ivg/raster/gio vX.Y.Z` is `raster/gio/vX.Y.Z` in the
 ivg repo, not `vX.Y.Z`. The numbers below are generated, as above.
 
-  github.com/vibrantgio/ivg/raster/gio        v0.1.6   Gio rasterizer +
+  github.com/vibrantgio/ivg/raster/gio        v0.1.7   Gio rasterizer +
                                                        Widget() for IconVG
   github.com/vibrantgio/svg/driver/gio        v0.0.9   SVG -> Gio ops,
                                                        IconWidget()
