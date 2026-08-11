@@ -10,7 +10,7 @@
 #
 #   | Tier | Modules                                          |
 #   |  0   | mvu, font, style, textdraw, backdrop, gradient, circle |
-#   |  1   | spectrum                                         |
+#   |  1   | theme                                            |
 #   |  2   | prism                                            |
 #   |  3   | pulse                                            |
 #   |  4   | cadence, markdown                                |
@@ -83,7 +83,7 @@ ORG=github.com/vibrantgio
 tier_of() {
   case "$1" in
     mvu|font|style|textdraw|backdrop|gradient|circle) echo 0 ;;
-    spectrum)                                         echo 1 ;;
+    theme)                                            echo 1 ;;
     prism)                                            echo 2 ;;
     pulse)                                            echo 3 ;;
     cadence|markdown)                                 echo 4 ;;
@@ -124,7 +124,7 @@ in_list() { # word list -> 0 if word is in the space-separated list
   return 1
 }
 
-TIERED="mvu font style textdraw backdrop gradient circle spectrum prism pulse cadence markdown"
+TIERED="mvu font style textdraw backdrop gradient circle theme prism pulse cadence markdown"
 SUPPORT="ivg svg seen csg kiwi noise traer"
 
 EDGES=0

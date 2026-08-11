@@ -48,11 +48,11 @@ support row — enforced in CI by the org's check-layers script. Current tags:
   gradient  v0.0.3   linear gradient fill widget
   circle    v0.0.4   precise circle via Bezier
   style     v0.0.6   FROZEN (ADR-003): the old MD2 type scale and
-                     FontFaces(); superseded by spectrum/tokens Typography
+                     FontFaces(); superseded by theme/tokens Typography
                      (§Typography) — never add it to a new app
 
   tier 1 — the foundation
-  spectrum  v0.5.0   the theme runtime and every design token: tokens
+  theme     v0.5.0   the theme runtime and every design token: tokens
                      (colour ramps and pins, Typography, Density, Motion,
                      Elevation, spacing/radius), color (the CIELAB/OKLCh
                      engine and APCA), theme (Theme, the token observables),
@@ -109,9 +109,9 @@ ALREADY DELETED — these do not exist in the tags above. If you find them in
 older code or an older answer, they are gone, not deprecated:
 
   - the alias packages prism/tokens, prism/theme and prism/a11y (import the
-    spectrum/... path they used to forward to) and spectrum/transition
+    theme/... path they used to forward to) and spectrum/transition
     (import pulse/transition — that is where the colour-token tween lives,
-    and it is why spectrum no longer depends on pulse at all);
+    and it is why theme no longer depends on pulse at all);
   - the MD3 colour aliases on ColorTokens: OnBackground, OnSurface,
     SurfaceVariant, OnSurfaceVariant, Outline. Each was a fixed resolution
     off the neutral ramp and nothing is unreachable — OnBackground was
@@ -187,8 +187,8 @@ version; watchlist/main.go the production-sized one):
       "github.com/reactivego/rx"
 
       "github.com/vibrantgio/mvu"
-      specsystem "github.com/vibrantgio/spectrum/system"
-      specwin "github.com/vibrantgio/spectrum/window"
+      themesystem "github.com/vibrantgio/theme/system"
+      themewin "github.com/vibrantgio/theme/window"
   )
 
   func main() {
@@ -201,11 +201,11 @@ version; watchlist/main.go the production-sized one):
           app.Title("My app"),
           app.Size(unit.Dp(1100), unit.Dp(760)),
       )
-      // spectrum/window wraps the mvu window with a live OS theme: dark
+      // theme/window wraps the mvu window with a live OS theme: dark
       // mode, the OS accent colour and the accessibility preferences all
       // tracked at the given poll interval. Options brand it — see
       // §Branding for WithSeed/WithPalette.
-      w := specwin.New(mvuWin, specsystem.LiveTheme(time.Second))
+      w := themewin.New(mvuWin, themesystem.LiveTheme(time.Second))
 
       // Model observable: mvu.Loop scans Update over the window's
       // message stream merged with the messages emitted by the commands
@@ -417,7 +417,7 @@ Every component takes the theme observable for visual configuration and
 props structs for content, and the theme carries the whole look: colour,
 typography, density, elevation and motion all arrive through it, so a
 correct app wires the theme once and styles nothing per component.
-spectrum/tokens supplies the typed design values (ADR-007 colour ramps,
+theme/tokens supplies the typed design values (ADR-007 colour ramps,
 a 4-pt spacing scale, named radius stops); never use string-keyed style
 maps. prism/list can render a visible scrollbar via list.LayoutScrollbar
 (anchor Occupy reserves a right gutter, Overlay floats the bar over the
@@ -438,7 +438,7 @@ workbench feeds/app.go, and the same hand-off in watchlist and sitedocs.
 
 COLOUR IS DERIVED, NOT PICKED (ADR-007, landed in Phase D). One seed colour
 generates the entire palette — both modes — through the CIELAB/OKLCh engine
-in spectrum/color:
+in theme/color:
 
   light, dark := tokens.FromSeed(seed)  // paired ColorTokens; the light
                                         // Primary pin is the seed exactly
@@ -494,14 +494,14 @@ gate because WCAG 2 over-rates light-on-dark pairs.)
 ## Branding: palette injection and the OS accent
 
 The default theme streams — theme.Default(), theme.AutoLightDark and
-spectrum/system's LiveTheme — emit the default seed's palette. Options on
+theme/system's LiveTheme — emit the default seed's palette. Options on
 LiveTheme/FromSourceTheme brand an app without giving up live OS tracking:
 
   // one brand colour; everything else derived, dark mode still live
-  specsystem.LiveTheme(time.Second, specsystem.WithSeed(brand))
+  themesystem.LiveTheme(time.Second, themesystem.WithSeed(brand))
 
   // full control: both schemes supplied, OS still picks which is live
-  specsystem.LiveTheme(time.Second, specsystem.WithPalette(light, dark))
+  themesystem.LiveTheme(time.Second, themesystem.WithPalette(light, dark))
 
 Precedence, highest first: WithSeed/WithPalette pin the pair — the app
 chose its brand, the OS accent is ignored. With NO palette option the
@@ -518,7 +518,7 @@ divider from the strong-border step, stronger On* separation — same APCA
 gates, higher floors); while it reports reduced motion, Motion emits zero
 durations (§Motion). Apps do nothing to get either.
 
-spectrum/preferences persists an explicit in-app theme choice (light/dark/
+theme/preferences persists an explicit in-app theme choice (light/dark/
 auto + a11y overrides) as JSON in the OS config dir, when an app offers its
 own control; interpreting the stored name is the app's job.
 
@@ -531,7 +531,7 @@ carries the drawn control height and inner padding:
   Compact       28 dp control, 12/6 dp padding
 
 The numbers are measured, not invented — shadcn/ui's h-9/h-8 next to
-macOS's control sizes; the derivation table lives in spectrum/tokens
+macOS's control sizes; the derivation table lives in theme/tokens
 density.go. Prism and cadence components read Density from the theme:
 buttons, inputs, checkboxes, list rows, table rows, navbar, sidebar items,
 tabs and pagination all size from it, so switching an app to Compact is a
@@ -539,7 +539,7 @@ theme change, not a sweep. The theme's Density observable defaults to
 Comfortable; there is no LiveTheme option for it — an app that wants
 Compact swaps the field on the stream:
 
-  th := rx.Map(specsystem.LiveTheme(time.Second), func(t theme.Theme) theme.Theme {
+  th := rx.Map(themesystem.LiveTheme(time.Second), func(t theme.Theme) theme.Theme {
       t.Density = rx.Of(tokens.Compact)
       return t
   })
@@ -605,7 +605,7 @@ spring-driven component must read the zero durations as the snap signal and
 jump to its target (no finite spring settles in one frame). Derive your
 animation lengths from the scale and this behaviour is free.
 
-The raw accessibility streams live in spectrum/a11y (A11yPrefs:
+The raw accessibility streams live in theme/a11y (A11yPrefs:
 ReduceMotion, HighContrast, IncreaseTextSize — polled observables via
 a11y.Live). Prefer the composed theme — Motion and Color already reflect
 the first two; reach for the raw stream only for something the theme does
@@ -659,10 +659,10 @@ correct type:
 
   import "github.com/vibrantgio/prism/button"
 
-  // th is the spectrum/theme.Theme the app passes to every component.
+  // th is the theme/theme.Theme the app passes to every component.
   btn := button.Button(th, button.Props{Label: "Save"}) // renders Roboto
 
-The contract lives in spectrum/tokens.Typography: one tokens.TextStyle per
+The contract lives in theme/tokens.Typography: one tokens.TextStyle per
 Material Design 3 type role — Display, Headline, Title, Label and Body,
 each Large/Medium/Small, fifteen roles in all — plus Code, a sixteenth
 style outside the MD3 grid: BodyMedium's metrics on the mono face, the
@@ -675,22 +675,22 @@ call — with the platform's own fonts behind them as fallback — and caches it
 in the value; it is safe for concurrent use and shared by every component.
 The fallback is deliberate: Roboto and Roboto Mono carry no arrow, no
 box-drawing character and no dingbat, so a shaper confined to them draws tofu
-for text a real application genuinely receives. spectrum/theme.Theme.Typography
+for text a real application genuinely receives. theme/theme.Theme.Typography
 is an rx.Observable[tokens.Typography]; theme.Default(), theme.AutoLightDark
-and spectrum/system's LiveTheme all emit tokens.DefaultTypography, whose
+and theme/system's LiveTheme all emit tokens.DefaultTypography, whose
 fifteen roles name "Roboto", whose Code names "Roboto Mono", and whose
 Faces are vibrantgio/font's Roboto faces plus the Roboto Mono faces Code
 resolves against. Roboto is the default because the DEFAULT TYPOGRAPHY
 names it — restyle an app by putting a different Typography on the theme,
 never by wiring fonts per component.
 
-LINE HEIGHT NEEDS spectrum/typeset. TextStyle.LineHeight is the height of the
+LINE HEIGHT NEEDS theme/typeset. TextStyle.LineHeight is the height of the
 line box, the CSS meaning, and handing it to gioui.org/widget.Label does NOT
 produce that. Gio baselines the first line at its own ascent and spends the
 line height only on the gap to the next, and widget.Label reports glyph ink as
 its size — so a MaxLines:1 label, which nearly every control is, measures the
 same at any line height at all, and wrapped text lands one deficit short of a
-whole multiple. Draw text through spectrum/typeset instead: typeset.Font(style,
+whole multiple. Draw text through theme/typeset instead: typeset.Font(style,
 fallback) builds the font.Font, typeset.Label(style, maxLines) the widget.Label
 with the line height installed, and typeset.Layout(gtx, shaper, lbl, f, size,
 txt, material) lays it out and pads the result to the line box. That is also
@@ -756,7 +756,7 @@ resolved the rune to a real face and keep it out of the pixels.
 The workbench apps embody all of this: as of Phase F1, no app builds a
 shaper, imports style or gofont, or passes Props.Shaper — copy any of them.
 One pre-release seam remains: the mono face and the Code style are newer
-than the latest published spectrum and font tags, so a build resolved from
+than the latest published theme and font tags, so a build resolved from
 tags (rather than the org's development workspace) renders code in Roboto
 until the release tags land. The guide describes the system as it ships in
 the working tree; §Modules records the honest tag state.
@@ -859,7 +859,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
 - Radius tokens: tokens.Radius.Full is a 9999 dp pill sentinel and Gio's
   clip.RRect does not clamp — pass it raw and paint sprays across the
   canvas. Use prism/layout.Pill, which clamps to min(w,h)/2.
-- spectrum/system.LiveTheme polls the OS. The reference apps pass one
+- theme/system.LiveTheme polls the OS. The reference apps pass one
   second; the appearance stream is cold today — each subscriber runs its
   own poll loop — so wire LiveTheme once per window and let the theme
   observable fan out, rather than calling it per layer.
@@ -899,7 +899,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
   `go test ./button ./input ... -golden.update` — placed before the
   packages, `go test` hands `./...` to the test binary and silently tests
   the current directory only. And `./...` works only where every test
-  package has goldens (markdown); in prism, pulse, spectrum and cadence,
+  package has goldens (markdown); in prism, pulse, theme and cadence,
   packages without goldens reject the undeclared flag, so name the golden
   packages one by one (each repo's AGENTS.md carries the measured
   command line). A golden also PINS ITS FACES with
@@ -975,16 +975,16 @@ coded clip paths on purpose (golden determinism); leave those alone.
       github.com/vibrantgio/cadence v0.5.0
       github.com/vibrantgio/mvu v0.5.0
       github.com/vibrantgio/prism v0.6.1
-      github.com/vibrantgio/spectrum v0.5.0
+      github.com/vibrantgio/theme v0.5.0
       github.com/vibrantgio/textdraw v0.0.4
   )
 
 These are the released tags — the same ones §Modules lists, and the same ones
 all seven workbench apps are pinned to. Typography and colour need no module
-of their own: both travel on the theme, which comes with spectrum; do NOT add
+of their own: both travel on the theme, which comes with theme; do NOT add
 the frozen style module to a new app. textdraw is a direct requirement as soon as you
 draw text yourself with textdraw.Text/Label — todos does.
-github.com/vibrantgio/font arrives INDIRECTLY, as spectrum's dependency;
+github.com/vibrantgio/font arrives INDIRECTLY, as theme's dependency;
 `go mod tidy` marks it `// indirect` and only promotes it if you import a
 face package yourself.
 
@@ -994,7 +994,7 @@ GitHub.
 ## Where to look for working code
 
 All of these are directories in github.com/vibrantgio/workbench. As of
-Phase F1 all seven apps embody the current contract — spectrum imports (no
+Phase F1 all seven apps embody the current contract — theme imports (no
 alias paths), ramp/pin colours (no MD3 aliases), theme typography (no
 app-built shaper), theme-driven component entry points — so copy any of
 them without the caveats older guides carried:

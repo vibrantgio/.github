@@ -88,7 +88,7 @@ printf '\n%d repos: %d without README, %d without AGENTS.md, %d without a root d
 # The six-module spine is called out on its own because G-A3 asserts a count
 # for it: core modules with no doc.go anywhere in the repo.
 spine_bare=""
-for repo in mvu spectrum prism pulse cadence markdown; do
+for repo in mvu theme prism pulse cadence markdown; do
 	[ -d ".repos/$repo" ] || continue
 	if [ -z "$(find ".repos/$repo" -name doc.go -not -path '*/.git/*' -print -quit)" ]; then
 		spine_bare="$spine_bare $repo"

@@ -67,7 +67,7 @@ Ten scripts live in `scripts/`. Five of them do work.
   guide's table was the one that drifted, by three minors, under a line reading
   "EVERY TAG ABOVE IS RELEASED AND CURRENT".
 - [`scripts/push-design.sh`](scripts/push-design.sh) — regenerate
-  [`design/`](design) from spectrum's `cmd/vg-tokens` and print the DesignSync
+  [`design/`](design) from theme's `cmd/vg-tokens` and print the DesignSync
   sequence that uploads it. There is no `designsync` binary: the script does
   the local half and hands the push to the agent running it.
 

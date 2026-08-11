@@ -2665,11 +2665,11 @@ passes at every step with only the names in its table different.
 
 The bottom-most rename and the widest: everything above tier 1 imports it.
 
-- [ ] Rename the repository on GitHub per ADR-009's procedure, rename `.repos/spectrum` to match, change the module line, and sweep every importer's import lines and qualified identifiers in the working tree — prism, pulse, cadence, markdown, workbench and the galleries.
-- [ ] Sweep the hand-typed sites the census assigns to this rename: tier table, STACK array, `templates/repos.tsv` row, `templates/notes/spectrum.md` filename and contents, root README/AGENTS prose, `llms.txt` prose. Regenerate `go.work` from `find .repos -name go.mod`; regenerate AGENTS renders; `check-agents` must read 20/20.
-- [ ] `go test -race` across every touched module; `check-layers` OK with `theme` in tier 1; all goldens byte-identical.
-- [ ] Report the `check-no-workspace` count — the seam opens here and stays open until G0D.6; confirm every failure is the renamed path existing in no tag, and nothing else.
-- [ ] Commit in every repo touched and the root.
+- [x] Rename the repository on GitHub per ADR-009's procedure, rename `.repos/spectrum` to match, change the module line, and sweep every importer's import lines and qualified identifiers in the working tree — prism, pulse, cadence, markdown, workbench and the galleries.
+- [x] Sweep the hand-typed sites the census assigns to this rename: tier table, STACK array, `templates/repos.tsv` row, `templates/notes/spectrum.md` filename and contents, root README/AGENTS prose, `llms.txt` prose. Regenerate `go.work` from `find .repos -name go.mod`; regenerate AGENTS renders; `check-agents` must read 20/20.
+- [x] `go test -race` across every touched module; `check-layers` OK with `theme` in tier 1; all goldens byte-identical.
+- [x] Report the `check-no-workspace` count — the seam opens here and stays open until G0D.6; confirm every failure is the renamed path existing in no tag, and nothing else.
+- [x] Commit in every repo touched and the root.
 
 #### G0D.3: prism becomes components
 

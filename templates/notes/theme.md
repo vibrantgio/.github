@@ -23,9 +23,9 @@ own symbol coverage. The face is optional and is not in
 leading split evenly around the ink — and `gioui.org/widget.Label` does not
 deliver it. Gio gives the first line its own ascent plus descent and spends the
 line height only on the gap to the next, so a `MaxLines: 1` label measures the
-same at every line height there is. `spectrum/typeset` wraps `widget.Label` and
+same at every line height there is. `theme/typeset` wraps `widget.Label` and
 adds the missing leading; every component in the org that draws a role's text
-lays it out through `typeset.Layout`. `spectrum/export` writes the same number
+lays it out through `typeset.Layout`. `theme/export` writes the same number
 into `--font-<role>-line-height`, so the two surfaces state one fact.
 
 The consequence for sizing: `Density.ControlHeight` is a **floor**, not a
@@ -36,6 +36,6 @@ Comfortable button in LabelLarge is exactly 36.
 **Golden images.** None, and the absence above is that fact rather than an
 omission: `sync-agents.sh` renders a Golden images section only for a clone
 that has a `testdata/golden/` directory, and `find . -type d -name golden`
-here finds none. Spectrum stores no rendered output — it computes colour, type
+here finds none. theme stores no rendered output — it computes colour, type
 and layout values and asserts on numbers. The harness the repositories that do
 render share is `prism/golden`.

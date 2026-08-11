@@ -49,7 +49,7 @@ but does not default the filename, so name `PLAN.md` explicitly).
       go.work             the 36-module development workspace (committed)
       design/             the token bundle push-design.sh uploads
       .repos/             <- gitignored; the twenty sibling repositories
-        mvu/ spectrum/ prism/ pulse/ cadence/ markdown/
+        mvu/ theme/ prism/ pulse/ cadence/ markdown/
         font/ style/ textdraw/ backdrop/ gradient/ circle/
         ivg/ svg/ seen/ csg/ kiwi/ noise/ traer/
         workbench/
@@ -139,7 +139,7 @@ Five produce something:
   `llms.txt` — this repository is the parent of the clones, not one of them —
   which is exactly why the guide's version table was the one that drifted.
   Run it after cutting a tag, in the same task.
-- **`push-design.sh`** regenerates `design/` from spectrum's `cmd/vg-tokens` and
+- **`push-design.sh`** regenerates `design/` from theme's `cmd/vg-tokens` and
   then prints the exact DesignSync sequence to run. There is no `designsync`
   binary — the upload half is a Claude-session step, so this script does the
   local half and hands over.

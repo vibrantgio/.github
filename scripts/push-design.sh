@@ -6,7 +6,7 @@
 #   (also recorded in scripts/design-project.txt)
 #
 # DesignSync is a Claude-session tool, not a CLI: no `designsync` binary exists.
-# This script performs the local half (regenerate design/ from spectrum) and then
+# This script performs the local half (regenerate design/ from theme) and then
 # prints the exact DesignSync sequence for the Claude agent running it to execute.
 # Later plan phases invoke this script from Claude sessions, which carry the tool.
 #
@@ -14,12 +14,12 @@
 set -euo pipefail
 
 PLAN_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SPECTRUM="$PLAN_ROOT/.repos/spectrum"
+THEME="$PLAN_ROOT/.repos/theme"
 DESIGN="$PLAN_ROOT/design"
 PROJECT_ID="$(head -1 "$PLAN_ROOT/scripts/design-project.txt" | awk '{print $1}')"
 
-echo "==> Regenerating $DESIGN from spectrum/cmd/vg-tokens"
-(cd "$SPECTRUM" && go run ./cmd/vg-tokens -out "$DESIGN")
+echo "==> Regenerating $DESIGN from theme/cmd/vg-tokens"
+(cd "$THEME" && go run ./cmd/vg-tokens -out "$DESIGN")
 
 echo "==> Regenerated tree vs committed copy:"
 git -C "$PLAN_ROOT" status --porcelain -- design/ || true

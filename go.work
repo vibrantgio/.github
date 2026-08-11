@@ -39,7 +39,6 @@ use (
 	./.repos/pulse
 	./.repos/seen
 	./.repos/seen/context/gio
-	./.repos/spectrum
 	./.repos/style
 	./.repos/svg
 	./.repos/svg/driver/gio
@@ -47,6 +46,7 @@ use (
 	./.repos/svg/driver/raster
 	./.repos/svg/driver/seen
 	./.repos/textdraw
+	./.repos/theme
 	./.repos/traer
 	./.repos/traer/gio
 	./.repos/workbench/feeds
