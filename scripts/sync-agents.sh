@@ -128,6 +128,12 @@ field() {
 # ---------------------------------------------------------------------------
 GRAPH=""
 
+# The support row, read from check-layers.sh rather than typed again — that
+# script owns the tier table, and a second copy here would be the drift this
+# organization keeps deleting.
+SUPPORT=$(sed -n 's/^SUPPORT="\(.*\)"$/\1/p' scripts/check-layers.sh)
+issupport() { case " $SUPPORT " in *" $1 "*) return 0 ;; esac; return 1; }
+
 # VG_LAYER_EDGES names a file the measurement may be kept in for the life of
 # one caller's run. check-agents.sh sets it because it invokes this script
 # twenty times and the graph is the same graph every time; a bare run does not
@@ -249,7 +255,17 @@ layerline() {
 		graph="$graph $subject $(namelist $extra) — $object."
 	fi
 
-	# The other direction. Root modules first, because a tiered consumer is a
+	# The other direction — tier-table repos only. A support library never
+	# names its consumers, in documentation any more than in imports:
+	# dependency direction binds both, and the proof was measured in G-G0D,
+	# when renaming a consumer forced a commit in ivg, a repository nothing
+	# about which had changed. Who imports a support library is the importers'
+	# fact; `check-layers.sh --edges` still measures it for whoever asks.
+	if issupport "$repo"; then
+		return
+	fi
+
+	# Root modules first, because a tiered consumer is a
 	# fact about the design system; demos, adapters and applications after and
 	# named as exempt, because "imported only by a demo" is a different thing
 	# from "imported by the layer above" and the tier rule does not bind them.
