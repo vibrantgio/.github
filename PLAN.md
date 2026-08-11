@@ -2689,10 +2689,10 @@ The bottom-most rename and the widest: everything above tier 1 imports it.
 
 #### G0D.6: The ledger, the guide, and the release
 
-- [ ] The ledger: the old→new table into `llms.txt` under the heading ADR-009 chose, in the ALREADY DELETED section's voice — an assistant meeting `prism` in older code must learn in one line that it is `components` now, renamed not deleted, and that the old path is frozen.
-- [ ] The release, per the Release protocol, bottom-up on the new paths with ADR-009's tag policy: theme, components (and its nested gallery), effects, patterns, and re-pins upward through markdown and the workbench apps. `git tag | sort -V` first in each; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass.
-- [ ] The verification pass: `check-no-workspace` back to 36/36, `check-versions` OK against the new tags, `check-agents` 20/20, `check-layers` OK, `check-subjects` OK with the renamed allowlist, all goldens byte-identical, `design/` verified unmoved.
-- [ ] Strike whatever this goal fixes in the register, leaving the struck text in place, and re-render anything `sync-versions.sh` owns one last time.
+- [x] The ledger: the old→new table into `llms.txt` under the heading ADR-009 chose, in the ALREADY DELETED section's voice — an assistant meeting `prism` in older code must learn in one line that it is `components` now, renamed not deleted, and that the old path is frozen.
+- [x] The release, per the Release protocol, bottom-up on the new paths with ADR-009's tag policy: theme, components (and its nested gallery), effects, patterns, and re-pins upward through markdown and the workbench apps. `git tag | sort -V` first in each; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass.
+- [x] The verification pass: `check-no-workspace` back to 36/36, `check-versions` OK against the new tags, `check-agents` 20/20, `check-layers` OK, `check-subjects` OK with the renamed allowlist, all goldens byte-identical, `design/` verified unmoved.
+- [x] Strike whatever this goal fixes in the register, leaving the struck text in place, and re-render anything `sync-versions.sh` owns one last time.
 
 ### G-G1: The mirror and its harness
 
