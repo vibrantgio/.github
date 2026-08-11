@@ -38,4 +38,4 @@ omission: `sync-agents.sh` renders a Golden images section only for a clone
 that has a `testdata/golden/` directory, and `find . -type d -name golden`
 here finds none. theme stores no rendered output — it computes colour, type
 and layout values and asserts on numbers. The harness the repositories that do
-render share is `prism/golden`.
+render share is `components/golden`.

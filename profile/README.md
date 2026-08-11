@@ -58,10 +58,10 @@ table, and CI enforces it.
 | 0 | [gradient](https://github.com/vibrantgio/gradient) | Linear gradient fill widget |
 | 0 | [circle](https://github.com/vibrantgio/circle) | Mathematically precise circles via Bézier approximation |
 | 1 | [theme](https://github.com/vibrantgio/theme) | The theme runtime and every design token: colour ramps and pins derived from one seed by the CIELAB/OKLCh engine, Typography, Density, Motion, Elevation; live OS dark-mode, accent-colour and accessibility tracking, preference persistence, window integration, token export |
-| 2 | [prism](https://github.com/vibrantgio/prism) | Component foundation: button, input, list, richtext, scrollbar, icon, layout, keyed identity, initial values, cache, coordination, bench |
+| 2 | [components](https://github.com/vibrantgio/components) | Component foundation: button, input, list, richtext, scrollbar, icon, layout, keyed identity, initial values, cache, coordination, bench |
 | 3 | [pulse](https://github.com/vibrantgio/pulse) | Effects layer: tween, spring, springbutton, transition, glow, depth, blur, motion, and a shared animation conductor |
 | 4 | [cadence](https://github.com/vibrantgio/cadence) | Pattern library: shell, navbar, sidebar, table, pagination, tabs, modal, alert, popover, tooltip, toast, card, accordion, breadcrumb, hero, feature, pricing, testimonial |
-| 4 | [markdown](https://github.com/vibrantgio/markdown) | GFM document rendering on prism widgets, with chroma syntax highlighting and SVG images |
+| 4 | [markdown](https://github.com/vibrantgio/markdown) | GFM document rendering on components widgets, with chroma syntax highlighting and SVG images |
 | — | [ivg](https://github.com/vibrantgio/ivg) | IconVG: compact binary format for vector icons, with a converter for the Material Design icon set |
 | — | [svg](https://github.com/vibrantgio/svg) | SVG parsing and rendering, with Gio, raster, PDF and seen drivers |
 | — | [seen](https://github.com/vibrantgio/seen) | 3D scene graph rendered to SVG or Gio |
@@ -81,7 +81,7 @@ carries the table's one intra-tier edge: it imports `font` and `textdraw`,
 both tier 0.
 
 Ten further modules live in subdirectories of the repositories above:
-`prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`,
+`components/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`,
 `seen/context/gio` and `svg/driver/{gio,pdf,raster,seen}`. They do not show up
 in a repository listing, and their tags carry the subdirectory as a prefix
 (`raster/gio/v0.1.6`, not `v0.1.6`) —

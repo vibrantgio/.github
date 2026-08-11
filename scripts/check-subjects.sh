@@ -40,7 +40,7 @@
 #   - It cannot even be spelled without a parser. `Arbitration
 #     rx.Observable[ArbitrationSnapshot]` inside a `var (` block and `Open
 #     rx.Observable[bool]` inside a Props struct are the same line of text; the
-#     first was one of the four dead buses and the second is prism and cadence's
+#     first was one of the four dead buses and the second is components and cadence's
 #     entire component contract.
 #
 # So the deadness check is not attempted. The first question to ask about an
@@ -93,15 +93,15 @@
 # ADR-008 names two sanctioned homes for the primitive. Only one of them needs
 # an entry here, and the difference is the finding G0C.5 made:
 #
-#   prism/coordination  — allowed, for as long as the package exists. It is
+#   components/coordination  — allowed, for as long as the package exists. It is
 #       deprecated in place (byte-for-byte, not forwarded: a forwarder to
 #       mvu/stream.Value would compile everywhere and silently change delivery
 #       policy, subscriber ceiling and buffering). Its removal is scheduled for
-#       prism's v1.0.0 alongside ADR-001's and ADR-003's alias shims, and when
+#       components' v1.0.0 alongside ADR-001's and ADR-003's alias shims, and when
 #       it goes this entry goes with it — the stale-entry note below is what
 #       says so.
 #
-#   mvu/stream          — NOT here, because it does not need to be. It is the
+#   mvu/stream               — NOT here, because it does not need to be. It is the
 #       organization's one sanctioned observable and it contains no bare
 #       rx.Subject at all: G0C.5's measurement was that the primitive did not
 #       need writing, it needed choosing, and rx.Behavior was already what the
@@ -111,7 +111,7 @@
 #       Subject, add it here and the reason with it.
 #
 # Entries are package paths relative to github.com/vibrantgio, so
-# `prism/coordination` covers the package and nothing above or beside it.
+# `components/coordination` covers the package and nothing above or beside it.
 #
 # ---------------------------------------------------------------------------
 # Usage:
@@ -141,7 +141,7 @@ ORG=github.com/vibrantgio
 
 # Package paths, relative to $ORG, that may use a bare rx.Subject. See the
 # header before adding one: an entry needs a reason and a way to go stale.
-ALLOWED_PACKAGES="prism/coordination"
+ALLOWED_PACKAGES="components/coordination"
 
 LIST_TESTS=0
 ARGS=""

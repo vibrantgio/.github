@@ -161,7 +161,7 @@ rootedges() {
 # nested module of repo $1 to something the root module does not already
 # depend on. These are the edges ADR-001 exempts — a demo may import above its
 # parent's tier — and therefore the ones most easily mistaken for the
-# repository's own: `prism/gallery` imports pulse, prism does not.
+# repository's own: `components/gallery` imports pulse, components does not.
 nestedextra() {
 	local own
 	# Space-separated, not newline: awk's -v takes no literal newline, and the
@@ -197,8 +197,8 @@ hasroot() {
 # Module granularity throughout, and deliberately. ADR-001's rule is
 # module-level, check-layers.sh judges module-level, and the package column of
 # the measurement is the *closure's* packages — rendering it would have this
-# file say cadence imports `prism/icon` when cadence only inherits it through
-# `prism/list`. The role sentence above already names the packages that matter,
+# file say cadence imports `components/icon` when cadence only inherits it through
+# `components/list`. The role sentence above already names the packages that matter,
 # and it names this repository's, which is the set a reader is here for.
 layerline() {
 	local repo=$1 direct indirect extra from apps n
@@ -464,12 +464,12 @@ goldens() {
 # images.
 #
 # Two shapes, because the repository that *declares* the flag has the opposite
-# problem from the ones that link it: prism cannot break itself by adding a
+# problem from the ones that link it: components cannot break itself by adding a
 # second declaration, but it can move every stored image in the organization
 # with one edit — 185 of them, in four other repositories — and its own test
 # run would not show it.
 harness() {
-	local repo=$1 flag=$2 pkg=github.com/vibrantgio/prism/golden others
+	local repo=$1 flag=$2 pkg=github.com/vibrantgio/components/golden others
 	others=$(sharers "$repo")
 	if [ -n "$(flagdecl ".repos/$repo")" ]; then
 		printf '`%s` is the harness they use, and since F5.5 it is the organization'\''s only one: %s link it too, so a change to it moves every stored image in the organization and not only this repository'\''s. Regenerate all of them before believing a change here is pixel-neutral.' \
@@ -487,7 +487,7 @@ sharers() {
 	for d in .repos/*/; do
 		name=$(basename "$d")
 		if [ "$name" = "$1" ]; then continue; fi
-		if ! imports "$d" github.com/vibrantgio/prism/golden; then continue; fi
+		if ! imports "$d" github.com/vibrantgio/components/golden; then continue; fi
 		if [ -n "$(flagdecl "$d")" ]; then continue; fi
 		out+=("$name")
 	done
@@ -527,7 +527,7 @@ namelist() {
 #
 # Until F5.5 every repository with goldens declared its own, so grepping the
 # clone found it. F5.5 replaced twenty-eight inlined harnesses with a single
-# one — github.com/vibrantgio/prism/golden — which declares the flag exactly
+# one — github.com/vibrantgio/components/golden — which declares the flag exactly
 # once and reaches every importing package through the linked test binary.
 # Three of the four repositories that store images therefore stopped declaring
 # anything themselves, and from F5.5 until F5.7 this script died on all three
@@ -537,13 +537,13 @@ namelist() {
 #
 # So when the clone declares nothing, follow its import to the harness that
 # does, and read the name out of *that* clone rather than writing the string
-# down here. It belongs to prism/golden; a copy of it in this file would be a
+# down here. It belongs to components/golden; a copy of it in this file would be a
 # second place to be wrong.
 goldenflag() {
 	local dir=.repos/$1 name
 	name=$(flagdecl "$dir")
-	if [ -z "$name" ] && imports "$dir" github.com/vibrantgio/prism/golden; then
-		name=$(flagdecl .repos/prism/golden)
+	if [ -z "$name" ] && imports "$dir" github.com/vibrantgio/components/golden; then
+		name=$(flagdecl .repos/components/golden)
 	fi
 	printf '%s' "$name"
 }

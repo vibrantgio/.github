@@ -27,9 +27,9 @@
 # version token on a line it recognises and nothing else on that line. Four
 # shapes are recognised, and they are all of llms.txt's version numbers:
 #
-#   §Modules and versions   "  prism     v0.6.1   components: ..."
-#   §Nested modules         "  github.com/vibrantgio/prism/gallery  v0.6.1  ..."
-#   §Minimal go.mod         "      github.com/vibrantgio/prism v0.6.1"
+#   §Modules and versions   "  components  v0.6.1  components: ..."
+#   §Nested modules         "  github.com/vibrantgio/components/gallery  v0.6.1  ..."
+#   §Minimal go.mod         "      github.com/vibrantgio/components v0.6.1"
 #   the External pins line  "External pins: gioui.org v0.10.1, ... go 1.25.1"
 #
 # The prose around them was rewritten by G0C.6 so that it names no numbers at
@@ -188,7 +188,7 @@ awk -v org="$ORG" -v vfile="$VERSIONS" -v gio="$GIO" -v rx="$RX" -v godir="$GODI
 		return head want g tail
 	}
 
-	# §Modules and versions: "  prism     v0.6.1   components: ..."
+	# §Modules and versions: "  components  v0.6.1  components: ..."
 	match($0, /^  [a-z][a-z0-9]*  +v[0-9]+\.[0-9]+\.[0-9]+ /) {
 		name = $0
 		sub(/^  /, "", name); sub(/ .*$/, "", name)
@@ -204,8 +204,8 @@ awk -v org="$ORG" -v vfile="$VERSIONS" -v gio="$GIO" -v rx="$RX" -v godir="$GODI
 		}
 	}
 
-	# §Nested modules: "  github.com/vibrantgio/prism/gallery   v0.6.1   ..."
-	# §Minimal go.mod:  "      github.com/vibrantgio/prism v0.6.1"
+	# §Nested modules: "  github.com/vibrantgio/components/gallery   v0.6.1   ..."
+	# §Minimal go.mod:  "      github.com/vibrantgio/components v0.6.1"
 	match($0, /^ +github\.com\/vibrantgio\/[a-z0-9\/]+ +v[0-9]+\.[0-9]+\.[0-9]+/) {
 		path = $0
 		sub(/^ +github\.com\/vibrantgio\//, "", path); sub(/ .*$/, "", path)

@@ -11,12 +11,12 @@
 #   | Tier | Modules                                          |
 #   |  0   | mvu, font, style, textdraw, backdrop, gradient, circle |
 #   |  1   | theme                                            |
-#   |  2   | prism                                            |
+#   |  2   | components                                       |
 #   |  3   | pulse                                            |
 #   |  4   | cadence, markdown                                |
 #   |  —   | ivg, svg, seen, csg, kiwi, noise, traer (support)|
 #
-# Nested-module exemption (ADR-001): the demo modules prism/gallery and
+# Nested-module exemption (ADR-001): the demo modules components/gallery and
 # mvu/example may import above their parent's tier, so they are skipped
 # entirely; their parents may NOT inherit that freedom — a parent's packages
 # are selected by module path, so a demo's edges never leak into the parent's
@@ -47,7 +47,7 @@
 # In --edges mode the judgment is unchanged, but the *scope* widens: the
 # default target becomes every module under .repos/, all 36, because a guide
 # has to describe the exempt ones too — workbench's applications are the only
-# consumers half the support libraries have, and `prism/gallery`'s edge to
+# consumers half the support libraries have, and `components/gallery`'s edge to
 # pulse is the cycle the whole of phase B went after. They are measured and
 # emitted, still never judged. Human report lines go to stderr so stdout
 # carries nothing but the TSV, one line per edge:
@@ -60,7 +60,7 @@
 # "imports nothing here" is a measured fact rather than an absent row.
 #
 # The edge list is the dependency *closure*, because that is what ADR-001
-# judges: cadence reaching font only through prism is still cadence depending
+# judges: cadence reaching font only through components is still cadence depending
 # on font, and a tier rule that ignored inherited edges would be no rule. The
 # direct/indirect column keeps the other question answerable — what does this
 # module's own source name — so that neither has to be guessed from the other.
@@ -84,7 +84,7 @@ tier_of() {
   case "$1" in
     mvu|font|style|textdraw|backdrop|gradient|circle) echo 0 ;;
     theme)                                            echo 1 ;;
-    prism)                                            echo 2 ;;
+    components)                                       echo 2 ;;
     pulse)                                            echo 3 ;;
     cadence|markdown)                                 echo 4 ;;
     ivg|svg|seen|csg|kiwi|noise|traer)                echo S ;;
@@ -124,7 +124,7 @@ in_list() { # word list -> 0 if word is in the space-separated list
   return 1
 }
 
-TIERED="mvu font style textdraw backdrop gradient circle theme prism pulse cadence markdown"
+TIERED="mvu font style textdraw backdrop gradient circle theme components pulse cadence markdown"
 SUPPORT="ivg svg seen csg kiwi noise traer"
 
 EDGES=0
@@ -195,7 +195,7 @@ for dir in $DIRS; do
   # the graph, and the graph includes the demos and the applications.
   kind=root
   case "$rel" in
-    prism/gallery|mvu/example) kind=demo ;;
+    components/gallery|mvu/example) kind=demo ;;
     workbench/*)               kind=app ;;
     */*)                       kind=adapter ;;
   esac
@@ -220,7 +220,7 @@ for dir in $DIRS; do
   [ "$judge" = 1 ] && checked="$checked $name"
 
   # The module's own packages, excluding any nested module's (in workspace
-  # mode ./... would otherwise match e.g. prism/gallery from inside prism —
+  # mode ./... would otherwise match e.g. components/gallery from inside components —
   # this filter is half of the nested-module exemption). Each line is
   # "package module import import ...": the third field onward is what that
   # package names in its own import block, which is how --edges tells a

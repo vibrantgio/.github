@@ -49,7 +49,7 @@ but does not default the filename, so name `PLAN.md` explicitly).
       go.work             the 36-module development workspace (committed)
       design/             the token bundle push-design.sh uploads
       .repos/             <- gitignored; the twenty sibling repositories
-        mvu/ theme/ prism/ pulse/ cadence/ markdown/
+        mvu/ theme/ components/ pulse/ cadence/ markdown/
         font/ style/ textdraw/ backdrop/ gradient/ circle/
         ivg/ svg/ seen/ csg/ kiwi/ noise/ traer/
         workbench/
@@ -181,7 +181,7 @@ class of wrong thing impossible to commit quietly:
   with.
 - **`check-subjects.sh` refuses a bare `rx.Subject` outside its one remaining
   home, and an exported package-level observable anywhere.** ADR-008's gate.
-  The allowlist holds `prism/coordination` and will hold nothing once that
+  The allowlist holds `components/coordination` and will hold nothing once that
   package is removed; `mvu/stream` is deliberately not on it, because the
   sanctioned primitive contains no `rx.Subject` at all. The second rule catches
   the shape — verified against cadence before this goal, where it reports all

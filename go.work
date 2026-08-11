@@ -23,6 +23,8 @@ use (
 	./.repos/backdrop
 	./.repos/cadence
 	./.repos/circle
+	./.repos/components
+	./.repos/components/gallery
 	./.repos/csg
 	./.repos/font
 	./.repos/gradient
@@ -34,8 +36,6 @@ use (
 	./.repos/mvu
 	./.repos/mvu/example
 	./.repos/noise
-	./.repos/prism
-	./.repos/prism/gallery
 	./.repos/pulse
 	./.repos/seen
 	./.repos/seen/context/gio

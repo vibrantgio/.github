@@ -2673,8 +2673,8 @@ The bottom-most rename and the widest: everything above tier 1 imports it.
 
 #### G0D.3: prism becomes components
 
-- [ ] The G0D.2 procedure with the nouns changed, plus this rename's own two: `check-subjects.sh`'s allowlist entry (`prism/coordination` follows the deprecated package to its new path — the gate must fail closed during the transition, not skip), and the nested module `prism/gallery`, whose module path and future nested tag rename with it.
-- [ ] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
+- [x] The G0D.2 procedure with the nouns changed, plus this rename's own two: `check-subjects.sh`'s allowlist entry (`prism/coordination` follows the deprecated package to its new path — the gate must fail closed during the transition, not skip), and the nested module `prism/gallery`, whose module path and future nested tag rename with it.
+- [x] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
 
 #### G0D.4: pulse becomes effects
 

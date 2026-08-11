@@ -61,7 +61,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      serialiser + cmd/vg-tokens), window, preferences
 
   tier 2
-  prism     v0.6.1   components: button, input, list, richtext, scrollbar,
+  components  v0.6.1 button, input, list, richtext, scrollbar,
                      icon, layout, keyed, initial, cache, bench (coordination
                      is DEPRECATED — use mvu/stream.Value)
 
@@ -75,7 +75,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      tabs, modal, alert, popover, tooltip, toast, card,
                      accordion, breadcrumb, hero, feature, pricing,
                      testimonial
-  markdown  v0.1.3   GFM document rendering on prism widgets (subpackages:
+  markdown  v0.1.3   GFM document rendering on components widgets (subpackages:
                      highlight — chroma syntax colours; svgimage — SVG
                      images via vibrantgio/svg)
 
@@ -120,7 +120,7 @@ older code or an older answer, they are gone, not deprecated:
     replacements;
   - elevation levels 4 and 5 — the desktop ladder tops out at 3, and asking
     for a higher level now panics rather than clamping;
-  - tokens.TypeScale entirely. The static `Render(…)` signatures on prism,
+  - tokens.TypeScale entirely. The static `Render(…)` signatures on components,
     cadence and markdown take a role's `tokens.TextStyle` instead — or the
     whole `tokens.Typography` where a component spends several roles — plus
     a `tokens.Density` wherever a control is sized. Drive components through
@@ -157,8 +157,8 @@ ivg repo, not `vX.Y.Z`. The numbers below are generated, as above.
                                                        for traer physics
   github.com/vibrantgio/kiwi/gio              v0.0.6   Gio layout on the
                                                        kiwi solver
-  github.com/vibrantgio/prism/gallery         v0.6.1   the prism component
-                                                       gallery app
+  github.com/vibrantgio/components/gallery    v0.6.1   the components gallery
+                                                       app
   github.com/vibrantgio/mvu/example           v0.4.4   numbered mvu examples,
                                                        00-reference upward
 
@@ -259,7 +259,7 @@ mvu.Loop.
    Never put interaction state in rx.Subject — never put anything there;
    §Coordination is where the three replacements are. Never pass
    Defer-scoped state to a goroutine. For per-row state in dynamic lists
-   use prism/keyed:
+   use components/keyed:
    keyed.Defer(factory) returns a *keyed.Deferred[K,V] whose For(key) hands
    back the same value for the same key, so state survives reorder, insert
    and delete. Allocate the Deferred inside the rx.Defer closure, next to
@@ -273,12 +273,12 @@ mvu.Loop.
      mvu.MessageOp{Message: SelectItem{ID: id}}.Add(gtx.Ops)
 
    The runtime extracts these from the ops buffer and delivers them to
-   Update. Cadence/prism component callbacks receive gtx for exactly this
+   Update. Cadence/components component callbacks receive gtx for exactly this
    purpose. This is the bridge between components and MVU, and it is the
    answer for anything a test, a model dump or a command goroutine would
    want to see — never a side channel out of the layout pass
    (§Coordination).
-   Modal forms: prism input.TextFieldProps.Seed pre-fills an uncontrolled
+   Modal forms: components input.TextFieldProps.Seed pre-fills an uncontrolled
    field so an existing value can be EDITED (rebuild the field keyed on an
    epoch to reseed); TextFieldProps.FocusTag exposes the editor's focus
    tag, and cadence/modal's DynamicFocusTags puts it in the Tab cycle
@@ -305,7 +305,7 @@ mvu.Loop.
      if activity > 0.01 { gtx.Execute(op.InvalidateCmd{}) }
 
    Invalidation is window-global (every widget re-lays-out), so expensive
-   widgets should cache ops when inputs are unchanged (prism/cache).
+   widgets should cache ops when inputs are unchanged (components/cache).
    Respect reduced motion: while the OS preference is on, the theme's
    Motion observable emits zero durations and animated components snap to
    their targets — take durations and springs from the theme's MotionScale
@@ -364,7 +364,7 @@ TWO SMELLS, ONE OF WHICH NO TOOL WILL FIND FOR YOU.
     with "out of subject subscriptions") and a departed subscriber's frozen
     cursor pins the producer — on the frame goroutine, that is a hung app.
     `scripts/check-subjects.sh` in vibrantgio/.github fails on one.
-    prism/coordination, the 292-line wrapper that used to be the answer, is
+    components/coordination, the 292-line wrapper that used to be the answer, is
     DEPRECATED: it fixed the departed subscriber and not the live one, and
     delivered 40× slower than rx's own Behavior, which is what
     mvu/stream.Value wraps.
@@ -419,12 +419,12 @@ typography, density, elevation and motion all arrive through it, so a
 correct app wires the theme once and styles nothing per component.
 theme/tokens supplies the typed design values (ADR-007 colour ramps,
 a 4-pt spacing scale, named radius stops); never use string-keyed style
-maps. prism/list can render a visible scrollbar via list.LayoutScrollbar
+maps. components/list can render a visible scrollbar via list.LayoutScrollbar
 (anchor Occupy reserves a right gutter, Overlay floats the bar over the
 trailing edge; default style from scrollbar.FromTokens).
 
-Pulse components are explicit VARIANTS of prism components, e.g.
-pulse/springbutton wraps prism/button with physics-driven press/release —
+Pulse components are explicit VARIANTS of components widgets, e.g.
+pulse/springbutton wraps components/button with physics-driven press/release —
 opt in per call site, never a global decorator.
 
 Widget closures that run outside any rx scope (static component slots,
@@ -444,7 +444,7 @@ in theme/color:
                                         // Primary pin is the seed exactly
 
 Application code never writes a colour literal. The no-literal-colour lint
-fails `go test`, and therefore CI, on a color.NRGBA literal in prism, pulse,
+fails `go test`, and therefore CI, on a color.NRGBA literal in components, pulse,
 cadence and markdown (allow-listed exceptions only); write application code
 to the same standard. Every colour you need is on the tokens.ColorTokens
 value the theme's Color observable emits.
@@ -532,7 +532,7 @@ carries the drawn control height and inner padding:
 
 The numbers are measured, not invented — shadcn/ui's h-9/h-8 next to
 macOS's control sizes; the derivation table lives in theme/tokens
-density.go. Prism and cadence components read Density from the theme:
+density.go. Components and cadence read Density from the theme:
 buttons, inputs, checkboxes, list rows, table rows, navbar, sidebar items,
 tabs and pagination all size from it, so switching an app to Compact is a
 theme change, not a sweep. The theme's Density observable defaults to
@@ -657,7 +657,7 @@ that draws text takes its type style and its *text.Shaper from the theme
 observable it already receives — application code does nothing to get
 correct type:
 
-  import "github.com/vibrantgio/prism/button"
+  import "github.com/vibrantgio/components/button"
 
   // th is the theme/theme.Theme the app passes to every component.
   btn := button.Button(th, button.Props{Label: "Save"}) // renders Roboto
@@ -702,7 +702,7 @@ Comfortable button (LabelLarge, 20 dp) draws exactly 36.
 Text you draw yourself with textdraw follows the same source: subscribe
 th.Typography, take metrics from a role and the shaper from typ.Shaper().
 The positional-shaper APIs — markdown's doc.Layout(gtx, shaper, style),
-prism/richtext's Layout and Render, cadence/shell's golden
+components/richtext's Layout and Render, cadence/shell's golden
 Render/RenderThreeColumn/RenderStackedPage — want that same typ.Shaper()
 value. There is no second, size-only type source any more: theme.Theme.Type
 and tokens.TypeScale are deleted, and markdown.FromTokens takes the whole
@@ -716,7 +716,7 @@ THE RULES
     needs. The style module (style.FontFaces() and the H1-H6 scale) is
     the old way — frozen (§Modules has its tag); do not add it to a new app.
   - Never gofont — and the build enforces it. The no-gofont lint
-    (internal/lint in prism, pulse, cadence and markdown) fails `go test`,
+    (internal/lint in components, pulse, cadence and markdown) fails `go test`,
     and therefore CI, on any gioui.org/font/gofont import in those four
     repos; the old practice no longer merely looks wrong, it fails the
     build. nil Props.Shaper means the theme's shaper, which is correct.
@@ -730,7 +730,7 @@ THE RULES
     fonts, so all text resolves — including the glyphs no embedded face
     was ever going to carry. DeterministicShaper() is the test one: Faces
     and nothing else, system fonts off, so the same text shapes to the
-    same pixels on every machine. Every golden and pixel test in prism,
+    same pixels on every machine. Every golden and pixel test in components,
     pulse, cadence, markdown and the workbench apps calls the second.
     A golden written against Shaper() passes on the machine that wrote it
     and fails on one with a different font set — silently, and only for
@@ -763,7 +763,7 @@ the working tree; §Modules records the honest tag state.
 
 ## Markdown documents
 
-github.com/vibrantgio/markdown renders GitHub-flavoured markdown as prism
+github.com/vibrantgio/markdown renders GitHub-flavoured markdown as components
 widgets — use it for docs pages, help screens, and chat message bodies
 instead of hand-coding text layouts:
 
@@ -803,7 +803,7 @@ viewport would fight the outer one.
     bodies degrade() to the chat subset: inline styles, fences, images
     pass through; other blocks flatten to paragraphs).
 
-prism/richtext is the underlying inline primitive — styled spans with
+components/richtext is the underlying inline primitive — styled spans with
 interactive links (hover cursor, keyboard traversal, focus ring,
 OnLinkClick(gtx, url)) — usable directly when you need styled text without
 a goldmark document around it.
@@ -837,9 +837,9 @@ inside markdown documents use markdown/svgimage instead (see above, and
 mindchat/assets.go for the embedded-asset pattern).
 
 An icon that may be replaced later beats no icon: use these freely; a future
-vibrantgio-owned set would register into prism/icon (an empty name→icon
+vibrantgio-owned set would register into components/icon (an empty name→icon
 Registry today) and swap in behind the same widgets. Do not plumb shiny
-icons into prism/button Props.Icon — that field wants a clip.Path painter
+icons into components/button Props.Icon — that field wants a clip.Path painter
 func(gtx, sizePx, col), not a widget; keep IVG icons in your own clickable
 until an adapter exists. Cadence draws its built-in chevrons/X with hand-
 coded clip paths on purpose (golden determinism); leave those alone.
@@ -849,7 +849,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
 - A Defer factory reruns per subscription: sharing an observable that owns
   state across two subscribers duplicates the state. Share/Publish upstream.
 - The first emission fires before the first frame; layout-derived values are
-  unknown. Use prism/initial (initial.Value[T], whose zero value is unset;
+  unknown. Use components/initial (initial.Value[T], whose zero value is unset;
   v.GetOrSet(fn) computes it on the first frame) instead of ad-hoc sentinels.
 - Re-subscription is not supported by Render: build new layers for a new
   Render call; do not revive a completed subscription.
@@ -858,7 +858,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
   must flow from the Model, not be captured as static ints.
 - Radius tokens: tokens.Radius.Full is a 9999 dp pill sentinel and Gio's
   clip.RRect does not clamp — pass it raw and paint sprays across the
-  canvas. Use prism/layout.Pill, which clamps to min(w,h)/2.
+  canvas. Use components/layout.Pill, which clamps to min(w,h)/2.
 - theme/system.LiveTheme polls the OS. The reference apps pass one
   second; the appearance stream is cold today — each subscriber runs its
   own poll loop — so wire LiveTheme once per window and let the theme
@@ -899,7 +899,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
   `go test ./button ./input ... -golden.update` — placed before the
   packages, `go test` hands `./...` to the test binary and silently tests
   the current directory only. And `./...` works only where every test
-  package has goldens (markdown); in prism, pulse, theme and cadence,
+  package has goldens (markdown); in components, pulse, theme and cadence,
   packages without goldens reject the undeclared flag, so name the golden
   packages one by one (each repo's AGENTS.md carries the measured
   command line). A golden also PINS ITS FACES with
@@ -974,7 +974,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
       github.com/reactivego/rx v0.3.0
       github.com/vibrantgio/cadence v0.5.0
       github.com/vibrantgio/mvu v0.5.0
-      github.com/vibrantgio/prism v0.6.1
+      github.com/vibrantgio/components v0.6.1
       github.com/vibrantgio/theme v0.5.0
       github.com/vibrantgio/textdraw v0.0.4
   )
@@ -1001,10 +1001,10 @@ them without the caveats older guides carried:
 
   todos/      START HERE: the minimal complete app (~700 lines) — the
               canonical bootstrap, pure testable reducers (redux_test.go),
-              prism button/checkbox/list, a modal dialog, live light/dark;
+              components button/checkbox/list, a modal dialog, live light/dark;
               theme.go is the minimal token-adapter recipe (PaletteFrom
               resolving ADR-007 steps, TypeFrom picking Typography roles)
-  iconbrowser/ searchable Material-icon grid — prism TextField with
+  iconbrowser/ searchable Material-icon grid — components TextField with
               per-keystroke MessageOp updates, subscription-scoped scroll
               and editor state, ivg icon rendering at scale
   watchlist/  full CRUD + persistence + context menus + popover confirms;
