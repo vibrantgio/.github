@@ -20,10 +20,19 @@ test ./...` must pass. Golden-image tests are part of that — when a change
 legitimately moves pixels, regenerate the goldens *within the same task* and
 say so in the commit body. Never commit red.
 
-**Never push without asking.** These are public repositories. Commit locally;
-pushing is Rene's call, made explicitly, at goal boundaries. Two things in this
-plan genuinely cannot finish without a push — the cross-repo tag seams in
-ADR-006 and the whole of G-F3 — and both stop and ask rather than pushing.
+**Push when it's green.** A commit on `master` is not a release — the tag is.
+So there is nothing to hold back: once a task's commits are made and green,
+push them, in every repo you touched, without asking. Rene works from more than
+one machine and other systems consume these repos; commits stranded in a local
+clone are invisible work, and finding them costs him a manual audit. Do not
+leave a repo ahead of its origin at the end of a task, and do not leave the
+root's `llms.txt` describing a version the org has not published.
+
+**Releases stay deliberate.** The cross-repo tag seams in ADR-006 prescribe the
+order — push masters, tag bottom-up, bump pins, `GOWORK=off` verify, second
+self-referencing pass — and that order still holds in full. It is a sequencing
+rule, not a permission gate: follow it end to end rather than stopping to ask
+between its steps.
 
 **Stop if a task is too big.** Tasks are cut to fit ~100K tokens of Opus 5 at
 high effort. If one turns out larger than that, check off what you genuinely
@@ -131,7 +140,7 @@ today and points forward.
 
 - [x] Write `AGENTS.md` at this repo's root: what this repo is, that `PLAN.md` is the entry point, and that `mdplan next` is how work is picked up.
 - [x] State the working-tree layout — sibling repos live in gitignored `.repos/`, this repo is their parent and not a clone, and each module today resolves its siblings from published tags rather than from the working tree; the `go.work` that changes that is B2.1's, not this task's.
-- [x] Restate the four rules from `PLAN.md`'s preamble that an agent must not discover late: one task one commit, green before commit, never push without asking, stop if a task is too big.
+- [x] Restate the rules from `PLAN.md`'s preamble that an agent must not discover late: one task one commit, green before commit, push when it's green, releases stay deliberate, stop if a task is too big.
 - [x] Link `llms.txt` — but say plainly that it covers writing Gio code against the libraries, not working the plan, so an agent knows which file answers which question.
 - [x] Commit here.
 ### G-A2: Put an AGENTS.md in every repo

@@ -209,10 +209,17 @@ test ./...` must pass. Golden-image tests count — when a change legitimately
 moves pixels, regenerate the goldens within the same task and say so in the
 commit body. Never commit red.
 
-**Never push without asking.** These are public repositories. Commit locally;
-pushing is Rene's call, made explicitly, at goal boundaries. Two things in the
-plan genuinely cannot finish without a push — the cross-repo tag seams of
-ADR-006, and all of G-F3 — and both stop and ask rather than pushing.
+**Push when it's green.** A commit on `master` is not a release — the tag is.
+So there is nothing to hold back: once a task's commits are made and green,
+push them, in every repository you touched, without asking. Rene works from
+more than one machine and other systems consume these repositories; commits
+stranded in a local clone are invisible work, and finding them costs him a
+manual audit. Do not end a task with a repository ahead of its origin.
+
+**Releases stay deliberate.** The cross-repo tag seams of ADR-006 prescribe the
+order — push masters, tag bottom-up, bump pins, `GOWORK=off` verify, second
+self-referencing pass — and that order holds in full. It is a sequencing rule,
+not a permission gate: follow it end to end rather than stopping between steps.
 
 **Stop if a task is too big.** Tasks are cut to fit roughly 100K tokens of one
 agent run. If one turns out larger, check off what you genuinely finished,
