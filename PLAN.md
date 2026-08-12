@@ -2173,12 +2173,12 @@ contract and the converter is only one route to it. Produce the layout directly.
 vocabulary (`.btn`, `.card`, `.input`, `.table`, `.nav`, `.dialog`) with plain
 HTML component pages whose markup can be read and copied. Six component pages
 and five foundations is the whole proven surface; this is not a port of all
-thirty prism and cadence packages.
+thirty components and patterns packages.
 
 **Fidelity is the whole game.** A component that renders wrong here renders
 wrong in every design the agent ever builds with it. The mirror is a second
 implementation and will drift unless something holds it — so it is verified
-against prism's and cadence's existing golden images, not by eye. That
+against components' and patterns' existing golden images, not by eye. That
 harness is G1.1 and everything else depends on it.
 
 Sequenced after Phase F because components are rewritten throughout C, D and E;
@@ -2708,14 +2708,14 @@ The bottom-most rename and the widest: everything above tier 1 imports it.
 #### G1.1: Golden comparison harness
 Without this, the rest of the phase is guesswork dressed as work.
 
-**The Gio half already exists, and is one shared package now.** `prism/golden`
-renders a widget into a `gioui.org/gpu/headless` window and returns the pixels
-— `Capture`, `Render`, `PixelDiff`, and since F5.5 also `Compare`,
-`CompareNRGBA` and `Save`. F3.3 promoted it out of `internal`; F5.5 then deleted
-the twenty-eight hand copies that had been shadowing it, so every golden test in
-prism, pulse, cadence, markdown and the workbench applications runs through this
-one package. Reuse it; do not write a second Gio capture path. What is new here
-is the browser side and the comparison metric.
+**The Gio half already exists, and is one shared package now.**
+`components/golden` renders a widget into a `gioui.org/gpu/headless` window and
+returns the pixels — `Capture`, `Render`, `PixelDiff`, and since F5.5 also
+`Compare`, `CompareNRGBA` and `Save`. F3.3 promoted it out of `internal`; F5.5
+then deleted the twenty-eight hand copies that had been shadowing it, so every
+golden test in components, effects, patterns, markdown and the workbench
+applications runs through this one package. Reuse it; do not write a second Gio
+capture path. What is new here is the browser side and the comparison metric.
 
 `PixelDiff` counts exact byte mismatches, which is right for catching a
 regression between two Gio renders and useless across two different renderers.
@@ -2723,7 +2723,7 @@ This task needs a perceptual metric instead.
 
 **How far apart two renderers actually are, measured rather than assumed.** F5.7
 installed the Linux GL drivers on a CI runner and compared macOS-recorded
-goldens against the same Gio code rendering under mesa: nine of pulse's
+goldens against the same Gio code rendering under mesa: nine of effects'
 twenty-one images differed, one by 36% of its frame, while the three drawn on
 the CPU matched byte for byte. That is a single engine disagreeing with itself
 across two platforms. Chrome against Gio is a wider gap than that by
@@ -2731,20 +2731,20 @@ construction — so any tolerance tighter than same-engine cross-platform
 divergence is provably too tight. Treat that number as the floor to argue up
 from, not as a target.
 
-- [ ] Use `prism/golden`: exported by F3.3, consolidated by F5.5, and available from prism v0.4.0. Do not reach for a second Gio capture path.
+- [ ] Use `components/golden`: exported by F3.3, consolidated by F5.5, and available from **components v0.7.0**. Take that version literally — G0D.3 moved the module path, so the v0.4.0–v0.6.1 tags that first carried this package still declare `module github.com/vibrantgio/prism` and will not resolve under the new path. Do not reach for a second Gio capture path.
 - [ ] The browser automation is **chromedp**, decided by Rene on toolchain grounds: it keeps the harness one Go test in the same `go test` run as everything else, where Playwright would shape text better but split a pure-Go organisation across two toolchains. Neither was installed, so this task installs Chrome or Chromium first and records the version it pinned — a mirror comparison that silently changes renderer is worthless. This is the organisation's first non-Go dependency; say so where the next person will meet it, not only here.
 - [ ] Write the browser half: render a component page headless at a fixed viewport and capture a screenshot.
 - [ ] Align the two: same nominal size, same theme emission, same component state. The Gio side must draw with `DeterministicShaper()` and not `Shaper()` — F4.2 split them precisely so a pixel comparison cannot depend on which fonts the machine happens to carry, and a mirror scored against a system-shaped render measures the machine rather than the mirror.
 - [ ] Implement a perceptual comparison — downscale both and compare in a perceptual space, or score structural similarity. Text shaping and antialiasing differ between Gio and a browser, so the bar is "reads as the same component", not pixel equality.
 - [ ] Pick and justify the tolerance from real pairs, not in the abstract, and state where it sits against the F5.7 floor above.
 - [ ] Prove it: run it against one deliberately wrong variant and confirm it fails, and against a re-render of the same component and confirm it passes.
-- [ ] Say which machine is authoritative, because CI cannot be. F5.7 read the verdict from a real run: the runner opens no headless window, so every Gio-side capture answers `t.Skipf` and a skipped test passes. A mirror harness wired into CI as it stands would go green without comparing anything — the same trap that hid cadence's failure for sixteen runs.
+- [ ] Say which machine is authoritative, because CI cannot be. F5.7 read the verdict from a real run: the runner opens no headless window, so every Gio-side capture answers `t.Skipf` and a skipped test passes. A mirror harness wired into CI as it stands would go green without comparing anything — the same trap that hid patterns' failure for sixteen runs.
 - [ ] Commit here.
 #### G1.2: The component class vocabulary
 - [ ] Define the class layer in `styles.css`, built only on the tokens E0.1 emits — no literal colours, sizes or radii.
-- [ ] Name the emphasis registers G0A.1 added — `.btn` filled by default, with tonal and ghost modifier classes — resolved from the same ramp positions prism resolves, so the mirror and the Gio button disagree about nothing but antialiasing.
+- [ ] Name the emphasis registers G0A.1 added — `.btn` filled by default, with tonal and ghost modifier classes — resolved from the same ramp positions components resolves, so the mirror and the Gio button disagree about nothing but antialiasing.
 - [ ] Cover the interaction states explicitly: hover, pressed, keyboard focus ring, disabled, selected.
-- [ ] Derive state colours from the tonal ramp rather than ad-hoc mixes, matching how prism resolves them.
+- [ ] Derive state colours from the tonal ramp rather than ad-hoc mixes, matching how components resolves them.
 - [ ] Confirm the sheet still passes E0.1's round-trip test.
 - [ ] Commit here.
 ### G-G2: The component pages
@@ -2752,29 +2752,35 @@ from, not as a target.
 One task per group. Each page is plain, readable HTML; each ends green against
 the G1.1 harness for every variant and state it shows.
 
+**Two different `components/` live in this goal, and G0D.3 is why.** The paths
+below — `components/buttons.html` and its siblings — are directories inside the
+`design/` bundle that gets uploaded to `claude.ai/design`. The Gio widgets they
+mirror live in the repository now also called `components`. A page path always
+ends in `.html`; a Go import never does.
+
 #### G2.1: Buttons, tags and forms
 - [ ] Build `components/buttons.html`: every emphasis register — filled, tonal, ghost — in its enabled, hover, pressed, focus-ring and disabled states, the icon-only form beside them, at both densities; plus tags. There is no size prop and the page must not invent one: the heights come from `Density.ControlHeight`, so density is the size axis.
 - [ ] Build `components/forms.html`: text field, checkbox, radio and dropdown on native elements, no script.
-- [ ] Run the harness against prism's button and input goldens; close the gaps.
+- [ ] Run the harness against components' button and input goldens; close the gaps.
 - [ ] Commit here.
 #### G2.2: Cards, elevation and tables
 
 - [ ] Build `components/cards.html`: the card pattern and each elevation step.
-- [ ] Build `components/table.html`: cadence/table's header, row rules, sort affordance and zebra treatment.
-- [ ] Run the harness against the cadence card and table goldens; close the gaps.
+- [ ] Build `components/table.html`: patterns/table's header, row rules, sort affordance and zebra treatment.
+- [ ] Run the harness against the patterns card and table goldens; close the gaps.
 - [ ] Commit here.
 
 #### G2.3: Navigation
 
 - [ ] Build `components/navigation.html`: navbar, sidebar, tabs and breadcrumb.
 - [ ] Include the selected, hover and focus states for each.
-- [ ] Run the harness against the corresponding cadence goldens; close the gaps.
+- [ ] Run the harness against the corresponding patterns goldens; close the gaps.
 - [ ] Commit here.
 
 #### G2.4: Overlays
 - [ ] Build `components/dialog.html`: both modal intents from G0A.2 over their backdrops at the top elevation — the **decision** dialog with its right-aligned footer, Return-bound default and no X, and the dismissable **panel** with its ghost close top-right — plus popover, tooltip and toast.
 - [ ] Show the scrim and the focus-trapped state, since those carry the elevation and colour decisions — and say beside the decision dialog that its scrim is inert, because the mirror is the document an agent reads and the behaviour is part of the pattern.
-- [ ] Run the harness against the cadence overlay goldens; close the gaps.
+- [ ] Run the harness against the patterns overlay goldens; close the gaps.
 - [ ] Commit here.
 ### G-G3: Ship it
 
