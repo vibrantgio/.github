@@ -2757,6 +2757,25 @@ The one repository this organization was missing is the one it is named for.
 - [ ] Prove it: the census reports twenty-two, `sync-agents.sh` renders `design`'s guide with a measured layer sentence, and `push-design.sh` regenerates the bundle from the new location with `git status` clean afterwards.
 - [ ] Commit here.
 
+#### G0E.3: The rationale moves in and catches up
+
+`workbench/DESIGN.md` is the design system's architecture and rationale, and it
+has spent its life inside one of the system's *consumers* — reachable only by
+cloning the application repository. That is the same category error as a support
+library naming its consumers, inverted. G0E.2 gives it the obvious home.
+
+It is also two phases out of date. Its status block dates itself
+`spectrum v0.0.15, prism v0.1.8, pulse v0.0.12, cadence v0.2.8` — four names
+G0D retired, at four pre-release numbers G-F3 superseded — and twenty more lines
+carry the old names. A reader who finds it today gets the organization as it
+stood before the tags were cut.
+
+- [ ] Move `DESIGN.md` and its archived first edition `DESIGN-v1.md` into `design`, keeping them together: the second edition's header links the first, and the road from one to the other is the record of why the system is shaped this way. `BASELINE.md` stays in workbench — it is a pre-Prism performance capture for coinviz, an application's history rather than the system's rationale.
+- [ ] Refresh the live prose the way G0D.6 refreshed the guides, and with the same restraint: passages describing what the first edition claimed are history and must keep reading as history. The status block is not history — it is a present-tense claim about published versions, and it is wrong.
+- [ ] Repoint every inbound link, and know which are generated before touching them: `profile/README.md` — the org profile page, a public URL that will 404 the moment the file moves — `workbench/README.md`, and `templates/notes/workbench.md`. Never the rendered `workbench/AGENTS.md`; `sync-agents.sh` re-renders it from that note, and editing the clone is the one thing that script refuses to let stand.
+- [ ] Settle the citation debt this exposes rather than inheriting it silently. A2.2 recorded it and left it: `components`' `bench`, `cache`, `coordination` and `richtext` cite `DESIGN §…` and `BASELINE.md` from their package comments, both unreachable from components' pkg.go.dev page — and the two `EXPERIMENT` files they cite exist in no repository at all. The move gives `DESIGN.md` a stable public URL for the first time. Say which of those citations become links, which stay prose, and which name a document that does not exist.
+- [ ] Commit here.
+
 ### G-G1: The mirror and its harness
 
 #### G1.1: Golden comparison harness
