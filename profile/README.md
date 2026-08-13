@@ -16,10 +16,12 @@ semantic roles rather than a transcription of the Android widget set.
   guessable. It exists exactly once, in
   [`.github`](https://github.com/vibrantgio/.github); every repository links
   this URL instead of copying it.
-- **[workbench/DESIGN.md](https://github.com/vibrantgio/workbench/blob/master/DESIGN.md)** —
-  the architecture and its rationale: FRP and MVU application structure, frame
-  synchronisation, subscription lifecycle, threading rules, accessibility,
-  performance, and the known fragilities.
+- **[design/DESIGN.md](https://github.com/vibrantgio/design/blob/master/DESIGN.md)** —
+  the architecture and its rationale: the layering and its inversion, the
+  generative colour model, the deliberate desktop divergences from Material
+  Design 3, the key architectural patterns, threading rules, and the decision
+  records — kept beside the exported token bundle in
+  [design](https://github.com/vibrantgio/design).
 - **[workbench/todos/](https://github.com/vibrantgio/workbench/tree/master/todos)** —
   the smallest complete application, and the one to read before writing your
   own. Six larger references sit beside it in
@@ -88,9 +90,10 @@ in a repository listing, and their tags carry the subdirectory as a prefix
 [llms.txt](https://raw.githubusercontent.com/vibrantgio/.github/master/llms.txt)
 lists them all with current versions.
 
-Two repositories hold no module in the table:
-[workbench](https://github.com/vibrantgio/workbench), the design documentation
-and the seven example applications, and
-[.github](https://github.com/vibrantgio/.github), which holds this page and the
-canonical guide. Every module in the organization builds on gioui.org v0.10.1,
+Three repositories hold no module in the table:
+[workbench](https://github.com/vibrantgio/workbench), the seven example
+applications, [design](https://github.com/vibrantgio/design), the exported
+token bundle behind `claude.ai/design` together with the architecture
+rationale, and [.github](https://github.com/vibrantgio/.github), which holds
+this page and the canonical guide. Every module in the organization builds on gioui.org v0.10.1,
 github.com/reactivego/rx v0.3.0 and Go 1.25.1.

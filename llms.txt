@@ -12,7 +12,7 @@ built on gioui.org, with a Functional Reactive Programming application model
 using github.com/reactivego/rx generics-based observables. This file tells a
 coding assistant everything needed to scaffold and build a correct Vibrant Gio
 application. The full architecture rationale is in DESIGN.md in
-github.com/vibrantgio/workbench; the apps in that repo (todos/, sitedocs/,
+github.com/vibrantgio/design; the apps in workbench (todos/, sitedocs/,
 feeds/, watchlist/, mindchat/, iconbrowser/, launcher/) are the canonical
 usage references — todos/ is the minimal complete app; read it first, and read
 the larger ones before inventing a pattern.
@@ -1065,5 +1065,7 @@ them without the caveats older guides carried:
               .md sources rendered with vibrantgio/markdown (content/*.md +
               docs_content.go route table — the docs-app recipe, including
               the light/dark highlight switch)
-  DESIGN.md   the architecture document — read §Key Architectural Patterns
-              and §Threading & Lifecycle before writing new components
+  (DESIGN.md, the architecture document, no longer lives here: it moved to
+  github.com/vibrantgio/design beside the exported token bundle. Read its
+  §Key architectural patterns and §Threading & lifecycle before writing new
+  components.)
