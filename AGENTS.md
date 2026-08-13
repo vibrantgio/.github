@@ -7,12 +7,12 @@ been dropped into this working tree with no other context, this file and
 
 ## Start at PLAN.md
 
-[`PLAN.md`](PLAN.md) is the entry point: seven phases that turn twenty-one
+[`PLAN.md`](PLAN.md) is the entry point: eight phases that turn twenty-one
 loosely related repositories into one Gio design system — front-door
 documentation (A), the module graph (B), typography (C), generative colour
 (D), Material's ideas reimagined for desktop (E), proof and release (F), a
-design-agent surface (G). The architecture decisions behind them are ADRs in
-its Reference section.
+design-agent surface (G), and the desktop seam (H). The architecture
+decisions behind them are ADRs in its Reference section.
 
 Work is picked up one `####` task at a time, and the way to pick it up is
 
@@ -53,13 +53,13 @@ org is checked out into.
                           check-subjects.sh
         templates/        AGENTS.md, its per-repo rows in repos.tsv,
                           and notes/<repo>.md
-        design/           the token bundle push-design.sh uploads
+        explorations/     spike proposals not yet scheduled into the plan
       mvu/ theme/ components/ effects/ patterns/ markdown/
       font/ style/ textdraw/ backdrop/ gradient/ circle/
       ivg/ svg/ seen/ csg/ kiwi/ noise/ traer/
-      workbench/
+      workbench/ design/
 
-This repository is one sibling among twenty-one, and the only one that is not
+This repository is one sibling among twenty-two, and the only one that is not
 surveyed: `scripts/sync-agents.sh` renders an `AGENTS.md` into each named
 sibling and deliberately skips this one, which is why this file is hand-written
 and describes a plan rather than a module. Every sibling's `AGENTS.md` is
@@ -74,9 +74,10 @@ layer paragraph's dependency claim.
 run it if clones are missing or stale. Almost all work happens inside a sibling
 clone; the plan and the guide live here in `.github`.
 
-Those twenty repositories hold **36 Go modules**: nineteen at repository roots,
-ten nested in subdirectories whose tags carry the subdirectory as a prefix, and
-seven example applications in `workbench`, which has no root module of its own.
+Those twenty-one repositories hold **37 Go modules**: twenty at repository
+roots, ten nested in subdirectories whose tags carry the subdirectory as a
+prefix, and seven example applications in `workbench`, which has no root
+module of its own.
 The go.mod files beside this checkout are the list — do not hand-maintain it.
 
 **`go.work` at the workspace root joins them**, so a module resolves its
@@ -120,8 +121,8 @@ went looking, three of them with the *file* right and the *template* wrong.
 
 The general lesson has a general remedy: a generated file with no gate on it is
 not generated, it is a file a script happened to write once. The remedy is a
-check that re-renders the file and fails on any difference, and for the twenty
-`AGENTS.md` files that check is `scripts/check-agents.sh`. It is why the
+check that re-renders the file and fails on any difference, and for the
+twenty-one `AGENTS.md` files that check is `scripts/check-agents.sh`. It is why the
 mistake is now loud instead of silent. Run it before believing anything a
 generated file says — and if you add another generated artifact here, add its
 gate in the same task, or you have added the next instance of this problem.
@@ -130,7 +131,7 @@ gate in the same task, or you have added the next instance of this problem.
 
 Five produce something:
 
-- **`clone-all.sh`** clones all twenty siblings beside this checkout, pulling any
+- **`clone-all.sh`** clones all twenty-one siblings beside this checkout, pulling any
   already present. The whole set every time: this plan edits the module graph,
   and no task can see an edge whose other end is missing.
 - **`inventory.sh`** surveys those clones and prints a Markdown table — README,
@@ -153,19 +154,21 @@ Five answer one yes-or-no question each, and each exists to make a specific
 class of wrong thing impossible to commit quietly:
 
 - **`check-layers.sh` refuses to let a module import a repository at or above
-  its own tier.** It runs `go list -deps` over the 19 root modules and judges
+  its own tier.** It runs `go list -deps` over the nineteen tabled root
+  modules — all twenty minus `design`, the application — and judges
   every `github.com/vibrantgio` edge against ADR-001's tier table, so the
   layering is a measured property rather than an intention. Demo and adapter
-  nested modules are exempt and skipped; their parents do not inherit the
+  nested modules are exempt and skipped, and so are the applications —
+  `workbench`'s and `design`; their parents do not inherit the
   exemption. All twelve repositories that have CI fetch this same file from
-  this repo's raw URL and run it as `check-layers.sh .`; the eight without CI
-  are the support libraries and `workbench`, which the tier table exempts
-  anyway. Its `--edges` mode reports that one
-  walk as TSV over all 36 modules instead of judging it, and that is where
+  this repo's raw URL and run it as `check-layers.sh .`; the nine without CI
+  are the support libraries, `workbench` and `design`, which the tier table
+  exempts anyway. Its `--edges` mode reports that one
+  walk as TSV over all 37 modules instead of judging it, and that is where
   every `AGENTS.md`'s layer sentence comes from — there must not be a second
   walk of the graph anywhere in the organization.
 - **`check-no-workspace.sh` refuses to let the workspace flatter you.** It
-  builds and tests all 36 modules with `GOWORK=off`, which is how CI,
+  builds and tests all 37 modules with `GOWORK=off`, which is how CI,
   pkg.go.dev and every consumer outside this tree see them. Under `go.work` a
   module compiles against a sibling's working copy while its own `go.mod` still
   points at a stale tag; this is what notices the difference, and the size of
@@ -174,7 +177,7 @@ class of wrong thing impossible to commit quietly:
   make it go green, and one that would silently redirect every outside
   consumer.
 - **`check-agents.sh` refuses to let a generated `AGENTS.md` be corrected in
-  the clone.** It re-renders all twenty and fails on any whose committed file
+  the clone.** It re-renders all twenty-one and fails on any whose committed file
   differs, so the silent no-op above becomes a red check. It also names any
   clone with no row in `templates/repos.tsv`, because an unlisted repository is
   never rendered and therefore never judged.
@@ -206,8 +209,9 @@ is expensive. `mdplan next` reprints them with every task; read them there too.
 
 **One task, one commit.** Do the steps of exactly one `####` task, then commit
 in each repository you touched, with the task heading in the subject line and
-the trailer `Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>`.
-Commit on the default branch; feature branches get lost here.
+a `Co-Authored-By: Claude <model> <noreply@anthropic.com>` trailer naming the
+model that actually did the work (currently Fable 5; earlier phases were
+Opus 5). Commit on the default branch; feature branches get lost here.
 
 **Green before commit.** In every Go module you touched, `go build ./... && go
 test ./...` must pass. Golden-image tests count — when a change legitimately

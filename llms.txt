@@ -943,11 +943,11 @@ coded clip paths on purpose (golden determinism); leave those alone.
   on its own counter.
 - EVERY REPO'S AGENTS.md IS GENERATED, so correcting one in the repository
   is a SILENT NO-OP. scripts/sync-agents.sh in vibrantgio/.github renders
-  all twenty from templates/ there, and the next run puts the template's
+  all twenty-one from templates/ there, and the next run puts the template's
   words back — accurate words included, without a word of complaint. Fix
   the template instead (templates/repos.tsv for the role sentence and the
   ADR-001 tier, templates/notes/<repo>.md for anything longer,
-  templates/AGENTS.md for wording shared by all twenty) and regenerate;
+  templates/AGENTS.md for wording shared by all twenty-one) and regenerate;
   check-agents.sh is the gate and fails on any file that differs from its
   render. The module, build, golden-image and import paragraphs are not
   typed anywhere at all — they are measured from the clone with `go list`,
@@ -970,7 +970,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
   mechanism finds a healthy-looking bus. When you meet an exported
   observable, find its readers before you believe in it —
   `find . -name '*.go' -print0 | xargs -0 grep -n '<pkg>\.<Symbol>'`, over
-  all twenty clones, and read the hits rather than counting them. The org's
+  all twenty-one clones, and read the hits rather than counting them. The org's
   check-subjects.sh refuses the shape those four shared (an exported
   package-level observable) and says plainly that it cannot check the rest.
 

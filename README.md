@@ -1,7 +1,7 @@
 # vibrantgio/.github
 
 The organization's front door and the root of its plan. No library code lives
-here — that is in the twenty sibling repositories listed on the
+here — that is in the twenty-one sibling repositories listed on the
 [organization page](https://github.com/vibrantgio). This repository holds three
 things.
 
@@ -24,11 +24,12 @@ three-line pointer at that URL, and the per-repo `AGENTS.md` files that Phase A
 adds link it rather than copy it — so there is one version to read and one to
 edit.
 
-**[`PLAN.md`](PLAN.md) — the plan.** Seven phases that turn the repositories
+**[`PLAN.md`](PLAN.md) — the plan.** Eight phases that turn the repositories
 from a loose collection into one design system: the front-door documentation
 (A), repairing the module graph (B), giving the theme ownership of the typeface
 (C), generative colour (D), reimagining Material Design's ideas for desktop (E),
-proving and releasing it (F), and a design-agent surface (G). The architecture
+proving and releasing it (F), a design-agent surface (G), and the desktop
+seam (H). The architecture
 decisions behind them are recorded as ADRs in its Reference section. Work is
 picked up one `####` task at a time — `mdplan next PLAN.md` — and each task is
 one commit.
@@ -44,7 +45,7 @@ carry a workspace themselves, and the workspace itself is committed nowhere.
 
 Ten scripts live in `scripts/`. Five of them do work.
 
-- [`scripts/clone-all.sh`](scripts/clone-all.sh) — clone all twenty siblings
+- [`scripts/clone-all.sh`](scripts/clone-all.sh) — clone all twenty-one siblings
   beside this checkout, pulling any already present, then regenerate `go.work`. The whole set every time: the
   plan edits the module graph, and no task can see an edge whose other end is
   missing. Plain `git` over HTTPS, no `gh` required.
@@ -68,8 +69,9 @@ Ten scripts live in `scripts/`. Five of them do work.
   guide — this repository is the parent of the clones, not one of them — so the
   guide's table was the one that drifted, by three minors, under a line reading
   "EVERY TAG ABOVE IS RELEASED AND CURRENT".
-- [`scripts/push-design.sh`](scripts/push-design.sh) — regenerate
-  [`design/`](design) from theme's `cmd/vg-tokens` and print the DesignSync
+- [`scripts/push-design.sh`](scripts/push-design.sh) — regenerate the sibling
+  [`design`](https://github.com/vibrantgio/design) repository's bundle from
+  theme's `cmd/vg-tokens` and print the DesignSync
   sequence that uploads it. There is no `designsync` binary: the script does
   the local half and hands the push to the agent running it.
 
@@ -78,14 +80,15 @@ of wrong thing be committed quietly.
 
 - [`scripts/check-layers.sh`](scripts/check-layers.sh) — refuses an import from
   a module into a repository at or above its own tier. It runs `go list -deps`
-  over the nineteen root modules and judges every `github.com/vibrantgio` edge
+  over the nineteen tabled root modules — all twenty minus `design`, the
+  application — and judges every `github.com/vibrantgio` edge
   against ADR-001's tier table, so the layering is measured rather than
   intended; the twelve repositories that have CI fetch this same file and run
   it as `check-layers.sh .`. Its `--edges` mode reports that one walk as TSV instead
-  of judging it, and the layer sentence in all twenty `AGENTS.md` files is
+  of judging it, and the layer sentence in all twenty-one `AGENTS.md` files is
   rendered from that.
 - [`scripts/check-no-workspace.sh`](scripts/check-no-workspace.sh) — refuses to
-  let the workspace flatter the tree. It builds and tests all 36 modules with
+  let the workspace flatter the tree. It builds and tests all 37 modules with
   `GOWORK=off`, the way CI, `go get` and pkg.go.dev see them, because under
   `go.work` a module compiles against a sibling's working copy while its own
   `go.mod` still points at a stale tag. It also fails on a `replace` directive
@@ -106,9 +109,9 @@ of wrong thing be committed quietly.
   subscriber in the entire organization. Occurrences in `_test.go` files are
   counted and reported, never judged — the header says why.
 
-Across the twenty repositories there are 36 modules — nineteen at repository
+Across the twenty-one repositories there are 37 modules — twenty at repository
 roots, ten nested in subdirectories with tags that carry the subdirectory as a
 prefix, and seven example applications in `workbench`, which has no root module
-of its own. All 36 declare Go 1.25.1; every one that depends on Gio is on
+of its own. All 37 declare Go 1.25.1; every one that depends on Gio is on
 gioui.org v0.10.1 and every one that depends on rx is on
 github.com/reactivego/rx v0.3.0 — one version of each, organization-wide.
