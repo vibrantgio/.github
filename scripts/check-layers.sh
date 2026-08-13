@@ -28,7 +28,7 @@
 #
 # Usage:
 #   scripts/check-layers.sh              # from the .github plan root: checks
-#                                        # all 19 root modules under .repos/
+#                                        # all 19 root modules beside .github
 #                                        # (requires clone-all.sh + go.work)
 #   scripts/check-layers.sh DIR [DIR..]  # check specific module directories;
 #                                        # this is what each repo's CI runs,
@@ -45,7 +45,7 @@
 # walk of the graph anywhere in the organization — extend this one.
 #
 # In --edges mode the judgment is unchanged, but the *scope* widens: the
-# default target becomes every module under .repos/, all 36, because a guide
+# default target becomes every module beside .github, all 36, because a guide
 # has to describe the exempt ones too — workbench's applications are the only
 # consumers half the support libraries have, and `components/gallery`'s edge to
 # effects is the cycle the whole of phase B went after. They are measured and
@@ -147,23 +147,23 @@ say() {
   if [ "$EDGES" = 1 ]; then printf '%s\n' "$*" >&2; else printf '%s\n' "$*"; fi
 }
 
-# Default target: every root module under .repos/ next to this script's repo —
+# Default target: every root module beside .github next to this script's repo —
 # or, when the graph is being read rather than judged, every module there.
 if [ -n "$ARGS" ]; then
   DIRS=$ARGS
 else
-  root=$(cd "$(dirname "$0")/.." && pwd)
+  root=$(cd "$(dirname "$0")/../.." && pwd) # workspace root: the siblings' parent
   DIRS=""
   if [ "$EDGES" = 1 ]; then
-    DIRS=$(find "$root/.repos" -name go.mod -not -path '*/.git/*' 2>/dev/null |
+    DIRS=$(find "$root" -mindepth 2 -not -path "$root/.github/*" -name go.mod -not -path '*/.git/*' 2>/dev/null |
       sed 's|/go\.mod$||' | sort)
     if [ -z "$DIRS" ]; then
-      echo "error: no modules under $root/.repos — run scripts/clone-all.sh first" >&2
+      echo "error: no modules under $root — run scripts/clone-all.sh first" >&2
       exit 2
     fi
   else
     for name in $TIERED $SUPPORT; do
-      d="$root/.repos/$name"
+      d="$root/$name"
       if [ ! -f "$d/go.mod" ]; then
         echo "error: $d/go.mod not found — run scripts/clone-all.sh first" >&2
         exit 2

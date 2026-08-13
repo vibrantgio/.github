@@ -35,15 +35,17 @@ one commit.
 
 ## Working tree
 
-The sibling repositories are cloned into `.repos/<name>` beneath this one and
-are gitignored; this repository is their parent directory, not one of them.
-`go.work`, committed here, joins all 36 of their modules so they resolve each
-other from the checkout — the members never carry a workspace themselves.
+The checkout mirrors the organization: one directory per repository, all
+siblings, this one — `.github` — among them rather than above them. Their
+shared parent, the workspace root, is not a repository; `go.work` lives there,
+*generated* by `clone-all.sh` from the go.mod files actually present, joining
+the modules so they resolve each other from the checkout — the members never
+carry a workspace themselves, and the workspace itself is committed nowhere.
 
 Ten scripts live in `scripts/`. Five of them do work.
 
 - [`scripts/clone-all.sh`](scripts/clone-all.sh) — clone all twenty siblings
-  into `.repos/`, pulling any already present. The whole set every time: the
+  beside this checkout, pulling any already present, then regenerate `go.work`. The whole set every time: the
   plan edits the module graph, and no task can see an edge whose other end is
   missing. Plain `git` over HTTPS, no `gh` required.
 - [`scripts/inventory.sh`](scripts/inventory.sh) — survey those clones and print

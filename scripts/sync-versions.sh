@@ -16,7 +16,7 @@
 # This is the same lesson, and the same remedy, as scripts/sync-agents.sh — a
 # fact `git tag` can answer must not be typed — with one difference that is the
 # whole reason a second script exists. sync-agents.sh writes into the clones
-# and cannot reach llms.txt at all: `.github` is the *parent* of .repos/, not
+# and cannot reach llms.txt at all: `.github` is a *sibling* of the clones, not
 # one of them, and its own header says so. So the org's one document that every
 # repository's AGENTS.md points at was the one document the generator could not
 # see. That is where the drift survived.
@@ -72,6 +72,7 @@
 set -uo pipefail
 
 cd "$(dirname "$0")/.."
+WS=$(cd .. && pwd) # workspace root: the siblings' parent
 
 ORG=github.com/vibrantgio
 GUIDE=llms.txt
@@ -96,8 +97,8 @@ done
 	echo "error: no $GUIDE here — run from the .github plan root" >&2
 	exit 2
 }
-[ -d .repos ] || {
-	echo "error: no .repos/ — run scripts/clone-all.sh first" >&2
+[ -d "$WS/mvu" ] || {
+	echo "error: no clones beside .github — run scripts/clone-all.sh first" >&2
 	exit 2
 }
 
@@ -108,8 +109,9 @@ trap 'rm -f "$VERSIONS" "$NEW"' EXIT
 illegal=0
 untagged=""
 
-for dir in .repos/*/; do
+for dir in "$WS"/*/; do
 	repo=$(basename "$dir")
+	[ "$repo" = .github ] && continue # the plan root is a sibling, not a surveyed repo
 	[ -d "$dir/.git" ] || continue
 
 	# Every tag, split into "<module path under the repo>|<version>" — an empty
@@ -152,7 +154,7 @@ nmod=$(wc -l <"$VERSIONS" | tr -d ' ')
 # organization is not on one version of something, that disagreement is news
 # and the line says so instead of picking a winner.
 pin_of() { # module path -> the set of versions required across all go.mod files
-	find .repos -name go.mod -not -path '*/.git/*' -print0 |
+	find "$WS" -name go.mod -not -path '*/.git/*' -print0 |
 		xargs -0 awk -v m="$1" '
 			$1 == m && $2 ~ /^v/ { print $2 }
 			$1 == "require" && $2 == m && $3 ~ /^v/ { print $3 }' |
@@ -160,7 +162,7 @@ pin_of() { # module path -> the set of versions required across all go.mod files
 }
 GIO=$(pin_of gioui.org)
 RX=$(pin_of github.com/reactivego/rx)
-GODIR=$(find .repos -name go.mod -not -path '*/.git/*' -print0 |
+GODIR=$(find "$WS" -name go.mod -not -path '*/.git/*' -print0 |
 	xargs -0 awk '$1 == "go" { print $2 }' | sort -u | tr '\n' ' ' | sed 's/ $//')
 
 awk -v org="$ORG" -v vfile="$VERSIONS" -v gio="$GIO" -v rx="$RX" -v godir="$GODIR" '

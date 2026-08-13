@@ -967,20 +967,18 @@ coded clip paths on purpose (golden determinism); leave those alone.
   check-subjects.sh refuses the shape those four shared (an exported
   package-level observable) and says plainly that it cannot check the rest.
 
-- A GITIGNORE-AWARE SEARCH FINDS NOTHING HERE, AND SAYS SO AS "no matches".
-  The twenty clones live under .repos/ in vibrantgio/.github, and .repos/ is
-  the first line of that repo's .gitignore — so ripgrep, ag, and any grep
-  aliased to one of them skip THE ENTIRE CODEBASE, not merely part of it.
-  `grep -rn --include="*.go" 'package modal' .` returns 0 files where the
-  code has 5. This is the worst possible failure mode for a census: an empty
-  result is indistinguishable from a clean bill of health, and "nothing
-  subscribes to this, delete it" is exactly the conclusion it invites. Use
-  `find . -name '*.go' -print0 | xargs -0 grep -n <pattern>`, which passes
-  explicit paths and never consults .gitignore, or /usr/bin/grep -r to
-  bypass an alias. Sanity-check any zero: search for something you KNOW is
-  there, and if that comes back empty too, it is the tool, not the tree.
-  (Recorded after a G-G0C task deleted exported API on a census — correctly,
-  as it turned out, but only because it took the census twice.)
+- SANITY-CHECK ANY ZERO-RESULT CENSUS BEFORE ACTING ON IT. Until G0E.1 the
+  twenty clones hid under a gitignored .repos/ inside vibrantgio/.github, so
+  ripgrep, ag, and any grep aliased to one of them skipped THE ENTIRE
+  CODEBASE and reported "no matches" — an empty result indistinguishable
+  from a clean bill of health, and "nothing subscribes to this, delete it"
+  is exactly the conclusion it invites. The flattened working tree (siblings
+  beside .github, nothing gitignored between them) removed that particular
+  trap, but the lesson is tool-independent: before believing a zero, search
+  for something you KNOW is there, and if that comes back empty too, it is
+  the tool, not the tree. (Recorded after a G-G0C task deleted exported API
+  on a census — correctly, as it turned out, but only because it took the
+  census twice.)
 
 ## Minimal go.mod for a new app
 

@@ -26,62 +26,67 @@ else. Check each one off as you genuinely finish it:
 
 The plan's prose is not authority. Every task so far has found at least one
 assertion in it that was wrong — a count, a version, a tag. Verify claims
-against the clones under `.repos/` (`scripts/inventory.sh` is the survey), and
+against the sibling clones (`scripts/inventory.sh` is the survey), and
 correct the plan where it is wrong: `mdedit` does the structural edits
 (`mdedit --help` for the op table — it shares mdplan's `-s` section targeting
 but does not default the filename, so name `PLAN.md` explicitly).
 
 ## The working tree
 
-    .github/              <- you are here: plan root and org front door, not a clone
-      PLAN.md             the plan
-      llms.txt            the canonical agent guide (see below)
-      AGENTS.md           this file
-      README.md           this repository's own page
-      profile/README.md   what renders at github.com/vibrantgio
-      scripts/            clone-all.sh, inventory.sh, sync-agents.sh,
+The checkout mirrors the organization: one directory per repository, all
+siblings, `.github` among them rather than above them. The parent directory —
+the *workspace root* — is not a repository at all; it is just the folder the
+org is checked out into.
+
+    <workspace root>/     <- not a repository; go.work lives here, generated
+      go.work             the development workspace (generated, never committed)
+      .github/            <- you are here: plan root and org front door
+        PLAN.md           the plan
+        llms.txt          the canonical agent guide (see below)
+        AGENTS.md         this file
+        README.md         this repository's own page
+        profile/README.md what renders at github.com/vibrantgio
+        scripts/          clone-all.sh, inventory.sh, sync-agents.sh,
                           sync-versions.sh, push-design.sh, and the five
                           gates — check-layers.sh, check-no-workspace.sh,
                           check-agents.sh, check-versions.sh,
                           check-subjects.sh
-      templates/          AGENTS.md, its per-repo rows in repos.tsv,
+        templates/        AGENTS.md, its per-repo rows in repos.tsv,
                           and notes/<repo>.md
-      go.work             the 36-module development workspace (committed)
-      design/             the token bundle push-design.sh uploads
-      .repos/             <- gitignored; the twenty sibling repositories
-        mvu/ theme/ components/ effects/ patterns/ markdown/
-        font/ style/ textdraw/ backdrop/ gradient/ circle/
-        ivg/ svg/ seen/ csg/ kiwi/ noise/ traer/
-        workbench/
+        design/           the token bundle push-design.sh uploads
+      mvu/ theme/ components/ effects/ patterns/ markdown/
+      font/ style/ textdraw/ backdrop/ gradient/ circle/
+      ivg/ svg/ seen/ csg/ kiwi/ noise/ traer/
+      workbench/
 
-This repository is the *parent directory* of the siblings, not one of them.
-That is a load-bearing fact: `scripts/sync-agents.sh` renders an `AGENTS.md`
-into a named repo under `.repos/` and deliberately cannot reach here, which is
-why this file is hand-written and describes a plan rather than a module. Every
-sibling's `AGENTS.md` is generated — edit `templates/AGENTS.md` for wording that
-applies to all of them, `templates/repos.tsv` for one repo's role sentence and
-the tier half of its layer line, and `templates/notes/<repo>.md` for anything
-longer. The rest is measured from the clone and cannot be written by hand at
-all: the module paragraph, the build and golden-image paragraphs, and both
-directions of the layer paragraph's dependency claim.
+This repository is one sibling among twenty-one, and the only one that is not
+surveyed: `scripts/sync-agents.sh` renders an `AGENTS.md` into each named
+sibling and deliberately skips this one, which is why this file is hand-written
+and describes a plan rather than a module. Every sibling's `AGENTS.md` is
+generated — edit `templates/AGENTS.md` for wording that applies to all of them,
+`templates/repos.tsv` for one repo's role sentence and the tier half of its
+layer line, and `templates/notes/<repo>.md` for anything longer. The rest is
+measured from the clone and cannot be written by hand at all: the module
+paragraph, the build and golden-image paragraphs, and both directions of the
+layer paragraph's dependency claim.
 
-`scripts/clone-all.sh` populates `.repos/` and pulls what is already there — run
-it if the directory is missing or stale. Almost all work happens inside
-`.repos/<name>`; the plan and the guide live here at the root.
+`scripts/clone-all.sh` clones the siblings and pulls what is already there —
+run it if clones are missing or stale. Almost all work happens inside a sibling
+clone; the plan and the guide live here in `.github`.
 
 Those twenty repositories hold **36 Go modules**: nineteen at repository roots,
 ten nested in subdirectories whose tags carry the subdirectory as a prefix, and
 seven example applications in `workbench`, which has no root module of its own.
-`find .repos -name go.mod` is the list — do not hand-maintain it.
+The go.mod files beside this checkout are the list — do not hand-maintain it.
 
-**`go.work` here joins all 36 of them**, so a module resolves its siblings from
-the working tree rather than from published tags. B2.1 generated it from `find
-.repos -name go.mod` and it is committed — this repo holds no module, so
-ADR-006's ban on workspaces applies to the members, not to their parent, and a
-committed file means the member list is reviewable and identical on every
-machine. `.gitignore` ignores `go.work.sum` and `.repos/`, not `go.work`: the
-file is committed while the checkout it points at is not, so `clone-all.sh` has
-to have run or every `use` line dangles.
+**`go.work` at the workspace root joins them**, so a module resolves its
+siblings from the working tree rather than from published tags. It is
+*generated*, by `clone-all.sh`, from the go.mod files actually present — a
+workspace describes one developer's checkout, so a repository you have not
+cloned is simply absent rather than a dangling `use` line. It is committed
+nowhere: the workspace root is not a repository, and G0E.1 retired the old
+committed copy that described a gitignored checkout. Re-run `clone-all.sh`
+after cloning or removing a repository rather than editing it.
 
 That convenience is also the standing trap, and it is why green has two
 meanings. Outside this tree — CI, `go get`, pkg.go.dev — each `go.mod` resolves
@@ -104,7 +109,7 @@ can be made repeatedly by careful people: the failure is not visible at the
 moment it is made, and by the time it is visible it looks like someone else
 undid your work.
 
-Here that means **correcting a sibling's `AGENTS.md` inside `.repos/<name>` is
+Here that means **correcting a sibling's `AGENTS.md` inside its clone is
 never the fix.** Fix the template it was rendered from — a `repos.tsv` field, a
 notes file, or the shared wording in `templates/AGENTS.md` — and regenerate.
 Do not skip that because the words you are fixing are true. True words in a
@@ -125,7 +130,7 @@ gate in the same task, or you have added the next instance of this problem.
 
 Five produce something:
 
-- **`clone-all.sh`** clones all twenty siblings into `.repos/`, pulling any
+- **`clone-all.sh`** clones all twenty siblings beside this checkout, pulling any
   already present. The whole set every time: this plan edits the module graph,
   and no task can see an edge whose other end is missing.
 - **`inventory.sh`** surveys those clones and prints a Markdown table — README,

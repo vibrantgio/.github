@@ -1,7 +1,7 @@
 # repo	layer	role
 #
 # The two per-repo fields of templates/AGENTS.md, tab-separated, one row per
-# repository under .repos/. `role` is the opening sentence — what this repo is
+# sibling repository. `role` is the opening sentence — what this repo is
 # — and `layer` is the *first* half of the paragraph that follows
 # "**Layer.**": which ADR-001 tier the repository sits in, and any prose about
 # why its edges are the edges they are.

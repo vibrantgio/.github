@@ -14,7 +14,7 @@
 set -euo pipefail
 
 PLAN_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-THEME="$PLAN_ROOT/.repos/theme"
+THEME="$PLAN_ROOT/../theme"
 DESIGN="$PLAN_ROOT/design"
 PROJECT_ID="$(head -1 "$PLAN_ROOT/scripts/design-project.txt" | awk '{print $1}')"
 

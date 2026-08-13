@@ -24,15 +24,16 @@
 set -uo pipefail
 
 cd "$(dirname "$0")/.."
+WS=$(cd .. && pwd) # workspace root: the siblings' parent
 
-modules=$(find .repos -name go.mod | sed 's|/go.mod$||' | sort)
+modules=$(find $WS -name go.mod | sed 's|/go.mod$||' | sort)
 total=$(printf '%s\n' "$modules" | wc -l | tr -d ' ')
 
 status=0
 
 # A replace directive is a correctness failure, not a build failure, so it is
 # checked separately and reported first.
-replaced=$(command grep -l '^replace\|^[[:space:]]*[^ ]* => ' $(find .repos -name go.mod) 2>/dev/null || true)
+replaced=$(command grep -l '^replace\|^[[:space:]]*[^ ]* => ' $(find $WS -name go.mod) 2>/dev/null || true)
 if [ -n "$replaced" ]; then
 	printf 'REPLACE DIRECTIVES — these break every consumer outside this tree:\n'
 	printf '%s\n' "$replaced" | sed 's|^|  |'
@@ -44,7 +45,7 @@ pass=0
 failed=""
 
 for m in $modules; do
-	name=${m#.repos/}
+	name=${m#$WS/}
 	if out=$(cd "$m" && GOWORK=off go build ./... 2>&1 && GOWORK=off go test ./... 2>&1); then
 		pass=$((pass + 1))
 	else

@@ -77,6 +77,7 @@
 set -uo pipefail
 
 cd "$(dirname "$0")/.."
+WS=$(cd .. && pwd) # workspace root: the siblings' parent
 
 TABLE=templates/repos.tsv
 SYNC=scripts/sync-agents.sh
@@ -92,8 +93,8 @@ repos=$(awk -F'\t' '/^#/ { next } NF > 1 { print $1 }' "$TABLE")
 listed=$(printf '%s' "$repos" | tr '\n' ' ')
 
 for name in $repos; do
-	if [ ! -d ".repos/$name" ]; then
-		echo "error: no clone at .repos/$name — run scripts/clone-all.sh first" >&2
+	if [ ! -d "$WS/$name" ]; then
+		echo "error: no clone at $WS/$name — run scripts/clone-all.sh first" >&2
 		exit 2
 	fi
 done
@@ -150,8 +151,9 @@ done
 # The table's own header calls that an error rather than a default, and this
 # is where that becomes true.
 unlisted=""
-for dir in .repos/*/; do
+for dir in "$WS"/*/; do
 	name=$(basename "$dir")
+	[ "$name" = .github ] && continue # the plan root is a sibling, not a surveyed repo
 	case " $listed " in
 	*" $name "*) ;;
 	*) unlisted="$unlisted $name" ;;

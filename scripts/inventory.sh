@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Survey the twenty repositories under .repos/ and print a Markdown table.
+# Survey the twenty repositories beside .github and print a Markdown table.
 #
 # This is the check that every count in PLAN.md is measured against, not
 # remembered from. Phase A's tasks were cut from a survey taken before the
@@ -22,9 +22,10 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
+WS=$(cd .. && pwd) # workspace root: the siblings' parent
 
-if [ ! -d .repos ]; then
-	printf 'no .repos/ — run scripts/clone-all.sh first\n' >&2
+if [ ! -d "$WS/mvu" ]; then
+	printf 'no clones beside .github — run scripts/clone-all.sh first\n' >&2
 	exit 1
 fi
 
@@ -48,8 +49,9 @@ total=0
 printf '| repo | README | AGENTS | doc.go | CI | gio | rx | mods |\n'
 printf '| --- | --- | --- | --- | --- | --- | --- | --- |\n'
 
-for path in .repos/*/; do
+for path in "$WS"/*/; do
 	repo=$(basename "$path")
+	[ "$repo" = .github ] && continue # the plan root is a sibling, not a surveyed repo
 	total=$((total + 1))
 
 	if [ -f "$path/README.md" ]; then readme=y; else readme=n; no_readme=$((no_readme + 1)); fi
@@ -89,8 +91,8 @@ printf '\n%d repos: %d without README, %d without AGENTS.md, %d without a root d
 # for it: core modules with no doc.go anywhere in the repo.
 spine_bare=""
 for repo in mvu theme components effects patterns markdown; do
-	[ -d ".repos/$repo" ] || continue
-	if [ -z "$(find ".repos/$repo" -name doc.go -not -path '*/.git/*' -print -quit)" ]; then
+	[ -d "$WS/$repo" ] || continue
+	if [ -z "$(find "$WS/$repo" -name doc.go -not -path '*/.git/*' -print -quit)" ]; then
 		spine_bare="$spine_bare $repo"
 	fi
 done

@@ -33,6 +33,7 @@
 set -uo pipefail
 
 cd "$(dirname "$0")/.."
+WS=$(cd .. && pwd) # workspace root: the siblings' parent
 
 SYNC=scripts/sync-versions.sh
 [ -x "$SYNC" ] || {

@@ -5,7 +5,7 @@
 # model, a plain value owned by the frame goroutine, or a genuine stream — and
 # rules that a bare `rx.Subject` is none of them. This script is the part of
 # that decision a reader cannot forget to apply. It scans every Go file under
-# .repos/ (or the directories named on the command line), finds every use of
+# the sibling clones (or the directories named on the command line), finds every use of
 # the `rx.Subject` constructor, and fails on any that is not in a sanctioned
 # home.
 #
@@ -116,7 +116,7 @@
 # ---------------------------------------------------------------------------
 # Usage:
 #   scripts/check-subjects.sh            # from the .github plan root: every
-#                                        # module under .repos/
+#                                        # module beside .github
 #   scripts/check-subjects.sh DIR [DIR..]  # check specific trees; this is what
 #                                        # a repo's CI runs, as
 #                                        # `check-subjects.sh .`
@@ -164,8 +164,8 @@ done
 if [ -n "$ARGS" ]; then
 	ROOTS=$ARGS
 else
-	root=$(cd "$(dirname "$0")/.." && pwd)
-	ROOTS="$root/.repos"
+	root=$(cd "$(dirname "$0")/../.." && pwd) # workspace root: the siblings' parent
+	ROOTS="$root"
 	if [ ! -d "$ROOTS" ]; then
 		echo "error: no $ROOTS — run scripts/clone-all.sh first" >&2
 		exit 2

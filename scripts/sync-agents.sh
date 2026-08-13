@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Render templates/AGENTS.md into named repositories under .repos/.
+# Render templates/AGENTS.md into named repositories beside .github.
 #
 #   scripts/sync-agents.sh [-n] <repo> [<repo>...]
 #
@@ -63,11 +63,12 @@
 # .github is the parent directory of the clones, not one of them. It is
 # hand-written, describes a plan rather than a module, and task A1.6 wrote it.
 #
-# Run scripts/clone-all.sh first; this script only reads .repos/.
+# Run scripts/clone-all.sh first; this script only reads the sibling clones.
 
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
+WS=$(cd .. && pwd) # workspace root: the siblings' parent
 
 TEMPLATE=templates/AGENTS.md
 TABLE=templates/repos.tsv
@@ -114,7 +115,7 @@ field() {
 # scripts/check-layers.sh, which judges ADR-001's tier rule with it. `--edges`
 # is that same walk asked to report rather than judge: one TSV row per edge,
 # `module kind tier imported-module direct|indirect packages`, over all 36
-# modules under .repos/ rather than the 19 it judges — a guide has to describe
+# modules beside .github rather than the 19 it judges — a guide has to describe
 # the demos, the adapters and the workbench applications too.
 #
 # A second derivation here would reintroduce, one level up, precisely the
@@ -183,7 +184,7 @@ nestedextra() {
 
 # The modules of kind $2 outside repo $1 that depend on any module of it. This
 # is the direction a single clone cannot answer, which is why the layer line
-# used to guess at it and why every guess had rotted; from .repos/ it is the
+# used to guess at it and why every guess had rotted; from the sibling clones it is the
 # same measurement read the other way round.
 consumers() {
 	printf '%s\n' "$GRAPH" | awk -F'\t' -v r="$1" -v k="$2" '
@@ -315,7 +316,7 @@ plural() {
 # The module and build paragraphs for repo $1, measured from its clone.
 # Sets the globals `modules` and `build`.
 survey() {
-	local dir=.repos/$1 root_mod="" dirs=() paths=() list="" path sub i
+	local dir=$WS/$1 root_mod="" dirs=() paths=() list="" path sub i
 
 	if [ -f "$dir/go.mod" ]; then
 		root_mod=$(awk '$1 == "module" { print $2; exit }' "$dir/go.mod")
@@ -354,7 +355,7 @@ survey() {
 # which is spelled to be unmistakably a shape rather than a release.
 tagshape() {
 	local tag
-	tag=$(git -C ".repos/$1" tag --list "$2/v*" --sort=-v:refname | awk 'NR == 1')
+	tag=$(git -C "$WS/$1" tag --list "$2/v*" --sort=-v:refname | awk 'NR == 1')
 	if [ -n "$tag" ]; then
 		printf '`%s`, not `%s`' "$tag" "${tag##*/}"
 	else
@@ -406,7 +407,7 @@ tagshape() {
 # lines would report every repository as gating on pixels when none of them
 # does.
 goldens() {
-	local dir=.repos/$1 pkgs=() args=() flag="" path pkg i
+	local dir=$WS/$1 pkgs=() args=() flag="" path pkg i
 
 	while IFS= read -r path; do
 		pkg=${path%/testdata/golden}
@@ -487,7 +488,7 @@ goldens() {
 harness() {
 	local repo=$1 flag=$2 pkg=github.com/vibrantgio/components/golden others
 	others=$(sharers "$repo")
-	if [ -n "$(flagdecl ".repos/$repo")" ]; then
+	if [ -n "$(flagdecl "$WS/$repo")" ]; then
 		printf '`%s` is the harness they use, and since F5.5 it is the organization'\''s only one: %s link it too, so a change to it moves every stored image in the organization and not only this repository'\''s. Regenerate all of them before believing a change here is pixel-neutral.' \
 			"$pkg" "$others"
 	else
@@ -496,12 +497,13 @@ harness() {
 	fi
 }
 
-# The other repositories under .repos/ that link the shared harness: every
+# The other repositories beside .github that link the shared harness: every
 # clone but $1 and the one that declares the flag. "`a`, `b` and `c`".
 sharers() {
 	local out=() d name
-	for d in .repos/*/; do
+	for d in "$WS"/*/; do
 		name=$(basename "$d")
+		[ "$name" = .github ] && continue # the plan root is a sibling, not a rendered repo
 		if [ "$name" = "$1" ]; then continue; fi
 		if ! imports "$d" github.com/vibrantgio/components/golden; then continue; fi
 		if [ -n "$(flagdecl "$d")" ]; then continue; fi
@@ -556,10 +558,10 @@ namelist() {
 # down here. It belongs to components/golden; a copy of it in this file would be a
 # second place to be wrong.
 goldenflag() {
-	local dir=.repos/$1 name
+	local dir=$WS/$1 name
 	name=$(flagdecl "$dir")
 	if [ -z "$name" ] && imports "$dir" github.com/vibrantgio/components/golden; then
-		name=$(flagdecl .repos/components/golden)
+		name=$(flagdecl $WS/components/golden)
 	fi
 	printf '%s' "$name"
 }
@@ -754,7 +756,7 @@ tmp=$(mktemp)
 trap 'rm -f "$tmp"' EXIT
 
 for repo in "${repos[@]}"; do
-	dir=.repos/$repo
+	dir=$WS/$repo
 	[ -d "$dir" ] || die "no clone at $dir — run scripts/clone-all.sh"
 	target=$dir/AGENTS.md
 
