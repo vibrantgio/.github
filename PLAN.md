@@ -2876,6 +2876,101 @@ sentence must be something the agent can act on without guessing.
 - [ ] Record what the agent got wrong as follow-up work — that list is the honest measure of whether the surface is good.
 - [ ] Commit here.
 
+## Phase H: The desktop seam
+
+Gio hands every application a native window handle and then pretends it did
+not. Two features want that handle back: macOS window chrome — content behind
+a transparent title bar, traffic lights floating over it, the way Apple's own
+apps look — and file drops from Finder. Both are the same technique, *augment
+the native handle Gio hands out, in place, without forking Gio*, so they share
+one seam rather than growing two bridges.
+
+**The evidence is in, not assumed.** A sibling session (diarizer/earwitness,
+which wants the chrome for its own window) spiked the mechanism in a throwaway
+module against gioui.org v0.10.1 on macOS 25.5.0, findings recorded in
+`diarizer/explorations/macos-fullsize-content-window.md` and summarised here:
+
+- `app.Decorated(false)` already produces the whole treatment on macOS — Gio
+  toggles `NSWindowStyleMaskFullSizeContentView`, makes the title bar
+  transparent, hides the title — and also hides the three standard buttons.
+  Re-showing them via `standardWindowButton:setHidden:NO` is the entire delta.
+- Keeping `Decorated(true)` and setting the mask externally does not work:
+  Gio derives `Config.Decorated` from that mask bit and draws its fallback
+  `material.Decorations` bar over the content.
+- **The unhide is reversible by ordinary app code**: any later
+  `w.Option(app.Title(...))` re-runs Configure and re-hides all three buttons.
+  Confirmed empirically. This is the finding that dictates the API — a
+  run-once hook is insufficient; the unhide must re-apply after *every*
+  Option call, and mvu must see those calls to enforce it.
+- The top inset measured 32.0 pt with the title hidden, not the folklore 28,
+  and hardcoding fails in the direction that clips content. Query
+  `NSHeight(frame) - NSHeight(contentLayoutRect)`; AppKit points are Gio dp.
+- `dispatch_sync` onto the main queue from a non-main goroutine is safe while
+  `app.Main` holds the main thread, and iterating `[NSApp windows]` finds the
+  window under `Decorated(false)` because the mask keeps
+  `NSWindowStyleMaskTitled`.
+
+**Why mvu, and why not mvu's root.** The re-apply invariant lives at the
+Option boundary, and mvu is the only place that boundary can be owned — today
+`mvu.NewWindow` applies options once and hands out the raw `*app.Window`, so
+nothing stops an app from bypassing it. But mvu is tier 0 with zero cgo, and
+every module in the organization sits above it; AppKit in its root would give
+the foundational leaf a darwin cgo build path that everything inherits. So the
+work splits: mvu's root gains only the platform-neutral seam — an Option
+wrapper and a post-Configure notification — and a nested **`mvu/desktop`**
+module owns the Objective-C. `scripts/check-layers.sh:196-200` classifies any
+nested non-demo module as an adapter and skips judgment, so no gate changes;
+line 293 makes a parent importing its own nested module a violation, so the
+dependency runs `mvu/desktop → mvu` and never the reverse — which is the
+right direction anyway.
+
+**File drops ride the same seam later.** The full spike proposal is
+`explorations/macos-file-drop.md` in this repo, written in task shape so it
+lifts in as a goal when scheduled. Its D1 question — where does the code live —
+is resolved by this phase: `mvu/desktop`. Its technical question (S0–S5) is
+still open and is deliberately *not* scheduled here; the chrome work proves
+the seam first.
+
+Sequenced after Phase G: nothing here blocks the mirror, and the mirror is the
+work in flight. Nothing in Phase G depends on this either — the phases are
+independent, and this one is small: one additive minor at tier 0, one nested
+module, one adopting application.
+
+### G-H1: The window chrome, and the seam it proves
+
+#### H1.1: mvu owns its Option boundary
+
+The platform-neutral half, no cgo, no darwin anything.
+
+- [ ] Give `mvu.Window` an `Option(...)` method that forwards to the underlying window and then notifies: after construction-time options and after every later call, a registered func runs. The notification carries nothing platform-specific — it is "Configure may have run; re-assert what you asserted".
+- [ ] Decide and document what `Window()` now means: the raw handle stays reachable — adapters need it — but the doc comment says plainly that options applied through the raw handle bypass the notification, and `mvu/desktop`'s docs repeat it where its users will look.
+- [ ] The notification must also fire once after the first `FrameEvent`, because Gio's first Configure happens before any app code could have registered — the `case app.FrameEvent:` arm in `Render` is the hook.
+- [ ] Additive minor: none of the four in-org consumers (components, patterns, theme, effects) is forced to move, no golden moves, `go build ./... && go test ./...` green.
+- [ ] Commit here.
+
+#### H1.2: mvu/desktop — the chrome, behind the seam
+
+- [ ] Create the nested module `github.com/vibrantgio/mvu/desktop`, cgo Objective-C in a `.m` file behind `//go:build darwin`, no-op stubs on every other platform so it compiles everywhere. This is the organization's first cgo beyond what Gio itself carries; say so in the module's doc comment.
+- [ ] `FullSizeContent()` returns the window options: `app.Decorated(false)` on darwin, nothing elsewhere — a missing title bar must never degrade to a truly borderless window on Linux or Windows. Keep `app.Title`; Mission Control, the Dock and VoiceOver read it even hidden.
+- [ ] The traffic-light unhide registers on H1.1's notification, so it re-applies after the first frame and after every Option call — the invariant the spike proved, enforced structurally rather than commented. Dispatch on the AppKit main thread.
+- [ ] Expose the top inset as a queried value — `NSHeight(frame) - NSHeight(contentLayoutRect)`, points as dp — never a constant. Document that clicks in the strip go to the titlebar view (that is what makes native drag and double-click-zoom work), so the strip is paint-only for the app, and the traffic lights occupy roughly the leading 80 pt.
+- [ ] The sibling session's spike `.m`/`.go` is on offer as a starting point; its findings doc is the reference either way. Adapt, don't transplant — the spike was written against a bare window, not the seam.
+- [ ] Commit here.
+
+#### H1.3: One application wears it
+
+- [ ] Adopt in one workbench application: `FullSizeContent()` in its window options, header padded by the queried inset, the strip treated as paint-only.
+- [ ] Prove the invariant end to end: change the window title at runtime and watch the buttons survive — the exact sequence that fails without H1.1.
+- [ ] Screenshot before/after for the commit body; run the app's goldens — the window chrome is outside the captured surface, so they must not move.
+- [ ] Commit here.
+
+#### H1.4: Release the seam
+
+- [ ] Tag `mvu` **v0.6.0** — additive minor — then push and tag the nested modules at the mirrored number per the release rule: `desktop/v0.6.0`, and `example/v0.6.0` since the demo module mirrors its root.
+- [ ] Re-pin the adopting workbench application; `GOWORK=off` verify.
+- [ ] `sync-agents.sh` and `llms.txt` pick up the new module and the cgo caveat.
+- [ ] Commit here.
+
 ## Reference
 
 Decision records and shared contracts. `mdplan next` never visits this section
