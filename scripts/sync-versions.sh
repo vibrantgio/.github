@@ -60,7 +60,9 @@
 #
 # workbench has no tags and wants none — the Release protocol's last round is a
 # verification round, and the seven applications are installed from the branch
-# tip. A repository with no legal tag is reported and skipped, not invented.
+# tip. design is untagged the same way: nothing pins it, so it is consumed
+# from the branch tip until something does. A repository with no legal tag is
+# reported and skipped, not invented.
 #
 # With -n it writes nothing and exits non-zero if llms.txt would change, which
 # is what scripts/check-versions.sh runs. Nothing is staged, committed or
@@ -234,7 +236,7 @@ awk -v org="$ORG" -v vfile="$VERSIONS" -v gio="$GIO" -v rx="$RX" -v godir="$GODI
 ' "$GUIDE" >"$NEW"
 
 if [ -n "$untagged" ]; then
-	printf 'no tags (expected for workbench — see the Release protocol):%s\n' "$untagged"
+	printf 'no tags (expected for workbench and design — see the Release protocol):%s\n' "$untagged"
 fi
 if [ "$illegal" -gt 0 ]; then
 	printf 'skipped %s tag(s) with a two-digit component — buried, never resumed\n' "$illegal"

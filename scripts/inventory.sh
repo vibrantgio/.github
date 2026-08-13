@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Survey the twenty repositories beside .github and print a Markdown table.
+# Survey the repositories beside .github and print a Markdown table.
 #
 # This is the check that every count in PLAN.md is measured against, not
 # remembered from. Phase A's tasks were cut from a survey taken before the

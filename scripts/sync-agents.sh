@@ -281,7 +281,12 @@ layerline() {
 	[ -z "$demos" ] || parts+=("the demo $(plural "$demos" module) $(namelist $demos)")
 	[ -z "$adapters" ] || parts+=("the adapter $(plural "$adapters" module) $(namelist $adapters)")
 	if [ -n "$apps" ]; then
-		n=$(printf '%s\n' "$GRAPH" | awk -F'\t' '$2 == "app" { m[$1] = 1 } END { print length(m) }')
+		# Only the workbench applications count toward "all N workbench
+		# applications": design is measured as an app too (G0E.2), but it is
+		# its own repository, and today it consumes nothing — the phrase
+		# below names workbench and so must be counted against workbench.
+		n=$(printf '%s\n' "$GRAPH" | awk -F'\t' \
+			'$2 == "app" && index($1, "workbench/") == 1 { m[$1] = 1 } END { print length(m) }')
 		if [ "$(lines "$apps")" = "$n" ]; then
 			parts+=("all $(count "$n" 'workbench application')")
 		else

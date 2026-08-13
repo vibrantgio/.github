@@ -36,8 +36,9 @@ LEAVES=(font style textdraw backdrop gradient circle)
 # Support libraries — consumed by the design system, never dependent on it.
 SUPPORT=(ivg svg seen csg kiwi noise traer)
 
-# Applications.
-APPS=(workbench)
+# Applications — and design, the published bundle: like the applications it
+# sits at the top of the stack, imported by nothing.
+APPS=(workbench design)
 
 REPOS=("${STACK[@]}" "${LEAVES[@]}" "${SUPPORT[@]}" "${APPS[@]}")
 

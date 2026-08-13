@@ -88,6 +88,13 @@ support row — enforced in CI by the org's check-layers script. Current tags:
   kiwi      v0.0.6   Cassowary constraint solver
   csg       v0.0.1   constructive solid geometry on meshes (BSP trees)
 
+Two repositories carry no tags and therefore no row above: workbench, the
+seven reference applications, and design, the published claude.ai/design
+bundle (readme.md, theme.json, styles.css, foundations/ — regenerated from
+theme's cmd/vg-tokens and embedded as the Go module
+github.com/vibrantgio/design). Both sit at the top of the stack, nothing
+pins them, and both are consumed from the branch tip.
+
 EVERY TAG ABOVE IS RELEASED AND CURRENT, and every number in this file is
 GENERATED rather than typed: `scripts/sync-versions.sh` in the `.github` repo
 reads `git tag` in each clone and writes the highest legal tag into the tables

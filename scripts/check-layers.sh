@@ -23,8 +23,8 @@
 # judgment, and a parent importing its own nested module is itself flagged.
 # Other nested modules (ivg/raster/gio, svg/driver/*, kiwi/gio, traer/gio,
 # seen/context/gio) are adapters outside the table and are skipped; the
-# workbench apps are applications at the top of the stack and may import
-# anything, so they are skipped too.
+# workbench apps — and design, the published bundle — are applications at
+# the top of the stack and may import anything, so they are skipped too.
 #
 # Usage:
 #   scripts/check-layers.sh              # from the .github plan root: checks
@@ -45,7 +45,7 @@
 # walk of the graph anywhere in the organization — extend this one.
 #
 # In --edges mode the judgment is unchanged, but the *scope* widens: the
-# default target becomes every module beside .github, all 36, because a guide
+# default target becomes every module beside .github, all 37, because a guide
 # has to describe the exempt ones too — workbench's applications are the only
 # consumers half the support libraries have, and `components/gallery`'s edge to
 # effects is the cycle the whole of phase B went after. They are measured and
@@ -196,7 +196,7 @@ for dir in $DIRS; do
   kind=root
   case "$rel" in
     components/gallery|mvu/example) kind=demo ;;
-    workbench/*)               kind=app ;;
+    workbench/*|design)        kind=app ;;
     */*)                       kind=adapter ;;
   esac
   name=$rel

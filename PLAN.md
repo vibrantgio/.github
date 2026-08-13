@@ -2756,13 +2756,13 @@ home rather than be moved a week later.
 
 The one repository this organization was missing is the one it is named for.
 
-- [ ] Create `vibrantgio/design` and move the bundle into it — `styles.css`, `theme.json`, `readme.md` and `foundations/`, the six paths already live at `claude.ai/design`. Carry the history across; this directory has been regenerated since Phase E and the record of what moved a pixel is worth keeping.
-- [ ] Give it a module — `github.com/vibrantgio/design` — and `//go:embed` the bundle, so the harness G1.1 builds and anything after it reads a page by name instead of by a relative path that breaks the moment a test runs from somewhere else.
-- [ ] Repoint the two things that write and read it: `theme/cmd/vg-tokens`' output directory, and `push-design.sh`'s `DESIGN` path. The uploaded path set does not change — `finalize_plan` still writes the same six paths — so a push before and after this task is byte-identical at the far end.
-- [ ] Register it everywhere a repository has to be known: a `templates/repos.tsv` row, `clone-all.sh`, `inventory.sh`'s census, `check-versions.sh`'s module list, `sync-agents.sh` so it carries the same `AGENTS.md` as everything else, and `llms.txt`'s tag table.
-- [ ] Place it at the application tier. It imports components and patterns from G1.1 onward and nothing in the organization imports it, so it is a leaf that no `go.mod` pins — the same shape as a workbench application, and `check-layers.sh` judges it the same way.
-- [ ] Prove it: the census reports twenty-two, `sync-agents.sh` renders `design`'s guide with a measured layer sentence, and `push-design.sh` regenerates the bundle from the new location with `git status` clean afterwards.
-- [ ] Commit here.
+- [x] Create `vibrantgio/design` and move the bundle into it — `styles.css`, `theme.json`, `readme.md` and `foundations/`, the six paths already live at `claude.ai/design`. Carry the history across; this directory has been regenerated since Phase E and the record of what moved a pixel is worth keeping.
+- [x] Give it a module — `github.com/vibrantgio/design` — and `//go:embed` the bundle, so the harness G1.1 builds and anything after it reads a page by name instead of by a relative path that breaks the moment a test runs from somewhere else.
+- [x] Repoint the two things that write and read it: `theme/cmd/vg-tokens`' output directory, and `push-design.sh`'s `DESIGN` path. The uploaded path set does not change — `finalize_plan` still writes the same six paths — so a push before and after this task is byte-identical at the far end.
+- [x] Register it everywhere a repository has to be known: a `templates/repos.tsv` row, `clone-all.sh`, `inventory.sh`'s census, `check-versions.sh`'s module list, `sync-agents.sh` so it carries the same `AGENTS.md` as everything else, and `llms.txt`'s tag table.
+- [x] Place it at the application tier. It imports components and patterns from G1.1 onward and nothing in the organization imports it, so it is a leaf that no `go.mod` pins — the same shape as a workbench application, and `check-layers.sh` judges it the same way.
+- [x] Prove it: the census reports twenty-one — `inventory.sh` surveys the siblings and excludes `.github` itself, so twenty-one surveyed is twenty-two org repositories counting the plan root — `sync-agents.sh` renders `design`'s guide with a measured layer sentence, and `push-design.sh` regenerates the bundle from the new location with `git status` clean afterwards.
+- [x] Commit here.
 
 #### G0E.3: The rationale moves in and catches up
 
