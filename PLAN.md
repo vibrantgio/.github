@@ -2703,6 +2703,60 @@ The bottom-most rename and the widest: everything above tier 1 imports it.
 - [x] The verification pass: `check-no-workspace` back to 36/36, `check-versions` OK against the new tags, `check-agents` 20/20, `check-layers` OK, `check-subjects` OK with the renamed allowlist, all goldens byte-identical, `design/` verified unmoved.
 - [x] Strike whatever this goal fixes in the register, leaving the struck text in place, and re-render anything `sync-versions.sh` owns one last time.
 
+### G-G0E: The working tree tells the truth about the org
+
+**One directory is doing two jobs.** `~/code/w/vibrantgio` is a clone of
+`vibrantgio/.github` *and* the parent of every other repository. So `git status`
+at the top reports one repository's state while looking like it reports the
+org's, and the twenty repositories the work actually happens in are hidden
+behind a dot-prefixed `.repos/` that neither `ls` nor Finder shows. The layout
+does not resemble the organization it mirrors.
+
+**`go.work` is committed while the checkout it points at is not.** Its own
+header says so. Thirty-eight `use ./.repos/…` lines live in a public repository
+and describe a tree that is gitignored, which means the file is either wrong for
+anyone who clones it or right only by coincidence. A workspace describes one
+developer's checkout; it should be generated from what is actually cloned, and
+then a partial checkout is a smaller workspace rather than thirty-eight dangling
+paths.
+
+**`design/` is a published artifact wearing a subdirectory.** It is the design
+system: `theme/cmd/vg-tokens` builds it, `scripts/push-design.sh` uploads it to
+`claude.ai/design`, and from G1.1 onward a test harness holds it to the Gio
+components. Built by something, consumed by something, breakable by something —
+that is what earns a repository, and `design/` has all three while sitting in a
+directory inside the org's README repo.
+
+**Nothing published moves.** No module path, no tag, no import in any of the
+thirty-six modules changes except `design`'s own arrival. This is a working-tree
+and repository-boundary change, and the gates are how it is proven: the same
+six scripts must pass from the new root as from the old.
+
+Sequenced before G-G1 because G1.1 creates a module. It should land in its final
+home rather than be moved a week later.
+
+#### G0E.1: The repositories become siblings, and go.work is generated
+
+- [ ] Flatten the tree: each repository moves from `.repos/<name>` to a sibling `<name>` beside `.github`, which keeps its name — GitHub serves the org profile from a repository called exactly that. Move the clones rather than re-cloning, so nothing uncommitted can be lost in the shuffle.
+- [ ] Teach `clone-all.sh` the new shape: clone siblings, and generate `go.work` from the repositories actually present rather than from a fixed list of thirty-six. A workspace missing a repository you have not cloned is correct; a `use` line pointing at nothing is not.
+- [ ] Stop committing `go.work` — gitignore it, and rewrite the header that currently explains the contradiction so it explains the generator instead.
+- [ ] Sweep `.repos` out of the eight scripts that hardcode it — `sync-agents.sh` (13), `clone-all.sh` (7), `sync-versions.sh` (6), `inventory.sh` (6), `check-layers.sh` (6), `check-subjects.sh` (3), `check-no-workspace.sh` (3), `check-agents.sh` (3), `push-design.sh` (1). Each finds the workspace root by walking up from its own location, so a script keeps working whichever directory it is invoked from.
+- [ ] State the new layout where it is read: `AGENTS.md`'s working-tree paragraph, `README.md`, and this plan's preamble. The thirty-one other `.repos` mentions in `PLAN.md` are historical narrative and stay — the same rule G0D.6 applied to the old repository names.
+- [ ] Prove it with the gates, not by eye: `check-layers.sh`, `check-no-workspace.sh`, `check-agents.sh`, `check-subjects.sh`, `check-versions.sh` and `inventory.sh` all pass from the flattened root, and `inventory.sh`'s census still measures what `PLAN.md` claims.
+- [ ] Commit here.
+
+#### G0E.2: design becomes a repository
+
+The one repository this organization was missing is the one it is named for.
+
+- [ ] Create `vibrantgio/design` and move the bundle into it — `styles.css`, `theme.json`, `readme.md` and `foundations/`, the six paths already live at `claude.ai/design`. Carry the history across; this directory has been regenerated since Phase E and the record of what moved a pixel is worth keeping.
+- [ ] Give it a module — `github.com/vibrantgio/design` — and `//go:embed` the bundle, so the harness G1.1 builds and anything after it reads a page by name instead of by a relative path that breaks the moment a test runs from somewhere else.
+- [ ] Repoint the two things that write and read it: `theme/cmd/vg-tokens`' output directory, and `push-design.sh`'s `DESIGN` path. The uploaded path set does not change — `finalize_plan` still writes the same six paths — so a push before and after this task is byte-identical at the far end.
+- [ ] Register it everywhere a repository has to be known: a `templates/repos.tsv` row, `clone-all.sh`, `inventory.sh`'s census, `check-versions.sh`'s module list, `sync-agents.sh` so it carries the same `AGENTS.md` as everything else, and `llms.txt`'s tag table.
+- [ ] Place it at the application tier. It imports components and patterns from G1.1 onward and nothing in the organization imports it, so it is a leaf that no `go.mod` pins — the same shape as a workbench application, and `check-layers.sh` judges it the same way.
+- [ ] Prove it: the census reports twenty-two, `sync-agents.sh` renders `design`'s guide with a measured layer sentence, and `push-design.sh` regenerates the bundle from the new location with `git status` clean afterwards.
+- [ ] Commit here.
+
 ### G-G1: The mirror and its harness
 
 #### G1.1: Golden comparison harness
