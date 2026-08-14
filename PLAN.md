@@ -2845,10 +2845,10 @@ ends in `.html`; a Go import never does.
 - [x] Commit here.
 #### G2.2: Cards, elevation and tables
 
-- [ ] Build `components/cards.html`: the card pattern and each elevation step.
-- [ ] Build `components/table.html`: patterns/table's header, row rules, sort affordance and zebra treatment.
-- [ ] Run the harness against the patterns card and table goldens; close the gaps.
-- [ ] Commit here.
+- [x] Build `components/cards.html`: the card pattern and each elevation step.
+- [x] Build `components/table.html`: patterns/table's header, row rules, sort affordance and zebra treatment.
+- [x] Run the harness against the patterns card and table goldens; close the gaps.
+- [x] Commit here.
 
 #### G2.3: Navigation
 

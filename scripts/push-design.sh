@@ -37,7 +37,8 @@ cat <<EOF
     2. DesignSync write_files with that planId, uploading via localPath:
          readme.md, theme.json, styles.css,
          foundations/color.html, foundations/type.html, foundations/layout.html,
-         components/buttons.html, components/forms.html,
+         components/buttons.html, components/cards.html,
+         components/forms.html, components/table.html,
          fonts/roboto-regular.ttf, fonts/roboto-medium.ttf,
          fonts/robotomono-regular.ttf and both fonts/LICENSE-* files
     3. Verify: DesignSync list_files shows every path; spot-check with get_file.
