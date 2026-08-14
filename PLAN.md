@@ -2839,10 +2839,10 @@ mirror live in the repository now also called `components`. A page path always
 ends in `.html`; a Go import never does.
 
 #### G2.1: Buttons, tags and forms
-- [ ] Build `components/buttons.html`: every emphasis register — filled, tonal, ghost — in its enabled, hover, pressed, focus-ring and disabled states, the icon-only form beside them, at both densities; plus tags. There is no size prop and the page must not invent one: the heights come from `Density.ControlHeight`, so density is the size axis.
-- [ ] Build `components/forms.html`: text field, checkbox, radio and dropdown on native elements, no script.
-- [ ] Run the harness against components' button and input goldens; close the gaps.
-- [ ] Commit here.
+- [x] Build `components/buttons.html`: every emphasis register — filled, tonal, ghost — in its enabled, hover, pressed, focus-ring and disabled states, the icon-only form beside them, at both densities; plus tags. There is no size prop and the page must not invent one: the heights come from `Density.ControlHeight`, so density is the size axis.
+- [x] Build `components/forms.html`: text field, checkbox, radio and dropdown on native elements, no script.
+- [x] Run the harness against components' button and input goldens; close the gaps.
+- [x] Commit here.
 #### G2.2: Cards, elevation and tables
 
 - [ ] Build `components/cards.html`: the card pattern and each elevation step.

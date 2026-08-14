@@ -31,12 +31,13 @@ cat <<EOF
     1. DesignSync finalize_plan:
          projectId: $PROJECT_ID
          localDir:  $DESIGN
-         writes:    ["readme.md", "theme.json", "styles.css", "foundations/*.html", "fonts/*"]
+         writes:    ["readme.md", "theme.json", "styles.css", "foundations/*.html", "components/*.html", "fonts/*"]
          deletes:   []
        -> returns a planId (the plan is single-use; re-run finalize_plan for every push)
     2. DesignSync write_files with that planId, uploading via localPath:
          readme.md, theme.json, styles.css,
          foundations/color.html, foundations/type.html, foundations/layout.html,
+         components/buttons.html, components/forms.html,
          fonts/roboto-regular.ttf, fonts/roboto-medium.ttf,
          fonts/robotomono-regular.ttf and both fonts/LICENSE-* files
     3. Verify: DesignSync list_files shows every path; spot-check with get_file.
