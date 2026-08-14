@@ -2870,10 +2870,10 @@ This file is inlined into the design agent's system prompt. It is the difference
 between an agent that uses the vocabulary and one that invents its own, so every
 sentence must be something the agent can act on without guessing.
 
-- [ ] Write `.design-sync/conventions.md`: the class families with their real names, the token families, where the truth lives, and one idiomatic build snippet taken from a page that already passes the harness.
-- [ ] State the Gio-specific caveats — text shaping differs, and blur is a cached offscreen pass driven by content change rather than a live CSS `backdrop-filter`, so a design that assumes continuous blur under motion will not port.
-- [ ] Validate it: every class, token and component name it mentions must exist in the emitted `styles.css` or the component pages. Cut or fix anything that does not resolve.
-- [ ] Commit here.
+- [x] Write `.design-sync/conventions.md`: the class families with their real names, the token families, where the truth lives, and one idiomatic build snippet taken from a page that already passes the harness.
+- [x] State the Gio-specific caveats — text shaping differs, and blur is a cached offscreen pass driven by content change rather than a live CSS `backdrop-filter`, so a design that assumes continuous blur under motion will not port.
+- [x] Validate it: every class, token and component name it mentions must exist in the emitted `styles.css` or the component pages. Cut or fix anything that does not resolve.
+- [x] Commit here.
 
 #### G3.2: Push and validate with the agent
 
