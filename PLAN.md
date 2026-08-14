@@ -2877,7 +2877,7 @@ sentence must be something the agent can act on without guessing.
 
 #### G3.2: Push and validate with the agent
 
-- [ ] Regenerate the full bundle and push it with `scripts/push-design.sh`.
+- [x] Regenerate the full bundle and push it with `scripts/push-design.sh`.
 - [ ] Ask the design agent to compose a screen that exercises a shell, a table, a modal and a form.
 - [ ] Check the result against the conventions: real classes, real tokens, no invented vocabulary.
 - [ ] Record what the agent got wrong as follow-up work — that list is the honest measure of whether the surface is good.
