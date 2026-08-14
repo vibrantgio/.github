@@ -2852,10 +2852,10 @@ ends in `.html`; a Go import never does.
 
 #### G2.3: Navigation
 
-- [ ] Build `components/navigation.html`: navbar, sidebar, tabs and breadcrumb.
-- [ ] Include the selected, hover and focus states for each.
-- [ ] Run the harness against the corresponding patterns goldens; close the gaps.
-- [ ] Commit here.
+- [x] Build `components/navigation.html`: navbar, sidebar, tabs and breadcrumb.
+- [x] Include the selected, hover and focus states for each.
+- [x] Run the harness against the corresponding patterns goldens; close the gaps.
+- [x] Commit here.
 
 #### G2.4: Overlays
 - [ ] Build `components/dialog.html`: both modal intents from G0A.2 over their backdrops at the top elevation — the **decision** dialog with its right-aligned footer, Return-bound default and no X, and the dismissable **panel** with its ghost close top-right — plus popover, tooltip and toast.
