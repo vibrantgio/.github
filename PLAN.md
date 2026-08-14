@@ -2878,10 +2878,39 @@ sentence must be something the agent can act on without guessing.
 #### G3.2: Push and validate with the agent
 
 - [x] Regenerate the full bundle and push it with `scripts/push-design.sh`.
-- [ ] Ask the design agent to compose a screen that exercises a shell, a table, a modal and a form.
-- [ ] Check the result against the conventions: real classes, real tokens, no invented vocabulary.
-- [ ] Record what the agent got wrong as follow-up work — that list is the honest measure of whether the surface is good.
-- [ ] Commit here.
+- [x] Ask the design agent to compose a screen that exercises a shell, a table, a modal and a form.
+- [x] Check the result against the conventions: real classes, real tokens, no invented vocabulary.
+- [x] Record what the agent got wrong as follow-up work — that list is the honest measure of whether the surface is good.
+- [x] Commit here.
+
+**Validation record (2026-08-15, `patterns/app-shell.html` in the Claude
+Design project).** The agent composed a navbar shell with sidebar, tabs,
+breadcrumb, sortable table, an elevated card carrying a form, and a decision
+dialog over an inert scrim. All 33 system classes it used are real, every
+token resolves, and the decision-dialog idiom is exactly the published one
+(ghost Cancel, filled destructive primary, `.dialog-body`, `aria-modal`).
+The sidebar is a single keyboard stop, forcing twins are correctly absent
+from real markup, and every page-local style is token-driven. What it got
+wrong — the follow-up list:
+
+1. **Status tag improvised.** A failing build renders as `.tag` with inline
+   `background: var(--color-error); color: var(--color-on-error)`. Real
+   tokens, invented variant: the sheet has `.toast.{success,warning,error}`
+   but no status tags, because no Gio source draws one. Either grow a status
+   chip in the Gio vocabulary first and mirror it, or have conventions.md
+   state that status chips are not vocabulary and toasts carry level colour.
+2. **Table framing invented.** The screen wraps `.table` in a page-local
+   `.table-wrap` (1 dp Divider border, `--radius-lg`, clipped corners). No
+   published page frames the table and `patterns/table` draws no outer
+   frame. Conventions.md should say whether framing a table is idiomatic —
+   and if it should be, the frame belongs in the Gio pattern first.
+3. **Ground pinned to the ramp, not the semantic.** `body` and the shell use
+   `--color-neutral-100` where the published pages use `--color-bg` (same
+   value by construction; the semantic pin exists so surfaces survive a
+   remap). Conventions.md should tell composers to prefer semantic pins over
+   ramp steps for grounds.
+
+Nothing invented beyond those three; the surface held.
 
 ## Phase H: The desktop seam
 
