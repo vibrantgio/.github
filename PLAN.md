@@ -2858,10 +2858,10 @@ ends in `.html`; a Go import never does.
 - [x] Commit here.
 
 #### G2.4: Overlays
-- [ ] Build `components/dialog.html`: both modal intents from G0A.2 over their backdrops at the top elevation — the **decision** dialog with its right-aligned footer, Return-bound default and no X, and the dismissable **panel** with its ghost close top-right — plus popover, tooltip and toast.
-- [ ] Show the scrim and the focus-trapped state, since those carry the elevation and colour decisions — and say beside the decision dialog that its scrim is inert, because the mirror is the document an agent reads and the behaviour is part of the pattern.
-- [ ] Run the harness against the patterns overlay goldens; close the gaps.
-- [ ] Commit here.
+- [x] Build `components/dialog.html`: both modal intents from G0A.2 over their backdrops at the top elevation — the **decision** dialog with its right-aligned footer, Return-bound default and no X, and the dismissable **panel** with its ghost close top-right — plus popover, tooltip and toast.
+- [x] Show the scrim and the focus-trapped state, since those carry the elevation and colour decisions — and say beside the decision dialog that its scrim is inert, because the mirror is the document an agent reads and the behaviour is part of the pattern.
+- [x] Run the harness against the patterns overlay goldens; close the gaps.
+- [x] Commit here.
 ### G-G3: Ship it
 
 #### G3.1: The conventions header

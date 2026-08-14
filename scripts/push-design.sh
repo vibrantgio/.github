@@ -38,8 +38,8 @@ cat <<EOF
          readme.md, theme.json, styles.css,
          foundations/color.html, foundations/type.html, foundations/layout.html,
          components/buttons.html, components/cards.html,
-         components/forms.html, components/navigation.html,
-         components/table.html,
+         components/dialog.html, components/forms.html,
+         components/navigation.html, components/table.html,
          fonts/roboto-regular.ttf, fonts/roboto-medium.ttf,
          fonts/robotomono-regular.ttf and both fonts/LICENSE-* files
     3. Verify: DesignSync list_files shows every path; spot-check with get_file.
