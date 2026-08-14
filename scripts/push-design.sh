@@ -39,5 +39,12 @@ cat <<EOF
          foundations/color.html, foundations/type.html, foundations/layout.html,
          fonts/roboto-regular.ttf, fonts/roboto-medium.ttf,
          fonts/robotomono-regular.ttf and both fonts/LICENSE-* files
-    3. Verify: DesignSync list_files shows all six paths; spot-check with get_file.
+    3. Verify: DesignSync list_files shows every path; spot-check with get_file.
+    4. Ask Rene to poke the design system once in the claude.ai chat (open it
+       and make any trivial edit or request). The pane renders cards and
+       resolves brand fonts from _ds_manifest.json, which only the app's own
+       self-check compiles — API uploads never trigger it. Until the poke,
+       new pages show no cards and new fonts stay "missing", however correct
+       the uploaded files are. Verified empirically at G1.1-time: uploads
+       changed nothing in the manifest; one chat-side poke rebuilt it.
 EOF
