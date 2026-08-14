@@ -5119,8 +5119,9 @@ lands *after* the root's, which is right: the submodule depends on the root,
 never the reverse.
 
 A submodule is **not** re-tagged every time the root moves — only when
-something relevant to it actually changed. `svg` at v0.0.8 while `driver/gio`
-is still at v0.0.7 is the normal, correct state, not drift.
+something relevant to it actually changed. The root a patch or two ahead of a
+nested module — `svg` at v0.0.9 while `driver/pdf` sits at an earlier number —
+is the normal, correct state, not drift.
 
 What the rule forbids is letting the submodule run on its own counter.
 Bumping `gio/v0.0.6` to `gio/v0.0.7` because the submodule changed, while the
