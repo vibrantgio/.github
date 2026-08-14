@@ -2821,12 +2821,12 @@ from, not as a target.
 - [x] Say which machine is authoritative, because CI cannot be. F5.7 read the verdict from a real run: the runner opens no headless window, so every Gio-side capture answers `t.Skipf` and a skipped test passes. A mirror harness wired into CI as it stands would go green without comparing anything — the same trap that hid patterns' failure for sixteen runs.
 - [x] Commit here.
 #### G1.2: The component class vocabulary
-- [ ] Define the class layer in `styles.css`, built only on the tokens E0.1 emits — no literal colours, sizes or radii.
-- [ ] Name the emphasis registers G0A.1 added — `.btn` filled by default, with tonal and ghost modifier classes — resolved from the same ramp positions components resolves, so the mirror and the Gio button disagree about nothing but antialiasing.
-- [ ] Cover the interaction states explicitly: hover, pressed, keyboard focus ring, disabled, selected.
-- [ ] Derive state colours from the tonal ramp rather than ad-hoc mixes, matching how components resolves them.
-- [ ] Confirm the sheet still passes E0.1's round-trip test.
-- [ ] Commit here.
+- [x] Define the class layer in `styles.css`, built only on the tokens E0.1 emits — no literal colours, sizes or radii.
+- [x] Name the emphasis registers G0A.1 added — `.btn` filled by default, with tonal and ghost modifier classes — resolved from the same ramp positions components resolves, so the mirror and the Gio button disagree about nothing but antialiasing.
+- [x] Cover the interaction states explicitly: hover, pressed, keyboard focus ring, disabled, selected.
+- [x] Derive state colours from the tonal ramp rather than ad-hoc mixes, matching how components resolves them.
+- [x] Confirm the sheet still passes E0.1's round-trip test.
+- [x] Commit here.
 ### G-G2: The component pages
 
 One task per group. Each page is plain, readable HTML; each ends green against
