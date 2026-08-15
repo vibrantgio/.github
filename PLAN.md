@@ -3086,10 +3086,10 @@ second tenant of `mvu/desktop`.
 
 #### I1.5: Release the second tenant
 
-- [ ] Tag `mvu` **v0.7.0** — additive minor (`ViewEvents`) — push, then bump the nested modules' `require` to v0.7.0, commit, and tag `desktop/v0.7.0` and `example/v0.7.0` at the mirrored number, per the release rule.
-- [ ] `GOWORK=off` verify from the tags; re-pin the spike demo's go.mod if it survives as an example, otherwise record that the demo retired with the spike.
-- [ ] `sync-agents.sh` and `llms.txt` pick up the drops API next to the chrome caveat.
-- [ ] Commit here. Then propose the themer goal to René — its precondition is now met.
+- [x] Tag `mvu` **v0.7.0** — additive minor (`ViewEvents`) — push, then bump the nested modules' `require` to v0.7.0, commit, and tag `desktop/v0.7.0` and `example/v0.7.0` at the mirrored number, per the release rule.
+- [x] `GOWORK=off` verify from the tags; re-pin the spike demo's go.mod if it survives as an example, otherwise record that the demo retired with the spike. *(All three from the tags, direct VCS: desktop and example build+test green, sitedocs re-pinned to the v0.7.0 pair and green. The spike survives as the manual drag-test vehicle: its go.mod dropped the replace directives and pins the released tags, `GOWORK=off go build ./...` green, still committed nowhere by design.)*
+- [x] `sync-agents.sh` and `llms.txt` pick up the drops API next to the chrome caveat.
+- [x] Commit here. Then propose the themer goal to René — its precondition is now met.
 
 ### G-I2: What the agent got wrong
 

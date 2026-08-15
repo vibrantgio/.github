@@ -32,10 +32,12 @@ tier table: a module imports only modules in strictly lower tiers, plus the
 support row — enforced in CI by the org's check-layers script. Current tags:
 
   tier 0 — leaves
-  mvu       v0.6.0   MVU runtime: NewWindow, Loop/Run, Message/Command,
+  mvu       v0.7.0   MVU runtime: NewWindow, Loop/Run, Message/Command,
                      MessageOp; Window.Option + OnConfigure, the re-assert
                      seam the nested desktop module builds on (§Nested
-                     modules); subpackage stream (Value, the one sanctioned
+                     modules); Window.ViewEvents, the per-window stream of
+                     Gio view events the desktop module's drop target rides;
+                     subpackage stream (Value, the one sanctioned
                      observable for state several consumers watch — ADR-008)
   font      v0.1.0   Roboto, six weights, regular and italic — plus Roboto
                      Mono, normal and bold each with italics, all OFL; the
@@ -190,12 +192,18 @@ ivg repo, not `vX.Y.Z`. The numbers below are generated, as above.
                                                        kiwi solver
   github.com/vibrantgio/components/gallery    v0.7.0   the components gallery
                                                        app
-  github.com/vibrantgio/mvu/desktop           v0.6.0   native macOS window
+  github.com/vibrantgio/mvu/desktop           v0.7.0   native macOS window
                                                        chrome (FullSizeContent,
                                                        traffic-light unhide,
                                                        queried top inset) on
-                                                       mvu's OnConfigure seam
-  github.com/vibrantgio/mvu/example           v0.6.0   numbered mvu examples,
+                                                       mvu's OnConfigure seam,
+                                                       and OS file drops
+                                                       (NewDropTarget, per-zone
+                                                       hit-testing, dropped
+                                                       paths arriving in
+                                                       Update as ordinary
+                                                       messages)
+  github.com/vibrantgio/mvu/example           v0.7.0   numbered mvu examples,
                                                        00-reference upward
 
 CGO CAVEAT: mvu/desktop is the organization's first cgo beyond what Gio
@@ -206,6 +214,20 @@ tier 0 with zero cgo; the dependency runs mvu/desktop -> mvu, never the
 reverse. Apply options through mvu's Window.Option, not the raw app.Window
 handle — options applied through the raw handle bypass the OnConfigure
 notification the chrome re-asserts itself on.
+
+The module's second tenant, file drops, sits behind the same darwin-only
+discipline: NewDropTarget(w, zones, kinds...) registers the mvu window to
+accept files dragged from the OS, resolves each drop against the zones the
+last frame recorded (ZoneGroup.Zone during layout; last-recorded wins on
+overlap), and delivers FilesEntered/FilesExited/FilesDropped into the loop as
+ordinary messages — no manual invalidate needed. File URLs are the one
+registered kind today; the kind parameter is MIME-shaped so other payloads
+can join without changing the surface. On non-mac platforms construction
+succeeds and nothing is ever delivered. The target rides mvu's ViewEvents
+stream to re-register whenever the native view is rebuilt, so it survives
+option changes the same way the chrome does — and that stream is
+single-subscriber: constructing a DropTarget claims it, so an application
+using drops must not subscribe ViewEvents itself.
 
 A nested module's version mirrors its root's: `driver/raster/vX.Y.Z` requires
 `svg` at exactly `vX.Y.Z`. A root can be ahead of a nested module that did not
@@ -1016,7 +1038,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
       gioui.org v0.10.1
       github.com/reactivego/rx v0.3.0
       github.com/vibrantgio/patterns v0.6.0
-      github.com/vibrantgio/mvu v0.6.0
+      github.com/vibrantgio/mvu v0.7.0
       github.com/vibrantgio/components v0.7.0
       github.com/vibrantgio/theme v0.6.0
       github.com/vibrantgio/textdraw v0.0.4
