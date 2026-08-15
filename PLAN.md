@@ -3047,9 +3047,9 @@ technical question.
 - [x] S0: scaffold a throwaway module *outside* the workspace (the scratchpad or `~/code/w/spikes` — not a sibling, not in go.work); minimal one-window mvu app.
 - [x] S1: prove the handle arrives — drive `app.Window.Event()` directly, log every event type; confirm `AppKitViewEvent` with non-zero View/Layer at startup, the zero-valued one on close, and `Valid()` distinguishing them. Record whether it precedes the first `FrameEvent` (dossier open question 2).
 - [x] Check the Gio sourcehut tracker and gio-plugins for prior art on file drops (dossier open question 3); record what exists in the dossier addendum before writing any Obj-C.
-- [ ] S2: augment `GioView` at runtime per §4 — `class_addMethod` behind `sync.Once` after a `class_respondsToSelector` check, `registerForDraggedTypes:` per view inside `app.Window.Run`, read file URLs via `readObjectsForClasses:options:`, NSLog the paths. Threading rules of §7 are law.
-- [ ] **Checkpoint, René's hands:** drag one file, three files, a folder, and TextEdit text (refused, no crash) from Finder — §8.1 items 1–4. The task stops here until the drags are done.
-- [ ] Record S1/S2 findings in the dossier's addendum — including a failure, which per §11 is the whole value. Commit `.github` (dossier); the throwaway module is never committed anywhere.
+- [x] S2: augment `GioView` at runtime per §4 — `class_addMethod` behind `sync.Once` after a `class_respondsToSelector` check, `registerForDraggedTypes:` per view inside `app.Window.Run`, read file URLs via `readObjectsForClasses:options:`, NSLog the paths. Threading rules of §7 are law. *(Guard corrected to own-method detection — NSView inherits default drag selectors on this macOS; see the dossier's 2026-08-15 addendum.)*
+- [x] **Checkpoint, René's hands:** drag one file, three files, a folder, and TextEdit text (refused, no crash) from Finder — §8.1 items 1–4. The task stops here until the drags are done. *(2026-08-15: items 1–3 verified from the live log — one file, three files in one operation, a folder as its own path. Item 4's refusal is silent by design and unconfirmed in the log; it rides along in I1.2's drag checkpoint.)*
+- [x] Record S1/S2 findings in the dossier's addendum — including a failure, which per §11 is the whole value. Commit `.github` (dossier); the throwaway module is never committed anywhere.
 
 #### I1.2: mvu forwards the handle
 

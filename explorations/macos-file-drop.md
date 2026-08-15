@@ -700,5 +700,15 @@ driver is assigned at window creation (`app/window.go:399`), before any
 event is delivered, so the `Run`-before-driver "call f directly" hazard
 cannot be hit from an `AppKitViewEvent` handler.
 
-Still open after this addendum: §8.1 items 1–4 by hand (then S3–S5), and
-open question 4 (FilesDropped shape), deferred to S4 as planned.
+**2026-08-15, later: the drags happened — the core claim holds.** René ran
+the spike (`go run ./s2`) and dragged from Finder: one file → its absolute
+path logged; three files → three paths in one `performDragOperation:`; a
+folder → its own path, not its contents. One hover-in without a drop
+appeared between tests and was handled cleanly. §11's exit criterion "S2
+prints paths" is met: **OS file drops are reachable from outside Gio, on
+public API, no fork.** Continue to S3. §8.1 item 4 (TextEdit text refused)
+is silent by design and was not distinguishable in the log; it re-runs in
+S3's drag round.
+
+Still open after this addendum: §8.1 item 4 (rides with S3's checkpoint),
+S3–S5, and open question 4 (FilesDropped shape), deferred to S4 as planned.
