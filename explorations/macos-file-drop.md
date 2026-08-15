@@ -1,8 +1,11 @@
 # Exploration: macOS file drops without forking Gio
 
-**Status:** in flight — S0–S4 code-complete; S0–S3 drag-verified, S4
-launch-verified (2026-08-15); the §8.1 items 5–6 manual drags are the
-outstanding proof, then S5
+**Status:** landed — S0–S5 complete; the drop code lives in `mvu/desktop`
+as the seam's second tenant (2026-08-15). Outstanding: the §8.1 item 7
+multi-window drag round (René's hands, script in the spike's
+`README-DRAG-TEST.md`), the optional items 8–9 physical extras, and the
+release (tags are the next task's). The §12 upstream-patch obligation
+stands regardless.
 **Author:** drafted 2026-08-11
 **Shape:** written in `PLAN.md`'s task shape (`####` headings, `- [ ]` steps) so a
 successful spike can be lifted into the plan as a phase without rewriting it.
@@ -805,3 +808,136 @@ consumer when it exists, not speculated now.
 
 Still open after this addendum: §8.1 items 5–6 (S4's checkpoint, René's
 hands — script in the spike's `README-DRAG-TEST.md`), and S5.
+
+---
+
+## Addendum, 2026-08-15, evening — S5: hardened, moved home
+
+S5 and the §10 landing work are done in one motion: rather than hardening
+the spike's copy and then porting the hardened copy, the hardening was
+built directly into `mvu/desktop` and verified through a new `demo/` in the
+spike module that consumes the real module API (local `replace` directives
+to mvu and mvu/desktop — both unreleased until the tags land). The spike's
+`s2`–`s4` stay as the historical record; `demo/` supersedes them as the
+manual-round vehicle. All empirical facts below: gioui.org v0.10.1, macOS
+25.5.0, go 1.26.5, this Mac, headful.
+
+**The public surface** (package `github.com/vibrantgio/mvu/desktop`, second
+tenant beside the chrome):
+
+- `NewDropTarget(w *mvu.Window, zones *ZoneGroup, kinds ...string) *DropTarget`
+  and `DropTarget.Messages() rx.Observable[mvu.Message]`. Kinds are
+  MIME-shaped per §12's don't-inherit note: `FileURLs = "text/uri-list"` is
+  the one registered kind, the default when no kinds are passed, and an
+  unimplemented kind panics at construction — a second kind lands additively
+  in the variadic seam with its own message types, so `[]string` is one
+  payload shape, never the concept. The constructor claims the window's
+  single-subscriber `ViewEvents()` stream; documented.
+- `ZoneGroup` with `Update(gtx)` / `Zone(gtx, i, origin, widget)` /
+  `Record(i, rect)` / `Hit(p)`. The origin-parameter ergonomics question
+  from S4 is decided: the parameter stays — `layout.Context` carries no
+  transform, so absolute geometry exists only where the layout math
+  happens, and pretending otherwise would just bury the same requirement —
+  and `Record` is exported as the primitive for callers that position
+  content by other means. **The registry compiles everywhere**, deliberately
+  outside the darwin gate: hit-testing has no AppKit in it, and an
+  application written against zones keeps its shape when other platforms
+  arrive per §12. Only the native bridge is gated; stubs elsewhere make a
+  DropTarget construct-and-stay-inert.
+- `FilesEntered{Zone}` / `FilesExited{Zone}` /
+  `FilesDropped{Zone, Paths, Pos}` unchanged from S4's answer to open
+  question 4.
+
+**The two seam tenants do not share a notification, and that is the
+design.** The chrome re-asserts *window-level* state (button visibility)
+on `OnConfigure`, because Gio's configuration rebuild un-does it. Drop
+registration is *per-view-instance* state (`registerForDraggedTypes:` on
+the NSView itself): Configure does not touch it, but the view can detach
+and a replacement attach, so re-registration rides the view-event path —
+register on every valid `AppKitViewEvent`, drop all native references on
+the invalid one. Neither tenant listens on the other's notification;
+`doc.go` carries the distinction, plus §7's rules in plain language, with
+no plan identifiers.
+
+**D6 landed as specified, with one addition.** The per-view state is
+`viewTargets map[uintptr]*DropTarget` behind a mutex — populated on the
+valid event, deleted on the invalid one, justification comment written on
+the declaration where the subjects gate's sibling concern points. The
+addition: `dispatchRaw` holds the mutex across lookup *and* delivery, so
+after `release` returns no drag callback can reach a dead target — that
+ordering is what makes close-mid-drag safe rather than merely likely.
+
+**The raw-channel overflow policy changed from the spike: evict-oldest,
+not drop-newest.** S4 discarded the incoming event on a full buffer; the
+module evicts the oldest instead, for the same reason mvu's view-event
+forwarding does — buffered hover events are superseded by every later one,
+and the newest event may be the drop itself, the one event that must not
+be lost behind a stalled pipeline. Unit-tested (a full buffer of moves
+plus a drop keeps the drop).
+
+**Hardening verification, the automatable halves:**
+
+- *Multi-window (§8.1 item 7):* the demo opens two windows; launch-verified
+  — the class augmentation ran once (4 selectors), both views registered
+  with distinct pointers, both windows ran their frame loops. Cross-talk
+  absence is proven at the routing layer by unit test (two targets,
+  events delivered strictly per view; unknown views silently dropped); the
+  physical two-window drag round is René's, script updated in
+  `README-DRAG-TEST.md`.
+- *Close / teardown (§8.1 item 9, programmatic approximation):*
+  `go run ./demo -autoclose Ns` closes window 1 at N and window 2 at 2N;
+  three runs — each close logged its `drop target released view 0x…`,
+  state deleted, no crash, clean exit 0. One anomaly on the very first
+  (background-harness) run: the second window's close took ~62 s to
+  complete; unreproduced across three subsequent runs (0–3 s), and even
+  that run tore down correctly and exited cleanly. Recorded as a latency
+  observation, not a correctness failure. The literal mid-drag close is
+  René's optional extra.
+- *Display scale (§8.1 item 8):* the backing scale is re-read per event
+  native-side and the pure transform is table-tested at scale 1 and 2
+  (order-pinning case included), ported into the module. This Mac has two
+  displays of different scale attached (QHD at 1×, Retina at 2×), so the
+  physical mid-session move-and-drop is available in René's round rather
+  than waived.
+- *Registration idempotence and lifecycle:* headless unit tests cover
+  repeated adopt of the same view (one entry), a replacement view
+  superseding the old entry (no leak), release stopping delivery and
+  emptying the map, double release, the invalid-event path through the
+  real handler, pipeline delivery end to end through the real channels,
+  and stream completion on close (idempotent). The s4 transform/zones/
+  tracker tables are ported wholesale.
+
+**GOOS matrix:** darwin build+test green (the module's tests all run
+here); `GOOS=windows` and `GOOS=js GOARCH=wasm` build *and* vet green
+(vet compiles the test files too). Linux cross-compilation remains
+impossible from this Mac — Gio's Linux backend needs cgo against X11
+headers — the same boundary H1.2 recorded when the module was born.
+
+**`GOWORK=off` build fails, expectedly, until the release:**
+`w.ViewEvents undefined` — the proxy's `mvu v0.6.0` predates the I1.2
+seam. In-workspace build and test are green. This is the recorded
+expected-until-release state, not a forced pin; the release task closes it
+by tagging mvu and mirror-tagging the nested module.
+
+**CI decision, made explicitly (the §10 CI row):** the same call as the
+golden-mirror harness. This Mac is authoritative for the manual drag
+script; CI compiles what it can on the platforms it has — the pure-Go
+registry, tracker and transform tests run anywhere; the darwin half
+compiles only where a mac runner exists — and **CI never fakes a drag**.
+No simulated-drag harness will be added; a green CI run says "it
+compiles and the pure logic holds", never "drops work".
+
+**Gates:** check-agents, check-versions, check-layers, check-subjects all
+OK after the move (38 modules scanned; zero exported package-level
+observables; the view map's justification sits on its declaration).
+
+**Exit criterion reached (§11 "everything passes").** The question this
+document opened with is answered *yes*: a Vibrant Gio application accepts
+files dragged from Finder, on public `gioui.org` API, no fork, no patch —
+now from a published-module code path rather than a spike. And per §11's
+last line, the standing obligation is restated rather than retired:
+**out-of-tree is a bridge, not a destination.** Three platforms can be
+bolted on this way and Wayland cannot (§12), so the upstream conversation
+belongs on Gio's tracker regardless of how well this bridge works —
+starting from ticket 153 and PR #111, which its author released to the
+public domain for exactly this kind of continuation.
