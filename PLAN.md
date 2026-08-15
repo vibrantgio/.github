@@ -3120,9 +3120,9 @@ outlaw.
 The two documentation findings, plus the sizing note. All conventions.md and
 page work — no Gio changes.
 
-- [ ] Tables are unframed: the Surface ground and the header band *are* the frame; a bordered wrapper is not vocabulary. If a framed table is ever wanted, it enters the Gio pattern first. State it in conventions.md where the `.table` family is described.
-- [ ] Grounds prefer semantic pins: `--color-bg` and `--color-surface` over `--color-neutral-*` ramp steps — same rendered value today, but the semantic survives a remap. One line in conventions.md's token guidance.
-- [ ] Corner affordances draw at ControlHeight; density is the only size knob, and the 44 dp accessibility floor is invisible by design. One line beside the class-family guidance.
+- [x] Tables are unframed: the Surface ground and the header band *are* the frame; a bordered wrapper is not vocabulary. If a framed table is ever wanted, it enters the Gio pattern first. State it in conventions.md where the `.table` family is described.
+- [x] Grounds prefer semantic pins: `--color-bg` and `--color-surface` over `--color-neutral-*` ramp steps — same rendered value today, but the semantic survives a remap. One line in conventions.md's token guidance.
+- [x] Corner affordances draw at ControlHeight; density is the only size knob, and the 44 dp accessibility floor is invisible by design. One line beside the class-family guidance.
 - [ ] Re-upload conventions.md (and any touched page) via the established DesignSync flow; commit design and push.
 
 #### I2.3: The agent composes again
