@@ -2986,12 +2986,12 @@ The platform-neutral half, no cgo, no darwin anything.
 
 #### H1.2: mvu/desktop — the chrome, behind the seam
 
-- [ ] Create the nested module `github.com/vibrantgio/mvu/desktop`, cgo Objective-C in a `.m` file behind `//go:build darwin`, no-op stubs on every other platform so it compiles everywhere. This is the organization's first cgo beyond what Gio itself carries; say so in the module's doc comment.
-- [ ] `FullSizeContent()` returns the window options: `app.Decorated(false)` on darwin, nothing elsewhere — a missing title bar must never degrade to a truly borderless window on Linux or Windows. Keep `app.Title`; Mission Control, the Dock and VoiceOver read it even hidden.
-- [ ] The traffic-light unhide registers on H1.1's notification, so it re-applies after the first frame and after every Option call — the invariant the spike proved, enforced structurally rather than commented. Dispatch on the AppKit main thread.
-- [ ] Expose the top inset as a queried value — `NSHeight(frame) - NSHeight(contentLayoutRect)`, points as dp — never a constant. Document that clicks in the strip go to the titlebar view (that is what makes native drag and double-click-zoom work), so the strip is paint-only for the app, and the traffic lights occupy roughly the leading 80 pt.
-- [ ] The sibling session's spike `.m`/`.go` is on offer as a starting point; its findings doc is the reference either way. Adapt, don't transplant — the spike was written against a bare window, not the seam.
-- [ ] Commit here.
+- [x] Create the nested module `github.com/vibrantgio/mvu/desktop`, cgo Objective-C in a `.m` file behind `//go:build darwin`, no-op stubs on every other platform so it compiles everywhere. This is the organization's first cgo beyond what Gio itself carries; say so in the module's doc comment.
+- [x] `FullSizeContent()` returns the window options: `app.Decorated(false)` on darwin, nothing elsewhere — a missing title bar must never degrade to a truly borderless window on Linux or Windows. Keep `app.Title`; Mission Control, the Dock and VoiceOver read it even hidden.
+- [x] The traffic-light unhide registers on H1.1's notification, so it re-applies after the first frame and after every Option call — the invariant the spike proved, enforced structurally rather than commented. Dispatch on the AppKit main thread.
+- [x] Expose the top inset as a queried value — `NSHeight(frame) - NSHeight(contentLayoutRect)`, points as dp — never a constant. Document that clicks in the strip go to the titlebar view (that is what makes native drag and double-click-zoom work), so the strip is paint-only for the app, and the traffic lights occupy roughly the leading 80 pt.
+- [x] The sibling session's spike `.m`/`.go` is on offer as a starting point; its findings doc is the reference either way. Adapt, don't transplant — the spike was written against a bare window, not the seam.
+- [x] Commit here.
 
 #### H1.3: One application wears it
 
