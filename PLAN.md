@@ -3007,6 +3007,132 @@ The platform-neutral half, no cgo, no darwin anything.
 - [x] `sync-agents.sh` and `llms.txt` pick up the new module and the cgo caveat.
 - [x] Commit here.
 
+## Phase I: File drops, and the list the agent left
+
+Two goals, independent of each other. The first puts a second tenant behind
+the desktop seam Phase H proved: files dragged from Finder, reaching `Update`
+as ordinary messages. The second settles the three follow-ups the G3.2
+validation recorded — the honest list of what the design agent got wrong, which
+is a work order, not a shrug.
+
+The themer application — drop an image, extract a seed, re-derive the whole
+system live — is the intended first real consumer of file drops. It is
+deliberately *not* scheduled here; it becomes its own goal once G-I1 lands and
+proves the plumbing it needs.
+
+### G-I1: Files fall into the loop
+
+The question is falsifiable and one bit: **can a Vibrant Gio application
+accept files dragged from Finder, using only public `gioui.org` API and no
+patched or forked Gio?** The full dossier is
+`explorations/macos-file-drop.md` — every AppKit fact, threading rule, risk
+and decision lives there with line-precise citations, and its 2026-08-13
+addendum records what Phase H already closed: D1 is resolved (`mvu/desktop`),
+check-layers admits nested adapters, and the Option-boundary notification the
+re-registering drop target wants is exactly H1.1's `OnConfigure`. Every task
+below starts by reading the dossier; the packets cite its sections rather
+than restating them.
+
+One honesty rule shapes the tasks: **an OS drag cannot be automated** (§8 of
+the dossier). Tasks that end at a drag checkpoint say so and stop for René's
+hands rather than faking the proof. Everything around the drag — coordinate
+transforms, URL decoding, zone hit-testing, registration idempotence — is
+unit-tested like anything else.
+
+#### I1.1: The spike proves the technique
+
+S0–S2 of the dossier, in a throwaway module so placement never gates the
+technical question.
+
+- [ ] S0: scaffold a throwaway module *outside* the workspace (the scratchpad or `~/code/w/spikes` — not a sibling, not in go.work); minimal one-window mvu app.
+- [ ] S1: prove the handle arrives — drive `app.Window.Event()` directly, log every event type; confirm `AppKitViewEvent` with non-zero View/Layer at startup, the zero-valued one on close, and `Valid()` distinguishing them. Record whether it precedes the first `FrameEvent` (dossier open question 2).
+- [ ] Check the Gio sourcehut tracker and gio-plugins for prior art on file drops (dossier open question 3); record what exists in the dossier addendum before writing any Obj-C.
+- [ ] S2: augment `GioView` at runtime per §4 — `class_addMethod` behind `sync.Once` after a `class_respondsToSelector` check, `registerForDraggedTypes:` per view inside `app.Window.Run`, read file URLs via `readObjectsForClasses:options:`, NSLog the paths. Threading rules of §7 are law.
+- [ ] **Checkpoint, René's hands:** drag one file, three files, a folder, and TextEdit text (refused, no crash) from Finder — §8.1 items 1–4. The task stops here until the drags are done.
+- [ ] Record S1/S2 findings in the dossier's addendum — including a failure, which per §11 is the whole value. Commit `.github` (dossier); the throwaway module is never committed anywhere.
+
+#### I1.2: mvu forwards the handle
+
+S3: the loop learns of drops. The one change mvu's root needs, shaped by the
+gate that watches it.
+
+- [ ] `ViewEvents() rx.Observable[app.ViewEvent]` on `mvu.Window` — narrow and deliberate, a buffered per-window channel wrapped in `rx.Recv` in the same idiom as the existing message path (no bare Subjects, no package-level observables; `check-subjects.sh` is the gate). A `case app.ViewEvent:` arm in `Render` feeds it; every other unknown event stays dropped — a general unhandled-events stream is explicitly rejected (dossier D3).
+- [ ] The `AutoConnect` arithmetic gains a subscriber; assert the count in a test — both failure modes are silent (dossier risk table, `mvu/doc.go`).
+- [ ] In the spike app: buffered `chan` from the drop callback (non-blocking send, drop-on-full documented in code), `rx.Recv` → `FilesDropped{Paths []string, Pos image.Point}`, merged into `Loop`'s messages; dropped paths render as a list.
+- [ ] **Checkpoint, René's hands:** drop files; success is paths appearing *without* a manual `Invalidate`. If a redraw is needed, that is a finding (the rx path does not wake the window) — record it, don't paper over it.
+- [ ] mvu stays additive: consumers (components, patterns, theme, effects) build and test green, untouched. Commit mvu, no tag — the release is I1.5.
+
+#### I1.3: Zones find the target
+
+S4: from window-level delivery to per-target delivery.
+
+- [ ] The §4.3 coordinate transform (view points, flip origin, backing scale re-read per drop), unit-tested at scale 1 and 2 against known inputs.
+- [ ] `Zone(gtx, tag)` records rects per frame; the resolver hit-tests the *last* frame's set — mirroring the focus-tag registry's shape (`components/layout/focus.go`).
+- [ ] `FilesEntered`/`FilesExited` messages so a zone can highlight; the cursor answer stays coarse (`NSDragOperationCopy` whenever file URLs are present — dossier D5).
+- [ ] **Checkpoint, René's hands:** two zones side by side — correct one highlights and receives; dead space between them yields nothing (§8.1 items 5–6).
+- [ ] Commit wherever the zone code currently lives (still spike-side is fine; landing is I1.4).
+
+#### I1.4: Harden, then move home
+
+S5 plus the landing work of §10. The code leaves the spike and becomes the
+second tenant of `mvu/desktop`.
+
+- [ ] Re-registration on every valid `AppKitViewEvent` (via `OnConfigure` where the seam already fires, the view-event path where it doesn't); teardown on the invalid one; the per-view state map (`map[uintptr]*dropState`, dossier D6) leaks nothing — its package-level-mutable justification written where `check-subjects.sh`'s sibling concern can see it.
+- [ ] Two windows, drops into each, no cross-talk; window moved between Retina and non-Retina mid-session, drop point stays correct (§8.1 items 7–8); close mid-drag, no crash (item 9). **René's hands for the drags; the harness for everything else.**
+- [ ] Move the drop code into `mvu/desktop` beside the chrome: same `.m`-behind-darwin discipline, no-op stubs elsewhere, API surface designed for the eventual non-file payloads (MIME-shaped like Gio's `transfer`, file URLs as one registered kind — dossier §12's "don't inherit gogpu's []string").
+- [ ] Docs: `doc.go` carries §7's threading and lifecycle rules — the non-guessable facts. No consumer names, no plan identifiers, plain language.
+- [ ] Gates: `check-agents.sh`, `check-versions.sh`, `check-layers.sh`, `check-subjects.sh`, `GOWORK=off` build/test. CI decision made explicitly, not discovered: same call as the mirror harness — this Mac is authoritative for the manual script, CI compiles what it can and never fakes a drag.
+- [ ] Commit mvu and `.github` (dossier addendum: exit criterion reached, per §11 — including the standing obligation that out-of-tree is a bridge, and the upstream patch conversation belongs on Gio's tracker regardless).
+
+#### I1.5: Release the second tenant
+
+- [ ] Tag `mvu` **v0.7.0** — additive minor (`ViewEvents`) — push, then bump the nested modules' `require` to v0.7.0, commit, and tag `desktop/v0.7.0` and `example/v0.7.0` at the mirrored number, per the release rule.
+- [ ] `GOWORK=off` verify from the tags; re-pin the spike demo's go.mod if it survives as an example, otherwise record that the demo retired with the spike.
+- [ ] `sync-agents.sh` and `llms.txt` pick up the drops API next to the chrome caveat.
+- [ ] Commit here. Then propose the themer goal to René — its precondition is now met.
+
+### G-I2: What the agent got wrong
+
+The G3.2 validation left three findings, recorded where G3.2 closed. Each is
+a decision plus its enforcement, and the decisions share one principle: the
+mirror never invents — **if the web surface wants it, the Gio vocabulary
+grows it first**, or the conventions forbid it in words.
+
+One adjacent finding folds in: René's close-affordance sizing question
+resolved to the stock treatment (a ControlHeight square; the 44 dp figure is
+a hit floor, never a painted size), and the conventions should say so before
+another composer re-invents a size.
+
+#### I2.1: Status becomes vocabulary
+
+The agent dressed a failing build in error colours because real screens need
+status chips and the vocabulary had none — toasts carry level colour, tags
+don't. Recommendation: grow it, don't forbid it; status is too common to
+outlaw.
+
+- [ ] Give the chip status variants on the Gio side first: tonal success/warning/error treatments for the pill chip, drawn where the chip lives today (the pricing/hero chip drawing — give it a shared home if extraction is warranted, but don't force a new package for three fills), colours from the fixed-hue roles the toast already uses.
+- [ ] Golden-test the variants beside the existing chip goldens.
+- [ ] Mirror: `.tag.success/.tag.warning/.tag.error` in the generator, var()-driven; fixtures + harness comparison at the standing tolerance; the components page shows them; conventions.md names them.
+- [ ] Regenerate, mirror suite green, commit theme/design/patterns-or-components as touched, push. Design-project upload is the parent session's job, as established.
+
+#### I2.2: The frame that isn't, and the pins that are
+
+The two documentation findings, plus the sizing note. All conventions.md and
+page work — no Gio changes.
+
+- [ ] Tables are unframed: the Surface ground and the header band *are* the frame; a bordered wrapper is not vocabulary. If a framed table is ever wanted, it enters the Gio pattern first. State it in conventions.md where the `.table` family is described.
+- [ ] Grounds prefer semantic pins: `--color-bg` and `--color-surface` over `--color-neutral-*` ramp steps — same rendered value today, but the semantic survives a remap. One line in conventions.md's token guidance.
+- [ ] Corner affordances draw at ControlHeight; density is the only size knob, and the 44 dp accessibility floor is invisible by design. One line beside the class-family guidance.
+- [ ] Re-upload conventions.md (and any touched page) via the established DesignSync flow; commit design and push.
+
+#### I2.3: The agent composes again
+
+The measure of I2.1/I2.2 is the same measure G3.2 used.
+
+- [ ] **Checkpoint, René's hands:** ask the design agent for another composed screen exercising a status chip on a table row — the exact shape that failed before.
+- [ ] Diff the result against the three recorded findings: the status chip should now be vocabulary it uses correctly; the table should arrive unframed; grounds should pin semantically. Record the new honest list, whatever it says.
+- [ ] Commit the record here.
+
 ## Reference
 
 Decision records and shared contracts. `mdplan next` never visits this section
