@@ -3002,10 +3002,10 @@ The platform-neutral half, no cgo, no darwin anything.
 
 #### H1.4: Release the seam
 
-- [ ] Tag `mvu` **v0.6.0** — additive minor — then push and tag the nested modules at the mirrored number per the release rule: `desktop/v0.6.0`, and `example/v0.6.0` since the demo module mirrors its root.
-- [ ] Re-pin the adopting workbench application; `GOWORK=off` verify.
-- [ ] `sync-agents.sh` and `llms.txt` pick up the new module and the cgo caveat.
-- [ ] Commit here.
+- [x] Tag `mvu` **v0.6.0** — additive minor — then push and tag the nested modules at the mirrored number per the release rule: `desktop/v0.6.0`, and `example/v0.6.0` since the demo module mirrors its root.
+- [x] Re-pin the adopting workbench application; `GOWORK=off` verify.
+- [x] `sync-agents.sh` and `llms.txt` pick up the new module and the cgo caveat.
+- [x] Commit here.
 
 ## Reference
 

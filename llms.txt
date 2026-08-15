@@ -32,8 +32,10 @@ tier table: a module imports only modules in strictly lower tiers, plus the
 support row — enforced in CI by the org's check-layers script. Current tags:
 
   tier 0 — leaves
-  mvu       v0.5.0   MVU runtime: NewWindow, Loop/Run, Message/Command,
-                     MessageOp; subpackage stream (Value, the one sanctioned
+  mvu       v0.6.0   MVU runtime: NewWindow, Loop/Run, Message/Command,
+                     MessageOp; Window.Option + OnConfigure, the re-assert
+                     seam the nested desktop module builds on (§Nested
+                     modules); subpackage stream (Value, the one sanctioned
                      observable for state several consumers watch — ADR-008)
   font      v0.1.0   Roboto, six weights, regular and italic — plus Roboto
                      Mono, normal and bold each with italics, all OFL; the
@@ -165,7 +167,7 @@ defect, full stop.
 
 ## Nested modules
 
-Ten more modules live in subdirectories of the repos above. They do not show
+Eleven more modules live in subdirectories of the repos above. They do not show
 up in a repository listing and you will not guess them, but they are where the
 Gio rendering for several libraries actually lives. Their import path is the
 repo path plus the subdirectory, and — this is the part that trips up
@@ -188,8 +190,22 @@ ivg repo, not `vX.Y.Z`. The numbers below are generated, as above.
                                                        kiwi solver
   github.com/vibrantgio/components/gallery    v0.7.0   the components gallery
                                                        app
-  github.com/vibrantgio/mvu/example           v0.5.0   numbered mvu examples,
+  github.com/vibrantgio/mvu/desktop           v0.6.0   native macOS window
+                                                       chrome (FullSizeContent,
+                                                       traffic-light unhide,
+                                                       queried top inset) on
+                                                       mvu's OnConfigure seam
+  github.com/vibrantgio/mvu/example           v0.6.0   numbered mvu examples,
                                                        00-reference upward
+
+CGO CAVEAT: mvu/desktop is the organization's first cgo beyond what Gio
+itself carries — darwin-only Objective-C behind `//go:build darwin`, with
+no-op stubs on every other platform, so it compiles everywhere but does its
+work only on macOS. Requiring it never adds cgo to mvu's root, which stays
+tier 0 with zero cgo; the dependency runs mvu/desktop -> mvu, never the
+reverse. Apply options through mvu's Window.Option, not the raw app.Window
+handle — options applied through the raw handle bypass the OnConfigure
+notification the chrome re-asserts itself on.
 
 A nested module's version mirrors its root's: `driver/raster/vX.Y.Z` requires
 `svg` at exactly `vX.Y.Z`. A root can be ahead of a nested module that did not
@@ -1000,7 +1016,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
       gioui.org v0.10.1
       github.com/reactivego/rx v0.3.0
       github.com/vibrantgio/patterns v0.6.0
-      github.com/vibrantgio/mvu v0.5.0
+      github.com/vibrantgio/mvu v0.6.0
       github.com/vibrantgio/components v0.7.0
       github.com/vibrantgio/theme v0.6.0
       github.com/vibrantgio/textdraw v0.0.4
