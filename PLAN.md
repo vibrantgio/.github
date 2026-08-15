@@ -3110,10 +3110,10 @@ status chips and the vocabulary had none — toasts carry level colour, tags
 don't. Recommendation: grow it, don't forbid it; status is too common to
 outlaw.
 
-- [ ] Give the chip status variants on the Gio side first: tonal success/warning/error treatments for the pill chip, drawn where the chip lives today (the pricing/hero chip drawing — give it a shared home if extraction is warranted, but don't force a new package for three fills), colours from the fixed-hue roles the toast already uses.
-- [ ] Golden-test the variants beside the existing chip goldens.
-- [ ] Mirror: `.tag.success/.tag.warning/.tag.error` in the generator, var()-driven; fixtures + harness comparison at the standing tolerance; the components page shows them; conventions.md names them.
-- [ ] Regenerate, mirror suite green, commit theme/design/patterns-or-components as touched, push. Design-project upload is the parent session's job, as established.
+- [x] Give the chip status variants on the Gio side first: tonal success/warning/error treatments for the pill chip, drawn where the chip lives today (the pricing/hero chip drawing — give it a shared home if extraction is warranted, but don't force a new package for three fills), colours from the fixed-hue roles the toast already uses.
+- [x] Golden-test the variants beside the existing chip goldens.
+- [x] Mirror: `.tag.success/.tag.warning/.tag.error` in the generator, var()-driven; fixtures + harness comparison at the standing tolerance; the components page shows them; conventions.md names them.
+- [x] Regenerate, mirror suite green, commit theme/design/patterns-or-components as touched, push. Design-project upload is the parent session's job, as established.
 
 #### I2.2: The frame that isn't, and the pins that are
 
