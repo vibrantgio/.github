@@ -1,7 +1,8 @@
 # Exploration: macOS file drops without forking Gio
 
-**Status:** in flight — S0–S2 code-complete and launch-verified (2026-08-15);
-the §8.1 items 1–4 manual drags are the outstanding proof
+**Status:** in flight — S0–S4 code-complete; S0–S3 drag-verified, S4
+launch-verified (2026-08-15); the §8.1 items 5–6 manual drags are the
+outstanding proof, then S5
 **Author:** drafted 2026-08-11
 **Shape:** written in `PLAN.md`'s task shape (`####` headings, `- [ ]` steps) so a
 successful spike can be lifted into the plan as a phase without rewriting it.
@@ -712,3 +713,95 @@ S3's drag round.
 
 Still open after this addendum: §8.1 item 4 (rides with S3's checkpoint),
 S3–S5, and open question 4 (FilesDropped shape), deferred to S4 as planned.
+
+---
+
+## Addendum, 2026-08-15, later still — S3 through the loop; S4 zones built
+
+**S3 passed René's checkpoint** (recorded here so the dossier stays the one
+record; the plan carries the same note at I1.2): drops reached `Update`
+through `ViewEvents()` → buffered chan → `rx.Recv` → `rx.Merge`, and the
+paths appeared in the UI immediately — **the rx path wakes the window**, no
+manual `Invalidate`, so §11's "acceptable wart" outcome did not
+materialize. TextEdit text was refused with no drop target offered and no
+crash — §8.1 item 4, closed.
+
+**S4 is code-complete and launch-verified in `s4/`** of the same throwaway
+module: two labeled, visibly distinct zones side by side with dead space
+between, hover highlight, per-zone drop lists. Launch-verified on this Mac:
+valid `AppKitViewEvent` first, all **four** methods added this time
+(`draggingEntered:`, `draggingUpdated:`, `draggingExited:`,
+`performDragOperation:` — GioView defines none of them itself),
+registration executed, window renders, no crash. The §8.1 items 5–6 drags
+are René's open checkpoint. Findings, each now pinned by unit tests in the
+spike:
+
+- **The §4.3 transform seam sits at the raw components.** The one call
+  that cannot leave Obj-C is `[view convertPoint:… fromView:nil]`
+  (window → view points). The `.m` ships view-point x/y,
+  `view.bounds.size.height`, and the backing scale — re-read per event,
+  §7 rule 6 — across raw, and the flip-then-scale math is a pure Go
+  function, `GioPoint(x, y, viewHeight, scale) image.Point`, table-tested
+  at scale 1 and 2 against known inputs, including a scale-2 case that a
+  wrong flip/scale order cannot pass, plus fractional-point inputs
+  (quantization is truncation to the containing pixel, documented).
+
+- **`Zone(gtx, tag)` cannot be literally that, because `layout.Context`
+  carries no transform.** Its fields are Constraints, Metric, Now, Locale,
+  Values, Source, Ops — nothing positional — and `io/input` exposes no
+  public query for the current offset, so a widget cannot learn its own
+  absolute rectangle from `gtx`. The recording call therefore takes the
+  origin from whoever laid the zone out:
+  `Zone(gtx, i, origin, widget)` lays the widget out at the absolute
+  origin and records origin+dims into the current frame's slice. The
+  demo's root does manual layout math and so has the origins; how the
+  origin burden is carried ergonomically in `mvu/desktop` is I1.4's
+  placement call. D4's shape otherwise holds exactly: per-frame recording,
+  double-buffered, and the resolver hit-tests the last *completed*
+  frame's set — never the frame in progress.
+
+- **Overlap rule: last recorded wins — painter's order.** Zones are
+  recorded in layout order, and in Gio later ops paint over earlier ones,
+  so the topmost-drawn zone is the one that claims the point; the
+  resolver scans the slice from the end. Containment follows
+  `image.Rectangle.In` — Min edges inclusive, Max exclusive — so adjacent
+  zones sharing an edge never both claim a point on it. Unit-tested as a
+  pure function over a rect slice: hits, misses, overlaps, dead space,
+  boundary points, empty set, plus the frame double-buffering itself.
+
+- **Hover messages, `FilesEntered{Zone}` / `FilesExited{Zone}`, come from
+  a tracker state machine outside `Update`.** AppKit's callbacks are
+  window-level ("the drag moved"); the per-zone transitions
+  (exit-before-enter on a direct zone-to-zone crossing; exit-on-drop, so
+  highlight state is correct from the Entered/Exited pair alone) are
+  computed by one pipeline goroutine that drains the raw channel and
+  consults the registry, keeping the model a pure fold over messages. The
+  tracker's step is a pure function and unit-tested (including §8.1
+  item 5's enter-then-exit-no-drop and item 6's dead-space silence). The
+  cursor answer stays coarse per D5 — `NSDragOperationCopy` whenever file
+  URLs are present at all; the per-zone refinement is the messages.
+  `draggingUpdated:` crosses on the same non-blocking channel path
+  (buffer 64, drop-on-full: harmless for moves, the next one supersedes).
+  One deviation from the FocusGroup model it mirrors: **ZoneGroup carries
+  a mutex**, because recording happens on the render goroutine while
+  `Hit` runs on the pipeline goroutine; critical sections are O(1)
+  appends and one bounded scan.
+
+**Open question 4 is answered: one message —
+`FilesDropped{Zone int, Paths []string, Pos image.Point}` — and no
+`FilesRejected`.** With a real consumer shape finally in hand (highlight
+on hover, receive on drop), every rejection path turns out to be either
+OS-visible or silence by specification. A non-file drag is refused in
+`draggingEntered:` with `NSDragOperationNone`: AppKit animates the
+bounce-back — the user is already told — and no drop callback ever fires,
+so there is no moment to message. A drop in the dead space between zones
+is *required* by §8.1 item 6 to yield nothing: silence is the contract,
+not a missing message (the spike logs it as "silence by design", so a
+developer watching the terminal can tell deliberately-ignored from lost).
+No consumer we can name consumes a rejection event. If a per-zone content
+filter (UTI-restricted zones, §4.2's note) later needs "hovered but
+refused", that message is additive and should be designed against that
+consumer when it exists, not speculated now.
+
+Still open after this addendum: §8.1 items 5–6 (S4's checkpoint, René's
+hands — script in the spike's `README-DRAG-TEST.md`), and S5.
