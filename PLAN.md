@@ -2978,11 +2978,11 @@ module, one adopting application.
 
 The platform-neutral half, no cgo, no darwin anything.
 
-- [ ] Give `mvu.Window` an `Option(...)` method that forwards to the underlying window and then notifies: after construction-time options and after every later call, a registered func runs. The notification carries nothing platform-specific — it is "Configure may have run; re-assert what you asserted".
-- [ ] Decide and document what `Window()` now means: the raw handle stays reachable — adapters need it — but the doc comment says plainly that options applied through the raw handle bypass the notification, and `mvu/desktop`'s docs repeat it where its users will look.
-- [ ] The notification must also fire once after the first `FrameEvent`, because Gio's first Configure happens before any app code could have registered — the `case app.FrameEvent:` arm in `Render` is the hook.
-- [ ] Additive minor: none of the four in-org consumers (components, patterns, theme, effects) is forced to move, no golden moves, `go build ./... && go test ./...` green.
-- [ ] Commit here.
+- [x] Give `mvu.Window` an `Option(...)` method that forwards to the underlying window and then notifies: after construction-time options and after every later call, a registered func runs. The notification carries nothing platform-specific — it is "Configure may have run; re-assert what you asserted".
+- [x] Decide and document what `Window()` now means: the raw handle stays reachable — adapters need it — but the doc comment says plainly that options applied through the raw handle bypass the notification, and `mvu/desktop`'s docs repeat it where its users will look.
+- [x] The notification must also fire once after the first `FrameEvent`, because Gio's first Configure happens before any app code could have registered — the `case app.FrameEvent:` arm in `Render` is the hook.
+- [x] Additive minor: none of the four in-org consumers (components, patterns, theme, effects) is forced to move, no golden moves, `go build ./... && go test ./...` green.
+- [x] Commit here.
 
 #### H1.2: mvu/desktop — the chrome, behind the seam
 
