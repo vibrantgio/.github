@@ -3059,7 +3059,7 @@ gate that watches it.
 - [x] `ViewEvents() rx.Observable[app.ViewEvent]` on `mvu.Window` — narrow and deliberate, a buffered per-window channel wrapped in `rx.Recv` in the same idiom as the existing message path (no bare Subjects, no package-level observables; `check-subjects.sh` is the gate). A `case app.ViewEvent:` arm in `Render` feeds it; every other unknown event stays dropped — a general unhandled-events stream is explicitly rejected (dossier D3).
 - [x] The `AutoConnect` arithmetic gains a subscriber; assert the count in a test — both failure modes are silent (dossier risk table, `mvu/doc.go`).
 - [x] In the spike app: buffered `chan` from the drop callback (non-blocking send, drop-on-full documented in code), `rx.Recv` → `FilesDropped{Paths []string, Pos image.Point}`, merged into `Loop`'s messages; dropped paths render as a list.
-- [ ] **Checkpoint, René's hands:** drop files; success is paths appearing *without* a manual `Invalidate`. If a redraw is needed, that is a finding (the rx path does not wake the window) — record it, don't paper over it.
+- [x] **Checkpoint, René's hands:** drop files; success is paths appearing *without* a manual `Invalidate`. If a redraw is needed, that is a finding (the rx path does not wake the window) — record it, don't paper over it. *(2026-08-15: one file, three files, a folder — paths appeared immediately, no manual redraw; the rx path wakes the window. TextEdit text drag refused with no drop target offered and no crash — §8.1 item 4, carried from I1.1, verified.)*
 - [x] mvu stays additive: consumers (components, patterns, theme, effects) build and test green, untouched. Commit mvu, no tag — the release is I1.5.
 
 #### I1.3: Zones find the target
