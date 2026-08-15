@@ -3044,9 +3044,9 @@ unit-tested like anything else.
 S0–S2 of the dossier, in a throwaway module so placement never gates the
 technical question.
 
-- [ ] S0: scaffold a throwaway module *outside* the workspace (the scratchpad or `~/code/w/spikes` — not a sibling, not in go.work); minimal one-window mvu app.
-- [ ] S1: prove the handle arrives — drive `app.Window.Event()` directly, log every event type; confirm `AppKitViewEvent` with non-zero View/Layer at startup, the zero-valued one on close, and `Valid()` distinguishing them. Record whether it precedes the first `FrameEvent` (dossier open question 2).
-- [ ] Check the Gio sourcehut tracker and gio-plugins for prior art on file drops (dossier open question 3); record what exists in the dossier addendum before writing any Obj-C.
+- [x] S0: scaffold a throwaway module *outside* the workspace (the scratchpad or `~/code/w/spikes` — not a sibling, not in go.work); minimal one-window mvu app.
+- [x] S1: prove the handle arrives — drive `app.Window.Event()` directly, log every event type; confirm `AppKitViewEvent` with non-zero View/Layer at startup, the zero-valued one on close, and `Valid()` distinguishing them. Record whether it precedes the first `FrameEvent` (dossier open question 2).
+- [x] Check the Gio sourcehut tracker and gio-plugins for prior art on file drops (dossier open question 3); record what exists in the dossier addendum before writing any Obj-C.
 - [ ] S2: augment `GioView` at runtime per §4 — `class_addMethod` behind `sync.Once` after a `class_respondsToSelector` check, `registerForDraggedTypes:` per view inside `app.Window.Run`, read file URLs via `readObjectsForClasses:options:`, NSLog the paths. Threading rules of §7 are law.
 - [ ] **Checkpoint, René's hands:** drag one file, three files, a folder, and TextEdit text (refused, no crash) from Finder — §8.1 items 1–4. The task stops here until the drags are done.
 - [ ] Record S1/S2 findings in the dossier's addendum — including a failure, which per §11 is the whole value. Commit `.github` (dossier); the throwaway module is never committed anywhere.

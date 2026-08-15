@@ -1,6 +1,7 @@
 # Exploration: macOS file drops without forking Gio
 
-**Status:** proposed, not started
+**Status:** in flight — S0–S2 code-complete and launch-verified (2026-08-15);
+the §8.1 items 1–4 manual drags are the outstanding proof
 **Author:** drafted 2026-08-11
 **Shape:** written in `PLAN.md`'s task shape (`####` headings, `- [ ]` steps) so a
 successful spike can be lifted into the plan as a phase without rewriting it.
@@ -602,3 +603,102 @@ finds the window under `Decorated(false)`; and any later `w.Option(...)` call
 re-runs Gio's Configure, silently undoing external window mutations — the
 finding that forced mvu to own its Option boundary (H1.1), which is the same
 notification a re-registering drop target would want after §4.4.
+
+---
+
+## Addendum, 2026-08-15 — S0–S2 run; the technique survives contact
+
+Spike executed in the throwaway module `/Users/rene/code/w/spikes/filedrop`
+(module `spike/filedrop`, requiring `mvu v0.6.0` and `gioui.org v0.10.1`,
+outside the workspace, committed nowhere). All empirical facts below:
+gioui.org v0.10.1, macOS 25.5.0, go 1.26.5, this Mac, headful.
+
+**S0 passed.** Minimal one-window mvu app (`mvu.NewWindow` + `mvu.Run`, a
+material label "no files yet") builds against the published `mvu v0.6.0` tag
+with `GOWORK=off` and runs cleanly.
+
+**S1 passed, and open question 2 is answered: `AppKitViewEvent` is the
+*first* event the window delivers — before every `ConfigEvent` and well
+before the first `FrameEvent`.** The captured order, driving
+`app.Window.Event()` directly and logging every event:
+
+```
+01 app.AppKitViewEvent   View=0x9a4d94000 Layer=0x9a51f0e40 Valid()=true
+02 app.ConfigEvent
+03 app.ConfigEvent
+04 app.ConfigEvent
+05 app.FrameEvent        (first frame)
+06 app.FrameEvent
+   … ActionClose requested …
+07 app.ConfigEvent
+08 app.AppKitViewEvent   View=0x0 Layer=0x0 Valid()=false
+09 app.DestroyEvent
+```
+
+So registration can complete before a single frame is drawn — no
+first-frame race — and the zero-valued detach event arrives before
+`DestroyEvent`, with `Valid()` cleanly distinguishing the pair. All three S1
+confirmations hold exactly as §6 hoped.
+
+**Open question 3 is answered: no maintained file-drop solution exists;
+the spike stands, and prior art helps the upstream patch, not this bridge.**
+
+- Sourcehut ticket [~eliasnaur/gio#153](https://todo.sr.ht/~eliasnaur/gio/153)
+  "File drag (or file share) events" — status REPORTED, open since
+  2020-08-02. Maintainer then: "There is not (yet) support for drag-and-drop
+  in Gio." A follow-up comment (approx. 2022) notes ~pierrec's transfer
+  protocol landed for *internal* DnD and "adding support for external DnD
+  should be much easier now" — it never happened.
+- [gioui/gio PR #111](https://github.com/gioui/gio/pull/111) (StarHack,
+  opened 2023-02-25): macOS external DnD wired into `io/transfer`
+  (`TargetFilter`/`DataEvent`), touching `os_macos.m`/`os_macos.go`/the
+  router. Reviewed through 2023-04, never merged; in December 2025 the author
+  released it to the public domain for community continuation. This is the
+  natural starting point for the §12 upstream patch — it is in-tree work and
+  does not substitute for this out-of-tree bridge.
+- [gio-plugins](https://github.com/gioui-plugins/gio-plugins) has no drop or
+  DnD plugin (auth, explorer file *dialogs*, share, webviewer, …), and its
+  extension mechanism is an event-loop hijack
+  (`gioplugins.Hijack(window)`), not view augmentation — prior art for
+  "extend Gio from outside" generally, but a different and heavier technique.
+
+**S2 is code-complete and launch-verified; the four §8.1 drags (items 1–4)
+are René's checkpoint and still open.** The `.m` + cgo implementation follows
+§4 with one correction, below. Verified automatically on launch: the valid
+`AppKitViewEvent` arrives, `installFileDrop` runs inside `app.Window.Run`,
+`class_addMethod` adds both `draggingEntered:` (`Q@:@`) and
+`performDragOperation:` (`c@:@`) to `GioView`, and
+`registerForDraggedTypes:@[NSPasteboardTypeFileURL]` executes — all logged,
+no crash, window keeps rendering. `go run ./s2` in the spike dir plus
+`README-DRAG-TEST.md` there is the one-command manual test.
+
+**The correction — §4.4's `class_respondsToSelector` guard is too coarse on
+this macOS, and it silently vetoes the whole technique.** Empirically, on
+macOS 25.5.0 **`NSView` itself defines default implementations of
+`draggingEntered:` and `performDragOperation:`** (confirmed by walking
+`class_getInstanceMethod` up the ancestor chain: both selectors resolve on
+`NSView`, not on `NSObject` and not on `GioView`). `class_respondsToSelector`
+sees inherited implementations, so the guard as specified answers YES,
+skips `class_addMethod`, and the first run of the spike installed nothing —
+registration succeeded and every drag would have hit NSView's inert
+defaults. The precise form of the guard's actual intent ("never clobber an
+implementation *Gio* might add upstream") is **"does the class itself define
+the selector"** — `class_copyMethodList(cls)` scanned for the selector —
+which is also exactly the condition under which `class_addMethod` refuses to
+act, since it overrides inherited implementations but never replaces a
+same-class one. The spike now guards per-selector with the own-method test,
+logs the resolving ancestor for the record, and still leaves a `GioView`
+that grows its own upstream implementation untouched. §9's "collides with
+upstream" risk row should be read with this refinement.
+
+**One more empirical fact worth keeping:** calling `app.Window.Run` from the
+client event-loop goroutine (the one calling `w.Event()`) is safe in
+v0.10.1 — `eventLoop.Run` enqueues into the buffered `driverFuncs` channel
+plus a wakeup, and `deliverEvent`'s select services driver funcs even while
+an event delivery to the client is in flight (`app/os.go:293-330`). The
+driver is assigned at window creation (`app/window.go:399`), before any
+event is delivered, so the `Run`-before-driver "call f directly" hazard
+cannot be hit from an `AppKitViewEvent` handler.
+
+Still open after this addendum: §8.1 items 1–4 by hand (then S3–S5), and
+open question 4 (FilesDropped shape), deferred to S4 as planned.
