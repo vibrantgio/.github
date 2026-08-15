@@ -2995,10 +2995,10 @@ The platform-neutral half, no cgo, no darwin anything.
 
 #### H1.3: One application wears it
 
-- [ ] Adopt in one workbench application: `FullSizeContent()` in its window options, header padded by the queried inset, the strip treated as paint-only.
-- [ ] Prove the invariant end to end: change the window title at runtime and watch the buttons survive — the exact sequence that fails without H1.1.
-- [ ] Screenshot before/after for the commit body; run the app's goldens — the window chrome is outside the captured surface, so they must not move.
-- [ ] Commit here.
+- [x] Adopt in one workbench application: `FullSizeContent()` in its window options, header padded by the queried inset, the strip treated as paint-only.
+- [x] Prove the invariant end to end: change the window title at runtime and watch the buttons survive — the exact sequence that fails without H1.1.
+- [x] Screenshot before/after for the commit body; run the app's goldens — the window chrome is outside the captured surface, so they must not move.
+- [x] Commit here.
 
 #### H1.4: Release the seam
 
