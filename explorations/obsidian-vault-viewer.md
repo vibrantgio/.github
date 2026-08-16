@@ -277,12 +277,12 @@ The model is the sitedocs shape grown one notch:
 
 | Option | Pros | Cons |
 | --- | --- | --- |
-| a. all app-local in `workbench/vault` | zero new modules, zero gates, ships now | wikilink pass and resolver invisible to other consumers |
+| a. all app-local in `workbench/vaultview` | zero new modules, zero gates, ships now | wikilink pass and resolver invisible to other consumers |
 | b. wikilink pass into the markdown repo now | second consumer gets it free | tier-4 API grown on one consumer's evidence; support-library rules apply to its docs |
 | c. new `vaultmodel` repo | clean charter | a 22nd repo for an exploration — grossly premature |
 
 **Recommendation: (a).** Everything app-local; the module is
-`github.com/vibrantgio/workbench/vault`, dir `workbench/vault`, matching
+`github.com/vibrantgio/workbench/vaultview`, dir `workbench/vaultview`, matching
 the census's single-noun names. The span pass (§4.3) and the resolver
 (§4.2) are written as their own packages *inside* the app so that
 graduating either into the markdown repo later is a move, not a rewrite —
@@ -382,8 +382,8 @@ vocabulary twice over. The same screen re-enters later as a "Switch vault"
 affordance (v2), so it is not first-run-only chrome.
 
 **The store.** A plain-text file holding one absolute path, no format and
-no dependency: `~/.config/vibrantgio/vault-viewer` (the `xxxxxx` of the
-owner's spec made concrete — org-named directory, app-named file).
+no dependency: `~/.config/vaultview/vault` (the `xxxxxx` of the
+owner's spec made concrete — the app's own directory, per the owner).
 `$XDG_CONFIG_HOME` is honoured when set; otherwise the literal `~/.config`
 the owner specified — deliberately NOT `os.UserConfigDir()`, which on macOS
 resolves to `~/Library/Application Support` and would put the file where
@@ -396,8 +396,8 @@ Each stage ends at a falsifiable criterion; a stage that cannot meet it
 stops the line and the finding comes back here.
 
 ##### V0: Scaffold, scan, render one note
-- [ ] Scaffold `workbench/vault` from the todos bootstrap shape: mvu loop, live theme, `shell.ThreeColumn` with nil sidebar and aside. Vault resolution per D8: CLI argument → stored default → the picker screen; the resolved vault is written back to the store on every successful open.
-- [ ] The store, with table tests: `~/.config/vibrantgio/vault-viewer` (one absolute path, plain text; `$XDG_CONFIG_HOME` honoured, else literal `~/.config` — never `os.UserConfigDir()`), absent/empty/unreadable reads as no-default, a stored path that stopped being a directory falls through to the picker.
+- [ ] Scaffold `workbench/vaultview` from the todos bootstrap shape: mvu loop, live theme, `shell.ThreeColumn` with nil sidebar and aside. Vault resolution per D8: CLI argument → stored default → the picker screen; the resolved vault is written back to the store on every successful open.
+- [ ] The store, with table tests: `~/.config/vaultview/vault` (one absolute path, plain text; `$XDG_CONFIG_HOME` honoured, else literal `~/.config` — never `os.UserConfigDir()`), absent/empty/unreadable reads as no-default, a stored path that stopped being a directory falls through to the picker.
 - [ ] The picker screen (D8): breadcrumb + components/list folder browser, dot-directories hidden, rows annotated with the `.obsidian/` marker or `*.md` count, filled "Open this vault" action. Keyboard: arrows move, Return descends, the action opens.
 - [ ] Frontmatter stripper with table tests: leading block, `...` terminator, unterminated block, `---` mid-document untouched, byte-identical passthrough otherwise.
 - [ ] Fence-aware index scanner: walk `*.md` below the root skipping dot-directories; per file collect headings, block ids, outgoing wikilinks; unit tests include a fenced `[[not-a-link]]` contributing nothing.
