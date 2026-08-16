@@ -3230,13 +3230,13 @@ ADR-012 stage M — the generic half first, as `markdown/obsidian`.
 
 ADR-012 stage V0 — the app exists, opens the right vault, and reads.
 
-- [ ] Scaffold `workbench/vaultview` from the todos bootstrap shape: mvu loop, live theme, `shell.ThreeColumn` with nil sidebar and aside. Vault resolution per D8: CLI argument → stored default → the picker screen; the resolved vault is written back to the store on every successful open.
-- [ ] The store, with table tests: `~/.config/vaultview/vault` (one absolute path, plain text; `$XDG_CONFIG_HOME` honoured, else literal `~/.config` — never `os.UserConfigDir()`), absent/empty/unreadable reads as no-default, a stored path that stopped being a directory falls through to the picker.
-- [ ] The picker screen (D8): breadcrumb + components/list folder browser, dot-directories hidden, rows annotated with the `.obsidian/` marker or `*.md` count, filled "Open this vault" action. Keyboard: arrows move, Return descends, the action opens.
-- [ ] Properties surface: the J1.1 split feeds a collapsible panel above the note — pairs when the trivial split reads them, the raw block in code style otherwise.
-- [ ] Fence-aware index scanner: walk `*.md` below the root skipping dot-directories; per file collect headings, block ids, outgoing wikilinks; unit tests include a fenced `[[not-a-link]]` contributing nothing.
-- [ ] Run the scan as an `mvu.Do` command; render the first note found through `SplitFrontMatter` → `Parse` → `Document` under a breadcrumb row.
-- [ ] Exit: pointed at a real CrunchGate trunk, the viewer opens and DESIGN.md renders legibly — frontmatter out of the prose and readable in the properties panel, wikilinks visible as literal text (not yet links), code blocks highlighted. A first argument-less launch asks with the folder browser; the next argument-less launch opens the same vault without asking. Commit and push.
+- [x] Scaffold `workbench/vaultview` from the todos bootstrap shape: mvu loop, live theme, `shell.ThreeColumn` with nil sidebar and aside. Vault resolution per D8: CLI argument → stored default → the picker screen; the resolved vault is written back to the store on every successful open.
+- [x] The store, with table tests: `~/.config/vaultview/vault` (one absolute path, plain text; `$XDG_CONFIG_HOME` honoured, else literal `~/.config` — never `os.UserConfigDir()`), absent/empty/unreadable reads as no-default, a stored path that stopped being a directory falls through to the picker.
+- [x] The picker screen (D8): breadcrumb + components/list folder browser, dot-directories hidden, rows annotated with the `.obsidian/` marker or `*.md` count, filled "Open this vault" action. Keyboard: arrows move, Return descends, the action opens.
+- [x] Properties surface: the J1.1 split feeds a collapsible panel above the note — pairs when the trivial split reads them, the raw block in code style otherwise.
+- [x] Fence-aware index scanner: walk `*.md` below the root skipping dot-directories; per file collect headings, block ids, outgoing wikilinks; unit tests include a fenced `[[not-a-link]]` contributing nothing.
+- [x] Run the scan as an `mvu.Do` command; render the first note found through `SplitFrontMatter` → `Parse` → `Document` under a breadcrumb row.
+- [x] Exit: pointed at a real CrunchGate trunk, the viewer opens and DESIGN.md renders legibly — frontmatter out of the prose and readable in the properties panel, wikilinks visible as literal text (not yet links), code blocks highlighted. A first argument-less launch asks with the folder browser; the next argument-less launch opens the same vault without asking. Commit and push.
 
 #### J1.3: Links follow, history works
 
