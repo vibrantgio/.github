@@ -3366,6 +3366,78 @@ ADR-013 D4 — patch releases per the release protocol.
   the touched apps against published tags only; `llms.txt` describing
   nothing the org has not published. Commit and push.
 
+## Phase L: The shelf clears
+
+Four items accumulated on the shelf during Phases I–K: a confirmed defect
+in the effects repo, formatter drift from the Go 1.26 toolchain, and two
+polish follow-ups the review pass scoped out. The evidence is ADR-014 in
+the Reference section; packets cite its items (S1–S4). Two goals: the
+defects and drift first, then the polish.
+
+### G-L1: Defects and drift
+
+#### L1.1: Spring buttons carry their ground
+
+ADR-014 S1 — the forwarding fix and its release.
+
+- [ ] `effects/springbutton`: `renderState` forwards `Props.Ground`;
+  the components pin moves to v0.8.1; the repo's forwarding test — the
+  one that found the gap — passes under the workspace and `GOWORK=off`
+  alike. Goldens regenerated only if the ground actually moves pixels
+  in a golden's scene, with the reason in the commit body.
+- [ ] Exit: effects tagged v0.2.1 per the release protocol, verified
+  from VCS; gates green; `llms.txt` current. Commit and push.
+
+#### L1.2: The formatter drift retires
+
+ADR-014 S2 — one sweep, zero behaviour.
+
+- [ ] `theme/tokens/seed.go` first: restructure the hand-aligned
+  documentation table so its gofmt-formatted form reads well — this
+  file is why the sweep cannot be blind.
+- [ ] Run Go 1.26 gofmt across every module in the workspace; commit
+  per repo with a formatting-only subject; no tags (formatting rides
+  the next real release of each repo, per the emission-only precedent).
+- [ ] Exit: `gofmt -l` reports nothing in any module; every suite
+  green; every golden byte-identical. Commit and push.
+
+### G-L2: Polish follow-ups
+
+#### L2.1: The aside matches the rail
+
+ADR-014 S3 — the same pill, one file.
+
+- [ ] vaultview's backlinks aside draws its rows with the rail's
+  inset-pill treatment — shared insets, rounded fill, unchanged
+  colours; goldens regenerated if the aside appears in any.
+- [ ] Exit: a screenshot of the running app, actually inspected, shows
+  rail and aside speaking one selection language. Commit and push.
+
+#### L2.2: Breadcrumbs learn to click
+
+ADR-014 S4 — the additive pattern API.
+
+- [ ] `patterns/breadcrumb` grows an additive way to lay out a trail
+  that is decided at frame time and clickable per segment, keeping the
+  existing `Render`/`Breadcrumb` surfaces byte-compatible; unit tests
+  cover click routing and a trail that changes between frames; godoc
+  names no consumers.
+- [ ] Exit: patterns tagged v0.7.0 per the release protocol (additive
+  minor), verified from VCS; gates green; `llms.txt` current. Commit
+  and push.
+
+#### L2.3: The app adopts the pattern
+
+ADR-014 S4, second half — the copy retires.
+
+- [ ] vaultview's picker and note trails render through the new
+  patterns API; `crumb.go` is deleted; the patterns pin moves to
+  v0.7.0; goldens regenerated where the chevron glyph legitimately
+  changes.
+- [ ] Exit: `GOWORK=off` build and test of vaultview from a clean
+  checkout against published tags only; a screenshot confirms both
+  trails render and click. Commit and push.
+
 ## Reference
 
 Decision records and shared contracts. `mdplan next` never visits this section
@@ -6696,6 +6768,54 @@ Phase K packet says "the review", it means this ADR.
 - The dynamic-breadcrumb gap in the patterns repo is noted, not planned.
 - The spring-button render-state gap found during the census is a
   separate defect, outside this phase.
+
+### ADR-014: The shelf after the polish pass
+
+**Status.** Accepted 2026-08-16. Four items surfaced during Phases I–K and
+were deliberately left unplanned at the time; this ADR records the evidence
+so Phase L's packets can cite it. Where a Phase L packet says "the shelf",
+it means this ADR.
+
+#### S1 — spring buttons drop their ground
+
+`effects/springbutton`'s `renderState` copies `button.Props` into
+`button.RenderState` field by field and predates the `Ground` field that
+components v0.8.0 added for the ghost-wash fix. The repo's own
+forwarding test fails under the workspace
+(`TestRenderStateForwardsEveryFieldPropsCarries`: "renderState dropped
+button.Props.Ground: RenderState.Ground = 0, want 1"), and only passes
+`GOWORK=off` because effects still pins components v0.7.0, which lacks
+the field. Consequence when the pin moves: a ghost spring button on a
+raised surface silently keeps the Level-0 wash. Confirmed pre-existing
+twice (K1.2 and K1.5 both stash-tested it). effects' published tag is
+v0.2.0.
+
+#### S2 — Go 1.26 gofmt drift
+
+Go 1.26's gofmt sorts import groups; roughly sixty files across ~10
+repos — almost all import blocks left by the prism→components and
+spectrum→theme rename sweeps — now fail `gofmt -l` at HEAD. Phase K
+committed clean only what it touched. One caution recorded during K1.2:
+`theme/tokens/seed.go` carries a hand-aligned documentation table that
+gofmt would mangle — that file needs its comment restructured so the
+formatted form stays readable, not a blind format-and-commit.
+
+#### S3 — the aside kept the old fill
+
+K1.4's inset-pill treatment covered the sidebar rail only; the backlinks
+aside still draws a full-bleed selection fill, the style the rail just
+left behind. Same treatment, same colours, one file.
+
+#### S4 — breadcrumbs cannot be clicked
+
+`patterns/breadcrumb` cannot express an interactive trail:
+`Render` hard-codes its clickables to nil, and the `Breadcrumb` stream
+fixes its segments when the stream is built, so a trail that changes
+with the current note can neither update nor click. vaultview shipped
+its own crumb row (`crumb.go`, J1.5) with the reason documented in the
+file; the visual language matches the pattern. The pattern wants an
+additive API for a per-frame, per-segment-clickable trail — at which
+point the app's copy retires. patterns' published tag is v0.6.2.
 
 ### The repo doc contract
 
