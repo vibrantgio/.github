@@ -3334,9 +3334,13 @@ ADR-013 F8, decision D1 — the text-field fix.
   is K1.5).
 
 #### K1.4: Vaultview dresses the part
+ADR-013 F2, F4, F5, F6 and F9 — the app polish, in one sweep.
 
-ADR-013 F2, F4, F5, F6 — the app polish, in one sweep.
-
+- [ ] The elevation model (F9): chrome — header band, sidebar rail,
+  aside — on the base surface; the reading column on a raised "paper"
+  one step lighter, sized to the content column; the properties panel
+  and code blocks tinting down from the paper, not the page; a hairline
+  under the header band.
 - [ ] Glyphs the shipped face owns: disclosure, history arrows and any
   other UI glyph drawn from Roboto render real glyphs, not fallback
   boxes; the goldens' tofu note is retired.
@@ -3344,14 +3348,14 @@ ADR-013 F2, F4, F5, F6 — the app polish, in one sweep.
   insets, the selection fill becoming a rounded inset pill; keyboard
   selection and active-note marking keep their distinct colours.
 - [ ] The properties panel on the page's own ramp: tinted fill a step or
-  two below the background, a perceptible radius, and the key column
+  two below its host surface, a perceptible radius, and the key column
   sized to its longest key plus a fixed gap.
 - [ ] Aside and affordance colour: the empty state on a theme ramp, and
   enabled history arrows visibly darker than inert ones.
-- [ ] Exit: vaultview's goldens regenerated to the new dress; a run
-  against a real vault shows no tofu anywhere in the chrome. Commit and
-  push.
-
+- [ ] Exit: vaultview's goldens regenerated to the new dress; a
+  screenshot of the running app, actually inspected, shows the note as
+  a document lying on furniture — distinct chrome and paper — and no
+  tofu anywhere. Commit and push.
 #### K1.5: The seam closes
 
 ADR-013 D4 — patch releases per the release protocol.
@@ -6653,6 +6657,16 @@ Phase K packet says "the review", it means this ADR.
   ascent — its surplus all lands below. Both draw at the same offset, so
   taking focus lifts the text by exactly half the line-height deficit.
   Every focused text field in the system shows this.
+
+- **F9 — content reads as chrome.** Second pass, after the frame and
+  header landed: every region — titlebar band, sidebar rail, note
+  column, aside — sits on the same Surface step, and the only structural
+  line on the sheet is the aside's hairline. The eye gets no boundary
+  between window furniture and the document. The system's own elevation
+  model is the answer: chrome stays on the base surface, the reading
+  column rises onto a lighter "paper", panels and code blocks tint down
+  from the paper rather than from the page, and a hairline under the
+  header band separates chrome from content.
 
 #### Decisions
 
