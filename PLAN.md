@@ -3275,6 +3275,93 @@ ADR-012 stage V3 plus the census and the markdown release.
 - [x] The markdown repo release: the J1.1 package is an additive minor — tag per the release protocol, re-pin the app to the tag, and the `llms.txt` prose gains the dialect in plain language (no consumer names, no plan identifiers).
 - [x] Exit: all ADR-012 §8 gates green from a clean checkout; `GOWORK=off` build against published tags only. Commit and push.
 
+## Phase K: The polish pass
+
+René's first visual pass over vaultview surfaced eight findings — six app
+polish items and two genuine library defects that goldens structurally
+cannot catch (goldens never show a focus transition and always render
+labels alone). The dossier is ADR-013 in the Reference section; packets
+cite its findings (F1–F8) and decisions (D1–D4) rather than restating
+them. Library fixes land at the deepest correct layer (D1), app polish
+stays in the app (D3), and the phase closes with patch releases sealing
+the seam (D4).
+
+### G-K1: Vaultview looks considered
+
+#### K1.1: The window fills its frame
+
+ADR-013 F1 and F3 — the frame and the header, one layout region.
+
+- [ ] Diagnose and fix the backdrop: no pixel of the window shows a
+  colour outside the theme at any size — the root surface paints
+  wall-to-wall including the titlebar region, under full-size content
+  with the chrome inset honoured.
+- [ ] Anchor the header row: "Rescan" and "Switch vault" right-aligned as
+  a group, sharing one baseline with the "Vault View" brand; the brand
+  clear of the traffic lights via the chrome inset rather than a guessed
+  pad.
+- [ ] Exit: at 1100 dp and at full screen, screenshots of the running app
+  show theme colour to every edge and a header that reads as one row;
+  goldens regenerated only where the header change legitimately moves
+  them. Commit and push.
+
+#### K1.2: Labels centre in their floor
+
+ADR-013 F7, decisions D1 and D2 — the typeset fix and its ripple.
+
+- [ ] `theme/typeset`: when the caller's Min.Y floor exceeds the
+  corrected height, centre the ink within the floored box; the reported
+  size and baseline stay consistent. Unit tests pin ink position under no
+  floor, a floor below the line box, and a floor above it.
+- [ ] Enumerate the movement: run the full workspace test suite and list
+  every golden the change shifts; regenerate those whose labels were
+  genuinely top-pinned (tree and picker rows among them), and justify in
+  the commit body any that must not move.
+- [ ] Run the design mirror: parity must improve or hold — a case where
+  Gio moved away from the CSS rendering is a bug in the fix, not the
+  mirror. Commit and push; no tag (the release is K1.5).
+
+#### K1.3: The editor rests on the placeholder's line
+
+ADR-013 F8, decision D1 — the text-field fix.
+
+- [ ] `components/input`: the live editor draws offset by the same
+  half-deficit the placeholder's line box carries, so ink does not move
+  when focus arrives or leaves; masked and disabled paths keep working.
+- [ ] A unit test pins the equality — placeholder ink offset and editor
+  ink offset measured and equal at more than one density — since goldens
+  cannot see the focus transition. Commit and push; no tag (the release
+  is K1.5).
+
+#### K1.4: Vaultview dresses the part
+
+ADR-013 F2, F4, F5, F6 — the app polish, in one sweep.
+
+- [ ] Glyphs the shipped face owns: disclosure, history arrows and any
+  other UI glyph drawn from Roboto render real glyphs, not fallback
+  boxes; the goldens' tofu note is retired.
+- [ ] One sidebar inset system: rows and find field share horizontal
+  insets, the selection fill becoming a rounded inset pill; keyboard
+  selection and active-note marking keep their distinct colours.
+- [ ] The properties panel on the page's own ramp: tinted fill a step or
+  two below the background, a perceptible radius, and the key column
+  sized to its longest key plus a fixed gap.
+- [ ] Aside and affordance colour: the empty state on a theme ramp, and
+  enabled history arrows visibly darker than inert ones.
+- [ ] Exit: vaultview's goldens regenerated to the new dress; a run
+  against a real vault shows no tofu anywhere in the chrome. Commit and
+  push.
+
+#### K1.5: The seam closes
+
+ADR-013 D4 — patch releases per the release protocol.
+
+- [ ] Tag the theme and components patches bottom-up per the protocol;
+  move the pins the protocol prescribes, vaultview's among them.
+- [ ] Exit: all gates green from a clean checkout; `GOWORK=off` build of
+  the touched apps against published tags only; `llms.txt` describing
+  nothing the org has not published. Commit and push.
+
 ## Reference
 
 Decision records and shared contracts. `mdplan next` never visits this section
@@ -6517,6 +6604,84 @@ Everything asserted above, with its source, so no one re-derives it.
   frontmatter renders as a `Rule` plus a setext level-2 heading of the
   key lines. Probe run against the workspace `markdown` checkout
   (v0.1.4 line), go test, this Mac.
+
+### ADR-013: The vaultview visual review
+
+**Status.** Accepted 2026-08-16. Evidence: René's first visual pass over
+vaultview on the non-retina Thunderbolt display, plus code tracing of the
+two behavioural findings. This ADR is the dossier for Phase K; where a
+Phase K packet says "the review", it means this ADR.
+
+#### Findings
+
+- **F1 — backdrop frame.** A saturated blue that belongs to no theme ramp
+  shows along the top, right and bottom window edges, including the whole
+  titlebar region behind the traffic lights. The root layout does not
+  paint wall-to-wall; with full-size content the app must own every pixel
+  of the window. This is the defect that makes everything else moot.
+- **F2 — tofu shipped.** The disclosure glyph before "Properties" renders
+  as a placeholder box at runtime on macOS. The goldens documented `←`,
+  `→`, `▸`, `▾` as fallback-resolved; the screenshot disproves the
+  assumption. Roboto-safe replacements exist (`‹ › + −`).
+- **F3 — header row floats.** "Rescan" and "Switch vault" sit near the
+  window's horizontal centre, on a lower baseline than the "Vault View"
+  brand; the brand is cramped under the traffic lights instead of using
+  the chrome inset. Actions belong at a deliberate edge, on one baseline.
+- **F4 — sidebar inset inconsistency.** The find field is inset from the
+  rail edges while the selection fill runs full bleed. One system must
+  win: inset rows (fill becomes a rounded inset pill) or a full-width
+  field.
+- **F5 — properties panel hue and shape.** The panel's neutral grey sits
+  on a purple-tinted page background and reads dirty rather than
+  elevated; it wants the page's tinted ramp a step or two darker. Its
+  corner radius is barely perceptible, and the key/value gutter is far
+  wider than the longest key needs.
+- **F6 — aside empty state off ramp.** "No notes link here." renders in a
+  warm olive-grey that matches no ramp on screen.
+- **F7 — row labels pin to the cell top.** The tree row lays labels in a
+  `Flex{Alignment: Middle}` inside an exact-height cell. Gio's flex
+  passes the cell height to each child as a *minimum*; `typeset.Layout`
+  honours the floor by padding its reported size up to it, but centres
+  ink only within its own line box — the floor's surplus all lands below
+  the ink. Every label answers "I am cell-height tall", Middle has
+  nothing to centre, and ink pins to the top. Visible wherever a filled
+  row shows the true cell; the picker rows share the pattern.
+- **F8 — the editor rises on focus.** The text field's resting
+  placeholder is drawn through `typeset`, ink centred in its line box —
+  half the line-height surplus above the glyphs. The live editor is a raw
+  `widget.Editor`, and Gio baselines an editor's first line at its own
+  ascent — its surplus all lands below. Both draw at the same offset, so
+  taking focus lifts the text by exactly half the line-height deficit.
+  Every focused text field in the system shows this.
+
+#### Decisions
+
+- **D1 — fix at the deepest correct layer.** F7's fix belongs in
+  `theme/typeset`: when the caller's Min floor exceeds the corrected line
+  box, centre the ink within the floored height. Zeroing `Min.Y` at every
+  draw site would repair one symptom per line of code and leave the trap
+  armed. F8's fix belongs in `components/input`: offset the editor down
+  by the same half-deficit the placeholder's line box carries, so the ink
+  does not move when the editor takes over.
+- **D2 — the floor fix may move pixels org-wide.** Any golden whose label
+  was laid out under a taller Min floor shifts by up to half that
+  surplus. Movement toward vertical centre is movement toward what the
+  CSS mirror already does; regenerate goldens where the shift is
+  legitimate, and run the design mirror to confirm Gio and CSS agree
+  more, not less, after the change.
+- **D3 — app polish stays in the app.** F1–F6 are vaultview layout and
+  colour choices; no design-system API changes ride along with them.
+- **D4 — releases close the seam.** The typeset and input fixes are
+  patch-level: theme and components each get a patch tag per the release
+  protocol, pins move where the protocol says, and the vault viewer ends
+  the phase building `GOWORK=off` against published tags only.
+
+#### Non-goals
+
+- No tree widget enters the design system; the rail stays app-local.
+- The dynamic-breadcrumb gap in the patterns repo is noted, not planned.
+- The spring-button render-state gap found during the census is a
+  separate defect, outside this phase.
 
 ### The repo doc contract
 
