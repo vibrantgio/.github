@@ -3242,11 +3242,11 @@ ADR-012 stage V0 — the app exists, opens the right vault, and reads.
 
 The resolution half of ADR-012 stage V1 — the hopping, in-house.
 
-- [ ] Resolver (§4.2) as pure functions over the index, table-tested per rule: as-written, root + `.md`, unique basename, ambiguous refusal with candidates, heading paths incl. ambiguity, block refs, same-file.
-- [ ] Wire the J1.1 `WikiSpans` transform into the render path; app-side tests cover the wiring, not the grammar.
-- [ ] `OnLinkClick` interception: `wiki:` resolves and emits `Navigate` via `mvu.MessageOp`; `http(s)` opens the system browser; unresolvable/ambiguous raise the D3 toast.
-- [ ] History stack in the model with Back/Forward messages and header affordances; documents cached per note; anchor targets land via `NewDocumentAt` on block indices computed from the parsed blocks (§4.1).
-- [ ] Exit: clicking `[[F#A#B]]` in note X lands the viewport on B in F; Back returns to X with its scroll position intact; Forward returns to F; a link into a code fence does not exist. Commit and push.
+- [x] Resolver (§4.2) as pure functions over the index, table-tested per rule: as-written, root + `.md`, unique basename, ambiguous refusal with candidates, heading paths incl. ambiguity, block refs, same-file.
+- [x] Wire the J1.1 `WikiSpans` transform into the render path; app-side tests cover the wiring, not the grammar.
+- [x] `OnLinkClick` interception: `wiki:` resolves and emits `Navigate` via `mvu.MessageOp`; `http(s)` opens the system browser; unresolvable/ambiguous raise the D3 toast.
+- [x] History stack in the model with Back/Forward messages and header affordances; documents cached per note; anchor targets land via `NewDocumentAt` on block indices computed from the parsed blocks (§4.1).
+- [x] Exit: clicking `[[F#A#B]]` in note X lands the viewport on B in F; Back returns to X with its scroll position intact; Forward returns to F; a link into a code fence does not exist. Commit and push.
 
 #### J1.4: The tree at the left
 
