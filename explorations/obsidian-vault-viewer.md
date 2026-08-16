@@ -352,35 +352,70 @@ search stays out entirely.
 
 ---
 
+##### D8 — Choosing the vault, and remembering it
+
+The owner's spec, verbatim in requirements form: a vault path given on the
+command line wins; without one the app asks — a folder selection — and the
+chosen vault becomes the default the next launch uses. The current vault is
+stored under `~/.config`.
+
+Three parts, each with a decision:
+
+**Resolution order.** CLI argument → stored default → the picker. A stored
+path that no longer exists or is not a directory falls through to the
+picker rather than erroring — a renamed vault is an ordinary event, not a
+crash. Whatever the launch resolves to is written back to the store, so
+"the vault I used last" is maintained without a settings screen.
+
+**The picker.** Gio core ships no native folder dialog, and the candidates
+that exist all fail the example constraint: `gioui.org/x/explorer` is a new
+external module (and its API targets files, not directories, on several
+platforms); an NSOpenPanel bridge is darwin-only cgo in an app meant to
+compile everywhere. **Recommendation: an in-app folder browser composed
+from the vocabulary** — a breadcrumb for the current directory, a
+components/list of child directories (dot-directories hidden), each row
+annotated when it holds a `.obsidian/` marker or a count of `*.md` files,
+and a filled "Open this vault" action on the current directory. Zero new
+dependencies, works on every platform, and the picker is itself a
+pattern-composition exercise — a workbench example demonstrating the
+vocabulary twice over. The same screen re-enters later as a "Switch vault"
+affordance (v2), so it is not first-run-only chrome.
+
+**The store.** A plain-text file holding one absolute path, no format and
+no dependency: `~/.config/vibrantgio/vault-viewer` (the `xxxxxx` of the
+owner's spec made concrete — org-named directory, app-named file).
+`$XDG_CONFIG_HOME` is honoured when set; otherwise the literal `~/.config`
+the owner specified — deliberately NOT `os.UserConfigDir()`, which on macOS
+resolves to `~/Library/Application Support` and would put the file where
+the spec says it must not be. Written on every successful vault open
+(0644, create-dirs); unreadable or empty reads as absent.
+
 #### 6. The build, staged
 
 Each stage ends at a falsifiable criterion; a stage that cannot meet it
 stops the line and the finding comes back here.
 
 ##### V0: Scaffold, scan, render one note
-
-- [ ] Scaffold `workbench/vault` from the todos bootstrap shape: mvu loop, live theme, `shell.ThreeColumn` with nil sidebar and aside, vault path from the CLI argument.
+- [ ] Scaffold `workbench/vault` from the todos bootstrap shape: mvu loop, live theme, `shell.ThreeColumn` with nil sidebar and aside. Vault resolution per D8: CLI argument → stored default → the picker screen; the resolved vault is written back to the store on every successful open.
+- [ ] The store, with table tests: `~/.config/vibrantgio/vault-viewer` (one absolute path, plain text; `$XDG_CONFIG_HOME` honoured, else literal `~/.config` — never `os.UserConfigDir()`), absent/empty/unreadable reads as no-default, a stored path that stopped being a directory falls through to the picker.
+- [ ] The picker screen (D8): breadcrumb + components/list folder browser, dot-directories hidden, rows annotated with the `.obsidian/` marker or `*.md` count, filled "Open this vault" action. Keyboard: arrows move, Return descends, the action opens.
 - [ ] Frontmatter stripper with table tests: leading block, `...` terminator, unterminated block, `---` mid-document untouched, byte-identical passthrough otherwise.
 - [ ] Fence-aware index scanner: walk `*.md` below the root skipping dot-directories; per file collect headings, block ids, outgoing wikilinks; unit tests include a fenced `[[not-a-link]]` contributing nothing.
 - [ ] Run the scan as an `mvu.Do` command; render the first note found through strip → `Parse` → `Document` under a breadcrumb row.
-- [ ] **Exit: pointed at a real CrunchGate trunk, the viewer opens and DESIGN.md renders legibly — frontmatter invisible, wikilinks visible as literal text (not yet links), code blocks highlighted.**
-
-##### V1: Links follow, history works
-
+- [ ] **Exit: pointed at a real CrunchGate trunk, the viewer opens and DESIGN.md renders legibly — frontmatter invisible, wikilinks visible as literal text (not yet links), code blocks highlighted. A first argument-less launch asks with the folder browser; the next argument-less launch opens the same vault without asking.**
+##### V1: Links follow, history works, the tree at the left
 - [ ] Wikilink span pass (§4.3) with table tests: plain, alias, heading path, block ref, same-file, embed, adjacent links, `Code` spans skipped, the styling-boundary limitation pinned.
 - [ ] Resolver (§4.2) as pure functions over the index, table-tested per rule: as-written, root + `.md`, unique basename, ambiguous refusal with candidates, heading paths incl. ambiguity, block refs, same-file.
 - [ ] `OnLinkClick` interception: `wiki:` resolves and emits `Navigate` via `mvu.MessageOp`; `http(s)` opens the system browser; unresolvable/ambiguous raise the D3 toast.
 - [ ] History stack in the model with Back/Forward messages and header affordances; documents cached per note; anchor targets land via `NewDocumentAt` on block indices computed from the parsed blocks (§4.1).
-- [ ] **Exit: clicking `[[F#A#B]]` in note X lands the viewport on B in F; Back returns to X with its scroll position intact; Forward returns to F; a link into a code fence does not exist.**
-
-##### V2: Tree, backlinks, ambiguity surface
-
-- [ ] App-local file tree over `components/list`: indent per depth, disclosure toggles with fold state in the model, current note active, click navigates.
+- [ ] The folder tree of the vault at the left — an owner requirement, not polish: an app-local tree over `components/list` in the `shell.ThreeColumn` sidebar slot (V0's nil sidebar becomes this), indent per depth, disclosure toggles with fold state in the model, dot-directories hidden, the current note active, click navigates.
+- [ ] **Exit: clicking `[[F#A#B]]` in note X lands the viewport on B in F; Back returns to X with its scroll position intact; Forward returns to F; a link into a code fence does not exist; any note in the vault is reachable through the left tree alone.**
+##### V2: Backlinks, ambiguity surface, switch vault
 - [ ] Backlinks in the shell's `Aside`: reverse edges for the current note, one row per citing note, click navigates.
 - [ ] Ambiguous-link chooser: the D3 modal listing the resolver's candidates; choosing navigates.
 - [ ] Breadcrumb grows the folder trail; the vault-name crumb reveals/roots the tree.
-- [ ] **Exit: any note reachable by tree alone; the aside lists exactly the notes whose links resolve to the current note and clicking one navigates; an ambiguous link resolves through the chooser.**
-
+- [ ] "Switch vault" affordance re-entering the D8 picker; the store follows the switch.
+- [ ] **Exit: the aside lists exactly the notes whose links resolve to the current note and clicking one navigates; an ambiguous link resolves through the chooser; switching vaults re-roots the tree and updates the store.**
 ##### V3: Harden and land
 
 - [ ] Re-stat on navigate + Rescan affordance (D6); quick-open by name if it stays a filter over the index (D7).
