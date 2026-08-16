@@ -3159,6 +3159,42 @@ contradicted in prose. A confirmatory composition round after the deletion
 is worthwhile but not gating — the two prose rules were never disproven,
 only outcopied.
 
+### G-I3: The wash knows its ground
+
+A defect report from the first outside adopter of the stock modal close (a
+sibling session, migrating an application onto the current family): the
+ghost register's hover and press washes walk from the *window* ground —
+neutral 200 in light — but a ghost control rendered on a raised surface
+sits on that surface's own storey. On a Level-2 modal surface (neutral
+300) the 200-walk's hover wash resolves to the very color it sits on and
+disappears. Verified in source on both sides of the mirror: `buttonColors`'
+Ghost branch walks `StateColor(RoleNeutral, ghostGround, state)` from the
+fixed base step, and the sheet's `.btn.ghost:hover` washes to neutral-300
+inside `.dialog`, whose fill *is* neutral-300.
+
+The principle, which is one sentence: **an interaction wash derives from
+the local ground it sits on, not the window ground.** The ghost register's
+whole identity is "the surface behind shows through untouched" — so its
+states must be that surface's own one-rung walk, whichever storey the
+surface occupies. The adopter is blocked on this to retire its app-drawn
+close and take the stock one; a release tag is the unblock signal.
+
+#### I3.1: Ghost washes derive from the local ground
+
+- [ ] Give the ghost resolution a ground to walk from: components/button learns the hosting surface's storey (design the seam deliberately — an explicit knob on Props/RenderState/RenderIcon that defaults to the window ground so every existing call site keeps its exact colors; read how patterns/modal, popover and toast name their levels before choosing the shape). The rest wash stays transparent; hover/press walk one rung from the *local* ground; the text steps ride along where legibility needs them.
+- [ ] patterns/modal passes its Level-2 storey to the close affordance — the defect's concrete site. Audit the other patterns that host ghost controls on raised surfaces (popover at level 3, elevated card at level 2, toast) and pass their storeys too where a ghost can actually appear.
+- [ ] Goldens: new golden beside the existing icon-button goldens proving the hover wash on a Level-2 ground differs from the ground (the exact assertion the defect fails today); existing goldens must not move — the default path keeps its colors.
+- [ ] Mirror: the sheet emits the contextual walk — ghost controls inside the raised surfaces re-derive hover/press one rung above the host's ground (e.g. a dialog-hosted ghost washes to neutral-400), var()-driven, literal-color test passing; fixture + harness comparison against the new golden at the standing tolerance, run on this machine, no skips.
+- [ ] conventions.md states the rule in one line where the ghost register is described: a ghost's wash is its host surface's own one-rung walk.
+- [ ] Suites green in components, patterns, theme, design (full mirror run); all four gates pass; commit every touched repo and push. No tags — the release is I3.2.
+
+#### I3.2: Release the fix
+
+- [ ] Gates first, then tag per the release protocol and version rules: components' next patch/minor on master, patterns' next alongside if it moved, theme untagged-or-tagged per what changed — the release rule and tag numbering follow the Reference section, mirrored nested tags only where a nested module moved.
+- [ ] `GOWORK=off` verify the tags direct from VCS; re-pin in-org consumers only where a moved API forces it.
+- [ ] `sync-agents.sh` and `sync-versions.sh`/llms.txt pick up the numbers; commit and push everything.
+- [ ] Notify the reporting session that the tag landed (the parent session carries the channel). Support libraries and their docs never name the consumer.
+
 ## Reference
 
 Decision records and shared contracts. `mdplan next` never visits this section
