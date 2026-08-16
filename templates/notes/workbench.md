@@ -10,7 +10,7 @@ files.
 
 **The `.gitignore` denies everything by default.** Its first line is `*`, and
 what follows re-admits exactly: Markdown at any level, `LICENSE`, `llms.txt`,
-`.claude/skills/**`, and the seven application trees minus their compiled
+`.claude/skills/**`, and the eight application trees minus their compiled
 binaries. A file you add anywhere else — a script, a new top-level directory,
 a `.json` fixture outside an app — does not show up in `git status` and is
 silently not committed. Check with `git check-ignore -v <path>` before
@@ -33,10 +33,11 @@ application's history rather than the system's rationale. `FEEDBACK-G6.4.md`
 is one of this plan's outputs, filed against `vibrantgio/markdown`. The
 organization's plan lives in `vibrantgio/.github`; do not execute this one.
 
-**`README.md` has caught up.** It used to describe three example
-applications where there were seven — and this note used to say so. F2.3
-rewrote it around all seven, so read it as current. Where a document and the
-application source still disagree, the source wins and the document is a bug
+**`README.md` lists every application in the repository, and gains a
+section whenever one is added.** It used to describe three where there were
+seven — and this note used to say so — until F2.3 rewrote it around the
+whole set; read it as current and keep it that way. Where a document and
+the application source disagree, the source wins and the document is a bug
 to file.
 
 **Arbiters are created in each application's layer function, and that is the

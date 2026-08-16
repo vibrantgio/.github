@@ -13,9 +13,9 @@ using github.com/reactivego/rx generics-based observables. This file tells a
 coding assistant everything needed to scaffold and build a correct Vibrant Gio
 application. The full architecture rationale is in DESIGN.md in
 github.com/vibrantgio/design; the apps in workbench (todos/, sitedocs/,
-feeds/, watchlist/, mindchat/, iconbrowser/, launcher/) are the canonical
-usage references — todos/ is the minimal complete app; read it first, and read
-the larger ones before inventing a pattern.
+feeds/, watchlist/, mindchat/, iconbrowser/, launcher/, vaultview/) are the
+canonical usage references — todos/ is the minimal complete app; read it
+first, and read the larger ones before inventing a pattern.
 
 THE SHORT VERSION, before the detail: the theme observable carries the whole
 look. Components take it and need nothing else — typeface, colour, density,
@@ -79,9 +79,10 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      tabs, modal, alert, popover, tooltip, toast, card,
                      accordion, breadcrumb, hero, feature, pricing,
                      testimonial
-  markdown  v0.1.4   GFM document rendering on components widgets (subpackages:
+  markdown  v0.2.0   GFM document rendering on components widgets (subpackages:
                      highlight — chroma syntax colours; svgimage — SVG
-                     images via vibrantgio/svg)
+                     images via vibrantgio/svg; obsidian — the Obsidian
+                     dialect: frontmatter, wikilinks, block anchors)
 
   support libraries — consumed by the design system, never depend on it
   seen      v0.0.7   3D scene graph rendered to SVG or Gio
@@ -93,7 +94,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
   csg       v0.0.1   constructive solid geometry on meshes (BSP trees)
 
 Two repositories carry no tags and therefore no row above: workbench, the
-seven reference applications, and design, the published claude.ai/design
+eight reference applications, and design, the published claude.ai/design
 bundle (readme.md, theme.json, styles.css, foundations/ — regenerated from
 theme's cmd/vg-tokens and embedded as the Go module
 github.com/vibrantgio/design; its mirror/ package is the G1.1 harness that
@@ -877,6 +878,35 @@ viewport would fight the outer one.
     bodies degrade() to the chat subset: inline styles, fences, images
     pass through; other blocks flatten to paragraphs).
 
+OBSIDIAN-FLAVOURED NOTES need markdown/obsidian, the recognition half of
+that dialect. It works on the source and on the public block model, never
+inside the parser, and it adds no dependency:
+
+  fm, body := obsidian.SplitFrontMatter(src)     // properties off the top
+  blocks, anchors := obsidian.BlockAnchors(      // "^id" tails → indices
+      obsidian.WikiSpans(markdown.Parse(body)))  // [[link]] → link spans
+  doc := markdown.NewDocumentAt(blocks, anchors["intro"])
+
+  - Split the frontmatter BEFORE Parse. A leading "---" block otherwise
+    renders as a thematic rule with the key lines above the closing "---"
+    turned into a setext heading — visible garbage at the top of the note.
+    The fields are read by a trivial line split (scalars and "- item"
+    lists) and FrontMatter.Raw keeps the text, so a document needing real
+    YAML hands the raw block to a parser of its own choosing.
+  - WikiSpans lifts [[target]], [[target|alias]] and the ![[target]] embed
+    form into ordinary link spans: Text is the alias when written, URL is
+    "wiki:" (or "wikiembed:") plus the raw link body. Spans already marked
+    Code or already carrying a URL are never split — code is not a link
+    edge. NOTHING IS RESOLVED: what a target names needs the folder the
+    notes live in, which this library never reads, so the application
+    decides in its own Style.Text.OnLinkClick.
+  - BlockAnchors strips trailing " ^id" tails from what is displayed and
+    returns id → top-level block index — exactly what NewDocumentAt takes,
+    so a link into a note lands where the anchor is.
+  - One limitation, by construction and pinned by a test: a span is a
+    styling run, so a wikilink whose body crosses a styling boundary
+    ("[[a *b*]]") is not recognised. Link targets carry no styling.
+
 components/richtext is the underlying inline primitive — styled spans with
 interactive links (hover cursor, keyboard traversal, focus ring,
 OnLinkClick(gtx, url)) — usable directly when you need styled text without
@@ -1052,7 +1082,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
   )
 
 These are the released tags — the same ones §Modules lists, and the same ones
-all seven workbench apps are pinned to. Typography and colour need no module
+all eight workbench apps are pinned to. Typography and colour need no module
 of their own: both travel on the theme, which comes with theme; do NOT add
 the frozen style module to a new app. textdraw is a direct requirement as soon as you
 draw text yourself with textdraw.Text/Label — todos does.
@@ -1065,8 +1095,8 @@ GitHub.
 
 ## Where to look for working code
 
-All of these are directories in github.com/vibrantgio/workbench. As of
-Phase F1 all seven apps embody the current contract — theme imports (no
+All of these are directories in github.com/vibrantgio/workbench. Every one
+of the eight apps embodies the current contract — theme imports (no
 alias paths), ramp/pin colours (no MD3 aliases), theme typography (no
 app-built shaper), theme-driven component entry points — so copy any of
 them without the caveats older guides carried:
@@ -1113,6 +1143,20 @@ them without the caveats older guides carried:
               .md sources rendered with vibrantgio/markdown (content/*.md +
               docs_content.go route table — the docs-app recipe, including
               the light/dark highlight switch)
+  vaultview/  the document reader: a read-only viewer for a folder of
+              markdown notes written in the Obsidian style. The genre no
+              other app covers — open-ended user content rather than an
+              owned data model — so it is where the navigation vocabulary
+              lives: a disclosure file tree over components/list with a
+              name-filter field, a back/forward history stack, breadcrumbs,
+              and the patterns/shell aside slot finally in use as a
+              backlinks panel. Notes render through vibrantgio/markdown
+              with markdown/obsidian around it (frontmatter split off,
+              wikilink spans, block anchors); resolving what a wikilink
+              names is app-local and pure — one index built by an mvu.Do
+              scan off the render goroutine, pure functions over it, every
+              rule pinned by a test. Read doc.go first: it states the link
+              contract the tests enforce. It never writes to a note
   (DESIGN.md, the architecture document, no longer lives here: it moved to
   github.com/vibrantgio/design beside the exported token bundle. Read its
   §Key architectural patterns and §Threading & lifecycle before writing new

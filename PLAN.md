@@ -3271,9 +3271,9 @@ ADR-012 stage V3 plus the census and the markdown release.
 
 - [x] Re-stat on navigate + Rescan affordance (D6); quick-open by name if it stays a filter over the index (D7).
 - [x] Goldens for one rendered note and the tree, following the sitedocs golden shape; README; `doc.go` carrying §4.2 as the package's stated contract.
-- [ ] The census work of ADR-012 §8: repos.tsv row wording, `sync-agents.sh`, `llms.txt`, the sitedocs About line, `go.work` regeneration.
-- [ ] The markdown repo release: the J1.1 package is an additive minor — tag per the release protocol, re-pin the app to the tag, and the `llms.txt` prose gains the dialect in plain language (no consumer names, no plan identifiers).
-- [ ] Exit: all ADR-012 §8 gates green from a clean checkout; `GOWORK=off` build against published tags only. Commit and push.
+- [x] The census work of ADR-012 §8: repos.tsv row wording, `sync-agents.sh`, `llms.txt`, the sitedocs About line, `go.work` regeneration.
+- [x] The markdown repo release: the J1.1 package is an additive minor — tag per the release protocol, re-pin the app to the tag, and the `llms.txt` prose gains the dialect in plain language (no consumer names, no plan identifiers).
+- [x] Exit: all ADR-012 §8 gates green from a clean checkout; `GOWORK=off` build against published tags only. Commit and push.
 
 ## Reference
 
