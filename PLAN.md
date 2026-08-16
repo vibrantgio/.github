@@ -3220,11 +3220,11 @@ doc rules apply); resolution is vault semantics and stays in the app.
 
 ADR-012 stage M — the generic half first, as `markdown/obsidian`.
 
-- [ ] `SplitFrontMatter(src) (fm, body)`: the leading `---` block (and `...` terminator variant) cut and returned; unterminated and mid-document `---` left alone; byte-identical passthrough otherwise. Table tests.
-- [ ] Frontmatter access: raw text plus the pairs a trivial line-split yields (`key: scalar`; `key:` + `- item` block lists). Anything else stays raw. No YAML dependency. Table tests over real Obsidian properties blocks.
-- [ ] `WikiSpans([]Block) []Block`: the D2 span pass — plain, alias, heading path, block ref, embed (`wikiembed:`), adjacent links, `Code` spans skipped; the styling-boundary limitation documented and pinned.
-- [ ] Block-id tails: trailing ` ^id` recognised on paragraphs and list items, stripped from display spans, exposed as anchors usable with `NewDocumentAt`. Table tests.
-- [ ] Exit: the markdown repo's suite green with the new package; a probe note with frontmatter, wikilinks and block ids renders through `SplitFrontMatter` → `Parse` → `WikiSpans` with clean prose, live `wiki:` URLs and no visible `^id` tails — the repo's existing goldens untouched. Godoc names no consumers, cites no plan identifiers. Commit and push; no tag (the release is J1.6).
+- [x] `SplitFrontMatter(src) (fm, body)`: the leading `---` block (and `...` terminator variant) cut and returned; unterminated and mid-document `---` left alone; byte-identical passthrough otherwise. Table tests.
+- [x] Frontmatter access: raw text plus the pairs a trivial line-split yields (`key: scalar`; `key:` + `- item` block lists). Anything else stays raw. No YAML dependency. Table tests over real Obsidian properties blocks.
+- [x] `WikiSpans([]Block) []Block`: the D2 span pass — plain, alias, heading path, block ref, embed (`wikiembed:`), adjacent links, `Code` spans skipped; the styling-boundary limitation documented and pinned.
+- [x] Block-id tails: trailing ` ^id` recognised on paragraphs and list items, stripped from display spans, exposed as anchors usable with `NewDocumentAt`. Table tests.
+- [x] Exit: the markdown repo's suite green with the new package; a probe note with frontmatter, wikilinks and block ids renders through `SplitFrontMatter` → `Parse` → `WikiSpans` with clean prose, live `wiki:` URLs and no visible `^id` tails — the repo's existing goldens untouched. Godoc names no consumers, cites no plan identifiers. Commit and push; no tag (the release is J1.6).
 
 #### J1.2: Scaffold, vault selection, one note rendered
 
