@@ -3325,10 +3325,10 @@ ADR-013 F7, decisions D1 and D2 — the typeset fix and its ripple.
 
 ADR-013 F8, decision D1 — the text-field fix.
 
-- [ ] `components/input`: the live editor draws offset by the same
+- [x] `components/input`: the live editor draws offset by the same
   half-deficit the placeholder's line box carries, so ink does not move
   when focus arrives or leaves; masked and disabled paths keep working.
-- [ ] A unit test pins the equality — placeholder ink offset and editor
+- [x] A unit test pins the equality — placeholder ink offset and editor
   ink offset measured and equal at more than one density — since goldens
   cannot see the focus transition. Commit and push; no tag (the release
   is K1.5).
