@@ -27,6 +27,18 @@ test ./...` must pass. Golden-image tests are part of that — when a change
 legitimately moves pixels, regenerate the goldens *within the same task* and
 say so in the commit body. Never commit red.
 
+**Look with fresh eyes.** A task that changes how an application looks ends
+with an adversarial review, because the author is the worst reviewer of their
+own composition: an agent checking its own screenshot confirms the items on
+its checklist and is blind to everything absent from it. So capture the whole
+window at a realistic size and hand that image to a *fresh* subagent that has
+not seen the packet, with no checklist and one question — what would a
+developer on this platform complain about? Report what comes back, fix what
+is cheap and in scope, and record the rest rather than discarding it. Goldens
+cannot replace this: they render pieces in isolation, so no golden can see a
+composition. Every visual defect in this plan's history was found by a pair
+of eyes that had not read the task.
+
 **Push when it's green.** A commit on `master` is not a release — the tag is.
 So there is nothing to hold back: once a task's commits are made and green,
 push them, in every repo you touched, without asking. Rene works from more than
@@ -3438,6 +3450,70 @@ ADR-014 S4, second half — the copy retires.
   checkout against published tags only; a screenshot confirms both
   trails render and click. Commit and push.
 
+## Phase M: The window wears its own chrome
+
+The vault window spends about 80 dp on two stacked, nearly empty bands
+before content begins. This phase collapses them into the platform's
+unified title row, floats the sidebar, and — because no golden in this
+plan has ever rendered a whole window — gives the composition a test of
+its own. The dossier is ADR-015; packets cite its decisions (D1–D5).
+
+### G-M1: One row of chrome
+
+#### M1.1: The desktop seam measures the leading inset
+
+ADR-015 D3 — the measurement the toolbar row needs.
+
+- [ ] `mvu/desktop` grows a leading inset beside `TopInset`: the trailing
+  edge of the window control buttons in dp, measured under the same
+  re-assertion that measures the top inset, published through the same
+  atomic, zero where the platform has no such buttons. The stub build
+  answers zero; the darwin build answers a plausible value under test.
+- [ ] Exit: godoc states what the value means and when it changes, naming
+  no consumer; `go build && go test` green on darwin and with the stub
+  tags; mvu tagged per the release protocol (additive minor), verified
+  from VCS. Commit and push.
+
+#### M1.2: Vaultview moves into the title row
+
+ADR-015 D1 and D2 — the band retires.
+
+- [ ] The header band and its hairline are gone; a toolbar row lays out
+  inside the title-bar strip, offset by the leading inset: sidebar toggle
+  first, then the vault name, with Rescan and Switch vault trailing.
+- [ ] The breadcrumb drops the vault crumb and carries the in-vault path
+  only; the tree's root reveal keeps working from the toolbar's vault
+  name instead.
+- [ ] Exit: the chrome above the first content row measures under 40 dp
+  at Comfortable density, and the fresh-eyes review of a whole-window
+  screenshot reports no complaint about the title row. Commit and push.
+
+#### M1.3: The sidebar floats
+
+ADR-015 D4 — a pane, not a column.
+
+- [ ] The rail becomes an inset rounded pane over the window background:
+  its own surface step, its own hide control, the note column reflowing
+  to the freed width when it is hidden.
+- [ ] Hidden is remembered: the toggle's state survives navigation and
+  vault switching within the session, and the keyboard reaches both the
+  toggle and the rail's rows.
+- [ ] Exit: shown and hidden both reviewed with fresh eyes on real
+  screenshots; goldens regenerated. Commit and push.
+
+#### M1.4: The composition gets a test
+
+ADR-015 D5 — what would have caught this without René.
+
+- [ ] A whole-window golden at a realistic size, in both appearances,
+  following the repo's golden shape — the first golden in this plan that
+  renders a window rather than a slot.
+- [ ] A chrome-budget assertion: the vertical distance from the window
+  top to the first content row is measured and bounded, failing loudly
+  when a band creeps back.
+- [ ] Exit: both tests fail when the old two-band chrome is restored, and
+  the suite is green with it gone. Commit and push.
+
 ## Reference
 
 Decision records and shared contracts. `mdplan next` never visits this section
@@ -6816,6 +6892,58 @@ its own crumb row (`crumb.go`, J1.5) with the reason documented in the
 file; the visual language matches the pattern. The pattern wants an
 additive API for a per-frame, per-segment-clickable trail — at which
 point the app's copy retires. patterns' published tag is v0.6.2.
+
+### ADR-015: The window wears its own chrome
+
+**Status.** Accepted 2026-08-16, from René's third visual pass. Where a
+Phase M packet says "the chrome dossier", it means this ADR.
+
+#### The measurement
+
+The vault window spends roughly 80 dp before its first content pixel: a
+native title-bar strip (`TopInset`, ~28 dp on macOS) holding nothing but
+the window control buttons, and below it a full-width header band of
+`ControlHeight 36 + 2×PaddingY 8` = 52 dp holding one brand label and two
+text links. Two stacked bands, both mostly empty. macOS answers this with
+the unified title bar: window controls, view toggles and the document
+title share one row.
+
+#### Decisions
+
+- **D1 — one row, not two.** The header band retires; its affordances move
+  into the title-bar strip beside the window control buttons. The band's
+  hairline goes with it — with the sidebar floating there is no chrome
+  edge left to divide.
+- **D2 — the vault names the window.** The vault name belongs in the
+  title row, not the breadcrumb: it is window-scoped state, and as a crumb
+  it implies a parent to navigate to that does not exist. The breadcrumb
+  keeps the in-vault path only.
+- **D3 — the leading inset is a measurement, not a constant.** Placing
+  content beside the window controls needs their trailing edge. The
+  desktop seam already measures the top inset by walking
+  `standardWindowButton:` under re-assertion and publishing an atomic; the
+  leading inset is the same walk taking the maximum button frame's right
+  edge, published the same way, zero on platforms without the buttons.
+  A guessed constant would drift with every macOS release and is refused.
+- **D4 — the sidebar floats.** The rail becomes an inset rounded pane over
+  the window background rather than a full-height column, carrying its own
+  hide control, in the idiom of the platform's own document apps. Hidden
+  is a real state the window remembers.
+- **D5 — the composition gets a test.** Two additions, because the whole
+  class of defect this ADR fixes was invisible to the suite: a golden of
+  the *whole window* at a realistic size (the existing goldens render a
+  240 dp rail and a 534 dp column in isolation — no golden can see a
+  composition), and an assertion on the chrome budget: the vertical
+  distance from the window top to the first content row, bounded, so a
+  band creeping back fails a test rather than waiting for a screenshot.
+
+#### Non-goals
+
+- No new pattern enters the design system for this; the toolbar row is
+  app-local until a second app wants it (the tree stayed app-local on the
+  same reasoning).
+- Windows and Linux keep the ordinary title bar: the seam reports a zero
+  leading inset there and the app lays its row out from the left edge.
 
 ### The repo doc contract
 
