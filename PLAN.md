@@ -3181,12 +3181,12 @@ close and take the stock one; a release tag is the unblock signal.
 
 #### I3.1: Ghost washes derive from the local ground
 
-- [ ] Give the ghost resolution a ground to walk from: components/button learns the hosting surface's storey (design the seam deliberately — an explicit knob on Props/RenderState/RenderIcon that defaults to the window ground so every existing call site keeps its exact colors; read how patterns/modal, popover and toast name their levels before choosing the shape). The rest wash stays transparent; hover/press walk one rung from the *local* ground; the text steps ride along where legibility needs them.
-- [ ] patterns/modal passes its Level-2 storey to the close affordance — the defect's concrete site. Audit the other patterns that host ghost controls on raised surfaces (popover at level 3, elevated card at level 2, toast) and pass their storeys too where a ghost can actually appear.
-- [ ] Goldens: new golden beside the existing icon-button goldens proving the hover wash on a Level-2 ground differs from the ground (the exact assertion the defect fails today); existing goldens must not move — the default path keeps its colors.
-- [ ] Mirror: the sheet emits the contextual walk — ghost controls inside the raised surfaces re-derive hover/press one rung above the host's ground (e.g. a dialog-hosted ghost washes to neutral-400), var()-driven, literal-color test passing; fixture + harness comparison against the new golden at the standing tolerance, run on this machine, no skips.
-- [ ] conventions.md states the rule in one line where the ghost register is described: a ghost's wash is its host surface's own one-rung walk.
-- [ ] Suites green in components, patterns, theme, design (full mirror run); all four gates pass; commit every touched repo and push. No tags — the release is I3.2.
+- [x] Give the ghost resolution a ground to walk from: components/button learns the hosting surface's storey (design the seam deliberately — an explicit knob on Props/RenderState/RenderIcon that defaults to the window ground so every existing call site keeps its exact colors; read how patterns/modal, popover and toast name their levels before choosing the shape). The rest wash stays transparent; hover/press walk one rung from the *local* ground; the text steps ride along where legibility needs them.
+- [x] patterns/modal passes its Level-2 storey to the close affordance — the defect's concrete site. Audit the other patterns that host ghost controls on raised surfaces (popover at level 3, elevated card at level 2, toast) and pass their storeys too where a ghost can actually appear.
+- [x] Goldens: new golden beside the existing icon-button goldens proving the hover wash on a Level-2 ground differs from the ground (the exact assertion the defect fails today); existing goldens must not move — the default path keeps its colors.
+- [x] Mirror: the sheet emits the contextual walk — ghost controls inside the raised surfaces re-derive hover/press one rung above the host's ground (e.g. a dialog-hosted ghost washes to neutral-400), var()-driven, literal-color test passing; fixture + harness comparison against the new golden at the standing tolerance, run on this machine, no skips.
+- [x] conventions.md states the rule in one line where the ghost register is described: a ghost's wash is its host surface's own one-rung walk.
+- [x] Suites green in components, patterns, theme, design (full mirror run); all four gates pass; commit every touched repo and push. No tags — the release is I3.2.
 
 #### I3.2: Release the fix
 
