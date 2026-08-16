@@ -3309,15 +3309,15 @@ ADR-013 F1 and F3 — the frame and the header, one layout region.
 
 ADR-013 F7, decisions D1 and D2 — the typeset fix and its ripple.
 
-- [ ] `theme/typeset`: when the caller's Min.Y floor exceeds the
+- [x] `theme/typeset`: when the caller's Min.Y floor exceeds the
   corrected height, centre the ink within the floored box; the reported
   size and baseline stay consistent. Unit tests pin ink position under no
   floor, a floor below the line box, and a floor above it.
-- [ ] Enumerate the movement: run the full workspace test suite and list
+- [x] Enumerate the movement: run the full workspace test suite and list
   every golden the change shifts; regenerate those whose labels were
   genuinely top-pinned (tree and picker rows among them), and justify in
   the commit body any that must not move.
-- [ ] Run the design mirror: parity must improve or hold — a case where
+- [x] Run the design mirror: parity must improve or hold — a case where
   Gio moved away from the CSS rendering is a bug in the fix, not the
   mirror. Commit and push; no tag (the release is K1.5).
 
