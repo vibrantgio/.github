@@ -3252,8 +3252,8 @@ The resolution half of ADR-012 stage V1 — the hopping, in-house.
 
 The owner-required half of ADR-012 stage V1.
 
-- [ ] App-local folder tree over `components/list` in the `shell.ThreeColumn` sidebar slot (J1.2's nil sidebar becomes this): indent per depth, disclosure toggles with fold state in the model, dot-directories hidden, the current note active, click navigates.
-- [ ] Exit: any note in the vault is reachable through the left tree alone; the current note stays marked as navigation moves through links, history and tree alike. Commit and push.
+- [x] App-local folder tree over `components/list` in the `shell.ThreeColumn` sidebar slot (J1.2's nil sidebar becomes this): indent per depth, disclosure toggles with fold state in the model, dot-directories hidden, the current note active, click navigates.
+- [x] Exit: any note in the vault is reachable through the left tree alone; the current note stays marked as navigation moves through links, history and tree alike. Commit and push.
 
 #### J1.5: Backlinks, ambiguity, switch vault
 
