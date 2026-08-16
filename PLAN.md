@@ -3292,15 +3292,15 @@ the seam (D4).
 
 ADR-013 F1 and F3 — the frame and the header, one layout region.
 
-- [ ] Diagnose and fix the backdrop: no pixel of the window shows a
+- [x] Diagnose and fix the backdrop: no pixel of the window shows a
   colour outside the theme at any size — the root surface paints
   wall-to-wall including the titlebar region, under full-size content
   with the chrome inset honoured.
-- [ ] Anchor the header row: "Rescan" and "Switch vault" right-aligned as
+- [x] Anchor the header row: "Rescan" and "Switch vault" right-aligned as
   a group, sharing one baseline with the "Vault View" brand; the brand
   clear of the traffic lights via the chrome inset rather than a guessed
   pad.
-- [ ] Exit: at 1100 dp and at full screen, screenshots of the running app
+- [x] Exit: at 1100 dp and at full screen, screenshots of the running app
   show theme colour to every edge and a header that reads as one row;
   goldens regenerated only where the header change legitimately moves
   them. Commit and push.
