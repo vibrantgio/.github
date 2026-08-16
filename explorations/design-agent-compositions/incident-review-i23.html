@@ -1,0 +1,139 @@
+<!-- @dsCard group="Patterns" viewport="1440x900" name="Incident review" subtitle="Navbar shell, split table and detail rail, popover confirm and a toast stack" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Incident review — Vibrant Gio patterns</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+html,body{margin:0;height:100%}
+body{background:var(--color-neutral-100);color:var(--color-text);font-family:var(--font-family),system-ui,sans-serif;font-size:var(--font-body-medium-size);line-height:var(--font-body-medium-line-height);letter-spacing:var(--font-body-medium-tracking)}
+a{color:var(--color-accent)}
+a:hover{color:var(--color-accent-hover)}
+.app{position:relative;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.brand{display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-title-medium-size);line-height:var(--font-title-medium-line-height);font-weight:var(--font-title-medium-weight);letter-spacing:var(--font-title-medium-tracking)}
+.brand::before{content:"";width:16px;height:16px;border-radius:var(--radius-full);background:var(--color-error)}
+.actions{display:flex;align-items:center;gap:var(--space-2)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:var(--space-5);flex:1;min-height:0;padding:var(--space-5) var(--space-6);overflow:hidden}
+.col{display:flex;flex-direction:column;gap:var(--space-4);min-height:0}
+.col>*{flex:none}
+.scroll{overflow:auto;min-height:0}
+.page-title{margin:0;font-size:var(--font-headline-small-size);line-height:var(--font-headline-small-line-height);font-weight:var(--font-headline-small-weight);letter-spacing:var(--font-headline-small-tracking)}
+.section-title{margin:0;font-size:var(--font-title-small-size);line-height:var(--font-title-small-line-height);font-weight:var(--font-title-small-weight);letter-spacing:var(--font-title-small-tracking)}
+.sub{margin:var(--space-1) 0 0;color:var(--color-neutral-700);font-size:var(--font-body-small-size);line-height:var(--font-body-small-line-height);letter-spacing:var(--font-body-small-tracking)}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-4)}
+.table-wrap{border:1px solid var(--color-divider);border-radius:var(--radius-lg);overflow:hidden;background:var(--color-surface)}
+.num{text-align:right;font-family:var(--font-family-code),monospace}
+.table td,.table th{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rule{height:1px;background:var(--color-divider);border:0;margin:0}
+.kv{display:grid;grid-template-columns:104px minmax(0,1fr);gap:var(--space-2) var(--space-3);font-size:var(--font-body-small-size);line-height:var(--font-body-small-line-height)}
+.k{color:var(--color-neutral-700)}
+.v{font-family:var(--font-family-code),monospace}
+.field{display:flex;flex-direction:column;gap:var(--space-1)}
+.label{font-size:var(--font-label-medium-size);line-height:var(--font-label-medium-line-height);font-weight:var(--font-label-medium-weight);letter-spacing:var(--font-label-medium-tracking);color:var(--color-neutral-700)}
+.choice{display:flex;align-items:center;gap:var(--space-2)}
+.anchor{position:relative;display:flex;justify-content:flex-end;gap:var(--space-2)}
+.pop{position:absolute;bottom:calc(100% + var(--space-2));right:0;display:flex;flex-direction:column;align-items:flex-end;width:296px}
+.pop-actions{display:flex;justify-content:flex-end;gap:var(--space-2);margin-top:var(--space-3)}
+.pop-body{margin:0;font-size:var(--font-body-small-size);line-height:var(--font-body-small-line-height);color:var(--color-neutral-800)}
+.toast-stack{position:absolute;left:var(--space-4);bottom:var(--space-4);max-width:360px}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="navbar">
+    <div class="brand">Vantage</div>
+    <nav class="navbar-links">
+      <a class="navbar-link" href="#">Fleet</a>
+      <a class="navbar-link" href="#">Builds</a>
+      <a class="navbar-link selected" href="#">Alerts</a>
+      <a class="navbar-link" href="#">Audit</a>
+    </nav>
+    <div class="actions">
+      <span class="tag error">1 firing</span>
+      <button class="btn ghost" type="button">Silence all</button>
+    </div>
+  </header>
+  <div class="split">
+    <section class="col">
+      <div class="head">
+        <div>
+          <h1 class="page-title">Alert history</h1>
+          <p class="sub">Last 24 hours, eu-west. One alert is still firing.</p>
+        </div>
+        <span class="select-wrap" style="width:160px"><select class="input select" aria-label="Window"><option>Last 24 hours</option><option>Last 7 days</option><option>Last 30 days</option></select></span>
+      </div>
+      <div class="table-wrap scroll">
+        <table class="table">
+          <colgroup><col style="width:32%"><col style="width:22%"><col style="width:14%"><col><col style="width:16%"></colgroup>
+          <thead>
+            <tr>
+              <th scope="col">Alert</th>
+              <th scope="col">Source</th>
+              <th class="sortable sort-desc" scope="col">Opened</th>
+              <th scope="col">State</th>
+              <th class="num" scope="col">Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Build step timeout</td><td>vantage-agent</td><td>08:12</td><td><span class="tag error">failing</span></td><td class="num">1h 44m</td></tr>
+            <tr><td>Artefact signature drift</td><td>vantage-relay</td><td>07:50</td><td><span class="tag warning">degraded</span></td><td class="num">2h 06m</td></tr>
+            <tr><td>Queue depth above 200</td><td>scheduler</td><td>06:31</td><td><span class="tag success">resolved</span></td><td class="num">18m</td></tr>
+            <tr><td>Registry pull latency</td><td>registry</td><td>04:05</td><td><span class="tag success">resolved</span></td><td class="num">52m</td></tr>
+            <tr><td>Disk pressure on node 7</td><td>eu-west-7</td><td>02:44</td><td><span class="tag success">resolved</span></td><td class="num">31m</td></tr>
+            <tr><td>Certificate expiring</td><td>relay-gateway</td><td>yesterday</td><td><span class="tag success">resolved</span></td><td class="num">3h 12m</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <aside class="col">
+      <div class="card elevated">
+        <div>
+          <h2 class="section-title">Build step timeout</h2>
+          <p class="sub">Firing since 08:12 · vantage-agent · nightly</p>
+        </div>
+        <hr class="rule">
+        <div class="kv">
+          <span class="k">Target</span><span class="v">vantage-agent</span>
+          <span class="k">Platform</span><span class="v">windows/amd64</span>
+          <span class="k">Step</span><span class="v">bundle:sign</span>
+          <span class="k">Threshold</span><span class="v">600s</span>
+          <span class="k">Observed</span><span class="v">612s</span>
+          <span class="k">Runs hit</span><span class="v">4 of 6</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="section-title">Response</h2>
+        <div class="field">
+          <span class="label">Action</span>
+          <div class="choice"><input class="radio" id="r-ack" type="radio" name="resp" checked><label for="r-ack">Acknowledge and keep watching</label></div>
+          <div class="choice"><input class="radio" id="r-sil" type="radio" name="resp"><label for="r-sil">Silence for 4 hours</label></div>
+          <div class="choice"><input class="radio" id="r-esc" type="radio" name="resp"><label for="r-esc">Escalate to on-call</label></div>
+        </div>
+        <div class="field">
+          <label class="label" for="r-note">Note</label>
+          <input class="input" id="r-note" type="text" placeholder="Visible in the audit trail">
+        </div>
+        <div class="choice"><input class="checkbox" id="r-link" type="checkbox" checked><label for="r-link">Link to the failing run</label></div>
+        <div class="anchor">
+          <div class="pop">
+            <div class="popover">
+              <p class="pop-body">Escalating pages the eu-west on-call rota now. The alert stays open until someone acknowledges it there.</p>
+              <div class="pop-actions"><button class="btn ghost" type="button">Cancel</button><button class="btn" type="button">Escalate</button></div>
+            </div>
+            <span class="popover-tail top" style="margin-right:var(--space-5)"></span>
+          </div>
+          <button class="btn ghost" type="button">Discard</button>
+          <button class="btn" type="button">Apply</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+  <div class="toast-stack">
+    <div class="toast success"><span>Queue depth alert resolved on its own.</span></div>
+    <div class="toast error"><span>vantage-agent failed its fourth nightly run.</span></div>
+  </div>
+</div>
+</body>
+</html>

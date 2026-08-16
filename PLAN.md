@@ -3129,9 +3129,35 @@ page work — no Gio changes.
 
 The measure of I2.1/I2.2 is the same measure G3.2 used.
 
-- [ ] **Checkpoint, René's hands:** ask the design agent for another composed screen exercising a status chip on a table row — the exact shape that failed before.
-- [ ] Diff the result against the three recorded findings: the status chip should now be vocabulary it uses correctly; the table should arrive unframed; grounds should pin semantically. Record the new honest list, whatever it says.
-- [ ] Commit the record here.
+- [x] **Checkpoint, René's hands:** ask the design agent for another composed screen exercising a status chip on a table row — the exact shape that failed before.
+- [x] Diff the result against the three recorded findings: the status chip should now be vocabulary it uses correctly; the table should arrive unframed; grounds should pin semantically. Record the new honest list, whatever it says.
+- [x] Commit the record here.
+
+**Validation record (2026-08-16, `patterns/incident-review.html`, composed
+fresh — a navbar shell, a split table-and-detail layout, a popover confirm,
+a toast stack).** Both compositions are archived byte-for-byte in
+`explorations/design-agent-compositions/`.
+
+1. **Status: fixed.** `.tag.error` on the firing alert and the failing row,
+   `.tag.warning`/`.tag.success` on the rest, toast levels on the stack —
+   composed correctly in three contexts, zero inline styles. I2.1's
+   vocabulary did its job.
+2. **The frame recurred — by contamination, not conviction.** The screen
+   wraps its table in a `.table-wrap` whose rule is near-verbatim the first
+   screen's, invented class name included. The first screen still lived in
+   the project when this one was composed; project files are what a
+   composition session copies from. The old screen is now deleted from the
+   project (archived here first). The conventions line stands unchanged.
+3. **The ramp-step ground recurred the same way** — `body` on
+   `--color-neutral-100`, byte-identical to the first screen.
+
+The honest list is therefore one real lesson, not three faults: **an
+anti-pattern example in the project outweighs a conventions line**, because
+composers copy working artifacts before they read rules. Enforcement is
+curation: examples that violate the conventions get deleted, not merely
+contradicted in prose. A confirmatory composition round after the deletion
+is worthwhile but not gating — the two prose rules were never disproven,
+only outcopied.
 
 ## Reference
 
