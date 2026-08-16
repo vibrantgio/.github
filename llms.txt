@@ -56,7 +56,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      (§Typography) — never add it to a new app
 
   tier 1 — the foundation
-  theme     v0.6.0   the theme runtime and every design token: tokens
+  theme     v0.6.1   the theme runtime and every design token: tokens
                      (colour ramps and pins, Typography, Density, Motion,
                      Elevation, spacing/radius), color (the CIELAB/OKLCh
                      engine and APCA), theme (Theme, the token observables),
@@ -65,7 +65,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      serialiser + cmd/vg-tokens), window, preferences
 
   tier 2
-  components  v0.8.0 button, input, list, richtext, scrollbar,
+  components  v0.8.1 button, input, list, richtext, scrollbar,
                      icon, layout, keyed, initial, cache, bench (coordination
                      is DEPRECATED — use mvu/stream.Value)
 
@@ -75,7 +75,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      transition, tween, conductor
 
   tier 4
-  patterns  v0.6.1   patterns: shell, navbar, sidebar, table, pagination,
+  patterns  v0.6.2   patterns: shell, navbar, sidebar, table, pagination,
                      tabs, modal, alert, popover, tooltip, toast, card,
                      accordion, breadcrumb, hero, feature, pricing,
                      testimonial
@@ -1074,10 +1074,10 @@ coded clip paths on purpose (golden determinism); leave those alone.
   require (
       gioui.org v0.10.1
       github.com/reactivego/rx v0.3.0
-      github.com/vibrantgio/patterns v0.6.1
+      github.com/vibrantgio/patterns v0.6.2
       github.com/vibrantgio/mvu v0.7.0
-      github.com/vibrantgio/components v0.8.0
-      github.com/vibrantgio/theme v0.6.0
+      github.com/vibrantgio/components v0.8.1
+      github.com/vibrantgio/theme v0.6.1
       github.com/vibrantgio/textdraw v0.0.4
   )
 
