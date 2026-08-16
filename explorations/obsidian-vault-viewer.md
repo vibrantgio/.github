@@ -274,32 +274,40 @@ The model is the sitedocs shape grown one notch:
 #### 5. Decisions to make, with recommendations
 
 ##### D1 — Where does the code live?
-
 | Option | Pros | Cons |
 | --- | --- | --- |
-| a. all app-local in `workbench/vaultview` | zero new modules, zero gates, ships now | wikilink pass and resolver invisible to other consumers |
-| b. wikilink pass into the markdown repo now | second consumer gets it free | tier-4 API grown on one consumer's evidence; support-library rules apply to its docs |
+| a. all app-local in `workbench/vaultview` | zero new modules, zero gates, ships now | wikilink pass and frontmatter handling invisible to other consumers |
+| b. the Obsidian *dialect* into the markdown repo, resolution app-local | recognition is generic and semantic-free; second consumer gets it free; core parser untouched | tier-4 repo grows a package; support-library rules apply to its docs |
 | c. new `vaultmodel` repo | clean charter | a 22nd repo for an exploration — grossly premature |
 
-**Recommendation: (a).** Everything app-local; the module is
-`github.com/vibrantgio/workbench/vaultview`, dir `workbench/vaultview`, matching
-the census's single-noun names. The span pass (§4.3) and the resolver
-(§4.2) are written as their own packages *inside* the app so that
-graduating either into the markdown repo later is a move, not a rewrite —
-and if that day comes, the markdown repo's docs describe the capability
-without naming this app, per the org's support-library documentation rule.
-
+**Recommendation: (b), split at the semantics line — the owner's call
+(2026-08-16): Obsidian is important enough that its support earns a place
+in the renderer.** What is *recognition* is generic and moves into the
+markdown repo as a nested package `markdown/obsidian` (a package, not a
+module — no new tags, no census row): frontmatter split and access,
+wikilink/embed span recognition, block-id tails. It operates entirely on
+the repo's public surface (source text in, `[]Block` transform out), so
+the core parser and every existing consumer's rendering stay byte-stable;
+opting in is calling the package. What is *resolution* — the vault index,
+the basename rules, ambiguity, anchors, history — is vault semantics, not
+rendering, and stays app-local in `workbench/vaultview`
+(`github.com/vibrantgio/workbench/vaultview`), implemented in-house from
+the §4.2 spec: no external markdown or Obsidian library enters for any of
+the hopping, per the owner. The markdown repo's docs describe the dialect
+without naming any consumer, per the org's support-library rule.
 ##### D2 — How are wikilinks recognised?
-
 | Option | Assessment |
 | --- | --- |
 | Raw-text preprocessing (rewrite `[[x]]` → `[x](wiki:x)` before Parse) | Must re-detect fenced code, inline code and escapes itself or it corrupts code samples — reimplementing the half of the parser we get for free. Rejected. |
-| Goldmark extension via the markdown repo | The parser is constructed inline with no extension seam (`markdown/parse.go:20`); this option requires growing tier-4 API (or forking the parse), for no capability the next option lacks. Rejected for v1; it is the natural shape *if* the pass ever graduates (D1). |
-| **Post-parse span pass over the public `[]Block`** | Operates on exported data, needs zero markdown-repo change, and the `Code` flag already marks the spans the rule must skip (§2's probe). One honest limitation: a span is a styling run, so a wikilink spanning a styling boundary (`[[a *b*]]`) is not recognised — Obsidian targets do not carry markdown, so this excludes approximately nothing. |
+| Goldmark extension via the markdown repo | The parser is constructed inline with no extension seam (`markdown/parse.go:20`); this option means growing or forking the core parse, for no capability the next option lacks. Rejected. |
+| **Post-parse span pass over the public `[]Block`** | Operates on exported data, needs zero core-parser change, and the `Code` flag already marks the spans the rule must skip (§2's probe). One honest limitation: a span is a styling run, so a wikilink spanning a styling boundary (`[[a *b*]]`) is not recognised — Obsidian targets do not carry markdown, so this excludes approximately nothing. |
 
-**Recommendation: the span pass**, with the limitation documented in the
-package doc and pinned by a test.
-
+**Recommendation: the span pass — exported from `markdown/obsidian`
+(D1), not app-local.** The pass splits non-`Code` spans on the wikilink
+grammar (`[[target]]`, `[[target|alias]]`, `![[target]]`) and sets
+`URL: "wiki:<raw>"` (embeds `"wikiembed:<raw>"`), leaving meaning to the
+consumer; richtext's existing `OnLinkClick` does the rest. The styling-
+boundary limitation is documented in the package doc and pinned by a test.
 ##### D3 — Unresolvable and ambiguous links
 
 Both stay *rendered as links* — stripping them to plain text would hide
@@ -323,14 +331,18 @@ preserves every workflow at a fraction of the cost. Image embeds
 (`markdown/style.go:39-56`) — noted, not scheduled.
 
 ##### D5 — Frontmatter
-
-**Recommendation: recognise and strip, parse nothing.** The `---` block
-is cut before `Parse` (§4.3; the probe shows the garbage rendering
-otherwise). No YAML dependency enters the app for any reason — the
-external-package budget (§7) outranks the nicety. If key facts are ever
-shown, they are line-split `key: scalar` pairs rendered as plain text,
-and anything that does not split trivially is not shown.
-
+**Recommendation: split it in the dialect package, strip it from the
+body, and SHOW it — the owner wants the frontmatter accessible and
+visible, not merely swallowed.** `markdown/obsidian` owns the split: the
+leading `---` block is cut before `Parse` (the probe shows the garbage
+rendering otherwise) and returned as data — the raw text plus the pairs a
+trivial line-split yields (`key: scalar` and the simple `key:` + `- item`
+block-list shape that covers real Obsidian properties). No YAML dependency
+enters the repo or the app for any reason — the external-package budget
+(§7) outranks completeness, so anything the trivial split cannot read is
+carried raw, not parsed. The viewer renders the pairs as a collapsible
+properties surface above the note (the shape Obsidian users already know),
+falling back to the raw block in a code style when only raw is available.
 ##### D6 — Freshness
 
 **Recommendation: no file watching in v1.** fsnotify is a new external
@@ -395,16 +407,28 @@ the spec says it must not be. Written on every successful vault open
 Each stage ends at a falsifiable criterion; a stage that cannot meet it
 stops the line and the finding comes back here.
 
+##### M: The dialect enters the markdown repo
+
+The generic half, first — a nested package `markdown/obsidian`, core
+parser untouched, every existing consumer byte-stable. Support-library
+rules apply: godoc names no consumers, no plan identifiers.
+
+- [ ] `SplitFrontMatter(src) (fm, body)`: the leading `---` block (and `...` terminator variant) cut and returned; unterminated and mid-document `---` left alone; byte-identical passthrough otherwise. Table tests.
+- [ ] Frontmatter access: raw text plus the pairs a trivial line-split yields (`key: scalar`; `key:` + `- item` block lists). Anything else stays raw. No YAML dependency. Table tests over real Obsidian properties blocks.
+- [ ] `WikiSpans([]Block) []Block`: the D2 span pass — plain, alias, heading path, block ref, embed (`wikiembed:`), adjacent links, `Code` spans skipped; the styling-boundary limitation documented and pinned.
+- [ ] Block-id tails: trailing ` ^id` recognised on paragraphs and list items, stripped from display spans, exposed as anchors usable with `NewDocumentAt`. Table tests.
+- [ ] **Exit: the markdown repo's suite green with the new package; a probe note with frontmatter, wikilinks and block ids renders through `SplitFrontMatter` → `Parse` → `WikiSpans` with clean prose, live `wiki:` URLs and no visible `^id` tails — while the repo's existing goldens are untouched.**
+
 ##### V0: Scaffold, scan, render one note
 - [ ] Scaffold `workbench/vaultview` from the todos bootstrap shape: mvu loop, live theme, `shell.ThreeColumn` with nil sidebar and aside. Vault resolution per D8: CLI argument → stored default → the picker screen; the resolved vault is written back to the store on every successful open.
 - [ ] The store, with table tests: `~/.config/vaultview/vault` (one absolute path, plain text; `$XDG_CONFIG_HOME` honoured, else literal `~/.config` — never `os.UserConfigDir()`), absent/empty/unreadable reads as no-default, a stored path that stopped being a directory falls through to the picker.
 - [ ] The picker screen (D8): breadcrumb + components/list folder browser, dot-directories hidden, rows annotated with the `.obsidian/` marker or `*.md` count, filled "Open this vault" action. Keyboard: arrows move, Return descends, the action opens.
-- [ ] Frontmatter stripper with table tests: leading block, `...` terminator, unterminated block, `---` mid-document untouched, byte-identical passthrough otherwise.
+- [ ] Properties surface: the M-stage split feeds a collapsible panel above the note — pairs when the trivial split reads them, the raw block in code style otherwise.
 - [ ] Fence-aware index scanner: walk `*.md` below the root skipping dot-directories; per file collect headings, block ids, outgoing wikilinks; unit tests include a fenced `[[not-a-link]]` contributing nothing.
-- [ ] Run the scan as an `mvu.Do` command; render the first note found through strip → `Parse` → `Document` under a breadcrumb row.
-- [ ] **Exit: pointed at a real CrunchGate trunk, the viewer opens and DESIGN.md renders legibly — frontmatter invisible, wikilinks visible as literal text (not yet links), code blocks highlighted. A first argument-less launch asks with the folder browser; the next argument-less launch opens the same vault without asking.**
+- [ ] Run the scan as an `mvu.Do` command; render the first note found through `SplitFrontMatter` → `Parse` → `Document` under a breadcrumb row.
+- [ ] **Exit: pointed at a real CrunchGate trunk, the viewer opens and DESIGN.md renders legibly — frontmatter out of the prose and readable in the properties panel, wikilinks visible as literal text (not yet links), code blocks highlighted. A first argument-less launch asks with the folder browser; the next argument-less launch opens the same vault without asking.**
 ##### V1: Links follow, history works, the tree at the left
-- [ ] Wikilink span pass (§4.3) with table tests: plain, alias, heading path, block ref, same-file, embed, adjacent links, `Code` spans skipped, the styling-boundary limitation pinned.
+- [ ] Wire the M-stage `WikiSpans` transform into the render path; app-side tests cover the wiring, not the grammar (the grammar's tests live with the dialect).
 - [ ] Resolver (§4.2) as pure functions over the index, table-tested per rule: as-written, root + `.md`, unique basename, ambiguous refusal with candidates, heading paths incl. ambiguity, block refs, same-file.
 - [ ] `OnLinkClick` interception: `wiki:` resolves and emits `Navigate` via `mvu.MessageOp`; `http(s)` opens the system browser; unresolvable/ambiguous raise the D3 toast.
 - [ ] History stack in the model with Back/Forward messages and header affordances; documents cached per note; anchor targets land via `NewDocumentAt` on block indices computed from the parsed blocks (§4.1).
@@ -421,6 +445,7 @@ stops the line and the finding comes back here.
 - [ ] Re-stat on navigate + Rescan affordance (D6); quick-open by name if it stays a filter over the index (D7).
 - [ ] Goldens for one rendered note and the tree, following the sitedocs golden shape; README; `doc.go` carrying §4.2 as the package's stated contract.
 - [ ] The census work of §8: repos.tsv row wording, `sync-agents.sh`, `llms.txt`, the sitedocs About line, `go.work` regeneration.
+- [ ] The markdown repo release: the M-stage package is an additive minor — tag per the release protocol, re-pin the app to the tag, and the `llms.txt` prose gains the dialect in plain language (no consumer names, no plan identifiers).
 - [ ] **Exit: all §8 gates green from a clean checkout; `GOWORK=off` build against published tags only.**
 
 ---
