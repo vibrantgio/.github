@@ -3190,9 +3190,9 @@ close and take the stock one; a release tag is the unblock signal.
 
 #### I3.2: Release the fix
 
-- [ ] Gates first, then tag per the release protocol and version rules: components' next patch/minor on master, patterns' next alongside if it moved, theme untagged-or-tagged per what changed — the release rule and tag numbering follow the Reference section, mirrored nested tags only where a nested module moved.
-- [ ] `GOWORK=off` verify the tags direct from VCS; re-pin in-org consumers only where a moved API forces it.
-- [ ] `sync-agents.sh` and `sync-versions.sh`/llms.txt pick up the numbers; commit and push everything.
+- [x] Gates first, then tag per the release protocol and version rules: components' next patch/minor on master, patterns' next alongside if it moved, theme untagged-or-tagged per what changed — the release rule and tag numbering follow the Reference section, mirrored nested tags only where a nested module moved. *(All four gates green before tagging. **components v0.8.0** — minor, the additive Ground field; **patterns v0.6.1** — patch, close-X behaviour fix, re-pinned to components v0.8.0 before its tag. theme stays untagged on v0.6.0: the change is emission-only in export/css.go, the same category G2.1–G2.4 left untagged, and check-versions is green with theme at v0.6.0. No nested tag: components/gallery has not moved since gallery/v0.7.0 and its v0.7.0 root pin still resolves — the root a minor ahead is the release rule's normal state.)*
+- [x] `GOWORK=off` verify the tags direct from VCS; re-pin in-org consumers only where a moved API forces it. *(Tags confirmed on the remotes via `git ls-remote`. GOWORK=off build+test green in components, patterns and design. Re-pins: patterns → components v0.8.0 (its modal uses the new field), design → patterns v0.6.1 + components v0.8.0. effects, markdown and the workbench apps keep their pins — nothing they use moved, matching how H1.4/I1.5 re-pinned only the adopting consumers.)*
+- [x] `sync-agents.sh` and `sync-versions.sh`/llms.txt pick up the numbers; commit and push everything. *(AGENTS renders carry no version numbers — check-agents 21/21 after tagging, nothing to re-render. sync-versions rewrote llms.txt's four number sites; the elevation section's state-walk paragraph gained the ground-aware ghost wash in prose.)*
 - [ ] Notify the reporting session that the tag landed (the parent session carries the channel). Support libraries and their docs never name the consumer.
 
 ## Reference

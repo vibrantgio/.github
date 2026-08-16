@@ -65,7 +65,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      serialiser + cmd/vg-tokens), window, preferences
 
   tier 2
-  components  v0.7.0 button, input, list, richtext, scrollbar,
+  components  v0.8.0 button, input, list, richtext, scrollbar,
                      icon, layout, keyed, initial, cache, bench (coordination
                      is DEPRECATED — use mvu/stream.Value)
 
@@ -75,7 +75,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      transition, tween, conductor
 
   tier 4
-  patterns  v0.6.0   patterns: shell, navbar, sidebar, table, pagination,
+  patterns  v0.6.1   patterns: shell, navbar, sidebar, table, pagination,
                      tabs, modal, alert, popover, tooltip, toast, card,
                      accordion, breadcrumb, hero, feature, pricing,
                      testimonial
@@ -636,7 +636,14 @@ darkens in light mode with no second rule — dark-mode surface tint, the
 thing MD3's tonal elevation existed to encode, falls out for free. State
 walks compose on top with the level's step as the ground: hover on a
 level-1 surface is StateColor(RoleNeutral, 200, StateHover) — neutral 300
-in both modes. Levels 4 and 5 are GONE — they used to clamp onto level 3;
+in both modes. Ghost buttons obey the same rule from their HOST surface's
+rung: button Props carry a Ground elevation level (zero value — the window
+ground, so existing call sites keep their colors), and the ghost hover and
+press washes walk one rung from that local ground rather than from the
+window's. Without it, a ghost control on a level-2 surface would hover to
+the very color it sits on and disappear. The patterns that put ghost
+controls on raised surfaces — modal's close X, popover, toast — pass their
+level for you. Levels 4 and 5 are GONE — they used to clamp onto level 3;
 asking for one now panics. Desktop has no six-storey stack.
 
 Shadows survive as OPT-IN vibrancy via effects/depth, and the verdict on when
@@ -1037,9 +1044,9 @@ coded clip paths on purpose (golden determinism); leave those alone.
   require (
       gioui.org v0.10.1
       github.com/reactivego/rx v0.3.0
-      github.com/vibrantgio/patterns v0.6.0
+      github.com/vibrantgio/patterns v0.6.1
       github.com/vibrantgio/mvu v0.7.0
-      github.com/vibrantgio/components v0.7.0
+      github.com/vibrantgio/components v0.8.0
       github.com/vibrantgio/theme v0.6.0
       github.com/vibrantgio/textdraw v0.0.4
   )
