@@ -3259,11 +3259,11 @@ The owner-required half of ADR-012 stage V1.
 
 ADR-012 stage V2.
 
-- [ ] Backlinks in the shell's `Aside`: reverse edges for the current note, one row per citing note, click navigates.
-- [ ] Ambiguous-link chooser: the D3 modal listing the resolver's candidates; choosing navigates.
-- [ ] Breadcrumb grows the folder trail; the vault-name crumb reveals/roots the tree.
-- [ ] "Switch vault" affordance re-entering the D8 picker; the store follows the switch.
-- [ ] Exit: the aside lists exactly the notes whose links resolve to the current note and clicking one navigates; an ambiguous link resolves through the chooser; switching vaults re-roots the tree and updates the store. Commit and push.
+- [x] Backlinks in the shell's `Aside`: reverse edges for the current note, one row per citing note, click navigates.
+- [x] Ambiguous-link chooser: the D3 modal listing the resolver's candidates; choosing navigates.
+- [x] Breadcrumb grows the folder trail; the vault-name crumb reveals/roots the tree.
+- [x] "Switch vault" affordance re-entering the D8 picker; the store follows the switch.
+- [x] Exit: the aside lists exactly the notes whose links resolve to the current note and clicking one navigates; an ambiguous link resolves through the chooser; switching vaults re-roots the tree and updates the store. Commit and push.
 
 #### J1.6: Harden and land
 
