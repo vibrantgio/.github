@@ -3360,9 +3360,9 @@ ADR-013 F2, F4, F5, F6 and F9 — the app polish, in one sweep.
 
 ADR-013 D4 — patch releases per the release protocol.
 
-- [ ] Tag the theme and components patches bottom-up per the protocol;
+- [x] Tag the theme and components patches bottom-up per the protocol;
   move the pins the protocol prescribes, vaultview's among them.
-- [ ] Exit: all gates green from a clean checkout; `GOWORK=off` build of
+- [x] Exit: all gates green from a clean checkout; `GOWORK=off` build of
   the touched apps against published tags only; `llms.txt` describing
   nothing the org has not published. Commit and push.
 
