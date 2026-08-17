@@ -3580,20 +3580,20 @@ no corners, when the platform's own treatment is both — a pane inset
 from the window's edges, rounded on all four corners, raised off the
 window's background, with the window control buttons inside it.
 
-- [ ] The pane is inset from the window's leading, top and bottom edges
+- [x] The pane is inset from the window's leading, top and bottom edges
   by one margin and rounded on all four corners, with the window's own
   ground visible around it on every side. The window control buttons
   stand inside the pane, clear of its rounded top-leading corner.
-- [ ] The pane is raised by tint first and shadow second: it keeps its
+- [x] The pane is raised by tint first and shadow second: it keeps its
   surface step and gains a cast shadow from `effects/depth`, because it
   meets that package's criterion as written — it floats above the ground
   and can leave, dismissed from its own toggle — and the platform's own
   sidebar casts one. Say in the code why the sidebar qualifies under the
   rule.
-- [ ] Hidden still works, and the chrome budget assertion still holds:
+- [x] Hidden still works, and the chrome budget assertion still holds:
   the document's first content row does not move because the pane
   gained a margin.
-- [ ] Exit: reviewed with fresh eyes against the platform's own sidebar,
+- [x] Exit: reviewed with fresh eyes against the platform's own sidebar,
   the complaint to answer being whether it reads as a raised pane rather
   than a painted column; whole-window goldens regenerated. Commit and
   push.
