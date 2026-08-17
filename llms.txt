@@ -32,7 +32,7 @@ tier table: a module imports only modules in strictly lower tiers, plus the
 support row — enforced in CI by the org's check-layers script. Current tags:
 
   tier 0 — leaves
-  mvu       v0.9.0   MVU runtime: NewWindow, Loop/Run, Message/Command,
+  mvu       v0.9.1   MVU runtime: NewWindow, Loop/Run, Message/Command,
                      MessageOp; Window.Option + OnConfigure, the re-assert
                      seam the nested desktop module builds on (§Nested
                      modules); Window.ViewEvents, the per-window stream of
@@ -193,7 +193,7 @@ ivg repo, not `vX.Y.Z`. The numbers below are generated, as above.
                                                        kiwi solver
   github.com/vibrantgio/components/gallery    v0.7.0   the components gallery
                                                        app
-  github.com/vibrantgio/mvu/desktop           v0.9.0   native macOS window
+  github.com/vibrantgio/mvu/desktop           v0.9.1   native macOS window
                                                        chrome (FullSizeContent,
                                                        traffic-light unhide,
                                                        queried top inset) on
@@ -204,7 +204,7 @@ ivg repo, not `vX.Y.Z`. The numbers below are generated, as above.
                                                        paths arriving in
                                                        Update as ordinary
                                                        messages)
-  github.com/vibrantgio/mvu/example           v0.9.0   numbered mvu examples,
+  github.com/vibrantgio/mvu/example           v0.9.1   numbered mvu examples,
                                                        00-reference upward
 
 CGO CAVEAT: mvu/desktop is the organization's first cgo beyond what Gio
@@ -1075,7 +1075,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
       gioui.org v0.10.1
       github.com/reactivego/rx v0.3.0
       github.com/vibrantgio/patterns v0.6.2
-      github.com/vibrantgio/mvu v0.9.0
+      github.com/vibrantgio/mvu v0.9.1
       github.com/vibrantgio/components v0.9.0
       github.com/vibrantgio/theme v0.6.1
       github.com/vibrantgio/textdraw v0.0.4
