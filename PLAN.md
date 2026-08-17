@@ -3701,7 +3701,32 @@ ADR-016 D5, and the settled sidebar mark.
   siblings when shown together, and a fresh-eyes review of them beside
   the platform's own marks raises no complaint. Commit and push.
 
-#### N1.4: Adopt the set in vaultview and delete the hand-rolled marks
+#### N1.4: Even out the stroke weight of the diagonal marks
+
+The first drawing pass left the set uneven: the sidebar's axis-aligned
+band covers device pixels wholly and renders black, while the three
+diagonal marks — the two history chevrons and the disclosure — peak at
+about 91% ink at 16 and 24 dp and read grey beside it. The platform
+itself compensates for this: its chevron band measures ~1.3 px at 16 pt
+against our 1.0, a heavier measure on the diagonal so the perceived
+weight stays even. ADR-016 D6 wants the set to read as siblings;
+literal one-measure uniformity is defeating that goal on this hardware.
+
+- [ ] The diagonal marks take a compensated band — about 2 units on the
+  24 grid, the exact measure decided by rendering — while the
+  axis-aligned marks keep 1.5; peak ink at 16/20/24 dp is measured
+  against the platform's own chevrons rendered at the same sizes and
+  lands within a few percent of them.
+- [ ] The band rule written down for mark authors states the diagonal
+  compensation and the measured platform numbers that justify it,
+  replacing the mis-calibrated claim that a heavier band necessarily
+  reads bolder than the platform's marks.
+- [ ] Exit: the four marks shown together read as one weight in a
+  magnified side-by-side, tests green, and the sibling-evenness
+  complaint from the first drawing pass is re-checked and closed.
+  Commit and push.
+
+#### N1.5: Adopt the set in vaultview and delete the hand-rolled marks
 
 ADR-016 D1 — the app stops drawing its own.
 
@@ -3712,7 +3737,7 @@ ADR-016 D1 — the app stops drawing its own.
   every mark rendering, and a fresh-eyes review of a whole-window
   screenshot raises no complaint about any mark. Commit and push.
 
-#### N1.5: Publish the set and correct the icon guidance
+#### N1.6: Publish the set and correct the icon guidance
 
 ADR-016 D1 and D5.
 
