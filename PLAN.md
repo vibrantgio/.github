@@ -3665,6 +3665,77 @@ nothing that belongs to the window should.
   whole-window goldens regenerated; fresh eyes raise no complaint about
   the buttons. Commit and push.
 
+### G-M4: Heading spacing and the bottom edge
+
+The dossier is ADR-018. The renderer change goes first; the app changes
+absorb its golden churn; the release closes the seam.
+
+#### M4.1: Give headings asymmetric space above and below
+
+ADR-018 D1, D2, D3.
+
+- [ ] The renderer's style grows per-level heading space above and
+  below, derived from the type scale and holding the measured
+  proportions (above ≈ 2× below, above ≈ 1.35× the ordinary block gap,
+  deeper levels slightly less), defaulting on, with both suppressions:
+  none above a document's first block, reduced above a heading that
+  directly follows another heading.
+- [ ] The behaviour is unit-tested as layout transitions — first-block
+  and heading-after-heading suppression included — and anchor landing
+  from a followed link still brings the heading comfortably into view.
+  Goldens in the renderer's repo regenerated. If the styling is
+  mirrored anywhere else in the package, the mirror moves with it.
+- [ ] Exit: blank-run measurements above and below headings in a
+  rendered screenshot match the dossier's reference proportions, and a
+  fresh-eyes review of a mid-document screenshot raises no complaint
+  about spacing. Commit and push.
+
+#### M4.2: End the reading column clear of the window's bottom edge
+
+ADR-018 D4.
+
+- [ ] A scrolled-to-the-end note rests its last line on a bottom
+  content inset instead of running into the window's edge, the amount
+  matched by measurement to the platform's own reading surfaces. If the
+  treatment is a general scrolling affordance the components repo lacks,
+  it is added there rather than drawn privately in the app.
+- [ ] End-of-document keyboard navigation lands on the resting
+  position, and mid-document scrolling still uses the full viewport —
+  the inset belongs to the document's end, not to every frame.
+- [ ] Exit: a screenshot of a long note's end shows the last line clear
+  of the edge with no mid-glyph clipping, whole-window goldens
+  regenerated (absorbing the previous task's spacing change), and a
+  fresh-eyes review raises no complaint about the bottom edge. Commit
+  and push.
+
+#### M4.3: Cap the backlinks pane and show the aside's scrollbars
+
+ADR-018 D5 and D6.
+
+- [ ] The backlinks pane takes the height of its entries up to four and
+  no more: fewer entries return the room to the outline above, more
+  scroll within the cap. The outline and the capped backlinks list each
+  show the same fading scroll indicator the note column carries, using
+  the existing treatment rather than drawing a private one.
+- [ ] The sizing is unit-tested at the boundaries — zero, one, four and
+  many entries — and outline navigation, backlink navigation and the
+  document-tracking highlight all still work in the resized panes.
+- [ ] Exit: a note with two backlinks and a note with twenty both show
+  the aside proportioned to content, every scrollable aside column
+  shows its indicator when scrollable, goldens regenerated, and a
+  fresh-eyes review of the aside raises no complaint. Commit and push.
+
+#### M4.4: Release the spacing and edge changes
+
+- [ ] The renderer repo is tagged with the next legal version for an
+  additive change and any other repo touched by this goal is tagged per
+  its own precedent — no double-digit version components, explanatory
+  tag messages where the number understates the change — verified from
+  VCS, never the proxy.
+- [ ] Consumer pins bumped, `GOWORK=off` builds and tests green in
+  every bumped module, sync scripts run, gates green, and the root
+  guidance describes nothing unpublished. Commit and push.
+
 ## Phase N: A Vibrant Gio iconset
 
 Three applications have now hand-drawn their own marks because the org's
@@ -7621,6 +7692,63 @@ offscreen renders, which cannot draw the platform's own buttons at all,
 and on unit-level transitions. The first task to run with the screen
 unlocked should spend a minute confirming the buttons land inside the
 pane and the window still drags by the pane's empty strip.
+
+### ADR-018: Heading space and the bottom edge when reading
+
+**Status.** Accepted 2026-08-18, at the owner's direction, from two
+observations against the reference reading app.
+
+#### Why
+
+The owner put the viewer beside the reference rendering the same kind
+of note and saw the difference at once: the reference gives a heading
+far more room above it than below, while the viewer spaces every block
+identically. The viewer's renderer carries one `BlockGap` (8 dp)
+between every pair of sibling blocks — a heading gets exactly the air a
+paragraph gets, on both sides, so nothing visually binds a heading to
+the section it introduces. Separately, the frame work's review noted
+the reading column runs flush into the window's bottom edge, cutting
+the last visible line mid-glyph, where the platform's reading surfaces
+end their content clear of the edge.
+
+The reference was measured, not eyeballed: blank-pixel runs in the
+owner's screenshot of the reference at a 16 px body show roughly 37 px
+between ordinary blocks, 49–52 px above a heading, and 22–25 px below
+one. Two proportions fall out: space above a heading is about twice the
+space below it, and about 1.35 times an ordinary block gap. That is the
+classic proximity rule — a heading separates from what it closes and
+clings to what it opens.
+
+#### Decisions
+
+- **D1 — headings carry their own vertical space, asymmetric.** The
+  renderer's style grows per-level space above and below a heading,
+  derived from the type scale rather than hardcoded pixels, holding the
+  measured proportions: above ≈ 2× below, above ≈ 1.35× the ordinary
+  block gap, with deeper levels earning slightly less than shallower
+  ones. Defaults are on — every consumer inherits the rhythm without
+  being edited.
+- **D2 — two suppressions.** No extra space above a document's first
+  block, and a heading directly following another heading takes reduced
+  space above — a stacked pair is one announcement, not two sections.
+- **D3 — the ordinary block gap does not change in this pass.** The
+  owner asked for the heading rhythm. If the side-by-side then shows
+  the paragraph rhythm still reading denser than the reference, that is
+  recorded as its own observation rather than smuggled into this one.
+- **D4 — the reading column ends clear of the window's bottom edge.**
+  The last line of a scrolled-to-the-end note rests above the edge on a
+  content inset matched by measurement to the platform's own reading
+  surfaces; a line is never cut mid-glyph by the window. Reaching the
+  end from the keyboard lands on that resting position.
+- **D5 — the backlinks pane sizes to its content, capped.** The owner's
+  observation: the backlinks area is usually far larger than what it
+  holds. It takes the height of its entries up to four and no more —
+  fewer entries yield the room back to the outline, more scroll within
+  the cap.
+- **D6 — every scrolling column shows the standard indicator.** The
+  outline scrolls but shows no scrollbar; it and the capped backlinks
+  list take the same fading indicator the note column carries. A column
+  that can scroll and does not say so reads as truncated.
 
 ### The repo doc contract
 
