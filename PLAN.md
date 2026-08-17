@@ -7323,6 +7323,45 @@ three structural.
   question and the app is not the place to answer it privately. Three
   app-local drawings have already had to be undone this way.
 
+#### S7 — carried out of Phase M
+
+Found while the reading experience was rebuilt, deliberately not fixed
+there:
+
+- **Code fences clip long lines dead.** A line wider than the container
+  ends mid-word at its edge with no ellipsis, no wrap and no horizontal
+  scroller: the overflow is silently lost, and a reader cannot tell
+  there was more. This belongs to the markdown library, so it bites
+  every application that renders a fence, and it is the most serious
+  item here — the others are awkward, this one hides content.
+- Back and forward are small low-contrast marks with hit targets well
+  under the platform minimum, and enabled reads much like disabled.
+- The trailing column cannot be put away, unlike the sidebar, so a
+  reader on a narrow window has no way to give the document its width
+  back.
+- The find field is not a search field: no leading magnifier, no clear
+  control, no focus ring — and no focus ring appears anywhere in the
+  window.
+- Inline code renders as a full-width filled rounded box, hard to tell
+  from the find field.
+- There are no menu commands or key equivalents for the vault actions
+  or for history.
+- The document's scroll indicator is inset by the reading gutter rather
+  than hugging the column edge. A reviewer read that as wrong; the
+  choice was deliberate. Recorded as a decision to re-affirm or revisit,
+  not as a defect.
+
+**Verification debt.** The frame the phase built — the sidebar running
+to the window's top edge with the window buttons inside it — has never
+been seen running. The machine's screen was locked for the whole of
+M2.1, M2.2 and M2.3: window capture fails under the display shield, a
+whole-screen capture returns black, and the application panics inside
+the toolkit's window initialisation while locked. Everything rests on
+offscreen renders, which cannot draw the platform's own buttons at all,
+and on unit-level transitions. The first task to run with the screen
+unlocked should spend a minute confirming the buttons land inside the
+pane and the window still drags by the pane's empty strip.
+
 ### The repo doc contract
 
 Every repository gets the same two files, in the same shape.
