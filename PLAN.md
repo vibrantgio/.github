@@ -3470,13 +3470,13 @@ ADR-015 D4 — a pane, not a column.
 
 ADR-015 D5 — what would have caught this without René.
 
-- [ ] A whole-window golden at a realistic size, in both appearances,
+- [x] A whole-window golden at a realistic size, in both appearances,
   following the repo's golden shape — the first golden in this plan that
   renders a window rather than a slot.
-- [ ] A chrome-budget assertion: the vertical distance from the window
+- [x] A chrome-budget assertion: the vertical distance from the window
   top to the first content row is measured and bounded, failing loudly
   when a band creeps back.
-- [ ] Exit: both tests fail when the old two-band chrome is restored, and
+- [x] Exit: both tests fail when the old two-band chrome is restored, and
   the suite is green with it gone. Commit and push.
 
 ## Phase M: Deferred defects and polish
