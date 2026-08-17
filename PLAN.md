@@ -3457,13 +3457,13 @@ ADR-015 D1 — the single row, finished.
 
 ADR-015 D4 — a pane, not a column.
 
-- [ ] The rail becomes an inset rounded pane over the window background:
+- [x] The rail becomes an inset rounded pane over the window background:
   its own surface step, its own hide control, the note column reflowing
   to the freed width when it is hidden.
-- [ ] Hidden is remembered: the toggle's state survives navigation and
+- [x] Hidden is remembered: the toggle's state survives navigation and
   vault switching within the session, and the keyboard reaches both the
   toggle and the rail's rows.
-- [ ] Exit: shown and hidden both reviewed with fresh eyes on real
+- [x] Exit: shown and hidden both reviewed with fresh eyes on real
   screenshots; goldens regenerated. Commit and push.
 
 #### L1.6: Add a whole-window golden and a chrome-height assertion
