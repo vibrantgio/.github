@@ -3640,6 +3640,31 @@ buttons keep AppKit's window-relative x while the pane's edge moved.
   fresh eyes raise no complaint about the buttons' placement. Commit and
   push.
 
+#### M3.4: Anchor the window buttons to the window, not the pane
+
+The owner ruled on the open question the previous task left: the traffic
+lights are part of the window shining through the pane, so they anchor
+to the window's own edges — the platform's reading, confirmed by
+measurement against its sidebar apps — and they never move. The
+pane-relative insets the previous task chose are the wrong frame of
+reference: when the pane toggles away today the buttons shift, and
+nothing that belongs to the window should.
+
+- [ ] The buttons take fixed window-relative offsets matching the
+  platform's own, measured again in pixels from the reference app on
+  this display, and the placement is identical whether the sidebar is
+  shown or hidden — the hidden state stops restoring a different
+  geometry, and the two golden leading constants collapse to one.
+- [ ] The pane's strip and toggle keep clear of the buttons at their new
+  position, and the chrome budget assertion still holds.
+- [ ] The ruling is recorded with the title-bar decisions so future
+  frame work inherits it: the buttons belong to the window, not to any
+  pane drawn under them.
+- [ ] Exit: a live capture measured in pixels confirms the buttons sit
+  where the reference's do and do not move when the pane toggles;
+  whole-window goldens regenerated; fresh eyes raise no complaint about
+  the buttons. Commit and push.
+
 ## Phase N: A Vibrant Gio iconset
 
 Three applications have now hand-drawn their own marks because the org's
