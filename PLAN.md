@@ -3516,16 +3516,6 @@ ADR-014 S2 — one sweep, zero behaviour.
 
 ### G-M2: Deferred polish
 
-#### M2.1: Apply the sidebar pill style to the backlinks aside
-
-ADR-014 S3 — the same pill, one file.
-
-- [ ] vaultview's backlinks aside draws its rows with the rail's
-  inset-pill treatment — shared insets, rounded fill, unchanged
-  colours; goldens regenerated if the aside appears in any.
-- [ ] Exit: a screenshot of the running app, actually inspected, shows
-  rail and aside speaking one selection language. Commit and push.
-
 #### M2.2: Add a clickable breadcrumb API to patterns
 
 ADR-014 S4 — the additive pattern API.
@@ -6912,11 +6902,12 @@ committed clean only what it touched. One caution recorded during K1.2:
 gofmt would mangle — that file needs its comment restructured so the
 formatted form stays readable, not a blind format-and-commit.
 
-#### S3 — the aside kept the old fill
+#### S3 — the aside keeps a full-bleed fill, deliberately
 
 K1.4's inset-pill treatment covered the sidebar rail only; the backlinks
-aside still draws a full-bleed selection fill, the style the rail just
-left behind. Same treatment, same colours, one file.
+aside still draws a full-bleed selection fill. Raised as a follow-up and
+then closed by the owner on 2026-08-17: the pill is the rail's style and
+is not wanted in the aside. Recorded so it is not re-proposed.
 
 #### S4 — breadcrumbs cannot be clicked
 
