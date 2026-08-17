@@ -3549,10 +3549,10 @@ smaller frame work so the others land in their final home.
 
 ADR-017 O4.
 
-- [ ] Rescan and Switch Vault leave the chrome row for the bottom of the
+- [x] Rescan and Switch Vault leave the chrome row for the bottom of the
   sidebar pane, reachable by keyboard, and the pane's rows keep their
   scroll independent of them.
-- [ ] Exit: both actions work from their new home — a rescan reports its
+- [x] Exit: both actions work from their new home — a rescan reports its
   count, a switch returns to the picker — and goldens are regenerated.
   Commit and push.
 
