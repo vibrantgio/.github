@@ -3443,12 +3443,12 @@ row to the application.
 
 ADR-015 D1 — the single row, finished.
 
-- [ ] The chrome row moves up beside the window buttons: placed with the
+- [x] The chrome row moves up beside the window buttons: placed with the
   new mvu call, offset horizontally by `LeadingInset()` plus its own
   gap, with `underTitleBar` no longer padding the vault screen.
-- [ ] The row stays draggable where it is empty, so the window can still
+- [x] The row stays draggable where it is empty, so the window can still
   be moved by its top edge, and every control in it receives clicks.
-- [ ] Exit: chrome above the first content row measures under 40 dp at
+- [x] Exit: chrome above the first content row measures under 40 dp at
   Comfortable density — the measurement recorded in the commit body —
   and a fresh-eyes review of a whole-window screenshot raises no
   complaint about the title row. Commit and push.
