@@ -3427,14 +3427,14 @@ interactive row cannot live inside it while the strip stands. Offsetting
 the standard window buttons downward collapses the strip and hands the
 row to the application.
 
-- [ ] `mvu/desktop` grows a call that places the standard window buttons
+- [x] `mvu/desktop` grows a call that places the standard window buttons
   at a caller-given vertical offset, applied under the same re-assertion
   that re-shows them and measures the two insets, so a reconfigure does
   not undo it. No-op and zero-cost off macOS.
-- [ ] `TopInset` reports the collapsed strip once the buttons are
+- [x] `TopInset` reports the collapsed strip once the buttons are
   placed, and `LeadingInset` keeps reporting their trailing edge at the
   new position; both stay correct across resize and reconfigure.
-- [ ] Exit: godoc states what the call does and what it costs, naming no
+- [x] Exit: godoc states what the call does and what it costs, naming no
   consumer; darwin and stub builds green; mvu tagged per the release
   protocol (additive minor, nested tags mirrored), verified from VCS.
   Commit and push.
