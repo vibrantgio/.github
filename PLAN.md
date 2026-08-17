@@ -3409,7 +3409,7 @@ ADR-015 D1 and D2 — the band retires.
 - [ ] The header band and its hairline are gone; a toolbar row lays out
   inside the title-bar strip, offset by the leading inset: sidebar toggle
   first, then the vault name, with Rescan and Switch vault trailing.
-- [ ] The breadcrumb drops the vault crumb and carries the in-vault path
+- [x] The breadcrumb drops the vault crumb and carries the in-vault path
   only; the tree's root reveal keeps working from the toolbar's vault
   name instead.
 - [ ] Exit: the chrome above the first content row measures under 40 dp
