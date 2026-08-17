@@ -3656,15 +3656,15 @@ The format is not decided in advance: N1.1 measures it.
 ADR-016 D3. The spike decides the format; nothing else in the phase may
 assume an answer.
 
-- [ ] A spike outside the org repos (the `spikes/` sibling convention)
+- [x] A spike outside the org repos (the `spikes/` sibling convention)
   renders the same marks both ways — parsed through `vibrantgio/svg` and
   through `vibrantgio/ivg` — at the sizes controls actually draw them
   (16–24 dp), measuring cold parse, warm redraw, and any per-frame cost
   that survives caching.
-- [ ] The result is expressed as a share of a frame's render budget at
+- [x] The result is expressed as a share of a frame's render budget at
   60 Hz, not as raw nanoseconds, with the measurement method stated
   plainly enough to be re-run.
-- [ ] Exit: the numbers and the resulting format decision are recorded in
+- [x] Exit: the numbers and the resulting format decision are recorded in
   ADR-016 as an addendum, and D3's conditional is resolved to a plain
   statement of which format the set uses and why. No org repo changes.
 
@@ -7303,14 +7303,17 @@ them siblings of the others.
   distinct idiom. A Mac user must see the pane figure they know; a
   Windows or Linux user must not be shown it merely because it was drawn
   first.
-- **D3 — the format is decided by measurement, not preference.** A spike
-  compares `vibrantgio/svg` against `vibrantgio/ivg` for the same marks
-  at the sizes controls actually draw them. The comparison is expressed
-  as a share of frame render time, not as raw nanoseconds, because a
-  difference that never reaches a frame's budget is not a difference
-  worth choosing on. **If the gap is negligible in those terms, SVG
-  wins**: it is diffable, a human can correct a curve, and
-  `components/icon` already accepts it.
+- **D3 — the set is authored as SVG.** The format was decided by
+  measurement, not preference: `vibrantgio/svg` and `vibrantgio/ivg`
+  were compared on the same marks at the sizes controls actually draw
+  them, and the comparison expressed as a share of frame render time,
+  not as raw nanoseconds, because a difference that never reaches a
+  frame's budget is not a difference worth choosing on. **The gap is
+  negligible in those terms** — once each side caches its built ops, a
+  mark costs about a hundredth of a percent of a 60 Hz frame either way
+  — **so SVG wins**: it is diffable, a human can correct a curve, and
+  `components/icon` already accepts it. The numbers and the method are
+  the addendum below.
 - **D4 — the existing registry holds it.** `components/icon` already
   carries a `Registry` mapping names to icons in either SVG or IVG form.
   The set registers into that; no parallel mechanism is introduced.
@@ -7332,6 +7335,68 @@ leaves the reader guessing whether it shows the present or the next
 state. What the control is about to do belongs in its tooltip, which
 already says it; a state cue, if one is ever wanted, belongs in the
 control's own background.
+
+#### Addendum — the measurement that decided the format
+
+Measured 2026-08-17 on an Apple M1 Max, Go 1.26.5, Gio v0.10.1, in a
+throwaway module outside the org repos whose `replace` directives point
+at the working trees of `svg` and `ivg`. Two marks were drawn: the
+sidebar-pane figure — rounded-rectangle ring, vertical divider, three
+list lines, 21 segments of which 8 are cubic — and Material's `history`
+mark, the curvier of the pair. Each was authored once as SVG path data
+and encoded to IconVG through `ivg/mdicons`'s own path-data encoder, so
+both formats carry identical geometry. Rendered side by side through
+Gio's headless GPU at 96 px the two pictures differ by a mean of at most
+0.03 of 255 per channel, which is antialiasing and nothing else.
+
+Numbers are medians of five `-benchtime=2s` runs, expressed as a share
+of the 16.67 ms a 60 Hz frame is allowed.
+
+| what is paid | how often | SVG | IconVG |
+| --- | --- | --- | --- |
+| cold parse, one mark | once per process | 0.061–0.092 % | 0.0004 % |
+| first render at 16 / 20 / 24 dp | once per mark per size | 0.009–0.014 % | 0.013–0.015 % |
+| steady state, op replay only | every frame | 0.00004 % | 0.00004 % |
+| steady state, whole rasterised frame | every frame | 0.010–0.011 % | 0.010–0.011 % |
+
+The last row is the honest per-frame number. 256 marks were drawn into a
+512×512 headless GPU frame, an empty frame of the same window was
+subtracted, and the remainder divided by 256, so it carries the op
+replay, the tessellation and the draw rather than CPU op-building alone.
+It comes to about 1.7 µs a mark in either format.
+
+Read across the table, only the cold-parse row separates them, and it
+separates them once. A twelve-mark set parsed at start-up costs about
+180 µs as SVG — one percent of a single frame, paid once — against under
+a microsecond as IconVG. Every cost that recurs is the same to three
+significant figures.
+
+**Therefore SVG**, by D3's rule as written: the gap never reaches a
+frame's budget, so the tie goes to what SVG gives back — source a human
+can diff and correct a curve in, and a registry that already accepts it.
+
+Two findings the measurement turned up that the set must be built
+around:
+
+- **IconVG has no stroke and no shape primitives.** Its drawing
+  interface carries path-building operations only, so an evenly stroked
+  figure has to be authored as an outlined ring — outer contour wound
+  one way, inner contour the other — before it can be encoded at all.
+  SVG keeps a real stroke available; the geometry above was drawn as
+  outlines on both sides precisely so the comparison stayed honest.
+- **The SVG path caches nothing between frames, and that is where the
+  apparent difference lived.** `ivg/raster/gio`'s widget records its
+  built ops into a macro and replays that while the size is unchanged;
+  `svg/driver/gio`'s widget rebuilds every path on every frame — 0.057
+  to 0.064 % of the budget a mark, and 1.4 to 2.6 kB of garbage per mark
+  per frame. It is a missing cache, not a format cost. The set supplies
+  the macro cache itself, and with it the last two rows of the table are
+  what a mark costs.
+
+To re-run: the spike is `spikes/iconformat`, its own module, uncommitted
+by the spike convention. `go test -run TestVisualEquivalence -v` prints
+the like-for-like pixel check and the byte sizes; `go test -run '^$'
+-bench . -benchtime=2s -count=5` produces the table.
 
 ### ADR-017: Reading a long note, and the frame around it
 
