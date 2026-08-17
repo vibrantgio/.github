@@ -3509,15 +3509,15 @@ ADR-017 O1 and D5.
 
 ADR-017 O2 and D2.
 
-- [ ] Page Up and Page Down move the note by a viewport less a small
+- [x] Page Up and Page Down move the note by a viewport less a small
   overlap; Home and End reach the document's ends; Command-Up and
   Command-Down do the same as the macOS spelling. Keys reach the
   document without stealing from the find field or the tree while those
   hold focus.
-- [ ] The behaviour is unit-tested as scroll-offset transitions, not
+- [x] The behaviour is unit-tested as scroll-offset transitions, not
   merely wired: page moves are bounded at both ends, and a document
   shorter than the viewport does not move at all.
-- [ ] Exit: a real vault's longest note is crossed end to end with the
+- [x] Exit: a real vault's longest note is crossed end to end with the
   keyboard alone, and the anchor landing from a followed link still
   works afterwards. Commit and push.
 
