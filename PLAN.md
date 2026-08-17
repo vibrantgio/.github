@@ -3541,6 +3541,93 @@ ADR-014 S4, second half — the copy retires.
   checkout against published tags only; a screenshot confirms both
   trails render and click. Commit and push.
 
+## Phase N: A Vibrant Gio iconset
+
+Three applications have now hand-drawn their own marks because the org's
+documented icon source — the frozen 2016 Material set — has no platform
+idiom to offer. This phase gives the org its own set, drawn on one grid,
+resolving per operating system, held by the registry `components/icon`
+already has. The dossier is ADR-016; packets cite its decisions (D1–D6).
+The format is not decided in advance: N1.1 measures it.
+
+### G-N1: The set exists and the apps use it
+
+#### N1.1: Spike — measure SVG against IVG render cost
+
+ADR-016 D3. The spike decides the format; nothing else in the phase may
+assume an answer.
+
+- [ ] A spike outside the org repos (the `spikes/` sibling convention)
+  renders the same marks both ways — parsed through `vibrantgio/svg` and
+  through `vibrantgio/ivg` — at the sizes controls actually draw them
+  (16–24 dp), measuring cold parse, warm redraw, and any per-frame cost
+  that survives caching.
+- [ ] The result is expressed as a share of a frame's render budget at
+  60 Hz, not as raw nanoseconds, with the measurement method stated
+  plainly enough to be re-run.
+- [ ] Exit: the numbers and the resulting format decision are recorded in
+  ADR-016 as an addendum, and D3's conditional is resolved to a plain
+  statement of which format the set uses and why. No org repo changes.
+
+#### N1.2: Create the iconset package and the per-OS seam
+
+ADR-016 D1, D2, D4, D6.
+
+- [ ] The set's home is created in the format N1.1 chose, registering
+  through `components/icon`'s existing `Registry`. Names are stable and
+  say what the control is, not what the drawing looks like.
+- [ ] Resolution per operating system (D2): a name answers with the host
+  platform's drawing where one exists and a documented fallback where it
+  does not, decided at runtime with no build-tag fan-out at the call
+  site. Tests cover both the hit and the fallback.
+- [ ] The grid and stroke weight every mark is drawn on are written down
+  where an author of the next mark will find them, with the reasoning
+  for the numbers.
+- [ ] Exit: the package builds and tests green in its repo, its godoc
+  names no consumer, and one placeholder mark proves the whole path from
+  name to rendered widget. Commit and push.
+
+#### N1.3: Draw the first marks in the macOS idiom
+
+ADR-016 D5, and the settled sidebar mark.
+
+- [ ] The marks the applications use today are drawn on the shared grid:
+  the sidebar toggle (rounded rectangle, even thin stroke, vertical
+  divider, faint list lines in the leading pane — one drawing that never
+  morphs), the tree disclosure mark, and the two history chevrons.
+- [ ] Each mark is reviewed as a picture before it is called done:
+  rendered at its true size and magnified, and compared against the
+  platform's own equivalent rather than against the idea of it.
+- [ ] Exit: the marks render at 16–24 dp without muddying, read as
+  siblings when shown together, and a fresh-eyes review of them beside
+  the platform's own marks raises no complaint. Commit and push.
+
+#### N1.4: Adopt the set in vaultview and delete the hand-rolled marks
+
+ADR-016 D1 — the app stops drawing its own.
+
+- [ ] Vaultview draws its rail toggle, disclosure marks and history
+  chevrons from the set; the hand-rolled drawing code and its constants
+  are deleted, not left beside the new path.
+- [ ] Exit: goldens regenerated, the app runs against a real vault with
+  every mark rendering, and a fresh-eyes review of a whole-window
+  screenshot raises no complaint about any mark. Commit and push.
+
+#### N1.5: Publish the set and correct the icon guidance
+
+ADR-016 D1 and D5.
+
+- [ ] `llms.txt` §Icons stops saying there is no iconset: it names the
+  set, says which marks it carries and how a name resolves per platform,
+  and keeps the Material catalogue as the source for everything outside
+  the standard controls.
+- [ ] The icon browser shows the org's own set alongside what it already
+  catalogues, so an author can see the marks that exist before drawing
+  another.
+- [ ] Exit: the repos carrying the set and its consumers are tagged per
+  the release protocol, verified from VCS; gates green; `llms.txt`
+  describes nothing unpublished. Commit and push.
+
 ## Reference
 
 Decision records and shared contracts. `mdplan next` never visits this section
@@ -7020,6 +7107,70 @@ title share one row.
   same reasoning).
 - Windows and Linux keep the ordinary title bar: the seam reports a zero
   leading inset there and the app lays its row out from the left edge.
+
+### ADR-016: A Vibrant Gio iconset with per-OS variants
+
+**Status.** Accepted 2026-08-17, at the owner's direction, after three
+applications had each hand-drawn marks in their own code.
+
+#### Why
+
+`llms.txt` §Icons has always conceded the hole in its first line —
+"There is no Vibrant Gio iconset yet" — and pointed apps at the Material
+Design icons in `golang.org/x/exp/shiny/materialdesign/icons`, rendered
+through `ivg/raster/gio`. That set is the frozen 2016 Material release,
+961 icons. It has no sidebar mark at all: Material's own `view_sidebar`
+arrived in 2021, after the freeze. The nearest candidates —
+`ActionViewQuilt`, `ActionViewColumn`, `ActionViewArray` — are not the
+figure a macOS user reads as a sidebar, and Material's drawing language
+is not the platform's in the first place.
+
+The consequence has been an application drawing its own rectangles three
+times over (a disclosure mark, two history chevrons, a rail toggle), each
+one arriving as a separate design conversation with the owner, none of
+them siblings of the others.
+
+#### Decisions
+
+- **D1 — the org draws its own set.** Applications take their marks from
+  a Vibrant Gio iconset. The Material set stays available and stays
+  documented, but it is no longer where a standard control's mark comes
+  from.
+- **D2 — an icon name resolves per operating system.** The same name
+  answers with a drawing in the host platform's idiom, chosen at runtime,
+  with one drawing serving as the fallback where a platform has no
+  distinct idiom. A Mac user must see the pane figure they know; a
+  Windows or Linux user must not be shown it merely because it was drawn
+  first.
+- **D3 — the format is decided by measurement, not preference.** A spike
+  compares `vibrantgio/svg` against `vibrantgio/ivg` for the same marks
+  at the sizes controls actually draw them. The comparison is expressed
+  as a share of frame render time, not as raw nanoseconds, because a
+  difference that never reaches a frame's budget is not a difference
+  worth choosing on. **If the gap is negligible in those terms, SVG
+  wins**: it is diffable, a human can correct a curve, and
+  `components/icon` already accepts it.
+- **D4 — the existing registry holds it.** `components/icon` already
+  carries a `Registry` mapping names to icons in either SVG or IVG form.
+  The set registers into that; no parallel mechanism is introduced.
+- **D5 — draw what is needed, not a catalogue.** The first set covers the
+  marks the applications actually use today. A set nobody consumes is a
+  maintenance liability, and the Material catalogue remains for anything
+  outside the standard controls.
+- **D6 — one grid, one stroke.** Every mark is drawn on a shared grid at
+  a shared stroke weight so the set reads as siblings — which the
+  hand-rolled marks conspicuously did not.
+
+#### The sidebar mark, settled
+
+The owner's reference is the platform's own: a rounded rectangle in an
+even thin stroke, divided by a vertical line, the leading pane carrying
+faint list lines. **One drawing that never morphs** — the platform does
+not change this mark to advertise the action, and a mark that changes
+leaves the reader guessing whether it shows the present or the next
+state. What the control is about to do belongs in its tooltip, which
+already says it; a state cue, if one is ever wanted, belongs in the
+control's own background.
 
 ### The repo doc contract
 
