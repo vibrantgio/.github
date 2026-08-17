@@ -3597,6 +3597,22 @@ window's background, with the window control buttons inside it.
   the complaint to answer being whether it reads as a raised pane rather
   than a painted column; whole-window goldens regenerated. Commit and
   push.
+
+#### M3.2: Release the reading seam
+
+The phase's library work — the scrollbar fade, the list and document
+scroll verbs, the scroll-to-block seam — is public API sitting untagged,
+so a clean checkout cannot build the viewer against published tags. The
+authoring omission is the plan's, found at the phase's end.
+
+- [ ] Tag the markdown and components releases bottom-up per the release
+  protocol (additive minors), move vaultview's pins onto them, and any
+  other pin the protocol's second pass requires.
+- [ ] Exit: all gates green from a clean checkout including the
+  no-workspace check; `GOWORK=off` build and test of vaultview against
+  published tags only; `llms.txt` describing nothing unpublished. Commit
+  and push.
+
 ## Phase N: A Vibrant Gio iconset
 
 Three applications have now hand-drawn their own marks because the org's
@@ -7389,6 +7405,8 @@ there:
   from the find field.
 - There are no menu commands or key equivalents for the vault actions
   or for history.
+- The outline pane does not indent its entries by heading level, so a
+  deep hierarchy reads flat.
 - The document's scroll indicator is inset by the reading gutter rather
   than hugging the column edge. A reviewer read that as wrong; the
   choice was deliberate. Recorded as a decision to re-affirm or revisit,
