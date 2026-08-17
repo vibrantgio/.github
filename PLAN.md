@@ -3672,17 +3672,17 @@ assume an answer.
 
 ADR-016 D1, D2, D4, D6.
 
-- [ ] The set's home is created in the format N1.1 chose, registering
+- [x] The set's home is created in the format N1.1 chose, registering
   through `components/icon`'s existing `Registry`. Names are stable and
   say what the control is, not what the drawing looks like.
-- [ ] Resolution per operating system (D2): a name answers with the host
+- [x] Resolution per operating system (D2): a name answers with the host
   platform's drawing where one exists and a documented fallback where it
   does not, decided at runtime with no build-tag fan-out at the call
   site. Tests cover both the hit and the fallback.
-- [ ] The grid and stroke weight every mark is drawn on are written down
+- [x] The grid and stroke weight every mark is drawn on are written down
   where an author of the next mark will find them, with the reasoning
   for the numbers.
-- [ ] Exit: the package builds and tests green in its repo, its godoc
+- [x] Exit: the package builds and tests green in its repo, its godoc
   names no consumer, and one placeholder mark proves the whole path from
   name to rendered widget. Commit and push.
 
