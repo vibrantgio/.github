@@ -3392,12 +3392,12 @@ its own. The dossier is ADR-015; packets cite its decisions (D1–D5).
 
 ADR-015 D3 — the measurement the toolbar row needs.
 
-- [ ] `mvu/desktop` grows a leading inset beside `TopInset`: the trailing
+- [x] `mvu/desktop` grows a leading inset beside `TopInset`: the trailing
   edge of the window control buttons in dp, measured under the same
   re-assertion that measures the top inset, published through the same
   atomic, zero where the platform has no such buttons. The stub build
   answers zero; the darwin build answers a plausible value under test.
-- [ ] Exit: godoc states what the value means and when it changes, naming
+- [x] Exit: godoc states what the value means and when it changes, naming
   no consumer; `go build && go test` green on darwin and with the stub
   tags; mvu tagged per the release protocol (additive minor), verified
   from VCS. Commit and push.
