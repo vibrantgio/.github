@@ -3479,67 +3479,94 @@ ADR-015 D5 — what would have caught this without René.
 - [x] Exit: both tests fail when the old two-band chrome is restored, and
   the suite is green with it gone. Commit and push.
 
-## Phase M: Deferred defects and polish
+## Phase M: Reading long notes in vaultview
 
-Four items were deferred during Phases I–K: a confirmed defect
-in the effects repo, formatter drift from the Go 1.26 toolchain, and two
-polish follow-ups the review pass scoped out. The evidence is ADR-014 in
-the Reference section; packets cite its items S1–S4. Two goals: the
-defects and drift first, then the polish.
+Five things the owner hit using the viewer against real vaults: the
+document has no scrollbar and cannot be moved from the keyboard, the
+right column has no room for an outline, the vault actions sit in the
+wrong place, and the sidebar stops below the window buttons where the
+platform would run it to the top. The dossier is ADR-017; packets cite
+its observations (O1–O5) and decisions (D1–D5). The functional pain goes
+first: a viewer that cannot be paged through fails at its purpose.
 
-### G-M1: Defects and formatting drift
+### G-M1: The document can be read
 
-#### M1.1: Forward Props.Ground in effects/springbutton
+#### M1.1: Show the document's scroll position
 
-ADR-014 S1 — the forwarding fix and its release.
+ADR-017 O1 and D5.
 
-- [ ] `effects/springbutton`: `renderState` forwards `Props.Ground`;
-  the components pin moves to v0.8.1; the repo's forwarding test — the
-  one that found the gap — passes under the workspace and `GOWORK=off`
-  alike. Goldens regenerated only if the ground actually moves pixels
-  in a golden's scene, with the reason in the commit body.
-- [ ] Exit: effects tagged v0.2.1 per the release protocol, verified
-  from VCS; gates green; `llms.txt` current. Commit and push.
+- [ ] The note column carries a visible scroll indicator that reports
+  position and proportion, appearing when there is more document than
+  viewport and behaving as the platform's does when the pointer is away.
+- [ ] If the treatment does not already exist in `components`, it is
+  added there rather than drawn privately in the app (D5), with its own
+  tests and goldens in that repo.
+- [ ] Exit: a long note shows the indicator, a short one does not, and a
+  fresh-eyes review of a whole-window screenshot mid-document raises no
+  complaint about it. Commit and push.
 
-#### M1.2: Apply Go 1.26 gofmt across the workspace
+#### M1.2: Move the document from the keyboard
 
-ADR-014 S2 — one sweep, zero behaviour.
+ADR-017 O2 and D2.
 
-- [ ] `theme/tokens/seed.go` first: restructure the hand-aligned
-  documentation table so its gofmt-formatted form reads well — this
-  file is why the sweep cannot be blind.
-- [ ] Run Go 1.26 gofmt across every module in the workspace; commit
-  per repo with a formatting-only subject; no tags (formatting rides
-  the next real release of each repo, per the emission-only precedent).
-- [ ] Exit: `gofmt -l` reports nothing in any module; every suite
-  green; every golden byte-identical. Commit and push.
+- [ ] Page Up and Page Down move the note by a viewport less a small
+  overlap; Home and End reach the document's ends; Command-Up and
+  Command-Down do the same as the macOS spelling. Keys reach the
+  document without stealing from the find field or the tree while those
+  hold focus.
+- [ ] The behaviour is unit-tested as scroll-offset transitions, not
+  merely wired: page moves are bounded at both ends, and a document
+  shorter than the viewport does not move at all.
+- [ ] Exit: a real vault's longest note is crossed end to end with the
+  keyboard alone, and the anchor landing from a followed link still
+  works afterwards. Commit and push.
 
-### G-M2: Deferred polish
+### G-M2: The frame matches the platform
 
-#### M2.2: Add a clickable breadcrumb API to patterns
+#### M2.1: Run the sidebar to the window's top edge
 
-ADR-014 S4 — the additive pattern API.
+ADR-017 O5 and D3. The largest change in the phase — take it before the
+smaller frame work so the others land in their final home.
 
-- [ ] `patterns/breadcrumb` grows an additive way to lay out a trail
-  that is decided at frame time and clickable per segment, keeping the
-  existing `Render`/`Breadcrumb` surfaces byte-compatible; unit tests
-  cover click routing and a trail that changes between frames; godoc
-  names no consumers.
-- [ ] Exit: patterns tagged v0.7.0 per the release protocol (additive
-  minor), verified from VCS; gates green; `llms.txt` current. Commit
+- [ ] The sidebar becomes the leading column from the window's top edge:
+  the window buttons sit inside the pane, placed with the existing
+  desktop call, and the pane's toggle moves to its own top-right corner.
+  The chrome row no longer spans the window.
+- [ ] The document's own top row keeps the breadcrumb and history
+  affordances, and the chrome budget assertion is re-stated against the
+  new arrangement rather than deleted — it measured 28 dp and must not
+  regress.
+- [ ] Hidden still works: with the pane away the window buttons return to
+  the geometry the platform expects and the document reflows.
+- [ ] Exit: shown and hidden both reviewed with fresh eyes against the
+  platform's own arrangement; whole-window goldens regenerated. Commit
   and push.
 
-#### M2.3: Adopt the new breadcrumb API in vaultview
+#### M2.2: Move the vault actions to the foot of the sidebar
 
-ADR-014 S4, second half — the copy retires.
+ADR-017 O4.
 
-- [ ] vaultview's picker and note trails render through the new
-  patterns API; `crumb.go` is deleted; the patterns pin moves to
-  v0.7.0; goldens regenerated where the chevron glyph legitimately
-  changes.
-- [ ] Exit: `GOWORK=off` build and test of vaultview from a clean
-  checkout against published tags only; a screenshot confirms both
-  trails render and click. Commit and push.
+- [ ] Rescan and Switch Vault leave the chrome row for the bottom of the
+  sidebar pane, reachable by keyboard, and the pane's rows keep their
+  scroll independent of them.
+- [ ] Exit: both actions work from their new home — a rescan reports its
+  count, a switch returns to the picker — and goldens are regenerated.
+  Commit and push.
+
+#### M2.3: Split the aside into an outline and backlinks
+
+ADR-017 O3 and D4.
+
+- [ ] The right column carries the current note's heading outline above
+  and its backlinks below, each scrolling in its own right, with the
+  outline's entries navigating to their heading in the document.
+- [ ] The outline tracks the document: the heading the reader is inside
+  is marked as the note scrolls, and choosing an entry moves the
+  document rather than reloading it.
+- [ ] Exit: a note with many headings and a note with none both read
+  correctly, backlinks stay reachable in either case, goldens
+  regenerated, and a fresh-eyes review raises no complaint about the
+  column. Commit and push.
 
 ## Phase N: A Vibrant Gio iconset
 
@@ -3627,6 +3654,68 @@ ADR-016 D1 and D5.
 - [ ] Exit: the repos carrying the set and its consumers are tagged per
   the release protocol, verified from VCS; gates green; `llms.txt`
   describes nothing unpublished. Commit and push.
+
+## Phase O: Deferred defects and polish
+
+Four items were deferred during Phases I–K: a confirmed defect
+in the effects repo, formatter drift from the Go 1.26 toolchain, and two
+polish follow-ups the review pass scoped out. The evidence is ADR-014 in
+the Reference section; packets cite its items S1–S4. Two goals: the
+defects and drift first, then the polish.
+
+### G-O1: Defects and formatting drift
+
+#### O1.1: Forward Props.Ground in effects/springbutton
+
+ADR-014 S1 — the forwarding fix and its release.
+
+- [ ] `effects/springbutton`: `renderState` forwards `Props.Ground`;
+  the components pin moves to v0.8.1; the repo's forwarding test — the
+  one that found the gap — passes under the workspace and `GOWORK=off`
+  alike. Goldens regenerated only if the ground actually moves pixels
+  in a golden's scene, with the reason in the commit body.
+- [ ] Exit: effects tagged v0.2.1 per the release protocol, verified
+  from VCS; gates green; `llms.txt` current. Commit and push.
+
+#### O1.2: Apply Go 1.26 gofmt across the workspace
+
+ADR-014 S2 — one sweep, zero behaviour.
+
+- [ ] `theme/tokens/seed.go` first: restructure the hand-aligned
+  documentation table so its gofmt-formatted form reads well — this
+  file is why the sweep cannot be blind.
+- [ ] Run Go 1.26 gofmt across every module in the workspace; commit
+  per repo with a formatting-only subject; no tags (formatting rides
+  the next real release of each repo, per the emission-only precedent).
+- [ ] Exit: `gofmt -l` reports nothing in any module; every suite
+  green; every golden byte-identical. Commit and push.
+
+### G-O2: Deferred polish
+
+#### O2.2: Add a clickable breadcrumb API to patterns
+
+ADR-014 S4 — the additive pattern API.
+
+- [ ] `patterns/breadcrumb` grows an additive way to lay out a trail
+  that is decided at frame time and clickable per segment, keeping the
+  existing `Render`/`Breadcrumb` surfaces byte-compatible; unit tests
+  cover click routing and a trail that changes between frames; godoc
+  names no consumers.
+- [ ] Exit: patterns tagged v0.7.0 per the release protocol (additive
+  minor), verified from VCS; gates green; `llms.txt` current. Commit
+  and push.
+
+#### O2.3: Adopt the new breadcrumb API in vaultview
+
+ADR-014 S4, second half — the copy retires.
+
+- [ ] vaultview's picker and note trails render through the new
+  patterns API; `crumb.go` is deleted; the patterns pin moves to
+  v0.7.0; goldens regenerated where the chevron glyph legitimately
+  changes.
+- [ ] Exit: `GOWORK=off` build and test of vaultview from a clean
+  checkout against published tags only; a screenshot confirms both
+  trails render and click. Commit and push.
 
 ## Reference
 
@@ -6963,7 +7052,7 @@ Phase K packet says "the review", it means this ADR.
 
 **Status.** Accepted 2026-08-16. Four items surfaced during Phases I–K and
 were deliberately left unplanned at the time; this ADR records the evidence
-so Phase M's packets can cite it.
+so Phase O's packets can cite it.
 
 #### S1 — spring buttons drop their ground
 
@@ -7171,6 +7260,65 @@ leaves the reader guessing whether it shows the present or the next
 state. What the control is about to do belongs in its tooltip, which
 already says it; a state cue, if one is ever wanted, belongs in the
 control's own background.
+
+### ADR-017: Reading a long note, and the frame around it
+
+**Status.** Accepted 2026-08-17, from the owner's use of the viewer
+against real vaults. Five observations, two of them functional pain and
+three structural.
+
+#### Observations
+
+- **O1 — the document has no scrollbar.** Nothing on screen says the
+  note continues below the fold, how far down the reader is, or how much
+  is left. On a long note that is not a polish complaint: the reader has
+  no position at all.
+- **O2 — the keyboard cannot move the document.** Page Up, Page Down,
+  Home, End and the macOS Command-Up / Command-Down pair do nothing, so
+  a long file can only be crossed by dragging. The owner's word for it
+  was painful, and a read-only viewer whose only motion is the mouse
+  fails at the one thing it exists to do.
+- **O3 — the right column carries only backlinks.** A note's own
+  structure — its headings — is the thing a reader wants beside a long
+  document, and there is nowhere to put it. Wanted: an outline above,
+  scrollable in its own right, with the backlinks kept below it in a
+  pane of their own rather than merged into one list.
+- **O4 — the vault actions sit in the chrome row.** Rescan and Switch
+  Vault are vault-scoped, not document-scoped, and belong at the foot of
+  the pane that represents the vault. Their place in the top row also
+  costs the row width it does not need to spend.
+- **O5 — the sidebar stops below the window buttons.** The platform puts
+  the pane at the very top: on macOS the sidebar owns the leading column
+  from the window's top edge, the window buttons sit inside it, and the
+  toggle sits at the pane's own top-right corner. The reference is Mail:
+  one pane, full height, buttons within it, no chrome band crossing
+  above it. The viewer instead runs a full-width row across the top with
+  the pane hanging beneath — the arrangement Phase L landed, and one the
+  platform does not use.
+
+#### Decisions
+
+- **D1 — position before prettiness.** O1 and O2 are functional and come
+  first in the phase. A scrollbar and the keys are what make the viewer
+  usable on the notes the owner actually keeps.
+- **D2 — the keys follow the platform.** Page Up / Page Down move by a
+  viewport less an overlap, Home and End go to the document's ends, and
+  Command-Up / Command-Down are the macOS spelling of the same ends.
+  Where the platform's own text views define the behaviour, match it
+  rather than inventing a variant.
+- **D3 — the frame follows the platform's arrangement (O5).** The
+  sidebar becomes the leading column from the window's top edge with the
+  window buttons inside it and its toggle at its own top-right. This
+  revises, and does not contradict, ADR-015: the single-row principle and
+  the measured chrome budget both stand — what changes is that the row no
+  longer spans the window, so the pane can reach the top.
+- **D4 — the aside splits (O3).** Outline above, backlinks below, each
+  scrolling in its own right, so a long outline cannot bury the
+  backlinks or the reverse.
+- **D5 — the scrollbars are the design system's, not the app's.** If a
+  scrollbar treatment has to be invented for this, it is a components
+  question and the app is not the place to answer it privately. Three
+  app-local drawings have already had to be undone this way.
 
 ### The repo doc contract
 
