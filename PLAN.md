@@ -3378,7 +3378,7 @@ ADR-013 D4 — patch releases per the release protocol.
   the touched apps against published tags only; `llms.txt` describing
   nothing the org has not published. Commit and push.
 
-## Phase L: The window wears its own chrome
+## Phase L: Unified title bar and floating sidebar
 
 The vault window spends about 80 dp on two stacked, nearly empty bands
 before content begins. This phase collapses them into the platform's
@@ -3386,9 +3386,9 @@ unified title row, floats the sidebar, and — because no golden in this
 plan has ever rendered a whole window — gives the composition a test of
 its own. The dossier is ADR-015; packets cite its decisions (D1–D5).
 
-### G-L1: One row of chrome
+### G-L1: Chrome fits in one row
 
-#### L1.1: The desktop seam measures the leading inset
+#### L1.1: Measure the window-button leading inset in mvu/desktop
 
 ADR-015 D3 — the measurement the toolbar row needs.
 
@@ -3402,7 +3402,7 @@ ADR-015 D3 — the measurement the toolbar row needs.
   tags; mvu tagged per the release protocol (additive minor), verified
   from VCS. Commit and push.
 
-#### L1.2: Vaultview moves into the title row
+#### L1.2: Move vaultview's controls into the title bar
 
 ADR-015 D1 and D2 — the band retires.
 
@@ -3416,7 +3416,7 @@ ADR-015 D1 and D2 — the band retires.
   at Comfortable density, and the fresh-eyes review of a whole-window
   screenshot reports no complaint about the title row. Commit and push.
 
-#### L1.3: The sidebar floats
+#### L1.3: Make the sidebar a floating panel
 
 ADR-015 D4 — a pane, not a column.
 
@@ -3429,7 +3429,7 @@ ADR-015 D4 — a pane, not a column.
 - [ ] Exit: shown and hidden both reviewed with fresh eyes on real
   screenshots; goldens regenerated. Commit and push.
 
-#### L1.4: The composition gets a test
+#### L1.4: Add a whole-window golden and a chrome-height assertion
 
 ADR-015 D5 — what would have caught this without René.
 
@@ -3442,17 +3442,17 @@ ADR-015 D5 — what would have caught this without René.
 - [ ] Exit: both tests fail when the old two-band chrome is restored, and
   the suite is green with it gone. Commit and push.
 
-## Phase M: The shelf clears
+## Phase M: Deferred defects and polish
 
-Four items accumulated on the shelf during Phases I–K: a confirmed defect
+Four items were deferred during Phases I–K: a confirmed defect
 in the effects repo, formatter drift from the Go 1.26 toolchain, and two
 polish follow-ups the review pass scoped out. The evidence is ADR-014 in
-the Reference section; packets cite its items (S1–S4). Two goals: the
+the Reference section; packets cite its items S1–S4. Two goals: the
 defects and drift first, then the polish.
 
-### G-M1: Defects and drift
+### G-M1: Defects and formatting drift
 
-#### M1.1: Spring buttons carry their ground
+#### M1.1: Forward Props.Ground in effects/springbutton
 
 ADR-014 S1 — the forwarding fix and its release.
 
@@ -3464,7 +3464,7 @@ ADR-014 S1 — the forwarding fix and its release.
 - [ ] Exit: effects tagged v0.2.1 per the release protocol, verified
   from VCS; gates green; `llms.txt` current. Commit and push.
 
-#### M1.2: The formatter drift retires
+#### M1.2: Apply Go 1.26 gofmt across the workspace
 
 ADR-014 S2 — one sweep, zero behaviour.
 
@@ -3477,9 +3477,9 @@ ADR-014 S2 — one sweep, zero behaviour.
 - [ ] Exit: `gofmt -l` reports nothing in any module; every suite
   green; every golden byte-identical. Commit and push.
 
-### G-M2: Polish follow-ups
+### G-M2: Deferred polish
 
-#### M2.1: The aside matches the rail
+#### M2.1: Apply the sidebar pill style to the backlinks aside
 
 ADR-014 S3 — the same pill, one file.
 
@@ -3489,7 +3489,7 @@ ADR-014 S3 — the same pill, one file.
 - [ ] Exit: a screenshot of the running app, actually inspected, shows
   rail and aside speaking one selection language. Commit and push.
 
-#### M2.2: Breadcrumbs learn to click
+#### M2.2: Add a clickable breadcrumb API to patterns
 
 ADR-014 S4 — the additive pattern API.
 
@@ -3502,7 +3502,7 @@ ADR-014 S4 — the additive pattern API.
   minor), verified from VCS; gates green; `llms.txt` current. Commit
   and push.
 
-#### M2.3: The app adopts the pattern
+#### M2.3: Adopt the new breadcrumb API in vaultview
 
 ADR-014 S4, second half — the copy retires.
 
@@ -6845,12 +6845,11 @@ Phase K packet says "the review", it means this ADR.
 - The spring-button render-state gap found during the census is a
   separate defect, outside this phase.
 
-### ADR-014: The shelf after the polish pass
+### ADR-014: Deferred defects and polish items
 
 **Status.** Accepted 2026-08-16. Four items surfaced during Phases I–K and
 were deliberately left unplanned at the time; this ADR records the evidence
-so Phase M's packets can cite it. Where a Phase M packet says "the shelf",
-it means this ADR.
+so Phase M's packets can cite it.
 
 #### S1 — spring buttons drop their ground
 
@@ -6893,10 +6892,9 @@ file; the visual language matches the pattern. The pattern wants an
 additive API for a per-frame, per-segment-clickable trail — at which
 point the app's copy retires. patterns' published tag is v0.6.2.
 
-### ADR-015: The window wears its own chrome
+### ADR-015: Unified title bar and floating sidebar
 
-**Status.** Accepted 2026-08-16, from René's third visual pass. Where a
-Phase L packet says "the chrome dossier", it means this ADR.
+**Status.** Accepted 2026-08-16, from René's third visual pass. 
 
 #### The measurement
 
