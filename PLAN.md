@@ -6956,6 +6956,29 @@ Deferred from its list, in rough order of severity:
 - Tree rows are ~36 dp against a 24–28 dp platform norm for dense lists.
 - The document has no bottom inset, so the last line sits on the edge.
 
+#### S6 — carried out of Phase L
+
+Found while the title bar was rebuilt, deliberately not fixed there:
+
+- Double-click-to-zoom on the window's top edge is gone. The native
+  title-bar view never sees the press, so AppKit performs no zoom; the
+  application would have to implement it.
+- A drag that *starts on a control* in the chrome row also moves the
+  window, although the frame declares its move action only over the
+  empty spans and Gio's own hit test agrees. Some widening happens
+  below Gio in the title-bar band. Clicks are unaffected.
+- Fenced code blocks wider than the column still truncate with no
+  scroll, wrap or copy affordance — carried from S5, and the narrower
+  reading column makes it marginally worse.
+- The document clips mid-glyph at the window bottom with no scroll
+  indication, and has no bottom inset.
+- With the rail hidden the reading column takes the whole freed width
+  with no maximum measure — around 110 characters a line.
+- `goldenLeading = 69` freezes one machine's window-button metric as a
+  test fixture. Reproducibility was chosen over currency; if macOS
+  changes the metric the golden renders the old geometry while the live
+  row still measures.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
