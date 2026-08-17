@@ -3613,6 +3613,33 @@ authoring omission is the plan's, found at the phase's end.
   published tags only; `llms.txt` describing nothing unpublished. Commit
   and push.
 
+#### M3.3: Match the window-button insets to the platform's
+
+The owner measured the reference: the platform's sidebar apps inset the
+window control buttons about 4 mm from the pane's top and leading edges;
+the viewer gives them barely 3 mm from the leading edge and under 2 mm
+from the top, because the placement seam only speaks vertically — the
+buttons keep AppKit's window-relative x while the pane's edge moved.
+
+- [ ] `mvu/desktop` grows a horizontal dimension on the button
+  placement, additively beside the existing call: the caller states
+  where the buttons' leading edge sits, applied under the same
+  re-assertion, restored exactly by the zero placement, no-op off
+  macOS. `LeadingInset` keeps reporting the measured trailing edge at
+  the new position. mvu tagged per the release protocol — the tag rule
+  forbids a double-digit component, so the minor slot above v0.9.0 is
+  closed; use the patch v0.9.1 with the tag message stating the addition
+  plainly, mirrored on the nested tags.
+- [ ] Vaultview places the buttons about 4 mm from the pane's top and
+  leading edges — equal insets, matching the reference by measurement on
+  this display — with the pane's strip and the toggle keeping clear, the
+  hidden state still restoring platform geometry, and the chrome budget
+  untouched.
+- [ ] Exit: a live capture measured in pixels confirms the insets match
+  the reference within a millimetre; whole-window goldens regenerated;
+  fresh eyes raise no complaint about the buttons' placement. Commit and
+  push.
+
 ## Phase N: A Vibrant Gio iconset
 
 Three applications have now hand-drawn their own marks because the org's
