@@ -3730,10 +3730,10 @@ literal one-measure uniformity is defeating that goal on this hardware.
 
 ADR-016 D1 — the app stops drawing its own.
 
-- [ ] Vaultview draws its rail toggle, disclosure marks and history
+- [x] Vaultview draws its rail toggle, disclosure marks and history
   chevrons from the set; the hand-rolled drawing code and its constants
   are deleted, not left beside the new path.
-- [ ] Exit: goldens regenerated, the app runs against a real vault with
+- [x] Exit: goldens regenerated, the app runs against a real vault with
   every mark rendering, and a fresh-eyes review of a whole-window
   screenshot raises no complaint about any mark. Commit and push.
 
