@@ -3690,14 +3690,14 @@ ADR-016 D1, D2, D4, D6.
 
 ADR-016 D5, and the settled sidebar mark.
 
-- [ ] The marks the applications use today are drawn on the shared grid:
+- [x] The marks the applications use today are drawn on the shared grid:
   the sidebar toggle (rounded rectangle, even thin stroke, vertical
   divider, faint list lines in the leading pane — one drawing that never
   morphs), the tree disclosure mark, and the two history chevrons.
-- [ ] Each mark is reviewed as a picture before it is called done:
+- [x] Each mark is reviewed as a picture before it is called done:
   rendered at its true size and magnified, and compared against the
   platform's own equivalent rather than against the idea of it.
-- [ ] Exit: the marks render at 16–24 dp without muddying, read as
+- [x] Exit: the marks render at 16–24 dp without muddying, read as
   siblings when shown together, and a fresh-eyes review of them beside
   the platform's own marks raises no complaint. Commit and push.
 
