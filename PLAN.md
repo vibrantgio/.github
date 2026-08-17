@@ -3571,6 +3571,32 @@ ADR-017 O3 and D4.
   regenerated, and a fresh-eyes review raises no complaint about the
   column. Commit and push.
 
+### G-M3: The sidebar reads as an elevated pane
+
+#### M3.1: Inset the sidebar pane and round it, keeping it at the top
+
+ADR-017 O5 revisited. M2.1 ran the sidebar to the window's top edge but
+flattened it doing so: it became a full-bleed column with no margin and
+no corners, when the platform's own treatment is both — a pane inset
+from the window's edges, rounded on all four corners, raised off the
+window's background, with the window control buttons inside it.
+
+- [ ] The pane is inset from the window's leading, top and bottom edges
+  by one margin and rounded on all four corners, with the window's own
+  ground visible around it on every side. The window control buttons
+  stand inside the pane, clear of its rounded top-leading corner.
+- [ ] The pane is raised by its surface step, not by a cast shadow: it
+  is raised in place, and the depth package's own rule reserves shadows
+  for surfaces that float and can leave. Say in the code why the step
+  and not the shadow.
+- [ ] Hidden still works, and the chrome budget assertion still holds:
+  the document's first content row does not move because the pane
+  gained a margin.
+- [ ] Exit: reviewed with fresh eyes against the platform's own sidebar,
+  the complaint to answer being whether it reads as a raised pane rather
+  than a painted column; whole-window goldens regenerated. Commit and
+  push.
+
 ## Phase N: A Vibrant Gio iconset
 
 Three applications have now hand-drawn their own marks because the org's
@@ -7315,6 +7341,18 @@ three structural.
   revises, and does not contradict, ADR-015: the single-row principle and
   the measured chrome budget both stand — what changes is that the row no
   longer spans the window, so the pane can reach the top.
+
+  **Corrected 2026-08-17, after the first attempt.** Reaching the top and
+  floating are not alternatives: the platform does both. The pane is
+  inset from the window's leading, top and bottom edges, rounded on all
+  four corners, raised off the window's ground, and the control buttons
+  stand inside it. The first attempt read "reaches the top" as "is the
+  edge" and flattened the pane into a painted column — the owner's word
+  was that it had become something quite different. The elevation is a
+  surface step and not a cast shadow: `effects/depth` reserves shadows
+  for surfaces that float and can leave, and a sidebar is raised in
+  place. Translucency is not available in this toolkit, so the step
+  carries the whole of the effect.
 - **D4 — the aside splits (O3).** Outline above, backlinks below, each
   scrolling in its own right, so a long outline cannot bury the
   backlinks or the reverse.
