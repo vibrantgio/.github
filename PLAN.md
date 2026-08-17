@@ -3674,18 +3674,18 @@ absorb its golden churn; the release closes the seam.
 
 ADR-018 D1, D2, D3.
 
-- [ ] The renderer's style grows per-level heading space above and
+- [x] The renderer's style grows per-level heading space above and
   below, derived from the type scale and holding the measured
   proportions (above ≈ 2× below, above ≈ 1.35× the ordinary block gap,
   deeper levels slightly less), defaulting on, with both suppressions:
   none above a document's first block, reduced above a heading that
   directly follows another heading.
-- [ ] The behaviour is unit-tested as layout transitions — first-block
+- [x] The behaviour is unit-tested as layout transitions — first-block
   and heading-after-heading suppression included — and anchor landing
   from a followed link still brings the heading comfortably into view.
   Goldens in the renderer's repo regenerated. If the styling is
   mirrored anywhere else in the package, the mirror moves with it.
-- [ ] Exit: blank-run measurements above and below headings in a
+- [x] Exit: blank-run measurements above and below headings in a
   rendered screenshot match the dossier's reference proportions, and a
   fresh-eyes review of a mid-document screenshot raises no complaint
   about spacing. Commit and push.
