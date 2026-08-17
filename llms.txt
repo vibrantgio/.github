@@ -65,8 +65,9 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      serialiser + cmd/vg-tokens), window, preferences
 
   tier 2
-  components  v0.9.0 button, input, list, richtext, scrollbar,
-                     icon, layout, keyed, initial, cache, bench (coordination
+  components  v0.9.1 button, input, list, richtext, scrollbar,
+                     icon, icons (the design system's own marks), layout,
+                     keyed, initial, cache, bench (coordination
                      is DEPRECATED — use mvu/stream.Value)
 
   tier 3
@@ -914,10 +915,51 @@ a goldmark document around it.
 
 ## Icons
 
-There is no Vibrant Gio iconset yet. When an app needs a glyph (a settings
-button, play/record controls, a close X), use the Material Design icons
-published as IconVG data in golang.org/x/exp/shiny/materialdesign/icons
-(961 icons, frozen 2016 Material set) and render them with ivg/raster/gio:
+The Vibrant Gio iconset is components/icons
+(github.com/vibrantgio/components/icons): the marks the standard controls
+need, drawn on one grid at one weight. It carries four — sidebar,
+disclosure, history-back, history-forward. A name says what the control
+does, never what the picture contains, because the drawing behind a name
+differs between platforms and does change, while the name is the part call
+sites store.
+
+  import "github.com/vibrantgio/components/icons"
+
+  if mark := icons.Mark(icons.Sidebar); mark != nil {
+      mark(gtx, gtx.Dp(20), c.Text) // colour from the theme's tokens
+  }
+
+Mark returns a Painter — func(gtx layout.Context, sizePx int, col
+color.NRGBA) — which is exactly the shape components/button Props.Icon
+takes, so a mark drops straight into a control's icon slot. It draws into a
+square of sizePx at the current origin, centred, and takes its colour at
+paint time, so a control animating its foreground costs no rebuild. Mark
+returns nil for a name the set does not carry, which is also what an icon
+slot reads as "no icon" — a missing mark degrades rather than panics. Has
+asks the same question without building a painter; Names lists the set.
+
+One name, one drawing per platform: a lookup takes the host system's own
+drawing (marks/<name>.<goos>.svg) where the set carries one and the shared
+drawing (marks/<name>.svg) where it does not, so macOS gets its own sidebar
+and every other platform gets the fallback rather than someone else's
+idiom. Nothing is selected by build tag — the whole set is compiled in and
+the choice happens at run time, so icons.New(goos) asks for another
+platform's answer on this one, and Set.Resolve reports which file answered.
+Register fills a components/icon Registry an application owns with its own
+parsed copies.
+
+Adding a mark is adding an SVG file under components/icons/marks — the file
+name is the whole registration mechanism. The package documentation is the
+authority on how: the 24x24 grid and its keyline, the two stroke measures
+that read as one weight (1.5 units axis-aligned, 2 diagonal), outlines
+rather than strokes because Gio's clip.Stroke exposes neither cap nor join,
+and non-zero winding for holes. Read it before drawing — every number there
+is a measurement, not a preference.
+
+For a glyph outside the standard controls (a settings button, play/record
+controls, a close X), use the Material Design icons published as IconVG
+data in golang.org/x/exp/shiny/materialdesign/icons (961 icons, frozen 2016
+Material set) and render them with ivg/raster/gio:
 
   import (
       "golang.org/x/exp/shiny/materialdesign/icons"
@@ -931,8 +973,10 @@ published as IconVG data in golang.org/x/exp/shiny/materialdesign/icons
 Names are Category+Name: ActionSettings, AVPlayArrow, AVStop, AVPause,
 AVFiberManualRecord, ContentAddCircle, ContentClear, NavigationClose, ...
 Colour the glyph from the theme's tokens — the pinned Primary for accent
-glyphs, a neutral text step otherwise — never a hard-coded colour.
-Run `go run ./iconbrowser/` (in the workbench repo) to search the set visually.
+glyphs, a neutral text step otherwise — never a hard-coded colour, and that
+holds for a mark as much as for a Material glyph.
+Run `go run ./iconbrowser/` (in the workbench repo) to see both sets: the
+marks at the sizes controls draw them, over the searchable Material grid.
 
 Arbitrary SVG assets (brand marks, logos) render via vibrantgio/svg:
 svg/driver/gio's IconWidget(icon, w, h, opacity) returns a vector
@@ -940,13 +984,14 @@ layout.Widget from a parsed *svg.Icon (parser.NewParser(...).ParseStream);
 inside markdown documents use markdown/svgimage instead (see above, and
 mindchat/assets.go for the embedded-asset pattern).
 
-An icon that may be replaced later beats no icon: use these freely; a future
-vibrantgio-owned set would register into components/icon (an empty name→icon
-Registry today) and swap in behind the same widgets. Do not plumb shiny
-icons into components/button Props.Icon — that field wants a clip.Path painter
-func(gtx, sizePx, col), not a widget; keep IVG icons in your own clickable
-until an adapter exists. Patterns draws its built-in chevrons/X with hand-
-coded clip paths on purpose (golden determinism); leave those alone.
+Reach for the set first where it carries the mark, and use the Material
+catalogue freely everywhere else: an icon that may be replaced later beats
+no icon, and a Material glyph swaps out behind the same widget when the set
+grows a mark for it. Do not plumb shiny icons into components/button
+Props.Icon — that field wants the painter func(gtx, sizePx, col) the set
+returns, not a widget; keep IVG icons in your own clickable until an adapter
+exists. Patterns draws its built-in chevrons/X with hand-coded clip paths on
+purpose (golden determinism); leave those alone.
 
 ## Pitfalls in an application (each caused a real bug in the example apps)
 
@@ -1076,7 +1121,7 @@ coded clip paths on purpose (golden determinism); leave those alone.
       github.com/reactivego/rx v0.3.0
       github.com/vibrantgio/patterns v0.6.2
       github.com/vibrantgio/mvu v0.9.1
-      github.com/vibrantgio/components v0.9.0
+      github.com/vibrantgio/components v0.9.1
       github.com/vibrantgio/theme v0.6.1
       github.com/vibrantgio/textdraw v0.0.4
   )
@@ -1106,9 +1151,11 @@ them without the caveats older guides carried:
               components button/checkbox/list, a modal dialog, live light/dark;
               theme.go is the minimal token-adapter recipe (PaletteFrom
               resolving ADR-007 steps, TypeFrom picking Typography roles)
-  iconbrowser/ searchable Material-icon grid — components TextField with
-              per-keystroke MessageOp updates, subscription-scoped scroll
-              and editor state, ivg icon rendering at scale
+  iconbrowser/ both icon sets in one window: components/icons at the
+              sizes controls draw them, over the searchable Material grid —
+              components TextField with per-keystroke MessageOp updates,
+              subscription-scoped scroll and editor state, ivg icon
+              rendering at scale
   watchlist/  full CRUD + persistence + context menus + popover confirms;
               wiring_test.go shows how to test the AutoConnect count
   mindchat/   the most feature-complete app: a multi-provider LLM chat

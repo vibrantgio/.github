@@ -3741,14 +3741,14 @@ ADR-016 D1 — the app stops drawing its own.
 
 ADR-016 D1 and D5.
 
-- [ ] `llms.txt` §Icons stops saying there is no iconset: it names the
+- [x] `llms.txt` §Icons stops saying there is no iconset: it names the
   set, says which marks it carries and how a name resolves per platform,
   and keeps the Material catalogue as the source for everything outside
   the standard controls.
-- [ ] The icon browser shows the org's own set alongside what it already
+- [x] The icon browser shows the org's own set alongside what it already
   catalogues, so an author can see the marks that exist before drawing
   another.
-- [ ] Exit: the repos carrying the set and its consumers are tagged per
+- [x] Exit: the repos carrying the set and its consumers are tagged per
   the release protocol, verified from VCS; gates green; `llms.txt`
   describes nothing unpublished. Commit and push.
 
