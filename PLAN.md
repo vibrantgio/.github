@@ -7348,11 +7348,16 @@ three structural.
   four corners, raised off the window's ground, and the control buttons
   stand inside it. The first attempt read "reaches the top" as "is the
   edge" and flattened the pane into a painted column — the owner's word
-  was that it had become something quite different. The elevation is a
-  surface step and not a cast shadow: `effects/depth` reserves shadows
-  for surfaces that float and can leave, and a sidebar is raised in
-  place. Translucency is not available in this toolkit, so the step
-  carries the whole of the effect.
+  was that it had become something quite different. The elevation is
+  tint first and shadow second, per `effects/depth`'s own ordering: the
+  pane keeps its surface step and casts a shadow, because it meets the
+  depth rule's criterion as written — it floats above the window's
+  ground and can leave, dismissed from its own toggle — and the
+  platform's own sidebar visibly casts one. (An earlier draft of this
+  correction read the rule by its examples and withheld the shadow; the
+  owner overruled it, and the criterion, not the example list, is the
+  rule.) Translucency is not available in this toolkit, so step and
+  shadow carry the whole of the effect.
 - **D4 — the aside splits (O3).** Outline above, backlinks below, each
   scrolling in its own right, so a long outline cannot bury the
   backlinks or the reverse.
