@@ -3495,13 +3495,13 @@ first: a viewer that cannot be paged through fails at its purpose.
 
 ADR-017 O1 and D5.
 
-- [ ] The note column carries a visible scroll indicator that reports
+- [x] The note column carries a visible scroll indicator that reports
   position and proportion, appearing when there is more document than
   viewport and behaving as the platform's does when the pointer is away.
-- [ ] If the treatment does not already exist in `components`, it is
+- [x] If the treatment does not already exist in `components`, it is
   added there rather than drawn privately in the app (D5), with its own
   tests and goldens in that repo.
-- [ ] Exit: a long note shows the indicator, a short one does not, and a
+- [x] Exit: a long note shows the indicator, a short one does not, and a
   fresh-eyes review of a whole-window screenshot mid-document raises no
   complaint about it. Commit and push.
 
