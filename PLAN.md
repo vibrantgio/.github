@@ -3402,21 +3402,58 @@ ADR-015 D3 — the measurement the toolbar row needs.
   tags; mvu tagged per the release protocol (additive minor), verified
   from VCS. Commit and push.
 
-#### L1.2: Move vaultview's controls into the title bar
+#### L1.2: Replace the header band with one app-drawn chrome row
+ADR-015 D1 and D2, app side. The 52 dp navbar band is replaced by one
+28 dp app-drawn row. This does not yet reach the chrome budget: the
+title-bar strip measures 32 dp on its own, so any row below it starts
+above the target. Collapsing the strip is L1.3 and L1.4.
 
-ADR-015 D1 and D2 — the band retires.
-
-- [ ] The header band and its hairline are gone; a toolbar row lays out
-  inside the title-bar strip, offset by the leading inset: sidebar toggle
-  first, then the vault name, with Rescan and Switch vault trailing.
+- [x] The header band and its hairline are gone, replaced by a single
+  app-drawn chrome row carrying the sidebar toggle, the vault name, and
+  Rescan and Switch vault trailing. The composition leaves
+  `patterns/shell`, whose top slot is pinned to `navbarHeight()`.
 - [x] The breadcrumb drops the vault crumb and carries the in-vault path
   only; the tree's root reveal keeps working from the toolbar's vault
   name instead.
-- [ ] Exit: the chrome above the first content row measures under 40 dp
-  at Comfortable density, and the fresh-eyes review of a whole-window
-  screenshot reports no complaint about the title row. Commit and push.
+- [x] Exit: measured and recorded — 60 dp above the first content row,
+  down from 80; `TopInset` 32 dp, `LeadingInset` 69 dp on this machine.
+  Sidebar-hidden state lives in the model. Commit and push.
 
-#### L1.3: Make the sidebar a floating panel
+#### L1.3: Add window-button repositioning to mvu/desktop
+
+ADR-015 D3, second half. The title-bar strip is paint-only — clicks in
+it reach the native title-bar view, not the application — so an
+interactive row cannot live inside it while the strip stands. Offsetting
+the standard window buttons downward collapses the strip and hands the
+row to the application.
+
+- [ ] `mvu/desktop` grows a call that places the standard window buttons
+  at a caller-given vertical offset, applied under the same re-assertion
+  that re-shows them and measures the two insets, so a reconfigure does
+  not undo it. No-op and zero-cost off macOS.
+- [ ] `TopInset` reports the collapsed strip once the buttons are
+  placed, and `LeadingInset` keeps reporting their trailing edge at the
+  new position; both stay correct across resize and reconfigure.
+- [ ] Exit: godoc states what the call does and what it costs, naming no
+  consumer; darwin and stub builds green; mvu tagged per the release
+  protocol (additive minor, nested tags mirrored), verified from VCS.
+  Commit and push.
+
+#### L1.4: Move the chrome row into the collapsed title bar
+
+ADR-015 D1 — the single row, finished.
+
+- [ ] The chrome row moves up beside the window buttons: placed with the
+  new mvu call, offset horizontally by `LeadingInset()` plus its own
+  gap, with `underTitleBar` no longer padding the vault screen.
+- [ ] The row stays draggable where it is empty, so the window can still
+  be moved by its top edge, and every control in it receives clicks.
+- [ ] Exit: chrome above the first content row measures under 40 dp at
+  Comfortable density — the measurement recorded in the commit body —
+  and a fresh-eyes review of a whole-window screenshot raises no
+  complaint about the title row. Commit and push.
+
+#### L1.5: Make the sidebar a floating panel
 
 ADR-015 D4 — a pane, not a column.
 
@@ -3429,7 +3466,7 @@ ADR-015 D4 — a pane, not a column.
 - [ ] Exit: shown and hidden both reviewed with fresh eyes on real
   screenshots; goldens regenerated. Commit and push.
 
-#### L1.4: Add a whole-window golden and a chrome-height assertion
+#### L1.6: Add a whole-window golden and a chrome-height assertion
 
 ADR-015 D5 — what would have caught this without René.
 
@@ -6891,6 +6928,33 @@ its own crumb row (`crumb.go`, J1.5) with the reason documented in the
 file; the visual language matches the pattern. The pattern wants an
 additive API for a per-frame, per-segment-clickable trail — at which
 point the app's copy retires. patterns' published tag is v0.6.2.
+
+#### S5 — the first adversarial review's findings
+
+The standing fresh-eyes rule ran for the first time during L1.2: a
+subagent that had not seen the packet was given only a screenshot and
+asked what a macOS developer would complain about. It caught the title
+row's two-band height independently of the measurement, and that
+Rescan/Switch vault drew at a grey that reads as disabled (fixed in
+that task). It also read the real NSWindow buttons as hand-drawn and
+Roboto as a mistake, so its output needs filtering, not adopting.
+
+Deferred from its list, in rough order of severity:
+
+- A code block wider than the column truncates mid-token with no
+  ellipsis, no horizontal scroll and no copy affordance. The only
+  functional defect in the list.
+- Back and forward are small glyphs inside the document body with no
+  real hit area, and no keyboard equivalent.
+- The sidebar toggle draws a hamburger; the platform idiom is a
+  sidebar-left figure. This is a design-system icon question, not an
+  app one.
+- The sidebar/document divider is invisible while the document/aside
+  divider is a 6 dp slab — two dividers, two languages.
+- The selection pill is a fixed lavender that ignores the accent ramp.
+- The backlinks empty state strands its label in the middle of the pane.
+- Tree rows are ~36 dp against a 24–28 dp platform norm for dense lists.
+- The document has no bottom inset, so the last line sits on the edge.
 
 ### ADR-015: Unified title bar and floating sidebar
 
