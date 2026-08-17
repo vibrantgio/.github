@@ -3574,7 +3574,6 @@ ADR-017 O3 and D4.
 ### G-M3: The sidebar reads as an elevated pane
 
 #### M3.1: Inset the sidebar pane and round it, keeping it at the top
-
 ADR-017 O5 revisited. M2.1 ran the sidebar to the window's top edge but
 flattened it doing so: it became a full-bleed column with no margin and
 no corners, when the platform's own treatment is both — a pane inset
@@ -3585,10 +3584,12 @@ window's background, with the window control buttons inside it.
   by one margin and rounded on all four corners, with the window's own
   ground visible around it on every side. The window control buttons
   stand inside the pane, clear of its rounded top-leading corner.
-- [ ] The pane is raised by its surface step, not by a cast shadow: it
-  is raised in place, and the depth package's own rule reserves shadows
-  for surfaces that float and can leave. Say in the code why the step
-  and not the shadow.
+- [ ] The pane is raised by tint first and shadow second: it keeps its
+  surface step and gains a cast shadow from `effects/depth`, because it
+  meets that package's criterion as written — it floats above the ground
+  and can leave, dismissed from its own toggle — and the platform's own
+  sidebar casts one. Say in the code why the sidebar qualifies under the
+  rule.
 - [ ] Hidden still works, and the chrome budget assertion still holds:
   the document's first content row does not move because the pane
   gained a margin.
@@ -3596,7 +3597,6 @@ window's background, with the window control buttons inside it.
   the complaint to answer being whether it reads as a raised pane rather
   than a painted column; whole-window goldens regenerated. Commit and
   push.
-
 ## Phase N: A Vibrant Gio iconset
 
 Three applications have now hand-drawn their own marks because the org's
