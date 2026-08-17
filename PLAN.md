@@ -3524,7 +3524,6 @@ ADR-017 O2 and D2.
 ### G-M2: The frame matches the platform
 
 #### M2.1: Run the sidebar to the window's top edge
-
 ADR-017 O5 and D3. The largest change in the phase — take it before the
 smaller frame work so the others land in their final home.
 
@@ -3538,10 +3537,14 @@ smaller frame work so the others land in their final home.
   regress.
 - [ ] Hidden still works: with the pane away the window buttons return to
   the geometry the platform expects and the document reflows.
+- [ ] Fix the focus order while the toggle is being moved: today Tab
+  reaches the rail's hide control between the find field and the tree,
+  so Tab-then-Return from the field hides the sidebar instead of opening
+  the selected note. The order must run field, then rows, with the
+  pane's own controls out of that path.
 - [ ] Exit: shown and hidden both reviewed with fresh eyes against the
   platform's own arrangement; whole-window goldens regenerated. Commit
   and push.
-
 #### M2.2: Move the vault actions to the foot of the sidebar
 
 ADR-017 O4.
