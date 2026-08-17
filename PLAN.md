@@ -3605,10 +3605,10 @@ scroll verbs, the scroll-to-block seam — is public API sitting untagged,
 so a clean checkout cannot build the viewer against published tags. The
 authoring omission is the plan's, found at the phase's end.
 
-- [ ] Tag the markdown and components releases bottom-up per the release
+- [x] Tag the markdown and components releases bottom-up per the release
   protocol (additive minors), move vaultview's pins onto them, and any
   other pin the protocol's second pass requires.
-- [ ] Exit: all gates green from a clean checkout including the
+- [x] Exit: all gates green from a clean checkout including the
   no-workspace check; `GOWORK=off` build and test of vaultview against
   published tags only; `llms.txt` describing nothing unpublished. Commit
   and push.
