@@ -3560,13 +3560,13 @@ ADR-017 O4.
 
 ADR-017 O3 and D4.
 
-- [ ] The right column carries the current note's heading outline above
+- [x] The right column carries the current note's heading outline above
   and its backlinks below, each scrolling in its own right, with the
   outline's entries navigating to their heading in the document.
-- [ ] The outline tracks the document: the heading the reader is inside
+- [x] The outline tracks the document: the heading the reader is inside
   is marked as the note scrolls, and choosing an entry moves the
   document rather than reloading it.
-- [ ] Exit: a note with many headings and a note with none both read
+- [x] Exit: a note with many headings and a note with none both read
   correctly, backlinks stay reachable in either case, goldens
   regenerated, and a fresh-eyes review raises no complaint about the
   column. Commit and push.
