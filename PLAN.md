@@ -3650,17 +3650,17 @@ pane-relative insets the previous task chose are the wrong frame of
 reference: when the pane toggles away today the buttons shift, and
 nothing that belongs to the window should.
 
-- [ ] The buttons take fixed window-relative offsets matching the
+- [x] The buttons take fixed window-relative offsets matching the
   platform's own, measured again in pixels from the reference app on
   this display, and the placement is identical whether the sidebar is
   shown or hidden — the hidden state stops restoring a different
   geometry, and the two golden leading constants collapse to one.
-- [ ] The pane's strip and toggle keep clear of the buttons at their new
+- [x] The pane's strip and toggle keep clear of the buttons at their new
   position, and the chrome budget assertion still holds.
-- [ ] The ruling is recorded with the title-bar decisions so future
+- [x] The ruling is recorded with the title-bar decisions so future
   frame work inherits it: the buttons belong to the window, not to any
   pane drawn under them.
-- [ ] Exit: a live capture measured in pixels confirms the buttons sit
+- [x] Exit: a live capture measured in pixels confirms the buttons sit
   where the reference's do and do not move when the pane toggles;
   whole-window goldens regenerated; fresh eyes raise no complaint about
   the buttons. Commit and push.
@@ -7319,6 +7319,63 @@ title share one row.
 - Windows and Linux keep the ordinary title bar: the seam reports a zero
   leading inset there and the app lays its row out from the left edge.
 
+#### Addendum — the buttons anchor to the window
+
+**Ruling.** 2026-08-17, René, closing the question D3's placement left
+open:
+
+> I prefer the platform's reading as the traffic lights are seen as part
+> of the window shining through the pane. Therefore these should never
+> move and anchoring them to the window is therefore the right call.
+
+**The measurement.** Re-taken on the 2560×1440 Thunderbolt (~109 ppi, one
+pixel per dp, screen unlocked) against four of the platform's own sidebar
+apps — Finder, Mail, Notes and Voice Memos. All four agree to the pixel:
+the drawn circles are 14 px across, pitched 23 px apart, with the group's
+leading edge 19 px in from the window's leading glass and its top edge
+19 px below the window's top glass. Centres therefore at 25.5 px on both
+axes, group trailing edge at 79 px. Reminders, a compact-toolbar window,
+sits at 9/9 instead — and 9 is also what AppKit gives this window unasked,
+which is why the placement is stated rather than defaulted: the two are
+10 px (2.3 mm) apart, well outside the millimetre the reference has to be
+matched within. (The folklore figures — 12 pt circles, 20 pt pitch, 20 pt
+inset — are stale on macOS 26 and a fresh reviewer quoted them at us;
+measure, do not recite.)
+
+**Consequence.** The window control buttons take fixed window-relative
+offsets — 19 dp in from the top and leading edges, centre line at 26 dp —
+and take them identically whether the sidebar pane stands or is hidden.
+The pane-relative inset the previous task chose is retired: measuring the
+buttons from the pane made them move when the pane left, and nothing that
+belongs to the window may move because of what is drawn under it. The
+sidebar pane's own top strip is now derived from the difference (`2 ×
+(inset − margin) + diameter` = 36 dp), so the strip clears the buttons
+and its middle line — where the pane's toggle centres — is their centre
+line. The whole-window goldens' leading pin collapses from a pair (85
+placed, 69 handed back) to the single value 79.
+
+**Standing rule.** No future frame work may anchor the window buttons to
+a pane, a rail, a row or anything else the application draws. They belong
+to the window; the application draws under them.
+
+**Known residue — one line, two rows.** The buttons now sit on the 26 dp
+line the pane's strip shares. The content area's chrome row is 28 dp and
+centres its own content at 14 dp, so two things read as off:
+
+- the vault name in the chrome row sits 12 dp above the buttons' line,
+  in both rail states;
+- the rail toggle jumps 12 dp vertically when the pane goes, because the
+  pane's half of that switch centres on the strip (26) and the row's half
+  centres on the row (14). A fresh reviewer, shown only the two pictures,
+  named this one unprompted: *the same control jumps when you click it.*
+
+The platform does not have this to reconcile because its sidebar apps put
+the buttons and the toolbar's contents in one ~52 dp unified band. Ours
+deliberately does not have that band — D1 exists to retire it — so the
+gap is the price of the tight row. It narrowed with this change (17 dp →
+12 dp) and is left standing; closing it means either spending the chrome
+D1 refused or moving a control that has just been ruled immovable. A
+future frame task may revisit it, but not by moving the buttons.
 ### ADR-016: A Vibrant Gio iconset with per-OS variants
 
 **Status.** Accepted 2026-08-17, at the owner's direction, after three
