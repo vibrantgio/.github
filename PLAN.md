@@ -3501,6 +3501,65 @@ Found while the title bar was rebuilt, deliberately not fixed there:
   changes the metric the golden renders the old geometry while the live
   row still measures.
 
+#### S7 — carried out of the adoption pass
+
+Measured on 2026-08-19 by a fresh reviewer looking at the vault viewer
+rendered under a kept brand — a saturated red pulled out of a photograph —
+in both appearances. Everything below is a pre-existing property the red
+made visible; none of it is caused by adoption, and none was cheap enough
+to fix inside the task that found it. The reviewer sampled pixels rather
+than judging by eye, so the numbers are measurements.
+
+- **A fenced code block does not follow the theme at all.** It is the only
+  region of either window carrying a hue that is not the brand: the
+  highlighter's own palette, selected by the ground's luminance
+  (`github` / `github-dark`). Consequences the reviewer measured: two
+  different reds on one screen 400 px apart — the link at `#E9232A` and
+  the keyword at `#CF222E`; the only violet and the only blue-grey in the
+  application, against neutrals that are exactly R=G=B everywhere else;
+  and the light palette, designed for a near-white code surface, sitting
+  on this one at 3.61:1 for the keyword and 4.31:1 for the comment, both
+  under the body-text floor. The two palettes also disagree about style —
+  comments are italic in one appearance and upright in the other.
+  Deriving the highlighter's palette from the same seed as everything
+  else is a design task of its own.
+- **A selection fill separates from its ground by hue alone.** The
+  sidebar's selected row measures 1.21:1 against the rail and the
+  outline's 1.18:1 — a state that vanishes in greyscale or to a
+  red-deficient reader. This is the tinted-container step meeting the
+  de-drab ruling: the neutrals are achromatic now, so a container step is
+  a hue step and not a lightness step. It is equally true of the default
+  palette; the red only made it legible as a defect.
+- **A saturated brand can put the link colour under the body-text floor.**
+  `#E9232A` on the light page measures 4.10:1, while its dark counterpart
+  measures 11.08:1 — the same role borderline in one appearance and
+  shouting in the other. Whether the derivation should gate the light
+  primary against the page the way it gates on-colours is the open
+  question.
+- **The outline pane's selected label loses its indent.** Left ink edges
+  measure 797 for the section header, 805 for the selected row and 815
+  for an unselected one, so selecting a row shifts its text ten pixels
+  left and leaves one pixel between the glyph and the pill's rounded
+  corner. The sidebar's own rows do not move.
+- **The code card's horizontal bar is a different idiom from the vertical
+  one beside it** — opaque, square-capped, and in the dark appearance the
+  brightest object in the lower half of the window, brighter than any
+  text.
+- **One fill does four jobs**: the properties card, the inline code chip,
+  the fenced block, and the hairline above Backlinks. The inline chip is
+  a full-width rounded rect of muted mono text, which is what the note
+  filter field also is — a non-interactive sample that reads as an empty
+  input.
+- **The hairline above Backlinks measures 1.17:1 in the dark
+  appearance**, so the rail's only structural separator does not render.
+- **The code card has 13 px of left padding and none on the right**, which
+  is where its content clips.
+
+Filtered as the known false positives of a headless render: absent window
+chrome and traffic lights, the scrollbar drawn at rest, the search field
+not being the platform's, no key-window distinction between two lists
+showing selection at once, and the bare chevrons — all recorded already.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -4948,6 +5007,94 @@ Measured after the G-B1 baseline work: all eight versions deleted during it —
 v0.3.1/v0.3.2/v0.4.2, `traer gio/v0.0.9`, `kiwi gio/v0.0.7` — were still
 clean on both the proxy and the sumdb. That was luck bounded by a small
 window, not a repeatable guarantee.
+
+### ADR-020: A kept theme is one seed in one shared file
+
+**Status.** Accepted 2026-08-19, when the themer gained the affordance that
+keeps what the looking found. P2.3's first checkbox asks for the storage
+decision to be recorded when it is made; this is that record.
+
+**Decision.** A kept theme is one JSON object naming one colour, at one
+per-user path every application reads:
+
+```
+~/Library/Application Support/vibrantgio/theme.json   (darwin)
+$XDG_CONFIG_HOME/vibrantgio/theme.json                (linux)
+%AppData%\vibrantgio\theme.json                       (windows)
+
+{
+  "seed": "#e9232a",
+  "source": "finder-window-buttons.png",
+  "saved": "2026-08-18T23:42:01Z"
+}
+```
+
+`theme/brand` owns that file and hands the colour back as the options a
+live theme stream is built with. Adoption is one line per application:
+
+```go
+specsystem.LiveTheme(interval, brand.Kept().Options()...)
+```
+
+**The seed is the whole theme.** ADR-007's derivation is a pure function of
+its seed and pins the light primary to the seed exactly, so
+`FromSeed(FromSeed(x).Primary)` is `FromSeed(x)` byte for byte — asserted
+over 411 seeds, eleven chosen and four hundred random, in the derivation's
+own tests, in both the default and the high-contrast derivation. One colour therefore
+regenerates every ramp, pin and on-colour of both schemes, and storing the
+generated colours beside it would do nothing but freeze a derivation the
+generator is still entitled to improve. What is stored beside the seed is
+provenance and not input: the picture the colour came out of, and when it
+was kept, so a file found six months later can say what it is.
+
+**Why not `theme/export`'s `theme.json` whole.** The export tree is a
+handoff artifact for another tool: written whole, overwritten whole, with
+no reader in this org and no place to record where a colour came from.
+Adopting it as the settings file would mean an application parsing a
+hundred and fifty lines of density metrics and spring presets to learn one hex, and a
+config directory holding a document that claims to describe a project.
+So the file is its own small thing — but it is deliberately not a second
+spelling of the same fact: it uses export's key and export's format for the
+seed, lowercase `#rrggbb` under `"seed"`, and unknown keys are ignored, so
+an exported `theme.json` dropped in as this file loads without translation.
+A test in `theme/brand` writes a real export tree and reads its
+`theme.json` back as a kept brand, which is what keeps the two honest.
+
+**Why `os.UserConfigDir`, and why not per application.** A chosen brand is
+config, not data, which is the same reasoning `theme/preferences` records
+for the same root — and it keeps the module free of a Gio dependency, which
+`app.DataDir` would add. The path carries the design system's name rather
+than an application's because the whole point of keeping a brand is that
+everything the person opens wears it; one file serves all of them, and
+nothing has to be copied between applications for a choice to spread.
+
+**Why `theme/brand` and not somewhere that already exists.**
+`theme/system` was the obvious home — it is the seam adoption enters
+through — but it speaks to the OS and never to a disk, and it is usable
+with no window and no files at all; teaching it to read config would blur
+the one thing its documentation promises. `theme/preferences` was the other
+candidate and is the closer neighbour, but it is per application by
+construction (its path takes an app name) and its `Theme` field is a
+free-form name, not a colour. A kept brand is neither. So it is a third
+small package in the same module, which imports `system` for the option
+type and is imported by no library above it.
+
+**Adoption replaces the seed and nothing else.** The option pins the
+palette pair; which side of the pair shows is still the desktop's decision
+and still changes live. One consequence is deliberate: a pinned pair
+outranks the OS accent colour, so a brand somebody chose beats the accent
+they did not. Golden images stay on the canonical palette — adoption is a
+runtime fact about one person's machine, not something baked into an
+application — and an application's pre-emission fallback palette must be
+seeded from the same brand as its stream, or the first frames open in a
+colour nobody chose.
+
+**Absence and damage are the same answer.** No file, an unreadable
+directory, a file that is not JSON, a seed that is not a colour: every one
+of them yields no brand, and no brand yields exactly the behaviour that
+predates this file — the canonical defaults, no error, no dialog, no crash.
+An application that wants the difference can ask for it; nothing in the
+workbench does.
 
 ## Phase A: Front door — make the org legible to a coding assistant
 
@@ -9382,13 +9529,13 @@ and its generated scheme are saved in a form the workbench apps can
 adopt, with the decision about the storage format recorded in the
 dossier when it is made.
 
-- [ ] The chosen seed persists: saving records the seed and enough
+- [x] The chosen seed persists: saving records the seed and enough
   provenance to regenerate the scheme deterministically, the format
   decided and recorded in the dossier, and loading it back
   reproduces the scheme exactly.
-- [ ] A workbench app can adopt the saved theme through the existing
+- [x] A workbench app can adopt the saved theme through the existing
   live-theme seam, demonstrated end to end in at least one app.
-- [ ] Exit: choose a seed in the themer, save it, open the adopting
+- [x] Exit: choose a seed in the themer, save it, open the adopting
   app and see the theme; tests green; fresh eyes on the adopting app
   under the new theme raise no complaint about partial adoption.
   Commit and push.

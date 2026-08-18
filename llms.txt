@@ -62,7 +62,8 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      engine and APCA), theme (Theme, the token observables),
                      system (LiveTheme, palette injection, the OS accent),
                      a11y (OS accessibility observables), export (token
-                     serialiser + cmd/vg-tokens), window, preferences
+                     serialiser + cmd/vg-tokens), window, preferences,
+                     brand (the kept seed, shared by every app)
 
   tier 2
   components  v0.9.2 button, input, list, richtext, scrollbar,
@@ -602,6 +603,19 @@ durations (§Motion). Apps do nothing to get either.
 theme/preferences persists an explicit in-app theme choice (light/dark/
 auto + a11y overrides) as JSON in the OS config dir, when an app offers its
 own control; interpreting the stored name is the app's job.
+
+theme/brand is the other persisted choice, and it is per USER, not per app:
+one seed colour in one shared file (<config dir>/vibrantgio/theme.json), so
+a brand chosen once is worn by everything. Adopting it is one line —
+
+  specsystem.LiveTheme(interval, brand.Kept().Options()...)
+
+— and with no file, or a damaged one, Options() is nil and the stream is the
+one it always was. The pinned pair beats the OS accent; light/dark still
+follows the desktop, live. An app that keeps a pre-emission fallback palette
+(an atomic cell read at frame time) must seed it from brand.Kept().Colors(),
+or its opening frames are in a colour nobody chose. Goldens stay on the
+canonical palette: adoption is runtime, never baked in.
 
 ## Density
 
@@ -1212,7 +1226,9 @@ them without the caveats older guides carried:
               the loop as messages, a window-wide zone, hover highlight)
               and for a theme observable the APPLICATION re-seeds: the OS
               still decides light or dark, the app decides the colour. A
-              path argument takes the same path a drop does
+              path argument takes the same path a drop does. Keep writes
+              the chosen seed through theme/brand, which is where the
+              other apps read it from
   sitedocs/   marketing + docs shell: hero/feature/pricing/testimonial,
               accordion sidebar, breadcrumbs; the docs pages are embedded
               .md sources rendered with vibrantgio/markdown (content/*.md +
@@ -1231,7 +1247,9 @@ them without the caveats older guides carried:
               names is app-local and pure — one index built by an mvu.Do
               scan off the render goroutine, pure functions over it, every
               rule pinned by a test. Read doc.go first: it states the link
-              contract the tests enforce. It never writes to a note
+              contract the tests enforce. It never writes to a note. Also
+              the reference for adopting a kept brand: one theme.LiveTheme
+              option, and the same value seeding mirrorTokens' first cell
   (DESIGN.md, the architecture document, no longer lives here: it moved to
   github.com/vibrantgio/design beside the exported token bundle. Read its
   §Key architectural patterns and §Threading & lifecycle before writing new
