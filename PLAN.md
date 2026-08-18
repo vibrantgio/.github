@@ -3825,6 +3825,41 @@ beside a line of text, and the chevrons sit in a text row.
   goldens regenerated where pixels legitimately move; fresh eyes raise
   no complaint about the head row. Commit and push.
 
+#### M6.4: Tighten the seam between a paragraph and the list it announces
+
+The owner: a line ending in a colon sits an awful lot of space away
+from the list that follows it. Their A/B screenshots are stored as
+`reference/macos/vaultview-list-seam-ab.png` (ours) and
+`reference/macos/obsidian-list-seam-ab.png`, and the measurement is
+exact: at the same scale, ours opens 37 px of visible blank between
+the announcing line's ink and the first bullet's ink where the
+reference opens 25 — the reference tightens this one seam to about
+two-thirds of the ordinary block gap, which both apps agree is ~37.
+The rule is structural, not punctuational: the reference's styling
+cannot see a colon — every list directly following a paragraph gets
+the tighter seam — and that is also the honest rule for us, since a
+colon test would miss announcing sentences without one and misfire on
+colons that announce nothing.
+
+- [ ] A list block that immediately follows a paragraph takes a
+  tightened space above, landing the visible blank at that seam near
+  the reference's 25 px at 1 px/dp while every other block transition
+  keeps the ordinary gap; the knob is a Style field with the
+  zero-value falling back to the ordinary gap, derived from the block
+  rhythm in visible-blank space rather than hardcoded, and set by the
+  token constructor so themed documents get it without opting in.
+- [ ] The seam below the list back to ordinary blocks is measured from
+  the stored captures only: if none of them shows a list followed by a
+  paragraph, the below-seam keeps the ordinary gap and that open edge
+  is recorded in the dossier rather than guessed — no app is launched
+  to find out.
+- [ ] Exit: the rendered seam is measured A/B against the stored
+  screenshots and lands within 2 px of the reference's blank, the
+  rhythm test suite gains the paragraph-to-list case alongside its
+  existing transitions, goldens regenerated where pixels legitimately
+  move, and fresh eyes on a note holding an announcing paragraph and
+  its list raise no complaint about the seam. Commit and push.
+
 ### G-M4: Heading spacing and the bottom edge
 
 The dossier is ADR-018. The renderer change goes first; the app changes
