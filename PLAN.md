@@ -3678,6 +3678,27 @@ nothing that belongs to the window should.
   whole-window goldens regenerated; fresh eyes raise no complaint about
   the buttons. Commit and push.
 
+#### M3.5: Remove the sliver beside the pane's toggle
+
+The owner switched to light mode and saw stray pixels just right of the
+floating pane at its top. Magnifying their screenshot pins it: a grey
+sliver about one pixel wide and exactly the toggle mark's height,
+sitting at the pane's trailing edge, with the pane's fill running one
+pixel wider over that same span than it does below — the toggle's box
+appears to paint to, or push past, the pane's rounded fill. Light mode
+exposes it because the pane tint and the ground are close there; it
+was invisible in dark.
+
+- [ ] The cause is found by reading the strip and toggle geometry
+  against a magnified render, and the toggle's box ends wholly inside
+  the pane's fill — verified in light and dark, pane shown and after a
+  toggle round-trip.
+- [ ] Exit: a light-mode capture magnified at the pane's top trailing
+  corner shows a clean pane edge with no stray ink beside the toggle,
+  goldens regenerated if pixels legitimately move, and fresh eyes on
+  the whole window raise no complaint about the corner. Commit and
+  push.
+
 ### G-M5: A stored platform reference
 
 The owner: measurement sweeps that launch macOS apps and grab the
@@ -3835,7 +3856,22 @@ start.
   the reference does; goldens regenerated where pixels legitimately
   moved; tests green. Commit and push.
 
-#### M4.7: Release the spacing and edge changes
+#### M4.7: Bring sitedocs to the new reading rhythm
+
+The bottom-edge task found it: sitedocs is red at head — seven golden
+failures, all caused by the heading-spacing change and verified to be
+only that. Its goldens must catch up once, after every renderer change
+in this goal has landed, rather than once per task.
+
+- [ ] With the size, rhythm and escape tasks in, sitedocs' goldens are
+  regenerated and each is actually looked at against its predecessor —
+  regeneration as an act of review, not a blind re-record; anything
+  that reads wrong in the new rhythm is reported rather than baked in.
+- [ ] Exit: sitedocs builds and tests green, its goldens carry the new
+  rendering deliberately, and a fresh-eyes look at one representative
+  page raises no complaint about the rhythm. Commit and push.
+
+#### M4.8: Release the spacing and edge changes
 
 - [ ] The renderer repo is tagged with the next legal version for an
   additive change and any other repo touched by this goal is tagged per
