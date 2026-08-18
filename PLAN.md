@@ -3888,15 +3888,15 @@ of the same note side by side and ruled the reference's openness in.
 
 ADR-018 D5 and D6.
 
-- [ ] The backlinks pane takes the height of its entries up to four and
+- [x] The backlinks pane takes the height of its entries up to four and
   no more: fewer entries return the room to the outline above, more
   scroll within the cap. The outline and the capped backlinks list each
   show the same fading scroll indicator the note column carries, using
   the existing treatment rather than drawing a private one.
-- [ ] The sizing is unit-tested at the boundaries — zero, one, four and
+- [x] The sizing is unit-tested at the boundaries — zero, one, four and
   many entries — and outline navigation, backlink navigation and the
   document-tracking highlight all still work in the resized panes.
-- [ ] Exit: a note with two backlinks and a note with twenty both show
+- [x] Exit: a note with two backlinks and a note with twenty both show
   the aside proportioned to content, every scrollable aside column
   shows its indicator when scrollable, goldens regenerated, and a
   fresh-eyes review of the aside raises no complaint. Commit and push.
