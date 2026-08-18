@@ -9177,9 +9177,11 @@ plan root. All of it goes.
   the launcher builds, and launching vaultview from it is verified
   to work — the launched app quit afterwards and verified dead.
 - [ ] The stale planning files are gone from the workbench root:
-  BASELINE.md, FEEDBACK-G6.4.md and PLAN.md removed, and the
-  README, AGENTS.md and the run-workbench skill no longer point at
-  any removed file or at the removed app.
+  BASELINE.md, FEEDBACK-G6.4.md and PLAN.md removed, along with the
+  llms.txt pointer stub (the owner rules the repo needs no pointer
+  to the canonical guide), and the README, AGENTS.md and the
+  run-workbench skill no longer point at any removed file or at the
+  removed app.
 - [ ] Exit: a case-insensitive sweep of the workbench repo and the
   plan root's llms.txt finds no reference to the removed app or
   files — llms.txt's exemplar citations rewritten to surviving apps
