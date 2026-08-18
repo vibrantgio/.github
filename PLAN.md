@@ -9282,17 +9282,17 @@ reference greys), and the accent should read vivid at unchanged
 contrast. The canonical seed stays for now — the themer chooses the
 real one later — so this task makes ANY seed render un-drab.
 
-- [ ] The neutral ramps lose the seed's cast: measured chroma on the
+- [x] The neutral ramps lose the seed's cast: measured chroma on the
   neutral and neutral-variant ramps lands at or near zero across the
   scale, surfaces in both schemes read as true greys and whites
   A/B'd against the platform's own window fills in the stored
   reference captures, and every existing contrast gate stays green.
-- [ ] The accent roles gain chroma: the primary role pair reads
+- [x] The accent roles gain chroma: the primary role pair reads
   visibly more saturated than today at the same measured text
   contrast, the delta recorded in the dossier with before and after
   measurements, and the derived container and selection fills follow
   the same dial rather than being retuned by hand.
-- [ ] Exit: vaultview and the launcher rendered whole in both themes
+- [x] Exit: vaultview and the launcher rendered whole in both themes
   show neutral surfaces and a vivid accent, goldens regenerated
   across every module whose pixels move, all org gates green, and a
   fresh-eyes look at both windows raises no complaint about a grey
