@@ -3956,11 +3956,11 @@ failures, all caused by the heading-spacing change and verified to be
 only that. Its goldens must catch up once, after every renderer change
 in this goal has landed, rather than once per task.
 
-- [ ] With the size, rhythm and escape tasks in, sitedocs' goldens are
+- [x] With the size, rhythm and escape tasks in, sitedocs' goldens are
   regenerated and each is actually looked at against its predecessor —
   regeneration as an act of review, not a blind re-record; anything
   that reads wrong in the new rhythm is reported rather than baked in.
-- [ ] Exit: sitedocs builds and tests green, its goldens carry the new
+- [x] Exit: sitedocs builds and tests green, its goldens carry the new
   rendering deliberately, and a fresh-eyes look at one representative
   page raises no complaint about the rhythm. Commit and push.
 
