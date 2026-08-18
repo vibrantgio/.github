@@ -3933,17 +3933,17 @@ it on a subtle chip: a rounded fill a few percent off the page
 small radius. Ours has no chip and fence-vs-inline disagree: fences
 already shape at 14 sp.
 
-- [ ] Inline code shapes at the fence's size inside a body line, so a
+- [x] Inline code shapes at the fence's size inside a body line, so a
   line containing code keeps the body line's height and baseline: the
   line box of a code-bearing line measures equal to a plain line's,
   and the marker offset on a code-opening task row lands within 1 px
   of a plain row's.
-- [ ] Inline code sits on a chip: a rounded fill from the theme's
+- [x] Inline code sits on a chip: a rounded fill from the theme's
   ramps in both themes, proportioned from the stored captures — the
   chip hugs the code's line height with tight padding rather than
   inflating the line — and the code ink keeps readable contrast
   against the chip fill in both themes.
-- [ ] Exit: the marker offset on a task row opening with inline code
+- [x] Exit: the marker offset on a task row opening with inline code
   is measured at par with plain rows, the chip's proportions are
   measured A/B against the stored reference captures, a unit test
   pins the code-bearing line's height to the plain line's so the
@@ -8333,6 +8333,16 @@ moved under the document heading scale and nobody re-measured it.
 Its own observation, not the seam's: recorded here to be ruled on and
 sized against the stored captures, not folded into work already
 measured.
+
+**The chip made it visible.** Once inline code sits on a fill, the
+missing leading has a surface to show itself on. The reference's chip is
+its code's own shaped box — 20 px around a 19 px box — inside a 24 px
+line, so a wrapped code span leaves 4 px of paper between its two
+chips. Ours is the same box in a 19 px line, so the two chips of a
+wrapped span meet edge to edge, and fresh eyes on the rendered window
+read one command as two. The chip is proportioned correctly and is not
+what to change: the chips separate the day the leading does. Recorded
+here rather than answered by shrinking a measured proportion.
 
 ### ADR-019: The measured macOS reference
 
