@@ -3853,7 +3853,7 @@ colons that announce nothing.
   paragraph, the below-seam keeps the ordinary gap and that open edge
   is recorded in the dossier rather than guessed — no app is launched
   to find out.
-- [ ] Exit: the rendered seam is measured A/B against the stored
+- [x] Exit: the rendered seam is measured A/B against the stored
   screenshots and lands within 2 px of the reference's blank, the
   rhythm test suite gains the paragraph-to-list case alongside its
   existing transitions, goldens regenerated where pixels legitimately
@@ -8230,6 +8230,31 @@ all. That side therefore keeps the ordinary block gap, unguessed, and
 this is the record of why. It closes the day a capture shows the
 transition — not before, and never by launching an application to find
 out.
+
+Fresh eyes on the rendered window went straight to it: two independent
+reviewers were shown the note and asked only what a macOS developer
+would complain about, and neither said a word about the tightened seam
+above the list, while one called the space below the list a hole. The
+rendered numbers say that space is exactly the ordinary block gap — 36 px
+against the 24 px seam above it and the 26 px a level-2 heading leaves
+below itself — so what was seen is the asymmetry itself: a list bound to
+the line above it and loose below. That is the honest state of a seam
+measured on one side only. It is evidence for closing the open edge, not
+licence to close it blind.
+
+#### Addendum — a second open observation from the same captures
+
+The stored A/B pair also disagrees about the leading inside a paragraph,
+which the first addendum's table recorded as matching at 8 px. At
+identical 16 px ink heights the reference now shows 8 px of blank
+between the lines of one paragraph and ours shows 3–5. Fresh eyes
+reached the same place unprompted — the chrome is looser than the prose,
+which is backwards for an app whose whole job is reading. The line
+height moved under the document heading scale and nobody re-measured it.
+
+Its own observation, not the seam's: recorded here to be ruled on and
+sized against the stored captures, not folded into work already
+measured.
 
 ### ADR-019: The measured macOS reference
 
