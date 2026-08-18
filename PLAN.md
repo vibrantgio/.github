@@ -3841,14 +3841,14 @@ the tighter seam — and that is also the honest rule for us, since a
 colon test would miss announcing sentences without one and misfire on
 colons that announce nothing.
 
-- [ ] A list block that immediately follows a paragraph takes a
+- [x] A list block that immediately follows a paragraph takes a
   tightened space above, landing the visible blank at that seam near
   the reference's 25 px at 1 px/dp while every other block transition
   keeps the ordinary gap; the knob is a Style field with the
   zero-value falling back to the ordinary gap, derived from the block
   rhythm in visible-blank space rather than hardcoded, and set by the
   token constructor so themed documents get it without opting in.
-- [ ] The seam below the list back to ordinary blocks is measured from
+- [x] The seam below the list back to ordinary blocks is measured from
   the stored captures only: if none of them shows a list followed by a
   paragraph, the below-seam keeps the ordinary gap and that open edge
   is recorded in the dossier rather than guessed — no app is launched
@@ -3888,6 +3888,34 @@ nothing cites the note.
   outline's territory, goldens regenerated where pixels legitimately
   move, and fresh eyes on the aside raise no complaint about the
   panes' positions. Commit and push.
+
+#### M6.6: Centre list markers on the first text line
+
+The owner's A/B screenshots (a task list of ours against the
+reference's): our checkbox rides 2.5 to 4.5 px above the first text
+line's ink centre, where the reference centres its box on that ink
+exactly — measured offsets 0.0 and +1.0 px. The cause is in the
+marker anchoring: the renderer approximates the first line's height
+as the font size, which understates the real shaped line by its
+leading, and every marker hangs off that number — the checkbox
+worst, the bullet by less. Lines opening with inline code widen the
+error further, since their taller ink stretches the first line
+beyond even the correct body line height.
+
+- [ ] A task item's checkbox centres on its first text line's ink:
+  the anchor is derived from the shaped line's real metrics —
+  baseline and ascent from the shaper, not the font size — and the
+  rendered box's ink centre lands within 1 px of the text ink centre
+  in both themes, matching the reference's centring.
+- [ ] The bullet takes the same derived anchor as the checkbox, its
+  own optical size unchanged, so every marker in a list hangs from
+  one rule rather than two approximations.
+- [ ] Exit: the A/B measurement repeated on our render shows the
+  marker-to-text offsets within the reference's 0-to-1 px, a unit
+  test pins the marker centre to the shaped first line's centre so a
+  future metrics change fails loudly, goldens regenerated where
+  pixels legitimately move, and fresh eyes on a note holding a task
+  list raise no complaint about the markers. Commit and push.
 
 ### G-M4: Heading spacing and the bottom edge
 
@@ -8162,6 +8190,46 @@ outline's own territory, and the divider and the backlinks group stand
 against the foot. This supersedes the decision, made alongside the
 cap, that what neither pane needed fell to the foot of the column
 below the backlinks.
+
+#### Addendum — the seam a paragraph makes with the list it announces
+
+The owner read a note in both renderings and saw one transition still
+too open: a line ending in a colon sitting an awful lot of space away
+from the list under it. The A/B is stored as
+`reference/macos/vaultview-list-seam-ab.png` and
+`reference/macos/obsidian-list-seam-ab.png`, the same words at the same
+scale. Measured as blank-pixel runs between the announcing line's ink
+and the first bullet's:
+
+| transition | viewer | reference |
+| --- | --- | --- |
+| between ordinary blocks | ~37 px | ~37 px |
+| paragraph → the list it announces | 36–37 px | 25 px |
+
+The reference tightens this one seam to about two thirds of its own
+ordinary block gap; ours had no rule for it and spent a full gap.
+
+**Ruled: the seam is structural, not punctuational.** Every list
+directly below a paragraph takes the tightened space, colon or no
+colon — the reference's own styling cannot see punctuation, and a colon
+test would miss the announcing sentences that carry none while firing on
+the colons that announce nothing. The renderer's style grows a field for
+it, derived from the block rhythm in visible-blank space the way the
+heading spaces are (two thirds of the rhythm, less the shaped lines'
+leading: 21 dp at the current gap, rendering 24 px of blank against the
+reference's 25), zero falling back to the ordinary gap, and set by the
+token constructor so themed documents inherit it. Nothing else moves:
+a list under a heading, under another list, first in its container, or
+nested inside a list item keeps the space it had.
+
+**Open edge — the seam below a list.** No stored capture shows a list
+with a paragraph under it: the reference A/B ends at the list, and
+`obsidian-note-original.png`, `obsidian-note-ab.png`,
+`vaultview-note-ab.png` and the Notes reading captures hold no list at
+all. That side therefore keeps the ordinary block gap, unguessed, and
+this is the record of why. It closes the day a capture shows the
+transition — not before, and never by launching an application to find
+out.
 
 ### ADR-019: The measured macOS reference
 
