@@ -3736,7 +3736,7 @@ ADR-018 D1, D2, D3.
 
 ADR-018 D4.
 
-- [ ] A scrolled-to-the-end note rests its last line on a bottom
+- [x] A scrolled-to-the-end note rests its last line on a bottom
   content inset instead of running into the window's edge, the amount
   matched by measurement to the platform's own reading surfaces. If the
   treatment is a general scrolling affordance the components repo lacks,
@@ -3744,7 +3744,7 @@ ADR-018 D4.
 - [x] End-of-document keyboard navigation lands on the resting
   position, and mid-document scrolling still uses the full viewport —
   the inset belongs to the document's end, not to every frame.
-- [ ] Exit: a screenshot of a long note's end shows the last line clear
+- [x] Exit: a screenshot of a long note's end shows the last line clear
   of the edge with no mid-glyph clipping, whole-window goldens
   regenerated (absorbing the previous task's spacing change), and a
   fresh-eyes review raises no complaint about the bottom edge. Commit
