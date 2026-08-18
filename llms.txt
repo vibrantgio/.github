@@ -56,7 +56,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      (§Typography) — never add it to a new app
 
   tier 1 — the foundation
-  theme     v0.6.1   the theme runtime and every design token: tokens
+  theme     v0.7.0   the theme runtime and every design token: tokens
                      (colour ramps and pins, Typography, Density, Motion,
                      Elevation, spacing/radius), color (the CIELAB/OKLCh
                      engine and APCA), theme (Theme, the token observables),
@@ -65,7 +65,9 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      serialiser + cmd/vg-tokens), window, preferences
 
   tier 2
-  components  v0.9.1 button, input, list, richtext, scrollbar,
+  components  v0.9.2 button, input, list, richtext, scrollbar,
+                     scrollarea (a horizontal viewport for content that must
+                     not be reflowed — a code fence, an over-wide diagram),
                      icon, icons (the design system's own marks), layout,
                      keyed, initial, cache, bench (coordination
                      is DEPRECATED — use mvu/stream.Value)
@@ -76,11 +78,11 @@ support row — enforced in CI by the org's check-layers script. Current tags:
                      transition, tween, conductor
 
   tier 4
-  patterns  v0.6.2   patterns: shell, navbar, sidebar, table, pagination,
+  patterns  v0.7.0   patterns: shell, navbar, sidebar, table, pagination,
                      tabs, modal, alert, popover, tooltip, toast, card,
                      accordion, breadcrumb, hero, feature, pricing,
                      testimonial
-  markdown  v0.3.0   GFM document rendering on components widgets (subpackages:
+  markdown  v0.4.0   GFM document rendering on components widgets (subpackages:
                      highlight — chroma syntax colours; svgimage — SVG
                      images via vibrantgio/svg; obsidian — the Obsidian
                      dialect: frontmatter, wikilinks, block anchors)
@@ -747,11 +749,11 @@ DocumentHeadings, a tokens.DocumentHeadingScale of six TextStyle stops for
 prose surfaces, stepped off BodyLarge (1.6× body down to 0.875×, bold
 throughout) because the Display and Headline roles size a screen's one
 headline, not a document whose headings recur every few paragraphs; address
-it by heading level with scale.Level(n). A
-TextStyle carries Typeface, Weight (CSS-style numeric: 400 regular, 500
-medium, 700 bold; tokens.FontWeight converts to Gio's font.Weight), and Size,
-LineHeight and Tracking in dp. Typography also carries Faces, the font
-collection, and Shaper(), which builds ONE text.Shaper from Faces on first
+it by heading level with scale.Level(n). A TextStyle carries Typeface,
+Weight (CSS-style numeric: 400 regular, 500 medium, 700 bold;
+tokens.FontWeight converts to Gio's font.Weight), and Size, LineHeight and
+Tracking in dp. Typography also carries Faces, the font collection, and
+Shaper(), which builds ONE text.Shaper from Faces on first
 call — with the platform's own fonts behind them as fallback — and caches it
 in the value; it is safe for concurrent use and shared by every component.
 The fallback is deliberate: Roboto and Roboto Mono carry no arrow, no
@@ -860,8 +862,10 @@ doc.LayoutColumn(...) lays out at natural height with no internal scroll —
 use it inside an outer scrolling context (a chat row, a card); Layout's own
 viewport would fight the outer one.
 
-  - Constructs: type-scale headings, richtext paragraphs, nested lists,
-    task-list checkboxes, strikethrough, blockquote bars, rules, and GFM
+  - Constructs: headings set in the Typography's DocumentHeadings ladder
+    rather than in the screen roles (§Typography), richtext paragraphs,
+    nested lists, task-list checkboxes, strikethrough, blockquote bars,
+    rules, and GFM
     tables (columns shrink within their slack, floored at the widest word;
     a table that cannot fit scrolls horizontally).
   - Code renders in the theme's mono face: FromTokens resolves Style.Mono
@@ -1124,10 +1128,10 @@ purpose (golden determinism); leave those alone.
   require (
       gioui.org v0.10.1
       github.com/reactivego/rx v0.3.0
-      github.com/vibrantgio/patterns v0.6.2
+      github.com/vibrantgio/patterns v0.7.0
       github.com/vibrantgio/mvu v0.9.1
-      github.com/vibrantgio/components v0.9.1
-      github.com/vibrantgio/theme v0.6.1
+      github.com/vibrantgio/components v0.9.2
+      github.com/vibrantgio/theme v0.7.0
       github.com/vibrantgio/textdraw v0.0.4
   )
 

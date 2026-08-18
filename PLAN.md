@@ -3966,13 +3966,13 @@ in this goal has landed, rather than once per task.
 
 #### M4.9: Release the spacing and edge changes
 
-- [ ] The renderer repo is tagged with the next legal version for an
+- [x] The renderer repo is tagged with the next legal version for an
   additive change and any other library repo the phase's still-open
   goals touched — the theme's document scale, the toast's new anchor,
   whatever else accrued — is tagged per its own precedent — no double-digit version components, explanatory
   tag messages where the number understates the change — verified from
   VCS, never the proxy.
-- [ ] Consumer pins bumped, `GOWORK=off` builds and tests green in
+- [x] Consumer pins bumped, `GOWORK=off` builds and tests green in
   every bumped module, sync scripts run, gates green, and the root
   guidance describes nothing unpublished. Commit and push.
 
