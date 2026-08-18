@@ -3866,18 +3866,18 @@ renderings and ruled that documents get their own heading scale.
 ADR-018 D3 as ruled in the addendum: the owner put the two renderings
 of the same note side by side and ruled the reference's openness in.
 
-- [ ] The renderer's default block gap rises so the reader-visible
+- [x] The renderer's default block gap rises so the reader-visible
   blank between ordinary blocks matches the reference's proportion —
   about 2.3 times the body size (37 px at a 16 px body) — derived from
   the spacing tokens rather than hardcoded, measured from a render
   within a couple of pixels.
-- [ ] The heading spaces are re-derived to hold the dossier's ratios at
+- [x] The heading spaces are re-derived to hold the dossier's ratios at
   the opened gap — above ≈ 1.35× the ordinary visible blank, below ≈
   half of above — because the first derivation was tuned at the old
   8 dp gap where line-height slack dominated, and it will not scale by
   itself. Both suppressions still hold; the spacing tests move with the
   numbers rather than being deleted.
-- [ ] Exit: blank-run measurements of the rendered note match the
+- [x] Exit: blank-run measurements of the rendered note match the
   reference's at all three transitions — between blocks, above a
   heading, below a heading — within a couple of pixels at the same body
   size; goldens in the renderer's repo regenerated; a fresh-eyes review
