@@ -47,8 +47,10 @@ Only when the reference lacks the number a task needs may the task
 launch an app to measure it — batched into one session, quitting the
 app immediately after and verifying it died — and whatever it measured
 is added to the reference and the ADR in the same task, so the gap
-closes forever. Offscreen renders (AppKit symbols, headless GPU) touch
-nothing the owner sees and need no such care.
+closes forever. The owner has no issue with measurement as such —
+prefer routes that touch nothing they see: system APIs queried
+programmatically, AppKit rendering offscreen, the headless GPU. Those
+need no such care; only visible windows and screen captures do.
 
 **Push when it's green.** A commit on `master` is not a release — the tag is.
 So there is nothing to hold back: once a task's commits are made and green,
