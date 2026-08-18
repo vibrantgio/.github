@@ -9239,18 +9239,18 @@ every surface it can appear over. The owner also finds the toast's
 text too dark to read; the inverse pairing must carry measured
 contrast, not inherited approximations.
 
-- [ ] The colour tokens gain the inverse roles — an inverse surface
+- [x] The colour tokens gain the inverse roles — an inverse surface
   and its on-colour, generated from the ramps by the seed pipeline in
   both schemes with the light scheme's inverse dark and the dark
   scheme's inverse light — and the generated pair measures at least
   4.5:1 for body text in both schemes, held by a unit test beside the
   existing contrast gates.
-- [ ] The toast stands on the inverse pair: base fill and text from
+- [x] The toast stands on the inverse pair: base fill and text from
   the inverse roles, the level accents (success, warning, error)
   re-anchored to stay legible on the inverse ground in both schemes,
   and the shadow and outline re-judged over the new fill rather than
   inherited.
-- [ ] Exit: a toast rendered over the reading surface in both themes
+- [x] Exit: a toast rendered over the reading surface in both themes
   visibly separates from every surface behind it, contrast measured
   and recorded, component tests green, goldens regenerated where
   pixels legitimately move, and a fresh-eyes look at a window with a
