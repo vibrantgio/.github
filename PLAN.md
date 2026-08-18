@@ -3689,11 +3689,11 @@ appears to paint to, or push past, the pane's rounded fill. Light mode
 exposes it because the pane tint and the ground are close there; it
 was invisible in dark.
 
-- [ ] The cause is found by reading the strip and toggle geometry
+- [x] The cause is found by reading the strip and toggle geometry
   against a magnified render, and the toggle's box ends wholly inside
   the pane's fill — verified in light and dark, pane shown and after a
   toggle round-trip.
-- [ ] Exit: a light-mode capture magnified at the pane's top trailing
+- [x] Exit: a light-mode capture magnified at the pane's top trailing
   corner shows a clean pane edge with no stray ink beside the toggle,
   goldens regenerated if pixels legitimately move, and fresh eyes on
   the whole window raise no complaint about the corner. Commit and
