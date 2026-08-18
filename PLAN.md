@@ -9152,6 +9152,42 @@ polish follow-ups the review pass scoped out. The evidence is ADR-014 in
 the Reference section; packets cite its items S1–S4. Two goals: the
 defects and drift first, then the polish.
 
+### G-O0: Workbench cleanup
+
+The owner, before the deferred work runs: the workbench sheds its
+worst app and the planning files that moved to the plan root long
+ago. One task.
+
+#### O0.1: Remove the watchlist app and the stale planning files
+
+The owner rules: watchlist is full of bugs — popup menus that do not
+actually work — and is not worth repairing; the launcher should offer
+vaultview in its place; and the workbench root still carries
+BASELINE.md, FEEDBACK-G6.4.md and PLAN.md from the era when
+development planning lived in the app repo rather than the org's
+plan root. All of it goes.
+
+- [ ] The watchlist app is gone from the workbench: its module
+  directory and WATCHLIST-FORMAT.md removed, the workspace go.work
+  regenerated (or its entry dropped — the file is generated and
+  committed nowhere), and every surviving workbench module still
+  builds and tests green with the module absent.
+- [ ] The launcher offers vaultview where watchlist stood: the
+  catalog entry carries vaultview's directory and an honest blurb,
+  the launcher builds, and launching vaultview from it is verified
+  to work — the launched app quit afterwards and verified dead.
+- [ ] The stale planning files are gone from the workbench root:
+  BASELINE.md, FEEDBACK-G6.4.md and PLAN.md removed, and the
+  README, AGENTS.md and the run-workbench skill no longer point at
+  any removed file or at the removed app.
+- [ ] Exit: a case-insensitive sweep of the workbench repo and the
+  plan root's llms.txt finds no reference to the removed app or
+  files — llms.txt's exemplar citations rewritten to surviving apps
+  that truthfully carry the cited patterns — tests green in every
+  touched module, a fresh-eyes look at the launcher window raises no
+  complaint about the catalog, and both repos are committed and
+  pushed. Commit and push.
+
 ### G-O1: Defects and formatting drift
 
 #### O1.1: Forward Props.Ground in effects/springbutton
