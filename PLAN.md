@@ -3923,7 +3923,33 @@ start.
   the reference does; goldens regenerated where pixels legitimately
   moved; tests green. Commit and push.
 
-#### M4.7: Bring sitedocs to the new reading rhythm
+#### M4.7: Scroll long code lines instead of clipping them
+
+Three independent reviewers across three tasks flagged the same defect,
+verified in the pixels each time: a fenced code block's long line is
+cut dead at the container's edge — no wrap, no ellipsis, no scroller —
+so code is silently lost in the reading surface. The reference keeps a
+code block's own line breaks sacred and scrolls the block horizontally
+when a line will not fit; that is the treatment to match.
+
+- [ ] A fenced code block whose widest line exceeds its container
+  scrolls horizontally: code never reflows, the hidden remainder is
+  reachable by trackpad scroll and drag, and the edge says there is
+  more while there is. If the horizontal treatment is a general
+  affordance the components repo lacks, it is added there rather than
+  drawn privately in the renderer. Unit tests cover the fits and
+  overflows boundaries and the offset's bounds.
+- [ ] Short blocks are untouched — no scroller, no indicator, identical
+  layout for a block that fits — and vertical document scrolling over a
+  scrollable block still works: the block claims the horizontal axis
+  only.
+- [ ] Exit: the note that exposed the defect shows its full line by
+  scrolling within the fence, goldens regenerated where pixels
+  legitimately move, and a fresh-eyes review of a note holding one
+  overflowing block and one short block raises no complaint about the
+  fences. Commit and push.
+
+#### M4.8: Bring sitedocs to the new reading rhythm
 
 The bottom-edge task found it: sitedocs is red at head — seven golden
 failures, all caused by the heading-spacing change and verified to be
@@ -3938,7 +3964,7 @@ in this goal has landed, rather than once per task.
   rendering deliberately, and a fresh-eyes look at one representative
   page raises no complaint about the rhythm. Commit and push.
 
-#### M4.8: Release the spacing and edge changes
+#### M4.9: Release the spacing and edge changes
 
 - [ ] The renderer repo is tagged with the next legal version for an
   additive change and any other library repo the phase's still-open
