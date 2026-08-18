@@ -3786,11 +3786,11 @@ mid-glyph sits beneath a dead strip of empty background instead of
 sliding under the row the way scrolled text slides under a toolbar.
 The bottom edge got its fix; this is the mirror.
 
-- [ ] The reading column's viewport begins exactly at the chrome row's
+- [x] The reading column's viewport begins exactly at the chrome row's
   lower edge: a line scrolling out tucks under the row with no blank
   strip between the row and the cut, in both themes, with anchor
   landing and keyboard paging unaffected.
-- [ ] Exit: a mid-scroll capture magnified at the top edge shows the
+- [x] Exit: a mid-scroll capture magnified at the top edge shows the
   cut line meeting the chrome row directly; goldens regenerated where
   pixels legitimately move; fresh eyes raise no complaint about the
   top edge. Commit and push.
