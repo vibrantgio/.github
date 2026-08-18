@@ -3795,6 +3795,36 @@ The bottom edge got its fix; this is the mirror.
   pixels legitimately move; fresh eyes raise no complaint about the
   top edge. Commit and push.
 
+#### M6.3: Size the history chevrons for the text row they sit in
+
+The owner: the set's marks read too big as vaultview uses them — the
+screenshot shows the history chevrons beside the breadcrumb. Measured,
+the complaint is exact: the chevron is a diagonal form spanning the
+grid's 20-unit allowance, so at the nav control's current nominal size
+its ink stands 16 px tall beside a breadcrumb label whose caps are
+10 px — the control towers over the text it serves. The reference
+(stored Obsidian capture, same scale) keeps the same pair of arrows at
+10 px of ink, under its neighbouring title text's height, and mutes
+them to about a third of the text's contrast; we paint enabled
+chevrons at full text colour. The set's own size taxonomy already
+names the fix: the small mark size is documented as what a mark takes
+beside a line of text, and the chevrons sit in a text row.
+
+- [ ] The history chevrons draw at the set's text-adjacent small size,
+  so their ink lands near the neighbouring label's height instead of
+  60% over it; the head row's own height and alignment hold (the row
+  centres its children, so nothing else moves).
+- [ ] Enabled chevrons take a secondary ink rather than the full text
+  colour, following the reference's muting of navigation chrome — while
+  the disabled step stays clearly dimmer than the enabled one, since
+  reviewers have three times read the two states as too alike; the
+  muting must widen that gap or at worst preserve it, never close it.
+- [ ] Exit: a capture of the head row magnified shows the chevrons
+  sitting with the breadcrumb text rather than over it, with the ink
+  heights measured and compared against the stored reference numbers;
+  goldens regenerated where pixels legitimately move; fresh eyes raise
+  no complaint about the head row. Commit and push.
+
 ### G-M4: Heading spacing and the bottom edge
 
 The dossier is ADR-018. The renderer change goes first; the app changes
