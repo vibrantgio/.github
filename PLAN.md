@@ -9364,13 +9364,13 @@ pushes the generated scheme through the live theme feed, so the
 embedded everything page re-renders in place — light and dark both
 reachable — fast enough to compare candidates by eye.
 
-- [ ] Picking a candidate re-themes the embedded everything page
+- [x] Picking a candidate re-themes the embedded everything page
   live through the theme observable, with a scheme toggle for light
   and dark and no restart, rebuild or visible stall between picks.
-- [ ] The reading sample and every pattern on the page follow the
+- [x] The reading sample and every pattern on the page follow the
   pushed theme, proving the tokens flow reaches the full inventory
   with nothing pinned to a stale scheme.
-- [ ] Exit: switching between two visibly different candidates
+- [x] Exit: switching between two visibly different candidates
   re-paints the whole page correctly in both schemes, tests green,
   and a fresh-eyes look during a switch raises no complaint about
   stale or mixed theming. Commit and push.
