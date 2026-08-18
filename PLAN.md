@@ -3843,19 +3843,19 @@ ADR-018 D4.
 ADR-018's second addendum: the owner compared the same note in both
 renderings and ruled that documents get their own heading scale.
 
-- [ ] The theme's tokens gain a document heading scale: six stops for
+- [x] The theme's tokens gain a document heading scale: six stops for
   prose surfaces, derived from the body role in book proportions and
   anchored to the measured reference — level 1 ≈ 1.6× body, level 2 ≈
   1.4×, deeper steps still distinguishable at a glance rather than the
   display roles' compressed ladder. Weight per level is measured from
   the reference captures rather than assumed. The scale's godoc says
   what it is for without naming any consumer.
-- [ ] The markdown renderer maps heading levels onto the document scale
+- [x] The markdown renderer maps heading levels onto the document scale
   in its token constructor, replacing the display roles it borrows
   today. The heading-space derivation keeps working against the new
   sizes and its tests move with the numbers rather than being deleted;
   re-tuning the spacing to the opened gap stays the next task's job.
-- [ ] Exit: rendered at the same body size, levels 1 and 2 measure
+- [x] Exit: rendered at the same body size, levels 1 and 2 measure
   within a couple of pixels of the reference's ink heights, a six-level
   render shows adjacent levels a reader can tell apart, goldens in the
   touched repos regenerated, and a fresh-eyes review of a mid-document

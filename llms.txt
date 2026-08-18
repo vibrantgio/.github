@@ -742,9 +742,14 @@ The contract lives in theme/tokens.Typography: one tokens.TextStyle per
 Material Design 3 type role — Display, Headline, Title, Label and Body,
 each Large/Medium/Small, fifteen roles in all — plus Code, a sixteenth
 style outside the MD3 grid: BodyMedium's metrics on the mono face, the
-style code renders in (MD3 has no code role, so the org added one). A
+style code renders in (MD3 has no code role, so the org added one) — plus
+DocumentHeadings, a tokens.DocumentHeadingScale of six TextStyle stops for
+prose surfaces, stepped off BodyLarge (1.6× body down to 0.875×, bold
+throughout) because the Display and Headline roles size a screen's one
+headline, not a document whose headings recur every few paragraphs; address
+it by heading level with scale.Level(n). A
 TextStyle carries Typeface, Weight (CSS-style numeric: 400 regular, 500
-medium; tokens.FontWeight converts to Gio's font.Weight), and Size,
+medium, 700 bold; tokens.FontWeight converts to Gio's font.Weight), and Size,
 LineHeight and Tracking in dp. Typography also carries Faces, the font
 collection, and Shaper(), which builds ONE text.Shaper from Faces on first
 call — with the platform's own fonts behind them as fallback — and caches it
