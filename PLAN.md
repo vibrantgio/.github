@@ -3917,6 +3917,41 @@ beyond even the correct body line height.
   pixels legitimately move, and fresh eyes on a note holding a task
   list raise no complaint about the markers. Commit and push.
 
+#### M6.7: Size inline code for the line it sits in
+
+The owner keeps hitting this defect's newest face: task rows opening
+with inline code still carry their checkbox high after the marker
+anchor was fixed, because inline code shapes at the full paragraph
+size — 16 sp mono whose ascent pushes that line's real baseline about
+2 px below the body face's, out from under the marker's anchor.
+Measured on the current build: a plain task row's marker offset is
+−2.0 px (ink band, descenders included) while rows containing inline
+code sit at −4.0. The reference sizes inline code visibly under the
+body — its mono ink stands 9 px inside a 15 px body line — and sets
+it on a subtle chip: a rounded fill a few percent off the page
+(≈ #F5F5F5 on white in the stored capture), tight vertical padding,
+small radius. Ours has no chip and fence-vs-inline disagree: fences
+already shape at 14 sp.
+
+- [ ] Inline code shapes at the fence's size inside a body line, so a
+  line containing code keeps the body line's height and baseline: the
+  line box of a code-bearing line measures equal to a plain line's,
+  and the marker offset on a code-opening task row lands within 1 px
+  of a plain row's.
+- [ ] Inline code sits on a chip: a rounded fill from the theme's
+  ramps in both themes, proportioned from the stored captures — the
+  chip hugs the code's line height with tight padding rather than
+  inflating the line — and the code ink keeps readable contrast
+  against the chip fill in both themes.
+- [ ] Exit: the marker offset on a task row opening with inline code
+  is measured at par with plain rows, the chip's proportions are
+  measured A/B against the stored reference captures, a unit test
+  pins the code-bearing line's height to the plain line's so the
+  baseline can never drift out from under the markers again, goldens
+  regenerated where pixels legitimately move, and fresh eyes on a
+  note holding inline code in running text and in task rows raise no
+  complaint about the code spans. Commit and push.
+
 ### G-M4: Heading spacing and the bottom edge
 
 The dossier is ADR-018. The renderer change goes first; the app changes
