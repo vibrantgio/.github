@@ -6,7 +6,7 @@ adjacent files.
 
 **The `.gitignore` denies everything by default.** Its first line is `*`, and
 what follows re-admits exactly: Markdown at any level, `LICENSE`,
-`.claude/skills/**`, and the seven application trees minus their compiled
+`.claude/skills/**`, and the eight application trees minus their compiled
 binaries. A file you add anywhere else — a script, a new top-level directory,
 a `.json` fixture outside an app — does not show up in `git status` and is
 silently not committed. Check with `git check-ignore -v <path>` before

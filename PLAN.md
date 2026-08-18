@@ -9344,15 +9344,15 @@ and chroma space the seed pipeline speaks, ranked vibrant-first so
 the interesting colours lead, each swatch showing the colour and its
 generated primary pair.
 
-- [ ] A dropped image yields ranked seed candidates: pixels
+- [x] A dropped image yields ranked seed candidates: pixels
   clustered in the pipeline's colour space, candidates ranked by
   chroma-weighted prominence, degenerate images (greyscale, tiny,
   single-colour) yielding sensible candidates rather than noise, and
   the extraction unit-tested on fixture images with known palettes.
-- [ ] The candidate row renders each seed as a swatch with its
+- [x] The candidate row renders each seed as a swatch with its
   generated primary pair, the currently selected candidate marked,
   and selection feeding the app's theme state.
-- [ ] Exit: dropping a fixture photograph shows a candidate row whose
+- [x] Exit: dropping a fixture photograph shows a candidate row whose
   leading swatches visibly match the image's dominant vivid colours,
   tests green, and a fresh-eyes look at the drop flow raises no
   complaint about the candidates offered. Commit and push.

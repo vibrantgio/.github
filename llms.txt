@@ -97,7 +97,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
   csg       v0.0.1   constructive solid geometry on meshes (BSP trees)
 
 Two repositories carry no tags and therefore no row above: workbench, the
-seven reference applications, and design, the published claude.ai/design
+eight reference applications, and design, the published claude.ai/design
 bundle (readme.md, theme.json, styles.css, foundations/ — regenerated from
 theme's cmd/vg-tokens and embedded as the Go module
 github.com/vibrantgio/design; its mirror/ package is the G1.1 harness that
@@ -516,6 +516,13 @@ in theme/color:
 
   light, dark := tokens.FromSeed(seed)  // paired ColorTokens; the light
                                         // Primary pin is the seed exactly
+
+WHERE A SEED COMES FROM, when it is not typed: theme/imageseed.Extract takes
+an image.Image and returns candidate seeds — pixels sampled on a stride so a
+20 Mpx photo costs what a thumbnail costs, clustered in OKLab, ranked by
+share times chroma squared so a vivid tenth of a picture outranks a drab
+half. Every candidate is a pixel the image really has, so it is in gamut and
+FromSeed takes it as it stands. Greyscale in, greys out.
 
 Application code never writes a colour literal. The no-literal-colour lint
 fails `go test`, and therefore CI, on a color.NRGBA literal in components, effects,
@@ -1139,7 +1146,7 @@ purpose (golden determinism); leave those alone.
   )
 
 These are the released tags — the same ones §Modules lists, and the same ones
-all seven workbench apps are pinned to. Typography and colour need no module
+all eight workbench apps are pinned to. Typography and colour need no module
 of their own: both travel on the theme, which comes with theme; do NOT add
 the frozen style module to a new app. textdraw is a direct requirement as soon as you
 draw text yourself with textdraw.Text/Label — todos does.
@@ -1153,7 +1160,7 @@ GitHub.
 ## Where to look for working code
 
 All of these are directories in github.com/vibrantgio/workbench. Every one
-of the seven apps embodies the current contract — theme imports (no
+of the eight apps embodies the current contract — theme imports (no
 alias paths), ramp/pin colours (no MD3 aliases), theme typography (no
 app-built shaper), theme-driven component entry points — so copy any of
 them without the caveats older guides carried:
@@ -1196,6 +1203,16 @@ them without the caveats older guides carried:
               implementation of the dialog grammar's invocation half:
               shortcut.go binds ⌘,/Ctrl-, and preferences.go is the settings
               PANEL it opens, whose two preferences apply live under it
+  themer/     pick a brand colour out of a picture: an image dropped
+              anywhere on the window comes back as a row of seed
+              candidates — clustered and ranked by theme/imageseed —
+              each swatch beside the primary pair FromSeed makes of it,
+              and clicking one re-themes the window. The reference for OS
+              file drops (mvu/desktop's ZoneGroup + DropTarget merged into
+              the loop as messages, a window-wide zone, hover highlight)
+              and for a theme observable the APPLICATION re-seeds: the OS
+              still decides light or dark, the app decides the colour. A
+              path argument takes the same path a drop does
   sitedocs/   marketing + docs shell: hero/feature/pricing/testimonial,
               accordion sidebar, breadcrumbs; the docs pages are embedded
               .md sources rendered with vibrantgio/markdown (content/*.md +
