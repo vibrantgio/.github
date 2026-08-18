@@ -9218,6 +9218,72 @@ about itself, not a library claiming to know its callers.
   note finds no in-org consumer name and no application count, and
   every touched repo is committed and pushed. Commit and push.
 
+### G-O3: The theme's emphasis and cast
+
+The owner rules on the current look: the palette is drab — Material's
+factory-default purple seed, seed-tinted grayish surfaces, pastel
+accents — and the toast, which should pop, is mapped to a quiet
+surface role with under-contrast text. Two tasks: the toast takes the
+inverse emphasis, and the generator's dials lose the drabness. The
+seed itself is not chosen here — that is the themer's job, planned
+separately — so both tasks fix HOW the generator renders any seed,
+not which seed it renders.
+
+#### O3.1: Give the toast the inverse emphasis
+
+The toast fills at a level-2 surface with a faint accent tint — the
+quietest role in the vocabulary — where the design language's own
+snackbar convention is the opposite: an inverse chip, dark on a light
+scheme and light on a dark one, so a transient message pops against
+every surface it can appear over. The owner also finds the toast's
+text too dark to read; the inverse pairing must carry measured
+contrast, not inherited approximations.
+
+- [ ] The colour tokens gain the inverse roles — an inverse surface
+  and its on-colour, generated from the ramps by the seed pipeline in
+  both schemes with the light scheme's inverse dark and the dark
+  scheme's inverse light — and the generated pair measures at least
+  4.5:1 for body text in both schemes, held by a unit test beside the
+  existing contrast gates.
+- [ ] The toast stands on the inverse pair: base fill and text from
+  the inverse roles, the level accents (success, warning, error)
+  re-anchored to stay legible on the inverse ground in both schemes,
+  and the shadow and outline re-judged over the new fill rather than
+  inherited.
+- [ ] Exit: a toast rendered over the reading surface in both themes
+  visibly separates from every surface behind it, contrast measured
+  and recorded, component tests green, goldens regenerated where
+  pixels legitimately move, and a fresh-eyes look at a window with a
+  toast up raises no complaint about the toast's legibility. Commit
+  and push.
+
+#### O3.2: Pull the seed tint out of the surfaces and the pastel out of the accents
+
+The greyish cast everywhere is the generator tinting every neutral
+with the seed, and the weak accent is the generator landing primary
+on a pastel tone. Both are dials in the seed pipeline, not facts of
+the design language: surfaces should read as true neutrals the way
+the platform's own windows do (the stored captures carry the
+reference greys), and the accent should read vivid at unchanged
+contrast. The canonical seed stays for now — the themer chooses the
+real one later — so this task makes ANY seed render un-drab.
+
+- [ ] The neutral ramps lose the seed's cast: measured chroma on the
+  neutral and neutral-variant ramps lands at or near zero across the
+  scale, surfaces in both schemes read as true greys and whites
+  A/B'd against the platform's own window fills in the stored
+  reference captures, and every existing contrast gate stays green.
+- [ ] The accent roles gain chroma: the primary role pair reads
+  visibly more saturated than today at the same measured text
+  contrast, the delta recorded in the dossier with before and after
+  measurements, and the derived container and selection fills follow
+  the same dial rather than being retuned by hand.
+- [ ] Exit: vaultview and the launcher rendered whole in both themes
+  show neutral surfaces and a vivid accent, goldens regenerated
+  across every module whose pixels move, all org gates green, and a
+  fresh-eyes look at both windows raises no complaint about a grey
+  cast or a washed-out accent. Commit and push.
+
 ### G-O1: Defects and formatting drift
 
 #### O1.1: Forward Props.Ground in effects/springbutton
@@ -9271,3 +9337,98 @@ ADR-014 S4, second half — the copy retires.
 - [ ] Exit: `GOWORK=off` build and test of vaultview from a clean
   checkout against published tags only; a screenshot confirms both
   trails render and click. Commit and push.
+
+## Phase P: The themer
+
+The owner's brief: a theme can only be judged on the whole system at
+once, so the themer is an app whose main surface is a live gallery of
+every component — the design-system page idea — re-rendered on each
+candidate theme. Drop an image, get seed candidates extracted from
+it, pick one, and watch the entire inventory re-theme live; keep what
+you love. The gallery app is the base to build on, not a fresh start:
+it already carries per-family pages and a sidebar; it needs its
+coverage closed and a live theme feed. This phase runs only on the
+owner's explicit go.
+
+### G-P1: The gallery shows everything
+
+#### P1.1: Close the gallery's coverage and add the everything page
+
+Judging a theme needs every surface at once: components the gallery
+already shows, plus what it is missing — the patterns (toast at each
+level, dialog, chooser), a markdown reading sample exercising the
+document headings, code fences and chips, task lists, tables and
+links, and the aside furniture — on one scrollable page that shows
+the whole inventory side by side, with the per-family pages kept for
+close-up work.
+
+- [ ] The gallery's inventory is audited against the published
+  component and pattern surface and every missing family gains a
+  section, including a markdown reading sample rendered by the real
+  renderer and the toast at its three levels.
+- [ ] An everything page renders the full inventory in one scrollable
+  column, sectioned and labelled, in the current theme, with the
+  sidebar's per-family pages unchanged for close-up work.
+- [ ] Exit: the everything page rendered in both schemes shows every
+  family present and labelled, tests green, goldens for the new
+  sections recorded, and a fresh-eyes look at the everything page
+  raises no complaint about missing furniture. Commit and push.
+
+### G-P2: The themer app
+
+#### P2.1: Extract seed candidates from a dropped image
+
+The themer's front door: drop an image anywhere on the window and
+get a row of seed candidates pulled from it — clustered in the hue
+and chroma space the seed pipeline speaks, ranked vibrant-first so
+the interesting colours lead, each swatch showing the colour and its
+generated primary pair.
+
+- [ ] A dropped image yields ranked seed candidates: pixels
+  clustered in the pipeline's colour space, candidates ranked by
+  chroma-weighted prominence, degenerate images (greyscale, tiny,
+  single-colour) yielding sensible candidates rather than noise, and
+  the extraction unit-tested on fixture images with known palettes.
+- [ ] The candidate row renders each seed as a swatch with its
+  generated primary pair, the currently selected candidate marked,
+  and selection feeding the app's theme state.
+- [ ] Exit: dropping a fixture photograph shows a candidate row whose
+  leading swatches visibly match the image's dominant vivid colours,
+  tests green, and a fresh-eyes look at the drop flow raises no
+  complaint about the candidates offered. Commit and push.
+
+#### P2.2: Re-theme the gallery live from the chosen seed
+
+The judgment loop: picking a candidate runs the seed pipeline and
+pushes the generated scheme through the live theme feed, so the
+embedded everything page re-renders in place — light and dark both
+reachable — fast enough to compare candidates by eye.
+
+- [ ] Picking a candidate re-themes the embedded everything page
+  live through the theme observable, with a scheme toggle for light
+  and dark and no restart, rebuild or visible stall between picks.
+- [ ] The reading sample and every pattern on the page follow the
+  pushed theme, proving the tokens flow reaches the full inventory
+  with nothing pinned to a stale scheme.
+- [ ] Exit: switching between two visibly different candidates
+  re-paints the whole page correctly in both schemes, tests green,
+  and a fresh-eyes look during a switch raises no complaint about
+  stale or mixed theming. Commit and push.
+
+#### P2.3: Keep the chosen theme
+
+What the owner loves must survive the app closing: the chosen seed
+and its generated scheme are saved in a form the workbench apps can
+adopt, with the decision about the storage format recorded in the
+dossier when it is made.
+
+- [ ] The chosen seed persists: saving records the seed and enough
+  provenance to regenerate the scheme deterministically, the format
+  decided and recorded in the dossier, and loading it back
+  reproduces the scheme exactly.
+- [ ] A workbench app can adopt the saved theme through the existing
+  live-theme seam, demonstrated end to end in at least one app.
+- [ ] Exit: choose a seed in the themer, save it, open the adopting
+  app and see the theme; tests green; fresh eyes on the adopting app
+  under the new theme raise no complaint about partial adoption.
+  Commit and push.
