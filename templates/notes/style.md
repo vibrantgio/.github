@@ -13,8 +13,8 @@ One real bug was fixed rather than inherited: `H1` and `H2` were both 96 sp —
 differed only in weight, so a document using both got no size hierarchy. C1.4
 set `H2` to 60. Do not copy these numbers forward.
 
-Nothing in the design system imports `style`, and that is ADR-003's point
-rather than an accident. What does import it is measured and listed in the
-Layer paragraph above; this note deliberately does not repeat it, because the
-copy that used to live here named four workbench applications that had already
-been migrated off and a demo main under mvu that never imported it at all.
+Do not add a new import of this module anywhere — that freeze is ADR-003's
+point rather than an accident. Nothing here says who imports it today, and
+nothing above does either: a public API's consumers are unknowable, and the
+list that used to live in this note was wrong within a phase of being written,
+naming migrated-off callers and one that had never imported it at all.

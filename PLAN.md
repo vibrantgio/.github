@@ -9204,16 +9204,16 @@ direction goes, count and names alike. The org's own front door may
 keep describing the org's composition — that is the org speaking
 about itself, not a library claiming to know its callers.
 
-- [ ] The generated notes state only the forward direction: the
+- [x] The generated notes state only the forward direction: the
   agent-note generator stops rendering "imported by" sentences —
   in-org consumer names and workbench-application counts both gone
   from every library's note — while the module's own imports and
   nested-module edges remain exactly as measured.
-- [ ] The graph gate is untouched by the prose change: the layer
+- [x] The graph gate is untouched by the prose change: the layer
   check still measures the full dependency graph both ways, and any
   hand-written consumer mention remaining in the note templates for
   support repos is swept out under the standing rule.
-- [ ] Exit: all agent notes regenerated across the org, the
+- [x] Exit: all agent notes regenerated across the org, the
   agents-sync and layer gates pass, a grep of every support repo's
   note finds no in-org consumer name and no application count, and
   every touched repo is committed and pushed. Commit and push.

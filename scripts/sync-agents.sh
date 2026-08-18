@@ -15,10 +15,19 @@
 # path, nested modules and their prefixed tags, or the absence of a root
 # module), the build-and-test paragraph that follows from it, the golden-image
 # paragraph — which packages keep stored PNGs, which flag regenerates them,
-# and where that flag has to go on the command line — and, since G0.1, both
-# halves of the layer paragraph's dependency claim. Repositories without
-# goldens get no golden paragraph. Anything longer goes in an optional
-# templates/notes/<repo>.md, appended verbatim.
+# and where that flag has to go on the command line — and the layer
+# paragraph's dependency claim. Repositories without goldens get no golden
+# paragraph. Anything longer goes in an optional templates/notes/<repo>.md,
+# appended verbatim.
+#
+# That dependency claim runs one way only, and the direction is the rule. What
+# a module imports is a closed-world fact about the module itself, and whoever
+# builds against it needs it. Who imports the module is not: a public API's
+# consumers are unknowable, this organization's clones can see no further than
+# themselves, and known consumers already exist outside them — so a rendered
+# list of importers presents a visible subset as the whole truth. A guide here
+# says what its module needs and never who needs it. The graph is still walked
+# both ways; only the reverse half goes unrendered.
 #
 # G0.1 is worth the sentence it took. The layer line used to be typed whole
 # into repos.tsv, and by the end of phase F nine of the twenty described a
@@ -109,7 +118,7 @@ field() {
 }
 
 # ---------------------------------------------------------------------------
-# The measured dependency graph, and the two sentences rendered out of it.
+# The measured dependency graph, and the sentence rendered out of it.
 #
 # There is exactly one walk of this graph in the organization and it is in
 # scripts/check-layers.sh, which judges ADR-001's tier rule with it. `--edges`
@@ -128,12 +137,6 @@ field() {
 # would bury it.
 # ---------------------------------------------------------------------------
 GRAPH=""
-
-# The support row, read from check-layers.sh rather than typed again — that
-# script owns the tier table, and a second copy here would be the drift this
-# organization keeps deleting.
-SUPPORT=$(sed -n 's/^SUPPORT="\(.*\)"$/\1/p' scripts/check-layers.sh)
-issupport() { case " $SUPPORT " in *" $1 "*) return 0 ;; esac; return 1; }
 
 # VG_LAYER_EDGES names a file the measurement may be kept in for the life of
 # one caller's run. check-agents.sh sets it because it invokes this script
@@ -182,24 +185,17 @@ nestedextra() {
 		!($4 in have) { print $col }' | sort -u
 }
 
-# The modules of kind $2 outside repo $1 that depend on any module of it. This
-# is the direction a single clone cannot answer, which is why the layer line
-# used to guess at it and why every guess had rotted; from the sibling clones it is the
-# same measurement read the other way round.
-consumers() {
-	printf '%s\n' "$GRAPH" | awk -F'\t' -v r="$1" -v k="$2" '
-		$2 != k { next }
-		$1 == r || index($1, r "/") == 1 { next }
-		$4 == r || index($4, r "/") == 1 { print $1 }' | sort -u
-}
-
 # True when repo $1 has a root module in the graph. Only workbench does not.
 hasroot() {
 	printf '%s\n' "$GRAPH" | awk -F'\t' -v r="$1" '$1 == r { f = 1 } END { exit !f }'
 }
 
-# The measured half of the Layer paragraph for repo $1: what it depends on,
-# and what depends on it. Sets the global `graph`.
+# The measured half of the Layer paragraph for repo $1: what it depends on.
+# Sets the global `graph`. What depends on *it* is measured by
+# check-layers.sh --edges like everything else here and rendered nowhere, for
+# the reason at the top of this file: a module's importers are not its own
+# fact to state, and a list of them drawn from these clones alone would read
+# as complete when it is only what this organization can see.
 #
 # Module granularity throughout, and deliberately. ADR-001's rule is
 # module-level, check-layers.sh judges module-level, and the package column of
@@ -208,8 +204,7 @@ hasroot() {
 # `components/list`. The role sentence above already names the packages that matter,
 # and it names this repository's, which is the set a reader is here for.
 layerline() {
-	local repo=$1 direct indirect extra from apps n
-	local -a parts=()
+	local repo=$1 direct indirect extra from n
 	measure
 
 	direct=$(rootedges "$repo" direct)
@@ -255,67 +250,12 @@ layerline() {
 		fi
 		graph="$graph $subject $(namelist $extra) — $object."
 	fi
-
-	# The other direction — tier-table repos only. A support library never
-	# names its consumers, in documentation any more than in imports:
-	# dependency direction binds both, and the proof was measured in G-G0D,
-	# when renaming a consumer forced a commit in ivg, a repository nothing
-	# about which had changed. Who imports a support library is the importers'
-	# fact; `check-layers.sh --edges` still measures it for whoever asks.
-	if issupport "$repo"; then
-		return
-	fi
-
-	# Root modules first, because a tiered consumer is a
-	# fact about the design system; demos, adapters and applications after and
-	# named as exempt, because "imported only by a demo" is a different thing
-	# from "imported by the layer above" and the tier rule does not bind them.
-	# Both clauses are passive so that neither has to agree with a subject that
-	# may be one module or fourteen.
-	local roots demos adapters
-	roots=$(consumers "$repo" root)
-	demos=$(consumers "$repo" demo)
-	adapters=$(consumers "$repo" adapter)
-	apps=$(consumers "$repo" app)
-
-	[ -z "$demos" ] || parts+=("the demo $(plural "$demos" module) $(namelist $demos)")
-	[ -z "$adapters" ] || parts+=("the adapter $(plural "$adapters" module) $(namelist $adapters)")
-	if [ -n "$apps" ]; then
-		# Only the workbench applications count toward "all N workbench
-		# applications": design is measured as an app too (G0E.2), but it is
-		# its own repository, and today it consumes nothing — the phrase
-		# below names workbench and so must be counted against workbench.
-		n=$(printf '%s\n' "$GRAPH" | awk -F'\t' \
-			'$2 == "app" && index($1, "workbench/") == 1 { m[$1] = 1 } END { print length(m) }')
-		if [ "$(lines "$apps")" = "$n" ]; then
-			parts+=("all $(count "$n" 'workbench application')")
-		else
-			parts+=("the workbench $(plural "$apps" application) $(namelist $(printf '%s\n' "$apps" | sed 's|.*/||'))")
-		fi
-	fi
-
-	local exempt=""
-	[ ${#parts[@]} -eq 0 ] || exempt=$(joinitems "${parts[@]}")
-	if [ -n "$roots" ] && [ -n "$exempt" ]; then
-		graph="$graph Imported by $(namelist $roots). Outside the tier table, also by $exempt."
-	elif [ -n "$roots" ]; then
-		graph="$graph Imported by $(namelist $roots)."
-	elif [ -n "$exempt" ]; then
-		graph="$graph No other repository's root module imports it; outside the tier table it is imported by $exempt."
-	else
-		graph="$graph Nothing in the organization imports it."
-	fi
 }
 
 # How many entries the newline-separated list $1 has. An empty list is zero,
 # which `wc -l` on a bare printf would call one.
 lines() {
 	if [ -z "$1" ]; then printf '0'; else printf '%s\n' "$1" | wc -l | tr -d ' '; fi
-}
-
-# Noun $2, pluralized when the newline-separated list $1 has more than one.
-plural() {
-	if [ "$(lines "$1")" = 1 ]; then printf '%s' "$2"; else printf '%ss' "$2"; fi
 }
 
 # The module and build paragraphs for repo $1, measured from its clone.
@@ -479,46 +419,34 @@ goldens() {
 
 # The sentence about which harness these tests link, for repo $1 with flag $2.
 #
-# Measured, and the measurement is the point: F5.5 replaced twenty-nine
-# inlined harnesses with one, and the five AGENTS.md files that then named the
-# sharers by hand each named a different subset. Reading it off the clones
-# means the sentence cannot drift when a repository starts or stops storing
-# images.
+# It used to name the other repositories that link the harness, measured from
+# the clones so the list could not go stale. The list is gone: who imports a
+# package is not that package's own fact to publish, and a roll-call taken from
+# these clones would read as complete while seeing only as far as the
+# organization does. What the sentence has to carry is the blast radius, and
+# that survives without a single name — there is one harness, so a change to it
+# reaches every tree that keeps stored images, and the trees that keep them
+# announce themselves with a `testdata/golden/` directory.
 #
 # Two shapes, because the repository that *declares* the flag has the opposite
 # problem from the ones that link it: components cannot break itself by adding a
 # second declaration, but it can move every stored image in the organization
-# with one edit — 185 of them, in four other repositories — and its own test
+# with one edit — 185 of them, across four other repositories — and its own test
 # run would not show it.
 harness() {
-	local repo=$1 flag=$2 pkg=github.com/vibrantgio/components/golden others
-	others=$(sharers "$repo")
+	local repo=$1 flag=$2 pkg=github.com/vibrantgio/components/golden
 	if [ -n "$(flagdecl "$WS/$repo")" ]; then
-		printf '`%s` is the harness they use, and since F5.5 it is the organization'\''s only one: %s link it too, so a change to it moves every stored image in the organization and not only this repository'\''s. Regenerate all of them before believing a change here is pixel-neutral.' \
-			"$pkg" "$others"
+		printf '`%s` is the harness they use, and since F5.5 it is the organization'\''s only one: every other repository that stores rendered output links it too, so a change to it moves every stored image in the organization and not only this repository'\''s. Regenerate all of them — every tree with a `testdata/golden/` directory — before believing a change here is pixel-neutral.' \
+			"$pkg"
 	else
-		printf 'They render through `%s`, which declares `-%s` and is shared with %s. Do not inline a copy of it, and do not declare a second `-%s`: two registrations of one flag name in a single test binary panic in `flag.Bool` at init, before any test runs.' \
-			"$pkg" "$flag" "$others" "$flag"
+		printf 'They render through `%s`, which declares `-%s` and is the organization'\''s only golden harness. Do not inline a copy of it, and do not declare a second `-%s`: two registrations of one flag name in a single test binary panic in `flag.Bool` at init, before any test runs.' \
+			"$pkg" "$flag" "$flag"
 	fi
 }
 
-# The other repositories beside .github that link the shared harness: every
-# clone but $1 and the one that declares the flag. "`a`, `b` and `c`".
-sharers() {
-	local out=() d name
-	for d in "$WS"/*/; do
-		name=$(basename "$d")
-		[ "$name" = .github ] && continue # the plan root is a sibling, not a rendered repo
-		if [ "$name" = "$1" ]; then continue; fi
-		if ! imports "$d" github.com/vibrantgio/components/golden; then continue; fi
-		if [ -n "$(flagdecl "$d")" ]; then continue; fi
-		out+=("$name")
-	done
-	namelist ${out[@]+"${out[@]}"}
-}
-
-# "a", "a and b", "a, b and c" — over items already spelled out, which the two
-# list helpers below are and the layer line's consumer phrases are not.
+# "a", "a and b", "a, b and c" — over items already spelled out, which is what
+# the two list helpers below hand it and what a caller with its own phrasing
+# has to hand it too.
 joinitems() {
 	local out="" item
 	while [ $# -gt 0 ]; do

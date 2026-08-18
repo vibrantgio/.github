@@ -46,10 +46,18 @@
 #
 # In --edges mode the judgment is unchanged, but the *scope* widens: the
 # default target becomes every module beside .github, all 37, because a guide
-# has to describe the exempt ones too — workbench's applications are the only
-# consumers half the support libraries have, and `components/gallery`'s edge to
-# effects is the cycle the whole of phase B went after. They are measured and
-# emitted, still never judged. Human report lines go to stderr so stdout
+# has to describe the exempt ones too — an application repository has no root
+# module and nothing but its applications to describe, and a demo's edges are
+# the ones most easily mistaken for its parent's, `components/gallery`'s to
+# effects being the cycle the whole of phase B went after. They are measured
+# and emitted, still never judged.
+#
+# What a guide never prints is this graph read backwards. Both directions are
+# measured here and the tier rule is judged on both, because a forbidden edge
+# has two ends; only the forward half is rendered into prose. A module's
+# importers are not its own fact to state, and a list of them taken from these
+# clones would read as complete while seeing no further than the organization
+# does. Human report lines go to stderr so stdout
 # carries nothing but the TSV, one line per edge:
 #
 #   <module>  <kind>  <tier>  <imported module>  <direct|indirect>  <pkgs,of,it>
