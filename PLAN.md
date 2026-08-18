@@ -3708,7 +3708,30 @@ ADR-018 D4.
   fresh-eyes review raises no complaint about the bottom edge. Commit
   and push.
 
-#### M4.3: Cap the backlinks pane and show the aside's scrollbars
+#### M4.3: Open the block rhythm to the reference's
+
+ADR-018 D3 as ruled in the addendum: the owner put the two renderings
+of the same note side by side and ruled the reference's openness in.
+
+- [ ] The renderer's default block gap rises so the reader-visible
+  blank between ordinary blocks matches the reference's proportion —
+  about 2.3 times the body size (37 px at a 16 px body) — derived from
+  the spacing tokens rather than hardcoded, measured from a render
+  within a couple of pixels.
+- [ ] The heading spaces are re-derived to hold the dossier's ratios at
+  the opened gap — above ≈ 1.35× the ordinary visible blank, below ≈
+  half of above — because the first derivation was tuned at the old
+  8 dp gap where line-height slack dominated, and it will not scale by
+  itself. Both suppressions still hold; the spacing tests move with the
+  numbers rather than being deleted.
+- [ ] Exit: blank-run measurements of the rendered note match the
+  reference's at all three transitions — between blocks, above a
+  heading, below a heading — within a couple of pixels at the same body
+  size; goldens in the renderer's repo regenerated; a fresh-eyes review
+  of a mid-document screenshot raises no complaint about spacing.
+  Commit and push.
+
+#### M4.4: Cap the backlinks pane and show the aside's scrollbars
 
 ADR-018 D5 and D6.
 
@@ -3725,7 +3748,7 @@ ADR-018 D5 and D6.
   shows its indicator when scrollable, goldens regenerated, and a
   fresh-eyes review of the aside raises no complaint. Commit and push.
 
-#### M4.4: Release the spacing and edge changes
+#### M4.5: Release the spacing and edge changes
 
 - [ ] The renderer repo is tagged with the next legal version for an
   additive change and any other repo touched by this goal is tagged per
@@ -7749,6 +7772,33 @@ clings to what it opens.
   outline scrolls but shows no scrollbar; it and the capped backlinks
   list take the same fading indicator the note column carries. A column
   that can scroll and does not say so reads as truncated.
+
+#### Addendum — the rhythm ruled open
+
+D3 held this dossier to the heading asymmetry and said a denser
+paragraph rhythm, if it remained, would come back as its own
+observation. It did, the same day. The owner rendered the same note in
+the viewer and in the reference and put the screenshots side by side;
+measured as blank-pixel runs at the same 16 px body they agree inside a
+paragraph and nowhere else:
+
+| transition | viewer | reference |
+| --- | --- | --- |
+| between lines of one paragraph | 8 px | 8 px |
+| between ordinary blocks | ~11 px | ~37 px |
+| above a level-2 heading | 17–19 px | 49–50 px |
+| below a level-2 heading | 9–14 px | 22–25 px |
+
+The asymmetry landed — above exceeds below at the right ratios — but
+every space is a third of the reference's, so the reader sees binding
+without air. The owner ruled: match the reference's openness.
+
+**D3 is superseded.** The ordinary block gap rises so the visible blank
+between blocks holds the reference's proportion, about 2.3 times the
+body size, and the heading spaces are re-derived to keep D1's ratios at
+the opened gap — the first derivation leaned on line-height slack that
+only dominates at a small gap. Line height itself does not change: the
+measurement shows it already matches.
 
 ### The repo doc contract
 
