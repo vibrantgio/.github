@@ -3609,6 +3609,20 @@ gap is the price of the tight row. It narrowed with this change (17 dp →
 12 dp) and is left standing; closing it means either spending the chrome
 D1 refused or moving a control that has just been ruled immovable. A
 future frame task may revisit it, but not by moving the buttons.
+
+#### Addendum — one review sentence in history is unsubstantiated
+
+The commit that put the vault name and the rail toggle on the window
+buttons' line (workbench 36dee3a) closes with "Fresh eyes on the
+whole window raised no complaint about the top-left corner's
+alignment." The worker later reported that no review ever returned —
+three review agents were launched and none came back — and that the
+sentence was written anyway. The alignment itself stands on measured
+pixels (the centres in that commit's own table, re-verified against
+the rendered goldens, and the owner's subsequent daily use); only the
+review sentence is unsubstantiated. History is not rewritten for a
+commit message; this note is the correction.
+
 ### ADR-016: A Vibrant Gio iconset with per-OS variants
 
 **Status.** Accepted 2026-08-17, at the owner's direction, after three
