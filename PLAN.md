@@ -9167,22 +9167,22 @@ BASELINE.md, FEEDBACK-G6.4.md and PLAN.md from the era when
 development planning lived in the app repo rather than the org's
 plan root. All of it goes.
 
-- [ ] The watchlist app is gone from the workbench: its module
+- [x] The watchlist app is gone from the workbench: its module
   directory and WATCHLIST-FORMAT.md removed, the workspace go.work
   regenerated (or its entry dropped — the file is generated and
   committed nowhere), and every surviving workbench module still
   builds and tests green with the module absent.
-- [ ] The launcher offers vaultview where watchlist stood: the
+- [x] The launcher offers vaultview where watchlist stood: the
   catalog entry carries vaultview's directory and an honest blurb,
   the launcher builds, and launching vaultview from it is verified
   to work — the launched app quit afterwards and verified dead.
-- [ ] The stale planning files are gone from the workbench root:
+- [x] The stale planning files are gone from the workbench root:
   BASELINE.md, FEEDBACK-G6.4.md and PLAN.md removed, along with the
   llms.txt pointer stub (the owner rules the repo needs no pointer
   to the canonical guide), and the README, AGENTS.md and the
   run-workbench skill no longer point at any removed file or at the
   removed app.
-- [ ] Exit: a case-insensitive sweep of the workbench repo and the
+- [x] Exit: a case-insensitive sweep of the workbench repo and the
   plan root's llms.txt finds no reference to the removed app or
   files — llms.txt's exemplar citations rewritten to surviving apps
   that truthfully carry the cited patterns — tests green in every

@@ -13,9 +13,9 @@ using github.com/reactivego/rx generics-based observables. This file tells a
 coding assistant everything needed to scaffold and build a correct Vibrant Gio
 application. The full architecture rationale is in DESIGN.md in
 github.com/vibrantgio/design; the apps in workbench (todos/, sitedocs/,
-feeds/, watchlist/, mindchat/, iconbrowser/, launcher/, vaultview/) are the
-canonical usage references — todos/ is the minimal complete app; read it
-first, and read the larger ones before inventing a pattern.
+feeds/, mindchat/, iconbrowser/, launcher/, vaultview/) are the canonical
+usage references — todos/ is the minimal complete app; read it first, and
+read the larger ones before inventing a pattern.
 
 THE SHORT VERSION, before the detail: the theme observable carries the whole
 look. Components take it and need nothing else — typeface, colour, density,
@@ -97,7 +97,7 @@ support row — enforced in CI by the org's check-layers script. Current tags:
   csg       v0.0.1   constructive solid geometry on meshes (BSP trees)
 
 Two repositories carry no tags and therefore no row above: workbench, the
-eight reference applications, and design, the published claude.ai/design
+seven reference applications, and design, the published claude.ai/design
 bundle (readme.md, theme.json, styles.css, foundations/ — regenerated from
 theme's cmd/vg-tokens and embedded as the Go module
 github.com/vibrantgio/design; its mirror/ package is the G1.1 harness that
@@ -246,7 +246,8 @@ External pins: gioui.org v0.10.1, github.com/reactivego/rx v0.3.0, go 1.25.1
 ## Application bootstrap (the canonical skeleton)
 
 Every Vibrant Gio app follows this shape (todos/main.go is the minimal live
-version; watchlist/main.go the production-sized one):
+version; mindchat/main.go the production-sized one — the same shape, with
+its AutoConnect count documented consumer by consumer):
 
   package main
 
@@ -300,10 +301,12 @@ the messages they emit back into Update — one command may stream many
 messages (see mindchat/, whose OpenAI completion streams dozens of
 deltas from a single command). Effect-free apps return
 mvu.DoNothing() everywhere and never notice the runner. Commands are not
-the only valid effect seam: watchlist keeps its disk writes in submit
-CALLBACKS by design (the write stays synchronous with the confirming
-click) while its reducers return DoNothing — both placements compose with
-mvu.Loop.
+the only valid effect seam — a write that must stay synchronous with the
+confirming click may sit in the submit CALLBACK instead, provided the
+reducer stays pure and callback and reducer route through the same pure
+helper so they cannot diverge — but every app here takes the command
+route: mindchat's config and history I/O and vaultview's vault-store
+write (openVaultCmd) are all mvu.Do.
 
 ## The five load-bearing architecture rules
 
@@ -367,7 +370,7 @@ mvu.Loop.
    model observable inside a keyed/per-row Defer (it attaches after the seed
    fired — the row sees a zero Model). Instead let the parent layer
    subscribe one eager mirror and share it as a `func() Model`. Write a test
-   that measures the subscription count (see watchlist/wiring_test.go).
+   that measures the subscription count (see feeds/wiring_test.go).
 
 5. ANIMATION SELF-SCHEDULES AND IDLES. Animated widgets tick their
    simulation inside the frame and request the next frame only while active:
@@ -503,7 +506,7 @@ table cell closures, navbar widgets) cannot subscribe the theme lazily —
 they would miss the current emission. The reference apps solve this with a
 small adapter that subscribes the theme's token streams once into an
 atomic cell and hands frame-time code a loader func: see mirrorTokens in
-workbench feeds/app.go, and the same hand-off in watchlist and sitedocs.
+workbench feeds/app.go, and the same hand-off in sitedocs and vaultview.
 
 ## Colour: one seed, ramps, pins, step walks
 
@@ -1062,9 +1065,9 @@ purpose (golden determinism); leave those alone.
   packages one by one (each repo's AGENTS.md carries the measured
   command line). A golden also PINS ITS FACES with
   tokens.DefaultTypography.DeterministicShaper(), never the application
-  default Shaper() (§Typography) — and workbench/watchlist stores its
-  goldens in `testdata/` directly, not `testdata/golden/`, so a sweep
-  keyed on the conventional path silently skips it.
+  default Shaper() (§Typography), and stores its images under
+  `testdata/golden/` — the path the shared harness resolves itself, so a
+  sweep keyed on it finds every one.
 - TAGS ARE FOREVER, SO SPEND THEM CAREFULLY. No version component ever
   reaches two digits (v0.0.9 → v0.1.0, never v0.0.10); once the proxy or
   sum.golang.org has seen a version it is immutable, and a wrong tag can
@@ -1136,7 +1139,7 @@ purpose (golden determinism); leave those alone.
   )
 
 These are the released tags — the same ones §Modules lists, and the same ones
-all eight workbench apps are pinned to. Typography and colour need no module
+all seven workbench apps are pinned to. Typography and colour need no module
 of their own: both travel on the theme, which comes with theme; do NOT add
 the frozen style module to a new app. textdraw is a direct requirement as soon as you
 draw text yourself with textdraw.Text/Label — todos does.
@@ -1150,7 +1153,7 @@ GitHub.
 ## Where to look for working code
 
 All of these are directories in github.com/vibrantgio/workbench. Every one
-of the eight apps embodies the current contract — theme imports (no
+of the seven apps embodies the current contract — theme imports (no
 alias paths), ramp/pin colours (no MD3 aliases), theme typography (no
 app-built shaper), theme-driven component entry points — so copy any of
 them without the caveats older guides carried:
@@ -1165,8 +1168,6 @@ them without the caveats older guides carried:
               components TextField with per-keystroke MessageOp updates,
               subscription-scoped scroll and editor state, ivg icon
               rendering at scale
-  watchlist/  full CRUD + persistence + context menus + popover confirms;
-              wiring_test.go shows how to test the AutoConnect count
   mindchat/   the most feature-complete app: a multi-provider LLM chat
               client (any OpenAI-compatible Responses endpoint; providers
               configured with their own BaseURL/key) whose side effects all
@@ -1190,7 +1191,8 @@ them without the caveats older guides carried:
               (Started, then Exited when the process ends)
   feeds/      table-heavy app: sort/filter/pagination, tabs, split pane,
               modal forms, toasts; app.go's mirrorTokens is the reference
-              theme-to-frame-time adapter (§Layers). Also the reference
+              theme-to-frame-time adapter (§Layers), and wiring_test.go
+              shows how to test the AutoConnect count. Also the reference
               implementation of the dialog grammar's invocation half:
               shortcut.go binds ⌘,/Ctrl-, and preferences.go is the settings
               PANEL it opens, whose two preferences apply live under it

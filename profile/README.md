@@ -26,7 +26,7 @@ semantic roles rather than a transcription of the Android widget set.
   the smallest complete application, and the one to read before writing your
   own. Six larger references sit beside it in
   [workbench](https://github.com/vibrantgio/workbench): `sitedocs`, `feeds`,
-  `watchlist`, `mindchat`, `iconbrowser` and `launcher`.
+  `vaultview`, `mindchat`, `iconbrowser` and `launcher`.
 
 <p>
   <img src="launcher-dark.png" alt="Workbench launcher in dark mode — app cards on a live seen 3D field" width="49%">

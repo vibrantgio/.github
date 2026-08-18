@@ -19,10 +19,10 @@ typography, and the pitfalls that are not guessable. Its canonical URL is
 
     https://raw.githubusercontent.com/vibrantgio/.github/master/llms.txt
 
-It exists exactly once, here. `workbench/llms.txt`, its old home, is now a
-three-line pointer at that URL, and the per-repo `AGENTS.md` files that Phase A
-adds link it rather than copy it — so there is one version to read and one to
-edit.
+It exists exactly once, here. `workbench` was its old home and keeps nothing
+behind — not even a pointer file — and the per-repo `AGENTS.md` files that
+Phase A adds link it rather than copy it, so there is one version to read and
+one to edit.
 
 **[`PLAN.md`](PLAN.md) — the plan.** Eight phases that turn the repositories
 from a loose collection into one design system: the front-door documentation
