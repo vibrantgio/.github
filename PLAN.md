@@ -8055,6 +8055,269 @@ assumed. Applications keep the display roles; the markdown renderer
 maps onto the document scale. Sizes land before the rhythm re-tune, so
 the spacing derivation is tuned once, against the final line boxes.
 
+### ADR-019: The measured macOS reference
+
+**Status.** Accepted 2026-08-18, from one consolidated measurement sweep of
+the platform applications this plan keeps consulting.
+
+#### Why the stored reference exists
+
+The preamble's rule — measure from the stored reference — points here. The
+owner's desktop is not a measurement instrument: every task that launches
+Finder, Mail or Notes to read a number off the screen interrupts the person
+using that machine, and the number it reads is gone the moment the window
+closes. So the platform was measured once, in a single session, and the
+evidence was kept. `reference/macos/` holds the captures; the tables below
+give every number, the file it was read from, and the method that produced
+it. A task needing a platform number cites the table and the file and
+launches nothing.
+
+Where this sweep re-covered ground an earlier task had already measured, both
+readings are shown. One earlier number was wrong and is corrected below.
+
+#### How the numbers were taken
+
+Everything was captured on macOS 26.5.2 (build 25F84) in the dark
+appearance, on a 2560×1440 display at ~109 ppi where one pixel is one dp —
+so the pixel values below are dp values on this display, and they are
+per-display wherever they describe a pixel rather than a ratio.
+
+Captures are window-bounded (`screencapture -o -l <windowID>`), which
+excludes the drop shadow and makes the image exactly the window's outer
+bounds. Every coordinate below is therefore a window coordinate with (0,0)
+at the window's top-left outer corner. Measurements were taken
+programmatically from the stored pixels — luminance-run scans across rows
+and columns, saturation masks to isolate the coloured window buttons, the
+alpha channel to trace rounded corners — never by eye.
+
+Six applications were swept. Finder and Mail were already running and were
+left running; the Finder window and the Mail viewer opened for the sweep were
+closed again, restoring the state each was found in. TextEdit, Notes,
+Reminders and Voice Memos were launched for the sweep and quit afterwards,
+each verified dead. A scratch note created in Notes to give the reading
+surface neutral text was deleted, and the clipboard borrowed to fill it was
+restored.
+
+**Captures of applications holding the owner's data are redacted.** Inside
+the private panes — mailbox and message lists, note lists and note bodies,
+reminder lists, recording names — each row's modal colour was computed and
+every pixel departing from it was set back to it. That erases all glyphs
+while leaving pane edges, dividers, selection fills, corner radii and
+toolbar chrome exactly as captured. Every geometric number below was read
+from the unredacted original; the redaction touches only pane interiors,
+never an edge that carries a measurement. The Notes captures show a scratch
+note written for the sweep, so their reading surface is genuine text.
+
+#### Window buttons
+
+Measured as the bounding box of saturated pixels in the window's top-left
+corner, with the window key and the alpha channel masking off the rounded
+corner. Leading and top are the distance from the window's outer edges to
+the first circle's box; trailing is the distance to the far edge of the
+third circle.
+
+| app | leading | top | diameter | pitch | trailing | capture |
+| --- | --- | --- | --- | --- | --- | --- |
+| Finder | 19 | 19 | 14 | 23 | 79 | `finder-window-buttons.png` |
+| Mail | 19 | 19 | 14 | 23 | 79 | `mail-window-buttons.png` |
+| Notes | 19 | 19 | 14 | 23 | 79 | `notes-window-buttons.png` |
+| Reminders | 19 | 19 | 14 | 23 | 79 | `reminders-window-buttons.png` |
+| Voice Memos | 19 | 19 | 14 | 23 | 79 | `voicememos-window-buttons.png` |
+| TextEdit | 9 | 9 | 14 | 23 | 69 | `textedit-window-buttons.png` |
+
+The five toolbar windows agree to the pixel, confirming the earlier task's
+19/19 reading with stored evidence.
+
+**One correction.** That earlier task recorded Reminders at 9/9 and reasoned
+from it that compact-toolbar windows sit at 9/9. Reminders measures 19/19
+here, in the same window-bounded way as the others. The 9/9 case is the
+plain title bar, and TextEdit is its example.
+
+The rule underneath both values is that **the buttons are centred in
+whatever band the window has, and the leading inset equals the top inset**.
+A 32 px plain title bar leaves (31 − 14) / 2 = 8.5 → 9. A 52 px unified
+toolbar leaves (51 − 14) / 2 = 18.5 → 19. There is no third constant to
+learn: measure the band, centre the group, use the same number leading. The
+folklore 12 px and 20 px values match neither band on this OS.
+
+#### Title bar and toolbar bands
+
+Read as the luminance run down a column clear of controls, from the window's
+top edge to the first row of content ground.
+
+| style | app | band height | separator | content starts | capture |
+| --- | --- | --- | --- | --- | --- |
+| plain title bar | TextEdit | 32 px (fill y0–30) | 1 px hairline at y=31 | y=32 | `textedit-titlebar.png` |
+| unified toolbar | Mail | 52 px (fill y0–50) | 1 px hairline at y=51 | y=52 | `mail-toolbar-band.png` |
+| translucent overlay | Notes | no opaque band | appears only once content scrolls under it | y=0 — content runs to the window's top edge | `notes-toolbar.png`, `notes-toolbar-scrolled.png` |
+
+Notes is the interesting one and it matters to any surface that scrolls
+under a toolbar. Its scroll view starts at the window's **top edge**, not
+below the toolbar. Lines are never clipped at a toolbar boundary; they pass
+underneath a translucent material that dims them progressively, and they are
+cut only by the window's own top edge. Measured as the peak ink luminance of
+a text line against the 220 of a fully exposed line, in
+`notes-toolbar-scrolled.png`:
+
+| line position | peak ink | share of full strength |
+| --- | --- | --- |
+| y 2–16 (deepest under the material) | 115 | 52% |
+| y 43–53 (just below the control row) | 169 | 77% |
+| y 59–70 | 204 | 93% |
+| y 76 and below | 220 | 100% |
+
+So the material's optical reach is about 76 px, its control row sits at
+y 18–36, and its separator hairline is a scroll-state indicator rather than
+a fixed edge — absent in `notes-toolbar.png`, present in
+`notes-toolbar-scrolled.png`.
+
+#### The floating sidebar pane
+
+Finder, Notes and Reminders all float the sidebar in macOS 26. Their corner
+arcs are pixel-identical across the three captures, so the numbers below are
+the platform's, not one app's.
+
+| measure | value | capture | method |
+| --- | --- | --- | --- |
+| inset from window left, top and bottom | 8 px | `finder-sidebar-corner.png`, `notes-sidebar-corner.png`, `reminders-sidebar-corner.png`, `finder-sidebar-bottom-corner.png` | first row/column whose luminance leaves the window ground |
+| corner radius | 15 px, circular | same three corner captures | circle fit to the stroke's outer contour; residual under 1 px at every sampled row, three apps identical |
+| edge stroke | 1 px, luminance 63–64 against a 31 pane fill | `notes-sidebar-right-edge.png` | luminance peak at the pane boundary |
+| pane fill | (27,32,35), luminance 31.2 | `finder-window.png` | flat-region sample |
+| window ground behind the pane | (35,42,46), luminance 40.8 | `finder-window.png` | flat-region sample clear of the shadow |
+| tint delta, pane against that ground | −9.6 luminance (pane darker) | `finder-window.png` | difference of the two samples |
+| tint delta, pane against a note's content ground | +1.2 luminance (pane lighter than (30,30,30)) | `notes-window.png` | difference of the two samples |
+| shadow | ground darkened to 37.8 at the pane edge, recovering to 40.8 over 24–25 px | `finder-sidebar-shadow.png`, `reminders-sidebar-shadow.png` | luminance walk outward from the stroke until the value settles |
+
+The shadow is shallow — three luminance units, about 7% — but it is 25 px
+wide, so it reads as a soft lift rather than a drawn edge.
+
+**Not every pane floats.** Mail's mailbox list runs flush to the window's
+left edge with fill (35,42,46) — the same material that sits *behind* a
+floating pane elsewhere (`mail-window.png`). Voice Memos tints nothing: both
+its panes are (30,30,30), split by a 1 px pure-black divider
+(`voicememos-window.png`). Notes uses the same 1 px pure-black divider
+between its note list and the note. So the floating, tinted, rounded pane is
+a choice a window makes, not something the OS imposes.
+
+#### Scrollbars
+
+**At rest there is no scrollbar.** No resting capture of any scrollable
+window in this sweep draws anything at the content's trailing edge
+(`textedit-scrollbar-absent.png`). This is the behaviour to imitate: a
+column that can scroll shows its indicator while it scrolls and not
+otherwise.
+
+The indicator could not be summoned for capture by synthesis. Line-unit
+scroll events, phased pixel-unit gestures carrying begin/changed/end, and
+keyboard paging all moved the document — verified by diffing consecutive
+captures — without the indicator ever being drawn. The platform gates it on
+the real input device. So the thumb and track geometry below was read from a
+scroller forced permanently visible for the length of the measurement, with
+the global preference restored afterwards to the unset state it was found in.
+Treat the geometry as accurate and the *always-visible* presentation as an
+artefact of how it was captured.
+
+| measure | value | capture | method |
+| --- | --- | --- | --- |
+| track width | 16 px | `textedit-scrollbar.png` | luminance run across the trailing edge of an 800 px window |
+| track fill | (26,33,36), luminance 31.7 | `textedit-scrollbar.png` | flat-region sample |
+| thumb width | 11 px | `textedit-scrollbar.png` | luminance run across the thumb |
+| thumb fill | (157,159,161), luminance 158.7 | `textedit-scrollbar.png` | flat-region sample |
+| thumb inset within the track | 3 px leading, 2 px trailing | `textedit-scrollbar.png` | thumb bounds against track bounds |
+| thumb inset from the window's outer edge | 3 px | `textedit-scrollbar.png` | thumb trailing edge against the window edge |
+| thumb start below the content top | 3 px | `textedit-scrollbar.png` | first thumb row against the first content row |
+| thumb length, 400-line document, 852 px track | 138 px | `textedit-scrollbar.png` | vertical run of thumb luminance |
+| **minimum thumb length** | **20 px** | `textedit-scrollbar-min-thumb.png` | same, with a 20 000-line document where the proportional length would be ~2 px |
+
+#### Reading surfaces
+
+Where a reading column sits inside its window, and what it does at the
+edges. Notes was measured against a scratch note written for the sweep;
+TextEdit against a generated document.
+
+| measure | Notes | TextEdit | captures |
+| --- | --- | --- | --- |
+| text inset from the reading pane's leading edge | 22–23 px | 11 px from the window's own edge | `notes-reading-top.png`, `textedit-window.png` |
+| line pitch at the app's default body | 17 px | 13 px | `notes-reading-bottom.png`, `textedit-bottom-edge.png` |
+| first content ink below the toolbar band, unscrolled | 47 px | — | `notes-reading-top.png` |
+| **last line's ink above the window's bottom edge, scrolled to the end** | **31 px** | **6 px** | `notes-reading-bottom.png`, `textedit-bottom-edge.png` |
+| behaviour at the top edge when scrolled | passes under the toolbar, dimmed, never clipped | — | `notes-toolbar-scrolled.png` |
+
+All measured as ink runs: rows containing a pixel above the ground
+threshold, taken in a column range clear of the caret.
+
+The bottom-edge figure now has three points on this display, and they
+bracket the decision ADR-018 D4 records: the reference reading app rests its
+last line ~50 px above the window's bottom edge, Notes 31 px, and TextEdit —
+plain and deliberately marginless — 6 px. A reading surface belongs at the
+generous end of that range, not at TextEdit's.
+
+#### Symbol strokes and mark proportions carried forward
+
+Measured by an earlier task from offscreen AppKit renders rather than from
+the screen, so there is no capture to attach; they are recorded here so the
+numbers live in one place.
+
+| measure | value | source |
+| --- | --- | --- |
+| SF Symbol axis-aligned band at 16 pt (sidebar.left frame) | ≈ 1.26 px | offscreen AppKit render, prior task |
+| SF Symbol chevron band at 16 pt | ≈ 1.44 px — the platform draws diagonals heavier | offscreen AppKit render, prior task |
+| compositing difference | CoreGraphics composites in encoded sRGB while Gio composites in linear light, so equal geometric coverage shows ~30 points less ink in Gio at hairline scale | prior task |
+| platform sidebar mark, pane aspect | 1.28 | offscreen, prior task |
+| platform sidebar mark, corner radius | 0.203 of height | offscreen, prior task |
+| platform sidebar mark, divider position | 0.355 across | offscreen, prior task |
+| platform sidebar mark, list-line length | 0.55 of the leading column | offscreen, prior task |
+
+#### Reading rhythm carried forward
+
+Measured by an earlier task as blank-pixel runs in the owner's own
+screenshots at a 16 px body. Those screenshots are now stored here as the
+evidence ADR-018 rests on.
+
+| measure | value | capture |
+| --- | --- | --- |
+| between lines of one paragraph | ~8 px | `obsidian-note-original.png` |
+| between ordinary blocks | ~37 px | `obsidian-note-original.png` |
+| above a level-2 heading | 49–52 px | `obsidian-note-ab.png` |
+| below a level-2 heading | 22–25 px | `obsidian-note-ab.png` |
+| level-1 heading ink height | 25 px (≈1.6× body) | `obsidian-note-ab.png` |
+| level-2 heading ink height | 17 px (≈1.4× body) | `obsidian-note-ab.png` |
+| last line above the window's bottom edge | ~50 px | `obsidian-note-original.png` |
+| the org viewer's own rendering, same note, for comparison | see ADR-018's addendum table | `vaultview-note-ab.png` |
+
+#### What the captures contain
+
+Thirty-three files, 1.3 MB. Whole-window captures give context and carry the
+window edges; the crops are tight on the region each number was read from.
+
+- **Window buttons**, one per app: `finder-window-buttons.png`,
+  `mail-window-buttons.png`, `notes-window-buttons.png`,
+  `reminders-window-buttons.png`, `voicememos-window-buttons.png`,
+  `textedit-window-buttons.png`.
+- **Whole windows**: `finder-window.png`, `mail-window.png`,
+  `notes-window.png`, `reminders-window.png`, `voicememos-window.png`,
+  `textedit-window.png`.
+- **Bands**: `textedit-titlebar.png`, `mail-toolbar-band.png`,
+  `notes-toolbar.png`, `notes-toolbar-scrolled.png`.
+- **Floating sidebar**: `finder-sidebar-corner.png`,
+  `finder-sidebar-bottom-corner.png`, `finder-sidebar-shadow.png`,
+  `notes-sidebar-corner.png`, `notes-sidebar-bottom-corner.png`,
+  `notes-sidebar-right-edge.png`, `reminders-sidebar-corner.png`,
+  `reminders-sidebar-shadow.png`.
+- **Scrollbar**: `textedit-scrollbar.png`, `textedit-scrollbar-min-thumb.png`,
+  `textedit-scrollbar-absent.png`.
+- **Reading surfaces**: `notes-reading-top.png`, `notes-reading-bottom.png`,
+  `textedit-bottom-edge.png`.
+- **Reading reference**: `obsidian-note-original.png`,
+  `obsidian-note-ab.png`, `vaultview-note-ab.png` — copied from the owner's
+  desktop, the evidence ADR-018 was decided from.
+
+One number belongs to the window itself rather than to any region above: the
+**window's corner radius is 16 px**, circular, fitted to the alpha contour of
+`textedit-window.png` with sub-pixel residual at every sampled row. It is
+deliberately not the 15 px of the sidebar pane floating inside it — the two
+radii are close enough to look like one value and are not.
+
 ### The repo doc contract
 
 Every repository gets the same two files, in the same shape.
