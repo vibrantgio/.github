@@ -3699,6 +3699,28 @@ was invisible in dark.
   the whole window raise no complaint about the corner. Commit and
   push.
 
+#### M3.6: Align the vault name with the window buttons
+
+The owner: the vault-name label sits too close to the top and looks
+misaligned — it should align with the traffic lights. This is the gap
+the button-anchoring task recorded: the buttons centre on the window's
+26 dp line and the pane's toggle was levelled with them, but the vault
+name still centres where the 28 dp chrome row puts its content, 12 dp
+higher. The same record holds the twin symptom: the chrome row's own
+toggle centres there too, so the mark jumps 12 dp vertically when the
+pane goes.
+
+- [ ] The vault-name label centres on the buttons' centre line — the
+  same line the pane's toggle sits on — verified in rendered pixels
+  against the button centres, not by construction.
+- [ ] The chrome row's toggle centres on that line as well, so the
+  toggle mark holds one vertical position through a pane round-trip;
+  what the chrome row spends on height does not change.
+- [ ] Exit: a magnified capture shows the label's and the marks'
+  centres level with the button centres in both rail states, the
+  chrome budget assertion still holds, goldens regenerated, and fresh
+  eyes raise no complaint about the top-left corner. Commit and push.
+
 ### G-M5: A stored platform reference
 
 The owner: measurement sweeps that launch macOS apps and grab the
