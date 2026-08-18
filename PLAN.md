@@ -3952,6 +3952,42 @@ already shape at 14 sp.
   note holding inline code in running text and in task rows raise no
   complaint about the code spans. Commit and push.
 
+#### M6.8: Honor the token line height in wrapped text
+
+The owner calls the last density gap: our prose sets a 19 px line
+pitch with 3 px of blank between line inks where the reference sets
+24 px and 8 at the same 16 px ink — corroborated three independent
+times (the stored A/B captures, a reviewer reading the chrome as
+looser than the prose, and stacked code chips nearly touching where
+the reference's get 4 px of air). The cause is a seam between two
+layers that each did their half right: the typography tokens carry
+the design language's line heights and say a zero means the shaper's
+default, and the rich text primitive never reads the field — it
+advances lines on font ascent plus descent alone. Honoring the token
+moves every derivation that was calibrated over the old pitch, so
+the reference measurements are the invariants and the derived
+constants adjust to keep landing on them.
+
+- [ ] Wrapped text occupies its style's line height: the paragraph's
+  token line height sets the line box, extra space distributing as
+  half-leading the way the reference's styling model does, a
+  mixed-size span (code in a body line) not changing the box, and a
+  zero line height keeping today's metrics-only behaviour so nothing
+  outside the tokens moves by accident.
+- [ ] The rhythm derivations re-land on the reference over the new
+  pitch: intra-paragraph pitch 24 with ~8 px blank between line
+  inks, the ordinary block blank ~37, the announced-list seam
+  24-25, the heading blanks at their measured targets, and the list
+  markers still centred on their first lines — all held by the
+  existing rendered-pixel suites, with derivation constants
+  re-derived rather than targets loosened.
+- [ ] Exit: a paragraph A/B against the stored captures matches the
+  reference's pitch and blank within 1 px, the stacked-chip crowding
+  recorded earlier is re-measured and closed if the new leading
+  gives it the reference's air, goldens regenerated across every
+  consumer whose pixels legitimately move, and fresh eyes on a full
+  note raise no complaint about text density. Commit and push.
+
 ### G-M4: Heading spacing and the bottom edge
 
 The dossier is ADR-018. The renderer change goes first; the app changes
