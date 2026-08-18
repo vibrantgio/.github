@@ -3810,16 +3810,16 @@ chevrons at full text colour. The set's own size taxonomy already
 names the fix: the small mark size is documented as what a mark takes
 beside a line of text, and the chevrons sit in a text row.
 
-- [ ] The history chevrons draw at the set's text-adjacent small size,
+- [x] The history chevrons draw at the set's text-adjacent small size,
   so their ink lands near the neighbouring label's height instead of
   60% over it; the head row's own height and alignment hold (the row
   centres its children, so nothing else moves).
-- [ ] Enabled chevrons take a secondary ink rather than the full text
+- [x] Enabled chevrons take a secondary ink rather than the full text
   colour, following the reference's muting of navigation chrome — while
   the disabled step stays clearly dimmer than the enabled one, since
   reviewers have three times read the two states as too alike; the
   muting must widen that gap or at worst preserve it, never close it.
-- [ ] Exit: a capture of the head row magnified shows the chevrons
+- [x] Exit: a capture of the head row magnified shows the chevrons
   sitting with the breadcrumb text rather than over it, with the ink
   heights measured and compared against the stored reference numbers;
   goldens regenerated where pixels legitimately move; fresh eyes raise
@@ -8314,6 +8314,22 @@ evidence ADR-018 rests on.
 | level-2 heading ink height | 17 px (≈1.4× body) | `obsidian-note-ab.png` |
 | last line above the window's bottom edge | ~50 px | `obsidian-note-original.png` |
 | the org viewer's own rendering, same note, for comparison | see ADR-018's addendum table | `vaultview-note-ab.png` |
+
+#### The reference app's head row
+
+Read from the same stored capture as the reading rhythm above, by the same
+ink-run method — the row of history arrows and the title they sit beside,
+at the top of `obsidian-note-original.png` in the dark appearance.
+
+| measure | value | capture |
+| --- | --- | --- |
+| history arrow ink | 10 × 10 px each, both arrows identical | `obsidian-note-original.png` |
+| the title's ink beside them | 13 px overall span, 10 px ascender to baseline | `obsidian-note-original.png` |
+| arrow ink against that title's | arrow 59 average on a 28 ground, title 160 — the arrows carry about a quarter of the title's contrast | `obsidian-note-original.png` |
+| the two arrows against each other | no difference: one ink for both, so the capture says nothing about how the app marks the end of the stack | `obsidian-note-original.png` |
+
+So the reference sizes its navigation marks at the height of the text
+beside them, not above it, and mutes them well under that text's ink.
 
 #### What the captures contain
 
