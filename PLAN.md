@@ -9144,7 +9144,7 @@ ADR-016 D1 and D5.
   the release protocol, verified from VCS; gates green; `llms.txt`
   describes nothing unpublished. Commit and push.
 
-## Phase O: Deferred defects and polish
+## Phase O: Cleanup and the theme's cast
 
 Four items were deferred during Phases I–K: a confirmed defect
 in the effects repo, formatter drift from the Go 1.26 toolchain, and two
@@ -9284,60 +9284,6 @@ real one later — so this task makes ANY seed render un-drab.
   fresh-eyes look at both windows raises no complaint about a grey
   cast or a washed-out accent. Commit and push.
 
-### G-O1: Defects and formatting drift
-
-#### O1.1: Forward Props.Ground in effects/springbutton
-
-ADR-014 S1 — the forwarding fix and its release.
-
-- [ ] `effects/springbutton`: `renderState` forwards `Props.Ground`;
-  the components pin moves to v0.8.1; the repo's forwarding test — the
-  one that found the gap — passes under the workspace and `GOWORK=off`
-  alike. Goldens regenerated only if the ground actually moves pixels
-  in a golden's scene, with the reason in the commit body.
-- [ ] Exit: effects tagged v0.2.1 per the release protocol, verified
-  from VCS; gates green; `llms.txt` current. Commit and push.
-
-#### O1.2: Apply Go 1.26 gofmt across the workspace
-
-ADR-014 S2 — one sweep, zero behaviour.
-
-- [ ] `theme/tokens/seed.go` first: restructure the hand-aligned
-  documentation table so its gofmt-formatted form reads well — this
-  file is why the sweep cannot be blind.
-- [ ] Run Go 1.26 gofmt across every module in the workspace; commit
-  per repo with a formatting-only subject; no tags (formatting rides
-  the next real release of each repo, per the emission-only precedent).
-- [ ] Exit: `gofmt -l` reports nothing in any module; every suite
-  green; every golden byte-identical. Commit and push.
-
-### G-O2: Deferred polish
-
-#### O2.2: Add a clickable breadcrumb API to patterns
-
-ADR-014 S4 — the additive pattern API.
-
-- [ ] `patterns/breadcrumb` grows an additive way to lay out a trail
-  that is decided at frame time and clickable per segment, keeping the
-  existing `Render`/`Breadcrumb` surfaces byte-compatible; unit tests
-  cover click routing and a trail that changes between frames; godoc
-  names no consumers.
-- [ ] Exit: patterns tagged v0.7.0 per the release protocol (additive
-  minor), verified from VCS; gates green; `llms.txt` current. Commit
-  and push.
-
-#### O2.3: Adopt the new breadcrumb API in vaultview
-
-ADR-014 S4, second half — the copy retires.
-
-- [ ] vaultview's picker and note trails render through the new
-  patterns API; `crumb.go` is deleted; the patterns pin moves to
-  v0.7.0; goldens regenerated where the chevron glyph legitimately
-  changes.
-- [ ] Exit: `GOWORK=off` build and test of vaultview from a clean
-  checkout against published tags only; a screenshot confirms both
-  trails render and click. Commit and push.
-
 ## Phase P: The themer
 
 The owner's brief: a theme can only be judged on the whole system at
@@ -9347,8 +9293,8 @@ candidate theme. Drop an image, get seed candidates extracted from
 it, pick one, and watch the entire inventory re-theme live; keep what
 you love. The gallery app is the base to build on, not a fresh start:
 it already carries per-family pages and a sidebar; it needs its
-coverage closed and a live theme feed. This phase runs only on the
-owner's explicit go.
+coverage closed and a live theme feed. The owner gave the go on
+2026-08-18, ordered directly after the de-drab pass.
 
 ### G-P1: The gallery shows everything
 
@@ -9432,3 +9378,65 @@ dossier when it is made.
   app and see the theme; tests green; fresh eyes on the adopting app
   under the new theme raise no complaint about partial adoption.
   Commit and push.
+
+## Phase Q: Deferred defects and polish
+
+The deferred work that predates the theme rulings, moved behind the
+themer on the owner's ordering. Labels keep their creation names;
+position is execution order.
+
+### G-O1: Defects and formatting drift
+
+#### O1.1: Forward Props.Ground in effects/springbutton
+
+ADR-014 S1 — the forwarding fix and its release.
+
+- [ ] `effects/springbutton`: `renderState` forwards `Props.Ground`;
+  the components pin moves to v0.8.1; the repo's forwarding test — the
+  one that found the gap — passes under the workspace and `GOWORK=off`
+  alike. Goldens regenerated only if the ground actually moves pixels
+  in a golden's scene, with the reason in the commit body.
+- [ ] Exit: effects tagged v0.2.1 per the release protocol, verified
+  from VCS; gates green; `llms.txt` current. Commit and push.
+
+#### O1.2: Apply Go 1.26 gofmt across the workspace
+
+ADR-014 S2 — one sweep, zero behaviour.
+
+- [ ] `theme/tokens/seed.go` first: restructure the hand-aligned
+  documentation table so its gofmt-formatted form reads well — this
+  file is why the sweep cannot be blind.
+- [ ] Run Go 1.26 gofmt across every module in the workspace; commit
+  per repo with a formatting-only subject; no tags (formatting rides
+  the next real release of each repo, per the emission-only precedent).
+- [ ] Exit: `gofmt -l` reports nothing in any module; every suite
+  green; every golden byte-identical. Commit and push.
+
+
+### G-O2: Deferred polish
+
+#### O2.2: Add a clickable breadcrumb API to patterns
+
+ADR-014 S4 — the additive pattern API.
+
+- [ ] `patterns/breadcrumb` grows an additive way to lay out a trail
+  that is decided at frame time and clickable per segment, keeping the
+  existing `Render`/`Breadcrumb` surfaces byte-compatible; unit tests
+  cover click routing and a trail that changes between frames; godoc
+  names no consumers.
+- [ ] Exit: patterns tagged v0.7.0 per the release protocol (additive
+  minor), verified from VCS; gates green; `llms.txt` current. Commit
+  and push.
+
+#### O2.3: Adopt the new breadcrumb API in vaultview
+
+ADR-014 S4, second half — the copy retires.
+
+- [ ] vaultview's picker and note trails render through the new
+  patterns API; `crumb.go` is deleted; the patterns pin moves to
+  v0.7.0; goldens regenerated where the chevron glyph legitimately
+  changes.
+- [ ] Exit: `GOWORK=off` build and test of vaultview from a clean
+  checkout against published tags only; a screenshot confirms both
+  trails render and click. Commit and push.
+
