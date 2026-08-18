@@ -3748,7 +3748,30 @@ ADR-018 D4.
   fresh-eyes review raises no complaint about the bottom edge. Commit
   and push.
 
-#### M4.3: Open the block rhythm to the reference's
+#### M4.3: Give documents their own heading sizes
+
+ADR-018's second addendum: the owner compared the same note in both
+renderings and ruled that documents get their own heading scale.
+
+- [ ] The theme's tokens gain a document heading scale: six stops for
+  prose surfaces, derived from the body role in book proportions and
+  anchored to the measured reference — level 1 ≈ 1.6× body, level 2 ≈
+  1.4×, deeper steps still distinguishable at a glance rather than the
+  display roles' compressed ladder. Weight per level is measured from
+  the reference captures rather than assumed. The scale's godoc says
+  what it is for without naming any consumer.
+- [ ] The markdown renderer maps heading levels onto the document scale
+  in its token constructor, replacing the display roles it borrows
+  today. The heading-space derivation keeps working against the new
+  sizes and its tests move with the numbers rather than being deleted;
+  re-tuning the spacing to the opened gap stays the next task's job.
+- [ ] Exit: rendered at the same body size, levels 1 and 2 measure
+  within a couple of pixels of the reference's ink heights, a six-level
+  render shows adjacent levels a reader can tell apart, goldens in the
+  touched repos regenerated, and a fresh-eyes review of a mid-document
+  screenshot raises no complaint about heading size. Commit and push.
+
+#### M4.4: Open the block rhythm to the reference's
 
 ADR-018 D3 as ruled in the addendum: the owner put the two renderings
 of the same note side by side and ruled the reference's openness in.
@@ -3771,7 +3794,7 @@ of the same note side by side and ruled the reference's openness in.
   of a mid-document screenshot raises no complaint about spacing.
   Commit and push.
 
-#### M4.4: Cap the backlinks pane and show the aside's scrollbars
+#### M4.5: Cap the backlinks pane and show the aside's scrollbars
 
 ADR-018 D5 and D6.
 
@@ -3788,7 +3811,7 @@ ADR-018 D5 and D6.
   shows its indicator when scrollable, goldens regenerated, and a
   fresh-eyes review of the aside raises no complaint. Commit and push.
 
-#### M4.5: Release the spacing and edge changes
+#### M4.6: Release the spacing and edge changes
 
 - [ ] The renderer repo is tagged with the next legal version for an
   additive change and any other repo touched by this goal is tagged per
@@ -7839,6 +7862,29 @@ body size, and the heading spaces are re-derived to keep D1's ratios at
 the opened gap — the first derivation leaned on line-height slack that
 only dominates at a small gap. Line height itself does not change: the
 measurement shows it already matches.
+
+#### Addendum — heading sizes ruled document-scale
+
+The same side-by-side that opened the rhythm also measured the heading
+sizes. At an identical 16 px body, the viewer's level-1 heading shows
+31 px of ink against the reference's 25, and level 2 shows 21 against
+17 — ours 1.24× larger at both levels, enough that the note's title
+wraps to two lines where the reference's fits one. The cause is the
+mapping: the renderer borrows the MD3 Headline and Title roles
+(32/28/24/22/16/14 against a 16 body), display sizes tuned for an app
+screen that shows one headline, not for a document where headings recur
+every few paragraphs. The owner also noted adjacent levels look very
+much the same — the display ladder's steps (32→28→24) are ~1.15× each,
+so the headings are simultaneously too large and too alike.
+
+**Ruled: documents get their own heading scale.** Its home is the
+theme's tokens — a document scale any prose surface can use, not a
+private markdown table — in book proportions anchored to the measured
+reference: level 1 ≈ 1.6× body, level 2 ≈ 1.4×, steps a reader can
+tell apart, weight per level taken from the reference rather than
+assumed. Applications keep the display roles; the markdown renderer
+maps onto the document scale. Sizes land before the rhythm re-tune, so
+the spacing derivation is tuned once, against the final line boxes.
 
 ### The repo doc contract
 
