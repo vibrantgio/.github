@@ -3750,6 +3750,34 @@ point at and no later task ever needs the owner's desktop again.
   and the file without launching anything; `mdplan lint` shows nothing
   new; the sweep's apps are confirmed dead. Commit and push.
 
+### G-M6: Corrections from daily use
+
+Small defects the owner hits using the viewer as their actual reader.
+Each is one task; the phase's release closes over whatever they touch.
+
+#### M6.1: Drop the toast to bottom center
+
+The owner: a rescan's toast pops up at the window's top right where
+they expect bottom center. The viewer passes the top-right anchor, but
+the underlying cause is in the toast component: it anchors only to the
+four corners — there is no centered position to choose. Bottom center
+is also where the design language's own snackbar convention puts
+transient confirmation.
+
+- [ ] The toast component gains a bottom-center position: the stack
+  anchors to the bottom edge's midpoint, newest toast nearest the edge
+  and stacking upward, with the margins and motion the corner anchors
+  already have; its tests cover the new anchor's geometry alongside
+  the corners'.
+- [ ] The viewer's toast layer anchors bottom center, so a rescan's
+  confirmation rises over the reading column's foot without touching
+  the chrome row.
+- [ ] Exit: a capture shows a rescan's toast at the bottom center (the
+  foot actions are keyboard-reachable, so the rescan can be triggered
+  by synthesized keys, or the toast seeded through the model for a
+  headless render); component tests green; fresh eyes raise no
+  complaint about the toast. Commit and push.
+
 ### G-M4: Heading spacing and the bottom edge
 
 The dossier is ADR-018. The renderer change goes first; the app changes
@@ -3896,8 +3924,9 @@ in this goal has landed, rather than once per task.
 #### M4.8: Release the spacing and edge changes
 
 - [ ] The renderer repo is tagged with the next legal version for an
-  additive change and any other repo touched by this goal is tagged per
-  its own precedent — no double-digit version components, explanatory
+  additive change and any other library repo the phase's still-open
+  goals touched — the theme's document scale, the toast's new anchor,
+  whatever else accrued — is tagged per its own precedent — no double-digit version components, explanatory
   tag messages where the number understates the change — verified from
   VCS, never the proxy.
 - [ ] Consumer pins bumped, `GOWORK=off` builds and tests green in
