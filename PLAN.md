@@ -39,6 +39,17 @@ cannot replace this: they render pieces in isolation, so no golden can see a
 composition. Every visual defect in this plan's history was found by a pair
 of eyes that had not read the task.
 
+**Measure from the stored reference.** The owner uses this computer;
+launching macOS apps and grabbing the screen to measure them gets in the
+way of that. Platform measurements live in `reference/macos/` in this
+repo, indexed by ADR-019: consult the stored numbers and captures FIRST.
+Only when the reference lacks the number a task needs may the task
+launch an app to measure it — batched into one session, quitting the
+app immediately after and verifying it died — and whatever it measured
+is added to the reference and the ADR in the same task, so the gap
+closes forever. Offscreen renders (AppKit symbols, headless GPU) touch
+nothing the owner sees and need no such care.
+
 **Push when it's green.** A commit on `master` is not a release — the tag is.
 So there is nothing to hold back: once a task's commits are made and green,
 push them, in every repo you touched, without asking. Rene works from more than
@@ -3664,6 +3675,35 @@ nothing that belongs to the window should.
   where the reference's do and do not move when the pane toggles;
   whole-window goldens regenerated; fresh eyes raise no complaint about
   the buttons. Commit and push.
+
+### G-M5: A stored platform reference
+
+The owner: measurement sweeps that launch macOS apps and grab the
+screen are getting in the way of using the actual computer. This goal
+pays the cost once — one consolidated sweep, stored in this repo — so
+the preamble's measure-from-the-stored-reference rule has something to
+point at and no later task ever needs the owner's desktop again.
+
+#### M5.1: Measure the platform once and store the reference
+
+- [ ] One sweep captures the macOS apps this plan keeps consulting —
+  Finder, Mail, Notes, Voice Memos, Reminders, TextEdit — as
+  whole-window screenshots plus tight crops of the regions that get
+  measured (window buttons, sidebar pane, toolbar band, scrollbar,
+  reading margins), stored under `reference/macos/` with names that say
+  app and region. Every app launched is quit afterwards and verified
+  dead; the whole sweep happens in one session.
+- [ ] The numbers this plan has already measured are consolidated into
+  ADR-019 alongside the new ones, so nothing lives only in an old
+  report: the window-button geometry per window style, the sidebar
+  pane's inset and radius, the symbol stroke measures, the reading
+  rhythm of the reference note app, and whatever the fresh sweep adds —
+  scrollbar geometry, toolbar heights, reading-surface margins — each
+  number naming the capture file it was read from.
+- [ ] Exit: ADR-019 indexes every stored capture with its measured
+  values and method; a task needing a platform number can cite the ADR
+  and the file without launching anything; `mdplan lint` shows nothing
+  new; the sweep's apps are confirmed dead. Commit and push.
 
 ### G-M4: Heading spacing and the bottom edge
 
