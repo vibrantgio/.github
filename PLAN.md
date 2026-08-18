@@ -3932,18 +3932,18 @@ so code is silently lost in the reading surface. The reference keeps a
 code block's own line breaks sacred and scrolls the block horizontally
 when a line will not fit; that is the treatment to match.
 
-- [ ] A fenced code block whose widest line exceeds its container
+- [x] A fenced code block whose widest line exceeds its container
   scrolls horizontally: code never reflows, the hidden remainder is
   reachable by trackpad scroll and drag, and the edge says there is
   more while there is. If the horizontal treatment is a general
   affordance the components repo lacks, it is added there rather than
   drawn privately in the renderer. Unit tests cover the fits and
   overflows boundaries and the offset's bounds.
-- [ ] Short blocks are untouched — no scroller, no indicator, identical
+- [x] Short blocks are untouched — no scroller, no indicator, identical
   layout for a block that fits — and vertical document scrolling over a
   scrollable block still works: the block claims the horizontal axis
   only.
-- [ ] Exit: the note that exposed the defect shows its full line by
+- [x] Exit: the note that exposed the defect shows its full line by
   scrolling within the fence, goldens regenerated where pixels
   legitimately move, and a fresh-eyes review of a note holding one
   overflowing block and one short block raises no complaint about the
