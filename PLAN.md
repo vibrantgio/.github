@@ -9322,14 +9322,14 @@ links, and the aside furniture — on one scrollable page that shows
 the whole inventory side by side, with the per-family pages kept for
 close-up work.
 
-- [ ] The gallery's inventory is audited against the published
+- [x] The gallery's inventory is audited against the published
   component and pattern surface and every missing family gains a
   section, including a markdown reading sample rendered by the real
   renderer and the toast at its three levels.
-- [ ] An everything page renders the full inventory in one scrollable
+- [x] An everything page renders the full inventory in one scrollable
   column, sectioned and labelled, in the current theme, with the
   sidebar's per-family pages unchanged for close-up work.
-- [ ] Exit: the everything page rendered in both schemes shows every
+- [x] Exit: the everything page rendered in both schemes shows every
   family present and labelled, tests green, goldens for the new
   sections recorded, and a fresh-eyes look at the everything page
   raises no complaint about missing furniture. Commit and push.
