@@ -3860,6 +3860,35 @@ colons that announce nothing.
   move, and fresh eyes on a note holding an announcing paragraph and
   its list raise no complaint about the seam. Commit and push.
 
+#### M6.5: Anchor the backlinks pane to the aside's foot
+
+The owner rules on the aside's composition: "the backlinks should
+always be positioned at the bottom and allow the outline to take up
+the space not occupied by the backlinks even if it doesn't need it."
+Today the two panes stack from the top and the room neither needs
+falls to the foot of the column below the backlinks; after this task
+that spare paper opens inside the outline's territory instead — below
+its rows, above the divider — and the divider, the backlinks header
+and the pane stand against the column's foot. The pane's own sizing is
+untouched: rows up to four, the short-window ceiling, one line when
+nothing cites the note.
+
+- [ ] The backlinks group — divider, header and pane — sits at the
+  foot of the aside column, the pane keeping its rows-up-to-four
+  height and its short-window ceiling, while the outline's region runs
+  from its header down to the divider: spare paper opens below the
+  outline's rows inside its own region, never under the backlinks.
+- [ ] The hit geometry and indicators follow the move: outline and
+  backlink navigation, the document-tracking highlight and both
+  panes' scroll indicators work in the new geometry, and the boundary
+  states hold — no backlinks (the one-line pane still at the foot), no
+  headings, and a window squeezed short still shows both panes.
+- [ ] Exit: captures of a sparse note and a dense one show the
+  backlinks against the column's foot with the slack inside the
+  outline's territory, goldens regenerated where pixels legitimately
+  move, and fresh eyes on the aside raise no complaint about the
+  panes' positions. Commit and push.
+
 ### G-M4: Heading spacing and the bottom edge
 
 The dossier is ADR-018. The renderer change goes first; the app changes
@@ -8119,6 +8148,20 @@ tell apart, weight per level taken from the reference rather than
 assumed. Applications keep the display roles; the markdown renderer
 maps onto the document scale. Sizes land before the rhythm re-tune, so
 the spacing derivation is tuned once, against the final line boxes.
+
+#### Addendum — the backlinks anchor to the foot
+
+The cap answered the pane's size; the owner has now ruled its
+position. The backlinks sit at the bottom of the aside column, always,
+and the outline takes the space they do not occupy even when it has
+nothing to put there — in the owner's words, "the backlinks should
+always be positioned at the bottom and allow the outline to take up
+the space not occupied by the backlinks even if it doesn't need it."
+Spare paper therefore opens below the outline's rows, inside the
+outline's own territory, and the divider and the backlinks group stand
+against the foot. This supersedes the decision, made alongside the
+cap, that what neither pane needed fell to the foot of the column
+below the backlinks.
 
 ### ADR-019: The measured macOS reference
 
