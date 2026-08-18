@@ -72,4277 +72,6 @@ finished, commit it, and report that the task needs splitting — with a propose
 split. Do not push through. A task that silently runs for hours is the failure
 mode this plan exists to prevent.
 
-## Phase A: Front door — make the org legible to a coding assistant
-
-Nothing here changes a line of library code. It fixes the reason an assistant
-pointed at the org currently finds nothing: the canonical guide is buried one
-repo deep and unlinked, eleven of the twenty sibling repos have no README at
-all — twelve counting this one — and not one of the six core modules has a
-`doc.go` anywhere, so pkg.go.dev is blank for the entire stack.
-
-Phase A is self-contained and lands value immediately. Do not let later phases
-block it.
-
-![[#ADR-004: The canonical agent guide lives here]]
-### G-A1: Establish the guide and the front door
-
-All work in this repo unless a step says otherwise.
-
-#### A1.1: Set up the working tree
-
-Create the local layout every later task assumes.
-
-- [x] Add `.gitignore` with `.repos/`, `go.work.sum` and `.DS_Store`.
-- [x] Write `scripts/clone-all.sh`: clone all twenty sibling repos into `.repos/`, skipping any already present, and `git pull --ff-only` those that are. Plain `git clone https://github.com/vibrantgio/<name>.git` — do not assume `gh` is installed.
-- [x] Name all twenty in the script, since nothing else in the working tree knows the list: **the stack** — mvu, spectrum, prism, pulse, cadence, markdown; **the leaves** — font, style, textdraw, backdrop, gradient, circle; **the support libraries** — ivg, svg, seen, csg, kiwi, noise, traer; **the apps** — workbench.
-- [x] Run it; confirm twenty directories exist under `.repos/`.
-- [x] Record in the script's header comment that `.github` itself is the parent directory, not a clone — and that the whole set is cloned every time, because the module graph is what this plan edits and no task can see an edge whose other end is missing.
-- [x] Write `scripts/inventory.sh`: per repo, report whether it has a `README.md`, an `AGENTS.md`, a root `doc.go` and a `.github/workflows/`, plus its current Gio and rx versions.
-- [x] Run it and paste the table into the commit body. Every count this plan still asserts — twelve missing READMEs, six missing `doc.go`, twenty missing `AGENTS.md`, no CI anywhere — is checked against that table and corrected here if it is wrong. Phase A's tasks were cut from a survey, not from the clone. (The dependency half of that survey is already settled: G-B1 put every module on one Gio, one rx and `go 1.25.1`.)
-
-#### A1.2: Move llms.txt here and correct its inventory
-`workbench/llms.txt` is the only agent guide in the org. Promote it to this
-repo's root, where the org front door can link it.
-
-- [x] `git mv` the file content into `./llms.txt` (copy across repos; it is a new file here).
-- [x] Correct the module inventory table against the real tags. Do not copy the list below by hand — read it out of the clones (`git -C .repos/<name> tag | sort -V | tail -1`), because it has already gone stale once. Measured 2026-07-31, after the G-B1 retagging: mvu v0.4.3, prism v0.1.2, spectrum v0.0.6, pulse v0.0.6, cadence v0.2.3, markdown v0.0.6, seen v0.0.7, traer v0.0.8, svg v0.0.8, ivg v0.1.6, backdrop v0.0.3, noise v0.0.3, style v0.0.5, textdraw v0.0.4, font v0.0.4, circle v0.0.4, kiwi v0.0.6, gradient v0.0.3, csg v0.0.1. Note `gradient` — the old table omitted it entirely — and `csg`, which the old table showed as untagged.
-- [x] List the ten nested modules too — they are invisible in a repo listing and an assistant will not guess them: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio`, `svg/driver/{gio,pdf,raster,seen}`. Their tags carry the subdirectory prefix (`raster/gio/v0.1.6`), which is not obvious.
-- [x] Add a header line naming this file the single canonical guide and giving its raw URL.
-- [x] In `.repos/workbench`, replace `llms.txt` with a three-line pointer to the canonical URL, and update `workbench/README.md`'s reference to it. Commit in workbench.
-#### A1.3: Give the guide a typography section
-The guide is why assistants ship gofont apps: it lists `style` and `font` in the
-inventory but omits them from the bootstrap and the minimal `go.mod`, and has no
-typography section at all. Document today's correct practice. Phase C replaces
-this section wholesale.
-
-- [x] Add a `## Typography` section: build one `*text.Shaper` from `style.FontFaces()` and pass it to every component's `Shaper` prop.
-- [x] State the rule plainly: never `gofont`, never `text.NoSystemFonts()` with the Go collection, never append the two.
-- [x] Note that components default to gofont internally when `Shaper` is nil, so the prop is not optional today.
-- [x] Add `github.com/vibrantgio/style` (and `github.com/vibrantgio/textdraw`, direct as soon as the app draws its own text) to the minimal `go.mod` block; `github.com/vibrantgio/font` is style's INDIRECT dependency — `todos/go.mod` carries it `// indirect` — so do not list it as a direct require.
-- [x] Point at the correct reference app and name the known-wrong ones until Phase F.
-
-**Corrected by A3.2.** This task assumed `todos/` already followed the
-practice, and the section it produced named `todos/view.go`,
-`iconbrowser/view.go` and `launcher/view.go` as correct. Only `launcher` is.
-All three build the shaper at layer scope, but todos and iconbrowser spend it
-only on their own `textdraw` calls — `todos/upsertdialog.go`'s two
-`button.Button` calls and `iconbrowser/view.go`'s `input.TextField` omit
-`Shaper:`, so those components render in gofont. The section was pointing
-assistants at two apps exhibiting the defect it warns about. A3.2 rewrote the
-REFERENCE CODE paragraph to name launcher alone and say what the other two get
-wrong; the app code is F1.1's to fix.
-#### A1.4: Rewrite the org profile README
-
-`profile/README.md` is what renders on the organization home page. Today it
-opens with screenshots and never mentions the guide, DESIGN.md, or where to
-start.
-
-- [x] Open with a one-paragraph statement of what Vibrant Gio is and what it targets.
-- [x] Immediately follow with a **Start here** block linking `llms.txt`, `workbench/DESIGN.md`, and `workbench/todos/`.
-- [x] Keep the layered stack table; correct it to ADR-001's tier table — all nineteen modules, not just the six-module spine — and mark layers that are mid-migration.
-- [x] Keep the screenshots, moved below the entry points.
-
-![[#ADR-001: Spectrum is the foundation, not a consumer]]
-
-#### A1.5: Write this repo's root README
-
-The repo root is separate from `profile/`. It currently has no README at all.
-
-- [x] Explain that this repo holds three things: the org profile page, `PLAN.md`, and the canonical `llms.txt`.
-- [x] Link all three, plus `scripts/clone-all.sh`.
-- [x] Note that `profile/README.md` — not this file — is what renders on the org page.
-
-#### A1.6: Write this repo's AGENTS.md
-
-A1.5's README is written for a human evaluating the repo. This file is for the
-agent that has just been dropped into this working tree with no other context —
-and by G-A2's own argument, a README is not the file it finds.
-
-It is written by hand rather than from the G-A2 template, because it describes
-a plan and a working tree rather than a library module.
-
-**There is no `go.work` here yet.** This step was written asserting that one at
-this root is what makes the modules resolve against each other; it does not
-exist, `.gitignore` lists it, and B2.1 is the task that writes it. Stating
-otherwise in `AGENTS.md` would have taught the next agent that a cross-repo
-change is visible to the other side when it is not. Creating the workspace does
-not belong here either — Phase A changes no module resolution, and B2.1 owns
-the verification sweeps that go with it — so the step below says what is true
-today and points forward.
-
-- [x] Write `AGENTS.md` at this repo's root: what this repo is, that `PLAN.md` is the entry point, and that `mdplan next` is how work is picked up.
-- [x] State the working-tree layout — sibling repos live in gitignored `.repos/`, this repo is their parent and not a clone, and each module today resolves its siblings from published tags rather than from the working tree; the `go.work` that changes that is B2.1's, not this task's.
-- [x] Restate the rules from `PLAN.md`'s preamble that an agent must not discover late: one task one commit, green before commit, push when it's green, releases stay deliberate, stop if a task is too big.
-- [x] Link `llms.txt` — but say plainly that it covers writing Gio code against the libraries, not working the plan, so an agent knows which file answers which question.
-- [x] Commit here.
-### G-A2: Put an AGENTS.md in every repo
-
-`AGENTS.md` at a repo root is the file an assistant finds without being told.
-Twenty repos, none have one. This is the single highest-leverage change in the
-plan.
-
-This goal covers the twenty sibling repos under `.repos/`. This repo's own
-`AGENTS.md` is A1.6, and `scripts/sync-agents.sh` deliberately cannot reach it:
-`.github` is the parent directory, not a clone.
-
-![[#The repo doc contract]]
-
-#### A2.1: Author the template and the sync script
-
-- [x] Write `templates/AGENTS.md` here: what this repo is, which layer it sits in, the canonical guide's raw URL, the build/test command, and "read the guide before you write code against this module". Rendered, that is about thirty wrapped lines, not the fifteen this step first estimated — five short paragraphs plus the module paragraph the doc contract also asks for.
-- [x] Make the layer line and the one-sentence role substitutable per repo. They live in `templates/repos.tsv`, one tab-separated row per repo; anything longer than a line — a deprecation notice, a platform caveat — goes in an optional `templates/notes/<repo>.md`.
-- [x] Write `scripts/sync-agents.sh` that renders the template into a named repo under `.repos/` and reports a diff without committing. It also measures the module and build paragraphs from the clone — root module path, nested modules and their prefixed tags, or the absence of a root module — so those are never hand-typed. `-n` writes nothing.
-- [x] Dry-run it against `.repos/prism` and check the output reads well.
-
-#### A2.2: Roll out to the core stack
-
-- [x] Render `AGENTS.md` into mvu, prism, spectrum, pulse, cadence.
-- [x] Set each one's role line from the layer table in ADR-001.
-- [x] Commit in each of the five repos.
-
-#### A2.3: Roll out to workbench, markdown and the text/draw repos
-Carried forward from A2.2: teach the sync script the golden-image flag before
-rendering anything, so these eight repos are right first time and the five
-already done are re-rendered rather than left to drift.
-
-- [x] Teach `scripts/sync-agents.sh` a third measured paragraph — which packages keep PNGs under `testdata/golden/`, which flag regenerates them, and the command line that actually works — plus the `{{GOLDEN}}` line in the template. Re-render and commit in mvu, spectrum, prism, pulse and cadence; mvu has no goldens and does not move.
-- [x] Render into workbench, markdown, font, style, textdraw, backdrop, gradient, circle.
-- [x] For `style`, add the ADR-003 freeze note. For `textdraw`, an honest one: ADR-003 freezes `style` and says nothing about `textdraw`, nothing in Phase C touches it, and `MeasureText`, `FillText` and `FillLabel` have no replacement in the design system. Both notes live in `templates/notes/<repo>.md`.
-- [x] Commit in each of the eight repos.
-
-**The `-golden.update` incantation in every repo's own doc comments does not
-work.** `go test` cannot tell that an unfamiliar flag is boolean, so it stops
-treating the rest of the line as package arguments: `go test -golden.update
-./...` hands `./...` to the test binary and tests whatever package the current
-directory holds. The flag has to come *after* the packages. And `./...` only
-works where every test package stores goldens — markdown — because a test
-binary rejects a flag it never declared; prism, pulse, spectrum and cadence
-all have test packages without goldens, so their packages are named one by
-one. The script measures which case a repo is in.
-
-**`workbench/launcher` does not build**, and did not before this task. Its
-`go.sum` pins `github.com/vibrantgio/seen/context/gio v0.0.7` to a hash that
-no published form of that module produces, so the build stops with a checksum
-mismatch. `svg/driver/seen` is stuck on the identical line — A2.4 found it,
-and A2.3 missed it by only building the app modules. The diagnosis first
-recorded here was wrong: the tag is **not** unpushed. `git ls-remote` shows
-GitHub carrying exactly the local tag, and a `GOPROXY=direct` fetch of it
-hashes to what the proxy serves — `OJip+UYN…`. Both disagree with `go.sum`,
-which records `cCJSzFNE…` for a `context/gio` that was never published, down
-to a different `/go.mod` hash. No push closes this seam, because there is
-nothing local to push: seen is clean and zero commits ahead. Dropping the two
-`seen/context/gio v0.0.7` lines and re-running `go mod tidy` restores the
-build — `go mod tidy` alone cannot, since it verifies before it rewrites.
-That makes it a consumer-side `go.sum` repair, not one of the ADR-006 tag
-seams; whoever schedules it should fix both modules in one change. The other
-six app modules are green.
-#### A2.4: Roll out to the graphics and geometry repos
-
-These are support libraries, not design-system layers; their AGENTS.md says so.
-
-- [x] Render into ivg, svg, seen, csg, kiwi, noise, traer.
-- [x] Mark each as a support library that the design system consumes but that does not depend on it.
-- [x] Commit in each of the seven repos.
-
-**No golden paragraph rendered for any of the seven**, and that is correct:
-none of them keeps a `testdata/golden/` directory. `noise` comes closest and
-is the reason it has a notes file — four tests compare a rendered PNG against
-`ref_*.png` embedded from the repository root, and the only way to regenerate
-them is to flip `const write_reference_image` in `noise_test.go` to `true`.
-Because the bytes each test compares against were embedded when the binary was
-built, that takes two runs: the first rewrites the PNGs and still fails, the
-second passes against what it just wrote. Verified, not inferred.
-
-**`csg` and `kiwi` have no consumer anywhere in the organization**, so their
-layer lines say so instead of reciting the formula. seen carries an adaptation
-of csg's BSP kernel as its own `solid` package — same algorithm, rewritten
-onto `point.Point`, `face.Faces` and `transform.Transform` so a solid is a
-`seen.Object` — rather than importing the module. kiwi's only caller is the
-single example in its own `gio` module.
-
-**The support libraries do not depend on the design system, but three of their
-nested modules do.** `ivg/raster/gio`, `svg/driver/gio` and `traer/gio` require
-the tier-0 leaves `style`, `textdraw` and `circle` — always and only for demo
-programs, never for library code. The layer lines say that rather than claiming
-a clean separation that the `go.mod` files contradict.
-
-### G-A3: READMEs and package docs
-Eleven repos have no README: prism, cadence, spectrum, pulse, font, style,
-textdraw, gradient, circle, seen and kiwi — exactly the eleven the tasks
-below write. That half of A1.1's inventory holds up.
-
-The other half does not, and A3.2 disproved it. The inventory said the six
-core modules "have no `doc.go` anywhere, so pkg.go.dev shows nothing for the
-whole stack". The inference is false — pkg.go.dev renders a package comment
-wherever it lives, and a `doc.go` is a convention, not a requirement — and
-so is the conclusion. Measured across the six by `go doc`:
-
-| module | packages with a package comment |
-| --- | --- |
-| mvu | 0 of 1 — genuinely blank |
-| prism | 13 of 16 before A3.2; a11y, theme and tokens were the gaps |
-| spectrum | 4 of 4 |
-| pulse | 7 of 7 |
-| cadence | 19 of 19 — `modal/gallery` has a `Command gallery` comment too |
-| markdown | 4 of 4 |
-
-A3.3 re-measured cadence and found no gap at all: every one of the eighteen
-pattern packages carries a multi-paragraph package comment, and the
-`modal/gallery` main carries a `Command gallery` one. A3.4 confirmed the
-count a third time and was rewritten from "add a `doc.go` to each of the
-eighteen" into the audit it actually is. That audit found the comments'
-weakness is not absence but thinness: six of the eighteen — alert,
-breadcrumb, card, feature, navbar and sidebar — described the pattern and
-then stopped, naming no pitfall a caller could trip on. Presence of a
-package comment is not evidence of a good one, so measure the later
-modules for quality, not for count.
-
-A3.6 found the failure one step further along. pulse's seven comments are
-the longest in the organization and three of them are numerically false —
-a settle time, a frame count and an intensity claim that the code does not
-produce. Length is not evidence either. Where a comment states a number,
-run it before believing it.
-
-So A3.4 through A3.7 are mostly audits, not writing jobs. Run `go doc` over
-every package in the module first; write where there is nothing, expand a
-one-liner into the two-to-five-sentence shape, verify the rest against the
-API — numbers included — and leave them be. Do not rehouse a good comment in a `doc.go` for the
-sake of the filename. Outside the spine, font, ivg, seen and traer carry a
-root `doc.go` and svg carries package-level ones.
-
-Describe the layer and the role — not the API surface, which Phases B–E will
-change.
-
-![[#The repo doc contract]]
-#### A3.1: prism README
-
-- [x] Write `.repos/prism/README.md` per the doc contract.
-- [x] List the packages and one line each: a11y, bench, button, cache, coordination, icon, initial, input, keyed, layout, list, richtext, scrollbar, theme, tokens.
-- [x] Note that `theme` and `tokens` move to spectrum in Phase B and will remain as aliases.
-- [x] Commit in prism.
-
-#### A3.2: prism package docs
-The premise was wrong. Eleven of the fourteen packages listed here already
-carried a package comment — in a regular source file rather than a `doc.go`,
-which pkg.go.dev does not care about. Only `a11y`, `theme` and `tokens` had
-none at all. `icon`, excluded from the list on the correct grounds that it
-had a comment, had a one-liner like `input` and `layout` did.
-
-- [x] Add a `doc.go` with a package comment to the three prism packages that genuinely lack one: a11y, theme, tokens.
-- [x] Replace the one- or two-sentence comments on button, input, layout and icon with a `doc.go`, deleting the old comment so each package has exactly one. Leave bench, cache, coordination, initial, keyed, list, richtext and scrollbar alone — verify their comments against `go doc` and move on; rehousing a good comment in a `doc.go` is churn.
-- [x] Two to five sentences each: what it is, when to reach for it, what it assumes.
-- [x] Fix `internal/golden`'s own package comment, which teaches `go test -golden.update ./...` — the exact invocation AGENTS.md documents as broken.
-- [x] Correct three factual errors in `llms.txt`, found while checking prism's API: `Initial[T]` is really `initial.Value[T]`; `KeyedDefer` does not exist and the API is `keyed.Defer(factory)` returning `*keyed.Deferred[K,V]`; and the Typography section's REFERENCE CODE named todos, iconbrowser and launcher as correct when only launcher passes the shaper into a component. Commit separately in this repo.
-- [x] `go build ./... && go test ./...` in both prism modules; commit in prism.
-
-Left for later, recorded here rather than fixed: `bench`, `cache`,
-`coordination` and `richtext` cite `DESIGN §…`, `BASELINE.md`,
-`EXPERIMENT-B.md` and `EXPERIMENT-C.md` from their package comments.
-`DESIGN.md` and `BASELINE.md` live in `vibrantgio/workbench`, unreachable
-from prism's pkg.go.dev page; the two `EXPERIMENT` files exist in no
-repository in the org.
-#### A3.3: cadence README
-
-- [x] Write `.repos/cadence/README.md` per the doc contract.
-- [x] Group the eighteen packages by kind — shells, data, overlays, marketing — with one line each.
-- [x] Commit in cadence.
-
-#### A3.4: cadence package docs
-
-A3.4 was authored as *add a `doc.go` to each of the eighteen*. A3.3
-measured the module and found nineteen of nineteen packages already
-carrying a package comment, which contradicts both the corrected table
-above and this goal's own rule against rehousing a good comment in a
-`doc.go` for the sake of the filename. Rewritten as the audit it is.
-
-- [x] Re-measure with `go doc` — nineteen of nineteen already carry a package comment, so there is nothing to write and nothing to move into a `doc.go`.
-- [x] Audit the eighteen patterns against the doc contract — what the package is for, the real prop shape, one honest pitfall — with prism's comments as the bar. Rewrite in place the ones that are thin or wrong; leave the rest alone.
-- [x] Record `cadence/feature`'s missing `Shaper` prop in its package comment, and fix `modal/gallery`'s pre-split run path — from the cadence root it is `go run ./modal/gallery`.
-- [x] `go build ./... && go test ./...`; commit in cadence.
-
-#### A3.5: spectrum README and package docs
-
-A3.5 re-measured spectrum with `go doc` and found 4 of 4 packages already
-carrying a package comment, exactly as G-A3's table says — so "add `doc.go`
-where missing" had nothing to add, and rehousing four good comments in four
-new files would have been the churn this goal warns against. The step is an
-audit, and the audit's finding matches A3.4's on cadence: the weakness is
-thinness, not absence. All four described their package and stopped short of
-a pitfall a caller could trip on, and three carried claims worth correcting
-— `window`'s comment was two paragraphs of design-phase narrative,
-`preferences` offered a rationale (config vs data) in place of a pitfall,
-and `transition` explained its split from pulse without saying what its
-interpolation cannot do. All four were rewritten in place.
-
-Two defects surfaced that nothing in this plan had recorded. The appearance
-observable is **cold**: every subscription starts its own ticker and polls
-the `Source` independently, so one `LiveTheme` handed to n consumers polls n
-times per interval — measured, not inferred — and on macOS each poll is a
-`defaults` fork+exec. All seven workbench apps hand it to two layers today.
-And `spectrum/transition` has no consumer anywhere in the organization:
-`LiveTheme` swaps palettes in one step, so the cross-fade the package exists
-for does not happen in any application, though
-`workbench/sitedocs/content/spectrum-live-theme.md` says it does.
-
-- [x] Write `.repos/spectrum/README.md` per the doc contract, describing the foundation role it takes in Phase B.
-- [x] Audit the package comments on preferences, system, transition and window against the doc contract; rewrite the thin ones in place.
-- [x] State plainly in the README that palette injection does not exist yet and arrives in Phase D.
-- [x] `go build ./... && go test ./...`; commit in spectrum.
-
-#### A3.6: pulse README and package docs
-A3.6 re-measured pulse with `go doc` and found 7 of 7 packages already
-carrying a package comment, exactly as G-A3's table says — and these are the
-longest in the organization, several running to four sections with worked
-examples. "Add `doc.go` where missing" had nothing to add, so the step is an
-audit, as in A3.4 and A3.5.
-
-The finding is a new one. pulse's comments are not thin; they are **wrong**,
-and wrong in the way a long confident comment is worst: three of the seven
-state a number that the code does not produce. `depth` says shadow intensity
-is a function of elevation — it is a single constant alpha at every level,
-and only the geometry varies. `motion` says its default spring settles in
-~30 frames, "coordinated with `DefaultFrames` so opacity and scale finish
-together" — measured, `NewEnter(Options{})` reaches `Settled(0.005)` at frame
-52, with scale still at 0.991 when the fade ends. `springbutton` says a press
-settles near 250 ms — measured against its own tolerance, 25 frames, ~415 ms
-at 60 Hz. Prose describing an API can rot quietly; a number in a comment is a
-test that never runs. Where a later task's audit finds one, measure it.
-
-Three defects surfaced that nothing in this plan had recorded. `spring`'s
-zero-value `Options` — the fallback a caller gets by passing `Options{}` —
-takes **873 frames**, about fifteen seconds at 60 Hz, to settle to 0.005;
-neither in-module consumer goes near it. `motion.Options.Spring` falls back
-to `DefaultSpring` only when the whole struct is zero, so setting `Stiffness`
-alone silently takes `Damping` and `Mass` from `spring`'s soft defaults
-instead, giving a damping ratio near 0.02 that rings for thousands of frames.
-And `depth`'s interior fill is a hard rectangle painted at full alpha, so the
-rounded foreground every one of its three callers paints leaves the shadow's
-square corners showing through as dark wedges.
-
-Three of the seven packages have no consumer anywhere in the organization —
-`conductor` and `glow` are imported by nothing at all, `motion` by nothing
-outside its own tests. `springbutton` is the only variant that was ever
-built, and no phase of this plan claims the rest.
-
-- [x] Write `.repos/pulse/README.md` per the doc contract.
-- [x] Audit the package comments on conductor, depth, glow, motion, spring, springbutton and tween against the doc contract; rewrite in place the ones that are thin or wrong, and verify every number in them against the code.
-- [x] Record the rule that pulse components are explicit variants of prism components, never global decorators.
-- [x] `go build ./... && go test ./...`; commit in pulse.
-#### A3.7: mvu and markdown package docs
-Half writing, half audit. mvu is the writing half: 0 of 1, genuinely blank,
-and as tier 0 its package comment is the most-read text in the org after
-llms.txt. markdown is the audit half — the row above says 4 of 4 and it
-holds: root, `highlight`, `svgimage` and `internal/golden` all carry
-comments already, so this task judges them against the doc contract and
-rewrites the thin ones *in place*. The original step said "neither has
-package docs" and asked for four new `doc.go` files; three of those four
-would have rehoused a good comment for the sake of a filename, which G-A3
-forbids. mvu has no natural root file, so a `doc.go` there is right.
-
-The named suspect was half right: markdown's root comment cites
-`DESIGN §Markdown`, and that document is in **workbench**, a different
-repository, so a pkg.go.dev reader cannot follow it — but the comment is
-multi-paragraph, not the one-liner the note claimed. Length was not the
-problem; the unfollowable citation and the absence of any pitfall were.
-
-**And llms.txt is not wholly accurate either.** Rule 1 said mvu's window
-joins frame events with the layers "via `rx.WithLatestFrom2`". That
-identifier does not exist anywhere in the organization — `command grep -r`
-across all twenty clones returns nothing. `Window.Render` subscribes the
-`CombineLatest` of the layers on an rx goroutine, stores each result as an
-`atomic.Pointer` snapshot and calls `Invalidate`; the events goroutine
-reads the snapshot on the next frame. The rule's *conclusion* was right,
-which is why it survived this long. Corrected here. Treat the guide as
-measured-until-proven like everything else.
-
-- [x] Write the mvu package comment as `doc.go` — the loop, commands, `MessageOp`, and the AutoConnect counts, agreeing with llms.txt.
-- [x] Audit markdown's root, `highlight` and `svgimage` comments in place against the doc contract; measure every number and behaviour before carrying it forward.
-- [x] Refresh markdown's README to link the canonical guide.
-- [x] `go build ./... && go test ./...`; commit in both.
-#### A3.8: text and drawing repo READMEs
-
-Six small repos, a one-pager each — what it does, its one type or function, and
-where it sits.
-
-- [x] Write READMEs for font, style, textdraw, gradient, circle.
-- [x] Expand backdrop's one-line README to the same shape.
-- [x] In `style` and `font`, state that they are not yet wired into the component stack and that Phase C fixes this.
-- [x] Commit in each of the six repos.
-
-#### A3.9: support library READMEs
-
-- [x] Write READMEs for seen and kiwi.
-- [x] Expand svg's stub README to the doc contract's shape.
-- [x] Leave ivg, csg, noise, traer READMEs as they are; add only the canonical-guide link.
-- [x] Commit in each repo touched.
-
-## Phase B: Repair the module graph
-
-Mechanical, low-risk, and it unblocks everything after it. `spectrum` (theme
-runtime) depends on `prism` (components), so the theme sits *above* what it
-themes and no application can supply a palette.
-
-**G-B1 is done.** The module cycle is cut, and every module in the org is on
-one Gio, one rx and one `go` directive, published as a tagged baseline where
-each module references its siblings' current tags. What remains in this phase
-is the workspace (G-B2) and the inversion itself (G-B3).
-
-Type aliases make the package moves non-breaking — every downstream repo keeps
-compiling untouched.
-
-![[#ADR-001: Spectrum is the foundation, not a consumer]]
-
-### G-B1: Break the cycle and align versions
-
-Done — and it cost far less than these tasks assumed. Three of them were cut
-against a picture of the drift that turned out to be wrong, so the findings are
-recorded here rather than in a commit message nobody will read again:
-
-- **The breaking change was not in Gio v0.10.** `font.Font.Variant` — the one
-  API removal that bit anything — went in **v0.9**, and `font` had already
-  fixed it in the commit tagged `v0.0.3`. What actually failed to build were
-  two modules still pinned to `font` v0.0.1 and v0.0.2, plus four `go.sum`
-  files missing the `golang.org/x/net` entry that `gioui.org/app` gained in
-  v0.10. Both classes are dependency staleness, not API drift.
-- **Not one golden image moved.** All 160 still match. B1.4–B1.6 were sized
-  almost entirely around regenerating them; that work did not exist.
-- **Most modules were already on v0.10.0.** Only eight were on v0.9, and
-  `kiwi/gio` was already on v0.10.1. "Three Gio versions in play" was true but
-  described a much smaller gap than it sounded like.
-
-The alignment went further than this goal asked, because the versions being
-"all over the place" was the real complaint: every *directly required* external
-dependency now resolves to a single version org-wide, and all 36 modules
-declare `go 1.25.1`. Transitive-only deps are deliberately left alone —
-`go mod tidy` strips a pin on a module the pinning module does not itself
-import, so they cannot be unified and chasing them re-diverges every tidy.
-
-#### B1.1: Cut pulse out of prism
-
-`prism/gallery/main.go` imports `pulse/springbutton`. That single demo file is
-what puts `pulse` in prism's `go.mod` and closes the cycle.
-
-- [x] Give `prism/gallery` its own `go.mod` as a nested module requiring prism and pulse.
-- [x] Remove `github.com/vibrantgio/pulse` from prism's `go.mod`; `go mod tidy`.
-- [x] Confirm `go list -m all` in prism no longer mentions pulse.
-- [x] `go build ./... && go test ./...` in both prism and prism/gallery; commit in prism.
-- [x] Note the extraction hazard: every prism ≤ v0.0.9 still carries `gallery/` inside the prism module, so the nested module's own import path is ambiguous until a prism without it is published. `gallery` was therefore tagged separately, after prism v0.1.0.
-
-#### B1.2: Survey the Gio v0.9 → v0.10 drift
-
-- [x] Read Gio's v0.10 release notes and changelog; list every breaking API change.
-- [x] Grep the six core modules for each one; record which repos and which files are hit.
-- [x] Count the golden images in prism, pulse, cadence and markdown — 160, of which zero moved.
-- [x] Write the findings into this goal's preamble above; re-cut B1.3–B1.6 accordingly.
-- [x] Commit here in the plan repo.
-
-#### B1.3: Align mvu and spectrum
-
-- [x] Set gioui.org v0.10.1 and reactivego/rx v0.3.0 in mvu and spectrum.
-- [x] `go mod tidy` in each.
-- [x] Migrate spectrum's four `Subscribe` call sites: rx v0.3.0 moved the scheduler out of the argument list and into a context, so `Subscribe(observer, scheduler)` became `Subscribe(ctx, observer)`. All four are in tests; prism's idiom — `context.Background()` for synchronous helpers, `rx.GoroutineContext()` for the concurrent one — was already correct and was copied.
-- [x] Bump spectrum and pulse to mvu v0.4.1: published mvu v0.2.0 calls the old `Subscribe` itself and cannot compile against rx v0.3.0.
-- [x] `go build ./... && go test ./...` in both; commit in each.
-
-#### B1.4: Align prism and its galleries
-
-- [x] Set the same versions in prism and `prism/gallery`. (`prism/button/gallery` and `prism/icon/gallery` are ordinary packages inside prism, not modules — only the top-level gallery was ever separate.)
-- [x] `go mod tidy`; no goldens moved.
-- [x] `go build ./... && go test ./...`; commit in prism.
-
-#### B1.5: Align pulse and markdown
-
-- [x] Set the same versions in pulse and markdown.
-- [x] `go mod tidy` in each; no goldens moved.
-- [x] `go build ./... && go test ./...` in each; commit in each.
-
-#### B1.6: Align cadence
-
-- [x] Set the same versions in cadence.
-- [x] `go mod tidy`; all eighteen packages green, no goldens moved.
-- [x] `go build ./... && go test ./...`; commit in cadence.
-
-#### B1.7: Align the leaf repos
-
-- [x] Set the same Gio version in font, style, textdraw, backdrop, gradient, circle.
-- [x] Align the support libraries too — svg, seen, ivg, kiwi, traer, noise and csg all carry Gio-dependent nested modules or are reached from the core.
-- [x] Fix the one real bug this surfaced: raising svg's `go` directive enabled Go 1.24's non-constant-format-string vet check, which caught `parser/elementfuncs.go:441` passing a pre-concatenated message to the printf-like `HandleError`. Any SVG element whose tag contained a `%` was misformatted.
-- [x] `go mod tidy`, build and test each.
-- [x] Commit in each repo touched.
-
-### G-B2: One workspace, one resolution strategy
-
-Everything from here to the end of Phase E is a cross-repo change, and twenty
-separate Go modules do not compile against each other's uncommitted work by
-wishing. B3.3 is where it bites first: `prism/tokens` becomes an alias for a
-`spectrum/tokens` that no published spectrum tag contains. Settle how the
-modules resolve before moving a single package.
-
-**This comes after G-B1, not before it.** A workspace computes one build list
-across all its members, so the moment `go.work` exists every module resolves
-its shared dependencies at the highest version any member asks for. With the
-Gio versions still spread that would have compiled the v0.9 modules against
-v0.10 and failed. G-B1 settled it, so the ordering constraint is now satisfied
-rather than pending — but keep the ordering, because it is the reason this
-works.
-
-**A second, sharper hazard, learned the hard way during G-B1.** A single
-member requiring a version that does not exist yet breaks the *entire*
-workspace, not just that member: MVS resolves across all members, so one
-unresolvable requirement takes every module down at once. Writing a go.mod
-that names a tag you are about to cut turns a 36-module green sweep into
-5-of-36. Pin published versions, verify, and only then cut tags.
-
-![[#ADR-006: One workspace while developing, tags at the seams]]
-
-#### B2.0: Repair the seen/context/gio go.sum pin
-
-`workbench/launcher` and `svg/driver/seen` do not build **from a clone**: both
-pin `github.com/vibrantgio/seen/context/gio v0.0.7` to hashes of content that
-exists nowhere. Diagnosed in full under [[#Defects found but not fixed]] — do
-not re-litigate whether a push fixes it. It does not: git, the proxy and
-`sum.golang.org` all agree with each other and all disagree with `go.sum`.
-
-Do not be reassured by `go install …/launcher@latest` working — it does, on a
-clean machine, because `go install pkg@version` never consults a dependency
-module's `go.sum` and falls through to the checksum database. That path is
-healthy and stays healthy. This task is about the clone-and-build path, which
-is the one every later task uses.
-
-This runs **before** B2.1, and the ordering is the point. Every one of the 36
-modules becomes a workspace member, so once `go.work` exists the bad `go.sum`
-entry is never consulted and both modules build green in the tree while staying
-broken for everyone outside it. Fix it while the breakage is still observable.
-
-- [x] In each of the two modules, drop the two `seen/context/gio v0.0.7` lines from `go.sum` and re-run `go mod tidy`. Tidy alone will not do it: it verifies before it rewrites. Both lines are wrong — the `h1:` and the `/go.mod` — so removing one is not enough.
-- [x] Sweep all 36 modules for the same stale pair, not just these two — the bad hashes could have been recorded anywhere that ever resolved that tag.
-- [x] Check what `go mod tidy` writes back against `sum.golang.org` (`curl https://sum.golang.org/lookup/github.com/vibrantgio/seen/context/gio@v0.0.7`): `h1:OJip+UYN…` and `/go.mod h1:qmUvReYG…`. `GOPRIVATE` covers `github.com/vibrantgio/*` on the development machine, so the checksum database is *not* consulted automatically — this cross-check has to be done by hand or the repair could re-record a wrong hash unnoticed.
-- [x] Build and test both modules, with no workspace in effect. Confirm `go env GOWORK` is empty first, so the repair is verified against published tags rather than masked by the tree.
-- [x] Strike the entry in [[#Defects found but not fixed]], leaving the record in place.
-
-#### B2.1: Establish the Go workspace
-
-- [x] Write `go.work` at the root of this repo listing all **36** modules — nineteen repository roots (`workbench` has no root module of its own), the ten nested ones: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio` and `svg/driver/{gio,pdf,raster,seen}`, and `workbench`'s seven apps: `feeds`, `iconbrowser`, `launcher`, `mindchat`, `sitedocs`, `todos`, `watchlist`. Generate the list with `find .repos -name go.mod`; do not hand-maintain it. (`prism/button/gallery` and `prism/icon/gallery` are packages, not modules.)
-- [x] Confirm that from each module, `go build ./... && go test ./...` resolves its siblings from the working tree rather than the module cache.
-- [x] Confirm the resolved Gio and rx versions are the single ones G-B1 settled on — if the workspace pulls something higher, a module was missed and B1 is not actually done.
-- [x] Confirm the same commands under `GOWORK=off` still pass, resolving from published tags. This is what CI sees, and the gap between the two is what ADR-006 manages. Both sweeps were green at 36/36 when the G-B1 baseline was tagged; this task is about making that repeatable, not discovering it.
-- [x] Write `scripts/check-no-workspace.sh`: run the whole stack with `GOWORK=off` and report which modules fail and why. Expect failures from B3.3 onward; the script records the debt, it does not pay it.
-- [x] Confirm no member repo carries a `replace` directive, and note in the script header that none may be added — a committed `replace` in a public module breaks every consumer outside this working tree.
-- [x] Settle whether `go.work` is committed here. **Decided by Rene: it is committed.** A1.1's `.gitignore` ignored both it and `go.work.sum`; the `go.work` line is now removed and only `go.work.sum` stays ignored. ADR-006 forbids a workspace only in *member* repos, and this repo is not one — it holds no module. Committing it means the 36-module list is reviewable and identical for everyone, rather than being silently regenerated per machine.
-- [x] Commit the script and `go.work` here. Note in `go.work`'s header that the members live under the gitignored `.repos/`, so the file is committed while the checkout it points at is not — `scripts/clone-all.sh` has to run first or every `use` line dangles.
-### G-B3: Invert the foundation
-
-Move the token and theme contract down into spectrum so the theme runtime is
-beneath the components it themes. Alias shims keep prism's import paths alive
-for one release.
-
-#### B3.1: Move the tokens into spectrum
-
-- [x] Copy `prism/tokens/*.go` (including tests) to `.repos/spectrum/tokens/`.
-- [x] Keep the package name `tokens` and every exported identifier unchanged.
-- [x] `go build ./... && go test ./...` in spectrum; commit.
-
-#### B3.2: Move the theme contract into spectrum
-
-- [x] Copy `prism/theme/*.go` (including tests) to `.repos/spectrum/theme/`, repointing its tokens import.
-- [x] Repoint `spectrum/system` and `spectrum/window` at the local theme package; drop the prism requirement from spectrum's `go.mod` if nothing else needs it.
-- [x] `go build ./... && go test ./...` in spectrum; commit.
-
-#### B3.3: Leave alias shims in prism
-
-- [x] Replace `prism/tokens`'s bodies with type aliases and variable re-exports pointing at `spectrum/tokens`.
-- [x] Do the same for `prism/theme`.
-- [x] Mark both packages `Deprecated:` with the replacement path.
-- [x] Confirm prism, pulse, cadence and markdown all still compile with no source changes; commit in prism.
-
-#### B3.4: Move transition into pulse
-
-`spectrum/transition` depends on `pulse/tween`, which would make the foundation
-depend on the effects layer. It is animation code; it belongs in pulse.
-
-- [x] Copy `spectrum/transition` to `.repos/pulse/transition`, repointing imports at `spectrum/tokens`.
-- [x] Leave a deprecated alias shim at `spectrum/transition`.
-- [x] Build and test both; commit in each.
-
-#### B3.5: Make the layering enforceable
-
-- [x] Write `scripts/check-layers.sh` here: for each module, `go list -deps` and assert only the edges ADR-001's tier table permits — the whole table, including the tier 0 leaves and the support-library row, not just the six-module spine.
-- [x] Teach it the nested-module exemption: `prism/gallery` and `mvu/example` may import above their parent's tier; their parents may not.
-- [x] Run it across all twenty modules; fix or record any violation it finds.
-- [x] Wire it into each core repo's CI workflow. A1.1's inventory says which repos have a `.github/workflows/` at all — where there is none, add a minimal build-and-test workflow first, since the check has to run somewhere.
-- [x] Commit the script here and the workflow change in each repo.
-
-## Phase C: The theme owns the typeface
-
-The fix for the Roboto problem. `TypeScale` is fifteen `float32` sizes — there
-is nowhere in the theme to put a typeface, so all seventeen `Props` structs and
-118 function signatures carry a `*text.Shaper`, every one of which falls back to
-`gofont.Collection()` inside library source.
-
-![[#ADR-003: The theme owns the typeface]]
-
-### G-C1: Define the typography token
-
-#### C1.1: TextStyle and Typography
-
-- [x] In `spectrum/tokens`, add `TextStyle{Typeface, Weight, Size, LineHeight, Tracking}`.
-- [x] Add `Typography` with one `TextStyle` per MD3 role — Display/Headline/Title/Label/Body × Large/Medium/Small.
-- [x] Populate `DefaultTypography` with the MD3 metrics: sizes as today, plus the matching line heights and tracking.
-- [x] Unit-test that every role has a non-zero size, weight and line height.
-- [x] Build, test, commit in spectrum.
-
-#### C1.2: Make Roboto the default face
-
-- [x] Add `Faces []font.FontFace` to `Typography`, defaulting to `vibrantgio/font/roboto.FontFaces()`.
-- [x] Add a `Shaper()` method that builds the shaper once, lazily, and caches it.
-- [x] Add `github.com/vibrantgio/font` to spectrum's `go.mod`.
-- [x] Test that the default shaper resolves Roboto for every weight the scale names.
-- [x] Build, test, commit in spectrum.
-
-#### C1.3: Put typography in the theme
-
-- [x] Add `Typography rx.Observable[tokens.Typography]` to `theme.Theme`.
-- [x] Update `theme.Default()`, `theme.AutoLightDark()`, `system.LiveTheme()` and `system.FromSourceTheme()` to emit it.
-- [x] Update the prism alias shim so `prism/theme.Theme` still matches.
-- [x] Build and test spectrum and prism; commit in each.
-
-#### C1.4: Deprecate the standalone type scale
-
-`style`'s MD2 scale is superseded, and it carries a real bug — `H1` and `H2` are
-both 96 sp (`textdraw.TextStyle.Size` is `unit.Sp`, not `unit.Dp`), where MD2's
-H2 is 60. The two differ only in weight, Thin and Light, so a document using
-both gets no size hierarchy at all.
-
-Four workbench applications import `style`, not zero — see the correction in
-ADR-003 — so these markers land on shipped code.
-
-- [x] Mark every exported symbol in `style` `Deprecated:` with the `spectrum/tokens.Typography` replacement.
-- [x] Fix the `H2` size to 60 so the deprecated path is at least correct.
-- [x] Note in `style`'s README that it is frozen.
-- [x] Build, test, commit in style.
-
-### G-C2: Migrate components off gofont
-
-One task per component group. Each ends with green tests — including
-regenerated goldens, which will move for every one of these.
-
-Pattern for each component: read `Typography` from the theme, use the role's
-`TextStyle` for typeface, weight, size and line height, and keep `Props.Shaper`
-only as an explicit override that defaults to the theme's shaper. No library
-file may import `gofont` when the group is done.
-
-#### C2.1: prism/button
-
-- [x] Take the shaper and `LabelLarge` style from the theme's `Typography`.
-- [x] Remove the `gofont` import and the inline fallback shaper.
-- [x] Keep `Props.Shaper` as an override; document it as such.
-- [x] Regenerate goldens; build, test, commit.
-
-#### C2.2: prism/input
-
-- [x] Migrate textfield, dropdown, checkbox and radio the same way.
-- [x] Remove every `gofont` import in the package.
-- [x] Regenerate goldens; build, test, commit.
-
-#### C2.3: prism remaining packages
-
-- [x] Migrate richtext, list, scrollbar and layout.
-- [x] Migrate `prism/gallery` (nested module) and `prism/button/gallery`.
-- [x] Confirm no `gofont` import remains anywhere in prism, tests included.
-- [x] Regenerate goldens; build, test, commit.
-
-#### C2.4: pulse
-
-- [x] Migrate springbutton and depth.
-- [x] Confirm no `gofont` import remains in pulse.
-- [x] Regenerate goldens; build, test, commit.
-
-#### C2.5: cadence — data and navigation
-
-- [x] Migrate table, tabs, sidebar, navbar, pagination.
-- [x] Regenerate goldens; build, test, commit.
-
-#### C2.6: cadence — overlays
-
-- [x] Migrate tooltip, alert, accordion, toast, popover, modal.
-- [x] Regenerate goldens; build, test, commit.
-
-#### C2.7: cadence — content and shells
-
-- [x] Migrate card, hero, feature, pricing, testimonial, breadcrumb, shell.
-- [x] Confirm no `gofont` import remains anywhere in cadence.
-- [x] Regenerate goldens; build, test, commit.
-
-#### C2.8: markdown
-
-- [x] Migrate the document renderer, highlight and svgimage to theme typography.
-- [x] Confirm no `gofont` import remains, tests included.
-- [x] Regenerate goldens; build, test, commit.
-
-### G-C3: Lock it in
-
-The rule that prevents this whole class of regression.
-
-#### C3.1: The no-gofont lint
-
-- [x] Write a Go test that walks the module and fails on any `gioui.org/font/gofont` import.
-- [x] Add it to prism, pulse, cadence and markdown.
-- [x] Confirm it fails when a gofont import is reintroduced deliberately, then passes.
-- [x] Wire it into each repo's CI; commit in each.
-
-#### C3.2: The no-literal-colour lint
-
-- [x] Write a test that fails on `color.NRGBA{...}` literals outside `spectrum/tokens` — and `spectrum/color` too, which D1.1 creates a phase from now.
-- [x] Add it to prism, pulse, cadence and markdown; allow-list the deliberate exceptions with a comment explaining each.
-- [x] Wire into CI; commit in each.
-
-#### C3.3: Refresh the guide's typography section
-
-A1.3 documented the shaper-passing practice this phase has just deleted. The
-canonical guide is the plan's own front door; leaving it wrong through Phases D
-and E teaches every assistant exactly the defect Phase C existed to remove.
-F2.1 rewrites the whole file — this is the one section that cannot wait for it.
-
-- [x] Replace `llms.txt`'s `## Typography` section with the theme-owned contract: read `Typography` from the theme, never construct a shaper, never pass `Shaper` except as a deliberate override.
-- [x] Note that the no-gofont lint now runs in CI, so the old practice fails the build rather than merely being discouraged.
-- [x] Keep the known-wrong app list — F1 is what fixes those — but say plainly that the library contract has moved and the apps have not caught up yet.
-- [x] Commit here.
-
-## Phase D: Generative colour
-Material Design's real contribution is not its palette, it is that colour is
-*derived*: one seed becomes tonal palettes becomes semantic roles, with light
-and dark as tone mappings rather than two hand-written structs. Today the token
-package wears MD3's names over Tailwind's values, ships thirteen flat colours,
-and exposes no way for an application to supply a palette at all.
-
-G-D1 is firm — the approach was validated against the MD3 default seed before
-this plan was written. G-D2 was re-cut by D0.1 to ADR-007's model. G-D3 stays
-provisional; re-cut it against what Phase D actually lands before starting it.
-
-![[#ADR-002: CIELAB tone with OKLCh hue and chroma]]
-
-### G-D0: Choose the role-assignment model
-ADR-002 settles how tones are *derived*. It does not settle how they are
-*assigned*, and there are three coherent answers in the field:
-
-- **MD3** — thirteen tone stops (0, 10, … 95, 99, 100). Tones are purely
-  perceptual: tone 40 means lightness 40, and a separate role table says which
-  tone each role takes in light and in dark. The table is where the design
-  knowledge lives, and it is maintained twice.
-- **Radix** — twelve steps whose *number carries the meaning*: step 3 is the
-  component background, step 9 the solid fill, step 11 low-contrast text. Paired
-  light and dark scales are built so the same step works in both, so dark mode
-  swaps one scale instead of maintaining a second role table. Contrast is
-  guaranteed in APCA (Lc 60 and Lc 90 for steps 11 and 12 over step 2).
-- **Claude Design** — nine steps, 100–900, generated in OKLCH on a shared
-  perceptual lightness scale so the same step of any ramp carries the same
-  visual weight. 500 is the role's base; 100–300 are tinted fills, hovers and
-  subtle borders; 700–900 are text on tinted fills and pressed states. Fewer
-  steps than Radix, same functional idea.
-
-For a component library this is not cosmetic: it decides whether prism and
-cadence read a role table or a step index, and whether dark mode is a second
-table to keep in sync. Deciding after G-D2 costs seven migrations; deciding here
-costs one spike.
-
-The third option carries a practical argument the other two do not. G-E0 pushes
-the token sheet to Claude Design, and Phase G builds a component surface there.
-If spectrum's ramp and that surface's ramp disagree, every prototype speaks a
-different vocabulary from the app it is prototyping — the exact incoherence this
-plan exists to remove.
-
-D0.1 has run and decided: the functional family wins, in Claude Design's nine-step vocabulary, with Radix's paired dark scales and APCA guarantees folded in.
-
-![[#ADR-007: Nine functional steps, paired dark ramps, APCA contrast]]
-
-#### D0.1: Spike — choose the ramp model and the contrast metric
-
-Timeboxed. The deliverable is a recommendation with evidence, not an
-implementation — write no code into `spectrum`. A throwaway script is fine and
-should be thrown away.
-
-- [x] Read each model's own account of itself: Radix's twelve-step purposes and paired dark scales, MD3's role→tone table, and the Claude Design project's readme and `theme.json` for the 100–900 OKLCH ramp.
-- [x] If that last project is not reachable from this machine, say so plainly and decide between the two models that are. Do not block on it, and do not guess at a ramp you could not read.
-- [x] Lay all three against the same surfaces: app background, card, hover, pressed, subtle border, strong border, solid fill, low-contrast text, body text.
-- [x] Note where nine steps cannot express something twelve can, and whether prism and cadence actually need that distinction.
-- [x] Generate all three mappings from the `#6750A4` seed with a throwaway script and compare the resulting surfaces side by side, light and dark.
-- [x] Evaluate APCA (Lc) against WCAG 2 ratios on the light-on-dark pairs specifically — WCAG 2 is known to over-rate them, and spectrum tracks OS dark mode by default.
-- [x] Weigh the prototyping argument explicitly: matching Claude Design's ramp keeps one vocabulary across the app and the design surface, and that is worth real points against a model that scores better in isolation.
-- [x] Decide, and write the outcome into `## Reference` as ADR-007, embedded into Phase D.
-- [x] Amend ADR-002 wherever the decision contradicts it. That ADR currently commits to keeping "MD3's role vocabulary and its tone-assignment tables", which a functional-step model replaces outright. Its *mathematics* — CIELAB tone with OKLCh hue and chroma — survives all three models and is not reopened here.
-- [x] Re-cut G-D2 to match the decision, and adjust D2.4's contrast target if APCA wins.
-- [x] Check the three later places that already assume a ramp shape — E0.1's `--color-*` token families, E0.2's colour page and its step-purpose notes, and G1.2's class vocabulary — and re-cut whichever no longer reads true.
-- [x] Commit in the plan repo.
-
-### G-D1: The colour engine
-Built in `spectrum/color`, with no external dependency. The CIELAB conversion
-chain is lifted from `reactivego/luminance` rather than imported — ADR-002
-records why.
-
-#### D1.1: The CIELAB tone axis
-
-MD3's tone *is* CIELAB L\*, so this axis is what the whole palette hangs from.
-`reactivego/luminance` already implements the chain correctly and without
-dependencies; lift the math in rather than taking the package as a dependency.
-
-- [x] Create `spectrum/color`; lift the sRGB ↔ XYZ(D65) ↔ CIELAB conversions from that package's `luminance.go`.
-- [x] Keep the D65 white point and the CIE ϵ/κ constants exactly as they are.
-- [x] Leave behind `Lighten`, `Darken`, `LightenRGBA`, `DarkenRGBA` and `Kn` — a chroma.js port tuned to the retired MD2 Color Tool, and MD3 has no lighten/darken concept.
-- [x] Note in the file header that these functions came out of MD2-era tone work, so a later reader does not go looking for MD3 semantics in them.
-- [x] Write the round-trip tests the original never had: the sRGB cube at 1% tolerance, plus published CIELAB reference values.
-- [x] Build, test, commit.
-
-#### D1.2: OKLab and OKLCh
-
-Hue and chroma come from OKLab. This is the axis pair plain CIELAB `a,b` cannot
-hold perceptually constant.
-
-- [x] Add sRGB ↔ linear sRGB ↔ OKLab ↔ OKLCh conversions alongside the CIELAB chain.
-- [x] Round-trip tests across the sRGB cube at 1% tolerance.
-- [x] Test against published OKLab reference values.
-- [x] Build, test, commit.
-
-#### D1.3: Gamut mapping
-
-The defect that makes the copied code unusable as-is: `luminance.RGB` clamps R,
-G and B independently, which is not gamut mapping. Measured on the MD3 default
-seed `#6750A4`, it costs 41 chroma and 20° of hue at the light end — tone 100
-lands on `#ffefff` instead of white, tone 0 on `#01003f` instead of black.
-Tones 10–70 are unaffected and already exact.
-
-- [x] Implement chroma reduction at constant L\* and constant OKLCh hue to bring an out-of-gamut colour into sRGB.
-- [x] Replace every independent per-channel clamp on the conversion path.
-- [x] Test the hard cases: saturated blues and purples at tones 0, 90, 95, 99 and 100.
-- [x] Assert tone 100 is exactly white and tone 0 exactly black, for every hue.
-- [x] Assert a mapped result is always in gamut and its hue never moves more than 1°.
-- [x] Build, test, commit.
-
-#### D1.4: Tones and contrast
-
-- [x] Add `Tone(hue, chroma float64, tone int) color.NRGBA` — tone 0–100 on the L\* axis at fixed OKLCh hue and chroma.
-- [x] Add WCAG relative-luminance and contrast-ratio helpers.
-- [x] Test that tone is monotonic in luminance across all thirteen MD3 stops.
-- [x] Regression-test the `#6750A4` palette: tone 40 must reproduce the seed exactly.
-- [x] Build, test, commit.
-### G-D2: The functional ramps
-Re-cut by D0.1 to ADR-007's model: nine-step functional ramps (100–900) with
-pinned bases, a paired dark ramp instead of a second role table, interaction
-states as step walks, and APCA as the contrast gate.
-
-#### D2.1: Define the ramp vocabulary
-
-- [x] Extend `ColorTokens` to ADR-007's shape: a nine-step `Ramp` type (steps 100–900); ramps for Neutral, Primary, Secondary, Tertiary and Error; a pinned base per accent role; and the thin semantic layer — background, surface, text, divider — resolved from ramp steps.
-- [x] Keep every field name currently in use as an alias into a ramp step or a pin, so nothing breaks; mark the MD3-only names deprecated for F3.3's shim deletion.
-- [x] Build, test, commit.
-
-#### D2.2: Derive paired ramps from a seed
-
-- [x] Add `FromSeed(seed color.NRGBA) (light, dark ColorTokens)`: both ramps per role on ADR-007's shared lightness scale, dark as the paired scale — same step, same job — with the primary base pinned to the seed exactly.
-- [x] Golden-test the default seed `#6750A4` against a recorded palette; the pinned base must reproduce the seed byte-for-byte.
-- [x] Replace `DefaultLight`/`DefaultDark` with values derived from the default seed.
-- [x] Remove the verbatim Tailwind ramp from the semantic layer. Per ADR-002 it may survive only as an optional named palette provider — never behind a role name, which is the arrangement that made the tokens three design systems in a trench coat.
-- [x] Build, test, commit.
-
-#### D2.3: States as step walks
-
-ADR-007 replaces MD3's alpha state layers: hover and pressed are adjacent ramp
-steps relative to the ground, which keeps every state a real, addressable
-colour the token sheet can emit.
-
-- [x] Add a resolver from (role, ground, state) to a colour: hover one step past the ground, pressed and selected two, solid-fill states walking from the pin toward 900.
-- [x] Keep disabled as an opacity and focus as the focus-ring colour; dragged follows pressed.
-- [x] Test that resolved states stay on the ramp and are monotonic along it.
-- [x] Build, test, commit.
-
-#### D2.4: Contrast conformance
-
-- [x] Add an APCA (Lc) helper alongside D1.4's WCAG helpers.
-- [x] Test ADR-007's guarantees in both ramps: step 900 at Lc ≥ 90 and step 700 at Lc ≥ 60 over the step-100 and step-200 grounds; each pinned base's on-colour at Lc ≥ 60 over the base.
-- [x] Report WCAG 2 AA for the same pairs alongside — conformance claims cite it — without gating on it.
-- [x] Fix the scale tunings that fail: the spike already measured light-mode 900-on-200 at Lc 87, so the 900 stop deepens.
-- [x] Test the same for the high-contrast variant once E3.3 lands, or record the gap.
-- [x] Commit.
-
-#### D2.5: Migrate prism to the ramps
-
-- [x] Replace flat-token uses with the semantic alias or ramp step that matches each surface's meaning, resolving states through D2.3.
-- [x] Regenerate goldens; build, test, commit.
-
-#### D2.6: Migrate cadence to the ramps
-
-- [x] Same, across all eighteen packages.
-- [x] Regenerate goldens; build, test, commit.
-
-#### D2.7: Migrate pulse and markdown to the ramps
-
-- [x] Same, including `pulse/transition`'s per-field interpolation, which must cover every ramp step and pin.
-- [x] Regenerate goldens; build, test, commit.
-### G-D3: Let applications and the OS drive the palette
-
-#### D3.1: Palette injection
-
-The gap that makes branding impossible today: `LiveTheme` hardcodes the default
-palette, so choosing your own colours means giving up OS dark-mode tracking.
-
-- [x] Add options so a caller supplies a seed or a full palette and still gets live light/dark switching.
-- [x] Update `LiveTheme` and `FromSourceTheme` to take them.
-- [x] Test that a custom seed survives a light→dark transition.
-- [x] Build, test, commit.
-
-#### D3.2: Wire the macOS accent
-
-`spectrum/system` already reads `AppleAccentColor` and then discards it.
-
-- [x] Map the accent index (−1..7) to its seed colour.
-- [x] Regenerate the palette when the accent changes.
-- [x] Test with a fake `Source` driving each index.
-- [x] Build, test, commit.
-
-#### D3.3: Windows and Linux accent sources
-
-- [x] Read the Windows accent colour from the registry.
-- [x] Read the GNOME/KDE accent where available; fall back to the seed otherwise.
-- [x] Document per platform what is and is not supported.
-- [x] Build, test, commit.
-
-## Phase E: Reimagined for desktop
-Where MD3 assumes touch and Android, diverge deliberately and say why. This is
-what makes the system Vibrant Gio's rather than a port.
-
-G-E1 is firm. G-E2 and G-E3 were provisional until Phase D landed; both have
-now been re-cut against ADR-007 as shipped — the MD3 vocabulary they were
-first written in (`SurfaceContainer` roles, WCAG AAA gates) no longer exists
-to map to.
-
-![[#ADR-005: MD3's system, not MD3's look]]
-
-### G-E0: Token export and the prototyping surface
-
-Every decision in this phase is a look-and-feel decision, and each one is far
-cheaper to judge in a browser than by regenerating Gio goldens. Build the export
-first so the rest of Phase E can use it.
-
-The foundations are *derived* values — once ADR-002's engine exists, emitting
-them is a serialiser, not a second design system. The target is the project
-layout `claude.ai/design` consumes: `theme.json` as the machine-readable
-parameters, `styles.css` as the token sheet, and foundation pages that render
-the scales at real sizes. Components are explicitly out of scope here; they are
-Phase G, after they stop changing.
-
-Generated output lives in `design/` at the root of this plan repo and is
-committed, so every push is a reviewable diff.
-
-**G-E0 exports what Phase D landed** — colour, type, spacing, radius. Density,
-tonal elevation and the motion set all change later in this very phase, so
-G-E5 re-exports at the end of it. Do not reach for them here; the tokens do not
-exist yet.
-
-#### E0.1: The token serialiser
-
-- [x] Create `spectrum/export`: given a `theme.Theme` emission, write `theme.json` and the `:root` / dark token sheet of `styles.css`.
-- [x] Emit the token families Claude Design expects: `--color-<role>-100…900` ramps plus the pinned bases (`--color-bg`, `--color-surface`, `--color-text`, `--color-accent`, …) per ADR-007 — the exact families the reference project documents — then `--font-*`, `--space-*`, `--radius-*`, and `--shadow-*` from today's elevation levels — E2.1 replaces those with surface roles and E5.1 re-emits them.
-- [x] Record the generative parameters in `theme.json` — seed hue, saturation, any pinned roles, base radius, heading and body faces — so the theme is reproducible from the file alone. Density and the motion set belong here too but are E5.1's; they do not exist yet.
-- [x] Write a round-trip test: parse the emitted CSS back and assert every value matches the Go token it came from, so the two cannot drift.
-- [x] Add `cmd/vg-tokens` writing the pair into a target directory.
-- [x] Build, test, commit in spectrum.
-
-#### E0.2: The foundation pages
-
-Static HTML that reads only from the emitted token sheet — no hard-coded values,
-so a theme change reflows every page.
-
-- [x] Generate `foundations/color.html`: each role with its full 100–900 ramp and its pin, annotated with ADR-007's step purposes — 100–300 tinted fills and hovers, 500 mid, 700–900 text and pressed — and the measured APCA Lc (with the WCAG ratio alongside) of each text pair against its ground.
-- [x] Generate `foundations/type.html`: every type role at its real size, weight, line height and tracking, in the actual faces.
-- [x] Generate `foundations/layout.html`: the spacing scale, radius scale and elevation steps as rendered specimens. Elevation as it stands today; E5.1 re-renders it once E2.1 has remapped it to surface roles.
-- [x] Generate `readme.md` for the project describing the system and naming the token families — the file a human or an agent reads first.
-- [x] Confirm every page renders correctly against a dark theme emission as well as light.
-- [x] Build, test, commit in spectrum; commit the generated `design/` here.
-
-#### E0.3: Push to Claude Design
-
-- [x] Run `cmd/vg-tokens` into `design/`, then push it to the Vibrant Gio design project with DesignSync — plan first, write the sentinel, write the files, re-arm the sentinel.
-- [x] Open the project and confirm the foundation pages render as generated.
-- [x] Write `scripts/push-design.sh` capturing the regenerate-and-push sequence so later phases re-push in one step.
-- [x] Record the project UUID here in the plan repo, next to the script.
-- [x] Commit here.
-
-### G-E1: Density
-Desktop density is the sharpest divergence from MD3, and the one users feel
-first. Targets come from shadcn/ui's metrics rather than being invented, per
-ADR-005.
-
-#### E1.1: Measure the target metrics
-
-Establish the numbers before changing any component, so every later task has one
-table to work from and reviewers can argue with the source rather than the
-diffs.
-
-- [x] Record shadcn/ui's control metrics: default and small button heights, input height, base radius, and the spacing step between stacked controls.
-- [x] Record MD3's equivalents alongside them, and macOS's 28 pt standard control height as the native reference point.
-- [x] Write the three-way table into `spectrum/tokens/density.go` as a doc comment — it is the justification for every number below it.
-- [x] Pick `Comfortable` and `Compact` values from that table; keep prism's existing 44 dp as `Comfortable` only if the table supports it.
-- [x] Commit here in the plan repo if the table changes ADR-005's claims; otherwise commit in spectrum.
-
-#### E1.2: The density token
-
-- [x] Add `Density` to `spectrum/tokens` with `Comfortable` and `Compact`, carrying control height, inner padding and the minimum hit target.
-- [x] Add it to `theme.Theme` as an observable, alongside Typography.
-- [x] Keep the WCAG 2.5.5 minimum hit target independent of density — `Compact` may shrink the visual control but never the pointer target.
-- [x] Unit-test that both settings satisfy the hit-target floor.
-- [x] Build, test, commit in spectrum.
-
-#### E1.3: Density through prism
-
-- [x] Replace the hardcoded `minHeight = 44dp` in `prism/button` with the density-derived value.
-- [x] Apply density to input, checkbox, radio, dropdown and list row height.
-- [x] Apply density to `prism/icon`'s default sizes — an icon that stays put while its control shrinks is the tell that density is only half-wired.
-- [x] Add a golden per component at each density.
-- [x] Build, test, commit in prism.
-
-#### E1.4: Density through cadence
-
-- [x] Apply density to table row height, navbar height, sidebar item height, tabs and pagination controls.
-- [x] Check the overlays — modal, popover, tooltip, toast — for control metrics that should follow density too.
-- [x] Add a golden per component at each density.
-- [x] Build, test, commit in cadence.
-### G-E2: Tonal elevation
-The pre-D cut of this goal asked E2.1 to "map each `ElevationLevel` to its
-`SurfaceContainer` role". No such role exists any more: ADR-007 retired MD3's
-role tables, and the landed `ColorTokens` carries ramps, pins and a thin
-semantic layer instead. What survives is the idea ADR-005 kept — on desktop a
-raised surface reads as raised by tint first and shadow second — and ADR-007
-gives it a sharper form than MD3 ever had: elevation is to surfaces what D2.3
-made states to fills, a walk up the neutral ramp. Level 0 is the app
-background (the `bg` pin on the step-100 ground), level 1 the card surface
-(step 200), each level above one step further. Because the dark ramp is a
-paired scale, a raised surface lightens in dark mode and darkens in light
-mode with no second rule — MD3's dark-mode surface tint, the one thing tonal
-elevation existed to encode, falls out of the pairing for free.
-
-The landed code is already halfway there without saying so: modal, popover
-and tooltip all paint `Surface` (step 200), `cadence/toast` hand-rolls a
-step-300 fill under its shadow, and only card and toast cast shadows at all.
-What is missing is the token that names the ladder: `ElevationScale` still
-holds MD3's six shadow depths in dp, `theme.Theme.Elevation` emits it to no
-subscribers, and `pulse/depth` reads the package variable directly. Shadows
-are not deleted — ADR-005's desktop reading is subtle shadows *plus* surface
-steps — they become the secondary, opt-in cue E2.2 scopes.
-
-#### E2.1: Elevation becomes a surface step
-
-- [x] Redefine `ElevationScale` in `spectrum/tokens`: each level carries the neutral ramp step of its surface fill — level 0 the `bg` pin over the step-100 ground, level 1 step 200, level 2 step 300, level 3 step 400 — alongside its shadow depth in dp, which survives as the secondary cue. Keep all six named levels so `pulse/depth` and the cadence call sites still compile; levels 4 and 5 clamp to level 3's step, exactly D2.3's clamp, with a doc comment marking them for F3.3's shim sweep — desktop has no six-storey stack.
-- [x] Add the resolver from (`ColorTokens`, `ElevationLevel`) to the surface colour; test that every level's fill sits on the neutral ramp, that the clamp holds, and that D2.3's state walks compose on top — hover on a level-1 surface is step 300 in both modes, courtesy of the paired scales.
-- [x] Keep `theme.Theme.Elevation` emitting the remapped scale — the observable finally carries something worth subscribing to.
-- [x] Leave the `--shadow-*` emission in `spectrum/export` untouched; E5.1 replaces it with the surface roles once the migration lands, per E0.1's note.
-- [x] Build, test, commit in spectrum.
-
-#### E2.2: Shadows become opt-in vibrancy
-
-FX.3 and the defect register both point here for "when is a shadow
-appropriate at all"; this task owns that verdict, FX.3 owns the geometry of
-the shadows that keep theirs.
-
-- [x] Decide, per ADR-005, when a shadow is right: it marks what floats and can leave — toast, popover — not what is raised in place, which reads as raised by its surface step. Audit the `depth.Shadow` callers — `cadence/card`'s `Elevated` variant, `cadence/toast`, `workbench/mindchat` — against that criterion and record each verdict.
-- [x] Keep `pulse/depth` an explicit effect, never a component default; document in its package doc when a shadow is right, when a surface step is, and the cost difference in Gio — eight gradient fills plus an interior fill per shadow (measured; the earlier "a dozen" was an estimate) versus one `FillShape` for a step.
-- [x] Build, test, commit in pulse; commit here if the verdicts change this plan's text.
-
-#### E2.3: Migrate prism and cadence to the ladder
-
-Split out of the pre-D E2.1, which bundled the token change and the migration
-into one oversized task. E2.2's verdicts come first; this task executes them.
-
-- [x] cadence: resolve every raised surface through the ladder — card at level 1 (the outlined variant keeps its step-500 stroke; `Elevated` becomes a level-2 fill, dropping its shadow — E2.2's verdict: a card is raised in place, not floating), modal, popover and tooltip picking their level deliberately (record the choice in each package doc), toast replacing its hand-rolled `Step(300)` fill with a level-2 resolution under its accent tint.
-- [x] prism: `input/dropdown`'s menu surface takes its level from the ladder rather than flat `Surface`; sweep the other `Surface` consumers for any that are really a raised level.
-- [x] Regenerate the moved goldens and say so in the commit body; build, test, commit in prism and cadence.
-### G-E3: Motion and accessibility as theme inputs
-This goal survives Phase D better than G-E2 did — nothing here leaned on the
-retired role tables — but the ground truth moved anyway. `tokens.Motion`
-holds CSS easing names that nothing consumes: toast fades over a local
-400 ms constant, tooltip delays over a local 500 ms, and `pulse/motion`
-counts its own frames. The a11y observables live a tier too high —
-`spectrum/preferences` imports `prism/a11y`, the upward edge
-`scripts/check-layers.sh` records against E3.2. And D2.4 left the
-high-contrast gate as a skipped test naming E3.3, in ADR-007's APCA terms,
-where the pre-D cut still asked for a WCAG AAA assertion.
-
-#### E3.1: MD3 motion
-
-ADR-005 takes MD3's motion semantics; this is where they land. It is also an
-ADR-006 seam — spectrum's widened `MotionScale` is tagged before pulse and
-cadence consume it.
-
-- [x] Replace `MotionScale`'s CSS easing presets with MD3's standard and emphasized sets (standard, accelerate, decelerate, in both families), keeping the `Bezier` shape the export can already serialise.
-- [x] Map the five existing duration stops onto MD3's duration roles rather than adopting all sixteen — desktop wants fewer stops and faster ones; record the mapping and its reasoning in the token doc comment the way `density.go` records its metrics table.
-- [x] Add spring specifications — mass, stiffness, damping presets — for the pulse physics path, coordinating with FX.2, whose defaults fix decides what a usable preset even is.
-- [x] Wire the first consumers, because today there are none: `pulse/motion`'s frame counts, toast's `fadeWindow` and tooltip's `DefaultDelay` resolve from `Theme.Motion` rather than local constants.
-- [x] Regenerate the moved goldens; build, test, commit in spectrum, then pulse and cadence.
-
-#### E3.2: Accessibility preferences reach the theme
-
-- [x] Move the a11y source into spectrum as `spectrum/a11y`, leaving a deprecated alias package in prism for F3.3's shim sweep. The layering requires the move: `spectrum/preferences` already imports `prism/a11y`, the recorded upward edge in `scripts/check-layers.sh`.
-- [x] Delete the `spectrum->prism` entry from that script's `RECORDED_EDGES` and its `recorded_reason`, and commit that here — the lint drops back to one recorded edge (B3.4's shim, which F3.3 removes).
-- [x] Route the observables into the theme so components read one source: `LiveTheme` composes `ReduceMotion` into the Motion emission — durations to zero, animated components snap — and `HighContrast` into the Color emission, selecting E3.3's variant. Until E3.3 lands the hook selects the default palette, so the wiring is testable now.
-- [x] Test that reduced motion snaps: an animated component under `ReduceMotion` reaches its target in one frame.
-- [x] Build, test, commit in spectrum and prism.
-
-#### E3.3: High-contrast palette
-
-- [x] Derive the variant from the same seed — a `FromSeed` option, not a third hand-written scheme — by widening tone separation where it counts: deepen the 700 text step toward the 900 depth, resolve `Divider` from step 500 rather than 300, and push each pinned base's on-colour further from its base.
-- [x] Gate it in APCA, not WCAG AAA — ADR-007 retired ratio gates: un-skip `TestAPCAContrastGateHighContrast` in `spectrum/tokens/contrast_test.go`, the gap D2.4 recorded, with the variant's floors above the defaults — step 700 at Lc ≥ 90 where the default asks 60, pinned on-colours at Lc ≥ 75 — and report WCAG AAA alongside without gating on it, ADR-007's arrangement exactly.
-- [x] Switch to the variant when the OS reports increased contrast, through E3.2's observable — flip the hook E3.2 left.
-- [x] Build, test, commit in spectrum.
-### G-E4: Blur
-Gio exposes no blur primitive and no custom shaders — `op/paint` offers
-`ColorOp`, `ImageOp`, `LinearGradientOp`, `PushOpacity`, and an `ImageFilter`
-that only selects linear vs nearest *scaling*. But `gioui.org/gpu/headless`
-provides the missing piece: `NewWindow(w, h)`, `Frame(*op.Ops)` and
-`Screenshot(*image.RGBA)` render an op list to an offscreen GPU surface and
-read the pixels back. That is a real backdrop-blur pipeline built from Gio's
-own primitives — render the layer behind, read it, blur it, paint it as an
-`ImageOp`. The org already depends on this package: it is what `prism/golden`,
-and through it every golden test in the organization, is built on.
-
-Own the blur itself rather than importing one. All three candidates were
-measured and all three are compromised: `disintegration/imaging` works but has
-been unmaintained since 2021; `anthonynsimon/bild`'s Gaussian is roughly twice
-as slow and its `Box` is 16× slower than its own Gaussian, which looks like a
-bug; `esimov/stackblur-go` silently returns a uniform image from an
-`*image.RGBA` source and reports no error.
-
-Measured on a ten-core Apple Silicon machine; a 60 fps frame budget is 16.7 ms.
-Full pipeline for a 1440×900 backdrop — headless render, readback, blur —
-where the divisor is the resolution the backdrop is *rendered* at, since the
-blur destroys that detail anyway:
-
-    ÷1  1440×900   69.2 ms
-    ÷2   720×450   12.9 ms
-    ÷4   360×225    3.8 ms      <- the working configuration
-    ÷8   180×112    1.6 ms
-
-Two caveats that shape the design. `headless.NewWindow` costs 1.1 ms, so the
-offscreen surface is allocated per size and reused, never per frame. And
-headless rendering is not available on every platform — the golden harness
-already calls `t.Skipf` when it is not — so anything shipping this at runtime
-needs a defined fallback rather than a crash.
-
-#### E4.1: The blur kernel
-
-Three successive box blurs approximate a Gaussian to within a few percent —
-the same approach CSS implementations use — and a separable box blur is
-trivially parallelisable.
-
-- [x] Create `pulse/blur`: a separable 3-pass box blur over `image.NRGBA`, horizontal then vertical, parallelised across `runtime.NumCPU()`.
-- [x] Test convergence against a reference Gaussian: compare per-channel variance reduction and assert the difference stays within a few percent.
-- [x] Test the edges — a blur that darkens or wraps at the borders is the usual bug; assert a uniform input stays uniform right up to the edge.
-- [x] Benchmark against the table above and record the numbers in the package doc.
-- [x] Build, test, commit in pulse.
-
-#### E4.2: Cached blur for static imagery
-
-The simple case, and the one with no platform caveat: a known source image
-blurred once and reused.
-
-- [x] Add a helper that blurs a source image and returns a `paint.ImageOp`, caching on source identity, radius and target size.
-- [x] Support the downscale-blur-upscale path for large radii; expose the divisor and default it from the radius.
-- [x] Test that a repeated call with unchanged inputs does no work, and that a size or radius change invalidates.
-- [x] Build, test, commit in pulse.
-
-#### E4.3: The headless backdrop pipeline
-
-- [x] Add a backdrop type that owns a `headless.Window`, renders a caller-supplied layer into it at a reduced resolution, reads it back, blurs it, and yields a `paint.ImageOp` stretched to full size.
-- [x] Allocate the headless window per size and reuse it; reallocate only on resize.
-- [x] Choose the divisor from the blur radius so callers ask for a look, not a resolution.
-- [x] Handle unavailable headless rendering explicitly — a documented fallback (flat tinted surface), never a panic.
-- [x] Decide and document the refresh policy: this runs on the events thread and stalls it, so it must be driven by content change, not by every frame.
-- [x] Benchmark the assembled pipeline and confirm it matches the table above.
-- [x] Build, test, commit in pulse.
-
-#### E4.4: Evaluate blur-based glow
-
-`pulse/glow` composes eight linear gradients — four edges, four corners —
-because Gio has no radial gradient. A real blur gives a true radial falloff and
-works for arbitrary shapes, not rectangles only. Whether it *wins* depends on
-whether the cache holds while the glow animates.
-
-- [x] Prototype a glow that renders the shape offscreen, blurs it, and paints the result.
-- [x] Compare against the current eight-gradient halo: visual quality, and cost per frame when the glow animates and the cache misses.
-- [x] Decide. Keep the gradient path if the animated case cannot be cached cheaply — a correct approximation beats a slow exact answer.
-- [x] Record the decision and its evidence in `pulse/glow`'s package doc either way.
-- [x] Build, test, commit in pulse.
-
-### G-E5: Re-export the foundations
-
-G-E0 exported what Phase D had landed. Density, tonal elevation and the motion
-set have all moved since, so the emitted tokens and the pushed design project
-are now behind the theme they claim to describe. Bring them level before Phase
-F freezes the documentation — and before Phase G builds a component vocabulary
-on top of them.
-
-#### E5.1: Re-emit and re-push
-
-- [x] Extend `spectrum/export` with what Phase E added: the density tokens, the tonal-elevation surface roles replacing `--shadow-*` as the default, and MD3's easing and duration sets.
-- [x] Add density, the elevation model and the motion set to `theme.json`'s generative parameters, so the file still reproduces the theme on its own.
-- [x] Regenerate `foundations/layout.html` against tonal elevation rather than shadow depths, and show the spacing and control metrics at both density settings.
-- [x] Confirm E0.1's round-trip test still passes across the widened token set — it is the only thing stopping the CSS and the Go tokens drifting.
-- [x] Run `scripts/push-design.sh`; open the project and confirm the foundation pages render.
-- [x] Build, test, commit in spectrum; commit the regenerated `design/` here.
-
-## Phase F: Prove it, document it, release it
-
-A design system is only coherent if its own reference applications agree. Right
-now seven apps give three different answers about fonts alone.
-
-The tasks here were provisional until Phase E landed; it has, 18/18, and they
-are now re-cut against the system as shipped: theme-owned typography, density,
-the elevation ladder, MD3 motion and the a11y observables all emitting from
-`theme.Theme`, with ADR-007's ramps underneath and blur in pulse. "Agree" is
-no longer only about fonts, though the font disagreement is still real —
-every one of the seven apps still imports the `prism/tokens` or `prism/theme`
-alias paths, reads the deprecated MD3 colour aliases, and five drive
-components through the frozen static `Render(…, TypeScale, …)` signatures.
-The apps are the last consumers of every deprecated surface in the org, so
-G-F1 is what empties the deprecation windows that F3.3's sweep then closes.
-
-![[#Release protocol]]
-
-### G-F0: The mono face
-
-C2.8's migration surfaced an org-level gap and recorded it in its commit: no
-monospace face ships anywhere, so markdown code blocks — and
-`markdown/style.Style.Mono`, the field that exists to name one — resolve to
-Roboto. Two reference apps render code (sitedocs' docs pages, mindchat's chat
-bodies), so the gap is visible in exactly the apps G-F1 makes agree, and it
-has to close before G-F2 freezes the documentation and G-F3 tags.
-
-The face is Roboto Mono. The theme's default face is Roboto, Roboto Mono is
-its designed companion in the same superfamily under the same licence the
-`font` repo already packages, and MD3 itself pairs the two. That is a
-decision this plan can make without a survey task; recording the reasoning
-here is the survey.
-
-#### F0.1: Package the face and give the theme a code style
-
-- [x] Add `font/robotomono`, mirroring `font/roboto`'s per-weight package layout only as far as real use: regular and italic in the weights the highlight path shapes — normal and bold suffice.
-- [x] In `spectrum/tokens`, add a `Code` TextStyle to `Typography` — BodyMedium's metrics on the mono face — and append the mono faces to `DefaultTypography.Faces` so the default shaper resolves them.
-- [x] Test that the default shaper resolves the mono face at every weight and style the highlight path uses.
-- [x] Extend `spectrum/export` with the code role and run `scripts/push-design.sh`, so the design project stays level per E5.1; commit the regenerated `design/` here.
-- [x] This widens spectrum's API — an ADR-006 seam whose tag is F3.1's, since Phase F ends in the release; until then the workspace covers it and `scripts/check-no-workspace.sh` reports the debt. Build, test, commit in font and spectrum.
-
-#### F0.2: Wire markdown to it
-
-- [x] Resolve `Style.Mono` and `CodeSize` from the theme's `Code` role in markdown's theme path, so inline code and code blocks leave Roboto.
-- [x] Confirm highlight's bold and italic runs shape in the mono face rather than falling back to Roboto's weights.
-- [x] Regenerate the moved goldens and say so in the commit body; build, test, commit in markdown.
-
-FX.7 regenerates these same goldens for the token palette; this task lands
-first, so the mono face is already under FX.7's goldens rather than moving
-them a third time.
-
-### G-F1: Make the example apps agree
-
-The migration pattern, once per app: imports move off the `prism/tokens` and
-`prism/theme` alias paths onto spectrum's; colours move off the deprecated
-MD3 aliases — `OnBackground`, `OnSurface`, `SurfaceVariant`,
-`OnSurfaceVariant`, `Outline` — onto the ramps, pins and semantic fields;
-text comes from the theme's Typography, so no app-built shaper, no
-`style.FontFaces()`, no gofont; and components are driven through their
-theme-driven entry points rather than the frozen static
-`Render(…, TypeScale, …)` signatures F3.3 re-cuts. Density, the elevation
-ladder and MD3 motion then arrive through the theme with no per-app work —
-which is the point: the apps prove the theme carries the whole look.
-
-#### F1.1: The apps that are already close
-
-- [x] Migrate todos, iconbrowser and launcher per the goal's pattern.
-- [x] Drop their manual `style.FontFaces()` shaper construction — typography now comes from the theme, and these three are among the last consumers holding ADR-003's `style` freeze window open.
-- [x] Run each; confirm it renders in Roboto, switches light/dark live, and sits at the 36 dp Comfortable control height rather than the pre-E 44.
-- [x] Commit in workbench.
-
-#### F1.2: feeds
-
-- [x] Remove the `gofont` shaper and every per-component `Shaper` pass-through — `app.go` builds it, `sidebar.go` alone threads it through four signatures — and the sim and wiring tests that construct their own follow.
-- [x] Migrate per the goal's pattern; `articles.go` drives components through static `Render` calls that become theme-driven here.
-- [x] Run it; confirm the table, tabs, modals and toasts render correctly at density, and that pagination — which dropped its prism/button bridge for density's sake (E1.4) — still matches the buttons beside it.
-- [x] Build, test, commit.
-
-#### F1.3: watchlist
-
-- [x] Same migration per the goal's pattern — `maincontent.go` and the modals lean hardest on the deprecated aliases and static `Render` calls; keep the `wiring_test.go` AutoConnect count correct.
-- [x] Run it; confirm CRUD, context menus and popovers.
-- [x] Build, test, commit.
-
-#### F1.4: sitedocs
-
-- [x] Same migration, including the markdown-rendered docs pages — after F0.2 they are the first app surface where code renders in the mono face; confirm it.
-- [x] Run it; confirm hero, pricing, accordion sidebar and the docs routes.
-- [x] Build, test, commit.
-
-#### F1.5: mindchat
-
-- [x] Remove the appended `gofont.Collection()` — this app still mixes both font sets in one shaper (`view.go`).
-- [x] Migrate per the goal's pattern; confirm the markdown chat bodies and chroma highlighting match the palette, and code spans render in the mono face.
-- [x] Keep its `depth.Shadow` — E2.2's verdict let mindchat and toast keep theirs — and leave its square-cornered geometry to FX.3 rather than fixing it here.
-- [x] Run it; confirm the split pane, modals and streaming indicators.
-- [x] Build, test, commit.
-
-All three confirmed on screen. The split pane and the Settings modal —
-providers, masked key, live "Checking API key…" status, model picker — first;
-then, once Rene authorized spending his key, one real completion. Frames
-captured every 0.7 s show the reply arriving in pieces — partial text, a code
-block cut mid-token at `button [`, markdown re-parsing per delta — so the
-streaming path is genuinely incremental rather than a single settled paint.
-
-Three defects came out of that one message, all now in the register: the
-theme shaper draws tofu for any glyph Roboto lacks (the model emitted `↓`),
-mindchat cannot persist a conversation on a fresh install because nothing
-creates its `chats/` directory, and nothing at all is drawn between pressing
-send and the first token. The first is the system's problem, not the app's,
-and is the one worth acting on.
-
-#### F1.6: The mvu examples
-mvu is tier 0, and `mvu/example` is already its own module (tagged
-`example/v0.4.3`) — checked during G-B1, so the trap `prism/gallery` was in
-does not apply here. Keep it that way: pointing the example at theme typography
-while it shared mvu's module would make the foundation require spectrum and
-re-close a cycle from the other direction.
-
-- [x] Drop the `style` dependency from `mvu/example`; use theme typography. Note `example/go.mod` also requires `github.com/vibrantgio/font` DIRECTLY, because `edit` imports `font/roboto/regular/normal` for a single face — drop that too.
-- [x] Update `edit` and `04-hello` — the only two consumers of `style` inside `mvu/example`. Org-wide there are fifteen more: the workbench apps `todos`, `iconbrowser`, `launcher` and `mindchat` (covered by F1.1-F1.5), plus eleven example programs under `ivg/raster/gio`, `svg/driver/gio` and `traer/gio` that Phase F does not touch.
-- [x] Run `scripts/check-layers.sh`; confirm mvu itself still requires nothing above tier 0.
-- [x] Build, test, commit.
-### G-F2: Regenerate the documentation
-
-#### F2.1: Rewrite llms.txt for the shipped system
-
-- [x] C3.3 already replaced the typography section; rewrite the rest to the same standard — seed-derived colour in ADR-007's vocabulary (ramps, pins, step walks — not MD3 role tables), palette injection and the OS accent, density, the elevation ladder, MD3 motion and the a11y observables, and when to reach for pulse's blur.
-- [x] Update the module inventory and the minimal `go.mod`. The version numbers cannot be final before G-F3 cuts the tags; F3.5 owns that touch-up, so write the inventory here and leave the numbers honest about being pre-release.
-- [x] Rewrite the pitfalls section against what actually bit during Phases B–E — the workspace/`GOWORK=off` double meaning of green, B2.0's `go.sum` lesson, goldens regenerated in the task that moves them.
-- [x] Commit here.
-
-#### F2.2: Rewrite DESIGN.md
-
-- [x] Rewrite `workbench/DESIGN.md` around the new layering, the generative colour model and the desktop divergences.
-- [x] Fold ADR-001 through ADR-007 in as decision records — including ADR-006, whose workspace rule is the one an outside contributor cannot infer from the repos.
-- [x] Keep the old document as `DESIGN-v1.md` for history.
-- [x] Commit in workbench.
-
-#### F2.3: Refresh every repo README
-
-- [x] Update the prism, spectrum, pulse and cadence READMEs against the shipped API — spectrum grew export, a11y and the elevation ladder since its README was written; pulse grew blur and the motion presets.
-- [x] Remove the "arrives in a later phase" notes now satisfied.
-- [x] Update the deprecation notes in `style`, the not-deprecated clarification in textdraw, and the alias shims — `prism/tokens`, `prism/theme`, `prism/a11y`, `spectrum/transition` — saying plainly that F3.3 deletes the shims and what happens to `style` (F3.4 records it).
-- [x] Commit in each repo touched.
-
-#### F2.4: Refresh the org front door
-
-- [x] Update `profile/README.md`'s stack table to the final layering.
-- [x] Retake the launcher and mindchat screenshots in both appearances on the new palette.
-- [x] Confirm every link from the org page resolves.
-- [x] Commit here.
-
-**All four retaken, each one a live appearance switch** — one running process
-per app with the OS flipped underneath it, cropped to the window at the widths
-the old assets used. mindchat was briefly stuck: its old shot showed saved
-conversations and a real Q&A, and this machine had no chat store, so a retake
-would have been an empty shell. Inventing a conversation to fill it was never
-an option — a fabricated exchange presented as a screenshot of what the app
-produced is a fake record, whoever assembles it. Authorizing the real
-completion in F1.5 dissolved the problem: the reply in these captures is one
-the model actually returned. The `alt` text lost its "web-search citations"
-claim, which the new conversation does not show and a caption should not
-assert.
-
-### G-FX: Clear the defect register
-
-> Included from [[#Defects found but not fixed]]
-
-Defects found while doing other work, in code no other goal touches. This goal
-sits before G-F3 deliberately: each one changes rendering or behaviour, so it
-has to land before the tags do, not after.
-
-One task per entry, except where an entry has to be fixed sooner than Phase F —
-the `seen/context/gio` pin is scheduled as B2.0, since it breaks two builds
-today. An entry can be scheduled anywhere; the register is the record, not the
-queue. When the register grows, this goal grows with it — and when a task
-lands, strike the entry rather than deleting it, so the record of what was
-wrong outlives the fix.
-
-#### FX.1: Correct the svg fill-rule inversion
-
-`svg/parser/svgcursor.go:133` sets `UseNonZeroWinding` when the document asked
-for `evenodd` and clears it when the document asked for `nonzero` — backwards
-on both values. Work in `.repos/svg`.
-
-- [x] Fix the line. `nonzero` is the SVG initial value, so the condition is `!strings.EqualFold(v, "evenodd")` — or spell it positively against `"nonzero"` and let anything else fall through to the default. Leave `defaultstyle.go:14` alone; its `UseNonZeroWinding: true` is already correct.
-- [x] Add a regression test with a self-intersecting path — a five-pointed star drawn as one closed subpath is the standard case, since it renders with a filled centre under non-zero and a hollow centre under even-odd. Assert both `fill-rule` values, and assert that a path stating neither still gets non-zero.
-- [x] Drive the test through `driver/raster`, not `driver/gio`. `driver/gio/driver.go:59` is an empty `SetWinding` — deliberately, because `clip.Outline` is non-zero only — so the Gio path cannot observe this defect and cannot validate the fix. `driver/pdf` and `driver/seen` honour the flag too, but raster is the one that yields a comparable image.
-- [x] Check the repo's own SVG fixtures for any that state `fill-rule` and whose goldens therefore move. Regenerate them in this task and say so in the commit body, per the plan's green-before-commit rule.
-- [x] Note in `svg/README.md` that the defect is fixed — A3.9 documented it there as live, and that text is now wrong.
-- [x] Strike the entry in [[#Defects found but not fixed]], leaving the record in place.
-
-`svg/driver/seen` does not build on a stale consumer-side `go.sum` pin of
-`seen/context/gio v0.0.7`. That is recorded separately and is not this task's
-to fix — build and test the root module and `driver/raster`.
-
-#### FX.2: Make pulse/spring's defaults usable
-
-`spring.Options{}` takes ~873 frames to settle, and overriding one field silently
-takes the rest from the same soft defaults. E3.1 has since landed usable
-presets — `tokens.Motion.SpringDefault` (k=80, critically damped) is what
-`pulse/motion.DefaultSpring` already resolves to — so this fix aligns with a
-published number rather than inventing one.
-
-- [x] Replace `DefaultStiffness`/`DefaultDamping`/`DefaultMass` with `tokens.Motion.SpringDefault`'s values, or make the zero `Options` an error rather than a 15-second animation. Pick one and say which in the commit body.
-- [x] Fix the partial-override trap at `spring.go:114-121`: deriving `Damping` from whatever `Stiffness` and `Mass` end up being — critical damping is `2√(km)` — is the fix that makes a one-field override behave. `pulse/motion.Options.Spring` documents the same trap around its `DefaultSpring` fallback; fix or re-document it to match whichever contract this task picks.
-- [x] Test the settle time of the zero `Options` and of `Options{Stiffness: 80}` alone, asserting frame counts rather than "it looks right".
-- [x] Update the package comments A3.6 wrote: they document the current behaviour accurately, so they become wrong the moment this lands.
-- [x] Check `motion` and `springbutton`, which pass explicit values today and must not move. Regenerate goldens only if they legitimately do; build, test, commit.
-- [x] Strike the register entry.
-
-#### FX.3: Give pulse/depth a rounded interior and an opacity
-
-`depth.go:86` fills the shadow interior with `clip.Rect` at full alpha, so its
-callers get square dark wedges behind their rounded corners. E2.2's verdicts
-and E2.3's migration have since landed: `cadence/card`'s `Elevated` shadow is
-gone — raised in place is a surface step now — leaving two callers,
-`cadence/toast` and `workbench/mindchat`, both at `Level3`, both keeping
-their shadows as things that float. The when-is-a-shadow-right question is
-settled; only the geometry of the survivors remains.
-
-- [x] Take a corner radius on the shadow call and clip the interior to a matching `clip.RRect`.
-- [x] Add an opacity control, and drop `cadence/toast`'s `PushOpacity` workaround once it exists.
-- [x] Update `cadence/toast` and `workbench/mindchat` to pass the radius they already round their foregrounds to.
-- [x] Golden-test a rounded surface over a shadow — the wedges are exactly what a golden catches and no unit test will.
-- [x] Regenerate the moved goldens in this task and say so in the commit body; build, test, commit.
-- [x] Strike the register entry.
-
-#### FX.4: Guard tween against a nil Lerp
-
-`At` reaches `tw.Lerp` only for `0 < n < Frames`, so the panic hides behind any
-test that samples the endpoints.
-
-- [x] Decide the contract and implement it: either return the nearest endpoint when `Lerp` is nil, or panic immediately on construction with a message naming the field. Constructing-time failure is the better of the two — it cannot reach a frame.
-- [x] Test the interior, not just `At(0)` and `At(Frames)`.
-- [x] Build, test, commit; strike the register entry.
-
-#### FX.5: Make spectrum's appearance stream shared and live
-
-Two defects in the same stream: the observable is cold, so every subscription
-polls independently, and `preferences.Observe` completes after one read. E3.2
-raised the stakes since this was recorded: `LiveTheme` now composes the a11y
-observables — built on the same cold `FromSource` shape, moved down as
-`spectrum/a11y` — so each subscriber multiplies pollers across two sources,
-not one.
-
-- [x] Multicast `Live`/`FromSource` so *n* subscribers share one poll loop, and give `spectrum/a11y`'s same-shaped stream the same fix. Verify with the shape A3.5 used — count source reads with a counting `Source` at one and three subscribers, and assert they match.
-- [x] Check every workbench app still tracks dark mode afterwards; each subscribes at least twice, via `BackdropLayer` and `ContentLayer`.
-- [x] Make `preferences.Observe` emit on write, or rename it to something that does not promise a stream. Whichever, `Save` and `Observe` must agree.
-- [x] Build, test, commit; strike both register entries.
-
-#### FX.6: Give cadence/sidebar a scroll region
-
-A nav list taller than the viewport runs off the bottom edge with no way to
-reach the rest. E1.4 changed the arithmetic but not the defect: the item
-pitch is now `Density.ControlHeight` — 36/28 dp rather than the register's
-48 — so the list overflows a few items later and just as irrecoverably; the
-package doc says so itself.
-
-- [x] Wrap the item loop in a scrollable list — `prism/list` is the one the rest of cadence uses.
-- [x] Golden-test a list long enough to overflow, in both the expanded and collapsed widths and at both densities.
-- [x] Consider whether the 192/48 dp column-width constants — still local, still ignoring the horizontal constraint — should respond to it, and record the decision either way.
-- [x] Regenerate goldens; build, test, commit; strike the register entry.
-
-#### FX.7: Let the theme reach highlighted code
-
-The chroma hook colours every run, so `Style.CodeColor` is unreachable and code
-blocks leave the token palette.
-
-- [x] Emit no colour for runs chroma would render in its default foreground, so the documented `Style.CodeColor` fallback at `style.go:20` actually fires.
-- [x] Fail loudly on an unrecognised style name instead of falling back to a dark-background default that renders near-white on the light theme.
-- [x] Golden-test a code block in both themes, asserting the plain runs take the token colour.
-- [x] Regenerate goldens; build, test, commit; strike the register entry. D2.7 and C2.8 both landed, so the double-migration risk this task once dodged is gone — but F0.2 moves the same goldens for the mono face, so it goes first.
-
-#### FX.8: Add the two missing LICENSE files
-
-`gradient` and `circle` ship none; the other eighteen repos do.
-
-- [x] Copy the licence the rest of the organization uses, with the same holder and year convention. Do not invent a different one.
-- [x] Commit in each repo; strike the register entry.
-
-### G-F3: Release
-
-The Release protocol's double-digit rule was violated before this goal ran:
-spectrum v0.0.10–v0.0.15 and pulse v0.0.10–v0.0.12 are on the remotes,
-immutable — the protocol's violation note records how. The burial rule sets
-this goal's numbers: spectrum's next tag is **v0.1.0**, pulse's is
-**v0.1.0**, and neither repo ever sees another v0.0.x.
-
-#### F3.1: Tag the foundation
-
-A tag has to reach GitHub before the layer above it can resolve it, so every
-task in G-F3 stops and asks before pushing. This is the one goal in the plan
-that local-only work cannot finish.
-
-- [x] Verify `scripts/check-layers.sh` passes across the stack.
-- [x] Run `scripts/check-no-workspace.sh`: the whole stack, `GOWORK=off`, green. The workspace has been covering version skew since Phase B and this is where that debt comes due.
-- [x] Tag mvu first — `spectrum/window` imports it, so it is tier 0 and everything waits on it — then font, then spectrum at **v0.1.0**, the burial number. Font before spectrum, pushed before spectrum's `go.mod` pins it: C1.2 made spectrum require it, the tier-0/tier-1 edge in ADR-001.
-- [x] Ask Rene to push the tags. Do not push them.
-- [x] Confirm the tags resolve from a clean module cache with the workspace disabled.
-
-Tags cut and pushed: mvu **v0.4.4**, font **v0.0.5**, spectrum **v0.1.0**.
-Rene authorized the pushes for this goal, so the "ask" step is a push step.
-
-**The whole-stack box was unchecked here and is checked now, by F3.5.** The
-condition it states — the whole stack green without the workspace — became
-true at the end of G-F3, at **36/36**, and the box records a state rather
-than an act. What F3.1 could honestly claim on its own was spectrum's row;
-the rest is below, with what closed each. `check-no-workspace.sh`
-went from 29/36 to 30/36 here: spectrum is green — font v0.0.5 is what carries
-`font/robotomono`, which `tokens/typography.go` has imported since F0.1 —
-and the six that remain are other tasks' debt, not this one's:
-
-| module | why it fails | closed by |
-| --- | --- | --- |
-| cadence, markdown | pinned to pre-F0.1 spectrum; `Typography.Code`, `depth.Shadow`'s new arity | F3.4 — **closed** |
-| workbench/feeds, mindchat, sitedocs | same two symbols, via their spectrum pin | F3.5 — **closed** |
-| svg/driver/raster | FX.1's regression test, against an svg root tag that predates FX.1's fix | F3.5, once it was given the job — **closed** |
-
-`svg/driver/raster` is the one nothing schedules. FX.1 fixed the fill-rule
-inversion in `svg/parser` and put its regression test in `driver/raster`, but
-`svg`'s newest tag is v0.0.8 and the fix is untagged on master, so the nested
-module tests the old parser and reports the inversion it was written to catch.
-It passes under the workspace, which is precisely the skew this script exists
-to expose. G-F3 tags no support library, which is how it fell through. It was given to
-F3.5, which cut `svg` v0.0.9, re-pinned `driver/raster` onto it and tagged
-`driver/raster/v0.0.9` to match — and only then did the final run go green.
-
-#### F3.2: Tag the component layers
-
-- [x] Update prism and pulse to spectrum v0.1.0; build and test.
-- [x] Tag prism in series — v0.1.9; its v0.1.x series is clean — then pulse at **v0.1.0**, burying its v0.0.10–12; ask Rene to push each before the next one moves.
-- [x] Confirm resolution from a clean cache, workspace disabled.
-
-Tags cut and pushed: prism **v0.1.9**, pulse **v0.1.0** — pulse's burial
-number, its v0.0.x series closed for good. Both pinned to spectrum v0.1.0,
-mvu v0.4.4 and font v0.0.5; both green with `GOWORK=off`. A throwaway
-`GOMODCACHE` resolved prism v0.1.9 and pulse v0.1.0 straight off the proxy,
-pulling spectrum v0.1.0, mvu v0.4.4 and font v0.0.5 transitively, and ran a
-program calling `blur.Gaussian` and reaching `button.Render`.
-
-`check-no-workspace.sh` holds at **30/36**: prism and pulse were already in
-the passing set, so the honest pins bought correctness rather than a count.
-The same six remain — cadence, markdown, the three workbench apps and
-`svg/driver/raster` — and F3.1's table still names their owners.
-
-`prism/gallery` is untouched and still builds under the workspace on its
-stale v0.1.5/v0.0.7 pins. It is F3.5's to re-pin and tag.
-
-#### F3.3: The major-bump shim sweep
-
-The deprecation windows Phases B–E opened all close here, in one breaking
-release per repo, before the pattern layer and the demos tag. What the sweep
-covers, verified against the code rather than remembered:
-
-- the three prism alias packages — `prism/tokens`, `prism/theme` (B3.3),
-  `prism/a11y` (E3.2);
-- the `spectrum/transition` forwarder (B3.4), and with it the
-  `spectrum->pulse` entry in `check-layers.sh`'s `RECORDED_EDGES` — the lint
-  drops to zero recorded edges;
-- `ColorTokens`' five deprecated MD3 aliases (D2.1): `OnBackground`,
-  `OnSurface`, `SurfaceVariant`, `OnSurfaceVariant`, `Outline`;
-- `ElevationScale`'s `Level4`/`Level5` depths and `Step4`/`Step5` clamps
-  (E2.1) — the desktop ladder tops out at level 3;
-- the frozen static render surface that predates C1.1 and E1.2:
-  `TypeScale`/`DefaultTypeScale` and every `Render(…, tokens.TypeScale, …)`
-  signature — in prism, `button.Render`/`RenderIcon`,
-  `input.Render`/`RenderDropdown` and `richtext.FromTokens`; cadence's and
-  markdown's are F3.4's. These are re-cut to take `TextStyle` and `Density`,
-  not deleted — the golden tests ride them.
-
-- [x] Promote `prism/internal/golden`'s capture to an exported package *before* the major is cut. G1.1 needs it from outside prism, and finding that out after the bump costs a whole second prism release for a one-line visibility change.
-- [x] Sweep spectrum per the list; tag **v0.2.0**.
-- [x] Sweep prism — the alias packages go, its static signatures re-cut — and re-cut `pulse/springbutton`'s one call into `button.Render`, which the signature change breaks. Regenerate the moved goldens.
-- [x] Tag prism **v0.2.0**, then pulse **v0.1.1** — pulse's own API is unchanged, so it moves in patch; ask Rene to push each in order.
-- [x] Confirm resolution from a clean cache, workspace disabled.
-
-#### F3.4: Re-cut the pattern layer onto the majors
-
-Split from the sweep for size: cadence's static `Render` surface spans
-eighteen packages, and every one moves goldens.
-
-**Two things F3.3 handed down.** First, `TypeScale`/`DefaultTypeScale` are
-still standing. The sweep list above names them, but the type lives in
-*spectrum*, which F3.3 had already tagged v0.2.0 by the time prism's
-signatures came off it — and cadence and markdown, whose re-cut is this
-task's, are its remaining users. So F3.3 took prism off `TypeScale` and left
-the type alone. Deleting it is this task's, and it is a spectrum release:
-re-cut cadence and markdown first, then cut **spectrum v0.3.0** dropping
-`TypeScale` and `DefaultTypeScale`, then pin cadence and markdown to v0.3.0
-rather than the v0.2.0 the checkbox below says. prism does not need a second
-tag — v0.2.0 already names no `TypeScale` and compiles against a spectrum
-without it.
-
-Second, prism v0.2.0's re-cut breaks exactly four call sites here, all
-verified by building against it: `cadence/hero/hero.go:362` and
-`cadence/pricing/pricing.go:396` (`button.Render`, now wanting `TextStyle` +
-`Density` — both feed it a local `ctaTypeScale(tok)` helper that goes with
-them), `cadence/modal/modal.go:234` (`button.RenderIcon`, which now takes a
-`Density` and no text style at all — an icon button draws no text), and
-`markdown/style.go:121` (`richtext.FromTokens`, now taking a `TextStyle`;
-note it takes no `Density`, a paragraph having no control to size). The three
-workbench apps and `sitedocs` fail only transitively through these four.
-
-- [x] Update cadence and markdown to spectrum v0.2.0 and prism v0.2.0; re-cut their static signatures — every cadence package's `Render`, plus `markdown/style.FromTokens` — to `TextStyle` and `Density`, matching prism's re-cut.
-- [x] Regenerate the moved goldens and say so in the commit body.
-- [x] Tag cadence **v0.3.0** and markdown **v0.1.0**; ask Rene to push.
-- [x] Record the end of `style`'s ADR-003 freeze window: G-F1 moved the last in-org consumers off it, so it is archived at v0.0.6 — frozen, never re-tagged — rather than swept. Note it in its README and in ADR-003.
-
-Tags cut and pushed: spectrum **v0.3.0**, cadence **v0.3.0**, markdown
-**v0.1.0**. `check-no-workspace.sh` moves 30/36 → **31/36**.
-
-**Two findings worth carrying forward.** First, `theme.Theme.Type` went with
-`TypeScale` in spectrum v0.3.0. The task's brief asked for an honest call on
-whether the field itself had to go; grepping all twenty-one repositories, four
-constructors wrote it (`theme.Default`, `theme.AutoLightDark`, `system`'s live
-theme, `window`'s test themes) and *nothing anywhere read the value* — the
-in-org readers moved to `Typography` in C1.1, E1.2 and F3.3, and
-`spectrum/export`'s own package doc already said in as many words that
-`Theme.Type` is not consumed. Retyping a field nobody reads would have meant
-inventing a purpose for it, so it is deleted.
-
-Second, cadence's re-cut is not uniform, on purpose. Fifteen of the nineteen
-entry points take a single role's `TextStyle`, matching prism; the four that
-draw several roles (`hero`, `pricing`, `feature`, `testimonial`) take the whole
-`tokens.Typography`, because four `TextStyle` parameters in a row are four
-chances to transpose two of them. A `Density` follows only the nine that
-actually size a control. Both rules are written into cadence's README.
-
-**What F3.5 inherits.** `prism/gallery` now *fails* `check-no-workspace.sh`
-rather than merely being stale: F3.3 repointed it at `spectrum/a11y` without
-adding spectrum to its `go.mod`. Same owner, slightly larger job. And the
-transitive breakage from this task's majors is exactly four applications, not
-the three F3.1's table names: **sitedocs** and **mindchat** break in production
-code (`tokens.TypeScale`, `Theme.Type`, `markdown.FromTokens`), **feeds** and
-**watchlist** break in tests only (`alert.Render`, `table.Render`,
-`tokens.DefaultTypeScale`); `todos`, `iconbrowser` and `launcher` build clean.
-One doc file also still names the deleted type:
-`workbench/sitedocs/content/prism-tokens.md`.
-
-#### F3.5: Tag the apps and the nested demos
-
-F3.1's `check-no-workspace.sh` run surfaced a repo no other task in this goal
-owns. FX.1 fixed the fill-rule inversion in `svg/parser` and put its regression
-test in `svg/driver/raster` — but svg's newest tag is v0.0.8, the fix is
-untagged, and `driver/raster` pins v0.0.7, so without the workspace it tests
-the parser the fix replaced and fails the very test written to catch the bug.
-G-F3's layers are the design-system spine; svg is a support library, which is
-how it fell through. It lands here because the root-tag-then-nested-tag
-mirroring is exactly this task's mechanic, and because the last checkbox below
-cannot honestly go green while any `go.mod` in the org still lies.
-
-- [x] Tag svg — v0.0.9, carrying FX.1's fix — then re-pin `driver/raster` onto it and tag `driver/raster/v0.0.9`, mirroring the root as the protocol requires. Confirm the FX.1 regression test passes with the workspace disabled, which is the only configuration that proves the tag carries the fix.
-- [x] Update every workbench app's `go.mod` to the released tags; build, test, run each.
-- [x] Tag the nested demo modules — `prism/gallery`, `mvu/example` — here, once, at their roots' final numbers. The majors came first deliberately: a nested tag mirrors its root's version, so tagging `prism/gallery` before the prism major would mirror a superseded root and cost a second tag at the major's number to get back in correspondence. `prism/gallery` imports `prism/theme` and `prism/tokens`, the shims F3.3 deletes, so it is updated off them before it is tagged at all; `mvu/example` never imported them.
-- [x] Touch up llms.txt's module inventory and minimal `go.mod` to the tags actually cut — the finalization F2.1 deferred here. The sweep also falsified prose F2.1 and F2.4 wrote in good faith: llms.txt and `profile/README.md` still describe `spectrum/transition` and the five MD3 aliases as live deprecated shims, and `workbench/sitedocs`'s own docs page still teaches `TypeScale`. Correct all three.
-- [x] Regenerate `design/` and re-push it. F3.3 deleted elevation levels 4 and 5 and F3.4 deleted `TypeScale`, so the committed token sheet still advertises `--elevation-4`, `--shadow-4` and their level-5 twins, `theme.json`'s elevation arrays are still six long, and `foundations/layout.html` renders two cards that no longer exist. Generated output that lies is worse than none, and this is the copy the design surface serves.
-- [x] Run `scripts/check-no-workspace.sh` one last time, after the majors. Green here means every `go.mod` in the org is honest without the workspace propping it up — which is the actual definition of released.
-
-**What the app box still owes.** Every `go.mod` is pinned and every module is
-green under both configurations — `check-no-workspace.sh` reports 36/36, the
-first clean sweep the org has had. The one clause not satisfied is "run each":
-the machine was at the macOS lock screen, where Gio cannot open a window, so
-the seven apps were never launched. Headless GPU tests did run and pass in all
-seven, which covers rendering but not window creation, event delivery or the
-live theme stream. Launch the seven apps once at an unlocked session and check
-the box; nothing else in this task is outstanding.
-
-### G-F4: Fixes found by running it
-
-Everything in this goal was found by running the seven apps for real, which is
-the one thing the plan had never done until the release was already cut. None
-of it was caught by a test, and the reason is the same in every case: the test
-suite was arranged to be *stable* rather than to be *true*.
-
-**The principle these fixes restore.** Determinism is a property a test
-configures for itself. It is never a limit real use pays for. The org had this
-backwards in two places at once, and they compound. `Typography.Shaper()` hard
-codes `text.NoSystemFonts()` — a choice that exists so golden images do not
-depend on which fonts a machine has — with the result that every application
-built on the system silently draws a missing-glyph box for any character
-Roboto and Roboto Mono do not carry. And where that would have been visible,
-the goldens look away: `prism/button`'s cases pass `Label: ""` with the
-comment *"empty label: no font rasterisation, deterministic pixels"*. So the
-default renders badly, and the tests are blind to it by construction. Neither
-half is defensible on its own; together they are how a design system ships a
-typography defect through five phases of work about typography.
-
-The fix inverts it. The default resolves text — all text, including glyphs
-outside the embedded faces. Tests pin their faces *explicitly*, which is
-stricter than what they have now, because a test that says what it wants
-cannot drift when the default changes. Symbol coverage is then checked the way
-the evidence actually supports: assert the shaper resolves a glyph to a real
-face, and keep those symbols out of the golden images, where a machine-
-dependent face would be exactly the fragility the goldens exist to avoid.
-
-Ordering is load-bearing. F4.1 comes first because the golden harness cannot
-currently fail on a size change, so every later task in this goal would be
-grading its own work with a broken instrument.
-
-#### F4.1: Make the golden harness fail on a size change
-
-`PixelDiff` returns `-1` when two images differ in size, and `Render` fails
-only on `n > 0` — so a golden whose dimensions moved compares as a pass. Every
-golden in the org has been guarded by this for the whole plan, and the density
-work in G-E1 moved control sizes everywhere.
-
-- [x] Make a size mismatch a failure in `prism/golden.Render`, naming both dimensions in the message — the whole point is that the diff count is meaningless once the bounds differ, so `-1` must not reach a `> 0` test.
-- [x] Decide what `PixelDiff` itself should return and say so in its doc: a sentinel that reads as "no answer" is what caused this, and a second return value or a documented panic are both honest; a count that silently means failure is not.
-- [x] Sweep every golden name in the org for collisions — E1.3 found `prism/input`'s checkbox and textfield both writing `light-focused.png` into one shared `testdata/golden` directory, which only survived because the sizes differed and the comparison went quiet. Rename per component, regenerate the freed names.
-- [x] Re-run every golden suite in prism, pulse, cadence, markdown and the workbench apps. Anything that starts failing was already broken and was being hidden; fix or regenerate it deliberately, and say in the commit body which of the two each one was.
-- [x] Build, test, commit in every repo touched.
-
-#### F4.2: Give the theme a fallback face, and make determinism a setting
-
-The defect the register calls tofu, fixed at its root rather than papered over
-per application.
-
-- [x] Drop `text.NoSystemFonts()` from `Typography.Shaper()`, so the default shaper falls back to the platform's fonts for glyphs the embedded faces lack. Verified against Gio v0.10.1: the option only sets `disableSystemFonts`, so removing it restores the fallback the toolkit already implements.
-- [x] Add an explicit deterministic constructor beside it — a `ShaperOptions`-style argument or a second method, whichever reads better next to the existing lazy cache — that pins the collection and disables system fonts. Document each one by what it is *for*, not by what it does: the default is what applications should use, the deterministic one is what golden tests must use.
-- [x] Keep the cache correct across both: the memoised shaper is currently a single field, and two configurations must not hand back each other's shaper.
-- [x] Test symbol coverage the way the evidence supports it — assert that shaping `U+2193 ↓`, and a handful of other characters outside Roboto's coverage, returns glyphs from a real face rather than the missing-glyph glyph. This is a resolution assertion, not an image: these characters must never enter a golden, because the face that serves them is exactly the machine-dependent thing goldens cannot pin.
-- [x] Package a symbol face in `font`, mirroring `robotomono`'s layout — a Noto-Symbols-class face under its own licence file, one weight, no more than the coverage actually argued for: arrows, box-drawing, common maths and punctuation.
-- [x] Keep it **optional**, which is the whole of its design. It is not in `DefaultTypography.Faces`: out of the box the system fallback covers symbols and everything else besides, and an application that cannot rely on system fonts — a container, a kiosk, anything shipping its own world — appends this face instead. Give that append a documented one-liner rather than making each caller rebuild the collection by hand.
-- [x] Make the deterministic configuration able to include it too, so a component that legitimately draws an arrow stays testable without reaching for a machine's fonts. This does not license symbols into golden images; F4.4 still keeps them out.
-- [x] Record the reversal as an amendment to ADR-003 — the ADR gave the theme the typeface and never said the theme should refuse every other typeface — naming the two-configuration rule so the next reader does not re-derive `NoSystemFonts` as a default, and naming the optional face so nobody mistakes it for the fallback.
-- [x] Build, test, commit in font and spectrum.
-
-#### F4.3: Move every golden onto the deterministic shaper
-
-F4.2 changes what `DefaultTypography.Shaper()` means, and roughly a hundred
-golden tests call it. This is the task that keeps the images machine
-independent.
-
-- [x] Repoint every golden and pixel test in prism, pulse, cadence, markdown and the workbench apps at F4.2's deterministic constructor. The apps' own rendering keeps the fallback default — it is only the tests that pin.
-- [x] Confirm the images are byte-identical afterwards. They must be: the deterministic configuration is what the default did until F4.2. A moved pixel here means the swap was not inert and needs understanding before anything is regenerated.
-- [x] Add the rule to each repo's `AGENTS.md` and to `llms.txt`: a golden test pins its faces, application code does not. A new golden written against the default shaper will pass locally and fail on a machine with different fonts, which is the failure this task exists to make impossible.
-- [x] Build, test, commit in every repo touched.
-
-#### F4.4: Put real text in the goldens
-
-With the faces pinned by configuration, the reason the goldens avoid text is
-gone — and text is where the last two phases of work actually landed.
-
-- [x] Replace the deliberately empty labels with real ones wherever a component draws text, starting with the `Label: ""` cases in `prism/button` that name the old constraint in their comment.
-- [x] Cover what the typography contract actually promises and no golden currently pins: the role's typeface, its weight, its size and its line height. A regression in any of them is invisible today, which is how F3.3's re-cut of every static signature onto `TextStyle` moved zero pixels.
-- [x] Include one monospace case, since `Code` is the newest role and `markdown`'s code path is the one that changed most recently.
-- [x] Keep symbols out, per F4.2 — Latin text in the embedded faces is reproducible, and that is the line.
-- [x] Regenerate, eyeball every new image, and say in the commit body how many were added; build, test, commit.
-
-F4.4 is checked off against what it actually delivered: prism's button,
-textfield and dropdown filled, `cadence/feature` filled, and the four-property
-contract pinned. Cadence's other sixteen packages went to F4.4b under the
-sizing rule rather than being abandoned — the boxes above are closed because
-the remainder has a home, not because it was done.
-
-Three live-path prism cases were silently taking the theme's fallback
-`Shaper()` and would have failed on any other machine the moment they drew
-text; they now pass `Props.Shaper` explicitly. That is the failure mode F4.3's
-documentation rule exists to prevent, found the first time a golden had text
-in it.
-
-#### F4.4b: Put real text in cadence's goldens
-
-Split from F4.4 under the plan's sizing rule. prism and `cadence/feature` are
-done; the other sixteen cadence packages — roughly fifty stored images — are
-this task. Two findings from F4.4 carry over and will cost time if rediscovered:
-every live-path case must pass `Props.Shaper` explicitly or it silently binds
-to the machine's fonts, which is harmless with an empty label and machine
-dependent the moment there is one; and canvas sizes need growing wherever real
-text overflows a window that fitted an empty label — F4.1's bounds check makes
-that loud rather than silent, which is the instrument working.
-
-- [x] Fill the empty and near-empty labels across `accordion`, `alert`, `breadcrumb`, `card`, `hero`, `modal`, `navbar`, `pagination`, `popover`, `pricing`, `shell`, `sidebar`, `table`, `tabs`, `testimonial`, `toast` and `tooltip`, preferring to strengthen an existing case over adding a parallel one.
-- [x] Pass `Props.Shaper` explicitly in every live-path case, and grep the repo for any that still take the theme's fallback `Shaper()` in a test — after F4.2 that is a machine-dependent golden waiting to fail on someone else's laptop.
-- [x] Keep symbols out, per F4.2: Latin text in the pinned faces is reproducible and that is the line.
-- [x] Regenerate, eyeball every image, and say how many moved; build, test, commit in cadence.
-
-#### F4.4c: Make line height mean something, or stop claiming it
-
-F4.4 measured what the typography contract actually delivers and found a
-promise that is not kept. `tokens.TextStyle.LineHeight` reaches the shaper and
-then changes nothing on any single-line label in the organization: Gio's
-`calculateYOffsets` baselines the first line at that line's own ascent and
-spends the line height only on the gap to the next, while `widget.Label`
-reports glyph ink bounds as its size. A button rendered at line height 20, 32
-and 0 is byte-identical, and its label box is 17 px in all three. That covers
-`prism/button`, `prism/input/textfield` and the eleven `cadence` components
-laying out with `MaxLines: 1` — every place the role's line height is
-documented to arrive and does not. `button.Render`'s doc says "typeface,
-weight, size and line height all reach the shaper", which is true and
-misleading in the same sentence.
-
-The same measurement turned up a second, smaller lie: a Compact button renders
-**29 px against a `ControlHeight` of 28**, because the 17 px face box plus
-2×6 dp of padding exceeds it. It reproduces with an empty label, so it predates
-F4.4 and is not text's doing.
-
-- [x] Decide what the line height is for on a single-line label, and say so where a caller reads it. Either the label paths honour it — giving the line box the role's height rather than the glyph ink's, which is what a design system means by line height and what every CSS engine does — or the contract is narrowed to multi-line text and the docs on `TextStyle`, `button.Render` and the components stop implying otherwise. Do not leave both readings alive.
-- [x] Whichever way it goes, pin it with a test that fails against today's behaviour: single-line labels at two different line heights either differ, or are asserted equal with the reason written beside the assertion.
-- [x] Fix or explain the 29-versus-28 dp Compact button. If a control's height is the greater of `ControlHeight` and its content box, `Density.ControlHeight` is a floor and not a height, and `density.go`'s metrics table should say the word it means.
-- [x] Fix the third false sizing claim, found by F4.4b: a `prism/button` label never grows its button. `cadence/hero`'s `ctaGtx` clamps a CTA cell to `ctaIntrinsicWidth` (120 dp), the button then clamps its label to that width less 2×PaddingX at `MaxLines: 1`, and the growth branch compares against a width the label was already clamped to — so it cannot fire, and "Read the docs" renders as "Read the do…". `ctaIntrinsicWidth`'s own doc says wider labels still grow the button. One of the two is wrong; decide which, and note that all three items in this task are the same defect wearing different clothes — a measured claim in a doc comment that nobody made a test assert.
-- [x] Regenerate the moved goldens — the honouring path moves every text golden in the org, so if that is the decision, budget for it and say so rather than half-landing it.
-- [x] Build, test, commit in every repo touched.
-
-**Split, and the last box is deliberately open.** The decision was to honour
-the line height, and the regeneration it implies did not fit one task. What
-landed: `spectrum/typeset` plus the contract on `TextStyle.LineHeight`,
-`Density.ControlHeight` documented as the floor it always was, `prism` adopted
-with twelve goldens regenerated and eyeballed, and the hero CTA clamp fixed.
-What did not: `cadence`'s twenty-one label sites, measured at **42 moved
-goldens across nine packages**. That is [[#F4.4d: Sweep the line box through
-cadence]], and the open checkbox above is its first line rather than work
-F4.4c still owes.
-
-#### F4.4d: Sweep the line box through cadence
-
-F4.4c decided the contract and built the mechanism: `tokens.TextStyle.LineHeight`
-is the height of the line box, `spectrum/typeset` is how a component gets it,
-and `prism` — button, textfield, dropdown — draws through it. It did not sweep
-the layer above, and said so rather than half-eyeballing it: adopting typeset
-across `cadence`'s twenty-one label sites was measured to move **42 golden
-images in nine packages** (alert, breadcrumb, feature, hero, navbar, pricing,
-shell, testimonial, tooltip), which is more regeneration and more eyeballing
-than one task holds. `pulse` and `markdown` measured clean.
-
-Until this lands, cadence's components hand the line height to
-`widget.Label` and it does nothing there — a defect against a contract that is
-now written down, not a second reading of it.
-
-The adoption is mechanical and was proven to build: every site is
-`wl.Layout(gtx, shaper, f, unit.Sp(style.Size), txt, material)` becoming
-`typeset.Layout(gtx, shaper, wl, f, unit.Sp(style.Size), txt, material)`, plus
-the import. `table/table.go` has one multi-line call.
-
-- [x] Adopt `spectrum/typeset` at every `widget.Label` site in `cadence`, and
-      replace the per-package `styleLabel`/`styleFont` copies — `hero`,
-      `pricing` and `testimonial` each carry one — with `typeset.Label` and
-      `typeset.Font`, so the rule has one definition in the org.
-- [x] Watch for capture windows sized off `Density.ControlHeight`. F4.4c hit
-      one in `prism/input`: the open dropdown's window was `ControlHeight` per
-      row and clipped 4 px off the last option once rows grew to their line
-      box. Any cadence test that computes a window from `ControlHeight` has the
-      same bug waiting.
-- [x] Regenerate the moved goldens and **eyeball every one** — the count is
-      about 42, so budget for it. `cadence/feature`'s `TestFeatureLineHeightGolden`
-      is the one existing test that already asserted line height on wrapped
-      text; check it still says something true now that wrapped runs come out
-      at whole multiples of the line height.
-- [x] Re-check `pulse`, `markdown` and the seven workbench applications after
-      the sweep, not before: they measured clean against the prism-only change.
-
-**Half of that re-check came back dirty, and the premise was wrong.** `pulse`
-and `markdown` are clean, as predicted. The applications are not, and two of
-the three were already red at F4.4d's start — `workbench` has not been touched
-since F4.3, so F4.4, F4.4b and F4.4c all left it behind. Measured after the
-cadence sweep:
-
-- `feeds` — 2 goldens, plus `TestBuildLayersConstructsWithoutPanic` failing
-  with *"layer 0 produced no widget"*. **Red before F4.4d.** That one is not a
-  golden refresh; it is a real construction failure and wants diagnosis.
-- `watchlist` — 2 goldens (`symbol-modal-light`/`-dark`). **Red before F4.4d.**
-- `sitedocs` — 8 goldens (`docs-{light,dark}-{prism-getting-started,
-  cadence-shells,mvu-loop}`, `{light,dark}-home`). Green before, moved by the
-  cadence sweep.
-
-Twelve goldens across three apps and one logic failure: a task, not a step. Cut
-it as its own before F4.5, and do not check this box until the applications are
-green — the box is what stops the release believing its own reference apps
-agree.
-
-- [x] Build, test, commit in every repo touched.
-
-#### F4.4e: Bring workbench back to green
-
-The apps were left behind. `workbench`'s last commit is F4.3's, and F4.4,
-F4.4b, F4.4c and F4.4d each measured it "clean" and moved on — three of those
-measurements were taken while it was already failing. F4.4d caught it and
-reported it rather than absorbing it, which is why this task exists at all.
-
-Verified directly, not taken on report: `todos`, `iconbrowser`, `launcher` and
-`mindchat` are green. The other three are not.
-
-**One of these is not a golden.** `feeds`'s `TestBuildLayersConstructsWithoutPanic`
-fails with *"layer 0 produced no widget"* — a layer that builds nothing is a
-broken application, not a moved baseline, and no amount of `-golden.update`
-will touch it. Find what stopped producing a widget before regenerating
-anything, because a golden regenerated over a broken layer records the break.
-
-- [x] Fix `feeds`'s empty layer 0 first, and say in the commit body which change caused it — the shaper split (F4.2), the pinning sweep (F4.3) and the line box (F4.4c) are the candidates, and `git stash` against each is how the last four tasks attributed their own failures.
-- [x] Then the goldens: `feeds` 2 (`add-feed-modal-{light,dark}`), `watchlist` 2, `sitedocs` 8. Regenerate only after the layer is fixed, and only where the movement is explained by the line box or the shaper pin — anything else is a second defect wearing the same clothes.
-- [x] Move the apps onto `spectrum/typeset` wherever they draw a label directly, for the same reason cadence did: `llms.txt` now tells every consumer never to hand `LineHeight` to `widget.Label`, and the reference applications are the worst possible place to contradict it.
-- [x] Check that every app's live-path test passes `Props.Shaper` explicitly — F4.4, F4.4b and F4.4d found six between them that silently took the theme's fallback, which after F4.2 binds a golden to whatever fonts the machine happens to have.
-- [x] Delete the `.actual.png` debris these failures have been leaving; eyeball every regenerated image; build, test, commit in workbench.
-
-#### F4.5: Repair mindchat's first run
-
-Two defects in one app, both of which any first-time user meets and no test
-does.
-
-- [x] Create the chat directory before it is read or written — `os.MkdirAll` beside the existing calls in `commands.go`. `Load Chat List`, `Load History` and `Append Prompt` all fail on a fresh install today, so a new user's first message is accepted by the composer and silently lost.
-- [x] Write the test that fails first, against a genuinely empty `Application Support`. The existing storage tests call `os.MkdirAll(dir, "chats")` in their own setup — they create the directory the app forgets, which is precisely why the suite is green and the app is broken. Make at least one test exercise the app's own directory handling instead of standing in for it.
-- [x] Draw something between sending and the first token. The stream is correct once it starts, but the gap before it is blank — over four seconds against a reasoning model, with no spinner, no placeholder row and a live composer — which reads as a hung application. `model.StreamFor` already knows the request is in flight, so this is a view change; use the theme's motion stops rather than a local duration.
-- [x] Build, test, commit in workbench.
-
-#### F4.6: Promote success and warning to tokens
-
-The last two colour literals in the system, and the only entries left in
-C3.2's allow-list that are not deliberate alpha compositing.
-
-- [x] Add success and warning roles to `spectrum/tokens`, derived like every other role rather than picked by hand — ADR-007's ramp model already says how, and the seed's hue is the only input a new role needs.
-- [x] Migrate `cadence/alert` and `cadence/toast` onto them. The two packages currently carry byte-identical copies of the same four Tailwind values, so the duplication and the divergence risk go with the literals.
-- [x] Gate the new roles in APCA exactly as D2.4 gates the others, and record the measured Lc — a status colour that fails contrast is worse than a neutral one, because it is the colour a user is being asked to read in a hurry.
-- [x] Delete both entries from `check-layers`'s sibling, the `noliteralcolor` allow-list, and confirm the lint still passes with them gone.
-- [x] Regenerate the moved goldens; build, test, commit in spectrum and cadence.
-
-#### F4.7: Make a virtualised list reachable from the keyboard
-
-Both accessibility questions the density work left open are now decided. The
-pointer-target one resolves into a doc change; this task is the other one.
-
-**The hit-target promise narrows to AA, deliberately.** E1.3 extended the hit
-area for standalone controls and not for list rows, dropdown options or table
-rows, because adjacent rows would steal each other's slop — so at Compact
-those targets are 28 dp while `Density.MinHitTarget` promises 44. The 44 dp
-figure is WCAG 2.5.5 Target Size (Enhanced), which is **AAA**; the level that
-governs at AA is 2.5.8 Target Size (Minimum), at 24 dp, which 28 dp clears.
-Flooring rows at 44 would cost Compact most of its value in exactly the dense
-tables and lists it exists for, so the promise is narrowed rather than the
-density weakened.
-
-- [x] Rewrite `MinHitTarget`'s doc to say what it actually guarantees — standalone controls, not stacked rows — and record the 2.5.8-versus-2.5.5 distinction beside `density.go`'s metrics table, with the measured 28 dp and both thresholds, so the next reader can check the claim instead of trusting it.
-- [x] Give `prism/list` keyboard traversal of the whole list: arrow keys move the selection, the list scrolls the selection into view, and Home/End reach the ends. The gap is that focus tags exist only for laid-out rows, so traversal cannot be built on Tab alone — which is why this is the list's job and not each caller's.
-- [x] Move `cadence/sidebar` onto it, since FX.6's scroll region is what exposed the gap. Check whether `cadence/table` and `prism/input`'s dropdown menu have the same shape, and say so either way rather than leaving it to be rediscovered.
-- [x] Test it where it actually fails today: a list long enough to virtualise, asserting the selection reaches a row that was never laid out in the first frame, driven through a real `input.Router` as `g53c`'s right-click test is.
-- [x] Regenerate any moved goldens; build, test, commit in every repo touched. If the `prism/list` work alone fills the task, land it, check off what is done, and split the cadence migration out — the plan's sizing rule outranks finishing the list in one go.
-
-#### F4.8: Release the fixes
-
-- [x] Run `scripts/check-layers.sh` and `scripts/check-no-workspace.sh`; both green before any tag moves, exactly as F3.1 required.
-- [x] Tag bottom-up per the Release protocol. Spectrum's default rendering changes, so it is a minor bump — **v0.4.0** — and the layers above move in patch unless their own API moved. Check `git tag | sort -V` in every repo before choosing: the no-double-digit rule is absolute, and spectrum and pulse are the two repos already carrying buried tags.
-- [x] Re-pin, re-tag and push each layer in order, confirming resolution from a clean module cache with the workspace disabled.
-- [x] Regenerate `design/` and re-push it: F4.6 adds two roles to the token sheet, so the design surface is stale the moment spectrum is tagged.
-- [x] Strike the register entries these tasks fixed, leaving the record in place.
-
-### G-F5: Repair what G-F4 shipped
-
-G-F4 fixed real defects and introduced three of its own, all released — the
-review that found them ran *after* the tags were cut. Each was invisible to
-its own tests, and in two cases the test actively hid it: `prism/list`'s
-fixture is the one viewport height that is an exact row multiple, and the
-shaper's cache is asserted by tests that hold a `Typography` in a variable,
-which is the one way production never uses it.
-
-**The constraint that shapes the first task, and which the code does not yet
-know.** Gio renders on a single goroutine. The rx observables do not paint
-anything — they assemble a forest of widgets that the frame event handler then
-renders, on that one goroutine. So a shaper does not need to be per-value, per
-component or per emission: one shaper per face collection, shared, is both
-correct and what the toolkit expects. `spectrum`'s current doc says the
-opposite of the truth in both directions at once — it promises the shaper is
-"safe for concurrent use from any number of goroutines", which Gio explicitly
-denies, while the value semantics that promise justifies are what stop the
-cache from ever being reused.
-
-This goal ends in a release, like G-F4, because two of the three bugs are in
-tagged code that applications resolve today.
-
-#### F5.1: Make the shaper cache survive a copy
-
-The headline defect. `Shaper()` and `DeterministicShaper()` take pointer
-receivers and cache into the receiver, but every production call site pulls a
-`Typography` **value** out of an rx tuple first — `typ := n.Second` at
-`prism/button/button.go:116`, and the same shape in `prism/input/textfield.go`,
-`prism/input/dropdown.go` and `pulse/springbutton`. The cache is written into a
-local that dies at the end of the map function, so it is never read back.
-
-Measured on this machine: a cold copy costs **280 µs and 1.69 MB** against
-**15.7 µs and 85 KB** warm. Every theme emission — a dark-mode toggle, a
-density change, the first subscription of each component — therefore rebuilds a
-full shaper per component. F4.2 made this materially worse without noticing:
-the default shaper now enumerates the platform's fonts as well as parsing
-sixteen embedded faces. The doc comments at `button.go:79`,
-`textfield.go:100` and `dropdown.go:63` all state the shaper is "built once and
-cached inside the theme's Typography value", which is false as wired.
-
-- [x] Make the cache survive copying. The direct fix is to replace the two value-typed cache fields with a single pointer to an unexported holder, so every copy shares its source's cache and `rx.Of(tokens.DefaultTypography)` builds one shaper for the process rather than one per emission. `WithFaces` must allocate a **fresh** holder, since a different collection is a different shaper. Check nothing depends on `Typography` being comparable before adding a field — `Faces` already makes it non-comparable, so this should cost nothing, but verify rather than assume.
-- [x] Write the regression test that fails today: take several copies of one `Typography` the way an rx emission does, call `Shaper()` on each, and assert they return the **same** `*text.Shaper`. Today that yields a distinct shaper per copy. Do the same for `DeterministicShaper`, and assert the two are still distinct from each other — F4.2's separation must survive this.
-- [x] Correct the concurrency documentation to what is actually true, in both directions. Gio's own `text.Shaper` doc says the same shaper must not be used from two goroutines and will panic on its internal map; ours currently promises the opposite. Say instead that Gio renders on one goroutine, that the widget forest the observables assemble is laid out on that goroutine, and that the shaper is shared precisely because of it. A reader who believes the current sentence will eventually write the racing code it licenses.
-- [x] Confirm the win where it is claimed: benchmark one component's map function before and after, and put the numbers in the commit body rather than asserting an improvement.
-- [x] Fix the three component doc comments that describe the old, false caching story; build, test, commit in spectrum, prism and pulse.
-
-#### F5.2: Scroll a row fully into view
-
-`prism/list/list.go:302` tests the trailing edge with `case target >= p.First+p.Count`, and the three lines immediately below it compute `visible := p.Count; if p.OffsetLast < 0 { visible-- }` because `Position.Count` includes a partially visible trailing child. The window test still uses the raw count, so a target that *is* the clipped row counts as already visible and no scroll happens. The leading edge handles its mirror case correctly at line 298, which is the tell.
-
-The symptom is two-part: the selection lands on a clipped row, and the next arrow press then moves the viewport two rows, which contradicts the package's own "moves the short way" contract and the existing assertion in `keyboard_test.go:207`.
-
-- [x] Hoist `visible` above the switch and use it in the window test. Note the extra subtraction for a partial *leading* child is not wanted — `Count` minus the trailing partial is already right.
-- [x] Fix the fixture that hides it. `list_test.go:23` reads `viewH = 150 // viewport height in pixels; fits exactly 5 rows` against `rowPx = 30`, which is the one height where the bug cannot appear; real rows are 36 dp scaled by DPI and essentially never divide the viewport. Re-run the keyboard tests across several viewport heights that are deliberately *not* multiples, and keep one as a permanent case.
-- [x] Reconcile `clampSelection` at `list.go:218` with its own doc: the comment says an out-of-range selection is dropped, the code clamps it to the last row, and `keyboard_test.go:294` asserts the clamp. The reachable consequence is that narrowing a filtered list from 100 items to 3 silently moves the selection rather than clearing it, so a caller driving a detail pane off `Selected()` shows an unrelated row. Decide which behaviour is right and make the code, the doc and the test agree.
-- [x] Build, test, commit in prism.
-
-#### F5.3: Measure the natural line from the line, not the face
-
-`spectrum/typeset` probes the natural line height with the **empty string**, so it measures the primary face's ascent and descent. Gio takes a line's ascent as the maximum over that line's runs, so a line carrying a fallback run is taller than the probe and the deficit is computed against the wrong baseline. Under the fallback shaper that applications use, `"arrows →←"` renders a 25 px box where `LabelLarge` declares 20 — and the CSS mirror emits `line-height: 20`, so the two surfaces disagree for exactly the characters the fallback work existed to support.
-
-- [x] Measure the natural line of the text actually being laid out rather than of a probe string, and confirm the deficit still lands the box on the role's line height for a mixed-face line. The core arithmetic is sound — a run of n lines measures `naturalLine + (n-1)×L`, so adding `L − naturalLine` once gives exactly `n×L` — so this is about which `naturalLine` goes into it.
-- [x] Decide what to do about the constraint double-count, which is a trap rather than a bug: `widget.Label` constrains its own result, and `typeset` then adds the deficit on top, so a label given `Min.Y == Max.Y` — every `Flexed` child of a vertical `layout.Flex` — reports more than its slot. The org's components dodge it by zeroing `Constraints.Min` first, which is convention and not contract. Either constrain after the correction or document the requirement where a caller will read it.
-- [x] Guard a negative `LineHeight`: `Label` tests `!= 0` where `Layout` bails at `<= 0`, so a negative value reaches `widget.Label` with `LineHeightScale: 1` and collapses wrapped lines on top of each other.
-- [x] Regenerate any moved goldens and eyeball them; build, test, commit in every repo touched.
-
-#### F5.4: Find out whether CI runs the goldens at all
-Nobody knew, and the goldens are the organization's whole regression net —
-**185** images by actual count, not the 181 this task first claimed, a harness
-repaired across 29 copies in F4.1, and every "CI is green" claim in this plan
-resting on them. The harness calls `t.Skipf` when `headless.NewWindow` fails;
-CI is a headless `ubuntu-latest` that installs GL *development headers*; and
-Gio's Linux path needs a working EGL with `EGL_KHR_surfaceless_context` at
-runtime. A skipped test passes, so a green run proves nothing either way.
-
-**What this task settled.** All twelve workflows in the org are byte-identical
-and run **plain `go test ./...`, not `-v`** — which prints neither `--- SKIP`
-nor a `t.Skipf` message. So no run that has ever executed can answer the
-question, however green, and the cheap path of reading existing logs is closed.
-The org's logs need admin rights it does not grant, so the answer had to be
-made readable another way.
-
-The circumstantial case that the goldens **skip** is strong but is not a read
-run: the workflow's apt list is Gio's own CI list with the *drivers* removed —
-Gio installs `libegl-mesa0`, `libgl1-mesa-dri`, `libgbm1` and
-`mesa-vulkan-drivers` precisely so its own headless tests work, and vibrantgio
-installs only the matching `-dev` headers, which compile but do not open a
-display. The runner image ships no Mesa at all, and the workflow sets no
-`DISPLAY`. `headless.NewWindow` tries EGL then Vulkan, and the Vulkan fallback
-needs an ICD that `libvulkan-dev` does not provide.
-
-**Why the verdict is parked in [[#F5.7: Release the repairs]] rather than
-guessed at here.** Reading a run needs a push, and a push before the tags moved
-would have failed on the ADR-006 skew — spectrum's F5.3 change untagged, so
-`GOWORK=off` resolves a spectrum whose goldens no longer match — going red
-about an entirely different question. The instrumentation is committed and
-waiting: `go test -v` teed to a log, plus an `if: always()` step that counts
-skips and emits the verdict as a **check-run annotation**, which
-`https://api.github.com/repos/vibrantgio/<repo>/commits/<sha>/check-runs`
-returns *unauthenticated* where logs need admin. It reports and does not gate,
-so no green repo can go red on the push. The remaining three steps of this task
-are therefore steps of F5.7, and are struck here rather than left to make
-`mdplan next` return this task forever.
-
-~~Settle it with evidence: make CI report skips, and read an actual run rather
-than reasoning about the runner image.~~ ~~If they are skipping, install a
-software renderer on the runner or accept it and say so loudly in each
-`AGENTS.md`.~~ ~~Write the answer where the next person looks.~~ — all three
-moved to F5.7, which pushes.
-
-- [x] Instrument CI to report the answer: `go test -v` teed to a log and a skip count emitted as a check-run annotation, in the four golden-bearing repos that have CI. Written into `scripts/sync-agents.sh` rather than typed into each `AGENTS.md`, because those files are generated and a typed paragraph survives only until the next sync.
-- [x] Say in every affected `AGENTS.md` what is not yet known: that a green CI run does not say these images matched. `workbench` gets the stronger sentence, since it has twelve goldens and **no CI workflow at all** — nothing but a developer's machine has ever compared them.
-- [x] Commit the workflow change in each repo touched.
-#### F5.5: Delete twenty-eight golden harnesses
-
-F3.3 exported `prism/golden` so a caller outside prism could use it. Only
-prism imports it. There are **29** copies of the same harness in the tree, and
-when F4.1 found the size-mismatch bug it fixed the bug twenty-nine times
-instead of asking why there were twenty-nine copies. The next harness defect
-will cost the same again.
-
-- [x] Move every repo onto `prism/golden`, deleting the local copies. Mind the layering: `prism` is tier 2, so `pulse`, `cadence`, `markdown` and the workbench apps may depend on it, but `spectrum` may not — if spectrum needs a harness, that is an argument for the package living lower, and `scripts/check-layers.sh` is the arbiter, not taste.
-- [x] Keep the per-repo `-golden.update` flag working; it is declared once per package today, and a shared harness must not end up with two flags of the same name in one binary.
-- [x] Confirm every image still compares byte-identically after the move — this is a refactor, and a moved pixel means it was not.
-- [x] Build, test, commit in every repo touched.
-
-#### F5.6: Close the loose ends the review turned up
-Four small things that are each individually forgettable, which is why they
-are written down.
-
-- [x] `Density`'s Compact `ControlHeight` of 28 dp was derived from **`LabelMedium`'s** line box — a role buttons never use — which F4.4c documented rather than corrected, and which is why a Compact button overflows its own token. Either re-derive the number from the role the control actually draws, or state in `density.go` that the figure is historical and what it should have been.
-- [x] `cadence/card/card_test.go:88` and `cadence/popover/popover_test.go:99` still build `widget.Label` directly with `LineHeight`, so those goldens record a layout no correct caller now produces — they contradict the rule F4.3 wrote into `llms.txt` and every `AGENTS.md`, in the repo that rule most applies to.
-- [x] `workbench` has no tags at all, so its applications are `go install …@latest` from an untagged repo. F3.5 never tagged them and F4.8 declined to invent a scheme, which was right; decide now whether the apps are released artifacts with versions or explicitly are not, and record the answer in the Release protocol either way.
-- [x] Finish F5.1's doc sweep. The phrase *"built once and cached inside the theme's `Typography` value"* survives in thirteen cadence components — `accordion`, `alert`, `breadcrumb`, `feature`, `hero`, `modal`, `navbar`, `pagination`, `pricing`, `sidebar`, `table`, `tabs`, `testimonial`, `toast`. F5.1 fixed the three sites its own task named and stayed in scope, which was right. After that fix the sentence is no longer false — the shaper genuinely is built once — only imprecise about *inside* versus *behind* the value, so this is wording, not behaviour. Make it uniform, and prefer one sentence repeated verbatim over thirteen paraphrases.
-- [x] Build, test, commit in every repo touched.
-#### F5.7: Release the repairs
-This goal ends where G-F4 did, and inherits one unfinished question from
-[[#F5.4: Find out whether CI runs the goldens at all]]: whether the golden
-images run on CI at all. F5.4 could not answer it, because the answer needs a
-run and a run needs a push, and a push before the tags moved would have failed
-on the ADR-006 skew rather than on the question. So the tags move first, then
-the push, then the reading — in that order, and the last three steps below are
-F5.4's, finished here.
-
-- [x] `scripts/check-layers.sh` and `scripts/check-no-workspace.sh` green before any tag moves.
-- [x] Tag bottom-up per the Release protocol, checking `git tag | sort -V` in every repo first. The no-double-digit rule is absolute, and spectrum and pulse still carry buried illegal tags that must never be resumed. F5.1 changes spectrum's internals but not its exported surface; F5.2 and F5.3 change behaviour, not signatures — so judge each bump against what actually moved rather than against how much work it was. F5.2 is the one to look at hardest: an out-of-range selection now reports `-1` where it used to clamp to the last row, which is a contract change a caller can observe.
-- [x] Confirm resolution from a clean module cache with the workspace disabled, and run `go clean -modcache` first: F4.8 learned that a warm cache can hide a genuinely broken pin for an entire task.
-- [x] Regenerate and re-push `design/` if any token value moved.
-- [x] Push, and read the verdict F5.4 instrumented — without a token: `curl -s https://api.github.com/repos/vibrantgio/<repo>/commits/<sha>/check-runs` returns the annotation unauthenticated, where the log itself needs admin. Any one of prism, cadence, pulse or markdown settles it.
-- [x] Act on whichever answer comes back. `golden images SKIPPED: N` means the images have never been a CI gate: either install the drivers the runner lacks — Mesa's llvmpipe with `LIBGL_ALWAYS_SOFTWARE`, or Xvfb — so they genuinely compare, or accept it and say so plainly. `golden images COMPARED` means the plan's green claims stand as written, and the `AGENTS.md` warnings F5.4 added come back out. Decide with the number in hand, not before.
-- [x] Write the answer where the next person looks, through `scripts/sync-agents.sh` and not by typing into the generated files: if the goldens do run, say which job and how it was verified; if they do not, say the images are checked only on a developer's machine.
-- [x] **Name cadence's CI failure in the same run.** It has failed all fifteen runs since B3.5 on 2026-08-05, always at `go test ./...` with `go build ./...` green — and at its exact CI commit `2abbc11`, `GOWORK=off go build ./... && go test ./...` is green on this machine. CI and a developer machine already disagree and nobody could see why, for the same admin-rights reason. Read this one **before** concluding anything about the goldens: the two answers are not independent, because if cadence fails precisely because its images genuinely run and do not match a Linux renderer, then they do execute on CI and F5.4's skip inference is wrong.
-- [x] Strike whatever this goal fixes in the register, leaving the struck text in place.
-## Phase G: The design-agent surface
-
-Phase E exported the foundations. This phase adds the component layer, which
-turns `claude.ai/design` from a token reference into a place where a design
-agent composes whole screens out of Vibrant Gio's own parts — screens that then
-port to Gio because they were built from the same tokens and the same
-component vocabulary.
-
-**Not the converter path.** `/design-sync`'s converter expects a JavaScript
-design system: a lockfile, a bundlable `dist/`, React components on
-`window.<globalName>.*`, `.d.ts` prop contracts. Vibrant Gio is Go and Gio, so
-none of it applies. The skill is explicit that the upload *format* is the
-contract and the converter is only one route to it. Produce the layout directly.
-
-**The shape to copy is a CSS-class system** — a token sheet plus a class
-vocabulary (`.btn`, `.card`, `.input`, `.table`, `.nav`, `.dialog`) with plain
-HTML component pages whose markup can be read and copied. Six component pages
-plus the foundation pages is the whole surface; this is not a port of all
-thirty components and patterns packages.
-
-**Fidelity is the whole game.** A component that renders wrong here renders
-wrong in every design the agent ever builds with it. The mirror is a second
-implementation and will drift unless something holds it — so it is verified
-against components' and patterns' existing golden images, not by eye. That
-harness is G1.1 and everything else depends on it.
-
-Sequenced after Phase F because components are rewritten throughout C, D and E;
-mirroring them earlier is rework.
-
-### G-G0: Make the guides tell the truth about the graph
-
-This phase builds a surface for a design agent. The surface it will read is
-`AGENTS.md` — twenty of them, one per repository, and right now nine of them
-describe a dependency graph that stopped being true in Phase B.
-
-`check-layers.sh` measures the real edges. Set its output beside what the
-guides claim:
-
-```
-measured                                    claimed by that repo's AGENTS.md
-markdown: font prism spectrum svg …         "it does not import mvu, spectrum,
-                                             pulse or cadence at all"
-prism:    … mvu spectrum svg …              "Spectrum imports it too today —
-                                             the inversion G-B3 corrects"
-pulse:    font mvu prism spectrum traer     "prism/theme, prism/tokens, and
-                                             spectrum imports pulse/tween today"
-cadence:  font mvu prism pulse spectrum     "prism/theme and prism/tokens"
-spectrum: font mvu                          "It imports mvu"
-```
-
-Every one of them is the pre-G-B3 topology, written in the present tense as
-though the inversion were still pending. G-B3 finished it; markdown's sentence
-is not stale but flatly false.
-
-**Why the gate that was just added cannot catch this.** `check-agents.sh`
-proves *file matches template*. These sentences match their template exactly —
-the falsehood is in `templates/repos.tsv` itself, faithfully rendered into
-twenty clean-looking files. The failure mode of a generator is not drift
-between source and output; it is a wrong source, reproduced perfectly.
-
-So the fix is not to retype the sentences. `check-layers.sh` already prints the
-true edge list for every repository, which means the layer sentence is a
-**measurement wearing prose clothes**, and it belongs on the generated side of
-`sync-agents.sh` with the module paragraph, the build paragraph and the golden
-paragraph — all of which are read from the clone precisely so they cannot say
-something the code does not.
-
-#### G0.1: Generate the layer sentence instead of typing it
-
-- [x] Teach `sync-agents.sh` to derive the import list the way `check-layers.sh` does, and render the "**Layer.**" sentence from it — the tier from ADR-001's table, the edges from the clone. Keep the human half: which tier the repo sits in and any prose about *why* an edge is allowed (style's intra-tier edge to font and textdraw is the case to preserve) stay editable in `repos.tsv`; the list of what it actually imports stops being editable at all.
-- [x] Handle the two directions a layer sentence talks about. Downward edges are measurable from the clone. "Who imports me" is not — it needs the other clones — so either measure it across `.repos/` the way `check-layers.sh` does, or drop the claim rather than let it rot. A guide that says nothing about its consumers is better than one that names the wrong ones.
-- [x] Purge the pending-inversion tense wherever it survives. G-B3, E3.2, C1.2 and F3.3 are done; a guide written as though they were scheduled teaches an agent to expect edges that no longer exist. Name a finished goal only where knowing it happened changes what a reader should do.
-- [x] Regenerate all twenty, and check `check-agents.sh` and `check-layers.sh` are both green.
-
-#### G0.2: Correct the role sentences and the notes that outlived their phase
-The `role` field and the per-repo notes are genuine prose and cannot be
-generated, so these are read-and-fix, one repository at a time.
-
-**Most of the original list is already gone, and by the right mechanism.**
-G0.1 moved the layer sentence to the measured side, which fixed `font`'s,
-`style`'s, `cadence`'s and `workbench`'s import claims structurally rather than
-by retyping them — and its pending-tense purge took `notes/style.md`,
-`notes/textdraw.md` and `notes/workbench.md` with it. `prism`'s role no longer
-claims the theme and tokens contract. What is left is the half a generator
-cannot reach: the opening role sentence, and the prose in
-`templates/notes/<repo>.md`.
-
-The lesson from G0.1 is the one to carry: **before correcting a sentence, ask
-whether it should exist.** A claim `go list`, `git tag` or the filesystem can
-answer belongs on the measured side, not in a better-worded template.
-
-- [x] `templates/notes/svg.md` says `driver/seen` "does not build from a clean checkout" because of a bad `seen/context/gio v0.0.7` `go.sum` pin. `GOWORK=off go build ./...` in that module now succeeds; commit `9980f88` ("B2.0: Repair the seen/context/gio go.sum pin") appears to have fixed it and left the warning behind. Prove it properly — the claim is about a *clean* checkout, so `go clean -modcache` first, which is the F4.8 lesson — then correct or delete the paragraph.
-- [x] Read all twenty role sentences against what the repository now is, not against what it was when the row was written. The role is the opening sentence a reader meets, and nothing measures it.
-- [x] Read all nine `templates/notes/*.md` the same way — `cadence`, `markdown`, `noise`, `pulse`, `seen`, `style`, `svg`, `textdraw`, `workbench` — plus the two G0.1's drift fix added, `spectrum` and `font`. Three were purged of pending tense; the rest have not been read since they were written.
-- [x] Do not trust any list in this plan to be complete, including this one. The nine false layer sentences were found only because four repositories happened to drift, and G0.1 then turned up three stale notes nobody had listed. Read, do not check off against a list.
-- [x] Where a note states a fact that is checkable — a tag, a package count, a build outcome, a file's existence — either move it to the measured side or say in the note how to re-check it. A note that cannot go stale is worth more than one that is currently true.
-- [x] `./scripts/check-agents.sh` green, and commit and push in every repo touched.
-#### G0.3: Close the loop so prose cannot outlive its phase again
-
-- [x] The root `AGENTS.md` lists `clone-all.sh`, `inventory.sh` and `sync-agents.sh` in its `scripts/` line and omits `check-layers.sh`, `check-no-workspace.sh`, `push-design.sh` and `check-agents.sh`. Fix the list, and say what each gate refuses to let happen.
-- [x] Record the lesson where it will be read, not only here: **editing a generated file is a silent no-op against the next sync**, and the reason three repositories carried correct text their templates denied is that nothing in the org made that mistake visible. `check-agents.sh` now does. Say so in `sync-agents.sh`'s header and in the root guide.
-- [x] Consider whether `check-agents.sh` should also diff the rendered layer sentence against `check-layers.sh`'s measured edges once G0.1 makes them the same fact — if the sentence is generated from the measurement, the check is free and the whole class dies. **Considered and declined; the reasoning is recorded in `check-agents.sh`'s header so it is not proposed again.** The premise was half right: the check is free, but it is also tautological. G0.1 made the sentence a *rendering of* the measurement, so diffing them compares a string derived from X against X — it agrees by construction, and would agree just as readily if the renderer were wrong. Making the comparison informative would mean deriving the graph a second way, which is the duplicate walk G0.1 abolished. The class dies anyway, by construction: `check-agents.sh` re-measures and re-renders on every run, so a committed file whose graph has since moved is already the drift it reports, and it overrides any inherited `VG_LAYER_EDGES` with its own `mktemp`, so a poisoned cache cannot reach the renders it judges.
-- [x] Build, test, commit and push in every repo touched. No tags: this is documentation, and the modules were released at F5.7.
-
-### G-G0A: The dialog grammar and the emphasis axis
-
-Rene surveyed the desktop field against `cadence/modal`'s golden and the
-verdict is in two parts. Apple's dialogs end in right-aligned footer actions —
-Cancel plus a default that answers Return — with Escape bound to Cancel and no
-X anywhere, and the scrim inert. Obsidian's and Claude.app's settings are the
-opposite surface: a small quiet X top-right, Escape and a scrim click close it,
-no footer because changes apply live, and an app accelerator (⌘,) opens it.
-That range is not a spectrum needing toggles. It is **two archetypes whose
-affordances travel together**, and a Props model that exposes them as
-independent booleans permits every wrong combination — including the one
-`light-open.png` records today: a decision dialog ("Discard changes?") wearing
-a panel's X, in filled primary, over a scrim that dismisses.
-
-Three defects hide in that sentence, in two repos:
-
-- **`prism/button` has no emphasis axis.** No filled/tonal/ghost distinction
-  exists — `Props` carries no such field — so every button in the org renders
-  filled primary, and the modal's close affordance is the loudest element on
-  its own surface, out-weighing the title beside it. MD3 has
-  filled/tonal/outlined/text; Fluent primary/standard/subtle; Apple
-  prominent/regular/plain. ADR-005's charter — MD3's *system*, reimagined for
-  native desktop — squarely covers the emphasis scale, and the close button is
-  not the motivation for it but the proof that its absence already produced a
-  wrong screen.
-- **The scrim dismisses unconditionally** (`modal.go:19`: "Escape and a
-  backdrop click invoke Props.OnClose"). For a decision dialog that is wrong on
-  Apple's terms whatever the X looks like: dismissal is a decision, and a stray
-  click must not make it for you.
-- **No action answers Return.** Desktop conventions on both platforms bind
-  Return to the default pushbutton; the modal has no notion of one.
-
-The accelerator is deliberately **not** a modal concern — the modal cannot own
-how you arrived. Gio ships the platform-correct modifier as `key.ModShortcut`
-(Cmd on darwin, Ctrl elsewhere; `io/key/mod_darwin.go`), so the binding is app
-chrome, one line, demonstrated in workbench rather than wired into cadence.
-
-Measured before scheduling: modal is the **only** icon-button consumer in
-cadence — toast auto-dismisses on its Lifetime and carries no X — so the
-adoption sweep is one component, not a campaign.
-
-Sequenced before G-G1 and G-G2 because the mirror's contract is fidelity:
-pages built now would faithfully teach the design agent the filled square and
-the dismissing scrim, and every screen it composes would inherit them.
-
-#### G0A.1: Give prism/button an emphasis axis
-
-- [x] Add the register to `Props` — **filled** (the default), **tonal**, **ghost** — with the zero value rendering exactly today's filled button, byte-identical goldens and all: this must be an additive minor, and the existing goldens not moving is the proof.
-- [x] Derive each register's state colours from the tonal ramp the way the filled register already resolves its own — ghost rests transparent with the glyph/label on `onSurfaceVariant`, takes a tonal wash on hover, the standard treatments for pressed and disabled, and the focus ring unchanged: keyboard visibility does not scale down with emphasis.
-- [x] Icon-only composes with every register. A ghost icon button keeps the full pointer target — the glyph quiets, the 44 dp square does not: visual weight and hit area are separate properties, and the target is the part of the mobile inheritance worth keeping.
-- [x] New goldens for each register × state × both densities, regenerated per package and eyeballed; existing goldens untouched.
-- [x] Build, test, commit in prism.
-
-#### G0A.2: Teach cadence/modal the two intents
-- [x] Name the archetypes in the API — a **decision** dialog and a dismissable **panel** — and derive the affordances from the intent rather than exposing them severally. Decision: footer actions right-aligned, no X, scrim inert, Escape invokes Cancel, Return activates the designated default action. Panel: ghost icon-only close top-right, Escape and scrim click both close, footer optional.
-- [x] Adopt Apple's default-action rule wholesale: a destructive primary is never the Return-bound default — when the primary destroys something, Cancel takes the default, and "Discard changes?" answering Return with Discard is the exact failure this forbids. Write the rule into the doc and enforce it in the API shape if it can be enforced cheaply.
-- [x] The scrim change is behavioural, so it gets a test each way: a backdrop click on a decision dialog does nothing; on a panel it closes. Escape still works on both.
-- [x] Reconcile `HideClose` with the intent model — it must keep compiling through a deprecation window, documented as derived (decision implies hidden), not silently ignored.
-- [x] Fix `pulse/springbutton`, which G0A.1 found forwarding a `button.Props` to `button.Render` while building its `RenderState` field by field — so it drops `Props.Emphasis` on the floor and always draws filled. One line, but the adoption sweep is **two** components rather than the one this goal's preamble claimed: that count was measured inside cadence and springbutton lives in pulse. Check the same way for any other component that rebuilds a `RenderState` instead of forwarding one, and prefer a test that would have caught a silently dropped field over a test that only asserts this one.
-- [x] Regenerate the moved goldens — the close affordance going ghost moves every open-state image — and eyeball them: the title should now out-weigh the X, and `light-open.png` becoming a *decision* fixture (no X at all) is the better fixture if the golden set is re-cut to show one of each intent.
-- [x] Build, test, commit in cadence and pulse.
-#### G0A.3: The invocation half lives in the app, and one app proves it
-
-- [x] Bind the settings accelerator in the workbench app with the most natural settings surface — `key.ModShortcut` + `,`, opening a settings **panel** built on G0A.2; record which app and why. This is the pattern's reference implementation: app chrome owns arrival, the modal owns dismissal.
-- [x] Write the pattern where consumers read it: modal's package doc states the two intents and what each mandates and forbids — the inert scrim, the Return rule, the ghost close — and `llms.txt` gets the one-line rule if it earns one.
-- [x] Build, test, commit in workbench and cadence.
-
-#### G0A.4: Release the grammar
-
-- [x] `scripts/check-layers.sh` and `scripts/check-no-workspace.sh` green before any tag moves.
-- [x] Tag bottom-up per the Release protocol: prism minor (new exported API), cadence minor (new API and observable behaviour — the inert scrim is a contract change a caller can see), everything above re-pins as patch. Check `git tag | sort -V` first; no double-digit component, ever.
-- [x] Confirm resolution from a clean module cache with the workspace disabled, `go clean -modcache` first.
-- [x] `design/` should not move — no token value changes here — but verify rather than assume, and regenerate and re-push it if one did.
-
-### G-G0B: Two things the grammar work uncovered
-
-Neither belongs in G-G0A's release — one is a latent limit in a repo that
-release does not otherwise touch, the other is adoption work that the
-deprecation window makes safe to defer. Both were found by doing the work
-rather than by looking for them, and both will be expensive to rediscover.
-
-#### G0B.1: The eight-subscriber ceiling in the toast Subject
-
-`cadence/toast`'s `Notify` Subject is process-global and caps at eight
-concurrent subscribers — `prism/coordination.Subject` passes `scap=8` — every
-`feedsShellLayer` subscription takes one through `toast.Stack`, and rx does not
-return a slot on `Unsubscribe`. G0A.3 found `workbench/feeds` sitting at
-*exactly* eight: adding a ninth shell test made **a different, later** test in
-the same binary fail with "out of subject subscriptions". The symptom names
-neither the cause nor the test that caused it, and it reads convincingly like a
-wrong AutoConnect count, which is what made it expensive.
-
-G0A.3 worked around it rather than widening the seam mid-goal, so feeds cannot
-accept another shell-subscribing test today.
-
-- [x] Find out why the cap is eight, before changing it. A number that low is either a deliberate backpressure decision worth documenting or an arbitrary default nobody revisited, and which one it is determines whether the fix is a larger number, a growable buffer, or returning the slot.
-- [x] Decide whether `Unsubscribe` should return the slot. That is the actual leak — a long-running application that opens and closes eight shells has exhausted the Subject with nothing subscribed. Judge it against how rx's own operators expect Subject to behave, not against what would make this test pass.
-- [x] Whatever the mechanism, make the failure name itself: exhausting the Subject must say what ran out and who holds the slots, because the current message surfaces on an innocent bystander in the same binary.
-- [x] Add the test feeds could not have — a ninth shell subscription — and confirm the whole package still passes.
-- [x] Build, test, commit in prism, cadence and workbench as needed. If prism's exported surface moves, that is a release, so say so rather than leaving it to the next tagger to notice.
-
-#### G0B.2: mindchat's settings modal is a decision wearing a panel's clothes
-
-It is the organization's one remaining consumer of `HideClose` in the shape
-G0A.2 deprecated: a draft-and-Save provider form with a Cancel/Save footer and
-the corner X suppressed. Under the grammar that *is* a decision dialog, and
-saying so in the API is the whole point of having named the archetypes.
-
-This is also the honest test of the deprecation: `HideClose` must keep
-compiling and keep working until every in-org caller has moved, and mindchat is
-the list.
-
-*Corrected while doing it:* mindchat is the list, but it is TWO entries, not
-one — the sweep found the rename modal beside the settings modal, the same
-shape (a Cancel/Rename footer, the X suppressed) and the same conversion. Both
-moved; the deprecation window is now empty.
-
-- [x] Convert mindchat's settings modal to a `Decision` — Save as `Confirm`, Cancel as `Cancel` — and confirm the derived behaviour is what the app already wanted: an inert backdrop (a stray click must not discard a half-typed API key), Escape invoking Cancel, Return committing Save.
-- [x] Check whether Save is destructive in the sense the rule means. It overwrites stored provider configuration, which is not obviously recoverable — if it is not, `Destructive` makes Cancel the Return default, and that is a behaviour change the task should decide deliberately rather than inherit.
-- [x] Sweep for any other `HideClose` caller and move it too. When the count reaches zero, say so in the deprecation note so whoever removes the flag knows the window is empty.
-- [x] Regenerate mindchat's goldens, eyeball them, and build, test, commit in workbench.
-
-#### G0B.3: Release the Subject fix
-
-This goal did not plan a release because the ceiling looked like a capacity
-number. It was not. G0B.1 found the frozen-cursor stall underneath it — a
-departed subscriber leaves a cursor that `send()` still pins the ring window
-to, so `bufCap` emissions after **any** subscriber leaves, the producer blocks
-forever with nothing subscribed. `toast.Notify` runs on the Gio frame
-goroutine, so that is a hung window rather than a dropped signal, and it is in
-prism v0.5.0 and every tag before it. Three more process-global Subjects —
-`modal.Stack`, `popover.Arbitration`, `tooltip.Arbitration` — carry the
-identical exposure and were nowhere near the ceiling, so nothing would have
-found them.
-
-That makes this the most consequential release in the phase, and the reason to
-cut it promptly rather than fold it into the next convenient boundary.
-
-- [x] `scripts/check-layers.sh`, `scripts/check-no-workspace.sh` and `scripts/check-agents.sh` green before any tag moves. Expect `workbench/feeds` to be the one failure at the start — it overruns prism v0.5.0's ceiling under `GOWORK=off` — and to clear when prism is tagged.
-- [x] Tag bottom-up per the Release protocol: **prism v0.6.0** (minor — `MaxSubscribers` and `ErrSubscriberLimit` are new exported surface and delivery semantics changed materially, though `Subject`'s signature did not), then **cadence v0.4.1** (patch — no API change, re-pins prism so consumers get the fix through the module graph rather than only under the workspace). Judge whether `prism/gallery` needs the mirror tag. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while a tag is in flux, never a proxy probe.
-- [x] Say what the release is for where an upgrader will see it. The tag message should name the stall, not the ceiling: a caller reading "raised the subscriber limit" will not understand they are taking a hang fix.
-- [x] Confirm resolution from a clean module cache with the workspace disabled, `go clean -modcache` first.
-- [x] Verify `design/` did not move — no token value should have changed — and regenerate and re-push it if one did.
-
-### G-G0C: Coordination belongs to the loop or the frame, not to a bus
-
-Rene's architectural read, which the tree confirms at every site checked: rx
-earns its keep in this organization in exactly two places — carrying
-slow-changing broadcast sources into component pipelines (the theme), and
-carrying command results back into the MVU loop as messages. `Subject` as a
-cross-widget coordination bus is a third thing, and it fights both of the
-first two. It holds state outside the model, it delivers a frame late, and it
-imports concurrency hazards a single-goroutine renderer cannot otherwise
-express. Subject is normally indicative of an architecture problem; here the
-evidence is unusually explicit:
-
-- `prism/coordination`'s own doc lists its first known trap as **"One-frame
-  lag. Subject delivery is asynchronous."** The package documents the tax of
-  its own mechanism.
-- G0B.1: the primitive imported a producer stall — a concurrency failure —
-  into a toolkit that renders on one goroutine. That is F5.1's shaper lesson
-  generalized: a design that cannot express the hazard beats one that guards
-  against it.
-- `workbench/feeds` maintains a ledger test (`modelObsConsumers` in
-  `wiring_test.go`, bumped 16→23 by G0A.3) counting subscription consumers so
-  AutoConnect numbers stay right. A census in a test is the tax made visible.
-- `toast.Notify` — called from seven real app files — is the loop worked
-  around rather than leveraged: an event that wants to be a Message takes a
-  side door past `Update`, so toasts are invisible to the model and
-  untestable through it. The mechanism for doing it right already exists and
-  is the org's own: components emit `mvu.MessageOp` into the ops queue and
-  the app routes; `prism/button` has done exactly that since the beginning.
-
-**The layering finding that shapes the fix.** `coordination` lives in prism,
-tier 2 — which is *why* `spectrum/preferences` (tier 1, cannot import upward)
-holds the org's one remaining bare `rx.Subject` in library code, with the
-same slot leak and frozen-cursor stall `coordination` now guards against
-(default `scap` 32; 128-deep buffer makes it slower to bite, not immune).
-F5.5 recorded the rule for the golden harness: if a lower tier needs it, the
-package lives too high. ~~Whatever lifetime-safe primitive survives this goal
-belongs in mvu, tier 0, the FRP substrate — `check-layers.sh` is the
-arbiter.~~ The rule holds and tier 0 is where the primitive landed, but not
-this primitive: G0C.5 found `coordination` had no library users left and rx's
-own `Behavior` already lifetime-safe, so fourteen lines were written at tier 0
-and 292 were deprecated in place.
-
-**Scope guard, in both directions.** This is not "remove rx": pipelines,
-theme, and genuine streams (preferences is one — a replay-1 value observed by
-several windows) stay observable. And same-frame response is not automatic:
-within one frame, event→state→layout ordering depends on tree order, so a
-sibling laid out before the state changed still sees the old value until the
-next frame. The spike measures that honestly rather than promising lag-zero.
-
-**Three destinations**, decided per site rather than by slogan:
-
-1. Durable or app-meaningful state → the model, via messages. Toast requests;
-   probably the modal stack.
-2. Frame-scoped UI coordination → plain values owned by the frame goroutine,
-   read during layout. Popover and tooltip arbitration; per-row open flags.
-   Note the Subjects today are process-global while UI arbitration's correct
-   scope is per-window — frame ownership gives the right scope for free.
-3. Genuine streams → observables still, but never a bare `rx.Subject`;
-   lifetime safety is the one enduring job of the wrapped primitive.
-
-**The refactor's honesty constraint: no golden moves.** This goal changes
-mechanism, not pixels. Every stored PNG must compare byte-identically at the
-end of every task; a moved pixel means behaviour changed and must be explained
-before it is regenerated. Sequenced before G-G1 so the mirror is built against
-components whose internals are done moving.
-
-**Measured, not assumed.** G0C.1 ran the spike and
-[[#ADR-008: Coordination is frame state, a message, or a stream — never a bare Subject|ADR-008]]
-records what it found, including three claims above that did not survive it.
-Popover never subscribed to its own bus and neither did anything else, so the
-tax at that site was a mechanism delivering nothing, not the documented
-one-frame lag. No AutoConnect count and no ledger entry moved, because
-`modelObsConsumers` counts consumers of the application's model observable and
-never counted a `coordination.Subject`. And frame ownership did *not* hand the
-per-window scope over for free: it makes the right scope expressible and the
-wrong one detectable, but taking it costs threading a value through each
-application's composition root, which is now G0C.4's second job. And G0C.5
-found the surviving primitive was not the one this preamble points at:
-`github.com/reactivego/rx` had shipped a lifetime-safe multicast all along, so
-the fix was choosing a different rx primitive rather than wrapping the wrong
-one — and the wrapper this goal meant to relocate turns out to be both larger
-and 40× slower to deliver. The doctrine survived intact; the arithmetic under
-it did not.
-
-#### G0C.1: ADR-008 and the spike: popover arbitration as frame state
-
-- [x] Convert `cadence/popover`'s `Arbitration` from a `coordination.Subject` to a plain arbiter owned by the frame goroutine, read during layout, written on the events that claim or release it. Smallest of the four buses, purely frame-scoped, no app consumer to migrate — the right specimen.
-- [x] Measure what it deletes and what it costs, and write both down: the one-frame lag and its workarounds, AutoConnect counts in tests that existed only to absorb Subject delivery, subscription ledger entries; against any new ordering constraint the same-frame model introduces. Prove same-frame where it is real and document where next-frame remains.
-- [x] All goldens byte-identical; `go test -race` on everything touched.
-- [x] Write **ADR-008** into the Reference section from the measured result, not from this preamble: the doctrine (three destinations), the idiom the spike settled, and the layering rule for the surviving primitive. If the spike refutes part of the preamble, the ADR records what was learned — that is what the spike is for.
-- [x] Re-cut the remaining tasks of this goal against what the spike learned, the way G0.2 was re-cut after G0.1.
-- [x] Build, test, commit in cadence and the root.
-
-#### G0C.2: Tooltip arbitration follows the idiom
-
-The spike's twin: the same 67-line file with the nouns changed, and — verified
-below, not assumed — the same zero subscribers. This is a transcription, so if
-it turns into a decision, stop and say which part of ADR-008 did not survive
-contact with tooltip.
-
-- [x] `cadence/tooltip`'s `Arbitration` becomes an `Arbiter` on ADR-008's idiom: a plain struct with no synchronisation, identity taken from the participant's own state pointer rather than an `atomic.Int64`, `Props.Arbiter` naming the set and defaulting to a package-level one, and the claim hiding the incumbent from inside the claimant's layout pass instead of leaving it to poll "am I still top" once a frame. Diff the finished file against `popover/arbitration.go` and justify anything that is not a noun.
-- [x] Confirm before deleting that `tooltip.Arbitration` and `tooltip.ArbitrationSnapshot` have no subscriber anywhere in the twenty-one repositories. Use `find … -print0 | xargs -0 grep`; `grep -r --include="*.go"` finds **nothing at all** here — `.repos/` is gitignored, so a gitignore-aware grep skips all twenty clones and reports a clean census it never took. (This step said "skips `workbench/`" when it ran, which understated it; corrected by G0C.2b, which measured the real scope.)
-- [x] Tooltip's show path is not popover's — a delay timer and a hover/focus trigger sit in front of it. Check what a layout-time claim does to the timer (a tooltip that is timing out but not yet drawn has not claimed) and record the answer. If the claim has to sit somewhere other than the first drawn frame, that is a finding for ADR-008 rather than a local deviation.
-- [x] Keep the `Props` change additive. That is what kept the spike from opening an ADR-006 seam: `check-no-workspace.sh` read 36/36 afterwards and should still read 36/36 here.
-- [x] Goldens byte-identical; `go test -race ./tooltip/...`; build, test, commit in cadence.
-
-#### G0C.2b: The modal stack is a bus with nobody on it
-Split out of G0C.2 by the spike on the belief that `modal.Stack` was the one
-bus with real subscribers, and therefore the only genuine destination-1
-decision. **That belief was wrong, and the census is already taken:
-`modal.Stack` has zero subscribers in all twenty-one repositories** — measured
-with `find … -print0 | xargs -0 grep`, the form that does not skip
-`workbench/`. The only `Stack` hits elsewhere are `toast.Stack`, an unrelated
-widget constructor, and `shell.StackedPage`.
-
-`stack.go`'s own doc comment says it outright: *"Downstream patterns (popover,
-tooltip, drag overlay) subscribe to learn when a modal is in front of them;
-modal itself reads the stack synchronously via `isTop` at frame time and does
-not subscribe."* Those downstream patterns never arrived, and the first two now
-own arbiters of their own. So `Stack` is a published-to, never-read observable
-kept alive for a consumer that does not exist — and every `stackPush`/`stackPop`
-pays a Subject emission for it.
-
-So all four buses had zero subscribers, and `toast.Notifications` is the only
-one anything genuinely consumes. That is a stronger result than the goal
-predicted and it belongs in ADR-008: the argument for removing the bus is not
-that the lag was costly, it is that **three of the four buses were carrying
-nothing at all**, and nobody could see that because an exported observable with
-no subscriber looks exactly like a working one.
-
-Note what `isTop` already is: a synchronous, mutex-guarded read of a
-package-level slice at frame time. That is ADR-008's frame state with an
-unnecessary mutex on it — the conversion is mostly deletion.
-
-- [x] Re-verify the zero-subscriber census yourself before deleting exported API, with `find … -print0 | xargs -0 grep` over all twenty-one repos plus the root. The plan has been wrong about this once already.
-- [x] Convert the stack to frame state per ADR-008 and the idiom G0C.1 and G0C.2 settled: identity from the participant's own state pointer rather than `stackNextID`, no mutex, ownership by the value the composition root passes in. `isTop`'s behaviour — only the topmost modal takes keyboard and pointer input, those beneath stay painted but inert — must survive exactly, and it is the thing to write the tests against.
-- [x] Remove `Stack` and `StackSnapshot`. They are exported, so this is a breaking removal that rides G0C.6's release alongside popover's and tooltip's; say so in the commit body rather than leaving it for the tagger to discover. If you conclude they should be kept for out-of-org consumers, argue it — but weigh it against the fact that no in-org consumer ever appeared in the eight phases the observable has existed.
-- [x] Record the corrected finding in ADR-008: three of four buses had no subscribers, `toast.Notifications` is the exception, and an exported observable with no reader is the second smell — the one the G0C.6 gate cannot catch by grepping for `rx.Subject`.
-- [x] Goldens byte-identical; `go test -race` on modal and anything touched; build, test, commit in cadence and the root. Expect no ADR-006 seam — nothing app-facing changes if the census holds — and say so if one opens anyway.
-#### G0C.3: Toasts ride the loop
-
-The destination-1 case the spike could not exercise: popover's bus had no
-consumers at all, so nothing about it tested the message path. `toast.Notify`
-does, from seven real caller files, and its Subject is one of the three bare
-`rx.Subject`s left in non-test library code (the others are the primitive
-itself and `spectrum/preferences`, G0C.5).
-
-- [x] Replace the `Notify` bus with the message path: cadence defines the message type, `toast.Stack` renders from props or model-derived input, apps route the message through `Update`. Toasts become model state — reproducible, testable through Update, visible in any model dump.
-- [x] `Notify` is public API with seven caller files; keep it compiling through a deprecation window as a shim over the message path if that is cleanly possible, and say plainly if it is not.
-- [x] Migrate all seven caller files in feeds and watchlist; the toast Subject empties. Confirm a toast raised from a command goroutine still arrives — that path is the loop's own (command → message → Update), which is the point.
-- [x] This is where the seam opens if G0C.2b did not open it: workbench will be using cadence API that exists only in the working tree. Report which modules `check-no-workspace.sh` fails for and confirm the failures are only that.
-- [x] Goldens byte-identical; `go test -race` on cadence and both applications; build, test, commit in cadence and workbench.
-
-#### G0C.4: The apps drop their per-row Subjects and take their own Arbiter
-
-Two app-side jobs that touch the same five files, so they are one task: the
-per-row Subjects go, and the applications take ownership of the arbitration
-scope the spike deliberately left borrowed.
-
-- [x] `feeds` (`sidebar.go`, `articles.go`) and `watchlist` (`rowdelete.go`, `bulkdelete.go`, `sidebarcontext.go`, `maincontent.go`): each per-row `rx.Subject[bool]` open flag becomes plain state read during layout, per ADR-008's destination 2. The "feeds idiom" comments describe the old mechanism by name — rewrite them to describe the new one.
-- [x] Thread a per-window `Arbiter` (popover's, and tooltip's after G0C.2) through each application's composition root, then delete cadence's package-level default so the wrong scope stops being reachable. ADR-008 records why the spike left it: a process-global lock-free value is correct for a single-window process and a data race in a two-window one, and every workbench application is single-window *today*. Seven call sites: feeds `sidebar.go` and `app.go`, watchlist `rowdelete.go`, `bulkdelete.go` and `sidebarcontext.go`, mindchat `modelmenu.go` and `settings.go`.
-- [x] The ledger, corrected by the spike: `modelObsConsumers` (feeds 23, mindchat 10, launcher 1) counts cold subscriptions to the application's own model observable and never counted a `coordination.Subject` consumer, so only the per-row Subjects in this task can move it. Whatever it reads afterwards is the honest count; if it can be deleted outright, delete it.
-- [x] Goldens byte-identical; `go test -race` on every application touched; build, test, commit in workbench and in cadence if the default arbiter's removal lands there.
-
-#### G0C.5: The surviving primitive moves to tier 0, and preferences comes off the bare Subject
-
-~~Move the lifetime-safe Subject (whatever G0C.1–G0C.4 left of it) from `prism/coordination` down to mvu, per the layering finding — `check-layers.sh` is the arbiter, and prism re-exports or forwards through a deprecation window so no consumer breaks mid-goal.~~ **Re-cut on the measurement, the way G0.2 and G0C.2b were.** The layering finding held; the package it named did not survive contact with two numbers. The census found `prism/coordination` had no library users left — two demo mains and nothing else — and a benchmark found rx v0.3.0's own `rx.Behavior` lifetime-safe where `rx.Subject` is not, 40× faster to arrive, and free of the *live*-consumer stall the 292-line wrapper had kept. So nothing moved down a tier:
-
-- [x] **A new tier-0 primitive, built from rx's own parts rather than moved.** `github.com/vibrantgio/mvu/stream` exports one function, `Value[T](seed)`, in fourteen lines: `rx.Behavior` over a source that hands its observer back at connect time, so the write is synchronous and an idle stream costs no goroutine. `check-layers` OK — mvu still imports nothing in the organization.
-- [x] **`prism/coordination` is deprecated in place, not forwarded.** A forwarder would compile everywhere and silently change delivery policy, ceiling and buffering; G0C.3's break-loudly rule forbids that. The package is unchanged and still tested, marked `Deprecated:` with the measurements in its doc. prism gains no import and so opens no seam.
-- [x] `spectrum/preferences` — the last bare `rx.Subject` in library code — moves onto it. Its shape is a genuine stream and stays observable; the defect was only ever the unprotected primitive. Two regression tests pin the two halves and both fail against the old code: `TestObserveSurvivesShellChurn` died on shell 32 (rx's 32 subscription slots, one spent per window that ever observed), and `TestSaveIsNotBlockedByAStalledObserver` wedged `SaveTo` behind an observer that stopped draining — the half the wrapper never fixed.
-- [x] Sweep for any bare `rx.Subject` remaining in library code; the count after this task should be zero, and the count in app code should be whatever G0C.4 justified line by line. **Re-measured with `find … -print0 | xargs -0 grep` over 710 Go files: non-test library sites are now one, `prism/coordination/types.go`'s own per-leg subject in the deprecated package, and it leaves with the package. In application code the count is zero — all eight workbench files that match `rx.Subject` match it inside a comment G0C.4 wrote about the flag it removed. The remaining 21 occurrences live in 12 test files, every one of them a harness: thirteen standing in for the application's model observable, eight feeding a component's props.**
-- [x] Goldens byte-identical; build, test, commit in mvu, spectrum, prism and any consumer re-pinned. **All 84 cadence and all 16 workbench goldens byte-identical, and prism's 100, pulse's 21 and markdown's 9 with them. `check-agents` 20/20 after re-rendering mvu's and prism's AGENTS.md; `check-no-workspace` 33/36 → 32/36, spectrum joining for the one reason that `mvu/stream` is in no tag yet. No consumer needed re-pinning.**
-
-#### G0C.6: The gate, the guide, and the release
-
-- [x] The gate, in the org's own style: a check script that fails on a bare `rx.Subject` outside the sanctioned homes ADR-008 names. Wire it beside `check-layers.sh`, `check-no-workspace.sh` and `check-agents.sh`. G0C.5 left the census it has to reproduce: the only non-test library site is `prism/coordination/types.go`, which leaves with the deprecated package, so the gate's allowlist is `mvu/stream` and — for as long as it exists — `prism/coordination`. Application code is already at zero, and the 21 remaining occurrences are all in `_test.go` harnesses standing in for a model observable; decide whether the gate looks at test files at all, and say which.
-- [x] The spike found a second smell the first gate will not catch: `popover.Arbitration` was an exported observable that nothing in twenty-one repositories subscribed to, and tooltip's was the same. Decide whether that is checkable cheaply — an exported `rx.Observable` in a component package with no consumer — and either add it or record why not. An uncatchable finding is still worth naming in `llms.txt`.
-- [x] The guide: ADR-008's consequences into `llms.txt` and the AGENTS templates through `sync-agents.sh` — never typed into generated files.
-- [x] **Close G0C.5's deprecation window, or say why it stays open.** `prism/coordination` is intact behind a `Deprecated:` marker and has exactly two users left in the organization, both demo mains: `prism/gallery/main.go` (a `Subject[string]` producer/consumer section) and `cadence/modal/gallery/main.go` (a `Subject[bool]` driving `Props.Open`). `mvu/stream.Value` covers both, and covers the second better — a seeded value means the modal's `CombineLatest` fires without waiting for the first emission. Moving them puts `cadence` and `prism/gallery` on the ADR-006 seam until the tags are cut, which is this task's own business, so it is cheap here and nowhere else. If the demos move and the package goes, prism takes a breaking removal in the same release; if the window stays open, say for how long and what closes it.
-- [x] The release, per the Release protocol, bottom-up: **mvu first and alone at the bottom — the new `stream` subpackage is purely additive, a minor, and it is what `spectrum` is currently unresolvable without** (`check-no-workspace` reads 32/36 at the end of G0C.5; spectrum's single failure is `github.com/vibrantgio/mvu/stream` existing in no tag). Then spectrum, prism and cadence with whatever bumps the diffs argue — judge each against what actually moved. prism's diff is a deprecation notice and an AGENTS/README re-render unless the removal above lands, in which case it is breaking. Cadence's is at least a minor: `popover.Arbitration`, `popover.ArbitrationSnapshot` and tooltip's pair are removed exported symbols, which is breaking however few importers they had. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass; `design/` verified unmoved.
-- [x] **`llms.txt`'s tag table is a hand-typed copy of a measurable fact, and it has drifted three minors.** Measured against `git tag | sort -V` at the start of this task: it claims prism **v0.3.1** where the tag is **v0.6.0**, cadence v0.3.1 where it is v0.4.1, spectrum v0.4.0 where it is v0.4.1, pulse v0.1.2 where it is v0.1.4, markdown v0.1.2 where it is v0.1.3 — five of eight wrong, under a line reading "EVERY TAG ABOVE IS RELEASED AND CURRENT". An assistant following the canonical guide would `go get prism@v0.3.1` and receive none of Phase G. This is G-G0's defect exactly, surviving in the one document `sync-agents.sh` cannot reach, because `.github` is the parent of the clones and not one of them. Fix the numbers, and then fix the reason: either generate the table (a small script beside the others, `check-agents.sh`-style, reading `git tag` in each clone) or state in the file how to re-derive it and add the check that fails when it drifts. Prefer generating it — the whole goal above this line is about facts that should not be typed. The nested-module tags a few lines below have the same exposure; check them too.
-- [x] Strike whatever this goal fixes in the register, leaving the struck text in place.
-
-### G-G0D: The four names that explain nothing become the four words the docs already use
-
-Rene's finding, and it is about the reader rather than the code: `spectrum`,
-`prism`, `pulse` and `cadence` are opaque. He cannot keep them apart, and he
-owns the organization. The evidence that the names are the defect and not the
-reader is one command away: every role sentence in `templates/repos.tsv`
-already describes its repo in a plain word the name then hides — spectrum is
-"the token, theme and `a11y` contract", prism is "components: button, input,
-list…", pulse is "effects: blur…", cadence is "composed patterns". The
-documentation has been translating the names into English at every mention
-since phase A. A name that needs a gloss at every use is a hand-typed copy of
-a fact, and this organization already knows what happens to those.
-
-**The mapping, ratified by Rene at drafting time**: `spectrum → theme`,
-`prism → components`, `pulse → effects`, `cadence → patterns`. The two calls
-that were open — `theme` vs `tokens`, `widgets` vs `components` — Rene took
-`theme` (the thing applications actually touch) and `components` (the word
-the role sentence and llms.txt already use). G0D.1's ADR records the
-decisions; it does not reopen them. The tier chain then reads `mvu → theme →
-components → effects → patterns → markdown` and explains itself in the
-import paths.
-
-**What deliberately does not rename.** `mvu` — it names the architecture, not
-a vibe. `markdown`, `font`, `workbench` and the tier-0 leaves — already
-literal. The support libraries — `kiwi`, `traer`, `ivg`, `svg`, `seen`,
-`noise`, `csg` — keep their upstream-heritage names. The org name Vibrant Gio
-is untouched. And history keeps the old names everywhere it already uses
-them: past goals in this plan, ADRs, commit messages, buried tags. Only
-living surfaces rename; a plan that rewrote its own past to match its present
-would be forging the record.
-
-**The prism/cadence split survives, and the rename is what makes it legible.**
-Rene asked whether cadence should be distinct from the component library at
-all. It should: `pulse` sits between them in the tier table, and the
-prism–pulse cycle that once pinned half the organization to `prism v0.0.3` is
-exactly the failure repo boundaries make impossible; the two also churn at
-different rates — all of G-G0C hammered cadence while prism took a doc-only
-patch. The split was never the problem. Two names that don't say which is
-which was the problem, and `components` vs `patterns` says it.
-
-**Sequenced before G-G1, for G-G0C's own reason.** The mirror and the
-component pages bake module paths into a whole new artifact surface, and
-G1.1's chromedp harness is built against it. G-G0C went first so the mirror
-would be built against components whose internals were done moving; names are
-more surface than internals. Renaming after G-G1 means regenerating
-everything it built.
-
-**The mechanics, stated once.** In Go the module path is the identity, so a
-rename is a new module path: the GitHub repository renames (old URLs redirect
-forever), `go.mod`'s module line changes, every importer's import lines
-change, and tags start again on the new path — the old path stays resolvable
-through the redirect and the proxy cache for anything pinned, frozen and
-never re-tagged. The blast radius is in-org only: G0C.2b's census found no
-out-of-org consumer in eight phases of looking. The renames land in the
-working tree bottom-up with `go.work` keeping everything building;
-`check-no-workspace` degrades one rename at a time and G0D.6's release wave
-closes the seam once, at the end — the G0C.3/G0C.6 pattern.
-
-**Where the names are typed, measured at drafting time.** Beyond `go.mod` and
-import lines: `llms.txt` (86 matching lines, prose plus generated tables —
-the tables regenerate via `sync-versions.sh`, the prose is the sweep),
-`check-layers.sh`'s tier table, `clone-all.sh`'s STACK array,
-`check-subjects.sh`'s allowlist (`prism/coordination`), `sync-versions.sh`
-and `check-versions.sh`'s module lists, `inventory.sh`, `push-design.sh`,
-`templates/repos.tsv` rows, `templates/notes/{spectrum,pulse,cadence}.md`
-filenames, `go.work` (regenerated, never hand-edited, per G0.2's rule), the
-root `README.md` and `AGENTS.md`, and every generated per-repo `AGENTS.md`
-(which re-render). G0D.1 re-runs this census with the gitignore-immune
-`find … -print0 | xargs -0 grep` form rather than trusting this paragraph.
-
-**The honesty constraint carries over.** A rename moves no pixels: every
-golden PNG byte-identical at the end of every task, `go test -race` green in
-everything touched, and the tier topology unchanged — `check-layers.sh`
-passes at every step with only the names in its table different.
-
-#### G0D.1: ADR-009: the names, the tag policy, and the procedure
-
-- [x] Write **ADR-009** into the Reference section: record the name calls Rene ratified (`theme`, not `tokens`; `components`, not `widgets`; `effects`; `patterns`), the full mapping and the deliberate non-renames, and say in one paragraph why the prism/cadence split survives (the pulse-between-them topology, the cycle scar, the churn asymmetry).
-- [x] Settle the tag policy for the new paths and write it into the ADR: continue the old numbering (theme's first tag succeeds spectrum v0.5.0) or start fresh at v0.1.0. Weigh continuity of meaning against a clean break from the buried double-digit tags; either way, no double-digit component, ever.
-- [x] Settle the afterlife of the old paths: frozen, never re-tagged, resolvable forever via GitHub redirect and proxy cache. Decide where the old→new ledger lives in `llms.txt` — the ALREADY DELETED section is the model, but renamed is not deleted; say which heading the assistant reading the guide will find it under.
-- [x] Re-run the name census with `find … -print0 | xargs -0 grep` over the root and all clones, diff it against the goal preamble's list, and write the verified sweep list into the ADR as the procedure one rename follows. Note the one step an agent may not be able to take alone: the GitHub repository rename itself (`gh repo rename` needs org auth; the web UI is the fallback) — the task stops and asks tersely if it cannot.
-- [x] Commit in the root.
-
-#### G0D.2: spectrum becomes theme
-
-The bottom-most rename and the widest: everything above tier 1 imports it.
-
-- [x] Rename the repository on GitHub per ADR-009's procedure, rename `.repos/spectrum` to match, change the module line, and sweep every importer's import lines and qualified identifiers in the working tree — prism, pulse, cadence, markdown, workbench and the galleries.
-- [x] Sweep the hand-typed sites the census assigns to this rename: tier table, STACK array, `templates/repos.tsv` row, `templates/notes/spectrum.md` filename and contents, root README/AGENTS prose, `llms.txt` prose. Regenerate `go.work` from `find .repos -name go.mod`; regenerate AGENTS renders; `check-agents` must read 20/20.
-- [x] `go test -race` across every touched module; `check-layers` OK with `theme` in tier 1; all goldens byte-identical.
-- [x] Report the `check-no-workspace` count — the seam opens here and stays open until G0D.6; confirm every failure is the renamed path existing in no tag, and nothing else.
-- [x] Commit in every repo touched and the root.
-
-#### G0D.3: prism becomes components
-
-- [x] The G0D.2 procedure with the nouns changed, plus this rename's own two: `check-subjects.sh`'s allowlist entry (`prism/coordination` follows the deprecated package to its new path — the gate must fail closed during the transition, not skip), and the nested module `prism/gallery`, whose module path and future nested tag rename with it.
-- [x] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
-
-#### G0D.4: pulse becomes effects
-
-- [x] The G0D.2 procedure with the nouns changed; `templates/notes/pulse.md` renames with it. The blur section heading in `llms.txt` (`pulse/blur`) is prose, not a generated table — the sweep owns it.
-- [x] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
-
-#### G0D.5: cadence becomes patterns
-
-- [x] The G0D.2 procedure with the nouns changed; `templates/notes/cadence.md` renames with it. The top of the design system proper renames last, so after this task no import line in the organization says spectrum, prism, pulse or cadence.
-- [x] Verify that claim rather than assuming it: the census, re-run, finds the four old names only in history — this plan's past goals, ADRs, commit messages — and in the ledger. Anything else found is this task's to fix.
-- [x] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
-
-#### G0D.6: The ledger, the guide, and the release
-
-- [x] The ledger: the old→new table into `llms.txt` under the heading ADR-009 chose, in the ALREADY DELETED section's voice — an assistant meeting `prism` in older code must learn in one line that it is `components` now, renamed not deleted, and that the old path is frozen.
-- [x] The release, per the Release protocol, bottom-up on the new paths with ADR-009's tag policy: theme, components (and its nested gallery), effects, patterns, and re-pins upward through markdown and the workbench apps. `git tag | sort -V` first in each; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass.
-- [x] The verification pass: `check-no-workspace` back to 36/36, `check-versions` OK against the new tags, `check-agents` 20/20, `check-layers` OK, `check-subjects` OK with the renamed allowlist, all goldens byte-identical, `design/` verified unmoved.
-- [x] Strike whatever this goal fixes in the register, leaving the struck text in place, and re-render anything `sync-versions.sh` owns one last time.
-
-### G-G0E: The working tree tells the truth about the org
-
-**One directory is doing two jobs.** `~/code/w/vibrantgio` is a clone of
-`vibrantgio/.github` *and* the parent of every other repository. So `git status`
-at the top reports one repository's state while looking like it reports the
-org's, and the twenty repositories the work actually happens in are hidden
-behind a dot-prefixed `.repos/` that neither `ls` nor Finder shows. The layout
-does not resemble the organization it mirrors.
-
-**`go.work` is committed while the checkout it points at is not.** Its own
-header says so. Thirty-eight `use ./.repos/…` lines live in a public repository
-and describe a tree that is gitignored, which means the file is either wrong for
-anyone who clones it or right only by coincidence. A workspace describes one
-developer's checkout; it should be generated from what is actually cloned, and
-then a partial checkout is a smaller workspace rather than thirty-eight dangling
-paths.
-
-**`design/` is a published artifact wearing a subdirectory.** It is the design
-system: `theme/cmd/vg-tokens` builds it, `scripts/push-design.sh` uploads it to
-`claude.ai/design`, and from G1.1 onward a test harness holds it to the Gio
-components. Built by something, consumed by something, breakable by something —
-that is what earns a repository, and `design/` has all three while sitting in a
-directory inside the org's README repo.
-
-**Nothing published moves.** No module path, no tag, no import in any of the
-thirty-six modules changes except `design`'s own arrival. This is a working-tree
-and repository-boundary change, and the gates are how it is proven: the same
-six scripts must pass from the new root as from the old.
-
-Sequenced before G-G1 because G1.1 creates a module. It should land in its final
-home rather than be moved a week later.
-
-#### G0E.1: The repositories become siblings, and go.work is generated
-
-- [x] Flatten the tree: each repository moves from `.repos/<name>` to a sibling `<name>` beside `.github`, which keeps its name — GitHub serves the org profile from a repository called exactly that. Move the clones rather than re-cloning, so nothing uncommitted can be lost in the shuffle.
-- [x] Teach `clone-all.sh` the new shape: clone siblings, and generate `go.work` from the repositories actually present rather than from a fixed list of thirty-six. A workspace missing a repository you have not cloned is correct; a `use` line pointing at nothing is not.
-- [x] Stop committing `go.work` — gitignore it, and rewrite the header that currently explains the contradiction so it explains the generator instead.
-- [x] Sweep `.repos` out of the eight scripts that hardcode it — `sync-agents.sh` (13), `clone-all.sh` (7), `sync-versions.sh` (6), `inventory.sh` (6), `check-layers.sh` (6), `check-subjects.sh` (3), `check-no-workspace.sh` (3), `check-agents.sh` (3), `push-design.sh` (1). Each finds the workspace root by walking up from its own location, so a script keeps working whichever directory it is invoked from.
-- [x] State the new layout where it is read: `AGENTS.md`'s working-tree paragraph, `README.md`, and this plan's preamble. The thirty-one other `.repos` mentions in `PLAN.md` are historical narrative and stay — the same rule G0D.6 applied to the old repository names.
-- [x] Prove it with the gates, not by eye: `check-layers.sh`, `check-no-workspace.sh`, `check-agents.sh`, `check-subjects.sh`, `check-versions.sh` and `inventory.sh` all pass from the flattened root, and `inventory.sh`'s census still measures what `PLAN.md` claims.
-- [x] Commit here.
-
-#### G0E.2: design becomes a repository
-
-The one repository this organization was missing is the one it is named for.
-
-- [x] Create `vibrantgio/design` and move the bundle into it — `styles.css`, `theme.json`, `readme.md` and `foundations/`, the six paths already live at `claude.ai/design`. Carry the history across; this directory has been regenerated since Phase E and the record of what moved a pixel is worth keeping.
-- [x] Give it a module — `github.com/vibrantgio/design` — and `//go:embed` the bundle, so the harness G1.1 builds and anything after it reads a page by name instead of by a relative path that breaks the moment a test runs from somewhere else.
-- [x] Repoint the two things that write and read it: `theme/cmd/vg-tokens`' output directory, and `push-design.sh`'s `DESIGN` path. The uploaded path set does not change — `finalize_plan` still writes the same six paths — so a push before and after this task is byte-identical at the far end.
-- [x] Register it everywhere a repository has to be known: a `templates/repos.tsv` row, `clone-all.sh`, `inventory.sh`'s census, `check-versions.sh`'s module list, `sync-agents.sh` so it carries the same `AGENTS.md` as everything else, and `llms.txt`'s tag table.
-- [x] Place it at the application tier. It imports components and patterns from G1.1 onward and nothing in the organization imports it, so it is a leaf that no `go.mod` pins — the same shape as a workbench application, and `check-layers.sh` judges it the same way.
-- [x] Prove it: the census reports twenty-one — `inventory.sh` surveys the siblings and excludes `.github` itself, so twenty-one surveyed is twenty-two org repositories counting the plan root — `sync-agents.sh` renders `design`'s guide with a measured layer sentence, and `push-design.sh` regenerates the bundle from the new location with `git status` clean afterwards.
-- [x] Commit here.
-
-#### G0E.3: The rationale moves in and catches up
-
-`workbench/DESIGN.md` is the design system's architecture and rationale, and it
-has spent its life inside one of the system's *consumers* — reachable only by
-cloning the application repository. That is the same category error as a support
-library naming its consumers, inverted. G0E.2 gives it the obvious home.
-
-It is also two phases out of date. Its status block dates itself
-`spectrum v0.0.15, prism v0.1.8, pulse v0.0.12, cadence v0.2.8` — four names
-G0D retired, at four pre-release numbers G-F3 superseded — and twenty more lines
-carry the old names. A reader who finds it today gets the organization as it
-stood before the tags were cut.
-
-- [x] Move `DESIGN.md` and its archived first edition `DESIGN-v1.md` into `design`, keeping them together: the second edition's header links the first, and the road from one to the other is the record of why the system is shaped this way. `BASELINE.md` stays in workbench — it is a pre-Prism performance capture for coinviz, an application's history rather than the system's rationale.
-- [x] Refresh the live prose the way G0D.6 refreshed the guides, and with the same restraint: passages describing what the first edition claimed are history and must keep reading as history. The status block is not history — it is a present-tense claim about published versions, and it is wrong.
-- [x] Repoint every inbound link, and know which are generated before touching them: `profile/README.md` — the org profile page, a public URL that will 404 the moment the file moves — `workbench/README.md`, and `templates/notes/workbench.md`. Never the rendered `workbench/AGENTS.md`; `sync-agents.sh` re-renders it from that note, and editing the clone is the one thing that script refuses to let stand.
-- [x] Settle the citation debt this exposes rather than inheriting it silently. A2.2 recorded it and left it: `components`' `bench`, `cache`, `coordination` and `richtext` cite `DESIGN §…` and `BASELINE.md` from their package comments, both unreachable from components' pkg.go.dev page — and the two `EXPERIMENT` files they cite exist in no repository at all. The move gives `DESIGN.md` a stable public URL for the first time. Say which of those citations become links, which stay prose, and which name a document that does not exist.
-- [x] Commit here.
-
-### G-G1: The mirror and its harness
-
-#### G1.1: Golden comparison harness
-Without this, the rest of the phase is guesswork dressed as work.
-
-**The Gio half already exists, and is one shared package now.**
-`components/golden` renders a widget into a `gioui.org/gpu/headless` window and
-returns the pixels — `Capture`, `Render`, `PixelDiff`, and since F5.5 also
-`Compare`, `CompareNRGBA` and `Save`. F3.3 promoted it out of `internal`; F5.5
-then deleted the twenty-eight hand copies that had been shadowing it, so every
-golden test in components, effects, patterns, markdown and the workbench
-applications runs through this one package. Reuse it; do not write a second Gio
-capture path. What is new here is the browser side and the comparison metric.
-
-`PixelDiff` counts exact byte mismatches, which is right for catching a
-regression between two Gio renders and useless across two different renderers.
-This task needs a perceptual metric instead.
-
-**How far apart two renderers actually are, measured rather than assumed.** F5.7
-installed the Linux GL drivers on a CI runner and compared macOS-recorded
-goldens against the same Gio code rendering under mesa: nine of effects'
-twenty-one images differed, one by 36% of its frame, while the three drawn on
-the CPU matched byte for byte. That is a single engine disagreeing with itself
-across two platforms. Chrome against Gio is a wider gap than that by
-construction — so any tolerance tighter than same-engine cross-platform
-divergence is provably too tight. Treat that number as the floor to argue up
-from, not as a target.
-
-- [x] Use `components/golden`: exported by F3.3, consolidated by F5.5, and available from **components v0.7.0**. Take that version literally — G0D.3 moved the module path, so the v0.4.0–v0.6.1 tags that first carried this package still declare `module github.com/vibrantgio/prism` and will not resolve under the new path. Do not reach for a second Gio capture path.
-- [x] The browser automation is **chromedp**, decided by Rene on toolchain grounds: it keeps the harness one Go test in the same `go test` run as everything else, where Playwright would shape text better but split a pure-Go organisation across two toolchains. Neither was installed, so this task installs Chrome or Chromium first and records the version it pinned — a mirror comparison that silently changes renderer is worthless. This is the organisation's first non-Go dependency; say so where the next person will meet it, not only here.
-- [x] Write the browser half: render a component page headless at a fixed viewport and capture a screenshot.
-- [x] Align the two: same nominal size, same theme emission, same component state. The Gio side must draw with `DeterministicShaper()` and not `Shaper()` — F4.2 split them precisely so a pixel comparison cannot depend on which fonts the machine happens to carry, and a mirror scored against a system-shaped render measures the machine rather than the mirror.
-- [x] Implement a perceptual comparison — downscale both and compare in a perceptual space, or score structural similarity. Text shaping and antialiasing differ between Gio and a browser, so the bar is "reads as the same component", not pixel equality.
-- [x] Pick and justify the tolerance from real pairs, not in the abstract, and state where it sits against the F5.7 floor above.
-- [x] Prove it: run it against one deliberately wrong variant and confirm it fails, and against a re-render of the same component and confirm it passes.
-- [x] Say which machine is authoritative, because CI cannot be. F5.7 read the verdict from a real run: the runner opens no headless window, so every Gio-side capture answers `t.Skipf` and a skipped test passes. A mirror harness wired into CI as it stands would go green without comparing anything — the same trap that hid patterns' failure for sixteen runs.
-- [x] Commit here.
-#### G1.2: The component class vocabulary
-- [x] Define the class layer in `styles.css`, built only on the tokens E0.1 emits — no literal colours, sizes or radii.
-- [x] Name the emphasis registers G0A.1 added — `.btn` filled by default, with tonal and ghost modifier classes — resolved from the same ramp positions components resolves, so the mirror and the Gio button disagree about nothing but antialiasing.
-- [x] Cover the interaction states explicitly: hover, pressed, keyboard focus ring, disabled, selected.
-- [x] Derive state colours from the tonal ramp rather than ad-hoc mixes, matching how components resolves them.
-- [x] Confirm the sheet still passes E0.1's round-trip test.
-- [x] Commit here.
-### G-G2: The component pages
-
-One task per group. Each page is plain, readable HTML; each ends green against
-the G1.1 harness for every variant and state it shows.
-
-**Two different `components/` live in this goal, and G0D.3 is why.** The paths
-below — `components/buttons.html` and its siblings — are directories inside the
-`design/` bundle that gets uploaded to `claude.ai/design`. The Gio widgets they
-mirror live in the repository now also called `components`. A page path always
-ends in `.html`; a Go import never does.
-
-#### G2.1: Buttons, tags and forms
-- [x] Build `components/buttons.html`: every emphasis register — filled, tonal, ghost — in its enabled, hover, pressed, focus-ring and disabled states, the icon-only form beside them, at both densities; plus tags. There is no size prop and the page must not invent one: the heights come from `Density.ControlHeight`, so density is the size axis.
-- [x] Build `components/forms.html`: text field, checkbox, radio and dropdown on native elements, no script.
-- [x] Run the harness against components' button and input goldens; close the gaps.
-- [x] Commit here.
-#### G2.2: Cards, elevation and tables
-
-- [x] Build `components/cards.html`: the card pattern and each elevation step.
-- [x] Build `components/table.html`: patterns/table's header, row rules, sort affordance and zebra treatment.
-- [x] Run the harness against the patterns card and table goldens; close the gaps.
-- [x] Commit here.
-
-#### G2.3: Navigation
-
-- [x] Build `components/navigation.html`: navbar, sidebar, tabs and breadcrumb.
-- [x] Include the selected, hover and focus states for each.
-- [x] Run the harness against the corresponding patterns goldens; close the gaps.
-- [x] Commit here.
-
-#### G2.4: Overlays
-- [x] Build `components/dialog.html`: both modal intents from G0A.2 over their backdrops at the top elevation — the **decision** dialog with its right-aligned footer, Return-bound default and no X, and the dismissable **panel** with its ghost close top-right — plus popover, tooltip and toast.
-- [x] Show the scrim and the focus-trapped state, since those carry the elevation and colour decisions — and say beside the decision dialog that its scrim is inert, because the mirror is the document an agent reads and the behaviour is part of the pattern.
-- [x] Run the harness against the patterns overlay goldens; close the gaps.
-- [x] Commit here.
-### G-G3: Ship it
-
-#### G3.1: The conventions header
-
-This file is inlined into the design agent's system prompt. It is the difference
-between an agent that uses the vocabulary and one that invents its own, so every
-sentence must be something the agent can act on without guessing.
-
-- [x] Write `.design-sync/conventions.md`: the class families with their real names, the token families, where the truth lives, and one idiomatic build snippet taken from a page that already passes the harness.
-- [x] State the Gio-specific caveats — text shaping differs, and blur is a cached offscreen pass driven by content change rather than a live CSS `backdrop-filter`, so a design that assumes continuous blur under motion will not port.
-- [x] Validate it: every class, token and component name it mentions must exist in the emitted `styles.css` or the component pages. Cut or fix anything that does not resolve.
-- [x] Commit here.
-
-#### G3.2: Push and validate with the agent
-
-- [x] Regenerate the full bundle and push it with `scripts/push-design.sh`.
-- [x] Ask the design agent to compose a screen that exercises a shell, a table, a modal and a form.
-- [x] Check the result against the conventions: real classes, real tokens, no invented vocabulary.
-- [x] Record what the agent got wrong as follow-up work — that list is the honest measure of whether the surface is good.
-- [x] Commit here.
-
-**Validation record (2026-08-15, `patterns/app-shell.html` in the Claude
-Design project).** The agent composed a navbar shell with sidebar, tabs,
-breadcrumb, sortable table, an elevated card carrying a form, and a decision
-dialog over an inert scrim. All 33 system classes it used are real, every
-token resolves, and the decision-dialog idiom is exactly the published one
-(ghost Cancel, filled destructive primary, `.dialog-body`, `aria-modal`).
-The sidebar is a single keyboard stop, forcing twins are correctly absent
-from real markup, and every page-local style is token-driven. What it got
-wrong — the follow-up list:
-
-1. **Status tag improvised.** A failing build renders as `.tag` with inline
-   `background: var(--color-error); color: var(--color-on-error)`. Real
-   tokens, invented variant: the sheet has `.toast.{success,warning,error}`
-   but no status tags, because no Gio source draws one. Either grow a status
-   chip in the Gio vocabulary first and mirror it, or have conventions.md
-   state that status chips are not vocabulary and toasts carry level colour.
-2. **Table framing invented.** The screen wraps `.table` in a page-local
-   `.table-wrap` (1 dp Divider border, `--radius-lg`, clipped corners). No
-   published page frames the table and `patterns/table` draws no outer
-   frame. Conventions.md should say whether framing a table is idiomatic —
-   and if it should be, the frame belongs in the Gio pattern first.
-3. **Ground pinned to the ramp, not the semantic.** `body` and the shell use
-   `--color-neutral-100` where the published pages use `--color-bg` (same
-   value by construction; the semantic pin exists so surfaces survive a
-   remap). Conventions.md should tell composers to prefer semantic pins over
-   ramp steps for grounds.
-
-Nothing invented beyond those three; the surface held.
-
-## Phase H: The desktop seam
-
-Gio hands every application a native window handle and then pretends it did
-not. Two features want that handle back: macOS window chrome — content behind
-a transparent title bar, traffic lights floating over it, the way Apple's own
-apps look — and file drops from Finder. Both are the same technique, *augment
-the native handle Gio hands out, in place, without forking Gio*, so they share
-one seam rather than growing two bridges.
-
-**The evidence is in, not assumed.** A sibling session (diarizer/earwitness,
-which wants the chrome for its own window) spiked the mechanism in a throwaway
-module against gioui.org v0.10.1 on macOS 25.5.0, findings recorded in
-`diarizer/explorations/macos-fullsize-content-window.md` and summarised here:
-
-- `app.Decorated(false)` already produces the whole treatment on macOS — Gio
-  toggles `NSWindowStyleMaskFullSizeContentView`, makes the title bar
-  transparent, hides the title — and also hides the three standard buttons.
-  Re-showing them via `standardWindowButton:setHidden:NO` is the entire delta.
-- Keeping `Decorated(true)` and setting the mask externally does not work:
-  Gio derives `Config.Decorated` from that mask bit and draws its fallback
-  `material.Decorations` bar over the content.
-- **The unhide is reversible by ordinary app code**: any later
-  `w.Option(app.Title(...))` re-runs Configure and re-hides all three buttons.
-  Confirmed empirically. This is the finding that dictates the API — a
-  run-once hook is insufficient; the unhide must re-apply after *every*
-  Option call, and mvu must see those calls to enforce it.
-- The top inset measured 32.0 pt with the title hidden, not the folklore 28,
-  and hardcoding fails in the direction that clips content. Query
-  `NSHeight(frame) - NSHeight(contentLayoutRect)`; AppKit points are Gio dp.
-- `dispatch_sync` onto the main queue from a non-main goroutine is safe while
-  `app.Main` holds the main thread, and iterating `[NSApp windows]` finds the
-  window under `Decorated(false)` because the mask keeps
-  `NSWindowStyleMaskTitled`.
-
-**Why mvu, and why not mvu's root.** The re-apply invariant lives at the
-Option boundary, and mvu is the only place that boundary can be owned — today
-`mvu.NewWindow` applies options once and hands out the raw `*app.Window`, so
-nothing stops an app from bypassing it. But mvu is tier 0 with zero cgo, and
-every module in the organization sits above it; AppKit in its root would give
-the foundational leaf a darwin cgo build path that everything inherits. So the
-work splits: mvu's root gains only the platform-neutral seam — an Option
-wrapper and a post-Configure notification — and a nested **`mvu/desktop`**
-module owns the Objective-C. `scripts/check-layers.sh:196-200` classifies any
-nested non-demo module as an adapter and skips judgment, so no gate changes;
-line 293 makes a parent importing its own nested module a violation, so the
-dependency runs `mvu/desktop → mvu` and never the reverse — which is the
-right direction anyway.
-
-**File drops ride the same seam later.** The full spike proposal is
-ADR-010 in the Reference section, written in task shape so it lifts in as
-a goal when scheduled. Its D1 question — where does the code live —
-is resolved by this phase: `mvu/desktop`. Its technical question (S0–S5) is
-still open and is deliberately *not* scheduled here; the chrome work proves
-the seam first.
-
-Sequenced after Phase G: nothing here blocks the mirror, and the mirror is the
-work in flight. Nothing in Phase G depends on this either — the phases are
-independent, and this one is small: one additive minor at tier 0, one nested
-module, one adopting application.
-
-### G-H1: The window chrome, and the seam it proves
-
-#### H1.1: mvu owns its Option boundary
-
-The platform-neutral half, no cgo, no darwin anything.
-
-- [x] Give `mvu.Window` an `Option(...)` method that forwards to the underlying window and then notifies: after construction-time options and after every later call, a registered func runs. The notification carries nothing platform-specific — it is "Configure may have run; re-assert what you asserted".
-- [x] Decide and document what `Window()` now means: the raw handle stays reachable — adapters need it — but the doc comment says plainly that options applied through the raw handle bypass the notification, and `mvu/desktop`'s docs repeat it where its users will look.
-- [x] The notification must also fire once after the first `FrameEvent`, because Gio's first Configure happens before any app code could have registered — the `case app.FrameEvent:` arm in `Render` is the hook.
-- [x] Additive minor: none of the four in-org consumers (components, patterns, theme, effects) is forced to move, no golden moves, `go build ./... && go test ./...` green.
-- [x] Commit here.
-
-#### H1.2: mvu/desktop — the chrome, behind the seam
-
-- [x] Create the nested module `github.com/vibrantgio/mvu/desktop`, cgo Objective-C in a `.m` file behind `//go:build darwin`, no-op stubs on every other platform so it compiles everywhere. This is the organization's first cgo beyond what Gio itself carries; say so in the module's doc comment.
-- [x] `FullSizeContent()` returns the window options: `app.Decorated(false)` on darwin, nothing elsewhere — a missing title bar must never degrade to a truly borderless window on Linux or Windows. Keep `app.Title`; Mission Control, the Dock and VoiceOver read it even hidden.
-- [x] The traffic-light unhide registers on H1.1's notification, so it re-applies after the first frame and after every Option call — the invariant the spike proved, enforced structurally rather than commented. Dispatch on the AppKit main thread.
-- [x] Expose the top inset as a queried value — `NSHeight(frame) - NSHeight(contentLayoutRect)`, points as dp — never a constant. Document that clicks in the strip go to the titlebar view (that is what makes native drag and double-click-zoom work), so the strip is paint-only for the app, and the traffic lights occupy roughly the leading 80 pt.
-- [x] The sibling session's spike `.m`/`.go` is on offer as a starting point; its findings doc is the reference either way. Adapt, don't transplant — the spike was written against a bare window, not the seam.
-- [x] Commit here.
-
-#### H1.3: One application wears it
-
-- [x] Adopt in one workbench application: `FullSizeContent()` in its window options, header padded by the queried inset, the strip treated as paint-only.
-- [x] Prove the invariant end to end: change the window title at runtime and watch the buttons survive — the exact sequence that fails without H1.1.
-- [x] Screenshot before/after for the commit body; run the app's goldens — the window chrome is outside the captured surface, so they must not move.
-- [x] Commit here.
-
-#### H1.4: Release the seam
-
-- [x] Tag `mvu` **v0.6.0** — additive minor — then push and tag the nested modules at the mirrored number per the release rule: `desktop/v0.6.0`, and `example/v0.6.0` since the demo module mirrors its root.
-- [x] Re-pin the adopting workbench application; `GOWORK=off` verify.
-- [x] `sync-agents.sh` and `llms.txt` pick up the new module and the cgo caveat.
-- [x] Commit here.
-
-## Phase I: File drops, and the list the agent left
-
-Two goals, independent of each other. The first puts a second tenant behind
-the desktop seam Phase H proved: files dragged from Finder, reaching `Update`
-as ordinary messages. The second settles the three follow-ups the G3.2
-validation recorded — the honest list of what the design agent got wrong, which
-is a work order, not a shrug.
-
-The themer application — drop an image, extract a seed, re-derive the whole
-system live — is the intended first real consumer of file drops. It is
-deliberately *not* scheduled here; it becomes its own goal once G-I1 lands and
-proves the plumbing it needs.
-
-### G-I1: Files fall into the loop
-
-The question is falsifiable and one bit: **can a Vibrant Gio application
-accept files dragged from Finder, using only public `gioui.org` API and no
-patched or forked Gio?** The full dossier is
-ADR-010 — every AppKit fact, threading rule, risk
-and decision lives there with line-precise citations, and its 2026-08-13
-addendum records what Phase H already closed: D1 is resolved (`mvu/desktop`),
-check-layers admits nested adapters, and the Option-boundary notification the
-re-registering drop target wants is exactly H1.1's `OnConfigure`. Every task
-below starts by reading the dossier; the packets cite its sections rather
-than restating them.
-
-One honesty rule shapes the tasks: **an OS drag cannot be automated** (§8 of
-the dossier). Tasks that end at a drag checkpoint say so and stop for René's
-hands rather than faking the proof. Everything around the drag — coordinate
-transforms, URL decoding, zone hit-testing, registration idempotence — is
-unit-tested like anything else.
-
-#### I1.1: The spike proves the technique
-
-S0–S2 of the dossier, in a throwaway module so placement never gates the
-technical question.
-
-- [x] S0: scaffold a throwaway module *outside* the workspace (the scratchpad or `~/code/w/spikes` — not a sibling, not in go.work); minimal one-window mvu app.
-- [x] S1: prove the handle arrives — drive `app.Window.Event()` directly, log every event type; confirm `AppKitViewEvent` with non-zero View/Layer at startup, the zero-valued one on close, and `Valid()` distinguishing them. Record whether it precedes the first `FrameEvent` (dossier open question 2).
-- [x] Check the Gio sourcehut tracker and gio-plugins for prior art on file drops (dossier open question 3); record what exists in the dossier addendum before writing any Obj-C.
-- [x] S2: augment `GioView` at runtime per §4 — `class_addMethod` behind `sync.Once` after a `class_respondsToSelector` check, `registerForDraggedTypes:` per view inside `app.Window.Run`, read file URLs via `readObjectsForClasses:options:`, NSLog the paths. Threading rules of §7 are law. *(Guard corrected to own-method detection — NSView inherits default drag selectors on this macOS; see the dossier's 2026-08-15 addendum.)*
-- [x] **Checkpoint, René's hands:** drag one file, three files, a folder, and TextEdit text (refused, no crash) from Finder — §8.1 items 1–4. The task stops here until the drags are done. *(2026-08-15: items 1–3 verified from the live log — one file, three files in one operation, a folder as its own path. Item 4's refusal is silent by design and unconfirmed in the log; it rides along in I1.2's drag checkpoint.)*
-- [x] Record S1/S2 findings in the dossier's addendum — including a failure, which per §11 is the whole value. Commit `.github` (dossier); the throwaway module is never committed anywhere.
-
-#### I1.2: mvu forwards the handle
-
-S3: the loop learns of drops. The one change mvu's root needs, shaped by the
-gate that watches it.
-
-- [x] `ViewEvents() rx.Observable[app.ViewEvent]` on `mvu.Window` — narrow and deliberate, a buffered per-window channel wrapped in `rx.Recv` in the same idiom as the existing message path (no bare Subjects, no package-level observables; `check-subjects.sh` is the gate). A `case app.ViewEvent:` arm in `Render` feeds it; every other unknown event stays dropped — a general unhandled-events stream is explicitly rejected (dossier D3).
-- [x] The `AutoConnect` arithmetic gains a subscriber; assert the count in a test — both failure modes are silent (dossier risk table, `mvu/doc.go`).
-- [x] In the spike app: buffered `chan` from the drop callback (non-blocking send, drop-on-full documented in code), `rx.Recv` → `FilesDropped{Paths []string, Pos image.Point}`, merged into `Loop`'s messages; dropped paths render as a list.
-- [x] **Checkpoint, René's hands:** drop files; success is paths appearing *without* a manual `Invalidate`. If a redraw is needed, that is a finding (the rx path does not wake the window) — record it, don't paper over it. *(2026-08-15: one file, three files, a folder — paths appeared immediately, no manual redraw; the rx path wakes the window. TextEdit text drag refused with no drop target offered and no crash — §8.1 item 4, carried from I1.1, verified.)*
-- [x] mvu stays additive: consumers (components, patterns, theme, effects) build and test green, untouched. Commit mvu, no tag — the release is I1.5.
-
-#### I1.3: Zones find the target
-
-S4: from window-level delivery to per-target delivery.
-
-- [x] The §4.3 coordinate transform (view points, flip origin, backing scale re-read per drop), unit-tested at scale 1 and 2 against known inputs. *(Seam decided: Obj-C keeps only `convertPoint:fromView:nil` and ships raw components; the flip-then-scale math is pure Go, `GioPoint`, with a scale-2 case that pins the order.)*
-- [x] `Zone(gtx, tag)` records rects per frame; the resolver hit-tests the *last* frame's set — mirroring the focus-tag registry's shape (`components/layout/focus.go`). *(Finding: `layout.Context` carries no transform, so the recording call takes the absolute origin from the caller — `Zone(gtx, i, origin, widget)`; overlap rule is last-recorded/topmost wins, painter's order. See the dossier's 2026-08-15 "later still" addendum.)*
-- [x] `FilesEntered`/`FilesExited` messages so a zone can highlight; the cursor answer stays coarse (`NSDragOperationCopy` whenever file URLs are present — dossier D5). *(Zone transitions computed by a tracker goroutine outside `Update`, unit-tested; open question 4 decided: one `FilesDropped{Zone, Paths, Pos}`, no `FilesRejected` — rationale in the dossier addendum.)*
-- [x] **Checkpoint, René's hands:** two zones side by side — correct one highlights and receives; dead space between them yields nothing (§8.1 items 5–6). *(2026-08-15: zones highlighted and un-highlighted correctly on hover; drops resolved to zone 0 and zone 1 at the right coordinates; the gap drop logged its silence by design.)* *(s4 launch-verified 2026-08-15 — four methods added, registration ran; script: `cd ~/code/w/spikes/filedrop && go run ./s4`, steps in its `README-DRAG-TEST.md`.)*
-- [x] Commit wherever the zone code currently lives (still spike-side is fine; landing is I1.4). *(Spike-side in `s4/` of the throwaway module, which is committed nowhere by design; `.github` carries the record.)*
-
-#### I1.4: Harden, then move home
-
-S5 plus the landing work of §10. The code leaves the spike and becomes the
-second tenant of `mvu/desktop`.
-
-- [x] Re-registration on every valid `AppKitViewEvent` (via `OnConfigure` where the seam already fires, the view-event path where it doesn't); teardown on the invalid one; the per-view state map (`map[uintptr]*dropState`, dossier D6) leaks nothing — its package-level-mutable justification written where `check-subjects.sh`'s sibling concern can see it. *(Landed as `viewTargets map[uintptr]*DropTarget` in `drop_darwin.go`, justification on the declaration; re-registration rides the view-event path — `registerForDraggedTypes:` is per-view-instance and Configure doesn't touch it — while `OnConfigure` stays the chrome's window-level notification; the distinction is documented in `doc.go`. Lifecycle unit-tested headless: idempotent adopt, superseding view, release stops delivery, map empties.)*
-- [x] Two windows, drops into each, no cross-talk; window moved between Retina and non-Retina mid-session, drop point stays correct (§8.1 items 7–8); close mid-drag, no crash (item 9). **René's hands for the drags; the harness for everything else.** *(Harness half done 2026-08-15: two-window demo launch-verified — one class augmentation, two registrations with distinct view pointers, both frame loops live; per-view routing cross-talk absence unit-tested; `-autoclose` programmatic closes ran teardown per window, no crash, clean exit ×3; transform unit-tested at scale 1 and 2, scale re-read per event. Carried for René: the item 7 drag round via `go run ./demo` — script in the spike's `README-DRAG-TEST.md` — plus the optional item 8 physical display-move (both displays attached) and item 9 literal mid-drag close. 2026-08-15, the round happened: drops into both windows, only the target window reacted each time, per-window zones resolved correctly, dead space silent — item 7 verified, no cross-talk. Items 8 and 9 were optional and are not evidenced in the log; the transform's per-drop scale re-read stays covered by unit tests at both scales, and the programmatic-close teardown stands in for the literal mid-drag close.)*
-- [x] Move the drop code into `mvu/desktop` beside the chrome: same `.m`-behind-darwin discipline, no-op stubs elsewhere, API surface designed for the eventual non-file payloads (MIME-shaped like Gio's `transfer`, file URLs as one registered kind — dossier §12's "don't inherit gogpu's []string"). *(`NewDropTarget(w, zones, kinds...)` with `FileURLs = "text/uri-list"` as the one kind and default; unknown kinds panic at construction; `ZoneGroup` keeps the origin parameter — gtx carries no transform — and exports `Record` as the primitive; the registry, tracker, transform and messages compile everywhere, only the bridge is darwin-gated. GOOS=windows and js/wasm build+vet green; Linux cross-compile impossible from this Mac per the H1.2 precedent.)*
-- [x] Docs: `doc.go` carries §7's threading and lifecycle rules — the non-guessable facts. No consumer names, no plan identifiers, plain language. *(Plus the two-tenant seam distinction, the ViewEvents single-subscriber claim, and the what-is-verified-where honesty note.)*
-- [x] Gates: `check-agents.sh`, `check-versions.sh`, `check-layers.sh`, `check-subjects.sh`, `GOWORK=off` build/test. CI decision made explicitly, not discovered: same call as the mirror harness — this Mac is authoritative for the manual script, CI compiles what it can and never fakes a drag. *(All four gates OK. `GOWORK=off` fails as expected until the release: the proxy's mvu v0.6.0 predates `ViewEvents()`; recorded in the dossier, closed by the next task's tags. In-workspace build+test green. CI decision written into the dossier addendum and `doc.go`.)*
-- [x] Commit mvu and `.github` (dossier addendum: exit criterion reached, per §11 — including the standing obligation that out-of-tree is a bridge, and the upstream patch conversation belongs on Gio's tracker regardless).
-
-#### I1.5: Release the second tenant
-
-- [x] Tag `mvu` **v0.7.0** — additive minor (`ViewEvents`) — push, then bump the nested modules' `require` to v0.7.0, commit, and tag `desktop/v0.7.0` and `example/v0.7.0` at the mirrored number, per the release rule.
-- [x] `GOWORK=off` verify from the tags; re-pin the spike demo's go.mod if it survives as an example, otherwise record that the demo retired with the spike. *(All three from the tags, direct VCS: desktop and example build+test green, sitedocs re-pinned to the v0.7.0 pair and green. The spike survives as the manual drag-test vehicle: its go.mod dropped the replace directives and pins the released tags, `GOWORK=off go build ./...` green, still committed nowhere by design.)*
-- [x] `sync-agents.sh` and `llms.txt` pick up the drops API next to the chrome caveat.
-- [x] Commit here. Then propose the themer goal to René — its precondition is now met.
-
-### G-I2: What the agent got wrong
-
-The G3.2 validation left three findings, recorded where G3.2 closed. Each is
-a decision plus its enforcement, and the decisions share one principle: the
-mirror never invents — **if the web surface wants it, the Gio vocabulary
-grows it first**, or the conventions forbid it in words.
-
-One adjacent finding folds in: René's close-affordance sizing question
-resolved to the stock treatment (a ControlHeight square; the 44 dp figure is
-a hit floor, never a painted size), and the conventions should say so before
-another composer re-invents a size.
-
-#### I2.1: Status becomes vocabulary
-
-The agent dressed a failing build in error colours because real screens need
-status chips and the vocabulary had none — toasts carry level colour, tags
-don't. Recommendation: grow it, don't forbid it; status is too common to
-outlaw.
-
-- [x] Give the chip status variants on the Gio side first: tonal success/warning/error treatments for the pill chip, drawn where the chip lives today (the pricing/hero chip drawing — give it a shared home if extraction is warranted, but don't force a new package for three fills), colours from the fixed-hue roles the toast already uses.
-- [x] Golden-test the variants beside the existing chip goldens.
-- [x] Mirror: `.tag.success/.tag.warning/.tag.error` in the generator, var()-driven; fixtures + harness comparison at the standing tolerance; the components page shows them; conventions.md names them.
-- [x] Regenerate, mirror suite green, commit theme/design/patterns-or-components as touched, push. Design-project upload is the parent session's job, as established.
-
-#### I2.2: The frame that isn't, and the pins that are
-
-The two documentation findings, plus the sizing note. All conventions.md and
-page work — no Gio changes.
-
-- [x] Tables are unframed: the Surface ground and the header band *are* the frame; a bordered wrapper is not vocabulary. If a framed table is ever wanted, it enters the Gio pattern first. State it in conventions.md where the `.table` family is described.
-- [x] Grounds prefer semantic pins: `--color-bg` and `--color-surface` over `--color-neutral-*` ramp steps — same rendered value today, but the semantic survives a remap. One line in conventions.md's token guidance.
-- [x] Corner affordances draw at ControlHeight; density is the only size knob, and the 44 dp accessibility floor is invisible by design. One line beside the class-family guidance.
-- [x] Re-upload conventions.md (and any touched page) via the established DesignSync flow; commit design and push. *(2026-08-15: conventions.md re-uploaded; no pages touched by this task — I2.1's page and sheet uploads already landed.)*
-
-#### I2.3: The agent composes again
-
-The measure of I2.1/I2.2 is the same measure G3.2 used.
-
-- [x] **Checkpoint, René's hands:** ask the design agent for another composed screen exercising a status chip on a table row — the exact shape that failed before.
-- [x] Diff the result against the three recorded findings: the status chip should now be vocabulary it uses correctly; the table should arrive unframed; grounds should pin semantically. Record the new honest list, whatever it says.
-- [x] Commit the record here.
-
-**Validation record (2026-08-16, `patterns/incident-review.html`, composed
-fresh — a navbar shell, a split table-and-detail layout, a popover confirm,
-a toast stack).** The evidence excerpts from both compositions are
-ADR-011.
-
-1. **Status: fixed.** `.tag.error` on the firing alert and the failing row,
-   `.tag.warning`/`.tag.success` on the rest, toast levels on the stack —
-   composed correctly in three contexts, zero inline styles. I2.1's
-   vocabulary did its job.
-2. **The frame recurred — by contamination, not conviction.** The screen
-   wraps its table in a `.table-wrap` whose rule is near-verbatim the first
-   screen's, invented class name included. The first screen still lived in
-   the project when this one was composed; project files are what a
-   composition session copies from. The old screen is now deleted from the
-   project (archived here first). The conventions line stands unchanged.
-3. **The ramp-step ground recurred the same way** — `body` on
-   `--color-neutral-100`, byte-identical to the first screen.
-
-The honest list is therefore one real lesson, not three faults: **an
-anti-pattern example in the project outweighs a conventions line**, because
-composers copy working artifacts before they read rules. Enforcement is
-curation: examples that violate the conventions get deleted, not merely
-contradicted in prose. A confirmatory composition round after the deletion
-is worthwhile but not gating — the two prose rules were never disproven,
-only outcopied.
-
-### G-I3: The wash knows its ground
-
-A defect report from the first outside adopter of the stock modal close (a
-sibling session, migrating an application onto the current family): the
-ghost register's hover and press washes walk from the *window* ground —
-neutral 200 in light — but a ghost control rendered on a raised surface
-sits on that surface's own storey. On a Level-2 modal surface (neutral
-300) the 200-walk's hover wash resolves to the very color it sits on and
-disappears. Verified in source on both sides of the mirror: `buttonColors`'
-Ghost branch walks `StateColor(RoleNeutral, ghostGround, state)` from the
-fixed base step, and the sheet's `.btn.ghost:hover` washes to neutral-300
-inside `.dialog`, whose fill *is* neutral-300.
-
-The principle, which is one sentence: **an interaction wash derives from
-the local ground it sits on, not the window ground.** The ghost register's
-whole identity is "the surface behind shows through untouched" — so its
-states must be that surface's own one-rung walk, whichever storey the
-surface occupies. The adopter is blocked on this to retire its app-drawn
-close and take the stock one; a release tag is the unblock signal.
-
-#### I3.1: Ghost washes derive from the local ground
-
-- [x] Give the ghost resolution a ground to walk from: components/button learns the hosting surface's storey (design the seam deliberately — an explicit knob on Props/RenderState/RenderIcon that defaults to the window ground so every existing call site keeps its exact colors; read how patterns/modal, popover and toast name their levels before choosing the shape). The rest wash stays transparent; hover/press walk one rung from the *local* ground; the text steps ride along where legibility needs them.
-- [x] patterns/modal passes its Level-2 storey to the close affordance — the defect's concrete site. Audit the other patterns that host ghost controls on raised surfaces (popover at level 3, elevated card at level 2, toast) and pass their storeys too where a ghost can actually appear.
-- [x] Goldens: new golden beside the existing icon-button goldens proving the hover wash on a Level-2 ground differs from the ground (the exact assertion the defect fails today); existing goldens must not move — the default path keeps its colors.
-- [x] Mirror: the sheet emits the contextual walk — ghost controls inside the raised surfaces re-derive hover/press one rung above the host's ground (e.g. a dialog-hosted ghost washes to neutral-400), var()-driven, literal-color test passing; fixture + harness comparison against the new golden at the standing tolerance, run on this machine, no skips.
-- [x] conventions.md states the rule in one line where the ghost register is described: a ghost's wash is its host surface's own one-rung walk.
-- [x] Suites green in components, patterns, theme, design (full mirror run); all four gates pass; commit every touched repo and push. No tags — the release is I3.2.
-
-#### I3.2: Release the fix
-
-- [x] Gates first, then tag per the release protocol and version rules: components' next patch/minor on master, patterns' next alongside if it moved, theme untagged-or-tagged per what changed — the release rule and tag numbering follow the Reference section, mirrored nested tags only where a nested module moved. *(All four gates green before tagging. **components v0.8.0** — minor, the additive Ground field; **patterns v0.6.1** — patch, close-X behaviour fix, re-pinned to components v0.8.0 before its tag. theme stays untagged on v0.6.0: the change is emission-only in export/css.go, the same category G2.1–G2.4 left untagged, and check-versions is green with theme at v0.6.0. No nested tag: components/gallery has not moved since gallery/v0.7.0 and its v0.7.0 root pin still resolves — the root a minor ahead is the release rule's normal state.)*
-- [x] `GOWORK=off` verify the tags direct from VCS; re-pin in-org consumers only where a moved API forces it. *(Tags confirmed on the remotes via `git ls-remote`. GOWORK=off build+test green in components, patterns and design. Re-pins: patterns → components v0.8.0 (its modal uses the new field), design → patterns v0.6.1 + components v0.8.0. effects, markdown and the workbench apps keep their pins — nothing they use moved, matching how H1.4/I1.5 re-pinned only the adopting consumers.)*
-- [x] `sync-agents.sh` and `sync-versions.sh`/llms.txt pick up the numbers; commit and push everything. *(AGENTS renders carry no version numbers — check-agents 21/21 after tagging, nothing to re-render. sync-versions rewrote llms.txt's four number sites; the elevation section's state-walk paragraph gained the ground-aware ghost wash in prose.)*
-- [x] Notify the reporting session that the tag landed (the parent session carries the channel). Support libraries and their docs never name the consumer. *(2026-08-16: notified — patterns v0.6.1 + components v0.8.0 named as the unblock pair, with the adoption note that the stock close X now derives the same 300→400 wash their interim re-derived, making the swap a visual no-op.)*
-
-## Phase J: The vault viewer
-
-The workbench gains `vaultview`: a read-only viewer for Obsidian vaults —
-the CrunchGate trunks, the memory directories, ordinary vaults — with real
-wikilink following: `[[note]]`, `[[note#Heading#Sub]]`, `[[note#^block]]`,
-aliases, history that restores scroll, a folder tree at the left, and
-backlinks. The full dossier is ADR-012 in the Reference section; packets
-cite its sections (§4.2 is the resolution spec, D1–D8 the decisions) rather
-than restating them. Two rules govern every task: **zero new external
-dependencies** (the app's requirement set is exactly sitedocs' go.mod, and
-no YAML package enters for frontmatter), and **all hopping is implemented
-in-house** — the reference implementation's documented semantics are the
-spec, never an import.
-
-The work splits at the semantics line (ADR-012 D1): recognition is generic
-and enters the markdown repo as the nested package `markdown/obsidian`
-(core parser untouched, existing consumers byte-stable, support-library
-doc rules apply); resolution is vault semantics and stays in the app.
-
-### G-J1: A vault becomes navigable
-
-#### J1.1: The dialect enters the markdown repo
-
-ADR-012 stage M — the generic half first, as `markdown/obsidian`.
-
-- [x] `SplitFrontMatter(src) (fm, body)`: the leading `---` block (and `...` terminator variant) cut and returned; unterminated and mid-document `---` left alone; byte-identical passthrough otherwise. Table tests.
-- [x] Frontmatter access: raw text plus the pairs a trivial line-split yields (`key: scalar`; `key:` + `- item` block lists). Anything else stays raw. No YAML dependency. Table tests over real Obsidian properties blocks.
-- [x] `WikiSpans([]Block) []Block`: the D2 span pass — plain, alias, heading path, block ref, embed (`wikiembed:`), adjacent links, `Code` spans skipped; the styling-boundary limitation documented and pinned.
-- [x] Block-id tails: trailing ` ^id` recognised on paragraphs and list items, stripped from display spans, exposed as anchors usable with `NewDocumentAt`. Table tests.
-- [x] Exit: the markdown repo's suite green with the new package; a probe note with frontmatter, wikilinks and block ids renders through `SplitFrontMatter` → `Parse` → `WikiSpans` with clean prose, live `wiki:` URLs and no visible `^id` tails — the repo's existing goldens untouched. Godoc names no consumers, cites no plan identifiers. Commit and push; no tag (the release is J1.6).
-
-#### J1.2: Scaffold, vault selection, one note rendered
-
-ADR-012 stage V0 — the app exists, opens the right vault, and reads.
-
-- [x] Scaffold `workbench/vaultview` from the todos bootstrap shape: mvu loop, live theme, `shell.ThreeColumn` with nil sidebar and aside. Vault resolution per D8: CLI argument → stored default → the picker screen; the resolved vault is written back to the store on every successful open.
-- [x] The store, with table tests: `~/.config/vaultview/vault` (one absolute path, plain text; `$XDG_CONFIG_HOME` honoured, else literal `~/.config` — never `os.UserConfigDir()`), absent/empty/unreadable reads as no-default, a stored path that stopped being a directory falls through to the picker.
-- [x] The picker screen (D8): breadcrumb + components/list folder browser, dot-directories hidden, rows annotated with the `.obsidian/` marker or `*.md` count, filled "Open this vault" action. Keyboard: arrows move, Return descends, the action opens.
-- [x] Properties surface: the J1.1 split feeds a collapsible panel above the note — pairs when the trivial split reads them, the raw block in code style otherwise.
-- [x] Fence-aware index scanner: walk `*.md` below the root skipping dot-directories; per file collect headings, block ids, outgoing wikilinks; unit tests include a fenced `[[not-a-link]]` contributing nothing.
-- [x] Run the scan as an `mvu.Do` command; render the first note found through `SplitFrontMatter` → `Parse` → `Document` under a breadcrumb row.
-- [x] Exit: pointed at a real CrunchGate trunk, the viewer opens and DESIGN.md renders legibly — frontmatter out of the prose and readable in the properties panel, wikilinks visible as literal text (not yet links), code blocks highlighted. A first argument-less launch asks with the folder browser; the next argument-less launch opens the same vault without asking. Commit and push.
-
-#### J1.3: Links follow, history works
-
-The resolution half of ADR-012 stage V1 — the hopping, in-house.
-
-- [x] Resolver (§4.2) as pure functions over the index, table-tested per rule: as-written, root + `.md`, unique basename, ambiguous refusal with candidates, heading paths incl. ambiguity, block refs, same-file.
-- [x] Wire the J1.1 `WikiSpans` transform into the render path; app-side tests cover the wiring, not the grammar.
-- [x] `OnLinkClick` interception: `wiki:` resolves and emits `Navigate` via `mvu.MessageOp`; `http(s)` opens the system browser; unresolvable/ambiguous raise the D3 toast.
-- [x] History stack in the model with Back/Forward messages and header affordances; documents cached per note; anchor targets land via `NewDocumentAt` on block indices computed from the parsed blocks (§4.1).
-- [x] Exit: clicking `[[F#A#B]]` in note X lands the viewport on B in F; Back returns to X with its scroll position intact; Forward returns to F; a link into a code fence does not exist. Commit and push.
-
-#### J1.4: The tree at the left
-
-The owner-required half of ADR-012 stage V1.
-
-- [x] App-local folder tree over `components/list` in the `shell.ThreeColumn` sidebar slot (J1.2's nil sidebar becomes this): indent per depth, disclosure toggles with fold state in the model, dot-directories hidden, the current note active, click navigates.
-- [x] Exit: any note in the vault is reachable through the left tree alone; the current note stays marked as navigation moves through links, history and tree alike. Commit and push.
-
-#### J1.5: Backlinks, ambiguity, switch vault
-
-ADR-012 stage V2.
-
-- [x] Backlinks in the shell's `Aside`: reverse edges for the current note, one row per citing note, click navigates.
-- [x] Ambiguous-link chooser: the D3 modal listing the resolver's candidates; choosing navigates.
-- [x] Breadcrumb grows the folder trail; the vault-name crumb reveals/roots the tree.
-- [x] "Switch vault" affordance re-entering the D8 picker; the store follows the switch.
-- [x] Exit: the aside lists exactly the notes whose links resolve to the current note and clicking one navigates; an ambiguous link resolves through the chooser; switching vaults re-roots the tree and updates the store. Commit and push.
-
-#### J1.6: Harden and land
-
-ADR-012 stage V3 plus the census and the markdown release.
-
-- [x] Re-stat on navigate + Rescan affordance (D6); quick-open by name if it stays a filter over the index (D7).
-- [x] Goldens for one rendered note and the tree, following the sitedocs golden shape; README; `doc.go` carrying §4.2 as the package's stated contract.
-- [x] The census work of ADR-012 §8: repos.tsv row wording, `sync-agents.sh`, `llms.txt`, the sitedocs About line, `go.work` regeneration.
-- [x] The markdown repo release: the J1.1 package is an additive minor — tag per the release protocol, re-pin the app to the tag, and the `llms.txt` prose gains the dialect in plain language (no consumer names, no plan identifiers).
-- [x] Exit: all ADR-012 §8 gates green from a clean checkout; `GOWORK=off` build against published tags only. Commit and push.
-
-## Phase K: The polish pass
-
-René's first visual pass over vaultview surfaced eight findings — six app
-polish items and two genuine library defects that goldens structurally
-cannot catch (goldens never show a focus transition and always render
-labels alone). The dossier is ADR-013 in the Reference section; packets
-cite its findings (F1–F8) and decisions (D1–D4) rather than restating
-them. Library fixes land at the deepest correct layer (D1), app polish
-stays in the app (D3), and the phase closes with patch releases sealing
-the seam (D4).
-
-### G-K1: Vaultview looks considered
-
-#### K1.1: The window fills its frame
-
-ADR-013 F1 and F3 — the frame and the header, one layout region.
-
-- [x] Diagnose and fix the backdrop: no pixel of the window shows a
-  colour outside the theme at any size — the root surface paints
-  wall-to-wall including the titlebar region, under full-size content
-  with the chrome inset honoured.
-- [x] Anchor the header row: "Rescan" and "Switch vault" right-aligned as
-  a group, sharing one baseline with the "Vault View" brand; the brand
-  clear of the traffic lights via the chrome inset rather than a guessed
-  pad.
-- [x] Exit: at 1100 dp and at full screen, screenshots of the running app
-  show theme colour to every edge and a header that reads as one row;
-  goldens regenerated only where the header change legitimately moves
-  them. Commit and push.
-
-#### K1.2: Labels centre in their floor
-
-ADR-013 F7, decisions D1 and D2 — the typeset fix and its ripple.
-
-- [x] `theme/typeset`: when the caller's Min.Y floor exceeds the
-  corrected height, centre the ink within the floored box; the reported
-  size and baseline stay consistent. Unit tests pin ink position under no
-  floor, a floor below the line box, and a floor above it.
-- [x] Enumerate the movement: run the full workspace test suite and list
-  every golden the change shifts; regenerate those whose labels were
-  genuinely top-pinned (tree and picker rows among them), and justify in
-  the commit body any that must not move.
-- [x] Run the design mirror: parity must improve or hold — a case where
-  Gio moved away from the CSS rendering is a bug in the fix, not the
-  mirror. Commit and push; no tag (the release is K1.5).
-
-#### K1.3: The editor rests on the placeholder's line
-
-ADR-013 F8, decision D1 — the text-field fix.
-
-- [x] `components/input`: the live editor draws offset by the same
-  half-deficit the placeholder's line box carries, so ink does not move
-  when focus arrives or leaves; masked and disabled paths keep working.
-- [x] A unit test pins the equality — placeholder ink offset and editor
-  ink offset measured and equal at more than one density — since goldens
-  cannot see the focus transition. Commit and push; no tag (the release
-  is K1.5).
-
-#### K1.4: Vaultview dresses the part
-ADR-013 F2, F4, F5, F6 and F9 — the app polish, in one sweep.
-
-- [x] The elevation model (F9): chrome — header band, sidebar rail,
-  aside — on the base surface; the reading column on a raised "paper"
-  one step lighter, sized to the content column; the properties panel
-  and code blocks tinting down from the paper, not the page; a hairline
-  under the header band.
-- [x] Glyphs the shipped face owns: disclosure, history arrows and any
-  other UI glyph drawn from Roboto render real glyphs, not fallback
-  boxes; the goldens' tofu note is retired.
-- [x] One sidebar inset system: rows and find field share horizontal
-  insets, the selection fill becoming a rounded inset pill; keyboard
-  selection and active-note marking keep their distinct colours.
-- [x] The properties panel on the page's own ramp: tinted fill a step or
-  two below its host surface, a perceptible radius, and the key column
-  sized to its longest key plus a fixed gap.
-- [x] Aside and affordance colour: the empty state on a theme ramp, and
-  enabled history arrows visibly darker than inert ones.
-- [x] Exit: vaultview's goldens regenerated to the new dress; a
-  screenshot of the running app, actually inspected, shows the note as
-  a document lying on furniture — distinct chrome and paper — and no
-  tofu anywhere. Commit and push.
-#### K1.5: The seam closes
-
-ADR-013 D4 — patch releases per the release protocol.
-
-- [x] Tag the theme and components patches bottom-up per the protocol;
-  move the pins the protocol prescribes, vaultview's among them.
-- [x] Exit: all gates green from a clean checkout; `GOWORK=off` build of
-  the touched apps against published tags only; `llms.txt` describing
-  nothing the org has not published. Commit and push.
-
-## Phase L: Unified title bar and floating sidebar
-
-The vault window spends about 80 dp on two stacked, nearly empty bands
-before content begins. This phase collapses them into the platform's
-unified title row, floats the sidebar, and — because no golden in this
-plan has ever rendered a whole window — gives the composition a test of
-its own. The dossier is ADR-015; packets cite its decisions (D1–D5).
-
-### G-L1: Chrome fits in one row
-
-#### L1.1: Measure the window-button leading inset in mvu/desktop
-
-ADR-015 D3 — the measurement the toolbar row needs.
-
-- [x] `mvu/desktop` grows a leading inset beside `TopInset`: the trailing
-  edge of the window control buttons in dp, measured under the same
-  re-assertion that measures the top inset, published through the same
-  atomic, zero where the platform has no such buttons. The stub build
-  answers zero; the darwin build answers a plausible value under test.
-- [x] Exit: godoc states what the value means and when it changes, naming
-  no consumer; `go build && go test` green on darwin and with the stub
-  tags; mvu tagged per the release protocol (additive minor), verified
-  from VCS. Commit and push.
-
-#### L1.2: Replace the header band with one app-drawn chrome row
-ADR-015 D1 and D2, app side. The 52 dp navbar band is replaced by one
-28 dp app-drawn row. This does not yet reach the chrome budget: the
-title-bar strip measures 32 dp on its own, so any row below it starts
-above the target. Collapsing the strip is L1.3 and L1.4.
-
-- [x] The header band and its hairline are gone, replaced by a single
-  app-drawn chrome row carrying the sidebar toggle, the vault name, and
-  Rescan and Switch vault trailing. The composition leaves
-  `patterns/shell`, whose top slot is pinned to `navbarHeight()`.
-- [x] The breadcrumb drops the vault crumb and carries the in-vault path
-  only; the tree's root reveal keeps working from the toolbar's vault
-  name instead.
-- [x] Exit: measured and recorded — 60 dp above the first content row,
-  down from 80; `TopInset` 32 dp, `LeadingInset` 69 dp on this machine.
-  Sidebar-hidden state lives in the model. Commit and push.
-
-#### L1.3: Add window-button repositioning to mvu/desktop
-
-ADR-015 D3, second half. The title-bar strip is paint-only — clicks in
-it reach the native title-bar view, not the application — so an
-interactive row cannot live inside it while the strip stands. Offsetting
-the standard window buttons downward collapses the strip and hands the
-row to the application.
-
-- [x] `mvu/desktop` grows a call that places the standard window buttons
-  at a caller-given vertical offset, applied under the same re-assertion
-  that re-shows them and measures the two insets, so a reconfigure does
-  not undo it. No-op and zero-cost off macOS.
-- [x] `TopInset` reports the collapsed strip once the buttons are
-  placed, and `LeadingInset` keeps reporting their trailing edge at the
-  new position; both stay correct across resize and reconfigure.
-- [x] Exit: godoc states what the call does and what it costs, naming no
-  consumer; darwin and stub builds green; mvu tagged per the release
-  protocol (additive minor, nested tags mirrored), verified from VCS.
-  Commit and push.
-
-#### L1.4: Move the chrome row into the collapsed title bar
-
-ADR-015 D1 — the single row, finished.
-
-- [x] The chrome row moves up beside the window buttons: placed with the
-  new mvu call, offset horizontally by `LeadingInset()` plus its own
-  gap, with `underTitleBar` no longer padding the vault screen.
-- [x] The row stays draggable where it is empty, so the window can still
-  be moved by its top edge, and every control in it receives clicks.
-- [x] Exit: chrome above the first content row measures under 40 dp at
-  Comfortable density — the measurement recorded in the commit body —
-  and a fresh-eyes review of a whole-window screenshot raises no
-  complaint about the title row. Commit and push.
-
-#### L1.5: Make the sidebar a floating panel
-
-ADR-015 D4 — a pane, not a column.
-
-- [x] The rail becomes an inset rounded pane over the window background:
-  its own surface step, its own hide control, the note column reflowing
-  to the freed width when it is hidden.
-- [x] Hidden is remembered: the toggle's state survives navigation and
-  vault switching within the session, and the keyboard reaches both the
-  toggle and the rail's rows.
-- [x] Exit: shown and hidden both reviewed with fresh eyes on real
-  screenshots; goldens regenerated. Commit and push.
-
-#### L1.6: Add a whole-window golden and a chrome-height assertion
-
-ADR-015 D5 — what would have caught this without René.
-
-- [x] A whole-window golden at a realistic size, in both appearances,
-  following the repo's golden shape — the first golden in this plan that
-  renders a window rather than a slot.
-- [x] A chrome-budget assertion: the vertical distance from the window
-  top to the first content row is measured and bounded, failing loudly
-  when a band creeps back.
-- [x] Exit: both tests fail when the old two-band chrome is restored, and
-  the suite is green with it gone. Commit and push.
-
-## Phase M: Reading long notes in vaultview
-
-Five things the owner hit using the viewer against real vaults: the
-document has no scrollbar and cannot be moved from the keyboard, the
-right column has no room for an outline, the vault actions sit in the
-wrong place, and the sidebar stops below the window buttons where the
-platform would run it to the top. The dossier is ADR-017; packets cite
-its observations (O1–O5) and decisions (D1–D5). The functional pain goes
-first: a viewer that cannot be paged through fails at its purpose.
-
-### G-M1: The document can be read
-
-#### M1.1: Show the document's scroll position
-
-ADR-017 O1 and D5.
-
-- [x] The note column carries a visible scroll indicator that reports
-  position and proportion, appearing when there is more document than
-  viewport and behaving as the platform's does when the pointer is away.
-- [x] If the treatment does not already exist in `components`, it is
-  added there rather than drawn privately in the app (D5), with its own
-  tests and goldens in that repo.
-- [x] Exit: a long note shows the indicator, a short one does not, and a
-  fresh-eyes review of a whole-window screenshot mid-document raises no
-  complaint about it. Commit and push.
-
-#### M1.2: Move the document from the keyboard
-
-ADR-017 O2 and D2.
-
-- [x] Page Up and Page Down move the note by a viewport less a small
-  overlap; Home and End reach the document's ends; Command-Up and
-  Command-Down do the same as the macOS spelling. Keys reach the
-  document without stealing from the find field or the tree while those
-  hold focus.
-- [x] The behaviour is unit-tested as scroll-offset transitions, not
-  merely wired: page moves are bounded at both ends, and a document
-  shorter than the viewport does not move at all.
-- [x] Exit: a real vault's longest note is crossed end to end with the
-  keyboard alone, and the anchor landing from a followed link still
-  works afterwards. Commit and push.
-
-### G-M2: The frame matches the platform
-
-#### M2.1: Run the sidebar to the window's top edge
-ADR-017 O5 and D3. The largest change in the phase — take it before the
-smaller frame work so the others land in their final home.
-
-- [x] The sidebar becomes the leading column from the window's top edge:
-  the window buttons sit inside the pane, placed with the existing
-  desktop call, and the pane's toggle moves to its own top-right corner.
-  The chrome row no longer spans the window.
-- [x] The document's own top row keeps the breadcrumb and history
-  affordances, and the chrome budget assertion is re-stated against the
-  new arrangement rather than deleted — it measured 28 dp and must not
-  regress.
-- [x] Hidden still works: with the pane away the window buttons return to
-  the geometry the platform expects and the document reflows.
-- [x] Fix the focus order while the toggle is being moved: today Tab
-  reaches the rail's hide control between the find field and the tree,
-  so Tab-then-Return from the field hides the sidebar instead of opening
-  the selected note. The order must run field, then rows, with the
-  pane's own controls out of that path.
-- [x] Exit: shown and hidden both reviewed with fresh eyes against the
-  platform's own arrangement; whole-window goldens regenerated. Commit
-  and push.
-#### M2.2: Move the vault actions to the foot of the sidebar
-
-ADR-017 O4.
-
-- [x] Rescan and Switch Vault leave the chrome row for the bottom of the
-  sidebar pane, reachable by keyboard, and the pane's rows keep their
-  scroll independent of them.
-- [x] Exit: both actions work from their new home — a rescan reports its
-  count, a switch returns to the picker — and goldens are regenerated.
-  Commit and push.
-
-#### M2.3: Split the aside into an outline and backlinks
-
-ADR-017 O3 and D4.
-
-- [x] The right column carries the current note's heading outline above
-  and its backlinks below, each scrolling in its own right, with the
-  outline's entries navigating to their heading in the document.
-- [x] The outline tracks the document: the heading the reader is inside
-  is marked as the note scrolls, and choosing an entry moves the
-  document rather than reloading it.
-- [x] Exit: a note with many headings and a note with none both read
-  correctly, backlinks stay reachable in either case, goldens
-  regenerated, and a fresh-eyes review raises no complaint about the
-  column. Commit and push.
-
-### G-M3: The sidebar reads as an elevated pane
-
-#### M3.1: Inset the sidebar pane and round it, keeping it at the top
-ADR-017 O5 revisited. M2.1 ran the sidebar to the window's top edge but
-flattened it doing so: it became a full-bleed column with no margin and
-no corners, when the platform's own treatment is both — a pane inset
-from the window's edges, rounded on all four corners, raised off the
-window's background, with the window control buttons inside it.
-
-- [x] The pane is inset from the window's leading, top and bottom edges
-  by one margin and rounded on all four corners, with the window's own
-  ground visible around it on every side. The window control buttons
-  stand inside the pane, clear of its rounded top-leading corner.
-- [x] The pane is raised by tint first and shadow second: it keeps its
-  surface step and gains a cast shadow from `effects/depth`, because it
-  meets that package's criterion as written — it floats above the ground
-  and can leave, dismissed from its own toggle — and the platform's own
-  sidebar casts one. Say in the code why the sidebar qualifies under the
-  rule.
-- [x] Hidden still works, and the chrome budget assertion still holds:
-  the document's first content row does not move because the pane
-  gained a margin.
-- [x] Exit: reviewed with fresh eyes against the platform's own sidebar,
-  the complaint to answer being whether it reads as a raised pane rather
-  than a painted column; whole-window goldens regenerated. Commit and
-  push.
-
-#### M3.2: Release the reading seam
-
-The phase's library work — the scrollbar fade, the list and document
-scroll verbs, the scroll-to-block seam — is public API sitting untagged,
-so a clean checkout cannot build the viewer against published tags. The
-authoring omission is the plan's, found at the phase's end.
-
-- [x] Tag the markdown and components releases bottom-up per the release
-  protocol (additive minors), move vaultview's pins onto them, and any
-  other pin the protocol's second pass requires.
-- [x] Exit: all gates green from a clean checkout including the
-  no-workspace check; `GOWORK=off` build and test of vaultview against
-  published tags only; `llms.txt` describing nothing unpublished. Commit
-  and push.
-
-#### M3.3: Match the window-button insets to the platform's
-
-The owner measured the reference: the platform's sidebar apps inset the
-window control buttons about 4 mm from the pane's top and leading edges;
-the viewer gives them barely 3 mm from the leading edge and under 2 mm
-from the top, because the placement seam only speaks vertically — the
-buttons keep AppKit's window-relative x while the pane's edge moved.
-
-- [x] `mvu/desktop` grows a horizontal dimension on the button
-  placement, additively beside the existing call: the caller states
-  where the buttons' leading edge sits, applied under the same
-  re-assertion, restored exactly by the zero placement, no-op off
-  macOS. `LeadingInset` keeps reporting the measured trailing edge at
-  the new position. mvu tagged per the release protocol — the tag rule
-  forbids a double-digit component, so the minor slot above v0.9.0 is
-  closed; use the patch v0.9.1 with the tag message stating the addition
-  plainly, mirrored on the nested tags.
-- [x] Vaultview places the buttons about 4 mm from the pane's top and
-  leading edges — equal insets, matching the reference by measurement on
-  this display — with the pane's strip and the toggle keeping clear, the
-  hidden state still restoring platform geometry, and the chrome budget
-  untouched.
-- [x] Exit: a live capture measured in pixels confirms the insets match
-  the reference within a millimetre; whole-window goldens regenerated;
-  fresh eyes raise no complaint about the buttons' placement. Commit and
-  push.
-
-#### M3.4: Anchor the window buttons to the window, not the pane
-
-The owner ruled on the open question the previous task left: the traffic
-lights are part of the window shining through the pane, so they anchor
-to the window's own edges — the platform's reading, confirmed by
-measurement against its sidebar apps — and they never move. The
-pane-relative insets the previous task chose are the wrong frame of
-reference: when the pane toggles away today the buttons shift, and
-nothing that belongs to the window should.
-
-- [x] The buttons take fixed window-relative offsets matching the
-  platform's own, measured again in pixels from the reference app on
-  this display, and the placement is identical whether the sidebar is
-  shown or hidden — the hidden state stops restoring a different
-  geometry, and the two golden leading constants collapse to one.
-- [x] The pane's strip and toggle keep clear of the buttons at their new
-  position, and the chrome budget assertion still holds.
-- [x] The ruling is recorded with the title-bar decisions so future
-  frame work inherits it: the buttons belong to the window, not to any
-  pane drawn under them.
-- [x] Exit: a live capture measured in pixels confirms the buttons sit
-  where the reference's do and do not move when the pane toggles;
-  whole-window goldens regenerated; fresh eyes raise no complaint about
-  the buttons. Commit and push.
-
-#### M3.5: Remove the sliver beside the pane's toggle
-
-The owner switched to light mode and saw stray pixels just right of the
-floating pane at its top. Magnifying their screenshot pins it: a grey
-sliver about one pixel wide and exactly the toggle mark's height,
-sitting at the pane's trailing edge, with the pane's fill running one
-pixel wider over that same span than it does below — the toggle's box
-appears to paint to, or push past, the pane's rounded fill. Light mode
-exposes it because the pane tint and the ground are close there; it
-was invisible in dark.
-
-- [x] The cause is found by reading the strip and toggle geometry
-  against a magnified render, and the toggle's box ends wholly inside
-  the pane's fill — verified in light and dark, pane shown and after a
-  toggle round-trip.
-- [x] Exit: a light-mode capture magnified at the pane's top trailing
-  corner shows a clean pane edge with no stray ink beside the toggle,
-  goldens regenerated if pixels legitimately move, and fresh eyes on
-  the whole window raise no complaint about the corner. Commit and
-  push.
-
-#### M3.6: Align the vault name with the window buttons
-
-The owner: the vault-name label sits too close to the top and looks
-misaligned — it should align with the traffic lights. This is the gap
-the button-anchoring task recorded: the buttons centre on the window's
-26 dp line and the pane's toggle was levelled with them, but the vault
-name still centres where the 28 dp chrome row puts its content, 12 dp
-higher. The same record holds the twin symptom: the chrome row's own
-toggle centres there too, so the mark jumps 12 dp vertically when the
-pane goes.
-
-- [x] The vault-name label centres on the buttons' centre line — the
-  same line the pane's toggle sits on — verified in rendered pixels
-  against the button centres, not by construction.
-- [x] The chrome row's toggle centres on that line as well, so the
-  toggle mark holds one vertical position through a pane round-trip;
-  what the chrome row spends on height does not change.
-- [x] Exit: a magnified capture shows the label's and the marks'
-  centres level with the button centres in both rail states, the
-  chrome budget assertion still holds, goldens regenerated, and fresh
-  eyes raise no complaint about the top-left corner. Commit and push.
-
-### G-M5: A stored platform reference
-
-The owner: measurement sweeps that launch macOS apps and grab the
-screen are getting in the way of using the actual computer. This goal
-pays the cost once — one consolidated sweep, stored in this repo — so
-the preamble's measure-from-the-stored-reference rule has something to
-point at and no later task ever needs the owner's desktop again.
-
-#### M5.1: Measure the platform once and store the reference
-
-- [x] One sweep captures the macOS apps this plan keeps consulting —
-  Finder, Mail, Notes, Voice Memos, Reminders, TextEdit — as
-  whole-window screenshots plus tight crops of the regions that get
-  measured (window buttons, sidebar pane, toolbar band, scrollbar,
-  reading margins), stored under `reference/macos/` with names that say
-  app and region. Every app launched is quit afterwards and verified
-  dead; the whole sweep happens in one session.
-- [x] The numbers this plan has already measured are consolidated into
-  ADR-019 alongside the new ones, so nothing lives only in an old
-  report: the window-button geometry per window style, the sidebar
-  pane's inset and radius, the symbol stroke measures, the reading
-  rhythm of the reference note app, and whatever the fresh sweep adds —
-  scrollbar geometry, toolbar heights, reading-surface margins — each
-  number naming the capture file it was read from.
-- [x] Exit: ADR-019 indexes every stored capture with its measured
-  values and method; a task needing a platform number can cite the ADR
-  and the file without launching anything; `mdplan lint` shows nothing
-  new; the sweep's apps are confirmed dead. Commit and push.
-
-### G-M6: Corrections from daily use
-
-Small defects the owner hits using the viewer as their actual reader.
-Each is one task; the phase's release closes over whatever they touch.
-
-#### M6.1: Drop the toast to bottom center
-
-The owner: a rescan's toast pops up at the window's top right where
-they expect bottom center. The viewer passes the top-right anchor, but
-the underlying cause is in the toast component: it anchors only to the
-four corners — there is no centered position to choose. Bottom center
-is also where the design language's own snackbar convention puts
-transient confirmation.
-
-- [x] The toast component gains a bottom-center position: the stack
-  anchors to the bottom edge's midpoint, newest toast nearest the edge
-  and stacking upward, with the margins and motion the corner anchors
-  already have; its tests cover the new anchor's geometry alongside
-  the corners'.
-- [x] The viewer's toast layer anchors bottom center, so a rescan's
-  confirmation rises over the reading column's foot without touching
-  the chrome row.
-- [x] Exit: a capture shows a rescan's toast at the bottom center (the
-  foot actions are keyboard-reachable, so the rescan can be triggered
-  by synthesized keys, or the toast seeded through the model for a
-  headless render); component tests green; fresh eyes raise no
-  complaint about the toast. Commit and push.
-
-#### M6.2: Clip the scrolled note at the chrome row's edge
-
-The owner confirmed the reviewer's finding at the top edge: scrolled
-content clips a few pixels below the breadcrumb row, so a line cut
-mid-glyph sits beneath a dead strip of empty background instead of
-sliding under the row the way scrolled text slides under a toolbar.
-The bottom edge got its fix; this is the mirror.
-
-- [x] The reading column's viewport begins exactly at the chrome row's
-  lower edge: a line scrolling out tucks under the row with no blank
-  strip between the row and the cut, in both themes, with anchor
-  landing and keyboard paging unaffected.
-- [x] Exit: a mid-scroll capture magnified at the top edge shows the
-  cut line meeting the chrome row directly; goldens regenerated where
-  pixels legitimately move; fresh eyes raise no complaint about the
-  top edge. Commit and push.
-
-#### M6.3: Size the history chevrons for the text row they sit in
-
-The owner: the set's marks read too big as vaultview uses them — the
-screenshot shows the history chevrons beside the breadcrumb. Measured,
-the complaint is exact: the chevron is a diagonal form spanning the
-grid's 20-unit allowance, so at the nav control's current nominal size
-its ink stands 16 px tall beside a breadcrumb label whose caps are
-10 px — the control towers over the text it serves. The reference
-(stored Obsidian capture, same scale) keeps the same pair of arrows at
-10 px of ink, under its neighbouring title text's height, and mutes
-them to about a third of the text's contrast; we paint enabled
-chevrons at full text colour. The set's own size taxonomy already
-names the fix: the small mark size is documented as what a mark takes
-beside a line of text, and the chevrons sit in a text row.
-
-- [x] The history chevrons draw at the set's text-adjacent small size,
-  so their ink lands near the neighbouring label's height instead of
-  60% over it; the head row's own height and alignment hold (the row
-  centres its children, so nothing else moves).
-- [x] Enabled chevrons take a secondary ink rather than the full text
-  colour, following the reference's muting of navigation chrome — while
-  the disabled step stays clearly dimmer than the enabled one, since
-  reviewers have three times read the two states as too alike; the
-  muting must widen that gap or at worst preserve it, never close it.
-- [x] Exit: a capture of the head row magnified shows the chevrons
-  sitting with the breadcrumb text rather than over it, with the ink
-  heights measured and compared against the stored reference numbers;
-  goldens regenerated where pixels legitimately move; fresh eyes raise
-  no complaint about the head row. Commit and push.
-
-#### M6.4: Tighten the seam between a paragraph and the list it announces
-
-The owner: a line ending in a colon sits an awful lot of space away
-from the list that follows it. Their A/B screenshots are stored as
-`reference/macos/vaultview-list-seam-ab.png` (ours) and
-`reference/macos/obsidian-list-seam-ab.png`, and the measurement is
-exact: at the same scale, ours opens 37 px of visible blank between
-the announcing line's ink and the first bullet's ink where the
-reference opens 25 — the reference tightens this one seam to about
-two-thirds of the ordinary block gap, which both apps agree is ~37.
-The rule is structural, not punctuational: the reference's styling
-cannot see a colon — every list directly following a paragraph gets
-the tighter seam — and that is also the honest rule for us, since a
-colon test would miss announcing sentences without one and misfire on
-colons that announce nothing.
-
-- [x] A list block that immediately follows a paragraph takes a
-  tightened space above, landing the visible blank at that seam near
-  the reference's 25 px at 1 px/dp while every other block transition
-  keeps the ordinary gap; the knob is a Style field with the
-  zero-value falling back to the ordinary gap, derived from the block
-  rhythm in visible-blank space rather than hardcoded, and set by the
-  token constructor so themed documents get it without opting in.
-- [x] The seam below the list back to ordinary blocks is measured from
-  the stored captures only: if none of them shows a list followed by a
-  paragraph, the below-seam keeps the ordinary gap and that open edge
-  is recorded in the dossier rather than guessed — no app is launched
-  to find out.
-- [x] Exit: the rendered seam is measured A/B against the stored
-  screenshots and lands within 2 px of the reference's blank, the
-  rhythm test suite gains the paragraph-to-list case alongside its
-  existing transitions, goldens regenerated where pixels legitimately
-  move, and fresh eyes on a note holding an announcing paragraph and
-  its list raise no complaint about the seam. Commit and push.
-
-#### M6.5: Anchor the backlinks pane to the aside's foot
-
-The owner rules on the aside's composition: "the backlinks should
-always be positioned at the bottom and allow the outline to take up
-the space not occupied by the backlinks even if it doesn't need it."
-Today the two panes stack from the top and the room neither needs
-falls to the foot of the column below the backlinks; after this task
-that spare paper opens inside the outline's territory instead — below
-its rows, above the divider — and the divider, the backlinks header
-and the pane stand against the column's foot. The pane's own sizing is
-untouched: rows up to four, the short-window ceiling, one line when
-nothing cites the note.
-
-- [x] The backlinks group — divider, header and pane — sits at the
-  foot of the aside column, the pane keeping its rows-up-to-four
-  height and its short-window ceiling, while the outline's region runs
-  from its header down to the divider: spare paper opens below the
-  outline's rows inside its own region, never under the backlinks.
-- [x] The hit geometry and indicators follow the move: outline and
-  backlink navigation, the document-tracking highlight and both
-  panes' scroll indicators work in the new geometry, and the boundary
-  states hold — no backlinks (the one-line pane still at the foot), no
-  headings, and a window squeezed short still shows both panes.
-- [x] Exit: captures of a sparse note and a dense one show the
-  backlinks against the column's foot with the slack inside the
-  outline's territory, goldens regenerated where pixels legitimately
-  move, and fresh eyes on the aside raise no complaint about the
-  panes' positions. Commit and push.
-
-#### M6.6: Centre list markers on the first text line
-
-The owner's A/B screenshots (a task list of ours against the
-reference's): our checkbox rides 2.5 to 4.5 px above the first text
-line's ink centre, where the reference centres its box on that ink
-exactly — measured offsets 0.0 and +1.0 px. The cause is in the
-marker anchoring: the renderer approximates the first line's height
-as the font size, which understates the real shaped line by its
-leading, and every marker hangs off that number — the checkbox
-worst, the bullet by less. Lines opening with inline code widen the
-error further, since their taller ink stretches the first line
-beyond even the correct body line height.
-
-- [x] A task item's checkbox centres on its first text line's ink:
-  the anchor is derived from the shaped line's real metrics —
-  baseline and ascent from the shaper, not the font size — and the
-  rendered box's ink centre lands within 1 px of the text ink centre
-  in both themes, matching the reference's centring.
-- [x] The bullet takes the same derived anchor as the checkbox, its
-  own optical size unchanged, so every marker in a list hangs from
-  one rule rather than two approximations.
-- [x] Exit: the A/B measurement repeated on our render shows the
-  marker-to-text offsets within the reference's 0-to-1 px, a unit
-  test pins the marker centre to the shaped first line's centre so a
-  future metrics change fails loudly, goldens regenerated where
-  pixels legitimately move, and fresh eyes on a note holding a task
-  list raise no complaint about the markers. Commit and push.
-
-#### M6.7: Size inline code for the line it sits in
-
-The owner keeps hitting this defect's newest face: task rows opening
-with inline code still carry their checkbox high after the marker
-anchor was fixed, because inline code shapes at the full paragraph
-size — 16 sp mono whose ascent pushes that line's real baseline about
-2 px below the body face's, out from under the marker's anchor.
-Measured on the current build: a plain task row's marker offset is
-−2.0 px (ink band, descenders included) while rows containing inline
-code sit at −4.0. The reference sizes inline code visibly under the
-body — its mono ink stands 9 px inside a 15 px body line — and sets
-it on a subtle chip: a rounded fill a few percent off the page
-(≈ #F5F5F5 on white in the stored capture), tight vertical padding,
-small radius. Ours has no chip and fence-vs-inline disagree: fences
-already shape at 14 sp.
-
-- [x] Inline code shapes at the fence's size inside a body line, so a
-  line containing code keeps the body line's height and baseline: the
-  line box of a code-bearing line measures equal to a plain line's,
-  and the marker offset on a code-opening task row lands within 1 px
-  of a plain row's.
-- [x] Inline code sits on a chip: a rounded fill from the theme's
-  ramps in both themes, proportioned from the stored captures — the
-  chip hugs the code's line height with tight padding rather than
-  inflating the line — and the code ink keeps readable contrast
-  against the chip fill in both themes.
-- [x] Exit: the marker offset on a task row opening with inline code
-  is measured at par with plain rows, the chip's proportions are
-  measured A/B against the stored reference captures, a unit test
-  pins the code-bearing line's height to the plain line's so the
-  baseline can never drift out from under the markers again, goldens
-  regenerated where pixels legitimately move, and fresh eyes on a
-  note holding inline code in running text and in task rows raise no
-  complaint about the code spans. Commit and push.
-
-#### M6.8: Honor the token line height in wrapped text
-
-The owner calls the last density gap: our prose sets a 19 px line
-pitch with 3 px of blank between line inks where the reference sets
-24 px and 8 at the same 16 px ink — corroborated three independent
-times (the stored A/B captures, a reviewer reading the chrome as
-looser than the prose, and stacked code chips nearly touching where
-the reference's get 4 px of air). The cause is a seam between two
-layers that each did their half right: the typography tokens carry
-the design language's line heights and say a zero means the shaper's
-default, and the rich text primitive never reads the field — it
-advances lines on font ascent plus descent alone. Honoring the token
-moves every derivation that was calibrated over the old pitch, so
-the reference measurements are the invariants and the derived
-constants adjust to keep landing on them.
-
-- [ ] Wrapped text occupies its style's line height: the paragraph's
-  token line height sets the line box, extra space distributing as
-  half-leading the way the reference's styling model does, a
-  mixed-size span (code in a body line) not changing the box, and a
-  zero line height keeping today's metrics-only behaviour so nothing
-  outside the tokens moves by accident.
-- [ ] The rhythm derivations re-land on the reference over the new
-  pitch: intra-paragraph pitch 24 with ~8 px blank between line
-  inks, the ordinary block blank ~37, the announced-list seam
-  24-25, the heading blanks at their measured targets, and the list
-  markers still centred on their first lines — all held by the
-  existing rendered-pixel suites, with derivation constants
-  re-derived rather than targets loosened.
-- [ ] Exit: a paragraph A/B against the stored captures matches the
-  reference's pitch and blank within 1 px, the stacked-chip crowding
-  recorded earlier is re-measured and closed if the new leading
-  gives it the reference's air, goldens regenerated across every
-  consumer whose pixels legitimately move, and fresh eyes on a full
-  note raise no complaint about text density. Commit and push.
-
-### G-M4: Heading spacing and the bottom edge
-
-The dossier is ADR-018. The renderer change goes first; the app changes
-absorb its golden churn; the release closes the seam.
-
-#### M4.1: Give headings asymmetric space above and below
-
-ADR-018 D1, D2, D3.
-
-- [x] The renderer's style grows per-level heading space above and
-  below, derived from the type scale and holding the measured
-  proportions (above ≈ 2× below, above ≈ 1.35× the ordinary block gap,
-  deeper levels slightly less), defaulting on, with both suppressions:
-  none above a document's first block, reduced above a heading that
-  directly follows another heading.
-- [x] The behaviour is unit-tested as layout transitions — first-block
-  and heading-after-heading suppression included — and anchor landing
-  from a followed link still brings the heading comfortably into view.
-  Goldens in the renderer's repo regenerated. If the styling is
-  mirrored anywhere else in the package, the mirror moves with it.
-- [x] Exit: blank-run measurements above and below headings in a
-  rendered screenshot match the dossier's reference proportions, and a
-  fresh-eyes review of a mid-document screenshot raises no complaint
-  about spacing. Commit and push.
-
-#### M4.2: End the reading column clear of the window's bottom edge
-
-ADR-018 D4.
-
-- [x] A scrolled-to-the-end note rests its last line on a bottom
-  content inset instead of running into the window's edge, the amount
-  matched by measurement to the platform's own reading surfaces. If the
-  treatment is a general scrolling affordance the components repo lacks,
-  it is added there rather than drawn privately in the app.
-- [x] End-of-document keyboard navigation lands on the resting
-  position, and mid-document scrolling still uses the full viewport —
-  the inset belongs to the document's end, not to every frame.
-- [x] Exit: a screenshot of a long note's end shows the last line clear
-  of the edge with no mid-glyph clipping, whole-window goldens
-  regenerated (absorbing the previous task's spacing change), and a
-  fresh-eyes review raises no complaint about the bottom edge. Commit
-  and push.
-
-#### M4.3: Give documents their own heading sizes
-
-ADR-018's second addendum: the owner compared the same note in both
-renderings and ruled that documents get their own heading scale.
-
-- [x] The theme's tokens gain a document heading scale: six stops for
-  prose surfaces, derived from the body role in book proportions and
-  anchored to the measured reference — level 1 ≈ 1.6× body, level 2 ≈
-  1.4×, deeper steps still distinguishable at a glance rather than the
-  display roles' compressed ladder. Weight per level is measured from
-  the reference captures rather than assumed. The scale's godoc says
-  what it is for without naming any consumer.
-- [x] The markdown renderer maps heading levels onto the document scale
-  in its token constructor, replacing the display roles it borrows
-  today. The heading-space derivation keeps working against the new
-  sizes and its tests move with the numbers rather than being deleted;
-  re-tuning the spacing to the opened gap stays the next task's job.
-- [x] Exit: rendered at the same body size, levels 1 and 2 measure
-  within a couple of pixels of the reference's ink heights, a six-level
-  render shows adjacent levels a reader can tell apart, goldens in the
-  touched repos regenerated, and a fresh-eyes review of a mid-document
-  screenshot raises no complaint about heading size. Commit and push.
-
-#### M4.4: Open the block rhythm to the reference's
-
-ADR-018 D3 as ruled in the addendum: the owner put the two renderings
-of the same note side by side and ruled the reference's openness in.
-
-- [x] The renderer's default block gap rises so the reader-visible
-  blank between ordinary blocks matches the reference's proportion —
-  about 2.3 times the body size (37 px at a 16 px body) — derived from
-  the spacing tokens rather than hardcoded, measured from a render
-  within a couple of pixels.
-- [x] The heading spaces are re-derived to hold the dossier's ratios at
-  the opened gap — above ≈ 1.35× the ordinary visible blank, below ≈
-  half of above — because the first derivation was tuned at the old
-  8 dp gap where line-height slack dominated, and it will not scale by
-  itself. Both suppressions still hold; the spacing tests move with the
-  numbers rather than being deleted.
-- [x] Exit: blank-run measurements of the rendered note match the
-  reference's at all three transitions — between blocks, above a
-  heading, below a heading — within a couple of pixels at the same body
-  size; goldens in the renderer's repo regenerated; a fresh-eyes review
-  of a mid-document screenshot raises no complaint about spacing.
-  Commit and push.
-
-#### M4.5: Cap the backlinks pane and show the aside's scrollbars
-
-ADR-018 D5 and D6.
-
-- [x] The backlinks pane takes the height of its entries up to four and
-  no more: fewer entries return the room to the outline above, more
-  scroll within the cap. The outline and the capped backlinks list each
-  show the same fading scroll indicator the note column carries, using
-  the existing treatment rather than drawing a private one.
-- [x] The sizing is unit-tested at the boundaries — zero, one, four and
-  many entries — and outline navigation, backlink navigation and the
-  document-tracking highlight all still work in the resized panes.
-- [x] Exit: a note with two backlinks and a note with twenty both show
-  the aside proportioned to content, every scrollable aside column
-  shows its indicator when scrollable, goldens regenerated, and a
-  fresh-eyes review of the aside raises no complaint. Commit and push.
-
-#### M4.6: Honor backslash escapes in inline text
-
-The owner's vault showed it: `q5\_0` in a table cell renders with the
-backslash intact where the reference (and CommonMark) render `q5_0`.
-Probed in the parser: no backslash handling exists at all, so every
-`\_`, `\*`, `\[` reaches the screen with its backslash, and an escaped
-delimiter cannot suppress the emphasis or link it would otherwise
-start.
-
-- [x] The inline parser implements CommonMark's backslash rule: a
-  backslash before ASCII punctuation yields the literal character and
-  suppresses any delimiter role it had; before anything else the
-  backslash stays literal; a doubled backslash yields one. An escaped
-  pipe inside a table cell does not split the cell.
-- [x] Unit tests cover the reported case in both a table cell and
-  prose, suppressed emphasis, escaped brackets around a would-be link,
-  the doubled backslash, and a backslash before a letter staying
-  literal.
-- [x] Exit: the note that exposed the defect renders its table cells as
-  the reference does; goldens regenerated where pixels legitimately
-  moved; tests green. Commit and push.
-
-#### M4.7: Scroll long code lines instead of clipping them
-
-Three independent reviewers across three tasks flagged the same defect,
-verified in the pixels each time: a fenced code block's long line is
-cut dead at the container's edge — no wrap, no ellipsis, no scroller —
-so code is silently lost in the reading surface. The reference keeps a
-code block's own line breaks sacred and scrolls the block horizontally
-when a line will not fit; that is the treatment to match.
-
-- [x] A fenced code block whose widest line exceeds its container
-  scrolls horizontally: code never reflows, the hidden remainder is
-  reachable by trackpad scroll and drag, and the edge says there is
-  more while there is. If the horizontal treatment is a general
-  affordance the components repo lacks, it is added there rather than
-  drawn privately in the renderer. Unit tests cover the fits and
-  overflows boundaries and the offset's bounds.
-- [x] Short blocks are untouched — no scroller, no indicator, identical
-  layout for a block that fits — and vertical document scrolling over a
-  scrollable block still works: the block claims the horizontal axis
-  only.
-- [x] Exit: the note that exposed the defect shows its full line by
-  scrolling within the fence, goldens regenerated where pixels
-  legitimately move, and a fresh-eyes review of a note holding one
-  overflowing block and one short block raises no complaint about the
-  fences. Commit and push.
-
-#### M4.8: Bring sitedocs to the new reading rhythm
-
-The bottom-edge task found it: sitedocs is red at head — seven golden
-failures, all caused by the heading-spacing change and verified to be
-only that. Its goldens must catch up once, after every renderer change
-in this goal has landed, rather than once per task.
-
-- [x] With the size, rhythm and escape tasks in, sitedocs' goldens are
-  regenerated and each is actually looked at against its predecessor —
-  regeneration as an act of review, not a blind re-record; anything
-  that reads wrong in the new rhythm is reported rather than baked in.
-- [x] Exit: sitedocs builds and tests green, its goldens carry the new
-  rendering deliberately, and a fresh-eyes look at one representative
-  page raises no complaint about the rhythm. Commit and push.
-
-#### M4.9: Release the spacing and edge changes
-
-- [x] The renderer repo is tagged with the next legal version for an
-  additive change and any other library repo the phase's still-open
-  goals touched — the theme's document scale, the toast's new anchor,
-  whatever else accrued — is tagged per its own precedent — no double-digit version components, explanatory
-  tag messages where the number understates the change — verified from
-  VCS, never the proxy.
-- [x] Consumer pins bumped, `GOWORK=off` builds and tests green in
-  every bumped module, sync scripts run, gates green, and the root
-  guidance describes nothing unpublished. Commit and push.
-
-## Phase N: A Vibrant Gio iconset
-
-Three applications have now hand-drawn their own marks because the org's
-documented icon source — the frozen 2016 Material set — has no platform
-idiom to offer. This phase gives the org its own set, drawn on one grid,
-resolving per operating system, held by the registry `components/icon`
-already has. The dossier is ADR-016; packets cite its decisions (D1–D6).
-The format is not decided in advance: N1.1 measures it.
-
-### G-N1: The set exists and the apps use it
-
-#### N1.1: Spike — measure SVG against IVG render cost
-
-ADR-016 D3. The spike decides the format; nothing else in the phase may
-assume an answer.
-
-- [x] A spike outside the org repos (the `spikes/` sibling convention)
-  renders the same marks both ways — parsed through `vibrantgio/svg` and
-  through `vibrantgio/ivg` — at the sizes controls actually draw them
-  (16–24 dp), measuring cold parse, warm redraw, and any per-frame cost
-  that survives caching.
-- [x] The result is expressed as a share of a frame's render budget at
-  60 Hz, not as raw nanoseconds, with the measurement method stated
-  plainly enough to be re-run.
-- [x] Exit: the numbers and the resulting format decision are recorded in
-  ADR-016 as an addendum, and D3's conditional is resolved to a plain
-  statement of which format the set uses and why. No org repo changes.
-
-#### N1.2: Create the iconset package and the per-OS seam
-
-ADR-016 D1, D2, D4, D6.
-
-- [x] The set's home is created in the format N1.1 chose, registering
-  through `components/icon`'s existing `Registry`. Names are stable and
-  say what the control is, not what the drawing looks like.
-- [x] Resolution per operating system (D2): a name answers with the host
-  platform's drawing where one exists and a documented fallback where it
-  does not, decided at runtime with no build-tag fan-out at the call
-  site. Tests cover both the hit and the fallback.
-- [x] The grid and stroke weight every mark is drawn on are written down
-  where an author of the next mark will find them, with the reasoning
-  for the numbers.
-- [x] Exit: the package builds and tests green in its repo, its godoc
-  names no consumer, and one placeholder mark proves the whole path from
-  name to rendered widget. Commit and push.
-
-#### N1.3: Draw the first marks in the macOS idiom
-
-ADR-016 D5, and the settled sidebar mark.
-
-- [x] The marks the applications use today are drawn on the shared grid:
-  the sidebar toggle (rounded rectangle, even thin stroke, vertical
-  divider, faint list lines in the leading pane — one drawing that never
-  morphs), the tree disclosure mark, and the two history chevrons.
-- [x] Each mark is reviewed as a picture before it is called done:
-  rendered at its true size and magnified, and compared against the
-  platform's own equivalent rather than against the idea of it.
-- [x] Exit: the marks render at 16–24 dp without muddying, read as
-  siblings when shown together, and a fresh-eyes review of them beside
-  the platform's own marks raises no complaint. Commit and push.
-
-#### N1.4: Even out the stroke weight of the diagonal marks
-
-The first drawing pass left the set uneven: the sidebar's axis-aligned
-band covers device pixels wholly and renders black, while the three
-diagonal marks — the two history chevrons and the disclosure — peak at
-about 91% ink at 16 and 24 dp and read grey beside it. The platform
-itself compensates for this: its chevron band measures ~1.3 px at 16 pt
-against our 1.0, a heavier measure on the diagonal so the perceived
-weight stays even. ADR-016 D6 wants the set to read as siblings;
-literal one-measure uniformity is defeating that goal on this hardware.
-
-- [x] The diagonal marks take a compensated band — about 2 units on the
-  24 grid, the exact measure decided by rendering — while the
-  axis-aligned marks keep 1.5; peak ink at 16/20/24 dp is measured
-  against the platform's own chevrons rendered at the same sizes and
-  lands within a few percent of them.
-- [x] The band rule written down for mark authors states the diagonal
-  compensation and the measured platform numbers that justify it,
-  replacing the mis-calibrated claim that a heavier band necessarily
-  reads bolder than the platform's marks.
-- [x] Exit: the four marks shown together read as one weight in a
-  magnified side-by-side, tests green, and the sibling-evenness
-  complaint from the first drawing pass is re-checked and closed.
-  Commit and push.
-
-#### N1.5: Adopt the set in vaultview and delete the hand-rolled marks
-
-ADR-016 D1 — the app stops drawing its own.
-
-- [x] Vaultview draws its rail toggle, disclosure marks and history
-  chevrons from the set; the hand-rolled drawing code and its constants
-  are deleted, not left beside the new path.
-- [x] Exit: goldens regenerated, the app runs against a real vault with
-  every mark rendering, and a fresh-eyes review of a whole-window
-  screenshot raises no complaint about any mark. Commit and push.
-
-#### N1.6: Publish the set and correct the icon guidance
-
-ADR-016 D1 and D5.
-
-- [x] `llms.txt` §Icons stops saying there is no iconset: it names the
-  set, says which marks it carries and how a name resolves per platform,
-  and keeps the Material catalogue as the source for everything outside
-  the standard controls.
-- [x] The icon browser shows the org's own set alongside what it already
-  catalogues, so an author can see the marks that exist before drawing
-  another.
-- [x] Exit: the repos carrying the set and its consumers are tagged per
-  the release protocol, verified from VCS; gates green; `llms.txt`
-  describes nothing unpublished. Commit and push.
-
-## Phase O: Deferred defects and polish
-
-Four items were deferred during Phases I–K: a confirmed defect
-in the effects repo, formatter drift from the Go 1.26 toolchain, and two
-polish follow-ups the review pass scoped out. The evidence is ADR-014 in
-the Reference section; packets cite its items S1–S4. Two goals: the
-defects and drift first, then the polish.
-
-### G-O1: Defects and formatting drift
-
-#### O1.1: Forward Props.Ground in effects/springbutton
-
-ADR-014 S1 — the forwarding fix and its release.
-
-- [ ] `effects/springbutton`: `renderState` forwards `Props.Ground`;
-  the components pin moves to v0.8.1; the repo's forwarding test — the
-  one that found the gap — passes under the workspace and `GOWORK=off`
-  alike. Goldens regenerated only if the ground actually moves pixels
-  in a golden's scene, with the reason in the commit body.
-- [ ] Exit: effects tagged v0.2.1 per the release protocol, verified
-  from VCS; gates green; `llms.txt` current. Commit and push.
-
-#### O1.2: Apply Go 1.26 gofmt across the workspace
-
-ADR-014 S2 — one sweep, zero behaviour.
-
-- [ ] `theme/tokens/seed.go` first: restructure the hand-aligned
-  documentation table so its gofmt-formatted form reads well — this
-  file is why the sweep cannot be blind.
-- [ ] Run Go 1.26 gofmt across every module in the workspace; commit
-  per repo with a formatting-only subject; no tags (formatting rides
-  the next real release of each repo, per the emission-only precedent).
-- [ ] Exit: `gofmt -l` reports nothing in any module; every suite
-  green; every golden byte-identical. Commit and push.
-
-### G-O2: Deferred polish
-
-#### O2.2: Add a clickable breadcrumb API to patterns
-
-ADR-014 S4 — the additive pattern API.
-
-- [ ] `patterns/breadcrumb` grows an additive way to lay out a trail
-  that is decided at frame time and clickable per segment, keeping the
-  existing `Render`/`Breadcrumb` surfaces byte-compatible; unit tests
-  cover click routing and a trail that changes between frames; godoc
-  names no consumers.
-- [ ] Exit: patterns tagged v0.7.0 per the release protocol (additive
-  minor), verified from VCS; gates green; `llms.txt` current. Commit
-  and push.
-
-#### O2.3: Adopt the new breadcrumb API in vaultview
-
-ADR-014 S4, second half — the copy retires.
-
-- [ ] vaultview's picker and note trails render through the new
-  patterns API; `crumb.go` is deleted; the patterns pin moves to
-  v0.7.0; goldens regenerated where the chevron glyph legitimately
-  changes.
-- [ ] Exit: `GOWORK=off` build and test of vaultview from a clean
-  checkout against published tags only; a screenshot confirms both
-  trails render and click. Commit and push.
-
 ## Reference
 
 Decision records and shared contracts. `mdplan next` never visits this section
@@ -9205,3 +4934,4274 @@ Measured after the G-B1 baseline work: all eight versions deleted during it —
 v0.3.1/v0.3.2/v0.4.2, `traer gio/v0.0.9`, `kiwi gio/v0.0.7` — were still
 clean on both the proxy and the sumdb. That was luck bounded by a small
 window, not a repeatable guarantee.
+
+## Phase A: Front door — make the org legible to a coding assistant
+
+Nothing here changes a line of library code. It fixes the reason an assistant
+pointed at the org currently finds nothing: the canonical guide is buried one
+repo deep and unlinked, eleven of the twenty sibling repos have no README at
+all — twelve counting this one — and not one of the six core modules has a
+`doc.go` anywhere, so pkg.go.dev is blank for the entire stack.
+
+Phase A is self-contained and lands value immediately. Do not let later phases
+block it.
+
+![[#ADR-004: The canonical agent guide lives here]]
+### G-A1: Establish the guide and the front door
+
+All work in this repo unless a step says otherwise.
+
+#### A1.1: Set up the working tree
+
+Create the local layout every later task assumes.
+
+- [x] Add `.gitignore` with `.repos/`, `go.work.sum` and `.DS_Store`.
+- [x] Write `scripts/clone-all.sh`: clone all twenty sibling repos into `.repos/`, skipping any already present, and `git pull --ff-only` those that are. Plain `git clone https://github.com/vibrantgio/<name>.git` — do not assume `gh` is installed.
+- [x] Name all twenty in the script, since nothing else in the working tree knows the list: **the stack** — mvu, spectrum, prism, pulse, cadence, markdown; **the leaves** — font, style, textdraw, backdrop, gradient, circle; **the support libraries** — ivg, svg, seen, csg, kiwi, noise, traer; **the apps** — workbench.
+- [x] Run it; confirm twenty directories exist under `.repos/`.
+- [x] Record in the script's header comment that `.github` itself is the parent directory, not a clone — and that the whole set is cloned every time, because the module graph is what this plan edits and no task can see an edge whose other end is missing.
+- [x] Write `scripts/inventory.sh`: per repo, report whether it has a `README.md`, an `AGENTS.md`, a root `doc.go` and a `.github/workflows/`, plus its current Gio and rx versions.
+- [x] Run it and paste the table into the commit body. Every count this plan still asserts — twelve missing READMEs, six missing `doc.go`, twenty missing `AGENTS.md`, no CI anywhere — is checked against that table and corrected here if it is wrong. Phase A's tasks were cut from a survey, not from the clone. (The dependency half of that survey is already settled: G-B1 put every module on one Gio, one rx and `go 1.25.1`.)
+
+#### A1.2: Move llms.txt here and correct its inventory
+`workbench/llms.txt` is the only agent guide in the org. Promote it to this
+repo's root, where the org front door can link it.
+
+- [x] `git mv` the file content into `./llms.txt` (copy across repos; it is a new file here).
+- [x] Correct the module inventory table against the real tags. Do not copy the list below by hand — read it out of the clones (`git -C .repos/<name> tag | sort -V | tail -1`), because it has already gone stale once. Measured 2026-07-31, after the G-B1 retagging: mvu v0.4.3, prism v0.1.2, spectrum v0.0.6, pulse v0.0.6, cadence v0.2.3, markdown v0.0.6, seen v0.0.7, traer v0.0.8, svg v0.0.8, ivg v0.1.6, backdrop v0.0.3, noise v0.0.3, style v0.0.5, textdraw v0.0.4, font v0.0.4, circle v0.0.4, kiwi v0.0.6, gradient v0.0.3, csg v0.0.1. Note `gradient` — the old table omitted it entirely — and `csg`, which the old table showed as untagged.
+- [x] List the ten nested modules too — they are invisible in a repo listing and an assistant will not guess them: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio`, `svg/driver/{gio,pdf,raster,seen}`. Their tags carry the subdirectory prefix (`raster/gio/v0.1.6`), which is not obvious.
+- [x] Add a header line naming this file the single canonical guide and giving its raw URL.
+- [x] In `.repos/workbench`, replace `llms.txt` with a three-line pointer to the canonical URL, and update `workbench/README.md`'s reference to it. Commit in workbench.
+#### A1.3: Give the guide a typography section
+The guide is why assistants ship gofont apps: it lists `style` and `font` in the
+inventory but omits them from the bootstrap and the minimal `go.mod`, and has no
+typography section at all. Document today's correct practice. Phase C replaces
+this section wholesale.
+
+- [x] Add a `## Typography` section: build one `*text.Shaper` from `style.FontFaces()` and pass it to every component's `Shaper` prop.
+- [x] State the rule plainly: never `gofont`, never `text.NoSystemFonts()` with the Go collection, never append the two.
+- [x] Note that components default to gofont internally when `Shaper` is nil, so the prop is not optional today.
+- [x] Add `github.com/vibrantgio/style` (and `github.com/vibrantgio/textdraw`, direct as soon as the app draws its own text) to the minimal `go.mod` block; `github.com/vibrantgio/font` is style's INDIRECT dependency — `todos/go.mod` carries it `// indirect` — so do not list it as a direct require.
+- [x] Point at the correct reference app and name the known-wrong ones until Phase F.
+
+**Corrected by A3.2.** This task assumed `todos/` already followed the
+practice, and the section it produced named `todos/view.go`,
+`iconbrowser/view.go` and `launcher/view.go` as correct. Only `launcher` is.
+All three build the shaper at layer scope, but todos and iconbrowser spend it
+only on their own `textdraw` calls — `todos/upsertdialog.go`'s two
+`button.Button` calls and `iconbrowser/view.go`'s `input.TextField` omit
+`Shaper:`, so those components render in gofont. The section was pointing
+assistants at two apps exhibiting the defect it warns about. A3.2 rewrote the
+REFERENCE CODE paragraph to name launcher alone and say what the other two get
+wrong; the app code is F1.1's to fix.
+#### A1.4: Rewrite the org profile README
+
+`profile/README.md` is what renders on the organization home page. Today it
+opens with screenshots and never mentions the guide, DESIGN.md, or where to
+start.
+
+- [x] Open with a one-paragraph statement of what Vibrant Gio is and what it targets.
+- [x] Immediately follow with a **Start here** block linking `llms.txt`, `workbench/DESIGN.md`, and `workbench/todos/`.
+- [x] Keep the layered stack table; correct it to ADR-001's tier table — all nineteen modules, not just the six-module spine — and mark layers that are mid-migration.
+- [x] Keep the screenshots, moved below the entry points.
+
+![[#ADR-001: Spectrum is the foundation, not a consumer]]
+
+#### A1.5: Write this repo's root README
+
+The repo root is separate from `profile/`. It currently has no README at all.
+
+- [x] Explain that this repo holds three things: the org profile page, `PLAN.md`, and the canonical `llms.txt`.
+- [x] Link all three, plus `scripts/clone-all.sh`.
+- [x] Note that `profile/README.md` — not this file — is what renders on the org page.
+
+#### A1.6: Write this repo's AGENTS.md
+
+A1.5's README is written for a human evaluating the repo. This file is for the
+agent that has just been dropped into this working tree with no other context —
+and by G-A2's own argument, a README is not the file it finds.
+
+It is written by hand rather than from the G-A2 template, because it describes
+a plan and a working tree rather than a library module.
+
+**There is no `go.work` here yet.** This step was written asserting that one at
+this root is what makes the modules resolve against each other; it does not
+exist, `.gitignore` lists it, and B2.1 is the task that writes it. Stating
+otherwise in `AGENTS.md` would have taught the next agent that a cross-repo
+change is visible to the other side when it is not. Creating the workspace does
+not belong here either — Phase A changes no module resolution, and B2.1 owns
+the verification sweeps that go with it — so the step below says what is true
+today and points forward.
+
+- [x] Write `AGENTS.md` at this repo's root: what this repo is, that `PLAN.md` is the entry point, and that `mdplan next` is how work is picked up.
+- [x] State the working-tree layout — sibling repos live in gitignored `.repos/`, this repo is their parent and not a clone, and each module today resolves its siblings from published tags rather than from the working tree; the `go.work` that changes that is B2.1's, not this task's.
+- [x] Restate the rules from `PLAN.md`'s preamble that an agent must not discover late: one task one commit, green before commit, push when it's green, releases stay deliberate, stop if a task is too big.
+- [x] Link `llms.txt` — but say plainly that it covers writing Gio code against the libraries, not working the plan, so an agent knows which file answers which question.
+- [x] Commit here.
+### G-A2: Put an AGENTS.md in every repo
+
+`AGENTS.md` at a repo root is the file an assistant finds without being told.
+Twenty repos, none have one. This is the single highest-leverage change in the
+plan.
+
+This goal covers the twenty sibling repos under `.repos/`. This repo's own
+`AGENTS.md` is A1.6, and `scripts/sync-agents.sh` deliberately cannot reach it:
+`.github` is the parent directory, not a clone.
+
+![[#The repo doc contract]]
+
+#### A2.1: Author the template and the sync script
+
+- [x] Write `templates/AGENTS.md` here: what this repo is, which layer it sits in, the canonical guide's raw URL, the build/test command, and "read the guide before you write code against this module". Rendered, that is about thirty wrapped lines, not the fifteen this step first estimated — five short paragraphs plus the module paragraph the doc contract also asks for.
+- [x] Make the layer line and the one-sentence role substitutable per repo. They live in `templates/repos.tsv`, one tab-separated row per repo; anything longer than a line — a deprecation notice, a platform caveat — goes in an optional `templates/notes/<repo>.md`.
+- [x] Write `scripts/sync-agents.sh` that renders the template into a named repo under `.repos/` and reports a diff without committing. It also measures the module and build paragraphs from the clone — root module path, nested modules and their prefixed tags, or the absence of a root module — so those are never hand-typed. `-n` writes nothing.
+- [x] Dry-run it against `.repos/prism` and check the output reads well.
+
+#### A2.2: Roll out to the core stack
+
+- [x] Render `AGENTS.md` into mvu, prism, spectrum, pulse, cadence.
+- [x] Set each one's role line from the layer table in ADR-001.
+- [x] Commit in each of the five repos.
+
+#### A2.3: Roll out to workbench, markdown and the text/draw repos
+Carried forward from A2.2: teach the sync script the golden-image flag before
+rendering anything, so these eight repos are right first time and the five
+already done are re-rendered rather than left to drift.
+
+- [x] Teach `scripts/sync-agents.sh` a third measured paragraph — which packages keep PNGs under `testdata/golden/`, which flag regenerates them, and the command line that actually works — plus the `{{GOLDEN}}` line in the template. Re-render and commit in mvu, spectrum, prism, pulse and cadence; mvu has no goldens and does not move.
+- [x] Render into workbench, markdown, font, style, textdraw, backdrop, gradient, circle.
+- [x] For `style`, add the ADR-003 freeze note. For `textdraw`, an honest one: ADR-003 freezes `style` and says nothing about `textdraw`, nothing in Phase C touches it, and `MeasureText`, `FillText` and `FillLabel` have no replacement in the design system. Both notes live in `templates/notes/<repo>.md`.
+- [x] Commit in each of the eight repos.
+
+**The `-golden.update` incantation in every repo's own doc comments does not
+work.** `go test` cannot tell that an unfamiliar flag is boolean, so it stops
+treating the rest of the line as package arguments: `go test -golden.update
+./...` hands `./...` to the test binary and tests whatever package the current
+directory holds. The flag has to come *after* the packages. And `./...` only
+works where every test package stores goldens — markdown — because a test
+binary rejects a flag it never declared; prism, pulse, spectrum and cadence
+all have test packages without goldens, so their packages are named one by
+one. The script measures which case a repo is in.
+
+**`workbench/launcher` does not build**, and did not before this task. Its
+`go.sum` pins `github.com/vibrantgio/seen/context/gio v0.0.7` to a hash that
+no published form of that module produces, so the build stops with a checksum
+mismatch. `svg/driver/seen` is stuck on the identical line — A2.4 found it,
+and A2.3 missed it by only building the app modules. The diagnosis first
+recorded here was wrong: the tag is **not** unpushed. `git ls-remote` shows
+GitHub carrying exactly the local tag, and a `GOPROXY=direct` fetch of it
+hashes to what the proxy serves — `OJip+UYN…`. Both disagree with `go.sum`,
+which records `cCJSzFNE…` for a `context/gio` that was never published, down
+to a different `/go.mod` hash. No push closes this seam, because there is
+nothing local to push: seen is clean and zero commits ahead. Dropping the two
+`seen/context/gio v0.0.7` lines and re-running `go mod tidy` restores the
+build — `go mod tidy` alone cannot, since it verifies before it rewrites.
+That makes it a consumer-side `go.sum` repair, not one of the ADR-006 tag
+seams; whoever schedules it should fix both modules in one change. The other
+six app modules are green.
+#### A2.4: Roll out to the graphics and geometry repos
+
+These are support libraries, not design-system layers; their AGENTS.md says so.
+
+- [x] Render into ivg, svg, seen, csg, kiwi, noise, traer.
+- [x] Mark each as a support library that the design system consumes but that does not depend on it.
+- [x] Commit in each of the seven repos.
+
+**No golden paragraph rendered for any of the seven**, and that is correct:
+none of them keeps a `testdata/golden/` directory. `noise` comes closest and
+is the reason it has a notes file — four tests compare a rendered PNG against
+`ref_*.png` embedded from the repository root, and the only way to regenerate
+them is to flip `const write_reference_image` in `noise_test.go` to `true`.
+Because the bytes each test compares against were embedded when the binary was
+built, that takes two runs: the first rewrites the PNGs and still fails, the
+second passes against what it just wrote. Verified, not inferred.
+
+**`csg` and `kiwi` have no consumer anywhere in the organization**, so their
+layer lines say so instead of reciting the formula. seen carries an adaptation
+of csg's BSP kernel as its own `solid` package — same algorithm, rewritten
+onto `point.Point`, `face.Faces` and `transform.Transform` so a solid is a
+`seen.Object` — rather than importing the module. kiwi's only caller is the
+single example in its own `gio` module.
+
+**The support libraries do not depend on the design system, but three of their
+nested modules do.** `ivg/raster/gio`, `svg/driver/gio` and `traer/gio` require
+the tier-0 leaves `style`, `textdraw` and `circle` — always and only for demo
+programs, never for library code. The layer lines say that rather than claiming
+a clean separation that the `go.mod` files contradict.
+
+### G-A3: READMEs and package docs
+Eleven repos have no README: prism, cadence, spectrum, pulse, font, style,
+textdraw, gradient, circle, seen and kiwi — exactly the eleven the tasks
+below write. That half of A1.1's inventory holds up.
+
+The other half does not, and A3.2 disproved it. The inventory said the six
+core modules "have no `doc.go` anywhere, so pkg.go.dev shows nothing for the
+whole stack". The inference is false — pkg.go.dev renders a package comment
+wherever it lives, and a `doc.go` is a convention, not a requirement — and
+so is the conclusion. Measured across the six by `go doc`:
+
+| module | packages with a package comment |
+| --- | --- |
+| mvu | 0 of 1 — genuinely blank |
+| prism | 13 of 16 before A3.2; a11y, theme and tokens were the gaps |
+| spectrum | 4 of 4 |
+| pulse | 7 of 7 |
+| cadence | 19 of 19 — `modal/gallery` has a `Command gallery` comment too |
+| markdown | 4 of 4 |
+
+A3.3 re-measured cadence and found no gap at all: every one of the eighteen
+pattern packages carries a multi-paragraph package comment, and the
+`modal/gallery` main carries a `Command gallery` one. A3.4 confirmed the
+count a third time and was rewritten from "add a `doc.go` to each of the
+eighteen" into the audit it actually is. That audit found the comments'
+weakness is not absence but thinness: six of the eighteen — alert,
+breadcrumb, card, feature, navbar and sidebar — described the pattern and
+then stopped, naming no pitfall a caller could trip on. Presence of a
+package comment is not evidence of a good one, so measure the later
+modules for quality, not for count.
+
+A3.6 found the failure one step further along. pulse's seven comments are
+the longest in the organization and three of them are numerically false —
+a settle time, a frame count and an intensity claim that the code does not
+produce. Length is not evidence either. Where a comment states a number,
+run it before believing it.
+
+So A3.4 through A3.7 are mostly audits, not writing jobs. Run `go doc` over
+every package in the module first; write where there is nothing, expand a
+one-liner into the two-to-five-sentence shape, verify the rest against the
+API — numbers included — and leave them be. Do not rehouse a good comment in a `doc.go` for the
+sake of the filename. Outside the spine, font, ivg, seen and traer carry a
+root `doc.go` and svg carries package-level ones.
+
+Describe the layer and the role — not the API surface, which Phases B–E will
+change.
+
+![[#The repo doc contract]]
+#### A3.1: prism README
+
+- [x] Write `.repos/prism/README.md` per the doc contract.
+- [x] List the packages and one line each: a11y, bench, button, cache, coordination, icon, initial, input, keyed, layout, list, richtext, scrollbar, theme, tokens.
+- [x] Note that `theme` and `tokens` move to spectrum in Phase B and will remain as aliases.
+- [x] Commit in prism.
+
+#### A3.2: prism package docs
+The premise was wrong. Eleven of the fourteen packages listed here already
+carried a package comment — in a regular source file rather than a `doc.go`,
+which pkg.go.dev does not care about. Only `a11y`, `theme` and `tokens` had
+none at all. `icon`, excluded from the list on the correct grounds that it
+had a comment, had a one-liner like `input` and `layout` did.
+
+- [x] Add a `doc.go` with a package comment to the three prism packages that genuinely lack one: a11y, theme, tokens.
+- [x] Replace the one- or two-sentence comments on button, input, layout and icon with a `doc.go`, deleting the old comment so each package has exactly one. Leave bench, cache, coordination, initial, keyed, list, richtext and scrollbar alone — verify their comments against `go doc` and move on; rehousing a good comment in a `doc.go` is churn.
+- [x] Two to five sentences each: what it is, when to reach for it, what it assumes.
+- [x] Fix `internal/golden`'s own package comment, which teaches `go test -golden.update ./...` — the exact invocation AGENTS.md documents as broken.
+- [x] Correct three factual errors in `llms.txt`, found while checking prism's API: `Initial[T]` is really `initial.Value[T]`; `KeyedDefer` does not exist and the API is `keyed.Defer(factory)` returning `*keyed.Deferred[K,V]`; and the Typography section's REFERENCE CODE named todos, iconbrowser and launcher as correct when only launcher passes the shaper into a component. Commit separately in this repo.
+- [x] `go build ./... && go test ./...` in both prism modules; commit in prism.
+
+Left for later, recorded here rather than fixed: `bench`, `cache`,
+`coordination` and `richtext` cite `DESIGN §…`, `BASELINE.md`,
+`EXPERIMENT-B.md` and `EXPERIMENT-C.md` from their package comments.
+`DESIGN.md` and `BASELINE.md` live in `vibrantgio/workbench`, unreachable
+from prism's pkg.go.dev page; the two `EXPERIMENT` files exist in no
+repository in the org.
+#### A3.3: cadence README
+
+- [x] Write `.repos/cadence/README.md` per the doc contract.
+- [x] Group the eighteen packages by kind — shells, data, overlays, marketing — with one line each.
+- [x] Commit in cadence.
+
+#### A3.4: cadence package docs
+
+A3.4 was authored as *add a `doc.go` to each of the eighteen*. A3.3
+measured the module and found nineteen of nineteen packages already
+carrying a package comment, which contradicts both the corrected table
+above and this goal's own rule against rehousing a good comment in a
+`doc.go` for the sake of the filename. Rewritten as the audit it is.
+
+- [x] Re-measure with `go doc` — nineteen of nineteen already carry a package comment, so there is nothing to write and nothing to move into a `doc.go`.
+- [x] Audit the eighteen patterns against the doc contract — what the package is for, the real prop shape, one honest pitfall — with prism's comments as the bar. Rewrite in place the ones that are thin or wrong; leave the rest alone.
+- [x] Record `cadence/feature`'s missing `Shaper` prop in its package comment, and fix `modal/gallery`'s pre-split run path — from the cadence root it is `go run ./modal/gallery`.
+- [x] `go build ./... && go test ./...`; commit in cadence.
+
+#### A3.5: spectrum README and package docs
+
+A3.5 re-measured spectrum with `go doc` and found 4 of 4 packages already
+carrying a package comment, exactly as G-A3's table says — so "add `doc.go`
+where missing" had nothing to add, and rehousing four good comments in four
+new files would have been the churn this goal warns against. The step is an
+audit, and the audit's finding matches A3.4's on cadence: the weakness is
+thinness, not absence. All four described their package and stopped short of
+a pitfall a caller could trip on, and three carried claims worth correcting
+— `window`'s comment was two paragraphs of design-phase narrative,
+`preferences` offered a rationale (config vs data) in place of a pitfall,
+and `transition` explained its split from pulse without saying what its
+interpolation cannot do. All four were rewritten in place.
+
+Two defects surfaced that nothing in this plan had recorded. The appearance
+observable is **cold**: every subscription starts its own ticker and polls
+the `Source` independently, so one `LiveTheme` handed to n consumers polls n
+times per interval — measured, not inferred — and on macOS each poll is a
+`defaults` fork+exec. All seven workbench apps hand it to two layers today.
+And `spectrum/transition` has no consumer anywhere in the organization:
+`LiveTheme` swaps palettes in one step, so the cross-fade the package exists
+for does not happen in any application, though
+`workbench/sitedocs/content/spectrum-live-theme.md` says it does.
+
+- [x] Write `.repos/spectrum/README.md` per the doc contract, describing the foundation role it takes in Phase B.
+- [x] Audit the package comments on preferences, system, transition and window against the doc contract; rewrite the thin ones in place.
+- [x] State plainly in the README that palette injection does not exist yet and arrives in Phase D.
+- [x] `go build ./... && go test ./...`; commit in spectrum.
+
+#### A3.6: pulse README and package docs
+A3.6 re-measured pulse with `go doc` and found 7 of 7 packages already
+carrying a package comment, exactly as G-A3's table says — and these are the
+longest in the organization, several running to four sections with worked
+examples. "Add `doc.go` where missing" had nothing to add, so the step is an
+audit, as in A3.4 and A3.5.
+
+The finding is a new one. pulse's comments are not thin; they are **wrong**,
+and wrong in the way a long confident comment is worst: three of the seven
+state a number that the code does not produce. `depth` says shadow intensity
+is a function of elevation — it is a single constant alpha at every level,
+and only the geometry varies. `motion` says its default spring settles in
+~30 frames, "coordinated with `DefaultFrames` so opacity and scale finish
+together" — measured, `NewEnter(Options{})` reaches `Settled(0.005)` at frame
+52, with scale still at 0.991 when the fade ends. `springbutton` says a press
+settles near 250 ms — measured against its own tolerance, 25 frames, ~415 ms
+at 60 Hz. Prose describing an API can rot quietly; a number in a comment is a
+test that never runs. Where a later task's audit finds one, measure it.
+
+Three defects surfaced that nothing in this plan had recorded. `spring`'s
+zero-value `Options` — the fallback a caller gets by passing `Options{}` —
+takes **873 frames**, about fifteen seconds at 60 Hz, to settle to 0.005;
+neither in-module consumer goes near it. `motion.Options.Spring` falls back
+to `DefaultSpring` only when the whole struct is zero, so setting `Stiffness`
+alone silently takes `Damping` and `Mass` from `spring`'s soft defaults
+instead, giving a damping ratio near 0.02 that rings for thousands of frames.
+And `depth`'s interior fill is a hard rectangle painted at full alpha, so the
+rounded foreground every one of its three callers paints leaves the shadow's
+square corners showing through as dark wedges.
+
+Three of the seven packages have no consumer anywhere in the organization —
+`conductor` and `glow` are imported by nothing at all, `motion` by nothing
+outside its own tests. `springbutton` is the only variant that was ever
+built, and no phase of this plan claims the rest.
+
+- [x] Write `.repos/pulse/README.md` per the doc contract.
+- [x] Audit the package comments on conductor, depth, glow, motion, spring, springbutton and tween against the doc contract; rewrite in place the ones that are thin or wrong, and verify every number in them against the code.
+- [x] Record the rule that pulse components are explicit variants of prism components, never global decorators.
+- [x] `go build ./... && go test ./...`; commit in pulse.
+#### A3.7: mvu and markdown package docs
+Half writing, half audit. mvu is the writing half: 0 of 1, genuinely blank,
+and as tier 0 its package comment is the most-read text in the org after
+llms.txt. markdown is the audit half — the row above says 4 of 4 and it
+holds: root, `highlight`, `svgimage` and `internal/golden` all carry
+comments already, so this task judges them against the doc contract and
+rewrites the thin ones *in place*. The original step said "neither has
+package docs" and asked for four new `doc.go` files; three of those four
+would have rehoused a good comment for the sake of a filename, which G-A3
+forbids. mvu has no natural root file, so a `doc.go` there is right.
+
+The named suspect was half right: markdown's root comment cites
+`DESIGN §Markdown`, and that document is in **workbench**, a different
+repository, so a pkg.go.dev reader cannot follow it — but the comment is
+multi-paragraph, not the one-liner the note claimed. Length was not the
+problem; the unfollowable citation and the absence of any pitfall were.
+
+**And llms.txt is not wholly accurate either.** Rule 1 said mvu's window
+joins frame events with the layers "via `rx.WithLatestFrom2`". That
+identifier does not exist anywhere in the organization — `command grep -r`
+across all twenty clones returns nothing. `Window.Render` subscribes the
+`CombineLatest` of the layers on an rx goroutine, stores each result as an
+`atomic.Pointer` snapshot and calls `Invalidate`; the events goroutine
+reads the snapshot on the next frame. The rule's *conclusion* was right,
+which is why it survived this long. Corrected here. Treat the guide as
+measured-until-proven like everything else.
+
+- [x] Write the mvu package comment as `doc.go` — the loop, commands, `MessageOp`, and the AutoConnect counts, agreeing with llms.txt.
+- [x] Audit markdown's root, `highlight` and `svgimage` comments in place against the doc contract; measure every number and behaviour before carrying it forward.
+- [x] Refresh markdown's README to link the canonical guide.
+- [x] `go build ./... && go test ./...`; commit in both.
+#### A3.8: text and drawing repo READMEs
+
+Six small repos, a one-pager each — what it does, its one type or function, and
+where it sits.
+
+- [x] Write READMEs for font, style, textdraw, gradient, circle.
+- [x] Expand backdrop's one-line README to the same shape.
+- [x] In `style` and `font`, state that they are not yet wired into the component stack and that Phase C fixes this.
+- [x] Commit in each of the six repos.
+
+#### A3.9: support library READMEs
+
+- [x] Write READMEs for seen and kiwi.
+- [x] Expand svg's stub README to the doc contract's shape.
+- [x] Leave ivg, csg, noise, traer READMEs as they are; add only the canonical-guide link.
+- [x] Commit in each repo touched.
+
+## Phase B: Repair the module graph
+
+Mechanical, low-risk, and it unblocks everything after it. `spectrum` (theme
+runtime) depends on `prism` (components), so the theme sits *above* what it
+themes and no application can supply a palette.
+
+**G-B1 is done.** The module cycle is cut, and every module in the org is on
+one Gio, one rx and one `go` directive, published as a tagged baseline where
+each module references its siblings' current tags. What remains in this phase
+is the workspace (G-B2) and the inversion itself (G-B3).
+
+Type aliases make the package moves non-breaking — every downstream repo keeps
+compiling untouched.
+
+![[#ADR-001: Spectrum is the foundation, not a consumer]]
+
+### G-B1: Break the cycle and align versions
+
+Done — and it cost far less than these tasks assumed. Three of them were cut
+against a picture of the drift that turned out to be wrong, so the findings are
+recorded here rather than in a commit message nobody will read again:
+
+- **The breaking change was not in Gio v0.10.** `font.Font.Variant` — the one
+  API removal that bit anything — went in **v0.9**, and `font` had already
+  fixed it in the commit tagged `v0.0.3`. What actually failed to build were
+  two modules still pinned to `font` v0.0.1 and v0.0.2, plus four `go.sum`
+  files missing the `golang.org/x/net` entry that `gioui.org/app` gained in
+  v0.10. Both classes are dependency staleness, not API drift.
+- **Not one golden image moved.** All 160 still match. B1.4–B1.6 were sized
+  almost entirely around regenerating them; that work did not exist.
+- **Most modules were already on v0.10.0.** Only eight were on v0.9, and
+  `kiwi/gio` was already on v0.10.1. "Three Gio versions in play" was true but
+  described a much smaller gap than it sounded like.
+
+The alignment went further than this goal asked, because the versions being
+"all over the place" was the real complaint: every *directly required* external
+dependency now resolves to a single version org-wide, and all 36 modules
+declare `go 1.25.1`. Transitive-only deps are deliberately left alone —
+`go mod tidy` strips a pin on a module the pinning module does not itself
+import, so they cannot be unified and chasing them re-diverges every tidy.
+
+#### B1.1: Cut pulse out of prism
+
+`prism/gallery/main.go` imports `pulse/springbutton`. That single demo file is
+what puts `pulse` in prism's `go.mod` and closes the cycle.
+
+- [x] Give `prism/gallery` its own `go.mod` as a nested module requiring prism and pulse.
+- [x] Remove `github.com/vibrantgio/pulse` from prism's `go.mod`; `go mod tidy`.
+- [x] Confirm `go list -m all` in prism no longer mentions pulse.
+- [x] `go build ./... && go test ./...` in both prism and prism/gallery; commit in prism.
+- [x] Note the extraction hazard: every prism ≤ v0.0.9 still carries `gallery/` inside the prism module, so the nested module's own import path is ambiguous until a prism without it is published. `gallery` was therefore tagged separately, after prism v0.1.0.
+
+#### B1.2: Survey the Gio v0.9 → v0.10 drift
+
+- [x] Read Gio's v0.10 release notes and changelog; list every breaking API change.
+- [x] Grep the six core modules for each one; record which repos and which files are hit.
+- [x] Count the golden images in prism, pulse, cadence and markdown — 160, of which zero moved.
+- [x] Write the findings into this goal's preamble above; re-cut B1.3–B1.6 accordingly.
+- [x] Commit here in the plan repo.
+
+#### B1.3: Align mvu and spectrum
+
+- [x] Set gioui.org v0.10.1 and reactivego/rx v0.3.0 in mvu and spectrum.
+- [x] `go mod tidy` in each.
+- [x] Migrate spectrum's four `Subscribe` call sites: rx v0.3.0 moved the scheduler out of the argument list and into a context, so `Subscribe(observer, scheduler)` became `Subscribe(ctx, observer)`. All four are in tests; prism's idiom — `context.Background()` for synchronous helpers, `rx.GoroutineContext()` for the concurrent one — was already correct and was copied.
+- [x] Bump spectrum and pulse to mvu v0.4.1: published mvu v0.2.0 calls the old `Subscribe` itself and cannot compile against rx v0.3.0.
+- [x] `go build ./... && go test ./...` in both; commit in each.
+
+#### B1.4: Align prism and its galleries
+
+- [x] Set the same versions in prism and `prism/gallery`. (`prism/button/gallery` and `prism/icon/gallery` are ordinary packages inside prism, not modules — only the top-level gallery was ever separate.)
+- [x] `go mod tidy`; no goldens moved.
+- [x] `go build ./... && go test ./...`; commit in prism.
+
+#### B1.5: Align pulse and markdown
+
+- [x] Set the same versions in pulse and markdown.
+- [x] `go mod tidy` in each; no goldens moved.
+- [x] `go build ./... && go test ./...` in each; commit in each.
+
+#### B1.6: Align cadence
+
+- [x] Set the same versions in cadence.
+- [x] `go mod tidy`; all eighteen packages green, no goldens moved.
+- [x] `go build ./... && go test ./...`; commit in cadence.
+
+#### B1.7: Align the leaf repos
+
+- [x] Set the same Gio version in font, style, textdraw, backdrop, gradient, circle.
+- [x] Align the support libraries too — svg, seen, ivg, kiwi, traer, noise and csg all carry Gio-dependent nested modules or are reached from the core.
+- [x] Fix the one real bug this surfaced: raising svg's `go` directive enabled Go 1.24's non-constant-format-string vet check, which caught `parser/elementfuncs.go:441` passing a pre-concatenated message to the printf-like `HandleError`. Any SVG element whose tag contained a `%` was misformatted.
+- [x] `go mod tidy`, build and test each.
+- [x] Commit in each repo touched.
+
+### G-B2: One workspace, one resolution strategy
+
+Everything from here to the end of Phase E is a cross-repo change, and twenty
+separate Go modules do not compile against each other's uncommitted work by
+wishing. B3.3 is where it bites first: `prism/tokens` becomes an alias for a
+`spectrum/tokens` that no published spectrum tag contains. Settle how the
+modules resolve before moving a single package.
+
+**This comes after G-B1, not before it.** A workspace computes one build list
+across all its members, so the moment `go.work` exists every module resolves
+its shared dependencies at the highest version any member asks for. With the
+Gio versions still spread that would have compiled the v0.9 modules against
+v0.10 and failed. G-B1 settled it, so the ordering constraint is now satisfied
+rather than pending — but keep the ordering, because it is the reason this
+works.
+
+**A second, sharper hazard, learned the hard way during G-B1.** A single
+member requiring a version that does not exist yet breaks the *entire*
+workspace, not just that member: MVS resolves across all members, so one
+unresolvable requirement takes every module down at once. Writing a go.mod
+that names a tag you are about to cut turns a 36-module green sweep into
+5-of-36. Pin published versions, verify, and only then cut tags.
+
+![[#ADR-006: One workspace while developing, tags at the seams]]
+
+#### B2.0: Repair the seen/context/gio go.sum pin
+
+`workbench/launcher` and `svg/driver/seen` do not build **from a clone**: both
+pin `github.com/vibrantgio/seen/context/gio v0.0.7` to hashes of content that
+exists nowhere. Diagnosed in full under [[#Defects found but not fixed]] — do
+not re-litigate whether a push fixes it. It does not: git, the proxy and
+`sum.golang.org` all agree with each other and all disagree with `go.sum`.
+
+Do not be reassured by `go install …/launcher@latest` working — it does, on a
+clean machine, because `go install pkg@version` never consults a dependency
+module's `go.sum` and falls through to the checksum database. That path is
+healthy and stays healthy. This task is about the clone-and-build path, which
+is the one every later task uses.
+
+This runs **before** B2.1, and the ordering is the point. Every one of the 36
+modules becomes a workspace member, so once `go.work` exists the bad `go.sum`
+entry is never consulted and both modules build green in the tree while staying
+broken for everyone outside it. Fix it while the breakage is still observable.
+
+- [x] In each of the two modules, drop the two `seen/context/gio v0.0.7` lines from `go.sum` and re-run `go mod tidy`. Tidy alone will not do it: it verifies before it rewrites. Both lines are wrong — the `h1:` and the `/go.mod` — so removing one is not enough.
+- [x] Sweep all 36 modules for the same stale pair, not just these two — the bad hashes could have been recorded anywhere that ever resolved that tag.
+- [x] Check what `go mod tidy` writes back against `sum.golang.org` (`curl https://sum.golang.org/lookup/github.com/vibrantgio/seen/context/gio@v0.0.7`): `h1:OJip+UYN…` and `/go.mod h1:qmUvReYG…`. `GOPRIVATE` covers `github.com/vibrantgio/*` on the development machine, so the checksum database is *not* consulted automatically — this cross-check has to be done by hand or the repair could re-record a wrong hash unnoticed.
+- [x] Build and test both modules, with no workspace in effect. Confirm `go env GOWORK` is empty first, so the repair is verified against published tags rather than masked by the tree.
+- [x] Strike the entry in [[#Defects found but not fixed]], leaving the record in place.
+
+#### B2.1: Establish the Go workspace
+
+- [x] Write `go.work` at the root of this repo listing all **36** modules — nineteen repository roots (`workbench` has no root module of its own), the ten nested ones: `prism/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`, `seen/context/gio` and `svg/driver/{gio,pdf,raster,seen}`, and `workbench`'s seven apps: `feeds`, `iconbrowser`, `launcher`, `mindchat`, `sitedocs`, `todos`, `watchlist`. Generate the list with `find .repos -name go.mod`; do not hand-maintain it. (`prism/button/gallery` and `prism/icon/gallery` are packages, not modules.)
+- [x] Confirm that from each module, `go build ./... && go test ./...` resolves its siblings from the working tree rather than the module cache.
+- [x] Confirm the resolved Gio and rx versions are the single ones G-B1 settled on — if the workspace pulls something higher, a module was missed and B1 is not actually done.
+- [x] Confirm the same commands under `GOWORK=off` still pass, resolving from published tags. This is what CI sees, and the gap between the two is what ADR-006 manages. Both sweeps were green at 36/36 when the G-B1 baseline was tagged; this task is about making that repeatable, not discovering it.
+- [x] Write `scripts/check-no-workspace.sh`: run the whole stack with `GOWORK=off` and report which modules fail and why. Expect failures from B3.3 onward; the script records the debt, it does not pay it.
+- [x] Confirm no member repo carries a `replace` directive, and note in the script header that none may be added — a committed `replace` in a public module breaks every consumer outside this working tree.
+- [x] Settle whether `go.work` is committed here. **Decided by Rene: it is committed.** A1.1's `.gitignore` ignored both it and `go.work.sum`; the `go.work` line is now removed and only `go.work.sum` stays ignored. ADR-006 forbids a workspace only in *member* repos, and this repo is not one — it holds no module. Committing it means the 36-module list is reviewable and identical for everyone, rather than being silently regenerated per machine.
+- [x] Commit the script and `go.work` here. Note in `go.work`'s header that the members live under the gitignored `.repos/`, so the file is committed while the checkout it points at is not — `scripts/clone-all.sh` has to run first or every `use` line dangles.
+### G-B3: Invert the foundation
+
+Move the token and theme contract down into spectrum so the theme runtime is
+beneath the components it themes. Alias shims keep prism's import paths alive
+for one release.
+
+#### B3.1: Move the tokens into spectrum
+
+- [x] Copy `prism/tokens/*.go` (including tests) to `.repos/spectrum/tokens/`.
+- [x] Keep the package name `tokens` and every exported identifier unchanged.
+- [x] `go build ./... && go test ./...` in spectrum; commit.
+
+#### B3.2: Move the theme contract into spectrum
+
+- [x] Copy `prism/theme/*.go` (including tests) to `.repos/spectrum/theme/`, repointing its tokens import.
+- [x] Repoint `spectrum/system` and `spectrum/window` at the local theme package; drop the prism requirement from spectrum's `go.mod` if nothing else needs it.
+- [x] `go build ./... && go test ./...` in spectrum; commit.
+
+#### B3.3: Leave alias shims in prism
+
+- [x] Replace `prism/tokens`'s bodies with type aliases and variable re-exports pointing at `spectrum/tokens`.
+- [x] Do the same for `prism/theme`.
+- [x] Mark both packages `Deprecated:` with the replacement path.
+- [x] Confirm prism, pulse, cadence and markdown all still compile with no source changes; commit in prism.
+
+#### B3.4: Move transition into pulse
+
+`spectrum/transition` depends on `pulse/tween`, which would make the foundation
+depend on the effects layer. It is animation code; it belongs in pulse.
+
+- [x] Copy `spectrum/transition` to `.repos/pulse/transition`, repointing imports at `spectrum/tokens`.
+- [x] Leave a deprecated alias shim at `spectrum/transition`.
+- [x] Build and test both; commit in each.
+
+#### B3.5: Make the layering enforceable
+
+- [x] Write `scripts/check-layers.sh` here: for each module, `go list -deps` and assert only the edges ADR-001's tier table permits — the whole table, including the tier 0 leaves and the support-library row, not just the six-module spine.
+- [x] Teach it the nested-module exemption: `prism/gallery` and `mvu/example` may import above their parent's tier; their parents may not.
+- [x] Run it across all twenty modules; fix or record any violation it finds.
+- [x] Wire it into each core repo's CI workflow. A1.1's inventory says which repos have a `.github/workflows/` at all — where there is none, add a minimal build-and-test workflow first, since the check has to run somewhere.
+- [x] Commit the script here and the workflow change in each repo.
+
+## Phase C: The theme owns the typeface
+
+The fix for the Roboto problem. `TypeScale` is fifteen `float32` sizes — there
+is nowhere in the theme to put a typeface, so all seventeen `Props` structs and
+118 function signatures carry a `*text.Shaper`, every one of which falls back to
+`gofont.Collection()` inside library source.
+
+![[#ADR-003: The theme owns the typeface]]
+
+### G-C1: Define the typography token
+
+#### C1.1: TextStyle and Typography
+
+- [x] In `spectrum/tokens`, add `TextStyle{Typeface, Weight, Size, LineHeight, Tracking}`.
+- [x] Add `Typography` with one `TextStyle` per MD3 role — Display/Headline/Title/Label/Body × Large/Medium/Small.
+- [x] Populate `DefaultTypography` with the MD3 metrics: sizes as today, plus the matching line heights and tracking.
+- [x] Unit-test that every role has a non-zero size, weight and line height.
+- [x] Build, test, commit in spectrum.
+
+#### C1.2: Make Roboto the default face
+
+- [x] Add `Faces []font.FontFace` to `Typography`, defaulting to `vibrantgio/font/roboto.FontFaces()`.
+- [x] Add a `Shaper()` method that builds the shaper once, lazily, and caches it.
+- [x] Add `github.com/vibrantgio/font` to spectrum's `go.mod`.
+- [x] Test that the default shaper resolves Roboto for every weight the scale names.
+- [x] Build, test, commit in spectrum.
+
+#### C1.3: Put typography in the theme
+
+- [x] Add `Typography rx.Observable[tokens.Typography]` to `theme.Theme`.
+- [x] Update `theme.Default()`, `theme.AutoLightDark()`, `system.LiveTheme()` and `system.FromSourceTheme()` to emit it.
+- [x] Update the prism alias shim so `prism/theme.Theme` still matches.
+- [x] Build and test spectrum and prism; commit in each.
+
+#### C1.4: Deprecate the standalone type scale
+
+`style`'s MD2 scale is superseded, and it carries a real bug — `H1` and `H2` are
+both 96 sp (`textdraw.TextStyle.Size` is `unit.Sp`, not `unit.Dp`), where MD2's
+H2 is 60. The two differ only in weight, Thin and Light, so a document using
+both gets no size hierarchy at all.
+
+Four workbench applications import `style`, not zero — see the correction in
+ADR-003 — so these markers land on shipped code.
+
+- [x] Mark every exported symbol in `style` `Deprecated:` with the `spectrum/tokens.Typography` replacement.
+- [x] Fix the `H2` size to 60 so the deprecated path is at least correct.
+- [x] Note in `style`'s README that it is frozen.
+- [x] Build, test, commit in style.
+
+### G-C2: Migrate components off gofont
+
+One task per component group. Each ends with green tests — including
+regenerated goldens, which will move for every one of these.
+
+Pattern for each component: read `Typography` from the theme, use the role's
+`TextStyle` for typeface, weight, size and line height, and keep `Props.Shaper`
+only as an explicit override that defaults to the theme's shaper. No library
+file may import `gofont` when the group is done.
+
+#### C2.1: prism/button
+
+- [x] Take the shaper and `LabelLarge` style from the theme's `Typography`.
+- [x] Remove the `gofont` import and the inline fallback shaper.
+- [x] Keep `Props.Shaper` as an override; document it as such.
+- [x] Regenerate goldens; build, test, commit.
+
+#### C2.2: prism/input
+
+- [x] Migrate textfield, dropdown, checkbox and radio the same way.
+- [x] Remove every `gofont` import in the package.
+- [x] Regenerate goldens; build, test, commit.
+
+#### C2.3: prism remaining packages
+
+- [x] Migrate richtext, list, scrollbar and layout.
+- [x] Migrate `prism/gallery` (nested module) and `prism/button/gallery`.
+- [x] Confirm no `gofont` import remains anywhere in prism, tests included.
+- [x] Regenerate goldens; build, test, commit.
+
+#### C2.4: pulse
+
+- [x] Migrate springbutton and depth.
+- [x] Confirm no `gofont` import remains in pulse.
+- [x] Regenerate goldens; build, test, commit.
+
+#### C2.5: cadence — data and navigation
+
+- [x] Migrate table, tabs, sidebar, navbar, pagination.
+- [x] Regenerate goldens; build, test, commit.
+
+#### C2.6: cadence — overlays
+
+- [x] Migrate tooltip, alert, accordion, toast, popover, modal.
+- [x] Regenerate goldens; build, test, commit.
+
+#### C2.7: cadence — content and shells
+
+- [x] Migrate card, hero, feature, pricing, testimonial, breadcrumb, shell.
+- [x] Confirm no `gofont` import remains anywhere in cadence.
+- [x] Regenerate goldens; build, test, commit.
+
+#### C2.8: markdown
+
+- [x] Migrate the document renderer, highlight and svgimage to theme typography.
+- [x] Confirm no `gofont` import remains, tests included.
+- [x] Regenerate goldens; build, test, commit.
+
+### G-C3: Lock it in
+
+The rule that prevents this whole class of regression.
+
+#### C3.1: The no-gofont lint
+
+- [x] Write a Go test that walks the module and fails on any `gioui.org/font/gofont` import.
+- [x] Add it to prism, pulse, cadence and markdown.
+- [x] Confirm it fails when a gofont import is reintroduced deliberately, then passes.
+- [x] Wire it into each repo's CI; commit in each.
+
+#### C3.2: The no-literal-colour lint
+
+- [x] Write a test that fails on `color.NRGBA{...}` literals outside `spectrum/tokens` — and `spectrum/color` too, which D1.1 creates a phase from now.
+- [x] Add it to prism, pulse, cadence and markdown; allow-list the deliberate exceptions with a comment explaining each.
+- [x] Wire into CI; commit in each.
+
+#### C3.3: Refresh the guide's typography section
+
+A1.3 documented the shaper-passing practice this phase has just deleted. The
+canonical guide is the plan's own front door; leaving it wrong through Phases D
+and E teaches every assistant exactly the defect Phase C existed to remove.
+F2.1 rewrites the whole file — this is the one section that cannot wait for it.
+
+- [x] Replace `llms.txt`'s `## Typography` section with the theme-owned contract: read `Typography` from the theme, never construct a shaper, never pass `Shaper` except as a deliberate override.
+- [x] Note that the no-gofont lint now runs in CI, so the old practice fails the build rather than merely being discouraged.
+- [x] Keep the known-wrong app list — F1 is what fixes those — but say plainly that the library contract has moved and the apps have not caught up yet.
+- [x] Commit here.
+
+## Phase D: Generative colour
+Material Design's real contribution is not its palette, it is that colour is
+*derived*: one seed becomes tonal palettes becomes semantic roles, with light
+and dark as tone mappings rather than two hand-written structs. Today the token
+package wears MD3's names over Tailwind's values, ships thirteen flat colours,
+and exposes no way for an application to supply a palette at all.
+
+G-D1 is firm — the approach was validated against the MD3 default seed before
+this plan was written. G-D2 was re-cut by D0.1 to ADR-007's model. G-D3 stays
+provisional; re-cut it against what Phase D actually lands before starting it.
+
+![[#ADR-002: CIELAB tone with OKLCh hue and chroma]]
+
+### G-D0: Choose the role-assignment model
+ADR-002 settles how tones are *derived*. It does not settle how they are
+*assigned*, and there are three coherent answers in the field:
+
+- **MD3** — thirteen tone stops (0, 10, … 95, 99, 100). Tones are purely
+  perceptual: tone 40 means lightness 40, and a separate role table says which
+  tone each role takes in light and in dark. The table is where the design
+  knowledge lives, and it is maintained twice.
+- **Radix** — twelve steps whose *number carries the meaning*: step 3 is the
+  component background, step 9 the solid fill, step 11 low-contrast text. Paired
+  light and dark scales are built so the same step works in both, so dark mode
+  swaps one scale instead of maintaining a second role table. Contrast is
+  guaranteed in APCA (Lc 60 and Lc 90 for steps 11 and 12 over step 2).
+- **Claude Design** — nine steps, 100–900, generated in OKLCH on a shared
+  perceptual lightness scale so the same step of any ramp carries the same
+  visual weight. 500 is the role's base; 100–300 are tinted fills, hovers and
+  subtle borders; 700–900 are text on tinted fills and pressed states. Fewer
+  steps than Radix, same functional idea.
+
+For a component library this is not cosmetic: it decides whether prism and
+cadence read a role table or a step index, and whether dark mode is a second
+table to keep in sync. Deciding after G-D2 costs seven migrations; deciding here
+costs one spike.
+
+The third option carries a practical argument the other two do not. G-E0 pushes
+the token sheet to Claude Design, and Phase G builds a component surface there.
+If spectrum's ramp and that surface's ramp disagree, every prototype speaks a
+different vocabulary from the app it is prototyping — the exact incoherence this
+plan exists to remove.
+
+D0.1 has run and decided: the functional family wins, in Claude Design's nine-step vocabulary, with Radix's paired dark scales and APCA guarantees folded in.
+
+![[#ADR-007: Nine functional steps, paired dark ramps, APCA contrast]]
+
+#### D0.1: Spike — choose the ramp model and the contrast metric
+
+Timeboxed. The deliverable is a recommendation with evidence, not an
+implementation — write no code into `spectrum`. A throwaway script is fine and
+should be thrown away.
+
+- [x] Read each model's own account of itself: Radix's twelve-step purposes and paired dark scales, MD3's role→tone table, and the Claude Design project's readme and `theme.json` for the 100–900 OKLCH ramp.
+- [x] If that last project is not reachable from this machine, say so plainly and decide between the two models that are. Do not block on it, and do not guess at a ramp you could not read.
+- [x] Lay all three against the same surfaces: app background, card, hover, pressed, subtle border, strong border, solid fill, low-contrast text, body text.
+- [x] Note where nine steps cannot express something twelve can, and whether prism and cadence actually need that distinction.
+- [x] Generate all three mappings from the `#6750A4` seed with a throwaway script and compare the resulting surfaces side by side, light and dark.
+- [x] Evaluate APCA (Lc) against WCAG 2 ratios on the light-on-dark pairs specifically — WCAG 2 is known to over-rate them, and spectrum tracks OS dark mode by default.
+- [x] Weigh the prototyping argument explicitly: matching Claude Design's ramp keeps one vocabulary across the app and the design surface, and that is worth real points against a model that scores better in isolation.
+- [x] Decide, and write the outcome into `## Reference` as ADR-007, embedded into Phase D.
+- [x] Amend ADR-002 wherever the decision contradicts it. That ADR currently commits to keeping "MD3's role vocabulary and its tone-assignment tables", which a functional-step model replaces outright. Its *mathematics* — CIELAB tone with OKLCh hue and chroma — survives all three models and is not reopened here.
+- [x] Re-cut G-D2 to match the decision, and adjust D2.4's contrast target if APCA wins.
+- [x] Check the three later places that already assume a ramp shape — E0.1's `--color-*` token families, E0.2's colour page and its step-purpose notes, and G1.2's class vocabulary — and re-cut whichever no longer reads true.
+- [x] Commit in the plan repo.
+
+### G-D1: The colour engine
+Built in `spectrum/color`, with no external dependency. The CIELAB conversion
+chain is lifted from `reactivego/luminance` rather than imported — ADR-002
+records why.
+
+#### D1.1: The CIELAB tone axis
+
+MD3's tone *is* CIELAB L\*, so this axis is what the whole palette hangs from.
+`reactivego/luminance` already implements the chain correctly and without
+dependencies; lift the math in rather than taking the package as a dependency.
+
+- [x] Create `spectrum/color`; lift the sRGB ↔ XYZ(D65) ↔ CIELAB conversions from that package's `luminance.go`.
+- [x] Keep the D65 white point and the CIE ϵ/κ constants exactly as they are.
+- [x] Leave behind `Lighten`, `Darken`, `LightenRGBA`, `DarkenRGBA` and `Kn` — a chroma.js port tuned to the retired MD2 Color Tool, and MD3 has no lighten/darken concept.
+- [x] Note in the file header that these functions came out of MD2-era tone work, so a later reader does not go looking for MD3 semantics in them.
+- [x] Write the round-trip tests the original never had: the sRGB cube at 1% tolerance, plus published CIELAB reference values.
+- [x] Build, test, commit.
+
+#### D1.2: OKLab and OKLCh
+
+Hue and chroma come from OKLab. This is the axis pair plain CIELAB `a,b` cannot
+hold perceptually constant.
+
+- [x] Add sRGB ↔ linear sRGB ↔ OKLab ↔ OKLCh conversions alongside the CIELAB chain.
+- [x] Round-trip tests across the sRGB cube at 1% tolerance.
+- [x] Test against published OKLab reference values.
+- [x] Build, test, commit.
+
+#### D1.3: Gamut mapping
+
+The defect that makes the copied code unusable as-is: `luminance.RGB` clamps R,
+G and B independently, which is not gamut mapping. Measured on the MD3 default
+seed `#6750A4`, it costs 41 chroma and 20° of hue at the light end — tone 100
+lands on `#ffefff` instead of white, tone 0 on `#01003f` instead of black.
+Tones 10–70 are unaffected and already exact.
+
+- [x] Implement chroma reduction at constant L\* and constant OKLCh hue to bring an out-of-gamut colour into sRGB.
+- [x] Replace every independent per-channel clamp on the conversion path.
+- [x] Test the hard cases: saturated blues and purples at tones 0, 90, 95, 99 and 100.
+- [x] Assert tone 100 is exactly white and tone 0 exactly black, for every hue.
+- [x] Assert a mapped result is always in gamut and its hue never moves more than 1°.
+- [x] Build, test, commit.
+
+#### D1.4: Tones and contrast
+
+- [x] Add `Tone(hue, chroma float64, tone int) color.NRGBA` — tone 0–100 on the L\* axis at fixed OKLCh hue and chroma.
+- [x] Add WCAG relative-luminance and contrast-ratio helpers.
+- [x] Test that tone is monotonic in luminance across all thirteen MD3 stops.
+- [x] Regression-test the `#6750A4` palette: tone 40 must reproduce the seed exactly.
+- [x] Build, test, commit.
+### G-D2: The functional ramps
+Re-cut by D0.1 to ADR-007's model: nine-step functional ramps (100–900) with
+pinned bases, a paired dark ramp instead of a second role table, interaction
+states as step walks, and APCA as the contrast gate.
+
+#### D2.1: Define the ramp vocabulary
+
+- [x] Extend `ColorTokens` to ADR-007's shape: a nine-step `Ramp` type (steps 100–900); ramps for Neutral, Primary, Secondary, Tertiary and Error; a pinned base per accent role; and the thin semantic layer — background, surface, text, divider — resolved from ramp steps.
+- [x] Keep every field name currently in use as an alias into a ramp step or a pin, so nothing breaks; mark the MD3-only names deprecated for F3.3's shim deletion.
+- [x] Build, test, commit.
+
+#### D2.2: Derive paired ramps from a seed
+
+- [x] Add `FromSeed(seed color.NRGBA) (light, dark ColorTokens)`: both ramps per role on ADR-007's shared lightness scale, dark as the paired scale — same step, same job — with the primary base pinned to the seed exactly.
+- [x] Golden-test the default seed `#6750A4` against a recorded palette; the pinned base must reproduce the seed byte-for-byte.
+- [x] Replace `DefaultLight`/`DefaultDark` with values derived from the default seed.
+- [x] Remove the verbatim Tailwind ramp from the semantic layer. Per ADR-002 it may survive only as an optional named palette provider — never behind a role name, which is the arrangement that made the tokens three design systems in a trench coat.
+- [x] Build, test, commit.
+
+#### D2.3: States as step walks
+
+ADR-007 replaces MD3's alpha state layers: hover and pressed are adjacent ramp
+steps relative to the ground, which keeps every state a real, addressable
+colour the token sheet can emit.
+
+- [x] Add a resolver from (role, ground, state) to a colour: hover one step past the ground, pressed and selected two, solid-fill states walking from the pin toward 900.
+- [x] Keep disabled as an opacity and focus as the focus-ring colour; dragged follows pressed.
+- [x] Test that resolved states stay on the ramp and are monotonic along it.
+- [x] Build, test, commit.
+
+#### D2.4: Contrast conformance
+
+- [x] Add an APCA (Lc) helper alongside D1.4's WCAG helpers.
+- [x] Test ADR-007's guarantees in both ramps: step 900 at Lc ≥ 90 and step 700 at Lc ≥ 60 over the step-100 and step-200 grounds; each pinned base's on-colour at Lc ≥ 60 over the base.
+- [x] Report WCAG 2 AA for the same pairs alongside — conformance claims cite it — without gating on it.
+- [x] Fix the scale tunings that fail: the spike already measured light-mode 900-on-200 at Lc 87, so the 900 stop deepens.
+- [x] Test the same for the high-contrast variant once E3.3 lands, or record the gap.
+- [x] Commit.
+
+#### D2.5: Migrate prism to the ramps
+
+- [x] Replace flat-token uses with the semantic alias or ramp step that matches each surface's meaning, resolving states through D2.3.
+- [x] Regenerate goldens; build, test, commit.
+
+#### D2.6: Migrate cadence to the ramps
+
+- [x] Same, across all eighteen packages.
+- [x] Regenerate goldens; build, test, commit.
+
+#### D2.7: Migrate pulse and markdown to the ramps
+
+- [x] Same, including `pulse/transition`'s per-field interpolation, which must cover every ramp step and pin.
+- [x] Regenerate goldens; build, test, commit.
+### G-D3: Let applications and the OS drive the palette
+
+#### D3.1: Palette injection
+
+The gap that makes branding impossible today: `LiveTheme` hardcodes the default
+palette, so choosing your own colours means giving up OS dark-mode tracking.
+
+- [x] Add options so a caller supplies a seed or a full palette and still gets live light/dark switching.
+- [x] Update `LiveTheme` and `FromSourceTheme` to take them.
+- [x] Test that a custom seed survives a light→dark transition.
+- [x] Build, test, commit.
+
+#### D3.2: Wire the macOS accent
+
+`spectrum/system` already reads `AppleAccentColor` and then discards it.
+
+- [x] Map the accent index (−1..7) to its seed colour.
+- [x] Regenerate the palette when the accent changes.
+- [x] Test with a fake `Source` driving each index.
+- [x] Build, test, commit.
+
+#### D3.3: Windows and Linux accent sources
+
+- [x] Read the Windows accent colour from the registry.
+- [x] Read the GNOME/KDE accent where available; fall back to the seed otherwise.
+- [x] Document per platform what is and is not supported.
+- [x] Build, test, commit.
+
+## Phase E: Reimagined for desktop
+Where MD3 assumes touch and Android, diverge deliberately and say why. This is
+what makes the system Vibrant Gio's rather than a port.
+
+G-E1 is firm. G-E2 and G-E3 were provisional until Phase D landed; both have
+now been re-cut against ADR-007 as shipped — the MD3 vocabulary they were
+first written in (`SurfaceContainer` roles, WCAG AAA gates) no longer exists
+to map to.
+
+![[#ADR-005: MD3's system, not MD3's look]]
+
+### G-E0: Token export and the prototyping surface
+
+Every decision in this phase is a look-and-feel decision, and each one is far
+cheaper to judge in a browser than by regenerating Gio goldens. Build the export
+first so the rest of Phase E can use it.
+
+The foundations are *derived* values — once ADR-002's engine exists, emitting
+them is a serialiser, not a second design system. The target is the project
+layout `claude.ai/design` consumes: `theme.json` as the machine-readable
+parameters, `styles.css` as the token sheet, and foundation pages that render
+the scales at real sizes. Components are explicitly out of scope here; they are
+Phase G, after they stop changing.
+
+Generated output lives in `design/` at the root of this plan repo and is
+committed, so every push is a reviewable diff.
+
+**G-E0 exports what Phase D landed** — colour, type, spacing, radius. Density,
+tonal elevation and the motion set all change later in this very phase, so
+G-E5 re-exports at the end of it. Do not reach for them here; the tokens do not
+exist yet.
+
+#### E0.1: The token serialiser
+
+- [x] Create `spectrum/export`: given a `theme.Theme` emission, write `theme.json` and the `:root` / dark token sheet of `styles.css`.
+- [x] Emit the token families Claude Design expects: `--color-<role>-100…900` ramps plus the pinned bases (`--color-bg`, `--color-surface`, `--color-text`, `--color-accent`, …) per ADR-007 — the exact families the reference project documents — then `--font-*`, `--space-*`, `--radius-*`, and `--shadow-*` from today's elevation levels — E2.1 replaces those with surface roles and E5.1 re-emits them.
+- [x] Record the generative parameters in `theme.json` — seed hue, saturation, any pinned roles, base radius, heading and body faces — so the theme is reproducible from the file alone. Density and the motion set belong here too but are E5.1's; they do not exist yet.
+- [x] Write a round-trip test: parse the emitted CSS back and assert every value matches the Go token it came from, so the two cannot drift.
+- [x] Add `cmd/vg-tokens` writing the pair into a target directory.
+- [x] Build, test, commit in spectrum.
+
+#### E0.2: The foundation pages
+
+Static HTML that reads only from the emitted token sheet — no hard-coded values,
+so a theme change reflows every page.
+
+- [x] Generate `foundations/color.html`: each role with its full 100–900 ramp and its pin, annotated with ADR-007's step purposes — 100–300 tinted fills and hovers, 500 mid, 700–900 text and pressed — and the measured APCA Lc (with the WCAG ratio alongside) of each text pair against its ground.
+- [x] Generate `foundations/type.html`: every type role at its real size, weight, line height and tracking, in the actual faces.
+- [x] Generate `foundations/layout.html`: the spacing scale, radius scale and elevation steps as rendered specimens. Elevation as it stands today; E5.1 re-renders it once E2.1 has remapped it to surface roles.
+- [x] Generate `readme.md` for the project describing the system and naming the token families — the file a human or an agent reads first.
+- [x] Confirm every page renders correctly against a dark theme emission as well as light.
+- [x] Build, test, commit in spectrum; commit the generated `design/` here.
+
+#### E0.3: Push to Claude Design
+
+- [x] Run `cmd/vg-tokens` into `design/`, then push it to the Vibrant Gio design project with DesignSync — plan first, write the sentinel, write the files, re-arm the sentinel.
+- [x] Open the project and confirm the foundation pages render as generated.
+- [x] Write `scripts/push-design.sh` capturing the regenerate-and-push sequence so later phases re-push in one step.
+- [x] Record the project UUID here in the plan repo, next to the script.
+- [x] Commit here.
+
+### G-E1: Density
+Desktop density is the sharpest divergence from MD3, and the one users feel
+first. Targets come from shadcn/ui's metrics rather than being invented, per
+ADR-005.
+
+#### E1.1: Measure the target metrics
+
+Establish the numbers before changing any component, so every later task has one
+table to work from and reviewers can argue with the source rather than the
+diffs.
+
+- [x] Record shadcn/ui's control metrics: default and small button heights, input height, base radius, and the spacing step between stacked controls.
+- [x] Record MD3's equivalents alongside them, and macOS's 28 pt standard control height as the native reference point.
+- [x] Write the three-way table into `spectrum/tokens/density.go` as a doc comment — it is the justification for every number below it.
+- [x] Pick `Comfortable` and `Compact` values from that table; keep prism's existing 44 dp as `Comfortable` only if the table supports it.
+- [x] Commit here in the plan repo if the table changes ADR-005's claims; otherwise commit in spectrum.
+
+#### E1.2: The density token
+
+- [x] Add `Density` to `spectrum/tokens` with `Comfortable` and `Compact`, carrying control height, inner padding and the minimum hit target.
+- [x] Add it to `theme.Theme` as an observable, alongside Typography.
+- [x] Keep the WCAG 2.5.5 minimum hit target independent of density — `Compact` may shrink the visual control but never the pointer target.
+- [x] Unit-test that both settings satisfy the hit-target floor.
+- [x] Build, test, commit in spectrum.
+
+#### E1.3: Density through prism
+
+- [x] Replace the hardcoded `minHeight = 44dp` in `prism/button` with the density-derived value.
+- [x] Apply density to input, checkbox, radio, dropdown and list row height.
+- [x] Apply density to `prism/icon`'s default sizes — an icon that stays put while its control shrinks is the tell that density is only half-wired.
+- [x] Add a golden per component at each density.
+- [x] Build, test, commit in prism.
+
+#### E1.4: Density through cadence
+
+- [x] Apply density to table row height, navbar height, sidebar item height, tabs and pagination controls.
+- [x] Check the overlays — modal, popover, tooltip, toast — for control metrics that should follow density too.
+- [x] Add a golden per component at each density.
+- [x] Build, test, commit in cadence.
+### G-E2: Tonal elevation
+The pre-D cut of this goal asked E2.1 to "map each `ElevationLevel` to its
+`SurfaceContainer` role". No such role exists any more: ADR-007 retired MD3's
+role tables, and the landed `ColorTokens` carries ramps, pins and a thin
+semantic layer instead. What survives is the idea ADR-005 kept — on desktop a
+raised surface reads as raised by tint first and shadow second — and ADR-007
+gives it a sharper form than MD3 ever had: elevation is to surfaces what D2.3
+made states to fills, a walk up the neutral ramp. Level 0 is the app
+background (the `bg` pin on the step-100 ground), level 1 the card surface
+(step 200), each level above one step further. Because the dark ramp is a
+paired scale, a raised surface lightens in dark mode and darkens in light
+mode with no second rule — MD3's dark-mode surface tint, the one thing tonal
+elevation existed to encode, falls out of the pairing for free.
+
+The landed code is already halfway there without saying so: modal, popover
+and tooltip all paint `Surface` (step 200), `cadence/toast` hand-rolls a
+step-300 fill under its shadow, and only card and toast cast shadows at all.
+What is missing is the token that names the ladder: `ElevationScale` still
+holds MD3's six shadow depths in dp, `theme.Theme.Elevation` emits it to no
+subscribers, and `pulse/depth` reads the package variable directly. Shadows
+are not deleted — ADR-005's desktop reading is subtle shadows *plus* surface
+steps — they become the secondary, opt-in cue E2.2 scopes.
+
+#### E2.1: Elevation becomes a surface step
+
+- [x] Redefine `ElevationScale` in `spectrum/tokens`: each level carries the neutral ramp step of its surface fill — level 0 the `bg` pin over the step-100 ground, level 1 step 200, level 2 step 300, level 3 step 400 — alongside its shadow depth in dp, which survives as the secondary cue. Keep all six named levels so `pulse/depth` and the cadence call sites still compile; levels 4 and 5 clamp to level 3's step, exactly D2.3's clamp, with a doc comment marking them for F3.3's shim sweep — desktop has no six-storey stack.
+- [x] Add the resolver from (`ColorTokens`, `ElevationLevel`) to the surface colour; test that every level's fill sits on the neutral ramp, that the clamp holds, and that D2.3's state walks compose on top — hover on a level-1 surface is step 300 in both modes, courtesy of the paired scales.
+- [x] Keep `theme.Theme.Elevation` emitting the remapped scale — the observable finally carries something worth subscribing to.
+- [x] Leave the `--shadow-*` emission in `spectrum/export` untouched; E5.1 replaces it with the surface roles once the migration lands, per E0.1's note.
+- [x] Build, test, commit in spectrum.
+
+#### E2.2: Shadows become opt-in vibrancy
+
+FX.3 and the defect register both point here for "when is a shadow
+appropriate at all"; this task owns that verdict, FX.3 owns the geometry of
+the shadows that keep theirs.
+
+- [x] Decide, per ADR-005, when a shadow is right: it marks what floats and can leave — toast, popover — not what is raised in place, which reads as raised by its surface step. Audit the `depth.Shadow` callers — `cadence/card`'s `Elevated` variant, `cadence/toast`, `workbench/mindchat` — against that criterion and record each verdict.
+- [x] Keep `pulse/depth` an explicit effect, never a component default; document in its package doc when a shadow is right, when a surface step is, and the cost difference in Gio — eight gradient fills plus an interior fill per shadow (measured; the earlier "a dozen" was an estimate) versus one `FillShape` for a step.
+- [x] Build, test, commit in pulse; commit here if the verdicts change this plan's text.
+
+#### E2.3: Migrate prism and cadence to the ladder
+
+Split out of the pre-D E2.1, which bundled the token change and the migration
+into one oversized task. E2.2's verdicts come first; this task executes them.
+
+- [x] cadence: resolve every raised surface through the ladder — card at level 1 (the outlined variant keeps its step-500 stroke; `Elevated` becomes a level-2 fill, dropping its shadow — E2.2's verdict: a card is raised in place, not floating), modal, popover and tooltip picking their level deliberately (record the choice in each package doc), toast replacing its hand-rolled `Step(300)` fill with a level-2 resolution under its accent tint.
+- [x] prism: `input/dropdown`'s menu surface takes its level from the ladder rather than flat `Surface`; sweep the other `Surface` consumers for any that are really a raised level.
+- [x] Regenerate the moved goldens and say so in the commit body; build, test, commit in prism and cadence.
+### G-E3: Motion and accessibility as theme inputs
+This goal survives Phase D better than G-E2 did — nothing here leaned on the
+retired role tables — but the ground truth moved anyway. `tokens.Motion`
+holds CSS easing names that nothing consumes: toast fades over a local
+400 ms constant, tooltip delays over a local 500 ms, and `pulse/motion`
+counts its own frames. The a11y observables live a tier too high —
+`spectrum/preferences` imports `prism/a11y`, the upward edge
+`scripts/check-layers.sh` records against E3.2. And D2.4 left the
+high-contrast gate as a skipped test naming E3.3, in ADR-007's APCA terms,
+where the pre-D cut still asked for a WCAG AAA assertion.
+
+#### E3.1: MD3 motion
+
+ADR-005 takes MD3's motion semantics; this is where they land. It is also an
+ADR-006 seam — spectrum's widened `MotionScale` is tagged before pulse and
+cadence consume it.
+
+- [x] Replace `MotionScale`'s CSS easing presets with MD3's standard and emphasized sets (standard, accelerate, decelerate, in both families), keeping the `Bezier` shape the export can already serialise.
+- [x] Map the five existing duration stops onto MD3's duration roles rather than adopting all sixteen — desktop wants fewer stops and faster ones; record the mapping and its reasoning in the token doc comment the way `density.go` records its metrics table.
+- [x] Add spring specifications — mass, stiffness, damping presets — for the pulse physics path, coordinating with FX.2, whose defaults fix decides what a usable preset even is.
+- [x] Wire the first consumers, because today there are none: `pulse/motion`'s frame counts, toast's `fadeWindow` and tooltip's `DefaultDelay` resolve from `Theme.Motion` rather than local constants.
+- [x] Regenerate the moved goldens; build, test, commit in spectrum, then pulse and cadence.
+
+#### E3.2: Accessibility preferences reach the theme
+
+- [x] Move the a11y source into spectrum as `spectrum/a11y`, leaving a deprecated alias package in prism for F3.3's shim sweep. The layering requires the move: `spectrum/preferences` already imports `prism/a11y`, the recorded upward edge in `scripts/check-layers.sh`.
+- [x] Delete the `spectrum->prism` entry from that script's `RECORDED_EDGES` and its `recorded_reason`, and commit that here — the lint drops back to one recorded edge (B3.4's shim, which F3.3 removes).
+- [x] Route the observables into the theme so components read one source: `LiveTheme` composes `ReduceMotion` into the Motion emission — durations to zero, animated components snap — and `HighContrast` into the Color emission, selecting E3.3's variant. Until E3.3 lands the hook selects the default palette, so the wiring is testable now.
+- [x] Test that reduced motion snaps: an animated component under `ReduceMotion` reaches its target in one frame.
+- [x] Build, test, commit in spectrum and prism.
+
+#### E3.3: High-contrast palette
+
+- [x] Derive the variant from the same seed — a `FromSeed` option, not a third hand-written scheme — by widening tone separation where it counts: deepen the 700 text step toward the 900 depth, resolve `Divider` from step 500 rather than 300, and push each pinned base's on-colour further from its base.
+- [x] Gate it in APCA, not WCAG AAA — ADR-007 retired ratio gates: un-skip `TestAPCAContrastGateHighContrast` in `spectrum/tokens/contrast_test.go`, the gap D2.4 recorded, with the variant's floors above the defaults — step 700 at Lc ≥ 90 where the default asks 60, pinned on-colours at Lc ≥ 75 — and report WCAG AAA alongside without gating on it, ADR-007's arrangement exactly.
+- [x] Switch to the variant when the OS reports increased contrast, through E3.2's observable — flip the hook E3.2 left.
+- [x] Build, test, commit in spectrum.
+### G-E4: Blur
+Gio exposes no blur primitive and no custom shaders — `op/paint` offers
+`ColorOp`, `ImageOp`, `LinearGradientOp`, `PushOpacity`, and an `ImageFilter`
+that only selects linear vs nearest *scaling*. But `gioui.org/gpu/headless`
+provides the missing piece: `NewWindow(w, h)`, `Frame(*op.Ops)` and
+`Screenshot(*image.RGBA)` render an op list to an offscreen GPU surface and
+read the pixels back. That is a real backdrop-blur pipeline built from Gio's
+own primitives — render the layer behind, read it, blur it, paint it as an
+`ImageOp`. The org already depends on this package: it is what `prism/golden`,
+and through it every golden test in the organization, is built on.
+
+Own the blur itself rather than importing one. All three candidates were
+measured and all three are compromised: `disintegration/imaging` works but has
+been unmaintained since 2021; `anthonynsimon/bild`'s Gaussian is roughly twice
+as slow and its `Box` is 16× slower than its own Gaussian, which looks like a
+bug; `esimov/stackblur-go` silently returns a uniform image from an
+`*image.RGBA` source and reports no error.
+
+Measured on a ten-core Apple Silicon machine; a 60 fps frame budget is 16.7 ms.
+Full pipeline for a 1440×900 backdrop — headless render, readback, blur —
+where the divisor is the resolution the backdrop is *rendered* at, since the
+blur destroys that detail anyway:
+
+    ÷1  1440×900   69.2 ms
+    ÷2   720×450   12.9 ms
+    ÷4   360×225    3.8 ms      <- the working configuration
+    ÷8   180×112    1.6 ms
+
+Two caveats that shape the design. `headless.NewWindow` costs 1.1 ms, so the
+offscreen surface is allocated per size and reused, never per frame. And
+headless rendering is not available on every platform — the golden harness
+already calls `t.Skipf` when it is not — so anything shipping this at runtime
+needs a defined fallback rather than a crash.
+
+#### E4.1: The blur kernel
+
+Three successive box blurs approximate a Gaussian to within a few percent —
+the same approach CSS implementations use — and a separable box blur is
+trivially parallelisable.
+
+- [x] Create `pulse/blur`: a separable 3-pass box blur over `image.NRGBA`, horizontal then vertical, parallelised across `runtime.NumCPU()`.
+- [x] Test convergence against a reference Gaussian: compare per-channel variance reduction and assert the difference stays within a few percent.
+- [x] Test the edges — a blur that darkens or wraps at the borders is the usual bug; assert a uniform input stays uniform right up to the edge.
+- [x] Benchmark against the table above and record the numbers in the package doc.
+- [x] Build, test, commit in pulse.
+
+#### E4.2: Cached blur for static imagery
+
+The simple case, and the one with no platform caveat: a known source image
+blurred once and reused.
+
+- [x] Add a helper that blurs a source image and returns a `paint.ImageOp`, caching on source identity, radius and target size.
+- [x] Support the downscale-blur-upscale path for large radii; expose the divisor and default it from the radius.
+- [x] Test that a repeated call with unchanged inputs does no work, and that a size or radius change invalidates.
+- [x] Build, test, commit in pulse.
+
+#### E4.3: The headless backdrop pipeline
+
+- [x] Add a backdrop type that owns a `headless.Window`, renders a caller-supplied layer into it at a reduced resolution, reads it back, blurs it, and yields a `paint.ImageOp` stretched to full size.
+- [x] Allocate the headless window per size and reuse it; reallocate only on resize.
+- [x] Choose the divisor from the blur radius so callers ask for a look, not a resolution.
+- [x] Handle unavailable headless rendering explicitly — a documented fallback (flat tinted surface), never a panic.
+- [x] Decide and document the refresh policy: this runs on the events thread and stalls it, so it must be driven by content change, not by every frame.
+- [x] Benchmark the assembled pipeline and confirm it matches the table above.
+- [x] Build, test, commit in pulse.
+
+#### E4.4: Evaluate blur-based glow
+
+`pulse/glow` composes eight linear gradients — four edges, four corners —
+because Gio has no radial gradient. A real blur gives a true radial falloff and
+works for arbitrary shapes, not rectangles only. Whether it *wins* depends on
+whether the cache holds while the glow animates.
+
+- [x] Prototype a glow that renders the shape offscreen, blurs it, and paints the result.
+- [x] Compare against the current eight-gradient halo: visual quality, and cost per frame when the glow animates and the cache misses.
+- [x] Decide. Keep the gradient path if the animated case cannot be cached cheaply — a correct approximation beats a slow exact answer.
+- [x] Record the decision and its evidence in `pulse/glow`'s package doc either way.
+- [x] Build, test, commit in pulse.
+
+### G-E5: Re-export the foundations
+
+G-E0 exported what Phase D had landed. Density, tonal elevation and the motion
+set have all moved since, so the emitted tokens and the pushed design project
+are now behind the theme they claim to describe. Bring them level before Phase
+F freezes the documentation — and before Phase G builds a component vocabulary
+on top of them.
+
+#### E5.1: Re-emit and re-push
+
+- [x] Extend `spectrum/export` with what Phase E added: the density tokens, the tonal-elevation surface roles replacing `--shadow-*` as the default, and MD3's easing and duration sets.
+- [x] Add density, the elevation model and the motion set to `theme.json`'s generative parameters, so the file still reproduces the theme on its own.
+- [x] Regenerate `foundations/layout.html` against tonal elevation rather than shadow depths, and show the spacing and control metrics at both density settings.
+- [x] Confirm E0.1's round-trip test still passes across the widened token set — it is the only thing stopping the CSS and the Go tokens drifting.
+- [x] Run `scripts/push-design.sh`; open the project and confirm the foundation pages render.
+- [x] Build, test, commit in spectrum; commit the regenerated `design/` here.
+
+## Phase F: Prove it, document it, release it
+
+A design system is only coherent if its own reference applications agree. Right
+now seven apps give three different answers about fonts alone.
+
+The tasks here were provisional until Phase E landed; it has, 18/18, and they
+are now re-cut against the system as shipped: theme-owned typography, density,
+the elevation ladder, MD3 motion and the a11y observables all emitting from
+`theme.Theme`, with ADR-007's ramps underneath and blur in pulse. "Agree" is
+no longer only about fonts, though the font disagreement is still real —
+every one of the seven apps still imports the `prism/tokens` or `prism/theme`
+alias paths, reads the deprecated MD3 colour aliases, and five drive
+components through the frozen static `Render(…, TypeScale, …)` signatures.
+The apps are the last consumers of every deprecated surface in the org, so
+G-F1 is what empties the deprecation windows that F3.3's sweep then closes.
+
+![[#Release protocol]]
+
+### G-F0: The mono face
+
+C2.8's migration surfaced an org-level gap and recorded it in its commit: no
+monospace face ships anywhere, so markdown code blocks — and
+`markdown/style.Style.Mono`, the field that exists to name one — resolve to
+Roboto. Two reference apps render code (sitedocs' docs pages, mindchat's chat
+bodies), so the gap is visible in exactly the apps G-F1 makes agree, and it
+has to close before G-F2 freezes the documentation and G-F3 tags.
+
+The face is Roboto Mono. The theme's default face is Roboto, Roboto Mono is
+its designed companion in the same superfamily under the same licence the
+`font` repo already packages, and MD3 itself pairs the two. That is a
+decision this plan can make without a survey task; recording the reasoning
+here is the survey.
+
+#### F0.1: Package the face and give the theme a code style
+
+- [x] Add `font/robotomono`, mirroring `font/roboto`'s per-weight package layout only as far as real use: regular and italic in the weights the highlight path shapes — normal and bold suffice.
+- [x] In `spectrum/tokens`, add a `Code` TextStyle to `Typography` — BodyMedium's metrics on the mono face — and append the mono faces to `DefaultTypography.Faces` so the default shaper resolves them.
+- [x] Test that the default shaper resolves the mono face at every weight and style the highlight path uses.
+- [x] Extend `spectrum/export` with the code role and run `scripts/push-design.sh`, so the design project stays level per E5.1; commit the regenerated `design/` here.
+- [x] This widens spectrum's API — an ADR-006 seam whose tag is F3.1's, since Phase F ends in the release; until then the workspace covers it and `scripts/check-no-workspace.sh` reports the debt. Build, test, commit in font and spectrum.
+
+#### F0.2: Wire markdown to it
+
+- [x] Resolve `Style.Mono` and `CodeSize` from the theme's `Code` role in markdown's theme path, so inline code and code blocks leave Roboto.
+- [x] Confirm highlight's bold and italic runs shape in the mono face rather than falling back to Roboto's weights.
+- [x] Regenerate the moved goldens and say so in the commit body; build, test, commit in markdown.
+
+FX.7 regenerates these same goldens for the token palette; this task lands
+first, so the mono face is already under FX.7's goldens rather than moving
+them a third time.
+
+### G-F1: Make the example apps agree
+
+The migration pattern, once per app: imports move off the `prism/tokens` and
+`prism/theme` alias paths onto spectrum's; colours move off the deprecated
+MD3 aliases — `OnBackground`, `OnSurface`, `SurfaceVariant`,
+`OnSurfaceVariant`, `Outline` — onto the ramps, pins and semantic fields;
+text comes from the theme's Typography, so no app-built shaper, no
+`style.FontFaces()`, no gofont; and components are driven through their
+theme-driven entry points rather than the frozen static
+`Render(…, TypeScale, …)` signatures F3.3 re-cuts. Density, the elevation
+ladder and MD3 motion then arrive through the theme with no per-app work —
+which is the point: the apps prove the theme carries the whole look.
+
+#### F1.1: The apps that are already close
+
+- [x] Migrate todos, iconbrowser and launcher per the goal's pattern.
+- [x] Drop their manual `style.FontFaces()` shaper construction — typography now comes from the theme, and these three are among the last consumers holding ADR-003's `style` freeze window open.
+- [x] Run each; confirm it renders in Roboto, switches light/dark live, and sits at the 36 dp Comfortable control height rather than the pre-E 44.
+- [x] Commit in workbench.
+
+#### F1.2: feeds
+
+- [x] Remove the `gofont` shaper and every per-component `Shaper` pass-through — `app.go` builds it, `sidebar.go` alone threads it through four signatures — and the sim and wiring tests that construct their own follow.
+- [x] Migrate per the goal's pattern; `articles.go` drives components through static `Render` calls that become theme-driven here.
+- [x] Run it; confirm the table, tabs, modals and toasts render correctly at density, and that pagination — which dropped its prism/button bridge for density's sake (E1.4) — still matches the buttons beside it.
+- [x] Build, test, commit.
+
+#### F1.3: watchlist
+
+- [x] Same migration per the goal's pattern — `maincontent.go` and the modals lean hardest on the deprecated aliases and static `Render` calls; keep the `wiring_test.go` AutoConnect count correct.
+- [x] Run it; confirm CRUD, context menus and popovers.
+- [x] Build, test, commit.
+
+#### F1.4: sitedocs
+
+- [x] Same migration, including the markdown-rendered docs pages — after F0.2 they are the first app surface where code renders in the mono face; confirm it.
+- [x] Run it; confirm hero, pricing, accordion sidebar and the docs routes.
+- [x] Build, test, commit.
+
+#### F1.5: mindchat
+
+- [x] Remove the appended `gofont.Collection()` — this app still mixes both font sets in one shaper (`view.go`).
+- [x] Migrate per the goal's pattern; confirm the markdown chat bodies and chroma highlighting match the palette, and code spans render in the mono face.
+- [x] Keep its `depth.Shadow` — E2.2's verdict let mindchat and toast keep theirs — and leave its square-cornered geometry to FX.3 rather than fixing it here.
+- [x] Run it; confirm the split pane, modals and streaming indicators.
+- [x] Build, test, commit.
+
+All three confirmed on screen. The split pane and the Settings modal —
+providers, masked key, live "Checking API key…" status, model picker — first;
+then, once Rene authorized spending his key, one real completion. Frames
+captured every 0.7 s show the reply arriving in pieces — partial text, a code
+block cut mid-token at `button [`, markdown re-parsing per delta — so the
+streaming path is genuinely incremental rather than a single settled paint.
+
+Three defects came out of that one message, all now in the register: the
+theme shaper draws tofu for any glyph Roboto lacks (the model emitted `↓`),
+mindchat cannot persist a conversation on a fresh install because nothing
+creates its `chats/` directory, and nothing at all is drawn between pressing
+send and the first token. The first is the system's problem, not the app's,
+and is the one worth acting on.
+
+#### F1.6: The mvu examples
+mvu is tier 0, and `mvu/example` is already its own module (tagged
+`example/v0.4.3`) — checked during G-B1, so the trap `prism/gallery` was in
+does not apply here. Keep it that way: pointing the example at theme typography
+while it shared mvu's module would make the foundation require spectrum and
+re-close a cycle from the other direction.
+
+- [x] Drop the `style` dependency from `mvu/example`; use theme typography. Note `example/go.mod` also requires `github.com/vibrantgio/font` DIRECTLY, because `edit` imports `font/roboto/regular/normal` for a single face — drop that too.
+- [x] Update `edit` and `04-hello` — the only two consumers of `style` inside `mvu/example`. Org-wide there are fifteen more: the workbench apps `todos`, `iconbrowser`, `launcher` and `mindchat` (covered by F1.1-F1.5), plus eleven example programs under `ivg/raster/gio`, `svg/driver/gio` and `traer/gio` that Phase F does not touch.
+- [x] Run `scripts/check-layers.sh`; confirm mvu itself still requires nothing above tier 0.
+- [x] Build, test, commit.
+### G-F2: Regenerate the documentation
+
+#### F2.1: Rewrite llms.txt for the shipped system
+
+- [x] C3.3 already replaced the typography section; rewrite the rest to the same standard — seed-derived colour in ADR-007's vocabulary (ramps, pins, step walks — not MD3 role tables), palette injection and the OS accent, density, the elevation ladder, MD3 motion and the a11y observables, and when to reach for pulse's blur.
+- [x] Update the module inventory and the minimal `go.mod`. The version numbers cannot be final before G-F3 cuts the tags; F3.5 owns that touch-up, so write the inventory here and leave the numbers honest about being pre-release.
+- [x] Rewrite the pitfalls section against what actually bit during Phases B–E — the workspace/`GOWORK=off` double meaning of green, B2.0's `go.sum` lesson, goldens regenerated in the task that moves them.
+- [x] Commit here.
+
+#### F2.2: Rewrite DESIGN.md
+
+- [x] Rewrite `workbench/DESIGN.md` around the new layering, the generative colour model and the desktop divergences.
+- [x] Fold ADR-001 through ADR-007 in as decision records — including ADR-006, whose workspace rule is the one an outside contributor cannot infer from the repos.
+- [x] Keep the old document as `DESIGN-v1.md` for history.
+- [x] Commit in workbench.
+
+#### F2.3: Refresh every repo README
+
+- [x] Update the prism, spectrum, pulse and cadence READMEs against the shipped API — spectrum grew export, a11y and the elevation ladder since its README was written; pulse grew blur and the motion presets.
+- [x] Remove the "arrives in a later phase" notes now satisfied.
+- [x] Update the deprecation notes in `style`, the not-deprecated clarification in textdraw, and the alias shims — `prism/tokens`, `prism/theme`, `prism/a11y`, `spectrum/transition` — saying plainly that F3.3 deletes the shims and what happens to `style` (F3.4 records it).
+- [x] Commit in each repo touched.
+
+#### F2.4: Refresh the org front door
+
+- [x] Update `profile/README.md`'s stack table to the final layering.
+- [x] Retake the launcher and mindchat screenshots in both appearances on the new palette.
+- [x] Confirm every link from the org page resolves.
+- [x] Commit here.
+
+**All four retaken, each one a live appearance switch** — one running process
+per app with the OS flipped underneath it, cropped to the window at the widths
+the old assets used. mindchat was briefly stuck: its old shot showed saved
+conversations and a real Q&A, and this machine had no chat store, so a retake
+would have been an empty shell. Inventing a conversation to fill it was never
+an option — a fabricated exchange presented as a screenshot of what the app
+produced is a fake record, whoever assembles it. Authorizing the real
+completion in F1.5 dissolved the problem: the reply in these captures is one
+the model actually returned. The `alt` text lost its "web-search citations"
+claim, which the new conversation does not show and a caption should not
+assert.
+
+### G-FX: Clear the defect register
+
+> Included from [[#Defects found but not fixed]]
+
+Defects found while doing other work, in code no other goal touches. This goal
+sits before G-F3 deliberately: each one changes rendering or behaviour, so it
+has to land before the tags do, not after.
+
+One task per entry, except where an entry has to be fixed sooner than Phase F —
+the `seen/context/gio` pin is scheduled as B2.0, since it breaks two builds
+today. An entry can be scheduled anywhere; the register is the record, not the
+queue. When the register grows, this goal grows with it — and when a task
+lands, strike the entry rather than deleting it, so the record of what was
+wrong outlives the fix.
+
+#### FX.1: Correct the svg fill-rule inversion
+
+`svg/parser/svgcursor.go:133` sets `UseNonZeroWinding` when the document asked
+for `evenodd` and clears it when the document asked for `nonzero` — backwards
+on both values. Work in `.repos/svg`.
+
+- [x] Fix the line. `nonzero` is the SVG initial value, so the condition is `!strings.EqualFold(v, "evenodd")` — or spell it positively against `"nonzero"` and let anything else fall through to the default. Leave `defaultstyle.go:14` alone; its `UseNonZeroWinding: true` is already correct.
+- [x] Add a regression test with a self-intersecting path — a five-pointed star drawn as one closed subpath is the standard case, since it renders with a filled centre under non-zero and a hollow centre under even-odd. Assert both `fill-rule` values, and assert that a path stating neither still gets non-zero.
+- [x] Drive the test through `driver/raster`, not `driver/gio`. `driver/gio/driver.go:59` is an empty `SetWinding` — deliberately, because `clip.Outline` is non-zero only — so the Gio path cannot observe this defect and cannot validate the fix. `driver/pdf` and `driver/seen` honour the flag too, but raster is the one that yields a comparable image.
+- [x] Check the repo's own SVG fixtures for any that state `fill-rule` and whose goldens therefore move. Regenerate them in this task and say so in the commit body, per the plan's green-before-commit rule.
+- [x] Note in `svg/README.md` that the defect is fixed — A3.9 documented it there as live, and that text is now wrong.
+- [x] Strike the entry in [[#Defects found but not fixed]], leaving the record in place.
+
+`svg/driver/seen` does not build on a stale consumer-side `go.sum` pin of
+`seen/context/gio v0.0.7`. That is recorded separately and is not this task's
+to fix — build and test the root module and `driver/raster`.
+
+#### FX.2: Make pulse/spring's defaults usable
+
+`spring.Options{}` takes ~873 frames to settle, and overriding one field silently
+takes the rest from the same soft defaults. E3.1 has since landed usable
+presets — `tokens.Motion.SpringDefault` (k=80, critically damped) is what
+`pulse/motion.DefaultSpring` already resolves to — so this fix aligns with a
+published number rather than inventing one.
+
+- [x] Replace `DefaultStiffness`/`DefaultDamping`/`DefaultMass` with `tokens.Motion.SpringDefault`'s values, or make the zero `Options` an error rather than a 15-second animation. Pick one and say which in the commit body.
+- [x] Fix the partial-override trap at `spring.go:114-121`: deriving `Damping` from whatever `Stiffness` and `Mass` end up being — critical damping is `2√(km)` — is the fix that makes a one-field override behave. `pulse/motion.Options.Spring` documents the same trap around its `DefaultSpring` fallback; fix or re-document it to match whichever contract this task picks.
+- [x] Test the settle time of the zero `Options` and of `Options{Stiffness: 80}` alone, asserting frame counts rather than "it looks right".
+- [x] Update the package comments A3.6 wrote: they document the current behaviour accurately, so they become wrong the moment this lands.
+- [x] Check `motion` and `springbutton`, which pass explicit values today and must not move. Regenerate goldens only if they legitimately do; build, test, commit.
+- [x] Strike the register entry.
+
+#### FX.3: Give pulse/depth a rounded interior and an opacity
+
+`depth.go:86` fills the shadow interior with `clip.Rect` at full alpha, so its
+callers get square dark wedges behind their rounded corners. E2.2's verdicts
+and E2.3's migration have since landed: `cadence/card`'s `Elevated` shadow is
+gone — raised in place is a surface step now — leaving two callers,
+`cadence/toast` and `workbench/mindchat`, both at `Level3`, both keeping
+their shadows as things that float. The when-is-a-shadow-right question is
+settled; only the geometry of the survivors remains.
+
+- [x] Take a corner radius on the shadow call and clip the interior to a matching `clip.RRect`.
+- [x] Add an opacity control, and drop `cadence/toast`'s `PushOpacity` workaround once it exists.
+- [x] Update `cadence/toast` and `workbench/mindchat` to pass the radius they already round their foregrounds to.
+- [x] Golden-test a rounded surface over a shadow — the wedges are exactly what a golden catches and no unit test will.
+- [x] Regenerate the moved goldens in this task and say so in the commit body; build, test, commit.
+- [x] Strike the register entry.
+
+#### FX.4: Guard tween against a nil Lerp
+
+`At` reaches `tw.Lerp` only for `0 < n < Frames`, so the panic hides behind any
+test that samples the endpoints.
+
+- [x] Decide the contract and implement it: either return the nearest endpoint when `Lerp` is nil, or panic immediately on construction with a message naming the field. Constructing-time failure is the better of the two — it cannot reach a frame.
+- [x] Test the interior, not just `At(0)` and `At(Frames)`.
+- [x] Build, test, commit; strike the register entry.
+
+#### FX.5: Make spectrum's appearance stream shared and live
+
+Two defects in the same stream: the observable is cold, so every subscription
+polls independently, and `preferences.Observe` completes after one read. E3.2
+raised the stakes since this was recorded: `LiveTheme` now composes the a11y
+observables — built on the same cold `FromSource` shape, moved down as
+`spectrum/a11y` — so each subscriber multiplies pollers across two sources,
+not one.
+
+- [x] Multicast `Live`/`FromSource` so *n* subscribers share one poll loop, and give `spectrum/a11y`'s same-shaped stream the same fix. Verify with the shape A3.5 used — count source reads with a counting `Source` at one and three subscribers, and assert they match.
+- [x] Check every workbench app still tracks dark mode afterwards; each subscribes at least twice, via `BackdropLayer` and `ContentLayer`.
+- [x] Make `preferences.Observe` emit on write, or rename it to something that does not promise a stream. Whichever, `Save` and `Observe` must agree.
+- [x] Build, test, commit; strike both register entries.
+
+#### FX.6: Give cadence/sidebar a scroll region
+
+A nav list taller than the viewport runs off the bottom edge with no way to
+reach the rest. E1.4 changed the arithmetic but not the defect: the item
+pitch is now `Density.ControlHeight` — 36/28 dp rather than the register's
+48 — so the list overflows a few items later and just as irrecoverably; the
+package doc says so itself.
+
+- [x] Wrap the item loop in a scrollable list — `prism/list` is the one the rest of cadence uses.
+- [x] Golden-test a list long enough to overflow, in both the expanded and collapsed widths and at both densities.
+- [x] Consider whether the 192/48 dp column-width constants — still local, still ignoring the horizontal constraint — should respond to it, and record the decision either way.
+- [x] Regenerate goldens; build, test, commit; strike the register entry.
+
+#### FX.7: Let the theme reach highlighted code
+
+The chroma hook colours every run, so `Style.CodeColor` is unreachable and code
+blocks leave the token palette.
+
+- [x] Emit no colour for runs chroma would render in its default foreground, so the documented `Style.CodeColor` fallback at `style.go:20` actually fires.
+- [x] Fail loudly on an unrecognised style name instead of falling back to a dark-background default that renders near-white on the light theme.
+- [x] Golden-test a code block in both themes, asserting the plain runs take the token colour.
+- [x] Regenerate goldens; build, test, commit; strike the register entry. D2.7 and C2.8 both landed, so the double-migration risk this task once dodged is gone — but F0.2 moves the same goldens for the mono face, so it goes first.
+
+#### FX.8: Add the two missing LICENSE files
+
+`gradient` and `circle` ship none; the other eighteen repos do.
+
+- [x] Copy the licence the rest of the organization uses, with the same holder and year convention. Do not invent a different one.
+- [x] Commit in each repo; strike the register entry.
+
+### G-F3: Release
+
+The Release protocol's double-digit rule was violated before this goal ran:
+spectrum v0.0.10–v0.0.15 and pulse v0.0.10–v0.0.12 are on the remotes,
+immutable — the protocol's violation note records how. The burial rule sets
+this goal's numbers: spectrum's next tag is **v0.1.0**, pulse's is
+**v0.1.0**, and neither repo ever sees another v0.0.x.
+
+#### F3.1: Tag the foundation
+
+A tag has to reach GitHub before the layer above it can resolve it, so every
+task in G-F3 stops and asks before pushing. This is the one goal in the plan
+that local-only work cannot finish.
+
+- [x] Verify `scripts/check-layers.sh` passes across the stack.
+- [x] Run `scripts/check-no-workspace.sh`: the whole stack, `GOWORK=off`, green. The workspace has been covering version skew since Phase B and this is where that debt comes due.
+- [x] Tag mvu first — `spectrum/window` imports it, so it is tier 0 and everything waits on it — then font, then spectrum at **v0.1.0**, the burial number. Font before spectrum, pushed before spectrum's `go.mod` pins it: C1.2 made spectrum require it, the tier-0/tier-1 edge in ADR-001.
+- [x] Ask Rene to push the tags. Do not push them.
+- [x] Confirm the tags resolve from a clean module cache with the workspace disabled.
+
+Tags cut and pushed: mvu **v0.4.4**, font **v0.0.5**, spectrum **v0.1.0**.
+Rene authorized the pushes for this goal, so the "ask" step is a push step.
+
+**The whole-stack box was unchecked here and is checked now, by F3.5.** The
+condition it states — the whole stack green without the workspace — became
+true at the end of G-F3, at **36/36**, and the box records a state rather
+than an act. What F3.1 could honestly claim on its own was spectrum's row;
+the rest is below, with what closed each. `check-no-workspace.sh`
+went from 29/36 to 30/36 here: spectrum is green — font v0.0.5 is what carries
+`font/robotomono`, which `tokens/typography.go` has imported since F0.1 —
+and the six that remain are other tasks' debt, not this one's:
+
+| module | why it fails | closed by |
+| --- | --- | --- |
+| cadence, markdown | pinned to pre-F0.1 spectrum; `Typography.Code`, `depth.Shadow`'s new arity | F3.4 — **closed** |
+| workbench/feeds, mindchat, sitedocs | same two symbols, via their spectrum pin | F3.5 — **closed** |
+| svg/driver/raster | FX.1's regression test, against an svg root tag that predates FX.1's fix | F3.5, once it was given the job — **closed** |
+
+`svg/driver/raster` is the one nothing schedules. FX.1 fixed the fill-rule
+inversion in `svg/parser` and put its regression test in `driver/raster`, but
+`svg`'s newest tag is v0.0.8 and the fix is untagged on master, so the nested
+module tests the old parser and reports the inversion it was written to catch.
+It passes under the workspace, which is precisely the skew this script exists
+to expose. G-F3 tags no support library, which is how it fell through. It was given to
+F3.5, which cut `svg` v0.0.9, re-pinned `driver/raster` onto it and tagged
+`driver/raster/v0.0.9` to match — and only then did the final run go green.
+
+#### F3.2: Tag the component layers
+
+- [x] Update prism and pulse to spectrum v0.1.0; build and test.
+- [x] Tag prism in series — v0.1.9; its v0.1.x series is clean — then pulse at **v0.1.0**, burying its v0.0.10–12; ask Rene to push each before the next one moves.
+- [x] Confirm resolution from a clean cache, workspace disabled.
+
+Tags cut and pushed: prism **v0.1.9**, pulse **v0.1.0** — pulse's burial
+number, its v0.0.x series closed for good. Both pinned to spectrum v0.1.0,
+mvu v0.4.4 and font v0.0.5; both green with `GOWORK=off`. A throwaway
+`GOMODCACHE` resolved prism v0.1.9 and pulse v0.1.0 straight off the proxy,
+pulling spectrum v0.1.0, mvu v0.4.4 and font v0.0.5 transitively, and ran a
+program calling `blur.Gaussian` and reaching `button.Render`.
+
+`check-no-workspace.sh` holds at **30/36**: prism and pulse were already in
+the passing set, so the honest pins bought correctness rather than a count.
+The same six remain — cadence, markdown, the three workbench apps and
+`svg/driver/raster` — and F3.1's table still names their owners.
+
+`prism/gallery` is untouched and still builds under the workspace on its
+stale v0.1.5/v0.0.7 pins. It is F3.5's to re-pin and tag.
+
+#### F3.3: The major-bump shim sweep
+
+The deprecation windows Phases B–E opened all close here, in one breaking
+release per repo, before the pattern layer and the demos tag. What the sweep
+covers, verified against the code rather than remembered:
+
+- the three prism alias packages — `prism/tokens`, `prism/theme` (B3.3),
+  `prism/a11y` (E3.2);
+- the `spectrum/transition` forwarder (B3.4), and with it the
+  `spectrum->pulse` entry in `check-layers.sh`'s `RECORDED_EDGES` — the lint
+  drops to zero recorded edges;
+- `ColorTokens`' five deprecated MD3 aliases (D2.1): `OnBackground`,
+  `OnSurface`, `SurfaceVariant`, `OnSurfaceVariant`, `Outline`;
+- `ElevationScale`'s `Level4`/`Level5` depths and `Step4`/`Step5` clamps
+  (E2.1) — the desktop ladder tops out at level 3;
+- the frozen static render surface that predates C1.1 and E1.2:
+  `TypeScale`/`DefaultTypeScale` and every `Render(…, tokens.TypeScale, …)`
+  signature — in prism, `button.Render`/`RenderIcon`,
+  `input.Render`/`RenderDropdown` and `richtext.FromTokens`; cadence's and
+  markdown's are F3.4's. These are re-cut to take `TextStyle` and `Density`,
+  not deleted — the golden tests ride them.
+
+- [x] Promote `prism/internal/golden`'s capture to an exported package *before* the major is cut. G1.1 needs it from outside prism, and finding that out after the bump costs a whole second prism release for a one-line visibility change.
+- [x] Sweep spectrum per the list; tag **v0.2.0**.
+- [x] Sweep prism — the alias packages go, its static signatures re-cut — and re-cut `pulse/springbutton`'s one call into `button.Render`, which the signature change breaks. Regenerate the moved goldens.
+- [x] Tag prism **v0.2.0**, then pulse **v0.1.1** — pulse's own API is unchanged, so it moves in patch; ask Rene to push each in order.
+- [x] Confirm resolution from a clean cache, workspace disabled.
+
+#### F3.4: Re-cut the pattern layer onto the majors
+
+Split from the sweep for size: cadence's static `Render` surface spans
+eighteen packages, and every one moves goldens.
+
+**Two things F3.3 handed down.** First, `TypeScale`/`DefaultTypeScale` are
+still standing. The sweep list above names them, but the type lives in
+*spectrum*, which F3.3 had already tagged v0.2.0 by the time prism's
+signatures came off it — and cadence and markdown, whose re-cut is this
+task's, are its remaining users. So F3.3 took prism off `TypeScale` and left
+the type alone. Deleting it is this task's, and it is a spectrum release:
+re-cut cadence and markdown first, then cut **spectrum v0.3.0** dropping
+`TypeScale` and `DefaultTypeScale`, then pin cadence and markdown to v0.3.0
+rather than the v0.2.0 the checkbox below says. prism does not need a second
+tag — v0.2.0 already names no `TypeScale` and compiles against a spectrum
+without it.
+
+Second, prism v0.2.0's re-cut breaks exactly four call sites here, all
+verified by building against it: `cadence/hero/hero.go:362` and
+`cadence/pricing/pricing.go:396` (`button.Render`, now wanting `TextStyle` +
+`Density` — both feed it a local `ctaTypeScale(tok)` helper that goes with
+them), `cadence/modal/modal.go:234` (`button.RenderIcon`, which now takes a
+`Density` and no text style at all — an icon button draws no text), and
+`markdown/style.go:121` (`richtext.FromTokens`, now taking a `TextStyle`;
+note it takes no `Density`, a paragraph having no control to size). The three
+workbench apps and `sitedocs` fail only transitively through these four.
+
+- [x] Update cadence and markdown to spectrum v0.2.0 and prism v0.2.0; re-cut their static signatures — every cadence package's `Render`, plus `markdown/style.FromTokens` — to `TextStyle` and `Density`, matching prism's re-cut.
+- [x] Regenerate the moved goldens and say so in the commit body.
+- [x] Tag cadence **v0.3.0** and markdown **v0.1.0**; ask Rene to push.
+- [x] Record the end of `style`'s ADR-003 freeze window: G-F1 moved the last in-org consumers off it, so it is archived at v0.0.6 — frozen, never re-tagged — rather than swept. Note it in its README and in ADR-003.
+
+Tags cut and pushed: spectrum **v0.3.0**, cadence **v0.3.0**, markdown
+**v0.1.0**. `check-no-workspace.sh` moves 30/36 → **31/36**.
+
+**Two findings worth carrying forward.** First, `theme.Theme.Type` went with
+`TypeScale` in spectrum v0.3.0. The task's brief asked for an honest call on
+whether the field itself had to go; grepping all twenty-one repositories, four
+constructors wrote it (`theme.Default`, `theme.AutoLightDark`, `system`'s live
+theme, `window`'s test themes) and *nothing anywhere read the value* — the
+in-org readers moved to `Typography` in C1.1, E1.2 and F3.3, and
+`spectrum/export`'s own package doc already said in as many words that
+`Theme.Type` is not consumed. Retyping a field nobody reads would have meant
+inventing a purpose for it, so it is deleted.
+
+Second, cadence's re-cut is not uniform, on purpose. Fifteen of the nineteen
+entry points take a single role's `TextStyle`, matching prism; the four that
+draw several roles (`hero`, `pricing`, `feature`, `testimonial`) take the whole
+`tokens.Typography`, because four `TextStyle` parameters in a row are four
+chances to transpose two of them. A `Density` follows only the nine that
+actually size a control. Both rules are written into cadence's README.
+
+**What F3.5 inherits.** `prism/gallery` now *fails* `check-no-workspace.sh`
+rather than merely being stale: F3.3 repointed it at `spectrum/a11y` without
+adding spectrum to its `go.mod`. Same owner, slightly larger job. And the
+transitive breakage from this task's majors is exactly four applications, not
+the three F3.1's table names: **sitedocs** and **mindchat** break in production
+code (`tokens.TypeScale`, `Theme.Type`, `markdown.FromTokens`), **feeds** and
+**watchlist** break in tests only (`alert.Render`, `table.Render`,
+`tokens.DefaultTypeScale`); `todos`, `iconbrowser` and `launcher` build clean.
+One doc file also still names the deleted type:
+`workbench/sitedocs/content/prism-tokens.md`.
+
+#### F3.5: Tag the apps and the nested demos
+
+F3.1's `check-no-workspace.sh` run surfaced a repo no other task in this goal
+owns. FX.1 fixed the fill-rule inversion in `svg/parser` and put its regression
+test in `svg/driver/raster` — but svg's newest tag is v0.0.8, the fix is
+untagged, and `driver/raster` pins v0.0.7, so without the workspace it tests
+the parser the fix replaced and fails the very test written to catch the bug.
+G-F3's layers are the design-system spine; svg is a support library, which is
+how it fell through. It lands here because the root-tag-then-nested-tag
+mirroring is exactly this task's mechanic, and because the last checkbox below
+cannot honestly go green while any `go.mod` in the org still lies.
+
+- [x] Tag svg — v0.0.9, carrying FX.1's fix — then re-pin `driver/raster` onto it and tag `driver/raster/v0.0.9`, mirroring the root as the protocol requires. Confirm the FX.1 regression test passes with the workspace disabled, which is the only configuration that proves the tag carries the fix.
+- [x] Update every workbench app's `go.mod` to the released tags; build, test, run each.
+- [x] Tag the nested demo modules — `prism/gallery`, `mvu/example` — here, once, at their roots' final numbers. The majors came first deliberately: a nested tag mirrors its root's version, so tagging `prism/gallery` before the prism major would mirror a superseded root and cost a second tag at the major's number to get back in correspondence. `prism/gallery` imports `prism/theme` and `prism/tokens`, the shims F3.3 deletes, so it is updated off them before it is tagged at all; `mvu/example` never imported them.
+- [x] Touch up llms.txt's module inventory and minimal `go.mod` to the tags actually cut — the finalization F2.1 deferred here. The sweep also falsified prose F2.1 and F2.4 wrote in good faith: llms.txt and `profile/README.md` still describe `spectrum/transition` and the five MD3 aliases as live deprecated shims, and `workbench/sitedocs`'s own docs page still teaches `TypeScale`. Correct all three.
+- [x] Regenerate `design/` and re-push it. F3.3 deleted elevation levels 4 and 5 and F3.4 deleted `TypeScale`, so the committed token sheet still advertises `--elevation-4`, `--shadow-4` and their level-5 twins, `theme.json`'s elevation arrays are still six long, and `foundations/layout.html` renders two cards that no longer exist. Generated output that lies is worse than none, and this is the copy the design surface serves.
+- [x] Run `scripts/check-no-workspace.sh` one last time, after the majors. Green here means every `go.mod` in the org is honest without the workspace propping it up — which is the actual definition of released.
+
+**What the app box still owes.** Every `go.mod` is pinned and every module is
+green under both configurations — `check-no-workspace.sh` reports 36/36, the
+first clean sweep the org has had. The one clause not satisfied is "run each":
+the machine was at the macOS lock screen, where Gio cannot open a window, so
+the seven apps were never launched. Headless GPU tests did run and pass in all
+seven, which covers rendering but not window creation, event delivery or the
+live theme stream. Launch the seven apps once at an unlocked session and check
+the box; nothing else in this task is outstanding.
+
+### G-F4: Fixes found by running it
+
+Everything in this goal was found by running the seven apps for real, which is
+the one thing the plan had never done until the release was already cut. None
+of it was caught by a test, and the reason is the same in every case: the test
+suite was arranged to be *stable* rather than to be *true*.
+
+**The principle these fixes restore.** Determinism is a property a test
+configures for itself. It is never a limit real use pays for. The org had this
+backwards in two places at once, and they compound. `Typography.Shaper()` hard
+codes `text.NoSystemFonts()` — a choice that exists so golden images do not
+depend on which fonts a machine has — with the result that every application
+built on the system silently draws a missing-glyph box for any character
+Roboto and Roboto Mono do not carry. And where that would have been visible,
+the goldens look away: `prism/button`'s cases pass `Label: ""` with the
+comment *"empty label: no font rasterisation, deterministic pixels"*. So the
+default renders badly, and the tests are blind to it by construction. Neither
+half is defensible on its own; together they are how a design system ships a
+typography defect through five phases of work about typography.
+
+The fix inverts it. The default resolves text — all text, including glyphs
+outside the embedded faces. Tests pin their faces *explicitly*, which is
+stricter than what they have now, because a test that says what it wants
+cannot drift when the default changes. Symbol coverage is then checked the way
+the evidence actually supports: assert the shaper resolves a glyph to a real
+face, and keep those symbols out of the golden images, where a machine-
+dependent face would be exactly the fragility the goldens exist to avoid.
+
+Ordering is load-bearing. F4.1 comes first because the golden harness cannot
+currently fail on a size change, so every later task in this goal would be
+grading its own work with a broken instrument.
+
+#### F4.1: Make the golden harness fail on a size change
+
+`PixelDiff` returns `-1` when two images differ in size, and `Render` fails
+only on `n > 0` — so a golden whose dimensions moved compares as a pass. Every
+golden in the org has been guarded by this for the whole plan, and the density
+work in G-E1 moved control sizes everywhere.
+
+- [x] Make a size mismatch a failure in `prism/golden.Render`, naming both dimensions in the message — the whole point is that the diff count is meaningless once the bounds differ, so `-1` must not reach a `> 0` test.
+- [x] Decide what `PixelDiff` itself should return and say so in its doc: a sentinel that reads as "no answer" is what caused this, and a second return value or a documented panic are both honest; a count that silently means failure is not.
+- [x] Sweep every golden name in the org for collisions — E1.3 found `prism/input`'s checkbox and textfield both writing `light-focused.png` into one shared `testdata/golden` directory, which only survived because the sizes differed and the comparison went quiet. Rename per component, regenerate the freed names.
+- [x] Re-run every golden suite in prism, pulse, cadence, markdown and the workbench apps. Anything that starts failing was already broken and was being hidden; fix or regenerate it deliberately, and say in the commit body which of the two each one was.
+- [x] Build, test, commit in every repo touched.
+
+#### F4.2: Give the theme a fallback face, and make determinism a setting
+
+The defect the register calls tofu, fixed at its root rather than papered over
+per application.
+
+- [x] Drop `text.NoSystemFonts()` from `Typography.Shaper()`, so the default shaper falls back to the platform's fonts for glyphs the embedded faces lack. Verified against Gio v0.10.1: the option only sets `disableSystemFonts`, so removing it restores the fallback the toolkit already implements.
+- [x] Add an explicit deterministic constructor beside it — a `ShaperOptions`-style argument or a second method, whichever reads better next to the existing lazy cache — that pins the collection and disables system fonts. Document each one by what it is *for*, not by what it does: the default is what applications should use, the deterministic one is what golden tests must use.
+- [x] Keep the cache correct across both: the memoised shaper is currently a single field, and two configurations must not hand back each other's shaper.
+- [x] Test symbol coverage the way the evidence supports it — assert that shaping `U+2193 ↓`, and a handful of other characters outside Roboto's coverage, returns glyphs from a real face rather than the missing-glyph glyph. This is a resolution assertion, not an image: these characters must never enter a golden, because the face that serves them is exactly the machine-dependent thing goldens cannot pin.
+- [x] Package a symbol face in `font`, mirroring `robotomono`'s layout — a Noto-Symbols-class face under its own licence file, one weight, no more than the coverage actually argued for: arrows, box-drawing, common maths and punctuation.
+- [x] Keep it **optional**, which is the whole of its design. It is not in `DefaultTypography.Faces`: out of the box the system fallback covers symbols and everything else besides, and an application that cannot rely on system fonts — a container, a kiosk, anything shipping its own world — appends this face instead. Give that append a documented one-liner rather than making each caller rebuild the collection by hand.
+- [x] Make the deterministic configuration able to include it too, so a component that legitimately draws an arrow stays testable without reaching for a machine's fonts. This does not license symbols into golden images; F4.4 still keeps them out.
+- [x] Record the reversal as an amendment to ADR-003 — the ADR gave the theme the typeface and never said the theme should refuse every other typeface — naming the two-configuration rule so the next reader does not re-derive `NoSystemFonts` as a default, and naming the optional face so nobody mistakes it for the fallback.
+- [x] Build, test, commit in font and spectrum.
+
+#### F4.3: Move every golden onto the deterministic shaper
+
+F4.2 changes what `DefaultTypography.Shaper()` means, and roughly a hundred
+golden tests call it. This is the task that keeps the images machine
+independent.
+
+- [x] Repoint every golden and pixel test in prism, pulse, cadence, markdown and the workbench apps at F4.2's deterministic constructor. The apps' own rendering keeps the fallback default — it is only the tests that pin.
+- [x] Confirm the images are byte-identical afterwards. They must be: the deterministic configuration is what the default did until F4.2. A moved pixel here means the swap was not inert and needs understanding before anything is regenerated.
+- [x] Add the rule to each repo's `AGENTS.md` and to `llms.txt`: a golden test pins its faces, application code does not. A new golden written against the default shaper will pass locally and fail on a machine with different fonts, which is the failure this task exists to make impossible.
+- [x] Build, test, commit in every repo touched.
+
+#### F4.4: Put real text in the goldens
+
+With the faces pinned by configuration, the reason the goldens avoid text is
+gone — and text is where the last two phases of work actually landed.
+
+- [x] Replace the deliberately empty labels with real ones wherever a component draws text, starting with the `Label: ""` cases in `prism/button` that name the old constraint in their comment.
+- [x] Cover what the typography contract actually promises and no golden currently pins: the role's typeface, its weight, its size and its line height. A regression in any of them is invisible today, which is how F3.3's re-cut of every static signature onto `TextStyle` moved zero pixels.
+- [x] Include one monospace case, since `Code` is the newest role and `markdown`'s code path is the one that changed most recently.
+- [x] Keep symbols out, per F4.2 — Latin text in the embedded faces is reproducible, and that is the line.
+- [x] Regenerate, eyeball every new image, and say in the commit body how many were added; build, test, commit.
+
+F4.4 is checked off against what it actually delivered: prism's button,
+textfield and dropdown filled, `cadence/feature` filled, and the four-property
+contract pinned. Cadence's other sixteen packages went to F4.4b under the
+sizing rule rather than being abandoned — the boxes above are closed because
+the remainder has a home, not because it was done.
+
+Three live-path prism cases were silently taking the theme's fallback
+`Shaper()` and would have failed on any other machine the moment they drew
+text; they now pass `Props.Shaper` explicitly. That is the failure mode F4.3's
+documentation rule exists to prevent, found the first time a golden had text
+in it.
+
+#### F4.4b: Put real text in cadence's goldens
+
+Split from F4.4 under the plan's sizing rule. prism and `cadence/feature` are
+done; the other sixteen cadence packages — roughly fifty stored images — are
+this task. Two findings from F4.4 carry over and will cost time if rediscovered:
+every live-path case must pass `Props.Shaper` explicitly or it silently binds
+to the machine's fonts, which is harmless with an empty label and machine
+dependent the moment there is one; and canvas sizes need growing wherever real
+text overflows a window that fitted an empty label — F4.1's bounds check makes
+that loud rather than silent, which is the instrument working.
+
+- [x] Fill the empty and near-empty labels across `accordion`, `alert`, `breadcrumb`, `card`, `hero`, `modal`, `navbar`, `pagination`, `popover`, `pricing`, `shell`, `sidebar`, `table`, `tabs`, `testimonial`, `toast` and `tooltip`, preferring to strengthen an existing case over adding a parallel one.
+- [x] Pass `Props.Shaper` explicitly in every live-path case, and grep the repo for any that still take the theme's fallback `Shaper()` in a test — after F4.2 that is a machine-dependent golden waiting to fail on someone else's laptop.
+- [x] Keep symbols out, per F4.2: Latin text in the pinned faces is reproducible and that is the line.
+- [x] Regenerate, eyeball every image, and say how many moved; build, test, commit in cadence.
+
+#### F4.4c: Make line height mean something, or stop claiming it
+
+F4.4 measured what the typography contract actually delivers and found a
+promise that is not kept. `tokens.TextStyle.LineHeight` reaches the shaper and
+then changes nothing on any single-line label in the organization: Gio's
+`calculateYOffsets` baselines the first line at that line's own ascent and
+spends the line height only on the gap to the next, while `widget.Label`
+reports glyph ink bounds as its size. A button rendered at line height 20, 32
+and 0 is byte-identical, and its label box is 17 px in all three. That covers
+`prism/button`, `prism/input/textfield` and the eleven `cadence` components
+laying out with `MaxLines: 1` — every place the role's line height is
+documented to arrive and does not. `button.Render`'s doc says "typeface,
+weight, size and line height all reach the shaper", which is true and
+misleading in the same sentence.
+
+The same measurement turned up a second, smaller lie: a Compact button renders
+**29 px against a `ControlHeight` of 28**, because the 17 px face box plus
+2×6 dp of padding exceeds it. It reproduces with an empty label, so it predates
+F4.4 and is not text's doing.
+
+- [x] Decide what the line height is for on a single-line label, and say so where a caller reads it. Either the label paths honour it — giving the line box the role's height rather than the glyph ink's, which is what a design system means by line height and what every CSS engine does — or the contract is narrowed to multi-line text and the docs on `TextStyle`, `button.Render` and the components stop implying otherwise. Do not leave both readings alive.
+- [x] Whichever way it goes, pin it with a test that fails against today's behaviour: single-line labels at two different line heights either differ, or are asserted equal with the reason written beside the assertion.
+- [x] Fix or explain the 29-versus-28 dp Compact button. If a control's height is the greater of `ControlHeight` and its content box, `Density.ControlHeight` is a floor and not a height, and `density.go`'s metrics table should say the word it means.
+- [x] Fix the third false sizing claim, found by F4.4b: a `prism/button` label never grows its button. `cadence/hero`'s `ctaGtx` clamps a CTA cell to `ctaIntrinsicWidth` (120 dp), the button then clamps its label to that width less 2×PaddingX at `MaxLines: 1`, and the growth branch compares against a width the label was already clamped to — so it cannot fire, and "Read the docs" renders as "Read the do…". `ctaIntrinsicWidth`'s own doc says wider labels still grow the button. One of the two is wrong; decide which, and note that all three items in this task are the same defect wearing different clothes — a measured claim in a doc comment that nobody made a test assert.
+- [x] Regenerate the moved goldens — the honouring path moves every text golden in the org, so if that is the decision, budget for it and say so rather than half-landing it.
+- [x] Build, test, commit in every repo touched.
+
+**Split, and the last box is deliberately open.** The decision was to honour
+the line height, and the regeneration it implies did not fit one task. What
+landed: `spectrum/typeset` plus the contract on `TextStyle.LineHeight`,
+`Density.ControlHeight` documented as the floor it always was, `prism` adopted
+with twelve goldens regenerated and eyeballed, and the hero CTA clamp fixed.
+What did not: `cadence`'s twenty-one label sites, measured at **42 moved
+goldens across nine packages**. That is [[#F4.4d: Sweep the line box through
+cadence]], and the open checkbox above is its first line rather than work
+F4.4c still owes.
+
+#### F4.4d: Sweep the line box through cadence
+
+F4.4c decided the contract and built the mechanism: `tokens.TextStyle.LineHeight`
+is the height of the line box, `spectrum/typeset` is how a component gets it,
+and `prism` — button, textfield, dropdown — draws through it. It did not sweep
+the layer above, and said so rather than half-eyeballing it: adopting typeset
+across `cadence`'s twenty-one label sites was measured to move **42 golden
+images in nine packages** (alert, breadcrumb, feature, hero, navbar, pricing,
+shell, testimonial, tooltip), which is more regeneration and more eyeballing
+than one task holds. `pulse` and `markdown` measured clean.
+
+Until this lands, cadence's components hand the line height to
+`widget.Label` and it does nothing there — a defect against a contract that is
+now written down, not a second reading of it.
+
+The adoption is mechanical and was proven to build: every site is
+`wl.Layout(gtx, shaper, f, unit.Sp(style.Size), txt, material)` becoming
+`typeset.Layout(gtx, shaper, wl, f, unit.Sp(style.Size), txt, material)`, plus
+the import. `table/table.go` has one multi-line call.
+
+- [x] Adopt `spectrum/typeset` at every `widget.Label` site in `cadence`, and
+      replace the per-package `styleLabel`/`styleFont` copies — `hero`,
+      `pricing` and `testimonial` each carry one — with `typeset.Label` and
+      `typeset.Font`, so the rule has one definition in the org.
+- [x] Watch for capture windows sized off `Density.ControlHeight`. F4.4c hit
+      one in `prism/input`: the open dropdown's window was `ControlHeight` per
+      row and clipped 4 px off the last option once rows grew to their line
+      box. Any cadence test that computes a window from `ControlHeight` has the
+      same bug waiting.
+- [x] Regenerate the moved goldens and **eyeball every one** — the count is
+      about 42, so budget for it. `cadence/feature`'s `TestFeatureLineHeightGolden`
+      is the one existing test that already asserted line height on wrapped
+      text; check it still says something true now that wrapped runs come out
+      at whole multiples of the line height.
+- [x] Re-check `pulse`, `markdown` and the seven workbench applications after
+      the sweep, not before: they measured clean against the prism-only change.
+
+**Half of that re-check came back dirty, and the premise was wrong.** `pulse`
+and `markdown` are clean, as predicted. The applications are not, and two of
+the three were already red at F4.4d's start — `workbench` has not been touched
+since F4.3, so F4.4, F4.4b and F4.4c all left it behind. Measured after the
+cadence sweep:
+
+- `feeds` — 2 goldens, plus `TestBuildLayersConstructsWithoutPanic` failing
+  with *"layer 0 produced no widget"*. **Red before F4.4d.** That one is not a
+  golden refresh; it is a real construction failure and wants diagnosis.
+- `watchlist` — 2 goldens (`symbol-modal-light`/`-dark`). **Red before F4.4d.**
+- `sitedocs` — 8 goldens (`docs-{light,dark}-{prism-getting-started,
+  cadence-shells,mvu-loop}`, `{light,dark}-home`). Green before, moved by the
+  cadence sweep.
+
+Twelve goldens across three apps and one logic failure: a task, not a step. Cut
+it as its own before F4.5, and do not check this box until the applications are
+green — the box is what stops the release believing its own reference apps
+agree.
+
+- [x] Build, test, commit in every repo touched.
+
+#### F4.4e: Bring workbench back to green
+
+The apps were left behind. `workbench`'s last commit is F4.3's, and F4.4,
+F4.4b, F4.4c and F4.4d each measured it "clean" and moved on — three of those
+measurements were taken while it was already failing. F4.4d caught it and
+reported it rather than absorbing it, which is why this task exists at all.
+
+Verified directly, not taken on report: `todos`, `iconbrowser`, `launcher` and
+`mindchat` are green. The other three are not.
+
+**One of these is not a golden.** `feeds`'s `TestBuildLayersConstructsWithoutPanic`
+fails with *"layer 0 produced no widget"* — a layer that builds nothing is a
+broken application, not a moved baseline, and no amount of `-golden.update`
+will touch it. Find what stopped producing a widget before regenerating
+anything, because a golden regenerated over a broken layer records the break.
+
+- [x] Fix `feeds`'s empty layer 0 first, and say in the commit body which change caused it — the shaper split (F4.2), the pinning sweep (F4.3) and the line box (F4.4c) are the candidates, and `git stash` against each is how the last four tasks attributed their own failures.
+- [x] Then the goldens: `feeds` 2 (`add-feed-modal-{light,dark}`), `watchlist` 2, `sitedocs` 8. Regenerate only after the layer is fixed, and only where the movement is explained by the line box or the shaper pin — anything else is a second defect wearing the same clothes.
+- [x] Move the apps onto `spectrum/typeset` wherever they draw a label directly, for the same reason cadence did: `llms.txt` now tells every consumer never to hand `LineHeight` to `widget.Label`, and the reference applications are the worst possible place to contradict it.
+- [x] Check that every app's live-path test passes `Props.Shaper` explicitly — F4.4, F4.4b and F4.4d found six between them that silently took the theme's fallback, which after F4.2 binds a golden to whatever fonts the machine happens to have.
+- [x] Delete the `.actual.png` debris these failures have been leaving; eyeball every regenerated image; build, test, commit in workbench.
+
+#### F4.5: Repair mindchat's first run
+
+Two defects in one app, both of which any first-time user meets and no test
+does.
+
+- [x] Create the chat directory before it is read or written — `os.MkdirAll` beside the existing calls in `commands.go`. `Load Chat List`, `Load History` and `Append Prompt` all fail on a fresh install today, so a new user's first message is accepted by the composer and silently lost.
+- [x] Write the test that fails first, against a genuinely empty `Application Support`. The existing storage tests call `os.MkdirAll(dir, "chats")` in their own setup — they create the directory the app forgets, which is precisely why the suite is green and the app is broken. Make at least one test exercise the app's own directory handling instead of standing in for it.
+- [x] Draw something between sending and the first token. The stream is correct once it starts, but the gap before it is blank — over four seconds against a reasoning model, with no spinner, no placeholder row and a live composer — which reads as a hung application. `model.StreamFor` already knows the request is in flight, so this is a view change; use the theme's motion stops rather than a local duration.
+- [x] Build, test, commit in workbench.
+
+#### F4.6: Promote success and warning to tokens
+
+The last two colour literals in the system, and the only entries left in
+C3.2's allow-list that are not deliberate alpha compositing.
+
+- [x] Add success and warning roles to `spectrum/tokens`, derived like every other role rather than picked by hand — ADR-007's ramp model already says how, and the seed's hue is the only input a new role needs.
+- [x] Migrate `cadence/alert` and `cadence/toast` onto them. The two packages currently carry byte-identical copies of the same four Tailwind values, so the duplication and the divergence risk go with the literals.
+- [x] Gate the new roles in APCA exactly as D2.4 gates the others, and record the measured Lc — a status colour that fails contrast is worse than a neutral one, because it is the colour a user is being asked to read in a hurry.
+- [x] Delete both entries from `check-layers`'s sibling, the `noliteralcolor` allow-list, and confirm the lint still passes with them gone.
+- [x] Regenerate the moved goldens; build, test, commit in spectrum and cadence.
+
+#### F4.7: Make a virtualised list reachable from the keyboard
+
+Both accessibility questions the density work left open are now decided. The
+pointer-target one resolves into a doc change; this task is the other one.
+
+**The hit-target promise narrows to AA, deliberately.** E1.3 extended the hit
+area for standalone controls and not for list rows, dropdown options or table
+rows, because adjacent rows would steal each other's slop — so at Compact
+those targets are 28 dp while `Density.MinHitTarget` promises 44. The 44 dp
+figure is WCAG 2.5.5 Target Size (Enhanced), which is **AAA**; the level that
+governs at AA is 2.5.8 Target Size (Minimum), at 24 dp, which 28 dp clears.
+Flooring rows at 44 would cost Compact most of its value in exactly the dense
+tables and lists it exists for, so the promise is narrowed rather than the
+density weakened.
+
+- [x] Rewrite `MinHitTarget`'s doc to say what it actually guarantees — standalone controls, not stacked rows — and record the 2.5.8-versus-2.5.5 distinction beside `density.go`'s metrics table, with the measured 28 dp and both thresholds, so the next reader can check the claim instead of trusting it.
+- [x] Give `prism/list` keyboard traversal of the whole list: arrow keys move the selection, the list scrolls the selection into view, and Home/End reach the ends. The gap is that focus tags exist only for laid-out rows, so traversal cannot be built on Tab alone — which is why this is the list's job and not each caller's.
+- [x] Move `cadence/sidebar` onto it, since FX.6's scroll region is what exposed the gap. Check whether `cadence/table` and `prism/input`'s dropdown menu have the same shape, and say so either way rather than leaving it to be rediscovered.
+- [x] Test it where it actually fails today: a list long enough to virtualise, asserting the selection reaches a row that was never laid out in the first frame, driven through a real `input.Router` as `g53c`'s right-click test is.
+- [x] Regenerate any moved goldens; build, test, commit in every repo touched. If the `prism/list` work alone fills the task, land it, check off what is done, and split the cadence migration out — the plan's sizing rule outranks finishing the list in one go.
+
+#### F4.8: Release the fixes
+
+- [x] Run `scripts/check-layers.sh` and `scripts/check-no-workspace.sh`; both green before any tag moves, exactly as F3.1 required.
+- [x] Tag bottom-up per the Release protocol. Spectrum's default rendering changes, so it is a minor bump — **v0.4.0** — and the layers above move in patch unless their own API moved. Check `git tag | sort -V` in every repo before choosing: the no-double-digit rule is absolute, and spectrum and pulse are the two repos already carrying buried tags.
+- [x] Re-pin, re-tag and push each layer in order, confirming resolution from a clean module cache with the workspace disabled.
+- [x] Regenerate `design/` and re-push it: F4.6 adds two roles to the token sheet, so the design surface is stale the moment spectrum is tagged.
+- [x] Strike the register entries these tasks fixed, leaving the record in place.
+
+### G-F5: Repair what G-F4 shipped
+
+G-F4 fixed real defects and introduced three of its own, all released — the
+review that found them ran *after* the tags were cut. Each was invisible to
+its own tests, and in two cases the test actively hid it: `prism/list`'s
+fixture is the one viewport height that is an exact row multiple, and the
+shaper's cache is asserted by tests that hold a `Typography` in a variable,
+which is the one way production never uses it.
+
+**The constraint that shapes the first task, and which the code does not yet
+know.** Gio renders on a single goroutine. The rx observables do not paint
+anything — they assemble a forest of widgets that the frame event handler then
+renders, on that one goroutine. So a shaper does not need to be per-value, per
+component or per emission: one shaper per face collection, shared, is both
+correct and what the toolkit expects. `spectrum`'s current doc says the
+opposite of the truth in both directions at once — it promises the shaper is
+"safe for concurrent use from any number of goroutines", which Gio explicitly
+denies, while the value semantics that promise justifies are what stop the
+cache from ever being reused.
+
+This goal ends in a release, like G-F4, because two of the three bugs are in
+tagged code that applications resolve today.
+
+#### F5.1: Make the shaper cache survive a copy
+
+The headline defect. `Shaper()` and `DeterministicShaper()` take pointer
+receivers and cache into the receiver, but every production call site pulls a
+`Typography` **value** out of an rx tuple first — `typ := n.Second` at
+`prism/button/button.go:116`, and the same shape in `prism/input/textfield.go`,
+`prism/input/dropdown.go` and `pulse/springbutton`. The cache is written into a
+local that dies at the end of the map function, so it is never read back.
+
+Measured on this machine: a cold copy costs **280 µs and 1.69 MB** against
+**15.7 µs and 85 KB** warm. Every theme emission — a dark-mode toggle, a
+density change, the first subscription of each component — therefore rebuilds a
+full shaper per component. F4.2 made this materially worse without noticing:
+the default shaper now enumerates the platform's fonts as well as parsing
+sixteen embedded faces. The doc comments at `button.go:79`,
+`textfield.go:100` and `dropdown.go:63` all state the shaper is "built once and
+cached inside the theme's Typography value", which is false as wired.
+
+- [x] Make the cache survive copying. The direct fix is to replace the two value-typed cache fields with a single pointer to an unexported holder, so every copy shares its source's cache and `rx.Of(tokens.DefaultTypography)` builds one shaper for the process rather than one per emission. `WithFaces` must allocate a **fresh** holder, since a different collection is a different shaper. Check nothing depends on `Typography` being comparable before adding a field — `Faces` already makes it non-comparable, so this should cost nothing, but verify rather than assume.
+- [x] Write the regression test that fails today: take several copies of one `Typography` the way an rx emission does, call `Shaper()` on each, and assert they return the **same** `*text.Shaper`. Today that yields a distinct shaper per copy. Do the same for `DeterministicShaper`, and assert the two are still distinct from each other — F4.2's separation must survive this.
+- [x] Correct the concurrency documentation to what is actually true, in both directions. Gio's own `text.Shaper` doc says the same shaper must not be used from two goroutines and will panic on its internal map; ours currently promises the opposite. Say instead that Gio renders on one goroutine, that the widget forest the observables assemble is laid out on that goroutine, and that the shaper is shared precisely because of it. A reader who believes the current sentence will eventually write the racing code it licenses.
+- [x] Confirm the win where it is claimed: benchmark one component's map function before and after, and put the numbers in the commit body rather than asserting an improvement.
+- [x] Fix the three component doc comments that describe the old, false caching story; build, test, commit in spectrum, prism and pulse.
+
+#### F5.2: Scroll a row fully into view
+
+`prism/list/list.go:302` tests the trailing edge with `case target >= p.First+p.Count`, and the three lines immediately below it compute `visible := p.Count; if p.OffsetLast < 0 { visible-- }` because `Position.Count` includes a partially visible trailing child. The window test still uses the raw count, so a target that *is* the clipped row counts as already visible and no scroll happens. The leading edge handles its mirror case correctly at line 298, which is the tell.
+
+The symptom is two-part: the selection lands on a clipped row, and the next arrow press then moves the viewport two rows, which contradicts the package's own "moves the short way" contract and the existing assertion in `keyboard_test.go:207`.
+
+- [x] Hoist `visible` above the switch and use it in the window test. Note the extra subtraction for a partial *leading* child is not wanted — `Count` minus the trailing partial is already right.
+- [x] Fix the fixture that hides it. `list_test.go:23` reads `viewH = 150 // viewport height in pixels; fits exactly 5 rows` against `rowPx = 30`, which is the one height where the bug cannot appear; real rows are 36 dp scaled by DPI and essentially never divide the viewport. Re-run the keyboard tests across several viewport heights that are deliberately *not* multiples, and keep one as a permanent case.
+- [x] Reconcile `clampSelection` at `list.go:218` with its own doc: the comment says an out-of-range selection is dropped, the code clamps it to the last row, and `keyboard_test.go:294` asserts the clamp. The reachable consequence is that narrowing a filtered list from 100 items to 3 silently moves the selection rather than clearing it, so a caller driving a detail pane off `Selected()` shows an unrelated row. Decide which behaviour is right and make the code, the doc and the test agree.
+- [x] Build, test, commit in prism.
+
+#### F5.3: Measure the natural line from the line, not the face
+
+`spectrum/typeset` probes the natural line height with the **empty string**, so it measures the primary face's ascent and descent. Gio takes a line's ascent as the maximum over that line's runs, so a line carrying a fallback run is taller than the probe and the deficit is computed against the wrong baseline. Under the fallback shaper that applications use, `"arrows →←"` renders a 25 px box where `LabelLarge` declares 20 — and the CSS mirror emits `line-height: 20`, so the two surfaces disagree for exactly the characters the fallback work existed to support.
+
+- [x] Measure the natural line of the text actually being laid out rather than of a probe string, and confirm the deficit still lands the box on the role's line height for a mixed-face line. The core arithmetic is sound — a run of n lines measures `naturalLine + (n-1)×L`, so adding `L − naturalLine` once gives exactly `n×L` — so this is about which `naturalLine` goes into it.
+- [x] Decide what to do about the constraint double-count, which is a trap rather than a bug: `widget.Label` constrains its own result, and `typeset` then adds the deficit on top, so a label given `Min.Y == Max.Y` — every `Flexed` child of a vertical `layout.Flex` — reports more than its slot. The org's components dodge it by zeroing `Constraints.Min` first, which is convention and not contract. Either constrain after the correction or document the requirement where a caller will read it.
+- [x] Guard a negative `LineHeight`: `Label` tests `!= 0` where `Layout` bails at `<= 0`, so a negative value reaches `widget.Label` with `LineHeightScale: 1` and collapses wrapped lines on top of each other.
+- [x] Regenerate any moved goldens and eyeball them; build, test, commit in every repo touched.
+
+#### F5.4: Find out whether CI runs the goldens at all
+Nobody knew, and the goldens are the organization's whole regression net —
+**185** images by actual count, not the 181 this task first claimed, a harness
+repaired across 29 copies in F4.1, and every "CI is green" claim in this plan
+resting on them. The harness calls `t.Skipf` when `headless.NewWindow` fails;
+CI is a headless `ubuntu-latest` that installs GL *development headers*; and
+Gio's Linux path needs a working EGL with `EGL_KHR_surfaceless_context` at
+runtime. A skipped test passes, so a green run proves nothing either way.
+
+**What this task settled.** All twelve workflows in the org are byte-identical
+and run **plain `go test ./...`, not `-v`** — which prints neither `--- SKIP`
+nor a `t.Skipf` message. So no run that has ever executed can answer the
+question, however green, and the cheap path of reading existing logs is closed.
+The org's logs need admin rights it does not grant, so the answer had to be
+made readable another way.
+
+The circumstantial case that the goldens **skip** is strong but is not a read
+run: the workflow's apt list is Gio's own CI list with the *drivers* removed —
+Gio installs `libegl-mesa0`, `libgl1-mesa-dri`, `libgbm1` and
+`mesa-vulkan-drivers` precisely so its own headless tests work, and vibrantgio
+installs only the matching `-dev` headers, which compile but do not open a
+display. The runner image ships no Mesa at all, and the workflow sets no
+`DISPLAY`. `headless.NewWindow` tries EGL then Vulkan, and the Vulkan fallback
+needs an ICD that `libvulkan-dev` does not provide.
+
+**Why the verdict is parked in [[#F5.7: Release the repairs]] rather than
+guessed at here.** Reading a run needs a push, and a push before the tags moved
+would have failed on the ADR-006 skew — spectrum's F5.3 change untagged, so
+`GOWORK=off` resolves a spectrum whose goldens no longer match — going red
+about an entirely different question. The instrumentation is committed and
+waiting: `go test -v` teed to a log, plus an `if: always()` step that counts
+skips and emits the verdict as a **check-run annotation**, which
+`https://api.github.com/repos/vibrantgio/<repo>/commits/<sha>/check-runs`
+returns *unauthenticated* where logs need admin. It reports and does not gate,
+so no green repo can go red on the push. The remaining three steps of this task
+are therefore steps of F5.7, and are struck here rather than left to make
+`mdplan next` return this task forever.
+
+~~Settle it with evidence: make CI report skips, and read an actual run rather
+than reasoning about the runner image.~~ ~~If they are skipping, install a
+software renderer on the runner or accept it and say so loudly in each
+`AGENTS.md`.~~ ~~Write the answer where the next person looks.~~ — all three
+moved to F5.7, which pushes.
+
+- [x] Instrument CI to report the answer: `go test -v` teed to a log and a skip count emitted as a check-run annotation, in the four golden-bearing repos that have CI. Written into `scripts/sync-agents.sh` rather than typed into each `AGENTS.md`, because those files are generated and a typed paragraph survives only until the next sync.
+- [x] Say in every affected `AGENTS.md` what is not yet known: that a green CI run does not say these images matched. `workbench` gets the stronger sentence, since it has twelve goldens and **no CI workflow at all** — nothing but a developer's machine has ever compared them.
+- [x] Commit the workflow change in each repo touched.
+#### F5.5: Delete twenty-eight golden harnesses
+
+F3.3 exported `prism/golden` so a caller outside prism could use it. Only
+prism imports it. There are **29** copies of the same harness in the tree, and
+when F4.1 found the size-mismatch bug it fixed the bug twenty-nine times
+instead of asking why there were twenty-nine copies. The next harness defect
+will cost the same again.
+
+- [x] Move every repo onto `prism/golden`, deleting the local copies. Mind the layering: `prism` is tier 2, so `pulse`, `cadence`, `markdown` and the workbench apps may depend on it, but `spectrum` may not — if spectrum needs a harness, that is an argument for the package living lower, and `scripts/check-layers.sh` is the arbiter, not taste.
+- [x] Keep the per-repo `-golden.update` flag working; it is declared once per package today, and a shared harness must not end up with two flags of the same name in one binary.
+- [x] Confirm every image still compares byte-identically after the move — this is a refactor, and a moved pixel means it was not.
+- [x] Build, test, commit in every repo touched.
+
+#### F5.6: Close the loose ends the review turned up
+Four small things that are each individually forgettable, which is why they
+are written down.
+
+- [x] `Density`'s Compact `ControlHeight` of 28 dp was derived from **`LabelMedium`'s** line box — a role buttons never use — which F4.4c documented rather than corrected, and which is why a Compact button overflows its own token. Either re-derive the number from the role the control actually draws, or state in `density.go` that the figure is historical and what it should have been.
+- [x] `cadence/card/card_test.go:88` and `cadence/popover/popover_test.go:99` still build `widget.Label` directly with `LineHeight`, so those goldens record a layout no correct caller now produces — they contradict the rule F4.3 wrote into `llms.txt` and every `AGENTS.md`, in the repo that rule most applies to.
+- [x] `workbench` has no tags at all, so its applications are `go install …@latest` from an untagged repo. F3.5 never tagged them and F4.8 declined to invent a scheme, which was right; decide now whether the apps are released artifacts with versions or explicitly are not, and record the answer in the Release protocol either way.
+- [x] Finish F5.1's doc sweep. The phrase *"built once and cached inside the theme's `Typography` value"* survives in thirteen cadence components — `accordion`, `alert`, `breadcrumb`, `feature`, `hero`, `modal`, `navbar`, `pagination`, `pricing`, `sidebar`, `table`, `tabs`, `testimonial`, `toast`. F5.1 fixed the three sites its own task named and stayed in scope, which was right. After that fix the sentence is no longer false — the shaper genuinely is built once — only imprecise about *inside* versus *behind* the value, so this is wording, not behaviour. Make it uniform, and prefer one sentence repeated verbatim over thirteen paraphrases.
+- [x] Build, test, commit in every repo touched.
+#### F5.7: Release the repairs
+This goal ends where G-F4 did, and inherits one unfinished question from
+[[#F5.4: Find out whether CI runs the goldens at all]]: whether the golden
+images run on CI at all. F5.4 could not answer it, because the answer needs a
+run and a run needs a push, and a push before the tags moved would have failed
+on the ADR-006 skew rather than on the question. So the tags move first, then
+the push, then the reading — in that order, and the last three steps below are
+F5.4's, finished here.
+
+- [x] `scripts/check-layers.sh` and `scripts/check-no-workspace.sh` green before any tag moves.
+- [x] Tag bottom-up per the Release protocol, checking `git tag | sort -V` in every repo first. The no-double-digit rule is absolute, and spectrum and pulse still carry buried illegal tags that must never be resumed. F5.1 changes spectrum's internals but not its exported surface; F5.2 and F5.3 change behaviour, not signatures — so judge each bump against what actually moved rather than against how much work it was. F5.2 is the one to look at hardest: an out-of-range selection now reports `-1` where it used to clamp to the last row, which is a contract change a caller can observe.
+- [x] Confirm resolution from a clean module cache with the workspace disabled, and run `go clean -modcache` first: F4.8 learned that a warm cache can hide a genuinely broken pin for an entire task.
+- [x] Regenerate and re-push `design/` if any token value moved.
+- [x] Push, and read the verdict F5.4 instrumented — without a token: `curl -s https://api.github.com/repos/vibrantgio/<repo>/commits/<sha>/check-runs` returns the annotation unauthenticated, where the log itself needs admin. Any one of prism, cadence, pulse or markdown settles it.
+- [x] Act on whichever answer comes back. `golden images SKIPPED: N` means the images have never been a CI gate: either install the drivers the runner lacks — Mesa's llvmpipe with `LIBGL_ALWAYS_SOFTWARE`, or Xvfb — so they genuinely compare, or accept it and say so plainly. `golden images COMPARED` means the plan's green claims stand as written, and the `AGENTS.md` warnings F5.4 added come back out. Decide with the number in hand, not before.
+- [x] Write the answer where the next person looks, through `scripts/sync-agents.sh` and not by typing into the generated files: if the goldens do run, say which job and how it was verified; if they do not, say the images are checked only on a developer's machine.
+- [x] **Name cadence's CI failure in the same run.** It has failed all fifteen runs since B3.5 on 2026-08-05, always at `go test ./...` with `go build ./...` green — and at its exact CI commit `2abbc11`, `GOWORK=off go build ./... && go test ./...` is green on this machine. CI and a developer machine already disagree and nobody could see why, for the same admin-rights reason. Read this one **before** concluding anything about the goldens: the two answers are not independent, because if cadence fails precisely because its images genuinely run and do not match a Linux renderer, then they do execute on CI and F5.4's skip inference is wrong.
+- [x] Strike whatever this goal fixes in the register, leaving the struck text in place.
+## Phase G: The design-agent surface
+
+Phase E exported the foundations. This phase adds the component layer, which
+turns `claude.ai/design` from a token reference into a place where a design
+agent composes whole screens out of Vibrant Gio's own parts — screens that then
+port to Gio because they were built from the same tokens and the same
+component vocabulary.
+
+**Not the converter path.** `/design-sync`'s converter expects a JavaScript
+design system: a lockfile, a bundlable `dist/`, React components on
+`window.<globalName>.*`, `.d.ts` prop contracts. Vibrant Gio is Go and Gio, so
+none of it applies. The skill is explicit that the upload *format* is the
+contract and the converter is only one route to it. Produce the layout directly.
+
+**The shape to copy is a CSS-class system** — a token sheet plus a class
+vocabulary (`.btn`, `.card`, `.input`, `.table`, `.nav`, `.dialog`) with plain
+HTML component pages whose markup can be read and copied. Six component pages
+plus the foundation pages is the whole surface; this is not a port of all
+thirty components and patterns packages.
+
+**Fidelity is the whole game.** A component that renders wrong here renders
+wrong in every design the agent ever builds with it. The mirror is a second
+implementation and will drift unless something holds it — so it is verified
+against components' and patterns' existing golden images, not by eye. That
+harness is G1.1 and everything else depends on it.
+
+Sequenced after Phase F because components are rewritten throughout C, D and E;
+mirroring them earlier is rework.
+
+### G-G0: Make the guides tell the truth about the graph
+
+This phase builds a surface for a design agent. The surface it will read is
+`AGENTS.md` — twenty of them, one per repository, and right now nine of them
+describe a dependency graph that stopped being true in Phase B.
+
+`check-layers.sh` measures the real edges. Set its output beside what the
+guides claim:
+
+```
+measured                                    claimed by that repo's AGENTS.md
+markdown: font prism spectrum svg …         "it does not import mvu, spectrum,
+                                             pulse or cadence at all"
+prism:    … mvu spectrum svg …              "Spectrum imports it too today —
+                                             the inversion G-B3 corrects"
+pulse:    font mvu prism spectrum traer     "prism/theme, prism/tokens, and
+                                             spectrum imports pulse/tween today"
+cadence:  font mvu prism pulse spectrum     "prism/theme and prism/tokens"
+spectrum: font mvu                          "It imports mvu"
+```
+
+Every one of them is the pre-G-B3 topology, written in the present tense as
+though the inversion were still pending. G-B3 finished it; markdown's sentence
+is not stale but flatly false.
+
+**Why the gate that was just added cannot catch this.** `check-agents.sh`
+proves *file matches template*. These sentences match their template exactly —
+the falsehood is in `templates/repos.tsv` itself, faithfully rendered into
+twenty clean-looking files. The failure mode of a generator is not drift
+between source and output; it is a wrong source, reproduced perfectly.
+
+So the fix is not to retype the sentences. `check-layers.sh` already prints the
+true edge list for every repository, which means the layer sentence is a
+**measurement wearing prose clothes**, and it belongs on the generated side of
+`sync-agents.sh` with the module paragraph, the build paragraph and the golden
+paragraph — all of which are read from the clone precisely so they cannot say
+something the code does not.
+
+#### G0.1: Generate the layer sentence instead of typing it
+
+- [x] Teach `sync-agents.sh` to derive the import list the way `check-layers.sh` does, and render the "**Layer.**" sentence from it — the tier from ADR-001's table, the edges from the clone. Keep the human half: which tier the repo sits in and any prose about *why* an edge is allowed (style's intra-tier edge to font and textdraw is the case to preserve) stay editable in `repos.tsv`; the list of what it actually imports stops being editable at all.
+- [x] Handle the two directions a layer sentence talks about. Downward edges are measurable from the clone. "Who imports me" is not — it needs the other clones — so either measure it across `.repos/` the way `check-layers.sh` does, or drop the claim rather than let it rot. A guide that says nothing about its consumers is better than one that names the wrong ones.
+- [x] Purge the pending-inversion tense wherever it survives. G-B3, E3.2, C1.2 and F3.3 are done; a guide written as though they were scheduled teaches an agent to expect edges that no longer exist. Name a finished goal only where knowing it happened changes what a reader should do.
+- [x] Regenerate all twenty, and check `check-agents.sh` and `check-layers.sh` are both green.
+
+#### G0.2: Correct the role sentences and the notes that outlived their phase
+The `role` field and the per-repo notes are genuine prose and cannot be
+generated, so these are read-and-fix, one repository at a time.
+
+**Most of the original list is already gone, and by the right mechanism.**
+G0.1 moved the layer sentence to the measured side, which fixed `font`'s,
+`style`'s, `cadence`'s and `workbench`'s import claims structurally rather than
+by retyping them — and its pending-tense purge took `notes/style.md`,
+`notes/textdraw.md` and `notes/workbench.md` with it. `prism`'s role no longer
+claims the theme and tokens contract. What is left is the half a generator
+cannot reach: the opening role sentence, and the prose in
+`templates/notes/<repo>.md`.
+
+The lesson from G0.1 is the one to carry: **before correcting a sentence, ask
+whether it should exist.** A claim `go list`, `git tag` or the filesystem can
+answer belongs on the measured side, not in a better-worded template.
+
+- [x] `templates/notes/svg.md` says `driver/seen` "does not build from a clean checkout" because of a bad `seen/context/gio v0.0.7` `go.sum` pin. `GOWORK=off go build ./...` in that module now succeeds; commit `9980f88` ("B2.0: Repair the seen/context/gio go.sum pin") appears to have fixed it and left the warning behind. Prove it properly — the claim is about a *clean* checkout, so `go clean -modcache` first, which is the F4.8 lesson — then correct or delete the paragraph.
+- [x] Read all twenty role sentences against what the repository now is, not against what it was when the row was written. The role is the opening sentence a reader meets, and nothing measures it.
+- [x] Read all nine `templates/notes/*.md` the same way — `cadence`, `markdown`, `noise`, `pulse`, `seen`, `style`, `svg`, `textdraw`, `workbench` — plus the two G0.1's drift fix added, `spectrum` and `font`. Three were purged of pending tense; the rest have not been read since they were written.
+- [x] Do not trust any list in this plan to be complete, including this one. The nine false layer sentences were found only because four repositories happened to drift, and G0.1 then turned up three stale notes nobody had listed. Read, do not check off against a list.
+- [x] Where a note states a fact that is checkable — a tag, a package count, a build outcome, a file's existence — either move it to the measured side or say in the note how to re-check it. A note that cannot go stale is worth more than one that is currently true.
+- [x] `./scripts/check-agents.sh` green, and commit and push in every repo touched.
+#### G0.3: Close the loop so prose cannot outlive its phase again
+
+- [x] The root `AGENTS.md` lists `clone-all.sh`, `inventory.sh` and `sync-agents.sh` in its `scripts/` line and omits `check-layers.sh`, `check-no-workspace.sh`, `push-design.sh` and `check-agents.sh`. Fix the list, and say what each gate refuses to let happen.
+- [x] Record the lesson where it will be read, not only here: **editing a generated file is a silent no-op against the next sync**, and the reason three repositories carried correct text their templates denied is that nothing in the org made that mistake visible. `check-agents.sh` now does. Say so in `sync-agents.sh`'s header and in the root guide.
+- [x] Consider whether `check-agents.sh` should also diff the rendered layer sentence against `check-layers.sh`'s measured edges once G0.1 makes them the same fact — if the sentence is generated from the measurement, the check is free and the whole class dies. **Considered and declined; the reasoning is recorded in `check-agents.sh`'s header so it is not proposed again.** The premise was half right: the check is free, but it is also tautological. G0.1 made the sentence a *rendering of* the measurement, so diffing them compares a string derived from X against X — it agrees by construction, and would agree just as readily if the renderer were wrong. Making the comparison informative would mean deriving the graph a second way, which is the duplicate walk G0.1 abolished. The class dies anyway, by construction: `check-agents.sh` re-measures and re-renders on every run, so a committed file whose graph has since moved is already the drift it reports, and it overrides any inherited `VG_LAYER_EDGES` with its own `mktemp`, so a poisoned cache cannot reach the renders it judges.
+- [x] Build, test, commit and push in every repo touched. No tags: this is documentation, and the modules were released at F5.7.
+
+### G-G0A: The dialog grammar and the emphasis axis
+
+Rene surveyed the desktop field against `cadence/modal`'s golden and the
+verdict is in two parts. Apple's dialogs end in right-aligned footer actions —
+Cancel plus a default that answers Return — with Escape bound to Cancel and no
+X anywhere, and the scrim inert. Obsidian's and Claude.app's settings are the
+opposite surface: a small quiet X top-right, Escape and a scrim click close it,
+no footer because changes apply live, and an app accelerator (⌘,) opens it.
+That range is not a spectrum needing toggles. It is **two archetypes whose
+affordances travel together**, and a Props model that exposes them as
+independent booleans permits every wrong combination — including the one
+`light-open.png` records today: a decision dialog ("Discard changes?") wearing
+a panel's X, in filled primary, over a scrim that dismisses.
+
+Three defects hide in that sentence, in two repos:
+
+- **`prism/button` has no emphasis axis.** No filled/tonal/ghost distinction
+  exists — `Props` carries no such field — so every button in the org renders
+  filled primary, and the modal's close affordance is the loudest element on
+  its own surface, out-weighing the title beside it. MD3 has
+  filled/tonal/outlined/text; Fluent primary/standard/subtle; Apple
+  prominent/regular/plain. ADR-005's charter — MD3's *system*, reimagined for
+  native desktop — squarely covers the emphasis scale, and the close button is
+  not the motivation for it but the proof that its absence already produced a
+  wrong screen.
+- **The scrim dismisses unconditionally** (`modal.go:19`: "Escape and a
+  backdrop click invoke Props.OnClose"). For a decision dialog that is wrong on
+  Apple's terms whatever the X looks like: dismissal is a decision, and a stray
+  click must not make it for you.
+- **No action answers Return.** Desktop conventions on both platforms bind
+  Return to the default pushbutton; the modal has no notion of one.
+
+The accelerator is deliberately **not** a modal concern — the modal cannot own
+how you arrived. Gio ships the platform-correct modifier as `key.ModShortcut`
+(Cmd on darwin, Ctrl elsewhere; `io/key/mod_darwin.go`), so the binding is app
+chrome, one line, demonstrated in workbench rather than wired into cadence.
+
+Measured before scheduling: modal is the **only** icon-button consumer in
+cadence — toast auto-dismisses on its Lifetime and carries no X — so the
+adoption sweep is one component, not a campaign.
+
+Sequenced before G-G1 and G-G2 because the mirror's contract is fidelity:
+pages built now would faithfully teach the design agent the filled square and
+the dismissing scrim, and every screen it composes would inherit them.
+
+#### G0A.1: Give prism/button an emphasis axis
+
+- [x] Add the register to `Props` — **filled** (the default), **tonal**, **ghost** — with the zero value rendering exactly today's filled button, byte-identical goldens and all: this must be an additive minor, and the existing goldens not moving is the proof.
+- [x] Derive each register's state colours from the tonal ramp the way the filled register already resolves its own — ghost rests transparent with the glyph/label on `onSurfaceVariant`, takes a tonal wash on hover, the standard treatments for pressed and disabled, and the focus ring unchanged: keyboard visibility does not scale down with emphasis.
+- [x] Icon-only composes with every register. A ghost icon button keeps the full pointer target — the glyph quiets, the 44 dp square does not: visual weight and hit area are separate properties, and the target is the part of the mobile inheritance worth keeping.
+- [x] New goldens for each register × state × both densities, regenerated per package and eyeballed; existing goldens untouched.
+- [x] Build, test, commit in prism.
+
+#### G0A.2: Teach cadence/modal the two intents
+- [x] Name the archetypes in the API — a **decision** dialog and a dismissable **panel** — and derive the affordances from the intent rather than exposing them severally. Decision: footer actions right-aligned, no X, scrim inert, Escape invokes Cancel, Return activates the designated default action. Panel: ghost icon-only close top-right, Escape and scrim click both close, footer optional.
+- [x] Adopt Apple's default-action rule wholesale: a destructive primary is never the Return-bound default — when the primary destroys something, Cancel takes the default, and "Discard changes?" answering Return with Discard is the exact failure this forbids. Write the rule into the doc and enforce it in the API shape if it can be enforced cheaply.
+- [x] The scrim change is behavioural, so it gets a test each way: a backdrop click on a decision dialog does nothing; on a panel it closes. Escape still works on both.
+- [x] Reconcile `HideClose` with the intent model — it must keep compiling through a deprecation window, documented as derived (decision implies hidden), not silently ignored.
+- [x] Fix `pulse/springbutton`, which G0A.1 found forwarding a `button.Props` to `button.Render` while building its `RenderState` field by field — so it drops `Props.Emphasis` on the floor and always draws filled. One line, but the adoption sweep is **two** components rather than the one this goal's preamble claimed: that count was measured inside cadence and springbutton lives in pulse. Check the same way for any other component that rebuilds a `RenderState` instead of forwarding one, and prefer a test that would have caught a silently dropped field over a test that only asserts this one.
+- [x] Regenerate the moved goldens — the close affordance going ghost moves every open-state image — and eyeball them: the title should now out-weigh the X, and `light-open.png` becoming a *decision* fixture (no X at all) is the better fixture if the golden set is re-cut to show one of each intent.
+- [x] Build, test, commit in cadence and pulse.
+#### G0A.3: The invocation half lives in the app, and one app proves it
+
+- [x] Bind the settings accelerator in the workbench app with the most natural settings surface — `key.ModShortcut` + `,`, opening a settings **panel** built on G0A.2; record which app and why. This is the pattern's reference implementation: app chrome owns arrival, the modal owns dismissal.
+- [x] Write the pattern where consumers read it: modal's package doc states the two intents and what each mandates and forbids — the inert scrim, the Return rule, the ghost close — and `llms.txt` gets the one-line rule if it earns one.
+- [x] Build, test, commit in workbench and cadence.
+
+#### G0A.4: Release the grammar
+
+- [x] `scripts/check-layers.sh` and `scripts/check-no-workspace.sh` green before any tag moves.
+- [x] Tag bottom-up per the Release protocol: prism minor (new exported API), cadence minor (new API and observable behaviour — the inert scrim is a contract change a caller can see), everything above re-pins as patch. Check `git tag | sort -V` first; no double-digit component, ever.
+- [x] Confirm resolution from a clean module cache with the workspace disabled, `go clean -modcache` first.
+- [x] `design/` should not move — no token value changes here — but verify rather than assume, and regenerate and re-push it if one did.
+
+### G-G0B: Two things the grammar work uncovered
+
+Neither belongs in G-G0A's release — one is a latent limit in a repo that
+release does not otherwise touch, the other is adoption work that the
+deprecation window makes safe to defer. Both were found by doing the work
+rather than by looking for them, and both will be expensive to rediscover.
+
+#### G0B.1: The eight-subscriber ceiling in the toast Subject
+
+`cadence/toast`'s `Notify` Subject is process-global and caps at eight
+concurrent subscribers — `prism/coordination.Subject` passes `scap=8` — every
+`feedsShellLayer` subscription takes one through `toast.Stack`, and rx does not
+return a slot on `Unsubscribe`. G0A.3 found `workbench/feeds` sitting at
+*exactly* eight: adding a ninth shell test made **a different, later** test in
+the same binary fail with "out of subject subscriptions". The symptom names
+neither the cause nor the test that caused it, and it reads convincingly like a
+wrong AutoConnect count, which is what made it expensive.
+
+G0A.3 worked around it rather than widening the seam mid-goal, so feeds cannot
+accept another shell-subscribing test today.
+
+- [x] Find out why the cap is eight, before changing it. A number that low is either a deliberate backpressure decision worth documenting or an arbitrary default nobody revisited, and which one it is determines whether the fix is a larger number, a growable buffer, or returning the slot.
+- [x] Decide whether `Unsubscribe` should return the slot. That is the actual leak — a long-running application that opens and closes eight shells has exhausted the Subject with nothing subscribed. Judge it against how rx's own operators expect Subject to behave, not against what would make this test pass.
+- [x] Whatever the mechanism, make the failure name itself: exhausting the Subject must say what ran out and who holds the slots, because the current message surfaces on an innocent bystander in the same binary.
+- [x] Add the test feeds could not have — a ninth shell subscription — and confirm the whole package still passes.
+- [x] Build, test, commit in prism, cadence and workbench as needed. If prism's exported surface moves, that is a release, so say so rather than leaving it to the next tagger to notice.
+
+#### G0B.2: mindchat's settings modal is a decision wearing a panel's clothes
+
+It is the organization's one remaining consumer of `HideClose` in the shape
+G0A.2 deprecated: a draft-and-Save provider form with a Cancel/Save footer and
+the corner X suppressed. Under the grammar that *is* a decision dialog, and
+saying so in the API is the whole point of having named the archetypes.
+
+This is also the honest test of the deprecation: `HideClose` must keep
+compiling and keep working until every in-org caller has moved, and mindchat is
+the list.
+
+*Corrected while doing it:* mindchat is the list, but it is TWO entries, not
+one — the sweep found the rename modal beside the settings modal, the same
+shape (a Cancel/Rename footer, the X suppressed) and the same conversion. Both
+moved; the deprecation window is now empty.
+
+- [x] Convert mindchat's settings modal to a `Decision` — Save as `Confirm`, Cancel as `Cancel` — and confirm the derived behaviour is what the app already wanted: an inert backdrop (a stray click must not discard a half-typed API key), Escape invoking Cancel, Return committing Save.
+- [x] Check whether Save is destructive in the sense the rule means. It overwrites stored provider configuration, which is not obviously recoverable — if it is not, `Destructive` makes Cancel the Return default, and that is a behaviour change the task should decide deliberately rather than inherit.
+- [x] Sweep for any other `HideClose` caller and move it too. When the count reaches zero, say so in the deprecation note so whoever removes the flag knows the window is empty.
+- [x] Regenerate mindchat's goldens, eyeball them, and build, test, commit in workbench.
+
+#### G0B.3: Release the Subject fix
+
+This goal did not plan a release because the ceiling looked like a capacity
+number. It was not. G0B.1 found the frozen-cursor stall underneath it — a
+departed subscriber leaves a cursor that `send()` still pins the ring window
+to, so `bufCap` emissions after **any** subscriber leaves, the producer blocks
+forever with nothing subscribed. `toast.Notify` runs on the Gio frame
+goroutine, so that is a hung window rather than a dropped signal, and it is in
+prism v0.5.0 and every tag before it. Three more process-global Subjects —
+`modal.Stack`, `popover.Arbitration`, `tooltip.Arbitration` — carry the
+identical exposure and were nowhere near the ceiling, so nothing would have
+found them.
+
+That makes this the most consequential release in the phase, and the reason to
+cut it promptly rather than fold it into the next convenient boundary.
+
+- [x] `scripts/check-layers.sh`, `scripts/check-no-workspace.sh` and `scripts/check-agents.sh` green before any tag moves. Expect `workbench/feeds` to be the one failure at the start — it overruns prism v0.5.0's ceiling under `GOWORK=off` — and to clear when prism is tagged.
+- [x] Tag bottom-up per the Release protocol: **prism v0.6.0** (minor — `MaxSubscribers` and `ErrSubscriberLimit` are new exported surface and delivery semantics changed materially, though `Subject`'s signature did not), then **cadence v0.4.1** (patch — no API change, re-pins prism so consumers get the fix through the module graph rather than only under the workspace). Judge whether `prism/gallery` needs the mirror tag. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while a tag is in flux, never a proxy probe.
+- [x] Say what the release is for where an upgrader will see it. The tag message should name the stall, not the ceiling: a caller reading "raised the subscriber limit" will not understand they are taking a hang fix.
+- [x] Confirm resolution from a clean module cache with the workspace disabled, `go clean -modcache` first.
+- [x] Verify `design/` did not move — no token value should have changed — and regenerate and re-push it if one did.
+
+### G-G0C: Coordination belongs to the loop or the frame, not to a bus
+
+Rene's architectural read, which the tree confirms at every site checked: rx
+earns its keep in this organization in exactly two places — carrying
+slow-changing broadcast sources into component pipelines (the theme), and
+carrying command results back into the MVU loop as messages. `Subject` as a
+cross-widget coordination bus is a third thing, and it fights both of the
+first two. It holds state outside the model, it delivers a frame late, and it
+imports concurrency hazards a single-goroutine renderer cannot otherwise
+express. Subject is normally indicative of an architecture problem; here the
+evidence is unusually explicit:
+
+- `prism/coordination`'s own doc lists its first known trap as **"One-frame
+  lag. Subject delivery is asynchronous."** The package documents the tax of
+  its own mechanism.
+- G0B.1: the primitive imported a producer stall — a concurrency failure —
+  into a toolkit that renders on one goroutine. That is F5.1's shaper lesson
+  generalized: a design that cannot express the hazard beats one that guards
+  against it.
+- `workbench/feeds` maintains a ledger test (`modelObsConsumers` in
+  `wiring_test.go`, bumped 16→23 by G0A.3) counting subscription consumers so
+  AutoConnect numbers stay right. A census in a test is the tax made visible.
+- `toast.Notify` — called from seven real app files — is the loop worked
+  around rather than leveraged: an event that wants to be a Message takes a
+  side door past `Update`, so toasts are invisible to the model and
+  untestable through it. The mechanism for doing it right already exists and
+  is the org's own: components emit `mvu.MessageOp` into the ops queue and
+  the app routes; `prism/button` has done exactly that since the beginning.
+
+**The layering finding that shapes the fix.** `coordination` lives in prism,
+tier 2 — which is *why* `spectrum/preferences` (tier 1, cannot import upward)
+holds the org's one remaining bare `rx.Subject` in library code, with the
+same slot leak and frozen-cursor stall `coordination` now guards against
+(default `scap` 32; 128-deep buffer makes it slower to bite, not immune).
+F5.5 recorded the rule for the golden harness: if a lower tier needs it, the
+package lives too high. ~~Whatever lifetime-safe primitive survives this goal
+belongs in mvu, tier 0, the FRP substrate — `check-layers.sh` is the
+arbiter.~~ The rule holds and tier 0 is where the primitive landed, but not
+this primitive: G0C.5 found `coordination` had no library users left and rx's
+own `Behavior` already lifetime-safe, so fourteen lines were written at tier 0
+and 292 were deprecated in place.
+
+**Scope guard, in both directions.** This is not "remove rx": pipelines,
+theme, and genuine streams (preferences is one — a replay-1 value observed by
+several windows) stay observable. And same-frame response is not automatic:
+within one frame, event→state→layout ordering depends on tree order, so a
+sibling laid out before the state changed still sees the old value until the
+next frame. The spike measures that honestly rather than promising lag-zero.
+
+**Three destinations**, decided per site rather than by slogan:
+
+1. Durable or app-meaningful state → the model, via messages. Toast requests;
+   probably the modal stack.
+2. Frame-scoped UI coordination → plain values owned by the frame goroutine,
+   read during layout. Popover and tooltip arbitration; per-row open flags.
+   Note the Subjects today are process-global while UI arbitration's correct
+   scope is per-window — frame ownership gives the right scope for free.
+3. Genuine streams → observables still, but never a bare `rx.Subject`;
+   lifetime safety is the one enduring job of the wrapped primitive.
+
+**The refactor's honesty constraint: no golden moves.** This goal changes
+mechanism, not pixels. Every stored PNG must compare byte-identically at the
+end of every task; a moved pixel means behaviour changed and must be explained
+before it is regenerated. Sequenced before G-G1 so the mirror is built against
+components whose internals are done moving.
+
+**Measured, not assumed.** G0C.1 ran the spike and
+[[#ADR-008: Coordination is frame state, a message, or a stream — never a bare Subject|ADR-008]]
+records what it found, including three claims above that did not survive it.
+Popover never subscribed to its own bus and neither did anything else, so the
+tax at that site was a mechanism delivering nothing, not the documented
+one-frame lag. No AutoConnect count and no ledger entry moved, because
+`modelObsConsumers` counts consumers of the application's model observable and
+never counted a `coordination.Subject`. And frame ownership did *not* hand the
+per-window scope over for free: it makes the right scope expressible and the
+wrong one detectable, but taking it costs threading a value through each
+application's composition root, which is now G0C.4's second job. And G0C.5
+found the surviving primitive was not the one this preamble points at:
+`github.com/reactivego/rx` had shipped a lifetime-safe multicast all along, so
+the fix was choosing a different rx primitive rather than wrapping the wrong
+one — and the wrapper this goal meant to relocate turns out to be both larger
+and 40× slower to deliver. The doctrine survived intact; the arithmetic under
+it did not.
+
+#### G0C.1: ADR-008 and the spike: popover arbitration as frame state
+
+- [x] Convert `cadence/popover`'s `Arbitration` from a `coordination.Subject` to a plain arbiter owned by the frame goroutine, read during layout, written on the events that claim or release it. Smallest of the four buses, purely frame-scoped, no app consumer to migrate — the right specimen.
+- [x] Measure what it deletes and what it costs, and write both down: the one-frame lag and its workarounds, AutoConnect counts in tests that existed only to absorb Subject delivery, subscription ledger entries; against any new ordering constraint the same-frame model introduces. Prove same-frame where it is real and document where next-frame remains.
+- [x] All goldens byte-identical; `go test -race` on everything touched.
+- [x] Write **ADR-008** into the Reference section from the measured result, not from this preamble: the doctrine (three destinations), the idiom the spike settled, and the layering rule for the surviving primitive. If the spike refutes part of the preamble, the ADR records what was learned — that is what the spike is for.
+- [x] Re-cut the remaining tasks of this goal against what the spike learned, the way G0.2 was re-cut after G0.1.
+- [x] Build, test, commit in cadence and the root.
+
+#### G0C.2: Tooltip arbitration follows the idiom
+
+The spike's twin: the same 67-line file with the nouns changed, and — verified
+below, not assumed — the same zero subscribers. This is a transcription, so if
+it turns into a decision, stop and say which part of ADR-008 did not survive
+contact with tooltip.
+
+- [x] `cadence/tooltip`'s `Arbitration` becomes an `Arbiter` on ADR-008's idiom: a plain struct with no synchronisation, identity taken from the participant's own state pointer rather than an `atomic.Int64`, `Props.Arbiter` naming the set and defaulting to a package-level one, and the claim hiding the incumbent from inside the claimant's layout pass instead of leaving it to poll "am I still top" once a frame. Diff the finished file against `popover/arbitration.go` and justify anything that is not a noun.
+- [x] Confirm before deleting that `tooltip.Arbitration` and `tooltip.ArbitrationSnapshot` have no subscriber anywhere in the twenty-one repositories. Use `find … -print0 | xargs -0 grep`; `grep -r --include="*.go"` finds **nothing at all** here — `.repos/` is gitignored, so a gitignore-aware grep skips all twenty clones and reports a clean census it never took. (This step said "skips `workbench/`" when it ran, which understated it; corrected by G0C.2b, which measured the real scope.)
+- [x] Tooltip's show path is not popover's — a delay timer and a hover/focus trigger sit in front of it. Check what a layout-time claim does to the timer (a tooltip that is timing out but not yet drawn has not claimed) and record the answer. If the claim has to sit somewhere other than the first drawn frame, that is a finding for ADR-008 rather than a local deviation.
+- [x] Keep the `Props` change additive. That is what kept the spike from opening an ADR-006 seam: `check-no-workspace.sh` read 36/36 afterwards and should still read 36/36 here.
+- [x] Goldens byte-identical; `go test -race ./tooltip/...`; build, test, commit in cadence.
+
+#### G0C.2b: The modal stack is a bus with nobody on it
+Split out of G0C.2 by the spike on the belief that `modal.Stack` was the one
+bus with real subscribers, and therefore the only genuine destination-1
+decision. **That belief was wrong, and the census is already taken:
+`modal.Stack` has zero subscribers in all twenty-one repositories** — measured
+with `find … -print0 | xargs -0 grep`, the form that does not skip
+`workbench/`. The only `Stack` hits elsewhere are `toast.Stack`, an unrelated
+widget constructor, and `shell.StackedPage`.
+
+`stack.go`'s own doc comment says it outright: *"Downstream patterns (popover,
+tooltip, drag overlay) subscribe to learn when a modal is in front of them;
+modal itself reads the stack synchronously via `isTop` at frame time and does
+not subscribe."* Those downstream patterns never arrived, and the first two now
+own arbiters of their own. So `Stack` is a published-to, never-read observable
+kept alive for a consumer that does not exist — and every `stackPush`/`stackPop`
+pays a Subject emission for it.
+
+So all four buses had zero subscribers, and `toast.Notifications` is the only
+one anything genuinely consumes. That is a stronger result than the goal
+predicted and it belongs in ADR-008: the argument for removing the bus is not
+that the lag was costly, it is that **three of the four buses were carrying
+nothing at all**, and nobody could see that because an exported observable with
+no subscriber looks exactly like a working one.
+
+Note what `isTop` already is: a synchronous, mutex-guarded read of a
+package-level slice at frame time. That is ADR-008's frame state with an
+unnecessary mutex on it — the conversion is mostly deletion.
+
+- [x] Re-verify the zero-subscriber census yourself before deleting exported API, with `find … -print0 | xargs -0 grep` over all twenty-one repos plus the root. The plan has been wrong about this once already.
+- [x] Convert the stack to frame state per ADR-008 and the idiom G0C.1 and G0C.2 settled: identity from the participant's own state pointer rather than `stackNextID`, no mutex, ownership by the value the composition root passes in. `isTop`'s behaviour — only the topmost modal takes keyboard and pointer input, those beneath stay painted but inert — must survive exactly, and it is the thing to write the tests against.
+- [x] Remove `Stack` and `StackSnapshot`. They are exported, so this is a breaking removal that rides G0C.6's release alongside popover's and tooltip's; say so in the commit body rather than leaving it for the tagger to discover. If you conclude they should be kept for out-of-org consumers, argue it — but weigh it against the fact that no in-org consumer ever appeared in the eight phases the observable has existed.
+- [x] Record the corrected finding in ADR-008: three of four buses had no subscribers, `toast.Notifications` is the exception, and an exported observable with no reader is the second smell — the one the G0C.6 gate cannot catch by grepping for `rx.Subject`.
+- [x] Goldens byte-identical; `go test -race` on modal and anything touched; build, test, commit in cadence and the root. Expect no ADR-006 seam — nothing app-facing changes if the census holds — and say so if one opens anyway.
+#### G0C.3: Toasts ride the loop
+
+The destination-1 case the spike could not exercise: popover's bus had no
+consumers at all, so nothing about it tested the message path. `toast.Notify`
+does, from seven real caller files, and its Subject is one of the three bare
+`rx.Subject`s left in non-test library code (the others are the primitive
+itself and `spectrum/preferences`, G0C.5).
+
+- [x] Replace the `Notify` bus with the message path: cadence defines the message type, `toast.Stack` renders from props or model-derived input, apps route the message through `Update`. Toasts become model state — reproducible, testable through Update, visible in any model dump.
+- [x] `Notify` is public API with seven caller files; keep it compiling through a deprecation window as a shim over the message path if that is cleanly possible, and say plainly if it is not.
+- [x] Migrate all seven caller files in feeds and watchlist; the toast Subject empties. Confirm a toast raised from a command goroutine still arrives — that path is the loop's own (command → message → Update), which is the point.
+- [x] This is where the seam opens if G0C.2b did not open it: workbench will be using cadence API that exists only in the working tree. Report which modules `check-no-workspace.sh` fails for and confirm the failures are only that.
+- [x] Goldens byte-identical; `go test -race` on cadence and both applications; build, test, commit in cadence and workbench.
+
+#### G0C.4: The apps drop their per-row Subjects and take their own Arbiter
+
+Two app-side jobs that touch the same five files, so they are one task: the
+per-row Subjects go, and the applications take ownership of the arbitration
+scope the spike deliberately left borrowed.
+
+- [x] `feeds` (`sidebar.go`, `articles.go`) and `watchlist` (`rowdelete.go`, `bulkdelete.go`, `sidebarcontext.go`, `maincontent.go`): each per-row `rx.Subject[bool]` open flag becomes plain state read during layout, per ADR-008's destination 2. The "feeds idiom" comments describe the old mechanism by name — rewrite them to describe the new one.
+- [x] Thread a per-window `Arbiter` (popover's, and tooltip's after G0C.2) through each application's composition root, then delete cadence's package-level default so the wrong scope stops being reachable. ADR-008 records why the spike left it: a process-global lock-free value is correct for a single-window process and a data race in a two-window one, and every workbench application is single-window *today*. Seven call sites: feeds `sidebar.go` and `app.go`, watchlist `rowdelete.go`, `bulkdelete.go` and `sidebarcontext.go`, mindchat `modelmenu.go` and `settings.go`.
+- [x] The ledger, corrected by the spike: `modelObsConsumers` (feeds 23, mindchat 10, launcher 1) counts cold subscriptions to the application's own model observable and never counted a `coordination.Subject` consumer, so only the per-row Subjects in this task can move it. Whatever it reads afterwards is the honest count; if it can be deleted outright, delete it.
+- [x] Goldens byte-identical; `go test -race` on every application touched; build, test, commit in workbench and in cadence if the default arbiter's removal lands there.
+
+#### G0C.5: The surviving primitive moves to tier 0, and preferences comes off the bare Subject
+
+~~Move the lifetime-safe Subject (whatever G0C.1–G0C.4 left of it) from `prism/coordination` down to mvu, per the layering finding — `check-layers.sh` is the arbiter, and prism re-exports or forwards through a deprecation window so no consumer breaks mid-goal.~~ **Re-cut on the measurement, the way G0.2 and G0C.2b were.** The layering finding held; the package it named did not survive contact with two numbers. The census found `prism/coordination` had no library users left — two demo mains and nothing else — and a benchmark found rx v0.3.0's own `rx.Behavior` lifetime-safe where `rx.Subject` is not, 40× faster to arrive, and free of the *live*-consumer stall the 292-line wrapper had kept. So nothing moved down a tier:
+
+- [x] **A new tier-0 primitive, built from rx's own parts rather than moved.** `github.com/vibrantgio/mvu/stream` exports one function, `Value[T](seed)`, in fourteen lines: `rx.Behavior` over a source that hands its observer back at connect time, so the write is synchronous and an idle stream costs no goroutine. `check-layers` OK — mvu still imports nothing in the organization.
+- [x] **`prism/coordination` is deprecated in place, not forwarded.** A forwarder would compile everywhere and silently change delivery policy, ceiling and buffering; G0C.3's break-loudly rule forbids that. The package is unchanged and still tested, marked `Deprecated:` with the measurements in its doc. prism gains no import and so opens no seam.
+- [x] `spectrum/preferences` — the last bare `rx.Subject` in library code — moves onto it. Its shape is a genuine stream and stays observable; the defect was only ever the unprotected primitive. Two regression tests pin the two halves and both fail against the old code: `TestObserveSurvivesShellChurn` died on shell 32 (rx's 32 subscription slots, one spent per window that ever observed), and `TestSaveIsNotBlockedByAStalledObserver` wedged `SaveTo` behind an observer that stopped draining — the half the wrapper never fixed.
+- [x] Sweep for any bare `rx.Subject` remaining in library code; the count after this task should be zero, and the count in app code should be whatever G0C.4 justified line by line. **Re-measured with `find … -print0 | xargs -0 grep` over 710 Go files: non-test library sites are now one, `prism/coordination/types.go`'s own per-leg subject in the deprecated package, and it leaves with the package. In application code the count is zero — all eight workbench files that match `rx.Subject` match it inside a comment G0C.4 wrote about the flag it removed. The remaining 21 occurrences live in 12 test files, every one of them a harness: thirteen standing in for the application's model observable, eight feeding a component's props.**
+- [x] Goldens byte-identical; build, test, commit in mvu, spectrum, prism and any consumer re-pinned. **All 84 cadence and all 16 workbench goldens byte-identical, and prism's 100, pulse's 21 and markdown's 9 with them. `check-agents` 20/20 after re-rendering mvu's and prism's AGENTS.md; `check-no-workspace` 33/36 → 32/36, spectrum joining for the one reason that `mvu/stream` is in no tag yet. No consumer needed re-pinning.**
+
+#### G0C.6: The gate, the guide, and the release
+
+- [x] The gate, in the org's own style: a check script that fails on a bare `rx.Subject` outside the sanctioned homes ADR-008 names. Wire it beside `check-layers.sh`, `check-no-workspace.sh` and `check-agents.sh`. G0C.5 left the census it has to reproduce: the only non-test library site is `prism/coordination/types.go`, which leaves with the deprecated package, so the gate's allowlist is `mvu/stream` and — for as long as it exists — `prism/coordination`. Application code is already at zero, and the 21 remaining occurrences are all in `_test.go` harnesses standing in for a model observable; decide whether the gate looks at test files at all, and say which.
+- [x] The spike found a second smell the first gate will not catch: `popover.Arbitration` was an exported observable that nothing in twenty-one repositories subscribed to, and tooltip's was the same. Decide whether that is checkable cheaply — an exported `rx.Observable` in a component package with no consumer — and either add it or record why not. An uncatchable finding is still worth naming in `llms.txt`.
+- [x] The guide: ADR-008's consequences into `llms.txt` and the AGENTS templates through `sync-agents.sh` — never typed into generated files.
+- [x] **Close G0C.5's deprecation window, or say why it stays open.** `prism/coordination` is intact behind a `Deprecated:` marker and has exactly two users left in the organization, both demo mains: `prism/gallery/main.go` (a `Subject[string]` producer/consumer section) and `cadence/modal/gallery/main.go` (a `Subject[bool]` driving `Props.Open`). `mvu/stream.Value` covers both, and covers the second better — a seeded value means the modal's `CombineLatest` fires without waiting for the first emission. Moving them puts `cadence` and `prism/gallery` on the ADR-006 seam until the tags are cut, which is this task's own business, so it is cheap here and nowhere else. If the demos move and the package goes, prism takes a breaking removal in the same release; if the window stays open, say for how long and what closes it.
+- [x] The release, per the Release protocol, bottom-up: **mvu first and alone at the bottom — the new `stream` subpackage is purely additive, a minor, and it is what `spectrum` is currently unresolvable without** (`check-no-workspace` reads 32/36 at the end of G0C.5; spectrum's single failure is `github.com/vibrantgio/mvu/stream` existing in no tag). Then spectrum, prism and cadence with whatever bumps the diffs argue — judge each against what actually moved. prism's diff is a deprecation notice and an AGENTS/README re-render unless the removal above lands, in which case it is breaking. Cadence's is at least a minor: `popover.Arbitration`, `popover.ArbitrationSnapshot` and tooltip's pair are removed exported symbols, which is breaking however few importers they had. Check `git tag | sort -V` first; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass; `design/` verified unmoved.
+- [x] **`llms.txt`'s tag table is a hand-typed copy of a measurable fact, and it has drifted three minors.** Measured against `git tag | sort -V` at the start of this task: it claims prism **v0.3.1** where the tag is **v0.6.0**, cadence v0.3.1 where it is v0.4.1, spectrum v0.4.0 where it is v0.4.1, pulse v0.1.2 where it is v0.1.4, markdown v0.1.2 where it is v0.1.3 — five of eight wrong, under a line reading "EVERY TAG ABOVE IS RELEASED AND CURRENT". An assistant following the canonical guide would `go get prism@v0.3.1` and receive none of Phase G. This is G-G0's defect exactly, surviving in the one document `sync-agents.sh` cannot reach, because `.github` is the parent of the clones and not one of them. Fix the numbers, and then fix the reason: either generate the table (a small script beside the others, `check-agents.sh`-style, reading `git tag` in each clone) or state in the file how to re-derive it and add the check that fails when it drifts. Prefer generating it — the whole goal above this line is about facts that should not be typed. The nested-module tags a few lines below have the same exposure; check them too.
+- [x] Strike whatever this goal fixes in the register, leaving the struck text in place.
+
+### G-G0D: The four names that explain nothing become the four words the docs already use
+
+Rene's finding, and it is about the reader rather than the code: `spectrum`,
+`prism`, `pulse` and `cadence` are opaque. He cannot keep them apart, and he
+owns the organization. The evidence that the names are the defect and not the
+reader is one command away: every role sentence in `templates/repos.tsv`
+already describes its repo in a plain word the name then hides — spectrum is
+"the token, theme and `a11y` contract", prism is "components: button, input,
+list…", pulse is "effects: blur…", cadence is "composed patterns". The
+documentation has been translating the names into English at every mention
+since phase A. A name that needs a gloss at every use is a hand-typed copy of
+a fact, and this organization already knows what happens to those.
+
+**The mapping, ratified by Rene at drafting time**: `spectrum → theme`,
+`prism → components`, `pulse → effects`, `cadence → patterns`. The two calls
+that were open — `theme` vs `tokens`, `widgets` vs `components` — Rene took
+`theme` (the thing applications actually touch) and `components` (the word
+the role sentence and llms.txt already use). G0D.1's ADR records the
+decisions; it does not reopen them. The tier chain then reads `mvu → theme →
+components → effects → patterns → markdown` and explains itself in the
+import paths.
+
+**What deliberately does not rename.** `mvu` — it names the architecture, not
+a vibe. `markdown`, `font`, `workbench` and the tier-0 leaves — already
+literal. The support libraries — `kiwi`, `traer`, `ivg`, `svg`, `seen`,
+`noise`, `csg` — keep their upstream-heritage names. The org name Vibrant Gio
+is untouched. And history keeps the old names everywhere it already uses
+them: past goals in this plan, ADRs, commit messages, buried tags. Only
+living surfaces rename; a plan that rewrote its own past to match its present
+would be forging the record.
+
+**The prism/cadence split survives, and the rename is what makes it legible.**
+Rene asked whether cadence should be distinct from the component library at
+all. It should: `pulse` sits between them in the tier table, and the
+prism–pulse cycle that once pinned half the organization to `prism v0.0.3` is
+exactly the failure repo boundaries make impossible; the two also churn at
+different rates — all of G-G0C hammered cadence while prism took a doc-only
+patch. The split was never the problem. Two names that don't say which is
+which was the problem, and `components` vs `patterns` says it.
+
+**Sequenced before G-G1, for G-G0C's own reason.** The mirror and the
+component pages bake module paths into a whole new artifact surface, and
+G1.1's chromedp harness is built against it. G-G0C went first so the mirror
+would be built against components whose internals were done moving; names are
+more surface than internals. Renaming after G-G1 means regenerating
+everything it built.
+
+**The mechanics, stated once.** In Go the module path is the identity, so a
+rename is a new module path: the GitHub repository renames (old URLs redirect
+forever), `go.mod`'s module line changes, every importer's import lines
+change, and tags start again on the new path — the old path stays resolvable
+through the redirect and the proxy cache for anything pinned, frozen and
+never re-tagged. The blast radius is in-org only: G0C.2b's census found no
+out-of-org consumer in eight phases of looking. The renames land in the
+working tree bottom-up with `go.work` keeping everything building;
+`check-no-workspace` degrades one rename at a time and G0D.6's release wave
+closes the seam once, at the end — the G0C.3/G0C.6 pattern.
+
+**Where the names are typed, measured at drafting time.** Beyond `go.mod` and
+import lines: `llms.txt` (86 matching lines, prose plus generated tables —
+the tables regenerate via `sync-versions.sh`, the prose is the sweep),
+`check-layers.sh`'s tier table, `clone-all.sh`'s STACK array,
+`check-subjects.sh`'s allowlist (`prism/coordination`), `sync-versions.sh`
+and `check-versions.sh`'s module lists, `inventory.sh`, `push-design.sh`,
+`templates/repos.tsv` rows, `templates/notes/{spectrum,pulse,cadence}.md`
+filenames, `go.work` (regenerated, never hand-edited, per G0.2's rule), the
+root `README.md` and `AGENTS.md`, and every generated per-repo `AGENTS.md`
+(which re-render). G0D.1 re-runs this census with the gitignore-immune
+`find … -print0 | xargs -0 grep` form rather than trusting this paragraph.
+
+**The honesty constraint carries over.** A rename moves no pixels: every
+golden PNG byte-identical at the end of every task, `go test -race` green in
+everything touched, and the tier topology unchanged — `check-layers.sh`
+passes at every step with only the names in its table different.
+
+#### G0D.1: ADR-009: the names, the tag policy, and the procedure
+
+- [x] Write **ADR-009** into the Reference section: record the name calls Rene ratified (`theme`, not `tokens`; `components`, not `widgets`; `effects`; `patterns`), the full mapping and the deliberate non-renames, and say in one paragraph why the prism/cadence split survives (the pulse-between-them topology, the cycle scar, the churn asymmetry).
+- [x] Settle the tag policy for the new paths and write it into the ADR: continue the old numbering (theme's first tag succeeds spectrum v0.5.0) or start fresh at v0.1.0. Weigh continuity of meaning against a clean break from the buried double-digit tags; either way, no double-digit component, ever.
+- [x] Settle the afterlife of the old paths: frozen, never re-tagged, resolvable forever via GitHub redirect and proxy cache. Decide where the old→new ledger lives in `llms.txt` — the ALREADY DELETED section is the model, but renamed is not deleted; say which heading the assistant reading the guide will find it under.
+- [x] Re-run the name census with `find … -print0 | xargs -0 grep` over the root and all clones, diff it against the goal preamble's list, and write the verified sweep list into the ADR as the procedure one rename follows. Note the one step an agent may not be able to take alone: the GitHub repository rename itself (`gh repo rename` needs org auth; the web UI is the fallback) — the task stops and asks tersely if it cannot.
+- [x] Commit in the root.
+
+#### G0D.2: spectrum becomes theme
+
+The bottom-most rename and the widest: everything above tier 1 imports it.
+
+- [x] Rename the repository on GitHub per ADR-009's procedure, rename `.repos/spectrum` to match, change the module line, and sweep every importer's import lines and qualified identifiers in the working tree — prism, pulse, cadence, markdown, workbench and the galleries.
+- [x] Sweep the hand-typed sites the census assigns to this rename: tier table, STACK array, `templates/repos.tsv` row, `templates/notes/spectrum.md` filename and contents, root README/AGENTS prose, `llms.txt` prose. Regenerate `go.work` from `find .repos -name go.mod`; regenerate AGENTS renders; `check-agents` must read 20/20.
+- [x] `go test -race` across every touched module; `check-layers` OK with `theme` in tier 1; all goldens byte-identical.
+- [x] Report the `check-no-workspace` count — the seam opens here and stays open until G0D.6; confirm every failure is the renamed path existing in no tag, and nothing else.
+- [x] Commit in every repo touched and the root.
+
+#### G0D.3: prism becomes components
+
+- [x] The G0D.2 procedure with the nouns changed, plus this rename's own two: `check-subjects.sh`'s allowlist entry (`prism/coordination` follows the deprecated package to its new path — the gate must fail closed during the transition, not skip), and the nested module `prism/gallery`, whose module path and future nested tag rename with it.
+- [x] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
+
+#### G0D.4: pulse becomes effects
+
+- [x] The G0D.2 procedure with the nouns changed; `templates/notes/pulse.md` renames with it. The blur section heading in `llms.txt` (`pulse/blur`) is prose, not a generated table — the sweep owns it.
+- [x] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
+
+#### G0D.5: cadence becomes patterns
+
+- [x] The G0D.2 procedure with the nouns changed; `templates/notes/cadence.md` renames with it. The top of the design system proper renames last, so after this task no import line in the organization says spectrum, prism, pulse or cadence.
+- [x] Verify that claim rather than assuming it: the census, re-run, finds the four old names only in history — this plan's past goals, ADRs, commit messages — and in the ledger. Anything else found is this task's to fix.
+- [x] `go test -race` across every touched module; `check-layers` OK; goldens byte-identical; report the `check-no-workspace` count; commit in every repo touched and the root.
+
+#### G0D.6: The ledger, the guide, and the release
+
+- [x] The ledger: the old→new table into `llms.txt` under the heading ADR-009 chose, in the ALREADY DELETED section's voice — an assistant meeting `prism` in older code must learn in one line that it is `components` now, renamed not deleted, and that the old path is frozen.
+- [x] The release, per the Release protocol, bottom-up on the new paths with ADR-009's tag policy: theme, components (and its nested gallery), effects, patterns, and re-pins upward through markdown and the workbench apps. `git tag | sort -V` first in each; no double-digit component, ever; `git ls-remote` while in flux, never a proxy probe; `go clean -modcache` before the verification pass.
+- [x] The verification pass: `check-no-workspace` back to 36/36, `check-versions` OK against the new tags, `check-agents` 20/20, `check-layers` OK, `check-subjects` OK with the renamed allowlist, all goldens byte-identical, `design/` verified unmoved.
+- [x] Strike whatever this goal fixes in the register, leaving the struck text in place, and re-render anything `sync-versions.sh` owns one last time.
+
+### G-G0E: The working tree tells the truth about the org
+
+**One directory is doing two jobs.** `~/code/w/vibrantgio` is a clone of
+`vibrantgio/.github` *and* the parent of every other repository. So `git status`
+at the top reports one repository's state while looking like it reports the
+org's, and the twenty repositories the work actually happens in are hidden
+behind a dot-prefixed `.repos/` that neither `ls` nor Finder shows. The layout
+does not resemble the organization it mirrors.
+
+**`go.work` is committed while the checkout it points at is not.** Its own
+header says so. Thirty-eight `use ./.repos/…` lines live in a public repository
+and describe a tree that is gitignored, which means the file is either wrong for
+anyone who clones it or right only by coincidence. A workspace describes one
+developer's checkout; it should be generated from what is actually cloned, and
+then a partial checkout is a smaller workspace rather than thirty-eight dangling
+paths.
+
+**`design/` is a published artifact wearing a subdirectory.** It is the design
+system: `theme/cmd/vg-tokens` builds it, `scripts/push-design.sh` uploads it to
+`claude.ai/design`, and from G1.1 onward a test harness holds it to the Gio
+components. Built by something, consumed by something, breakable by something —
+that is what earns a repository, and `design/` has all three while sitting in a
+directory inside the org's README repo.
+
+**Nothing published moves.** No module path, no tag, no import in any of the
+thirty-six modules changes except `design`'s own arrival. This is a working-tree
+and repository-boundary change, and the gates are how it is proven: the same
+six scripts must pass from the new root as from the old.
+
+Sequenced before G-G1 because G1.1 creates a module. It should land in its final
+home rather than be moved a week later.
+
+#### G0E.1: The repositories become siblings, and go.work is generated
+
+- [x] Flatten the tree: each repository moves from `.repos/<name>` to a sibling `<name>` beside `.github`, which keeps its name — GitHub serves the org profile from a repository called exactly that. Move the clones rather than re-cloning, so nothing uncommitted can be lost in the shuffle.
+- [x] Teach `clone-all.sh` the new shape: clone siblings, and generate `go.work` from the repositories actually present rather than from a fixed list of thirty-six. A workspace missing a repository you have not cloned is correct; a `use` line pointing at nothing is not.
+- [x] Stop committing `go.work` — gitignore it, and rewrite the header that currently explains the contradiction so it explains the generator instead.
+- [x] Sweep `.repos` out of the eight scripts that hardcode it — `sync-agents.sh` (13), `clone-all.sh` (7), `sync-versions.sh` (6), `inventory.sh` (6), `check-layers.sh` (6), `check-subjects.sh` (3), `check-no-workspace.sh` (3), `check-agents.sh` (3), `push-design.sh` (1). Each finds the workspace root by walking up from its own location, so a script keeps working whichever directory it is invoked from.
+- [x] State the new layout where it is read: `AGENTS.md`'s working-tree paragraph, `README.md`, and this plan's preamble. The thirty-one other `.repos` mentions in `PLAN.md` are historical narrative and stay — the same rule G0D.6 applied to the old repository names.
+- [x] Prove it with the gates, not by eye: `check-layers.sh`, `check-no-workspace.sh`, `check-agents.sh`, `check-subjects.sh`, `check-versions.sh` and `inventory.sh` all pass from the flattened root, and `inventory.sh`'s census still measures what `PLAN.md` claims.
+- [x] Commit here.
+
+#### G0E.2: design becomes a repository
+
+The one repository this organization was missing is the one it is named for.
+
+- [x] Create `vibrantgio/design` and move the bundle into it — `styles.css`, `theme.json`, `readme.md` and `foundations/`, the six paths already live at `claude.ai/design`. Carry the history across; this directory has been regenerated since Phase E and the record of what moved a pixel is worth keeping.
+- [x] Give it a module — `github.com/vibrantgio/design` — and `//go:embed` the bundle, so the harness G1.1 builds and anything after it reads a page by name instead of by a relative path that breaks the moment a test runs from somewhere else.
+- [x] Repoint the two things that write and read it: `theme/cmd/vg-tokens`' output directory, and `push-design.sh`'s `DESIGN` path. The uploaded path set does not change — `finalize_plan` still writes the same six paths — so a push before and after this task is byte-identical at the far end.
+- [x] Register it everywhere a repository has to be known: a `templates/repos.tsv` row, `clone-all.sh`, `inventory.sh`'s census, `check-versions.sh`'s module list, `sync-agents.sh` so it carries the same `AGENTS.md` as everything else, and `llms.txt`'s tag table.
+- [x] Place it at the application tier. It imports components and patterns from G1.1 onward and nothing in the organization imports it, so it is a leaf that no `go.mod` pins — the same shape as a workbench application, and `check-layers.sh` judges it the same way.
+- [x] Prove it: the census reports twenty-one — `inventory.sh` surveys the siblings and excludes `.github` itself, so twenty-one surveyed is twenty-two org repositories counting the plan root — `sync-agents.sh` renders `design`'s guide with a measured layer sentence, and `push-design.sh` regenerates the bundle from the new location with `git status` clean afterwards.
+- [x] Commit here.
+
+#### G0E.3: The rationale moves in and catches up
+
+`workbench/DESIGN.md` is the design system's architecture and rationale, and it
+has spent its life inside one of the system's *consumers* — reachable only by
+cloning the application repository. That is the same category error as a support
+library naming its consumers, inverted. G0E.2 gives it the obvious home.
+
+It is also two phases out of date. Its status block dates itself
+`spectrum v0.0.15, prism v0.1.8, pulse v0.0.12, cadence v0.2.8` — four names
+G0D retired, at four pre-release numbers G-F3 superseded — and twenty more lines
+carry the old names. A reader who finds it today gets the organization as it
+stood before the tags were cut.
+
+- [x] Move `DESIGN.md` and its archived first edition `DESIGN-v1.md` into `design`, keeping them together: the second edition's header links the first, and the road from one to the other is the record of why the system is shaped this way. `BASELINE.md` stays in workbench — it is a pre-Prism performance capture for coinviz, an application's history rather than the system's rationale.
+- [x] Refresh the live prose the way G0D.6 refreshed the guides, and with the same restraint: passages describing what the first edition claimed are history and must keep reading as history. The status block is not history — it is a present-tense claim about published versions, and it is wrong.
+- [x] Repoint every inbound link, and know which are generated before touching them: `profile/README.md` — the org profile page, a public URL that will 404 the moment the file moves — `workbench/README.md`, and `templates/notes/workbench.md`. Never the rendered `workbench/AGENTS.md`; `sync-agents.sh` re-renders it from that note, and editing the clone is the one thing that script refuses to let stand.
+- [x] Settle the citation debt this exposes rather than inheriting it silently. A2.2 recorded it and left it: `components`' `bench`, `cache`, `coordination` and `richtext` cite `DESIGN §…` and `BASELINE.md` from their package comments, both unreachable from components' pkg.go.dev page — and the two `EXPERIMENT` files they cite exist in no repository at all. The move gives `DESIGN.md` a stable public URL for the first time. Say which of those citations become links, which stay prose, and which name a document that does not exist.
+- [x] Commit here.
+
+### G-G1: The mirror and its harness
+
+#### G1.1: Golden comparison harness
+Without this, the rest of the phase is guesswork dressed as work.
+
+**The Gio half already exists, and is one shared package now.**
+`components/golden` renders a widget into a `gioui.org/gpu/headless` window and
+returns the pixels — `Capture`, `Render`, `PixelDiff`, and since F5.5 also
+`Compare`, `CompareNRGBA` and `Save`. F3.3 promoted it out of `internal`; F5.5
+then deleted the twenty-eight hand copies that had been shadowing it, so every
+golden test in components, effects, patterns, markdown and the workbench
+applications runs through this one package. Reuse it; do not write a second Gio
+capture path. What is new here is the browser side and the comparison metric.
+
+`PixelDiff` counts exact byte mismatches, which is right for catching a
+regression between two Gio renders and useless across two different renderers.
+This task needs a perceptual metric instead.
+
+**How far apart two renderers actually are, measured rather than assumed.** F5.7
+installed the Linux GL drivers on a CI runner and compared macOS-recorded
+goldens against the same Gio code rendering under mesa: nine of effects'
+twenty-one images differed, one by 36% of its frame, while the three drawn on
+the CPU matched byte for byte. That is a single engine disagreeing with itself
+across two platforms. Chrome against Gio is a wider gap than that by
+construction — so any tolerance tighter than same-engine cross-platform
+divergence is provably too tight. Treat that number as the floor to argue up
+from, not as a target.
+
+- [x] Use `components/golden`: exported by F3.3, consolidated by F5.5, and available from **components v0.7.0**. Take that version literally — G0D.3 moved the module path, so the v0.4.0–v0.6.1 tags that first carried this package still declare `module github.com/vibrantgio/prism` and will not resolve under the new path. Do not reach for a second Gio capture path.
+- [x] The browser automation is **chromedp**, decided by Rene on toolchain grounds: it keeps the harness one Go test in the same `go test` run as everything else, where Playwright would shape text better but split a pure-Go organisation across two toolchains. Neither was installed, so this task installs Chrome or Chromium first and records the version it pinned — a mirror comparison that silently changes renderer is worthless. This is the organisation's first non-Go dependency; say so where the next person will meet it, not only here.
+- [x] Write the browser half: render a component page headless at a fixed viewport and capture a screenshot.
+- [x] Align the two: same nominal size, same theme emission, same component state. The Gio side must draw with `DeterministicShaper()` and not `Shaper()` — F4.2 split them precisely so a pixel comparison cannot depend on which fonts the machine happens to carry, and a mirror scored against a system-shaped render measures the machine rather than the mirror.
+- [x] Implement a perceptual comparison — downscale both and compare in a perceptual space, or score structural similarity. Text shaping and antialiasing differ between Gio and a browser, so the bar is "reads as the same component", not pixel equality.
+- [x] Pick and justify the tolerance from real pairs, not in the abstract, and state where it sits against the F5.7 floor above.
+- [x] Prove it: run it against one deliberately wrong variant and confirm it fails, and against a re-render of the same component and confirm it passes.
+- [x] Say which machine is authoritative, because CI cannot be. F5.7 read the verdict from a real run: the runner opens no headless window, so every Gio-side capture answers `t.Skipf` and a skipped test passes. A mirror harness wired into CI as it stands would go green without comparing anything — the same trap that hid patterns' failure for sixteen runs.
+- [x] Commit here.
+#### G1.2: The component class vocabulary
+- [x] Define the class layer in `styles.css`, built only on the tokens E0.1 emits — no literal colours, sizes or radii.
+- [x] Name the emphasis registers G0A.1 added — `.btn` filled by default, with tonal and ghost modifier classes — resolved from the same ramp positions components resolves, so the mirror and the Gio button disagree about nothing but antialiasing.
+- [x] Cover the interaction states explicitly: hover, pressed, keyboard focus ring, disabled, selected.
+- [x] Derive state colours from the tonal ramp rather than ad-hoc mixes, matching how components resolves them.
+- [x] Confirm the sheet still passes E0.1's round-trip test.
+- [x] Commit here.
+### G-G2: The component pages
+
+One task per group. Each page is plain, readable HTML; each ends green against
+the G1.1 harness for every variant and state it shows.
+
+**Two different `components/` live in this goal, and G0D.3 is why.** The paths
+below — `components/buttons.html` and its siblings — are directories inside the
+`design/` bundle that gets uploaded to `claude.ai/design`. The Gio widgets they
+mirror live in the repository now also called `components`. A page path always
+ends in `.html`; a Go import never does.
+
+#### G2.1: Buttons, tags and forms
+- [x] Build `components/buttons.html`: every emphasis register — filled, tonal, ghost — in its enabled, hover, pressed, focus-ring and disabled states, the icon-only form beside them, at both densities; plus tags. There is no size prop and the page must not invent one: the heights come from `Density.ControlHeight`, so density is the size axis.
+- [x] Build `components/forms.html`: text field, checkbox, radio and dropdown on native elements, no script.
+- [x] Run the harness against components' button and input goldens; close the gaps.
+- [x] Commit here.
+#### G2.2: Cards, elevation and tables
+
+- [x] Build `components/cards.html`: the card pattern and each elevation step.
+- [x] Build `components/table.html`: patterns/table's header, row rules, sort affordance and zebra treatment.
+- [x] Run the harness against the patterns card and table goldens; close the gaps.
+- [x] Commit here.
+
+#### G2.3: Navigation
+
+- [x] Build `components/navigation.html`: navbar, sidebar, tabs and breadcrumb.
+- [x] Include the selected, hover and focus states for each.
+- [x] Run the harness against the corresponding patterns goldens; close the gaps.
+- [x] Commit here.
+
+#### G2.4: Overlays
+- [x] Build `components/dialog.html`: both modal intents from G0A.2 over their backdrops at the top elevation — the **decision** dialog with its right-aligned footer, Return-bound default and no X, and the dismissable **panel** with its ghost close top-right — plus popover, tooltip and toast.
+- [x] Show the scrim and the focus-trapped state, since those carry the elevation and colour decisions — and say beside the decision dialog that its scrim is inert, because the mirror is the document an agent reads and the behaviour is part of the pattern.
+- [x] Run the harness against the patterns overlay goldens; close the gaps.
+- [x] Commit here.
+### G-G3: Ship it
+
+#### G3.1: The conventions header
+
+This file is inlined into the design agent's system prompt. It is the difference
+between an agent that uses the vocabulary and one that invents its own, so every
+sentence must be something the agent can act on without guessing.
+
+- [x] Write `.design-sync/conventions.md`: the class families with their real names, the token families, where the truth lives, and one idiomatic build snippet taken from a page that already passes the harness.
+- [x] State the Gio-specific caveats — text shaping differs, and blur is a cached offscreen pass driven by content change rather than a live CSS `backdrop-filter`, so a design that assumes continuous blur under motion will not port.
+- [x] Validate it: every class, token and component name it mentions must exist in the emitted `styles.css` or the component pages. Cut or fix anything that does not resolve.
+- [x] Commit here.
+
+#### G3.2: Push and validate with the agent
+
+- [x] Regenerate the full bundle and push it with `scripts/push-design.sh`.
+- [x] Ask the design agent to compose a screen that exercises a shell, a table, a modal and a form.
+- [x] Check the result against the conventions: real classes, real tokens, no invented vocabulary.
+- [x] Record what the agent got wrong as follow-up work — that list is the honest measure of whether the surface is good.
+- [x] Commit here.
+
+**Validation record (2026-08-15, `patterns/app-shell.html` in the Claude
+Design project).** The agent composed a navbar shell with sidebar, tabs,
+breadcrumb, sortable table, an elevated card carrying a form, and a decision
+dialog over an inert scrim. All 33 system classes it used are real, every
+token resolves, and the decision-dialog idiom is exactly the published one
+(ghost Cancel, filled destructive primary, `.dialog-body`, `aria-modal`).
+The sidebar is a single keyboard stop, forcing twins are correctly absent
+from real markup, and every page-local style is token-driven. What it got
+wrong — the follow-up list:
+
+1. **Status tag improvised.** A failing build renders as `.tag` with inline
+   `background: var(--color-error); color: var(--color-on-error)`. Real
+   tokens, invented variant: the sheet has `.toast.{success,warning,error}`
+   but no status tags, because no Gio source draws one. Either grow a status
+   chip in the Gio vocabulary first and mirror it, or have conventions.md
+   state that status chips are not vocabulary and toasts carry level colour.
+2. **Table framing invented.** The screen wraps `.table` in a page-local
+   `.table-wrap` (1 dp Divider border, `--radius-lg`, clipped corners). No
+   published page frames the table and `patterns/table` draws no outer
+   frame. Conventions.md should say whether framing a table is idiomatic —
+   and if it should be, the frame belongs in the Gio pattern first.
+3. **Ground pinned to the ramp, not the semantic.** `body` and the shell use
+   `--color-neutral-100` where the published pages use `--color-bg` (same
+   value by construction; the semantic pin exists so surfaces survive a
+   remap). Conventions.md should tell composers to prefer semantic pins over
+   ramp steps for grounds.
+
+Nothing invented beyond those three; the surface held.
+
+## Phase H: The desktop seam
+
+Gio hands every application a native window handle and then pretends it did
+not. Two features want that handle back: macOS window chrome — content behind
+a transparent title bar, traffic lights floating over it, the way Apple's own
+apps look — and file drops from Finder. Both are the same technique, *augment
+the native handle Gio hands out, in place, without forking Gio*, so they share
+one seam rather than growing two bridges.
+
+**The evidence is in, not assumed.** A sibling session (diarizer/earwitness,
+which wants the chrome for its own window) spiked the mechanism in a throwaway
+module against gioui.org v0.10.1 on macOS 25.5.0, findings recorded in
+`diarizer/explorations/macos-fullsize-content-window.md` and summarised here:
+
+- `app.Decorated(false)` already produces the whole treatment on macOS — Gio
+  toggles `NSWindowStyleMaskFullSizeContentView`, makes the title bar
+  transparent, hides the title — and also hides the three standard buttons.
+  Re-showing them via `standardWindowButton:setHidden:NO` is the entire delta.
+- Keeping `Decorated(true)` and setting the mask externally does not work:
+  Gio derives `Config.Decorated` from that mask bit and draws its fallback
+  `material.Decorations` bar over the content.
+- **The unhide is reversible by ordinary app code**: any later
+  `w.Option(app.Title(...))` re-runs Configure and re-hides all three buttons.
+  Confirmed empirically. This is the finding that dictates the API — a
+  run-once hook is insufficient; the unhide must re-apply after *every*
+  Option call, and mvu must see those calls to enforce it.
+- The top inset measured 32.0 pt with the title hidden, not the folklore 28,
+  and hardcoding fails in the direction that clips content. Query
+  `NSHeight(frame) - NSHeight(contentLayoutRect)`; AppKit points are Gio dp.
+- `dispatch_sync` onto the main queue from a non-main goroutine is safe while
+  `app.Main` holds the main thread, and iterating `[NSApp windows]` finds the
+  window under `Decorated(false)` because the mask keeps
+  `NSWindowStyleMaskTitled`.
+
+**Why mvu, and why not mvu's root.** The re-apply invariant lives at the
+Option boundary, and mvu is the only place that boundary can be owned — today
+`mvu.NewWindow` applies options once and hands out the raw `*app.Window`, so
+nothing stops an app from bypassing it. But mvu is tier 0 with zero cgo, and
+every module in the organization sits above it; AppKit in its root would give
+the foundational leaf a darwin cgo build path that everything inherits. So the
+work splits: mvu's root gains only the platform-neutral seam — an Option
+wrapper and a post-Configure notification — and a nested **`mvu/desktop`**
+module owns the Objective-C. `scripts/check-layers.sh:196-200` classifies any
+nested non-demo module as an adapter and skips judgment, so no gate changes;
+line 293 makes a parent importing its own nested module a violation, so the
+dependency runs `mvu/desktop → mvu` and never the reverse — which is the
+right direction anyway.
+
+**File drops ride the same seam later.** The full spike proposal is
+ADR-010 in the Reference section, written in task shape so it lifts in as
+a goal when scheduled. Its D1 question — where does the code live —
+is resolved by this phase: `mvu/desktop`. Its technical question (S0–S5) is
+still open and is deliberately *not* scheduled here; the chrome work proves
+the seam first.
+
+Sequenced after Phase G: nothing here blocks the mirror, and the mirror is the
+work in flight. Nothing in Phase G depends on this either — the phases are
+independent, and this one is small: one additive minor at tier 0, one nested
+module, one adopting application.
+
+### G-H1: The window chrome, and the seam it proves
+
+#### H1.1: mvu owns its Option boundary
+
+The platform-neutral half, no cgo, no darwin anything.
+
+- [x] Give `mvu.Window` an `Option(...)` method that forwards to the underlying window and then notifies: after construction-time options and after every later call, a registered func runs. The notification carries nothing platform-specific — it is "Configure may have run; re-assert what you asserted".
+- [x] Decide and document what `Window()` now means: the raw handle stays reachable — adapters need it — but the doc comment says plainly that options applied through the raw handle bypass the notification, and `mvu/desktop`'s docs repeat it where its users will look.
+- [x] The notification must also fire once after the first `FrameEvent`, because Gio's first Configure happens before any app code could have registered — the `case app.FrameEvent:` arm in `Render` is the hook.
+- [x] Additive minor: none of the four in-org consumers (components, patterns, theme, effects) is forced to move, no golden moves, `go build ./... && go test ./...` green.
+- [x] Commit here.
+
+#### H1.2: mvu/desktop — the chrome, behind the seam
+
+- [x] Create the nested module `github.com/vibrantgio/mvu/desktop`, cgo Objective-C in a `.m` file behind `//go:build darwin`, no-op stubs on every other platform so it compiles everywhere. This is the organization's first cgo beyond what Gio itself carries; say so in the module's doc comment.
+- [x] `FullSizeContent()` returns the window options: `app.Decorated(false)` on darwin, nothing elsewhere — a missing title bar must never degrade to a truly borderless window on Linux or Windows. Keep `app.Title`; Mission Control, the Dock and VoiceOver read it even hidden.
+- [x] The traffic-light unhide registers on H1.1's notification, so it re-applies after the first frame and after every Option call — the invariant the spike proved, enforced structurally rather than commented. Dispatch on the AppKit main thread.
+- [x] Expose the top inset as a queried value — `NSHeight(frame) - NSHeight(contentLayoutRect)`, points as dp — never a constant. Document that clicks in the strip go to the titlebar view (that is what makes native drag and double-click-zoom work), so the strip is paint-only for the app, and the traffic lights occupy roughly the leading 80 pt.
+- [x] The sibling session's spike `.m`/`.go` is on offer as a starting point; its findings doc is the reference either way. Adapt, don't transplant — the spike was written against a bare window, not the seam.
+- [x] Commit here.
+
+#### H1.3: One application wears it
+
+- [x] Adopt in one workbench application: `FullSizeContent()` in its window options, header padded by the queried inset, the strip treated as paint-only.
+- [x] Prove the invariant end to end: change the window title at runtime and watch the buttons survive — the exact sequence that fails without H1.1.
+- [x] Screenshot before/after for the commit body; run the app's goldens — the window chrome is outside the captured surface, so they must not move.
+- [x] Commit here.
+
+#### H1.4: Release the seam
+
+- [x] Tag `mvu` **v0.6.0** — additive minor — then push and tag the nested modules at the mirrored number per the release rule: `desktop/v0.6.0`, and `example/v0.6.0` since the demo module mirrors its root.
+- [x] Re-pin the adopting workbench application; `GOWORK=off` verify.
+- [x] `sync-agents.sh` and `llms.txt` pick up the new module and the cgo caveat.
+- [x] Commit here.
+
+## Phase I: File drops, and the list the agent left
+
+Two goals, independent of each other. The first puts a second tenant behind
+the desktop seam Phase H proved: files dragged from Finder, reaching `Update`
+as ordinary messages. The second settles the three follow-ups the G3.2
+validation recorded — the honest list of what the design agent got wrong, which
+is a work order, not a shrug.
+
+The themer application — drop an image, extract a seed, re-derive the whole
+system live — is the intended first real consumer of file drops. It is
+deliberately *not* scheduled here; it becomes its own goal once G-I1 lands and
+proves the plumbing it needs.
+
+### G-I1: Files fall into the loop
+
+The question is falsifiable and one bit: **can a Vibrant Gio application
+accept files dragged from Finder, using only public `gioui.org` API and no
+patched or forked Gio?** The full dossier is
+ADR-010 — every AppKit fact, threading rule, risk
+and decision lives there with line-precise citations, and its 2026-08-13
+addendum records what Phase H already closed: D1 is resolved (`mvu/desktop`),
+check-layers admits nested adapters, and the Option-boundary notification the
+re-registering drop target wants is exactly H1.1's `OnConfigure`. Every task
+below starts by reading the dossier; the packets cite its sections rather
+than restating them.
+
+One honesty rule shapes the tasks: **an OS drag cannot be automated** (§8 of
+the dossier). Tasks that end at a drag checkpoint say so and stop for René's
+hands rather than faking the proof. Everything around the drag — coordinate
+transforms, URL decoding, zone hit-testing, registration idempotence — is
+unit-tested like anything else.
+
+#### I1.1: The spike proves the technique
+
+S0–S2 of the dossier, in a throwaway module so placement never gates the
+technical question.
+
+- [x] S0: scaffold a throwaway module *outside* the workspace (the scratchpad or `~/code/w/spikes` — not a sibling, not in go.work); minimal one-window mvu app.
+- [x] S1: prove the handle arrives — drive `app.Window.Event()` directly, log every event type; confirm `AppKitViewEvent` with non-zero View/Layer at startup, the zero-valued one on close, and `Valid()` distinguishing them. Record whether it precedes the first `FrameEvent` (dossier open question 2).
+- [x] Check the Gio sourcehut tracker and gio-plugins for prior art on file drops (dossier open question 3); record what exists in the dossier addendum before writing any Obj-C.
+- [x] S2: augment `GioView` at runtime per §4 — `class_addMethod` behind `sync.Once` after a `class_respondsToSelector` check, `registerForDraggedTypes:` per view inside `app.Window.Run`, read file URLs via `readObjectsForClasses:options:`, NSLog the paths. Threading rules of §7 are law. *(Guard corrected to own-method detection — NSView inherits default drag selectors on this macOS; see the dossier's 2026-08-15 addendum.)*
+- [x] **Checkpoint, René's hands:** drag one file, three files, a folder, and TextEdit text (refused, no crash) from Finder — §8.1 items 1–4. The task stops here until the drags are done. *(2026-08-15: items 1–3 verified from the live log — one file, three files in one operation, a folder as its own path. Item 4's refusal is silent by design and unconfirmed in the log; it rides along in I1.2's drag checkpoint.)*
+- [x] Record S1/S2 findings in the dossier's addendum — including a failure, which per §11 is the whole value. Commit `.github` (dossier); the throwaway module is never committed anywhere.
+
+#### I1.2: mvu forwards the handle
+
+S3: the loop learns of drops. The one change mvu's root needs, shaped by the
+gate that watches it.
+
+- [x] `ViewEvents() rx.Observable[app.ViewEvent]` on `mvu.Window` — narrow and deliberate, a buffered per-window channel wrapped in `rx.Recv` in the same idiom as the existing message path (no bare Subjects, no package-level observables; `check-subjects.sh` is the gate). A `case app.ViewEvent:` arm in `Render` feeds it; every other unknown event stays dropped — a general unhandled-events stream is explicitly rejected (dossier D3).
+- [x] The `AutoConnect` arithmetic gains a subscriber; assert the count in a test — both failure modes are silent (dossier risk table, `mvu/doc.go`).
+- [x] In the spike app: buffered `chan` from the drop callback (non-blocking send, drop-on-full documented in code), `rx.Recv` → `FilesDropped{Paths []string, Pos image.Point}`, merged into `Loop`'s messages; dropped paths render as a list.
+- [x] **Checkpoint, René's hands:** drop files; success is paths appearing *without* a manual `Invalidate`. If a redraw is needed, that is a finding (the rx path does not wake the window) — record it, don't paper over it. *(2026-08-15: one file, three files, a folder — paths appeared immediately, no manual redraw; the rx path wakes the window. TextEdit text drag refused with no drop target offered and no crash — §8.1 item 4, carried from I1.1, verified.)*
+- [x] mvu stays additive: consumers (components, patterns, theme, effects) build and test green, untouched. Commit mvu, no tag — the release is I1.5.
+
+#### I1.3: Zones find the target
+
+S4: from window-level delivery to per-target delivery.
+
+- [x] The §4.3 coordinate transform (view points, flip origin, backing scale re-read per drop), unit-tested at scale 1 and 2 against known inputs. *(Seam decided: Obj-C keeps only `convertPoint:fromView:nil` and ships raw components; the flip-then-scale math is pure Go, `GioPoint`, with a scale-2 case that pins the order.)*
+- [x] `Zone(gtx, tag)` records rects per frame; the resolver hit-tests the *last* frame's set — mirroring the focus-tag registry's shape (`components/layout/focus.go`). *(Finding: `layout.Context` carries no transform, so the recording call takes the absolute origin from the caller — `Zone(gtx, i, origin, widget)`; overlap rule is last-recorded/topmost wins, painter's order. See the dossier's 2026-08-15 "later still" addendum.)*
+- [x] `FilesEntered`/`FilesExited` messages so a zone can highlight; the cursor answer stays coarse (`NSDragOperationCopy` whenever file URLs are present — dossier D5). *(Zone transitions computed by a tracker goroutine outside `Update`, unit-tested; open question 4 decided: one `FilesDropped{Zone, Paths, Pos}`, no `FilesRejected` — rationale in the dossier addendum.)*
+- [x] **Checkpoint, René's hands:** two zones side by side — correct one highlights and receives; dead space between them yields nothing (§8.1 items 5–6). *(2026-08-15: zones highlighted and un-highlighted correctly on hover; drops resolved to zone 0 and zone 1 at the right coordinates; the gap drop logged its silence by design.)* *(s4 launch-verified 2026-08-15 — four methods added, registration ran; script: `cd ~/code/w/spikes/filedrop && go run ./s4`, steps in its `README-DRAG-TEST.md`.)*
+- [x] Commit wherever the zone code currently lives (still spike-side is fine; landing is I1.4). *(Spike-side in `s4/` of the throwaway module, which is committed nowhere by design; `.github` carries the record.)*
+
+#### I1.4: Harden, then move home
+
+S5 plus the landing work of §10. The code leaves the spike and becomes the
+second tenant of `mvu/desktop`.
+
+- [x] Re-registration on every valid `AppKitViewEvent` (via `OnConfigure` where the seam already fires, the view-event path where it doesn't); teardown on the invalid one; the per-view state map (`map[uintptr]*dropState`, dossier D6) leaks nothing — its package-level-mutable justification written where `check-subjects.sh`'s sibling concern can see it. *(Landed as `viewTargets map[uintptr]*DropTarget` in `drop_darwin.go`, justification on the declaration; re-registration rides the view-event path — `registerForDraggedTypes:` is per-view-instance and Configure doesn't touch it — while `OnConfigure` stays the chrome's window-level notification; the distinction is documented in `doc.go`. Lifecycle unit-tested headless: idempotent adopt, superseding view, release stops delivery, map empties.)*
+- [x] Two windows, drops into each, no cross-talk; window moved between Retina and non-Retina mid-session, drop point stays correct (§8.1 items 7–8); close mid-drag, no crash (item 9). **René's hands for the drags; the harness for everything else.** *(Harness half done 2026-08-15: two-window demo launch-verified — one class augmentation, two registrations with distinct view pointers, both frame loops live; per-view routing cross-talk absence unit-tested; `-autoclose` programmatic closes ran teardown per window, no crash, clean exit ×3; transform unit-tested at scale 1 and 2, scale re-read per event. Carried for René: the item 7 drag round via `go run ./demo` — script in the spike's `README-DRAG-TEST.md` — plus the optional item 8 physical display-move (both displays attached) and item 9 literal mid-drag close. 2026-08-15, the round happened: drops into both windows, only the target window reacted each time, per-window zones resolved correctly, dead space silent — item 7 verified, no cross-talk. Items 8 and 9 were optional and are not evidenced in the log; the transform's per-drop scale re-read stays covered by unit tests at both scales, and the programmatic-close teardown stands in for the literal mid-drag close.)*
+- [x] Move the drop code into `mvu/desktop` beside the chrome: same `.m`-behind-darwin discipline, no-op stubs elsewhere, API surface designed for the eventual non-file payloads (MIME-shaped like Gio's `transfer`, file URLs as one registered kind — dossier §12's "don't inherit gogpu's []string"). *(`NewDropTarget(w, zones, kinds...)` with `FileURLs = "text/uri-list"` as the one kind and default; unknown kinds panic at construction; `ZoneGroup` keeps the origin parameter — gtx carries no transform — and exports `Record` as the primitive; the registry, tracker, transform and messages compile everywhere, only the bridge is darwin-gated. GOOS=windows and js/wasm build+vet green; Linux cross-compile impossible from this Mac per the H1.2 precedent.)*
+- [x] Docs: `doc.go` carries §7's threading and lifecycle rules — the non-guessable facts. No consumer names, no plan identifiers, plain language. *(Plus the two-tenant seam distinction, the ViewEvents single-subscriber claim, and the what-is-verified-where honesty note.)*
+- [x] Gates: `check-agents.sh`, `check-versions.sh`, `check-layers.sh`, `check-subjects.sh`, `GOWORK=off` build/test. CI decision made explicitly, not discovered: same call as the mirror harness — this Mac is authoritative for the manual script, CI compiles what it can and never fakes a drag. *(All four gates OK. `GOWORK=off` fails as expected until the release: the proxy's mvu v0.6.0 predates `ViewEvents()`; recorded in the dossier, closed by the next task's tags. In-workspace build+test green. CI decision written into the dossier addendum and `doc.go`.)*
+- [x] Commit mvu and `.github` (dossier addendum: exit criterion reached, per §11 — including the standing obligation that out-of-tree is a bridge, and the upstream patch conversation belongs on Gio's tracker regardless).
+
+#### I1.5: Release the second tenant
+
+- [x] Tag `mvu` **v0.7.0** — additive minor (`ViewEvents`) — push, then bump the nested modules' `require` to v0.7.0, commit, and tag `desktop/v0.7.0` and `example/v0.7.0` at the mirrored number, per the release rule.
+- [x] `GOWORK=off` verify from the tags; re-pin the spike demo's go.mod if it survives as an example, otherwise record that the demo retired with the spike. *(All three from the tags, direct VCS: desktop and example build+test green, sitedocs re-pinned to the v0.7.0 pair and green. The spike survives as the manual drag-test vehicle: its go.mod dropped the replace directives and pins the released tags, `GOWORK=off go build ./...` green, still committed nowhere by design.)*
+- [x] `sync-agents.sh` and `llms.txt` pick up the drops API next to the chrome caveat.
+- [x] Commit here. Then propose the themer goal to René — its precondition is now met.
+
+### G-I2: What the agent got wrong
+
+The G3.2 validation left three findings, recorded where G3.2 closed. Each is
+a decision plus its enforcement, and the decisions share one principle: the
+mirror never invents — **if the web surface wants it, the Gio vocabulary
+grows it first**, or the conventions forbid it in words.
+
+One adjacent finding folds in: René's close-affordance sizing question
+resolved to the stock treatment (a ControlHeight square; the 44 dp figure is
+a hit floor, never a painted size), and the conventions should say so before
+another composer re-invents a size.
+
+#### I2.1: Status becomes vocabulary
+
+The agent dressed a failing build in error colours because real screens need
+status chips and the vocabulary had none — toasts carry level colour, tags
+don't. Recommendation: grow it, don't forbid it; status is too common to
+outlaw.
+
+- [x] Give the chip status variants on the Gio side first: tonal success/warning/error treatments for the pill chip, drawn where the chip lives today (the pricing/hero chip drawing — give it a shared home if extraction is warranted, but don't force a new package for three fills), colours from the fixed-hue roles the toast already uses.
+- [x] Golden-test the variants beside the existing chip goldens.
+- [x] Mirror: `.tag.success/.tag.warning/.tag.error` in the generator, var()-driven; fixtures + harness comparison at the standing tolerance; the components page shows them; conventions.md names them.
+- [x] Regenerate, mirror suite green, commit theme/design/patterns-or-components as touched, push. Design-project upload is the parent session's job, as established.
+
+#### I2.2: The frame that isn't, and the pins that are
+
+The two documentation findings, plus the sizing note. All conventions.md and
+page work — no Gio changes.
+
+- [x] Tables are unframed: the Surface ground and the header band *are* the frame; a bordered wrapper is not vocabulary. If a framed table is ever wanted, it enters the Gio pattern first. State it in conventions.md where the `.table` family is described.
+- [x] Grounds prefer semantic pins: `--color-bg` and `--color-surface` over `--color-neutral-*` ramp steps — same rendered value today, but the semantic survives a remap. One line in conventions.md's token guidance.
+- [x] Corner affordances draw at ControlHeight; density is the only size knob, and the 44 dp accessibility floor is invisible by design. One line beside the class-family guidance.
+- [x] Re-upload conventions.md (and any touched page) via the established DesignSync flow; commit design and push. *(2026-08-15: conventions.md re-uploaded; no pages touched by this task — I2.1's page and sheet uploads already landed.)*
+
+#### I2.3: The agent composes again
+
+The measure of I2.1/I2.2 is the same measure G3.2 used.
+
+- [x] **Checkpoint, René's hands:** ask the design agent for another composed screen exercising a status chip on a table row — the exact shape that failed before.
+- [x] Diff the result against the three recorded findings: the status chip should now be vocabulary it uses correctly; the table should arrive unframed; grounds should pin semantically. Record the new honest list, whatever it says.
+- [x] Commit the record here.
+
+**Validation record (2026-08-16, `patterns/incident-review.html`, composed
+fresh — a navbar shell, a split table-and-detail layout, a popover confirm,
+a toast stack).** The evidence excerpts from both compositions are
+ADR-011.
+
+1. **Status: fixed.** `.tag.error` on the firing alert and the failing row,
+   `.tag.warning`/`.tag.success` on the rest, toast levels on the stack —
+   composed correctly in three contexts, zero inline styles. I2.1's
+   vocabulary did its job.
+2. **The frame recurred — by contamination, not conviction.** The screen
+   wraps its table in a `.table-wrap` whose rule is near-verbatim the first
+   screen's, invented class name included. The first screen still lived in
+   the project when this one was composed; project files are what a
+   composition session copies from. The old screen is now deleted from the
+   project (archived here first). The conventions line stands unchanged.
+3. **The ramp-step ground recurred the same way** — `body` on
+   `--color-neutral-100`, byte-identical to the first screen.
+
+The honest list is therefore one real lesson, not three faults: **an
+anti-pattern example in the project outweighs a conventions line**, because
+composers copy working artifacts before they read rules. Enforcement is
+curation: examples that violate the conventions get deleted, not merely
+contradicted in prose. A confirmatory composition round after the deletion
+is worthwhile but not gating — the two prose rules were never disproven,
+only outcopied.
+
+### G-I3: The wash knows its ground
+
+A defect report from the first outside adopter of the stock modal close (a
+sibling session, migrating an application onto the current family): the
+ghost register's hover and press washes walk from the *window* ground —
+neutral 200 in light — but a ghost control rendered on a raised surface
+sits on that surface's own storey. On a Level-2 modal surface (neutral
+300) the 200-walk's hover wash resolves to the very color it sits on and
+disappears. Verified in source on both sides of the mirror: `buttonColors`'
+Ghost branch walks `StateColor(RoleNeutral, ghostGround, state)` from the
+fixed base step, and the sheet's `.btn.ghost:hover` washes to neutral-300
+inside `.dialog`, whose fill *is* neutral-300.
+
+The principle, which is one sentence: **an interaction wash derives from
+the local ground it sits on, not the window ground.** The ghost register's
+whole identity is "the surface behind shows through untouched" — so its
+states must be that surface's own one-rung walk, whichever storey the
+surface occupies. The adopter is blocked on this to retire its app-drawn
+close and take the stock one; a release tag is the unblock signal.
+
+#### I3.1: Ghost washes derive from the local ground
+
+- [x] Give the ghost resolution a ground to walk from: components/button learns the hosting surface's storey (design the seam deliberately — an explicit knob on Props/RenderState/RenderIcon that defaults to the window ground so every existing call site keeps its exact colors; read how patterns/modal, popover and toast name their levels before choosing the shape). The rest wash stays transparent; hover/press walk one rung from the *local* ground; the text steps ride along where legibility needs them.
+- [x] patterns/modal passes its Level-2 storey to the close affordance — the defect's concrete site. Audit the other patterns that host ghost controls on raised surfaces (popover at level 3, elevated card at level 2, toast) and pass their storeys too where a ghost can actually appear.
+- [x] Goldens: new golden beside the existing icon-button goldens proving the hover wash on a Level-2 ground differs from the ground (the exact assertion the defect fails today); existing goldens must not move — the default path keeps its colors.
+- [x] Mirror: the sheet emits the contextual walk — ghost controls inside the raised surfaces re-derive hover/press one rung above the host's ground (e.g. a dialog-hosted ghost washes to neutral-400), var()-driven, literal-color test passing; fixture + harness comparison against the new golden at the standing tolerance, run on this machine, no skips.
+- [x] conventions.md states the rule in one line where the ghost register is described: a ghost's wash is its host surface's own one-rung walk.
+- [x] Suites green in components, patterns, theme, design (full mirror run); all four gates pass; commit every touched repo and push. No tags — the release is I3.2.
+
+#### I3.2: Release the fix
+
+- [x] Gates first, then tag per the release protocol and version rules: components' next patch/minor on master, patterns' next alongside if it moved, theme untagged-or-tagged per what changed — the release rule and tag numbering follow the Reference section, mirrored nested tags only where a nested module moved. *(All four gates green before tagging. **components v0.8.0** — minor, the additive Ground field; **patterns v0.6.1** — patch, close-X behaviour fix, re-pinned to components v0.8.0 before its tag. theme stays untagged on v0.6.0: the change is emission-only in export/css.go, the same category G2.1–G2.4 left untagged, and check-versions is green with theme at v0.6.0. No nested tag: components/gallery has not moved since gallery/v0.7.0 and its v0.7.0 root pin still resolves — the root a minor ahead is the release rule's normal state.)*
+- [x] `GOWORK=off` verify the tags direct from VCS; re-pin in-org consumers only where a moved API forces it. *(Tags confirmed on the remotes via `git ls-remote`. GOWORK=off build+test green in components, patterns and design. Re-pins: patterns → components v0.8.0 (its modal uses the new field), design → patterns v0.6.1 + components v0.8.0. effects, markdown and the workbench apps keep their pins — nothing they use moved, matching how H1.4/I1.5 re-pinned only the adopting consumers.)*
+- [x] `sync-agents.sh` and `sync-versions.sh`/llms.txt pick up the numbers; commit and push everything. *(AGENTS renders carry no version numbers — check-agents 21/21 after tagging, nothing to re-render. sync-versions rewrote llms.txt's four number sites; the elevation section's state-walk paragraph gained the ground-aware ghost wash in prose.)*
+- [x] Notify the reporting session that the tag landed (the parent session carries the channel). Support libraries and their docs never name the consumer. *(2026-08-16: notified — patterns v0.6.1 + components v0.8.0 named as the unblock pair, with the adoption note that the stock close X now derives the same 300→400 wash their interim re-derived, making the swap a visual no-op.)*
+
+## Phase J: The vault viewer
+
+The workbench gains `vaultview`: a read-only viewer for Obsidian vaults —
+the CrunchGate trunks, the memory directories, ordinary vaults — with real
+wikilink following: `[[note]]`, `[[note#Heading#Sub]]`, `[[note#^block]]`,
+aliases, history that restores scroll, a folder tree at the left, and
+backlinks. The full dossier is ADR-012 in the Reference section; packets
+cite its sections (§4.2 is the resolution spec, D1–D8 the decisions) rather
+than restating them. Two rules govern every task: **zero new external
+dependencies** (the app's requirement set is exactly sitedocs' go.mod, and
+no YAML package enters for frontmatter), and **all hopping is implemented
+in-house** — the reference implementation's documented semantics are the
+spec, never an import.
+
+The work splits at the semantics line (ADR-012 D1): recognition is generic
+and enters the markdown repo as the nested package `markdown/obsidian`
+(core parser untouched, existing consumers byte-stable, support-library
+doc rules apply); resolution is vault semantics and stays in the app.
+
+### G-J1: A vault becomes navigable
+
+#### J1.1: The dialect enters the markdown repo
+
+ADR-012 stage M — the generic half first, as `markdown/obsidian`.
+
+- [x] `SplitFrontMatter(src) (fm, body)`: the leading `---` block (and `...` terminator variant) cut and returned; unterminated and mid-document `---` left alone; byte-identical passthrough otherwise. Table tests.
+- [x] Frontmatter access: raw text plus the pairs a trivial line-split yields (`key: scalar`; `key:` + `- item` block lists). Anything else stays raw. No YAML dependency. Table tests over real Obsidian properties blocks.
+- [x] `WikiSpans([]Block) []Block`: the D2 span pass — plain, alias, heading path, block ref, embed (`wikiembed:`), adjacent links, `Code` spans skipped; the styling-boundary limitation documented and pinned.
+- [x] Block-id tails: trailing ` ^id` recognised on paragraphs and list items, stripped from display spans, exposed as anchors usable with `NewDocumentAt`. Table tests.
+- [x] Exit: the markdown repo's suite green with the new package; a probe note with frontmatter, wikilinks and block ids renders through `SplitFrontMatter` → `Parse` → `WikiSpans` with clean prose, live `wiki:` URLs and no visible `^id` tails — the repo's existing goldens untouched. Godoc names no consumers, cites no plan identifiers. Commit and push; no tag (the release is J1.6).
+
+#### J1.2: Scaffold, vault selection, one note rendered
+
+ADR-012 stage V0 — the app exists, opens the right vault, and reads.
+
+- [x] Scaffold `workbench/vaultview` from the todos bootstrap shape: mvu loop, live theme, `shell.ThreeColumn` with nil sidebar and aside. Vault resolution per D8: CLI argument → stored default → the picker screen; the resolved vault is written back to the store on every successful open.
+- [x] The store, with table tests: `~/.config/vaultview/vault` (one absolute path, plain text; `$XDG_CONFIG_HOME` honoured, else literal `~/.config` — never `os.UserConfigDir()`), absent/empty/unreadable reads as no-default, a stored path that stopped being a directory falls through to the picker.
+- [x] The picker screen (D8): breadcrumb + components/list folder browser, dot-directories hidden, rows annotated with the `.obsidian/` marker or `*.md` count, filled "Open this vault" action. Keyboard: arrows move, Return descends, the action opens.
+- [x] Properties surface: the J1.1 split feeds a collapsible panel above the note — pairs when the trivial split reads them, the raw block in code style otherwise.
+- [x] Fence-aware index scanner: walk `*.md` below the root skipping dot-directories; per file collect headings, block ids, outgoing wikilinks; unit tests include a fenced `[[not-a-link]]` contributing nothing.
+- [x] Run the scan as an `mvu.Do` command; render the first note found through `SplitFrontMatter` → `Parse` → `Document` under a breadcrumb row.
+- [x] Exit: pointed at a real CrunchGate trunk, the viewer opens and DESIGN.md renders legibly — frontmatter out of the prose and readable in the properties panel, wikilinks visible as literal text (not yet links), code blocks highlighted. A first argument-less launch asks with the folder browser; the next argument-less launch opens the same vault without asking. Commit and push.
+
+#### J1.3: Links follow, history works
+
+The resolution half of ADR-012 stage V1 — the hopping, in-house.
+
+- [x] Resolver (§4.2) as pure functions over the index, table-tested per rule: as-written, root + `.md`, unique basename, ambiguous refusal with candidates, heading paths incl. ambiguity, block refs, same-file.
+- [x] Wire the J1.1 `WikiSpans` transform into the render path; app-side tests cover the wiring, not the grammar.
+- [x] `OnLinkClick` interception: `wiki:` resolves and emits `Navigate` via `mvu.MessageOp`; `http(s)` opens the system browser; unresolvable/ambiguous raise the D3 toast.
+- [x] History stack in the model with Back/Forward messages and header affordances; documents cached per note; anchor targets land via `NewDocumentAt` on block indices computed from the parsed blocks (§4.1).
+- [x] Exit: clicking `[[F#A#B]]` in note X lands the viewport on B in F; Back returns to X with its scroll position intact; Forward returns to F; a link into a code fence does not exist. Commit and push.
+
+#### J1.4: The tree at the left
+
+The owner-required half of ADR-012 stage V1.
+
+- [x] App-local folder tree over `components/list` in the `shell.ThreeColumn` sidebar slot (J1.2's nil sidebar becomes this): indent per depth, disclosure toggles with fold state in the model, dot-directories hidden, the current note active, click navigates.
+- [x] Exit: any note in the vault is reachable through the left tree alone; the current note stays marked as navigation moves through links, history and tree alike. Commit and push.
+
+#### J1.5: Backlinks, ambiguity, switch vault
+
+ADR-012 stage V2.
+
+- [x] Backlinks in the shell's `Aside`: reverse edges for the current note, one row per citing note, click navigates.
+- [x] Ambiguous-link chooser: the D3 modal listing the resolver's candidates; choosing navigates.
+- [x] Breadcrumb grows the folder trail; the vault-name crumb reveals/roots the tree.
+- [x] "Switch vault" affordance re-entering the D8 picker; the store follows the switch.
+- [x] Exit: the aside lists exactly the notes whose links resolve to the current note and clicking one navigates; an ambiguous link resolves through the chooser; switching vaults re-roots the tree and updates the store. Commit and push.
+
+#### J1.6: Harden and land
+
+ADR-012 stage V3 plus the census and the markdown release.
+
+- [x] Re-stat on navigate + Rescan affordance (D6); quick-open by name if it stays a filter over the index (D7).
+- [x] Goldens for one rendered note and the tree, following the sitedocs golden shape; README; `doc.go` carrying §4.2 as the package's stated contract.
+- [x] The census work of ADR-012 §8: repos.tsv row wording, `sync-agents.sh`, `llms.txt`, the sitedocs About line, `go.work` regeneration.
+- [x] The markdown repo release: the J1.1 package is an additive minor — tag per the release protocol, re-pin the app to the tag, and the `llms.txt` prose gains the dialect in plain language (no consumer names, no plan identifiers).
+- [x] Exit: all ADR-012 §8 gates green from a clean checkout; `GOWORK=off` build against published tags only. Commit and push.
+
+## Phase K: The polish pass
+
+René's first visual pass over vaultview surfaced eight findings — six app
+polish items and two genuine library defects that goldens structurally
+cannot catch (goldens never show a focus transition and always render
+labels alone). The dossier is ADR-013 in the Reference section; packets
+cite its findings (F1–F8) and decisions (D1–D4) rather than restating
+them. Library fixes land at the deepest correct layer (D1), app polish
+stays in the app (D3), and the phase closes with patch releases sealing
+the seam (D4).
+
+### G-K1: Vaultview looks considered
+
+#### K1.1: The window fills its frame
+
+ADR-013 F1 and F3 — the frame and the header, one layout region.
+
+- [x] Diagnose and fix the backdrop: no pixel of the window shows a
+  colour outside the theme at any size — the root surface paints
+  wall-to-wall including the titlebar region, under full-size content
+  with the chrome inset honoured.
+- [x] Anchor the header row: "Rescan" and "Switch vault" right-aligned as
+  a group, sharing one baseline with the "Vault View" brand; the brand
+  clear of the traffic lights via the chrome inset rather than a guessed
+  pad.
+- [x] Exit: at 1100 dp and at full screen, screenshots of the running app
+  show theme colour to every edge and a header that reads as one row;
+  goldens regenerated only where the header change legitimately moves
+  them. Commit and push.
+
+#### K1.2: Labels centre in their floor
+
+ADR-013 F7, decisions D1 and D2 — the typeset fix and its ripple.
+
+- [x] `theme/typeset`: when the caller's Min.Y floor exceeds the
+  corrected height, centre the ink within the floored box; the reported
+  size and baseline stay consistent. Unit tests pin ink position under no
+  floor, a floor below the line box, and a floor above it.
+- [x] Enumerate the movement: run the full workspace test suite and list
+  every golden the change shifts; regenerate those whose labels were
+  genuinely top-pinned (tree and picker rows among them), and justify in
+  the commit body any that must not move.
+- [x] Run the design mirror: parity must improve or hold — a case where
+  Gio moved away from the CSS rendering is a bug in the fix, not the
+  mirror. Commit and push; no tag (the release is K1.5).
+
+#### K1.3: The editor rests on the placeholder's line
+
+ADR-013 F8, decision D1 — the text-field fix.
+
+- [x] `components/input`: the live editor draws offset by the same
+  half-deficit the placeholder's line box carries, so ink does not move
+  when focus arrives or leaves; masked and disabled paths keep working.
+- [x] A unit test pins the equality — placeholder ink offset and editor
+  ink offset measured and equal at more than one density — since goldens
+  cannot see the focus transition. Commit and push; no tag (the release
+  is K1.5).
+
+#### K1.4: Vaultview dresses the part
+ADR-013 F2, F4, F5, F6 and F9 — the app polish, in one sweep.
+
+- [x] The elevation model (F9): chrome — header band, sidebar rail,
+  aside — on the base surface; the reading column on a raised "paper"
+  one step lighter, sized to the content column; the properties panel
+  and code blocks tinting down from the paper, not the page; a hairline
+  under the header band.
+- [x] Glyphs the shipped face owns: disclosure, history arrows and any
+  other UI glyph drawn from Roboto render real glyphs, not fallback
+  boxes; the goldens' tofu note is retired.
+- [x] One sidebar inset system: rows and find field share horizontal
+  insets, the selection fill becoming a rounded inset pill; keyboard
+  selection and active-note marking keep their distinct colours.
+- [x] The properties panel on the page's own ramp: tinted fill a step or
+  two below its host surface, a perceptible radius, and the key column
+  sized to its longest key plus a fixed gap.
+- [x] Aside and affordance colour: the empty state on a theme ramp, and
+  enabled history arrows visibly darker than inert ones.
+- [x] Exit: vaultview's goldens regenerated to the new dress; a
+  screenshot of the running app, actually inspected, shows the note as
+  a document lying on furniture — distinct chrome and paper — and no
+  tofu anywhere. Commit and push.
+#### K1.5: The seam closes
+
+ADR-013 D4 — patch releases per the release protocol.
+
+- [x] Tag the theme and components patches bottom-up per the protocol;
+  move the pins the protocol prescribes, vaultview's among them.
+- [x] Exit: all gates green from a clean checkout; `GOWORK=off` build of
+  the touched apps against published tags only; `llms.txt` describing
+  nothing the org has not published. Commit and push.
+
+## Phase L: Unified title bar and floating sidebar
+
+The vault window spends about 80 dp on two stacked, nearly empty bands
+before content begins. This phase collapses them into the platform's
+unified title row, floats the sidebar, and — because no golden in this
+plan has ever rendered a whole window — gives the composition a test of
+its own. The dossier is ADR-015; packets cite its decisions (D1–D5).
+
+### G-L1: Chrome fits in one row
+
+#### L1.1: Measure the window-button leading inset in mvu/desktop
+
+ADR-015 D3 — the measurement the toolbar row needs.
+
+- [x] `mvu/desktop` grows a leading inset beside `TopInset`: the trailing
+  edge of the window control buttons in dp, measured under the same
+  re-assertion that measures the top inset, published through the same
+  atomic, zero where the platform has no such buttons. The stub build
+  answers zero; the darwin build answers a plausible value under test.
+- [x] Exit: godoc states what the value means and when it changes, naming
+  no consumer; `go build && go test` green on darwin and with the stub
+  tags; mvu tagged per the release protocol (additive minor), verified
+  from VCS. Commit and push.
+
+#### L1.2: Replace the header band with one app-drawn chrome row
+ADR-015 D1 and D2, app side. The 52 dp navbar band is replaced by one
+28 dp app-drawn row. This does not yet reach the chrome budget: the
+title-bar strip measures 32 dp on its own, so any row below it starts
+above the target. Collapsing the strip is L1.3 and L1.4.
+
+- [x] The header band and its hairline are gone, replaced by a single
+  app-drawn chrome row carrying the sidebar toggle, the vault name, and
+  Rescan and Switch vault trailing. The composition leaves
+  `patterns/shell`, whose top slot is pinned to `navbarHeight()`.
+- [x] The breadcrumb drops the vault crumb and carries the in-vault path
+  only; the tree's root reveal keeps working from the toolbar's vault
+  name instead.
+- [x] Exit: measured and recorded — 60 dp above the first content row,
+  down from 80; `TopInset` 32 dp, `LeadingInset` 69 dp on this machine.
+  Sidebar-hidden state lives in the model. Commit and push.
+
+#### L1.3: Add window-button repositioning to mvu/desktop
+
+ADR-015 D3, second half. The title-bar strip is paint-only — clicks in
+it reach the native title-bar view, not the application — so an
+interactive row cannot live inside it while the strip stands. Offsetting
+the standard window buttons downward collapses the strip and hands the
+row to the application.
+
+- [x] `mvu/desktop` grows a call that places the standard window buttons
+  at a caller-given vertical offset, applied under the same re-assertion
+  that re-shows them and measures the two insets, so a reconfigure does
+  not undo it. No-op and zero-cost off macOS.
+- [x] `TopInset` reports the collapsed strip once the buttons are
+  placed, and `LeadingInset` keeps reporting their trailing edge at the
+  new position; both stay correct across resize and reconfigure.
+- [x] Exit: godoc states what the call does and what it costs, naming no
+  consumer; darwin and stub builds green; mvu tagged per the release
+  protocol (additive minor, nested tags mirrored), verified from VCS.
+  Commit and push.
+
+#### L1.4: Move the chrome row into the collapsed title bar
+
+ADR-015 D1 — the single row, finished.
+
+- [x] The chrome row moves up beside the window buttons: placed with the
+  new mvu call, offset horizontally by `LeadingInset()` plus its own
+  gap, with `underTitleBar` no longer padding the vault screen.
+- [x] The row stays draggable where it is empty, so the window can still
+  be moved by its top edge, and every control in it receives clicks.
+- [x] Exit: chrome above the first content row measures under 40 dp at
+  Comfortable density — the measurement recorded in the commit body —
+  and a fresh-eyes review of a whole-window screenshot raises no
+  complaint about the title row. Commit and push.
+
+#### L1.5: Make the sidebar a floating panel
+
+ADR-015 D4 — a pane, not a column.
+
+- [x] The rail becomes an inset rounded pane over the window background:
+  its own surface step, its own hide control, the note column reflowing
+  to the freed width when it is hidden.
+- [x] Hidden is remembered: the toggle's state survives navigation and
+  vault switching within the session, and the keyboard reaches both the
+  toggle and the rail's rows.
+- [x] Exit: shown and hidden both reviewed with fresh eyes on real
+  screenshots; goldens regenerated. Commit and push.
+
+#### L1.6: Add a whole-window golden and a chrome-height assertion
+
+ADR-015 D5 — what would have caught this without René.
+
+- [x] A whole-window golden at a realistic size, in both appearances,
+  following the repo's golden shape — the first golden in this plan that
+  renders a window rather than a slot.
+- [x] A chrome-budget assertion: the vertical distance from the window
+  top to the first content row is measured and bounded, failing loudly
+  when a band creeps back.
+- [x] Exit: both tests fail when the old two-band chrome is restored, and
+  the suite is green with it gone. Commit and push.
+
+## Phase M: Reading long notes in vaultview
+
+Five things the owner hit using the viewer against real vaults: the
+document has no scrollbar and cannot be moved from the keyboard, the
+right column has no room for an outline, the vault actions sit in the
+wrong place, and the sidebar stops below the window buttons where the
+platform would run it to the top. The dossier is ADR-017; packets cite
+its observations (O1–O5) and decisions (D1–D5). The functional pain goes
+first: a viewer that cannot be paged through fails at its purpose.
+
+### G-M1: The document can be read
+
+#### M1.1: Show the document's scroll position
+
+ADR-017 O1 and D5.
+
+- [x] The note column carries a visible scroll indicator that reports
+  position and proportion, appearing when there is more document than
+  viewport and behaving as the platform's does when the pointer is away.
+- [x] If the treatment does not already exist in `components`, it is
+  added there rather than drawn privately in the app (D5), with its own
+  tests and goldens in that repo.
+- [x] Exit: a long note shows the indicator, a short one does not, and a
+  fresh-eyes review of a whole-window screenshot mid-document raises no
+  complaint about it. Commit and push.
+
+#### M1.2: Move the document from the keyboard
+
+ADR-017 O2 and D2.
+
+- [x] Page Up and Page Down move the note by a viewport less a small
+  overlap; Home and End reach the document's ends; Command-Up and
+  Command-Down do the same as the macOS spelling. Keys reach the
+  document without stealing from the find field or the tree while those
+  hold focus.
+- [x] The behaviour is unit-tested as scroll-offset transitions, not
+  merely wired: page moves are bounded at both ends, and a document
+  shorter than the viewport does not move at all.
+- [x] Exit: a real vault's longest note is crossed end to end with the
+  keyboard alone, and the anchor landing from a followed link still
+  works afterwards. Commit and push.
+
+### G-M2: The frame matches the platform
+
+#### M2.1: Run the sidebar to the window's top edge
+ADR-017 O5 and D3. The largest change in the phase — take it before the
+smaller frame work so the others land in their final home.
+
+- [x] The sidebar becomes the leading column from the window's top edge:
+  the window buttons sit inside the pane, placed with the existing
+  desktop call, and the pane's toggle moves to its own top-right corner.
+  The chrome row no longer spans the window.
+- [x] The document's own top row keeps the breadcrumb and history
+  affordances, and the chrome budget assertion is re-stated against the
+  new arrangement rather than deleted — it measured 28 dp and must not
+  regress.
+- [x] Hidden still works: with the pane away the window buttons return to
+  the geometry the platform expects and the document reflows.
+- [x] Fix the focus order while the toggle is being moved: today Tab
+  reaches the rail's hide control between the find field and the tree,
+  so Tab-then-Return from the field hides the sidebar instead of opening
+  the selected note. The order must run field, then rows, with the
+  pane's own controls out of that path.
+- [x] Exit: shown and hidden both reviewed with fresh eyes against the
+  platform's own arrangement; whole-window goldens regenerated. Commit
+  and push.
+#### M2.2: Move the vault actions to the foot of the sidebar
+
+ADR-017 O4.
+
+- [x] Rescan and Switch Vault leave the chrome row for the bottom of the
+  sidebar pane, reachable by keyboard, and the pane's rows keep their
+  scroll independent of them.
+- [x] Exit: both actions work from their new home — a rescan reports its
+  count, a switch returns to the picker — and goldens are regenerated.
+  Commit and push.
+
+#### M2.3: Split the aside into an outline and backlinks
+
+ADR-017 O3 and D4.
+
+- [x] The right column carries the current note's heading outline above
+  and its backlinks below, each scrolling in its own right, with the
+  outline's entries navigating to their heading in the document.
+- [x] The outline tracks the document: the heading the reader is inside
+  is marked as the note scrolls, and choosing an entry moves the
+  document rather than reloading it.
+- [x] Exit: a note with many headings and a note with none both read
+  correctly, backlinks stay reachable in either case, goldens
+  regenerated, and a fresh-eyes review raises no complaint about the
+  column. Commit and push.
+
+### G-M3: The sidebar reads as an elevated pane
+
+#### M3.1: Inset the sidebar pane and round it, keeping it at the top
+ADR-017 O5 revisited. M2.1 ran the sidebar to the window's top edge but
+flattened it doing so: it became a full-bleed column with no margin and
+no corners, when the platform's own treatment is both — a pane inset
+from the window's edges, rounded on all four corners, raised off the
+window's background, with the window control buttons inside it.
+
+- [x] The pane is inset from the window's leading, top and bottom edges
+  by one margin and rounded on all four corners, with the window's own
+  ground visible around it on every side. The window control buttons
+  stand inside the pane, clear of its rounded top-leading corner.
+- [x] The pane is raised by tint first and shadow second: it keeps its
+  surface step and gains a cast shadow from `effects/depth`, because it
+  meets that package's criterion as written — it floats above the ground
+  and can leave, dismissed from its own toggle — and the platform's own
+  sidebar casts one. Say in the code why the sidebar qualifies under the
+  rule.
+- [x] Hidden still works, and the chrome budget assertion still holds:
+  the document's first content row does not move because the pane
+  gained a margin.
+- [x] Exit: reviewed with fresh eyes against the platform's own sidebar,
+  the complaint to answer being whether it reads as a raised pane rather
+  than a painted column; whole-window goldens regenerated. Commit and
+  push.
+
+#### M3.2: Release the reading seam
+
+The phase's library work — the scrollbar fade, the list and document
+scroll verbs, the scroll-to-block seam — is public API sitting untagged,
+so a clean checkout cannot build the viewer against published tags. The
+authoring omission is the plan's, found at the phase's end.
+
+- [x] Tag the markdown and components releases bottom-up per the release
+  protocol (additive minors), move vaultview's pins onto them, and any
+  other pin the protocol's second pass requires.
+- [x] Exit: all gates green from a clean checkout including the
+  no-workspace check; `GOWORK=off` build and test of vaultview against
+  published tags only; `llms.txt` describing nothing unpublished. Commit
+  and push.
+
+#### M3.3: Match the window-button insets to the platform's
+
+The owner measured the reference: the platform's sidebar apps inset the
+window control buttons about 4 mm from the pane's top and leading edges;
+the viewer gives them barely 3 mm from the leading edge and under 2 mm
+from the top, because the placement seam only speaks vertically — the
+buttons keep AppKit's window-relative x while the pane's edge moved.
+
+- [x] `mvu/desktop` grows a horizontal dimension on the button
+  placement, additively beside the existing call: the caller states
+  where the buttons' leading edge sits, applied under the same
+  re-assertion, restored exactly by the zero placement, no-op off
+  macOS. `LeadingInset` keeps reporting the measured trailing edge at
+  the new position. mvu tagged per the release protocol — the tag rule
+  forbids a double-digit component, so the minor slot above v0.9.0 is
+  closed; use the patch v0.9.1 with the tag message stating the addition
+  plainly, mirrored on the nested tags.
+- [x] Vaultview places the buttons about 4 mm from the pane's top and
+  leading edges — equal insets, matching the reference by measurement on
+  this display — with the pane's strip and the toggle keeping clear, the
+  hidden state still restoring platform geometry, and the chrome budget
+  untouched.
+- [x] Exit: a live capture measured in pixels confirms the insets match
+  the reference within a millimetre; whole-window goldens regenerated;
+  fresh eyes raise no complaint about the buttons' placement. Commit and
+  push.
+
+#### M3.4: Anchor the window buttons to the window, not the pane
+
+The owner ruled on the open question the previous task left: the traffic
+lights are part of the window shining through the pane, so they anchor
+to the window's own edges — the platform's reading, confirmed by
+measurement against its sidebar apps — and they never move. The
+pane-relative insets the previous task chose are the wrong frame of
+reference: when the pane toggles away today the buttons shift, and
+nothing that belongs to the window should.
+
+- [x] The buttons take fixed window-relative offsets matching the
+  platform's own, measured again in pixels from the reference app on
+  this display, and the placement is identical whether the sidebar is
+  shown or hidden — the hidden state stops restoring a different
+  geometry, and the two golden leading constants collapse to one.
+- [x] The pane's strip and toggle keep clear of the buttons at their new
+  position, and the chrome budget assertion still holds.
+- [x] The ruling is recorded with the title-bar decisions so future
+  frame work inherits it: the buttons belong to the window, not to any
+  pane drawn under them.
+- [x] Exit: a live capture measured in pixels confirms the buttons sit
+  where the reference's do and do not move when the pane toggles;
+  whole-window goldens regenerated; fresh eyes raise no complaint about
+  the buttons. Commit and push.
+
+#### M3.5: Remove the sliver beside the pane's toggle
+
+The owner switched to light mode and saw stray pixels just right of the
+floating pane at its top. Magnifying their screenshot pins it: a grey
+sliver about one pixel wide and exactly the toggle mark's height,
+sitting at the pane's trailing edge, with the pane's fill running one
+pixel wider over that same span than it does below — the toggle's box
+appears to paint to, or push past, the pane's rounded fill. Light mode
+exposes it because the pane tint and the ground are close there; it
+was invisible in dark.
+
+- [x] The cause is found by reading the strip and toggle geometry
+  against a magnified render, and the toggle's box ends wholly inside
+  the pane's fill — verified in light and dark, pane shown and after a
+  toggle round-trip.
+- [x] Exit: a light-mode capture magnified at the pane's top trailing
+  corner shows a clean pane edge with no stray ink beside the toggle,
+  goldens regenerated if pixels legitimately move, and fresh eyes on
+  the whole window raise no complaint about the corner. Commit and
+  push.
+
+#### M3.6: Align the vault name with the window buttons
+
+The owner: the vault-name label sits too close to the top and looks
+misaligned — it should align with the traffic lights. This is the gap
+the button-anchoring task recorded: the buttons centre on the window's
+26 dp line and the pane's toggle was levelled with them, but the vault
+name still centres where the 28 dp chrome row puts its content, 12 dp
+higher. The same record holds the twin symptom: the chrome row's own
+toggle centres there too, so the mark jumps 12 dp vertically when the
+pane goes.
+
+- [x] The vault-name label centres on the buttons' centre line — the
+  same line the pane's toggle sits on — verified in rendered pixels
+  against the button centres, not by construction.
+- [x] The chrome row's toggle centres on that line as well, so the
+  toggle mark holds one vertical position through a pane round-trip;
+  what the chrome row spends on height does not change.
+- [x] Exit: a magnified capture shows the label's and the marks'
+  centres level with the button centres in both rail states, the
+  chrome budget assertion still holds, goldens regenerated, and fresh
+  eyes raise no complaint about the top-left corner. Commit and push.
+
+### G-M5: A stored platform reference
+
+The owner: measurement sweeps that launch macOS apps and grab the
+screen are getting in the way of using the actual computer. This goal
+pays the cost once — one consolidated sweep, stored in this repo — so
+the preamble's measure-from-the-stored-reference rule has something to
+point at and no later task ever needs the owner's desktop again.
+
+#### M5.1: Measure the platform once and store the reference
+
+- [x] One sweep captures the macOS apps this plan keeps consulting —
+  Finder, Mail, Notes, Voice Memos, Reminders, TextEdit — as
+  whole-window screenshots plus tight crops of the regions that get
+  measured (window buttons, sidebar pane, toolbar band, scrollbar,
+  reading margins), stored under `reference/macos/` with names that say
+  app and region. Every app launched is quit afterwards and verified
+  dead; the whole sweep happens in one session.
+- [x] The numbers this plan has already measured are consolidated into
+  ADR-019 alongside the new ones, so nothing lives only in an old
+  report: the window-button geometry per window style, the sidebar
+  pane's inset and radius, the symbol stroke measures, the reading
+  rhythm of the reference note app, and whatever the fresh sweep adds —
+  scrollbar geometry, toolbar heights, reading-surface margins — each
+  number naming the capture file it was read from.
+- [x] Exit: ADR-019 indexes every stored capture with its measured
+  values and method; a task needing a platform number can cite the ADR
+  and the file without launching anything; `mdplan lint` shows nothing
+  new; the sweep's apps are confirmed dead. Commit and push.
+
+### G-M6: Corrections from daily use
+
+Small defects the owner hits using the viewer as their actual reader.
+Each is one task; the phase's release closes over whatever they touch.
+
+#### M6.1: Drop the toast to bottom center
+
+The owner: a rescan's toast pops up at the window's top right where
+they expect bottom center. The viewer passes the top-right anchor, but
+the underlying cause is in the toast component: it anchors only to the
+four corners — there is no centered position to choose. Bottom center
+is also where the design language's own snackbar convention puts
+transient confirmation.
+
+- [x] The toast component gains a bottom-center position: the stack
+  anchors to the bottom edge's midpoint, newest toast nearest the edge
+  and stacking upward, with the margins and motion the corner anchors
+  already have; its tests cover the new anchor's geometry alongside
+  the corners'.
+- [x] The viewer's toast layer anchors bottom center, so a rescan's
+  confirmation rises over the reading column's foot without touching
+  the chrome row.
+- [x] Exit: a capture shows a rescan's toast at the bottom center (the
+  foot actions are keyboard-reachable, so the rescan can be triggered
+  by synthesized keys, or the toast seeded through the model for a
+  headless render); component tests green; fresh eyes raise no
+  complaint about the toast. Commit and push.
+
+#### M6.2: Clip the scrolled note at the chrome row's edge
+
+The owner confirmed the reviewer's finding at the top edge: scrolled
+content clips a few pixels below the breadcrumb row, so a line cut
+mid-glyph sits beneath a dead strip of empty background instead of
+sliding under the row the way scrolled text slides under a toolbar.
+The bottom edge got its fix; this is the mirror.
+
+- [x] The reading column's viewport begins exactly at the chrome row's
+  lower edge: a line scrolling out tucks under the row with no blank
+  strip between the row and the cut, in both themes, with anchor
+  landing and keyboard paging unaffected.
+- [x] Exit: a mid-scroll capture magnified at the top edge shows the
+  cut line meeting the chrome row directly; goldens regenerated where
+  pixels legitimately move; fresh eyes raise no complaint about the
+  top edge. Commit and push.
+
+#### M6.3: Size the history chevrons for the text row they sit in
+
+The owner: the set's marks read too big as vaultview uses them — the
+screenshot shows the history chevrons beside the breadcrumb. Measured,
+the complaint is exact: the chevron is a diagonal form spanning the
+grid's 20-unit allowance, so at the nav control's current nominal size
+its ink stands 16 px tall beside a breadcrumb label whose caps are
+10 px — the control towers over the text it serves. The reference
+(stored Obsidian capture, same scale) keeps the same pair of arrows at
+10 px of ink, under its neighbouring title text's height, and mutes
+them to about a third of the text's contrast; we paint enabled
+chevrons at full text colour. The set's own size taxonomy already
+names the fix: the small mark size is documented as what a mark takes
+beside a line of text, and the chevrons sit in a text row.
+
+- [x] The history chevrons draw at the set's text-adjacent small size,
+  so their ink lands near the neighbouring label's height instead of
+  60% over it; the head row's own height and alignment hold (the row
+  centres its children, so nothing else moves).
+- [x] Enabled chevrons take a secondary ink rather than the full text
+  colour, following the reference's muting of navigation chrome — while
+  the disabled step stays clearly dimmer than the enabled one, since
+  reviewers have three times read the two states as too alike; the
+  muting must widen that gap or at worst preserve it, never close it.
+- [x] Exit: a capture of the head row magnified shows the chevrons
+  sitting with the breadcrumb text rather than over it, with the ink
+  heights measured and compared against the stored reference numbers;
+  goldens regenerated where pixels legitimately move; fresh eyes raise
+  no complaint about the head row. Commit and push.
+
+#### M6.4: Tighten the seam between a paragraph and the list it announces
+
+The owner: a line ending in a colon sits an awful lot of space away
+from the list that follows it. Their A/B screenshots are stored as
+`reference/macos/vaultview-list-seam-ab.png` (ours) and
+`reference/macos/obsidian-list-seam-ab.png`, and the measurement is
+exact: at the same scale, ours opens 37 px of visible blank between
+the announcing line's ink and the first bullet's ink where the
+reference opens 25 — the reference tightens this one seam to about
+two-thirds of the ordinary block gap, which both apps agree is ~37.
+The rule is structural, not punctuational: the reference's styling
+cannot see a colon — every list directly following a paragraph gets
+the tighter seam — and that is also the honest rule for us, since a
+colon test would miss announcing sentences without one and misfire on
+colons that announce nothing.
+
+- [x] A list block that immediately follows a paragraph takes a
+  tightened space above, landing the visible blank at that seam near
+  the reference's 25 px at 1 px/dp while every other block transition
+  keeps the ordinary gap; the knob is a Style field with the
+  zero-value falling back to the ordinary gap, derived from the block
+  rhythm in visible-blank space rather than hardcoded, and set by the
+  token constructor so themed documents get it without opting in.
+- [x] The seam below the list back to ordinary blocks is measured from
+  the stored captures only: if none of them shows a list followed by a
+  paragraph, the below-seam keeps the ordinary gap and that open edge
+  is recorded in the dossier rather than guessed — no app is launched
+  to find out.
+- [x] Exit: the rendered seam is measured A/B against the stored
+  screenshots and lands within 2 px of the reference's blank, the
+  rhythm test suite gains the paragraph-to-list case alongside its
+  existing transitions, goldens regenerated where pixels legitimately
+  move, and fresh eyes on a note holding an announcing paragraph and
+  its list raise no complaint about the seam. Commit and push.
+
+#### M6.5: Anchor the backlinks pane to the aside's foot
+
+The owner rules on the aside's composition: "the backlinks should
+always be positioned at the bottom and allow the outline to take up
+the space not occupied by the backlinks even if it doesn't need it."
+Today the two panes stack from the top and the room neither needs
+falls to the foot of the column below the backlinks; after this task
+that spare paper opens inside the outline's territory instead — below
+its rows, above the divider — and the divider, the backlinks header
+and the pane stand against the column's foot. The pane's own sizing is
+untouched: rows up to four, the short-window ceiling, one line when
+nothing cites the note.
+
+- [x] The backlinks group — divider, header and pane — sits at the
+  foot of the aside column, the pane keeping its rows-up-to-four
+  height and its short-window ceiling, while the outline's region runs
+  from its header down to the divider: spare paper opens below the
+  outline's rows inside its own region, never under the backlinks.
+- [x] The hit geometry and indicators follow the move: outline and
+  backlink navigation, the document-tracking highlight and both
+  panes' scroll indicators work in the new geometry, and the boundary
+  states hold — no backlinks (the one-line pane still at the foot), no
+  headings, and a window squeezed short still shows both panes.
+- [x] Exit: captures of a sparse note and a dense one show the
+  backlinks against the column's foot with the slack inside the
+  outline's territory, goldens regenerated where pixels legitimately
+  move, and fresh eyes on the aside raise no complaint about the
+  panes' positions. Commit and push.
+
+#### M6.6: Centre list markers on the first text line
+
+The owner's A/B screenshots (a task list of ours against the
+reference's): our checkbox rides 2.5 to 4.5 px above the first text
+line's ink centre, where the reference centres its box on that ink
+exactly — measured offsets 0.0 and +1.0 px. The cause is in the
+marker anchoring: the renderer approximates the first line's height
+as the font size, which understates the real shaped line by its
+leading, and every marker hangs off that number — the checkbox
+worst, the bullet by less. Lines opening with inline code widen the
+error further, since their taller ink stretches the first line
+beyond even the correct body line height.
+
+- [x] A task item's checkbox centres on its first text line's ink:
+  the anchor is derived from the shaped line's real metrics —
+  baseline and ascent from the shaper, not the font size — and the
+  rendered box's ink centre lands within 1 px of the text ink centre
+  in both themes, matching the reference's centring.
+- [x] The bullet takes the same derived anchor as the checkbox, its
+  own optical size unchanged, so every marker in a list hangs from
+  one rule rather than two approximations.
+- [x] Exit: the A/B measurement repeated on our render shows the
+  marker-to-text offsets within the reference's 0-to-1 px, a unit
+  test pins the marker centre to the shaped first line's centre so a
+  future metrics change fails loudly, goldens regenerated where
+  pixels legitimately move, and fresh eyes on a note holding a task
+  list raise no complaint about the markers. Commit and push.
+
+#### M6.7: Size inline code for the line it sits in
+
+The owner keeps hitting this defect's newest face: task rows opening
+with inline code still carry their checkbox high after the marker
+anchor was fixed, because inline code shapes at the full paragraph
+size — 16 sp mono whose ascent pushes that line's real baseline about
+2 px below the body face's, out from under the marker's anchor.
+Measured on the current build: a plain task row's marker offset is
+−2.0 px (ink band, descenders included) while rows containing inline
+code sit at −4.0. The reference sizes inline code visibly under the
+body — its mono ink stands 9 px inside a 15 px body line — and sets
+it on a subtle chip: a rounded fill a few percent off the page
+(≈ #F5F5F5 on white in the stored capture), tight vertical padding,
+small radius. Ours has no chip and fence-vs-inline disagree: fences
+already shape at 14 sp.
+
+- [x] Inline code shapes at the fence's size inside a body line, so a
+  line containing code keeps the body line's height and baseline: the
+  line box of a code-bearing line measures equal to a plain line's,
+  and the marker offset on a code-opening task row lands within 1 px
+  of a plain row's.
+- [x] Inline code sits on a chip: a rounded fill from the theme's
+  ramps in both themes, proportioned from the stored captures — the
+  chip hugs the code's line height with tight padding rather than
+  inflating the line — and the code ink keeps readable contrast
+  against the chip fill in both themes.
+- [x] Exit: the marker offset on a task row opening with inline code
+  is measured at par with plain rows, the chip's proportions are
+  measured A/B against the stored reference captures, a unit test
+  pins the code-bearing line's height to the plain line's so the
+  baseline can never drift out from under the markers again, goldens
+  regenerated where pixels legitimately move, and fresh eyes on a
+  note holding inline code in running text and in task rows raise no
+  complaint about the code spans. Commit and push.
+
+#### M6.8: Honor the token line height in wrapped text
+
+The owner calls the last density gap: our prose sets a 19 px line
+pitch with 3 px of blank between line inks where the reference sets
+24 px and 8 at the same 16 px ink — corroborated three independent
+times (the stored A/B captures, a reviewer reading the chrome as
+looser than the prose, and stacked code chips nearly touching where
+the reference's get 4 px of air). The cause is a seam between two
+layers that each did their half right: the typography tokens carry
+the design language's line heights and say a zero means the shaper's
+default, and the rich text primitive never reads the field — it
+advances lines on font ascent plus descent alone. Honoring the token
+moves every derivation that was calibrated over the old pitch, so
+the reference measurements are the invariants and the derived
+constants adjust to keep landing on them.
+
+- [x] Wrapped text occupies its style's line height: the paragraph's
+  token line height sets the line box, extra space distributing as
+  half-leading the way the reference's styling model does, a
+  mixed-size span (code in a body line) not changing the box, and a
+  zero line height keeping today's metrics-only behaviour so nothing
+  outside the tokens moves by accident.
+- [x] The rhythm derivations re-land on the reference over the new
+  pitch: intra-paragraph pitch 24 with ~8 px blank between line
+  inks, the ordinary block blank ~37, the announced-list seam
+  24-25, the heading blanks at their measured targets, and the list
+  markers still centred on their first lines — all held by the
+  existing rendered-pixel suites, with derivation constants
+  re-derived rather than targets loosened.
+- [x] Exit: a paragraph A/B against the stored captures matches the
+  reference's pitch and blank within 1 px, the stacked-chip crowding
+  recorded earlier is re-measured and closed if the new leading
+  gives it the reference's air, goldens regenerated across every
+  consumer whose pixels legitimately move, and fresh eyes on a full
+  note raise no complaint about text density. Commit and push.
+
+### G-M4: Heading spacing and the bottom edge
+
+The dossier is ADR-018. The renderer change goes first; the app changes
+absorb its golden churn; the release closes the seam.
+
+#### M4.1: Give headings asymmetric space above and below
+
+ADR-018 D1, D2, D3.
+
+- [x] The renderer's style grows per-level heading space above and
+  below, derived from the type scale and holding the measured
+  proportions (above ≈ 2× below, above ≈ 1.35× the ordinary block gap,
+  deeper levels slightly less), defaulting on, with both suppressions:
+  none above a document's first block, reduced above a heading that
+  directly follows another heading.
+- [x] The behaviour is unit-tested as layout transitions — first-block
+  and heading-after-heading suppression included — and anchor landing
+  from a followed link still brings the heading comfortably into view.
+  Goldens in the renderer's repo regenerated. If the styling is
+  mirrored anywhere else in the package, the mirror moves with it.
+- [x] Exit: blank-run measurements above and below headings in a
+  rendered screenshot match the dossier's reference proportions, and a
+  fresh-eyes review of a mid-document screenshot raises no complaint
+  about spacing. Commit and push.
+
+#### M4.2: End the reading column clear of the window's bottom edge
+
+ADR-018 D4.
+
+- [x] A scrolled-to-the-end note rests its last line on a bottom
+  content inset instead of running into the window's edge, the amount
+  matched by measurement to the platform's own reading surfaces. If the
+  treatment is a general scrolling affordance the components repo lacks,
+  it is added there rather than drawn privately in the app.
+- [x] End-of-document keyboard navigation lands on the resting
+  position, and mid-document scrolling still uses the full viewport —
+  the inset belongs to the document's end, not to every frame.
+- [x] Exit: a screenshot of a long note's end shows the last line clear
+  of the edge with no mid-glyph clipping, whole-window goldens
+  regenerated (absorbing the previous task's spacing change), and a
+  fresh-eyes review raises no complaint about the bottom edge. Commit
+  and push.
+
+#### M4.3: Give documents their own heading sizes
+
+ADR-018's second addendum: the owner compared the same note in both
+renderings and ruled that documents get their own heading scale.
+
+- [x] The theme's tokens gain a document heading scale: six stops for
+  prose surfaces, derived from the body role in book proportions and
+  anchored to the measured reference — level 1 ≈ 1.6× body, level 2 ≈
+  1.4×, deeper steps still distinguishable at a glance rather than the
+  display roles' compressed ladder. Weight per level is measured from
+  the reference captures rather than assumed. The scale's godoc says
+  what it is for without naming any consumer.
+- [x] The markdown renderer maps heading levels onto the document scale
+  in its token constructor, replacing the display roles it borrows
+  today. The heading-space derivation keeps working against the new
+  sizes and its tests move with the numbers rather than being deleted;
+  re-tuning the spacing to the opened gap stays the next task's job.
+- [x] Exit: rendered at the same body size, levels 1 and 2 measure
+  within a couple of pixels of the reference's ink heights, a six-level
+  render shows adjacent levels a reader can tell apart, goldens in the
+  touched repos regenerated, and a fresh-eyes review of a mid-document
+  screenshot raises no complaint about heading size. Commit and push.
+
+#### M4.4: Open the block rhythm to the reference's
+
+ADR-018 D3 as ruled in the addendum: the owner put the two renderings
+of the same note side by side and ruled the reference's openness in.
+
+- [x] The renderer's default block gap rises so the reader-visible
+  blank between ordinary blocks matches the reference's proportion —
+  about 2.3 times the body size (37 px at a 16 px body) — derived from
+  the spacing tokens rather than hardcoded, measured from a render
+  within a couple of pixels.
+- [x] The heading spaces are re-derived to hold the dossier's ratios at
+  the opened gap — above ≈ 1.35× the ordinary visible blank, below ≈
+  half of above — because the first derivation was tuned at the old
+  8 dp gap where line-height slack dominated, and it will not scale by
+  itself. Both suppressions still hold; the spacing tests move with the
+  numbers rather than being deleted.
+- [x] Exit: blank-run measurements of the rendered note match the
+  reference's at all three transitions — between blocks, above a
+  heading, below a heading — within a couple of pixels at the same body
+  size; goldens in the renderer's repo regenerated; a fresh-eyes review
+  of a mid-document screenshot raises no complaint about spacing.
+  Commit and push.
+
+#### M4.5: Cap the backlinks pane and show the aside's scrollbars
+
+ADR-018 D5 and D6.
+
+- [x] The backlinks pane takes the height of its entries up to four and
+  no more: fewer entries return the room to the outline above, more
+  scroll within the cap. The outline and the capped backlinks list each
+  show the same fading scroll indicator the note column carries, using
+  the existing treatment rather than drawing a private one.
+- [x] The sizing is unit-tested at the boundaries — zero, one, four and
+  many entries — and outline navigation, backlink navigation and the
+  document-tracking highlight all still work in the resized panes.
+- [x] Exit: a note with two backlinks and a note with twenty both show
+  the aside proportioned to content, every scrollable aside column
+  shows its indicator when scrollable, goldens regenerated, and a
+  fresh-eyes review of the aside raises no complaint. Commit and push.
+
+#### M4.6: Honor backslash escapes in inline text
+
+The owner's vault showed it: `q5\_0` in a table cell renders with the
+backslash intact where the reference (and CommonMark) render `q5_0`.
+Probed in the parser: no backslash handling exists at all, so every
+`\_`, `\*`, `\[` reaches the screen with its backslash, and an escaped
+delimiter cannot suppress the emphasis or link it would otherwise
+start.
+
+- [x] The inline parser implements CommonMark's backslash rule: a
+  backslash before ASCII punctuation yields the literal character and
+  suppresses any delimiter role it had; before anything else the
+  backslash stays literal; a doubled backslash yields one. An escaped
+  pipe inside a table cell does not split the cell.
+- [x] Unit tests cover the reported case in both a table cell and
+  prose, suppressed emphasis, escaped brackets around a would-be link,
+  the doubled backslash, and a backslash before a letter staying
+  literal.
+- [x] Exit: the note that exposed the defect renders its table cells as
+  the reference does; goldens regenerated where pixels legitimately
+  moved; tests green. Commit and push.
+
+#### M4.7: Scroll long code lines instead of clipping them
+
+Three independent reviewers across three tasks flagged the same defect,
+verified in the pixels each time: a fenced code block's long line is
+cut dead at the container's edge — no wrap, no ellipsis, no scroller —
+so code is silently lost in the reading surface. The reference keeps a
+code block's own line breaks sacred and scrolls the block horizontally
+when a line will not fit; that is the treatment to match.
+
+- [x] A fenced code block whose widest line exceeds its container
+  scrolls horizontally: code never reflows, the hidden remainder is
+  reachable by trackpad scroll and drag, and the edge says there is
+  more while there is. If the horizontal treatment is a general
+  affordance the components repo lacks, it is added there rather than
+  drawn privately in the renderer. Unit tests cover the fits and
+  overflows boundaries and the offset's bounds.
+- [x] Short blocks are untouched — no scroller, no indicator, identical
+  layout for a block that fits — and vertical document scrolling over a
+  scrollable block still works: the block claims the horizontal axis
+  only.
+- [x] Exit: the note that exposed the defect shows its full line by
+  scrolling within the fence, goldens regenerated where pixels
+  legitimately move, and a fresh-eyes review of a note holding one
+  overflowing block and one short block raises no complaint about the
+  fences. Commit and push.
+
+#### M4.8: Bring sitedocs to the new reading rhythm
+
+The bottom-edge task found it: sitedocs is red at head — seven golden
+failures, all caused by the heading-spacing change and verified to be
+only that. Its goldens must catch up once, after every renderer change
+in this goal has landed, rather than once per task.
+
+- [x] With the size, rhythm and escape tasks in, sitedocs' goldens are
+  regenerated and each is actually looked at against its predecessor —
+  regeneration as an act of review, not a blind re-record; anything
+  that reads wrong in the new rhythm is reported rather than baked in.
+- [x] Exit: sitedocs builds and tests green, its goldens carry the new
+  rendering deliberately, and a fresh-eyes look at one representative
+  page raises no complaint about the rhythm. Commit and push.
+
+#### M4.9: Release the spacing and edge changes
+
+- [x] The renderer repo is tagged with the next legal version for an
+  additive change and any other library repo the phase's still-open
+  goals touched — the theme's document scale, the toast's new anchor,
+  whatever else accrued — is tagged per its own precedent — no double-digit version components, explanatory
+  tag messages where the number understates the change — verified from
+  VCS, never the proxy.
+- [x] Consumer pins bumped, `GOWORK=off` builds and tests green in
+  every bumped module, sync scripts run, gates green, and the root
+  guidance describes nothing unpublished. Commit and push.
+
+## Phase N: A Vibrant Gio iconset
+
+Three applications have now hand-drawn their own marks because the org's
+documented icon source — the frozen 2016 Material set — has no platform
+idiom to offer. This phase gives the org its own set, drawn on one grid,
+resolving per operating system, held by the registry `components/icon`
+already has. The dossier is ADR-016; packets cite its decisions (D1–D6).
+The format is not decided in advance: N1.1 measures it.
+
+### G-N1: The set exists and the apps use it
+
+#### N1.1: Spike — measure SVG against IVG render cost
+
+ADR-016 D3. The spike decides the format; nothing else in the phase may
+assume an answer.
+
+- [x] A spike outside the org repos (the `spikes/` sibling convention)
+  renders the same marks both ways — parsed through `vibrantgio/svg` and
+  through `vibrantgio/ivg` — at the sizes controls actually draw them
+  (16–24 dp), measuring cold parse, warm redraw, and any per-frame cost
+  that survives caching.
+- [x] The result is expressed as a share of a frame's render budget at
+  60 Hz, not as raw nanoseconds, with the measurement method stated
+  plainly enough to be re-run.
+- [x] Exit: the numbers and the resulting format decision are recorded in
+  ADR-016 as an addendum, and D3's conditional is resolved to a plain
+  statement of which format the set uses and why. No org repo changes.
+
+#### N1.2: Create the iconset package and the per-OS seam
+
+ADR-016 D1, D2, D4, D6.
+
+- [x] The set's home is created in the format N1.1 chose, registering
+  through `components/icon`'s existing `Registry`. Names are stable and
+  say what the control is, not what the drawing looks like.
+- [x] Resolution per operating system (D2): a name answers with the host
+  platform's drawing where one exists and a documented fallback where it
+  does not, decided at runtime with no build-tag fan-out at the call
+  site. Tests cover both the hit and the fallback.
+- [x] The grid and stroke weight every mark is drawn on are written down
+  where an author of the next mark will find them, with the reasoning
+  for the numbers.
+- [x] Exit: the package builds and tests green in its repo, its godoc
+  names no consumer, and one placeholder mark proves the whole path from
+  name to rendered widget. Commit and push.
+
+#### N1.3: Draw the first marks in the macOS idiom
+
+ADR-016 D5, and the settled sidebar mark.
+
+- [x] The marks the applications use today are drawn on the shared grid:
+  the sidebar toggle (rounded rectangle, even thin stroke, vertical
+  divider, faint list lines in the leading pane — one drawing that never
+  morphs), the tree disclosure mark, and the two history chevrons.
+- [x] Each mark is reviewed as a picture before it is called done:
+  rendered at its true size and magnified, and compared against the
+  platform's own equivalent rather than against the idea of it.
+- [x] Exit: the marks render at 16–24 dp without muddying, read as
+  siblings when shown together, and a fresh-eyes review of them beside
+  the platform's own marks raises no complaint. Commit and push.
+
+#### N1.4: Even out the stroke weight of the diagonal marks
+
+The first drawing pass left the set uneven: the sidebar's axis-aligned
+band covers device pixels wholly and renders black, while the three
+diagonal marks — the two history chevrons and the disclosure — peak at
+about 91% ink at 16 and 24 dp and read grey beside it. The platform
+itself compensates for this: its chevron band measures ~1.3 px at 16 pt
+against our 1.0, a heavier measure on the diagonal so the perceived
+weight stays even. ADR-016 D6 wants the set to read as siblings;
+literal one-measure uniformity is defeating that goal on this hardware.
+
+- [x] The diagonal marks take a compensated band — about 2 units on the
+  24 grid, the exact measure decided by rendering — while the
+  axis-aligned marks keep 1.5; peak ink at 16/20/24 dp is measured
+  against the platform's own chevrons rendered at the same sizes and
+  lands within a few percent of them.
+- [x] The band rule written down for mark authors states the diagonal
+  compensation and the measured platform numbers that justify it,
+  replacing the mis-calibrated claim that a heavier band necessarily
+  reads bolder than the platform's marks.
+- [x] Exit: the four marks shown together read as one weight in a
+  magnified side-by-side, tests green, and the sibling-evenness
+  complaint from the first drawing pass is re-checked and closed.
+  Commit and push.
+
+#### N1.5: Adopt the set in vaultview and delete the hand-rolled marks
+
+ADR-016 D1 — the app stops drawing its own.
+
+- [x] Vaultview draws its rail toggle, disclosure marks and history
+  chevrons from the set; the hand-rolled drawing code and its constants
+  are deleted, not left beside the new path.
+- [x] Exit: goldens regenerated, the app runs against a real vault with
+  every mark rendering, and a fresh-eyes review of a whole-window
+  screenshot raises no complaint about any mark. Commit and push.
+
+#### N1.6: Publish the set and correct the icon guidance
+
+ADR-016 D1 and D5.
+
+- [x] `llms.txt` §Icons stops saying there is no iconset: it names the
+  set, says which marks it carries and how a name resolves per platform,
+  and keeps the Material catalogue as the source for everything outside
+  the standard controls.
+- [x] The icon browser shows the org's own set alongside what it already
+  catalogues, so an author can see the marks that exist before drawing
+  another.
+- [x] Exit: the repos carrying the set and its consumers are tagged per
+  the release protocol, verified from VCS; gates green; `llms.txt`
+  describes nothing unpublished. Commit and push.
+
+## Phase O: Deferred defects and polish
+
+Four items were deferred during Phases I–K: a confirmed defect
+in the effects repo, formatter drift from the Go 1.26 toolchain, and two
+polish follow-ups the review pass scoped out. The evidence is ADR-014 in
+the Reference section; packets cite its items S1–S4. Two goals: the
+defects and drift first, then the polish.
+
+### G-O1: Defects and formatting drift
+
+#### O1.1: Forward Props.Ground in effects/springbutton
+
+ADR-014 S1 — the forwarding fix and its release.
+
+- [ ] `effects/springbutton`: `renderState` forwards `Props.Ground`;
+  the components pin moves to v0.8.1; the repo's forwarding test — the
+  one that found the gap — passes under the workspace and `GOWORK=off`
+  alike. Goldens regenerated only if the ground actually moves pixels
+  in a golden's scene, with the reason in the commit body.
+- [ ] Exit: effects tagged v0.2.1 per the release protocol, verified
+  from VCS; gates green; `llms.txt` current. Commit and push.
+
+#### O1.2: Apply Go 1.26 gofmt across the workspace
+
+ADR-014 S2 — one sweep, zero behaviour.
+
+- [ ] `theme/tokens/seed.go` first: restructure the hand-aligned
+  documentation table so its gofmt-formatted form reads well — this
+  file is why the sweep cannot be blind.
+- [ ] Run Go 1.26 gofmt across every module in the workspace; commit
+  per repo with a formatting-only subject; no tags (formatting rides
+  the next real release of each repo, per the emission-only precedent).
+- [ ] Exit: `gofmt -l` reports nothing in any module; every suite
+  green; every golden byte-identical. Commit and push.
+
+### G-O2: Deferred polish
+
+#### O2.2: Add a clickable breadcrumb API to patterns
+
+ADR-014 S4 — the additive pattern API.
+
+- [ ] `patterns/breadcrumb` grows an additive way to lay out a trail
+  that is decided at frame time and clickable per segment, keeping the
+  existing `Render`/`Breadcrumb` surfaces byte-compatible; unit tests
+  cover click routing and a trail that changes between frames; godoc
+  names no consumers.
+- [ ] Exit: patterns tagged v0.7.0 per the release protocol (additive
+  minor), verified from VCS; gates green; `llms.txt` current. Commit
+  and push.
+
+#### O2.3: Adopt the new breadcrumb API in vaultview
+
+ADR-014 S4, second half — the copy retires.
+
+- [ ] vaultview's picker and note trails render through the new
+  patterns API; `crumb.go` is deleted; the patterns pin moves to
+  v0.7.0; goldens regenerated where the chevron glyph legitimately
+  changes.
+- [ ] Exit: `GOWORK=off` build and test of vaultview from a clean
+  checkout against published tags only; a screenshot confirms both
+  trails render and click. Commit and push.
