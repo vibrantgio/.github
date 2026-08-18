@@ -3710,13 +3710,13 @@ higher. The same record holds the twin symptom: the chrome row's own
 toggle centres there too, so the mark jumps 12 dp vertically when the
 pane goes.
 
-- [ ] The vault-name label centres on the buttons' centre line — the
+- [x] The vault-name label centres on the buttons' centre line — the
   same line the pane's toggle sits on — verified in rendered pixels
   against the button centres, not by construction.
-- [ ] The chrome row's toggle centres on that line as well, so the
+- [x] The chrome row's toggle centres on that line as well, so the
   toggle mark holds one vertical position through a pane round-trip;
   what the chrome row spends on height does not change.
-- [ ] Exit: a magnified capture shows the label's and the marks'
+- [x] Exit: a magnified capture shows the label's and the marks'
   centres level with the button centres in both rail states, the
   chrome budget assertion still holds, goldens regenerated, and fresh
   eyes raise no complaint about the top-left corner. Commit and push.
