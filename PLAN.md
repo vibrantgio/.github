@@ -3813,7 +3813,29 @@ ADR-018 D5 and D6.
   shows its indicator when scrollable, goldens regenerated, and a
   fresh-eyes review of the aside raises no complaint. Commit and push.
 
-#### M4.6: Release the spacing and edge changes
+#### M4.6: Honor backslash escapes in inline text
+
+The owner's vault showed it: `q5\_0` in a table cell renders with the
+backslash intact where the reference (and CommonMark) render `q5_0`.
+Probed in the parser: no backslash handling exists at all, so every
+`\_`, `\*`, `\[` reaches the screen with its backslash, and an escaped
+delimiter cannot suppress the emphasis or link it would otherwise
+start.
+
+- [ ] The inline parser implements CommonMark's backslash rule: a
+  backslash before ASCII punctuation yields the literal character and
+  suppresses any delimiter role it had; before anything else the
+  backslash stays literal; a doubled backslash yields one. An escaped
+  pipe inside a table cell does not split the cell.
+- [ ] Unit tests cover the reported case in both a table cell and
+  prose, suppressed emphasis, escaped brackets around a would-be link,
+  the doubled backslash, and a backslash before a letter staying
+  literal.
+- [ ] Exit: the note that exposed the defect renders its table cells as
+  the reference does; goldens regenerated where pixels legitimately
+  moved; tests green. Commit and push.
+
+#### M4.7: Release the spacing and edge changes
 
 - [ ] The renderer repo is tagged with the next legal version for an
   additive change and any other repo touched by this goal is tagged per
