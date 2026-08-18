@@ -3699,7 +3699,7 @@ ADR-018 D4.
   matched by measurement to the platform's own reading surfaces. If the
   treatment is a general scrolling affordance the components repo lacks,
   it is added there rather than drawn privately in the app.
-- [ ] End-of-document keyboard navigation lands on the resting
+- [x] End-of-document keyboard navigation lands on the resting
   position, and mid-document scrolling still uses the full viewport —
   the inset belongs to the document's end, not to every frame.
 - [ ] Exit: a screenshot of a long note's end shows the last line clear
