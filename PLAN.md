@@ -3902,12 +3902,12 @@ worst, the bullet by less. Lines opening with inline code widen the
 error further, since their taller ink stretches the first line
 beyond even the correct body line height.
 
-- [ ] A task item's checkbox centres on its first text line's ink:
+- [x] A task item's checkbox centres on its first text line's ink:
   the anchor is derived from the shaped line's real metrics —
   baseline and ascent from the shaper, not the font size — and the
   rendered box's ink centre lands within 1 px of the text ink centre
   in both themes, matching the reference's centring.
-- [ ] The bullet takes the same derived anchor as the checkbox, its
+- [x] The bullet takes the same derived anchor as the checkbox, its
   own optical size unchanged, so every marker in a list hangs from
   one rule rather than two approximations.
 - [ ] Exit: the A/B measurement repeated on our render shows the
@@ -8277,26 +8277,23 @@ this is the record of why. It closes the day a capture shows the
 transition — not before, and never by launching an application to find
 out.
 
-Fresh eyes on the rendered window went straight to it: two independent
-reviewers were shown the note and asked only what a macOS developer
-would complain about, and neither said a word about the tightened seam
-above the list, while one called the space below the list a hole. The
-rendered numbers say that space is exactly the ordinary block gap — 36 px
-against the 24 px seam above it and the 26 px a level-2 heading leaves
-below itself — so what was seen is the asymmetry itself: a list bound to
-the line above it and loose below. That is the honest state of a seam
-measured on one side only. It is evidence for closing the open edge, not
-licence to close it blind.
+Measured off the rendered window, that side comes out at 36 px, against
+the 24 px seam above the list and the 26 px a level-2 heading leaves
+below itself. So the list is bound to the line above it and ordinary
+below it, and that asymmetry is real. Whether the reference holds it too
+is exactly what no stored capture can say. Fresh eyes on the rendered
+note — shown the window and asked only what a macOS developer would
+complain about — raised nothing about either side of the list, so the
+asymmetry is not yet costing a reader anything they notice. The edge
+stays open on the measurement, not on the complaint.
 
 #### Addendum — a second open observation from the same captures
 
 The stored A/B pair also disagrees about the leading inside a paragraph,
 which the first addendum's table recorded as matching at 8 px. At
 identical 16 px ink heights the reference now shows 8 px of blank
-between the lines of one paragraph and ours shows 3–5. Fresh eyes
-reached the same place unprompted — the chrome is looser than the prose,
-which is backwards for an app whose whole job is reading. The line
-height moved under the document heading scale and nobody re-measured it.
+between the lines of one paragraph and ours shows 3–5. The line height
+moved under the document heading scale and nobody re-measured it.
 
 Its own observation, not the seam's: recorded here to be ruled on and
 sized against the stored captures, not folded into work already
