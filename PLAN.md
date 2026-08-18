@@ -3764,15 +3764,15 @@ four corners — there is no centered position to choose. Bottom center
 is also where the design language's own snackbar convention puts
 transient confirmation.
 
-- [ ] The toast component gains a bottom-center position: the stack
+- [x] The toast component gains a bottom-center position: the stack
   anchors to the bottom edge's midpoint, newest toast nearest the edge
   and stacking upward, with the margins and motion the corner anchors
   already have; its tests cover the new anchor's geometry alongside
   the corners'.
-- [ ] The viewer's toast layer anchors bottom center, so a rescan's
+- [x] The viewer's toast layer anchors bottom center, so a rescan's
   confirmation rises over the reading column's foot without touching
   the chrome row.
-- [ ] Exit: a capture shows a rescan's toast at the bottom center (the
+- [x] Exit: a capture shows a rescan's toast at the bottom center (the
   foot actions are keyboard-reachable, so the rescan can be triggered
   by synthesized keys, or the toast seeded through the model for a
   headless render); component tests green; fresh eyes raise no
