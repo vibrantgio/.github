@@ -3778,6 +3778,23 @@ transient confirmation.
   headless render); component tests green; fresh eyes raise no
   complaint about the toast. Commit and push.
 
+#### M6.2: Clip the scrolled note at the chrome row's edge
+
+The owner confirmed the reviewer's finding at the top edge: scrolled
+content clips a few pixels below the breadcrumb row, so a line cut
+mid-glyph sits beneath a dead strip of empty background instead of
+sliding under the row the way scrolled text slides under a toolbar.
+The bottom edge got its fix; this is the mirror.
+
+- [ ] The reading column's viewport begins exactly at the chrome row's
+  lower edge: a line scrolling out tucks under the row with no blank
+  strip between the row and the cut, in both themes, with anchor
+  landing and keyboard paging unaffected.
+- [ ] Exit: a mid-scroll capture magnified at the top edge shows the
+  cut line meeting the chrome row directly; goldens regenerated where
+  pixels legitimately move; fresh eyes raise no complaint about the
+  top edge. Commit and push.
+
 ### G-M4: Heading spacing and the bottom edge
 
 The dossier is ADR-018. The renderer change goes first; the app changes
@@ -7889,6 +7906,21 @@ offscreen renders, which cannot draw the platform's own buttons at all,
 and on unit-level transitions. The first task to run with the screen
 unlocked should spend a minute confirming the buttons land inside the
 pane and the window still drags by the pane's empty strip.
+
+#### Addendum — the criterion's second ruling
+
+Two reviewers independently read the flush, square aside against the
+floating sidebar as an inconsistency. The owner ruled the aside stays
+flat, by the same criterion that gave the sidebar its shadow: the pane
+treatment belongs to what floats and can leave. The sidebar dismisses;
+the aside is permanent content of the window — in the owner's words,
+"if the aside was something that could be moved away the same way as
+the sidebar, then yes by all means make it a floating pane, but not
+when it is part of permanent content." The platform agrees: Finder and
+Mail dress only the sidebar; every other region sits flush. A review
+reading the contrast as a defect is reporting the design, not a bug —
+filter it as a known false positive unless the aside ever becomes
+dismissable.
 
 ### ADR-018: Heading space and the bottom edge when reading
 
