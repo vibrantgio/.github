@@ -3873,17 +3873,17 @@ and the pane stand against the column's foot. The pane's own sizing is
 untouched: rows up to four, the short-window ceiling, one line when
 nothing cites the note.
 
-- [ ] The backlinks group — divider, header and pane — sits at the
+- [x] The backlinks group — divider, header and pane — sits at the
   foot of the aside column, the pane keeping its rows-up-to-four
   height and its short-window ceiling, while the outline's region runs
   from its header down to the divider: spare paper opens below the
   outline's rows inside its own region, never under the backlinks.
-- [ ] The hit geometry and indicators follow the move: outline and
+- [x] The hit geometry and indicators follow the move: outline and
   backlink navigation, the document-tracking highlight and both
   panes' scroll indicators work in the new geometry, and the boundary
   states hold — no backlinks (the one-line pane still at the foot), no
   headings, and a window squeezed short still shows both panes.
-- [ ] Exit: captures of a sparse note and a dense one show the
+- [x] Exit: captures of a sparse note and a dense one show the
   backlinks against the column's foot with the slack inside the
   outline's territory, goldens regenerated where pixels legitimately
   move, and fresh eyes on the aside raise no complaint about the
@@ -8190,6 +8190,52 @@ outline's own territory, and the divider and the backlinks group stand
 against the foot. This supersedes the decision, made alongside the
 cap, that what neither pane needed fell to the foot of the column
 below the backlinks.
+
+#### Addendum — what the anchored column cost, and one thing it did not touch
+
+Fresh eyes on the rendered window, once the anchor was in, went to
+three places. Two are the ruling's own consequences, measured for the
+first time; the third is an older muddle the ruling only made easier
+to see. None was fixed alongside the anchor.
+
+**The pane's foot is fixed and its head is not.** The reviewer read
+the divider moving between notes — thirty-six pixels, one row's worth,
+between a note cited twice and one cited three times — and called a
+section header that shifts with the vault's link count an unstable
+landmark. It is the two rules meeting: the pane is the height of its
+own rows up to four, and it stands on the foot, so its top edge is the
+foot less however many rows it has. Holding the divider still would
+mean reserving four rows for a note cited once, which is the shape the
+cap exists to remove. The travel is in fact smaller than it was — the
+divider used to sit under the outline and track a heading count with
+no ceiling at all, where now it tracks a row count with a ceiling of
+four. Recorded as the price of the ruling, not as a defect in it.
+
+**The column carries its slack in the middle now, and it is a lot of
+slack.** At the window's own opening size the reviewer counted about
+five hundred and forty pixels of blank between the outline's last row
+and the divider on an ordinary three-heading note, and read three
+hundred and twenty points of window width spent on some hundred and
+thirty points of content. That is the ruling working exactly as
+written. It is recorded because it is the first measurement of what
+the ruling costs at the size the window actually opens at, and it is
+the evidence any later question about the column's width would start
+from.
+
+**Open — the aside stands on two ink margins, and its fill has no
+padding at the first level.** The column's section labels stand on the
+column's own inset; its rows stand eight dp further in; and both
+empty-state lines — the outline's when a note has no headings, the
+backlinks' when nothing cites it — stand on the label's margin rather
+than where a row would be, which the reviewer read as aligned to the
+wrong thing. The fill under a row starts on the row's margin too, so a
+selected top-level heading's text meets the fill's left edge with
+nothing between them and reads as clipped, while a heading one level
+down gets ten dp of padding inside the same fill. The sidebar's rows,
+which this column's fill was taken from, carry a comfortable margin
+inside theirs. One ruling covers all of it — which margin the column's
+rows stand on, and whether the fill is inset from them — and it is a
+horizontal question, so the vertical anchor left it alone.
 
 #### Addendum — the seam a paragraph makes with the list it announces
 
