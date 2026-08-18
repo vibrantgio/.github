@@ -3910,7 +3910,7 @@ beyond even the correct body line height.
 - [x] The bullet takes the same derived anchor as the checkbox, its
   own optical size unchanged, so every marker in a list hangs from
   one rule rather than two approximations.
-- [ ] Exit: the A/B measurement repeated on our render shows the
+- [x] Exit: the A/B measurement repeated on our render shows the
   marker-to-text offsets within the reference's 0-to-1 px, a unit
   test pins the marker centre to the shaped first line's centre so a
   future metrics change fails loudly, goldens regenerated where
