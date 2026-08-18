@@ -3731,21 +3731,21 @@ point at and no later task ever needs the owner's desktop again.
 
 #### M5.1: Measure the platform once and store the reference
 
-- [ ] One sweep captures the macOS apps this plan keeps consulting —
+- [x] One sweep captures the macOS apps this plan keeps consulting —
   Finder, Mail, Notes, Voice Memos, Reminders, TextEdit — as
   whole-window screenshots plus tight crops of the regions that get
   measured (window buttons, sidebar pane, toolbar band, scrollbar,
   reading margins), stored under `reference/macos/` with names that say
   app and region. Every app launched is quit afterwards and verified
   dead; the whole sweep happens in one session.
-- [ ] The numbers this plan has already measured are consolidated into
+- [x] The numbers this plan has already measured are consolidated into
   ADR-019 alongside the new ones, so nothing lives only in an old
   report: the window-button geometry per window style, the sidebar
   pane's inset and radius, the symbol stroke measures, the reading
   rhythm of the reference note app, and whatever the fresh sweep adds —
   scrollbar geometry, toolbar heights, reading-surface margins — each
   number naming the capture file it was read from.
-- [ ] Exit: ADR-019 indexes every stored capture with its measured
+- [x] Exit: ADR-019 indexes every stored capture with its measured
   values and method; a task needing a platform number can cite the ADR
   and the file without launching anything; `mdplan lint` shows nothing
   new; the sweep's apps are confirmed dead. Commit and push.
