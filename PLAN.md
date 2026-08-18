@@ -3910,16 +3910,16 @@ Probed in the parser: no backslash handling exists at all, so every
 delimiter cannot suppress the emphasis or link it would otherwise
 start.
 
-- [ ] The inline parser implements CommonMark's backslash rule: a
+- [x] The inline parser implements CommonMark's backslash rule: a
   backslash before ASCII punctuation yields the literal character and
   suppresses any delimiter role it had; before anything else the
   backslash stays literal; a doubled backslash yields one. An escaped
   pipe inside a table cell does not split the cell.
-- [ ] Unit tests cover the reported case in both a table cell and
+- [x] Unit tests cover the reported case in both a table cell and
   prose, suppressed emphasis, escaped brackets around a would-be link,
   the doubled backslash, and a backslash before a letter staying
   literal.
-- [ ] Exit: the note that exposed the defect renders its table cells as
+- [x] Exit: the note that exposed the defect renders its table cells as
   the reference does; goldens regenerated where pixels legitimately
   moved; tests green. Commit and push.
 
