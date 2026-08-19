@@ -4412,6 +4412,29 @@ evidence ADR-018 rests on.
 | last line above the window's bottom edge | ~50 px | `obsidian-note-original.png` |
 | the org viewer's own rendering, same note, for comparison | see ADR-018's addendum table | `vaultview-note-ab.png` |
 
+#### The code surface in the reading reference
+
+Added 2026-08-19 for R1.2, from the same stored capture, in the dark
+appearance. Read as the modal colour of flat regions inside each fill and by
+colour-run scans across single rows — the fence at rows 690–700, the inline
+chip around the word `diarize` at rows 447–466, the page from three regions
+clear of ink.
+
+| measure | value | capture |
+| --- | --- | --- |
+| page ground behind the note's prose | #1c1c1c, L\* 10.3 | `obsidian-note-original.png` |
+| **fenced code block fill** | **#232323, L\* 13.7** | `obsidian-note-original.png` |
+| **inline code chip fill** | **#232323 — the same value, to the byte** | `obsidian-note-original.png` |
+| code surface against the page | ΔL\* 3.4, contrast 1.08:1 | difference of the two samples |
+| chip's rounded corner | 2 px of intermediate pixels at each end of the run | row scan, y 447–450 and 463–466 |
+| code ink peak inside both | #dadada, 11.24:1 on that fill | row scan |
+
+Two facts, and this plan had neither before. **A code surface is a step, not a
+drop** — the reference separates a fence from its page by 3.4 L\*, less than a
+third of what a mid-ramp tinted fill spends. And **a fence and an inline chip
+are one surface** there, not a deep one and a gentler one: the same fill serves
+a screenful of code and a word of it.
+
 #### The reference app's head row
 
 Read from the same stored capture as the reading rhythm above, by the same
@@ -4460,6 +4483,91 @@ One number belongs to the window itself rather than to any region above: the
 `textedit-window.png` with sub-pixel residual at every sampled row. It is
 deliberately not the 15 px of the sidebar pane floating inside it — the two
 radii are close enough to look like one value and are not.
+
+**Addendum, 2026-08-19: the code ground is one step off the page, in both
+schemes, and the fence and the chip are one surface.** The owner, on the
+themer: "the light background color for fenced code is to my eyes very dark. Is
+catppuccin-latte that dark?" It is not — the base was innocent, the fill was
+ours. Two independent reviews of the previous task had volunteered the same
+thing unasked.
+
+*What was wrong, measured.* The fence painted the neutral ramp's step 300, the
+mid-ramp *tinted fill* — the step that backs a table header row. Under a
+screenful of code that step is not a tint, it is a slab: light #d4d4d4 sat 12.0
+L\* below the #f6f6f6 page (1.37:1) and dark #2e2e2e sat 10.7 L\* above the
+#181818 page (1.31:1), three times the 3.4 L\* the reference spends. Area is
+what the old choice missed — the same fill reads as a tint behind three table
+rows and as a grey field under thirty code lines. The light scheme showed it
+first because it also left the code's own ink at 4.51:1 on its own ground,
+barely over the floor, against the dark scheme's 8.46:1 for the identical pair
+of steps.
+
+*What it is now.* `CodeBackground` is the neutral ramp's step 200 in both
+schemes — light #e8e8e8 (ΔL\* 4.9 off the page, 1.13:1), dark #222222 (ΔL\*
+5.0, 1.12:1). The two schemes now differ by two hundredths of a ratio where
+they differed by six, which is the symmetry the second reviewer asked for, and
+both bracket the reference's 3.4 / 1.08 from just above rather than from three
+times away. The dark ground moved for the same reason the light one did, not to
+keep it company: our new dark pair, #222222 on #181818, lands a shade under the
+reference's own #232323 on #1c1c1c — one level darker throughout, the same
+gentle step between them. The code ink comes free with the ground —
+5.46:1 light and 9.91:1 dark, up from 4.51 and 8.46, with no ink touched.
+
+*The fence and the chip collapse into one value, deliberately.* The chip was a
+gentler step "on purpose", the reasoning being that a fill deep enough to hold
+a block would stipple a paragraph. That reasoning was load-bearing only while
+the block's fill was deep. It is not any more — the fence has come down to the
+chip's own step — and the reference settles what to do about it: one fill, to
+the byte, for a word of code and a screenful of it. So the fence lands *on* the
+chip rather than between the chip and the page, and `FromTokens` derives both
+from step 200. The two `Style` fields stay separate — a hand-built style may
+still hold them apart, and the chip is the one of the two that can be switched
+off — and a test now pins the constructor's two to each other so they cannot
+drift apart unnoticed.
+
+*The seed pipeline was not touched, and no new token was added.* The neutral
+ramp serves the whole system and step 200 is already the surface step; what
+moved is which step the fence asks for. The table header row keeps step 300 —
+three rows of tint is what that step is for.
+
+*The syntax sweep re-gated against the new grounds.* 74 bases × 2 schemes, every
+emitted entry at or above the 4.5:1 floor: light worst 4.50:1, `hrdark`
+`Keyword`, on #e8e8e8; dark worst 4.50:1, `base16-snazzy` `GenericOutput`, on
+#222222. The re-fit reads the ground back off the style constructor, so it
+followed the change without being told; a lighter light ground pushes light
+inks darker and 65 of the default base's stock entries now measure under the
+floor before adaptation, against 5 of github's — the derivation lifts every one.
+
+*Fresh eyes on the rendered pages, given nothing but the two schemes and the
+question.* On the ground itself: "as close to a matched pair as you could ask
+for: the same perceptual notch, each moving away from its own page in the
+direction its scheme allows. Neither reads as a slab dropped on the page, and
+neither disappears… on the two parts of the question that are literally about
+the ground — its weight and its separation from the page — I have nothing to
+report." The complaint the previous task's two reviews volunteered is closed.
+
+*What the same review raised instead, and why it is not this task's.* The light
+**syntax palette** is flat: every emitted hue lands at 4.50–4.54:1 on the code
+ground, so "4.5:1 is not a floor, it is the entire palette — a comment carries
+exactly the weight of a keyword, a string, and a number", while the dark block
+runs 6.9–10.7 with the comment alone at the floor and visibly recessive. That
+is the derivation's floor-only policy meeting a base whose light member is
+under AA nearly everywhere, and it is **untouched by this task** — measured
+both ways, the default base has the same 65 stock entries under the floor on
+the old #d4d4d4 ground as on the new #e8e8e8 one, so the ground moved and the
+flatness did not. Fixing it means giving the light member a hierarchy the
+re-fit currently has no mandate to build — lift the non-comment hues clear of
+the floor and leave the comment on it — which is a change to what the
+adaptation is *for*, and belongs in a task of its own rather than smuggled in
+behind a fill. Recorded here, unfixed. The same review noted, without pressing,
+that the fence's resting scroll thumb is the optically heaviest mark on the
+code surface in both schemes: that is the deliberate opaque thumb, symmetric
+across schemes and argued where it is set, and it is left as it is.
+
+*What was seen and left alone.* The properties panel in the vault viewer still
+paints a step-300 tint, so in a light note it now reads heavier than the code
+block below it. That is the viewer's own surface, decided in its own goal, and
+changing it here would be a second judgment smuggled into this one.
 
 ### The repo doc contract
 
@@ -10157,15 +10265,15 @@ sane relationship to the inline chip, with the dark ground re-judged
 for the same relationships and the syntax sweep re-gated against
 whatever the grounds become.
 
-- [ ] The light code ground lightens to a near-white neutral
+- [x] The light code ground lightens to a near-white neutral
   treatment measured against the stored platform reference, keeping
   visible separation from the page surface and preserving the
   fence-versus-chip relationship, with the dark ground re-judged for
   the same relationships rather than left asymmetric.
-- [ ] The syntax derivation re-gates: the sweep across every base in
+- [x] The syntax derivation re-gates: the sweep across every base in
   both schemes measures every token at or above its floor against
   the new grounds, worst pairs recorded.
-- [ ] Exit: a note with fenced code rendered in both schemes shows
+- [x] Exit: a note with fenced code rendered in both schemes shows
   the light fence reading as a light surface, goldens regenerated
   where pixels legitimately move, tests green, and fresh eyes on the
   rendered note raise no complaint about the code ground's weight.
