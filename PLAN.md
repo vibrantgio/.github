@@ -9576,17 +9576,17 @@ scheme pair; keep the plain-foreground fallback so body code still
 follows the code colour token. The registry is never mutated — the
 derived style is a new chroma style built beside it.
 
-- [ ] The derivation exists in the highlighter package: adapt a
+- [x] The derivation exists in the highlighter package: adapt a
   named base with the theme's colours, surface re-fit always on,
   brand alignment a dial default off, one italic and weight policy
   across the pair, the plain-foreground fallback preserved, and the
   stock registry untouched by construction.
-- [ ] The contrast is gated, not hoped for: every emitted token
+- [x] The contrast is gated, not hoped for: every emitted token
   entry measures against the code surface in both schemes with
   failing entries lightness-corrected along their own hue at
   construction, and a unit test sweeps every embedded base in both
   schemes so a low-contrast entry is a test failure.
-- [ ] Exit: vaultview and the inventory's reading sample render
+- [x] Exit: vaultview and the inventory's reading sample render
   their fences through the adapted style derived from the active
   tokens — under a kept brand the code block carries no clashing
   second accent and every token clears the floor, measured; goldens
