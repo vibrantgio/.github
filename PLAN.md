@@ -9937,10 +9937,10 @@ position is execution order.
 
 #### O1.1: Forward Props.Ground in effects/springbutton
 ADR-014 S1 — the forwarding fix and its release. (The pin target
-below originally said v0.8.1; components has since been tagged
-through v0.9.2, so the pin moves to the newest existing tag instead —
-no new components tag is cut for this, the wider release wave being
-deliberately parked.)
+originally said v0.8.1; components has since been tagged through
+v0.9.2, so the pin moved to the newest existing tag instead — no new
+components tag was cut, the wider release wave being deliberately
+parked.)
 
 - [x] `effects/springbutton`: `renderState` forwards `Props.Ground`;
   the components pin moves forward to the newest existing components
@@ -9948,8 +9948,16 @@ deliberately parked.)
   passes under the workspace and `GOWORK=off` alike. Goldens
   regenerated only if the ground actually moves pixels in a golden's
   scene, with the reason in the commit body.
-- [ ] Exit: effects tagged v0.2.1 per the release protocol, verified
-  from VCS; gates green; `llms.txt` current. Commit and push.
+- [x] Exit, amended to what verified state allowed: the fix is
+  committed, pushed and gated, but v0.2.1 is NOT tagged. The release
+  protocol forbids tagging while the no-workspace check fails, and
+  effects master carries the unreleased inverse-token surface — the
+  tag would have published a module no consumer can build and
+  partially published the parked wave. The tag rides the wave: when
+  the owner unparks it, theme is tagged first, components re-pinned
+  and tagged, then effects re-pins theme and cuts v0.2.1 with motion
+  goldens verified outside the workspace, verified from VCS,
+  `llms.txt` current at that point.
 #### O1.2: Apply Go 1.26 gofmt across the workspace
 
 ADR-014 S2 — one sweep, zero behaviour.
