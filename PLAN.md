@@ -5096,6 +5096,39 @@ predates this file — the canonical defaults, no error, no dialog, no crash.
 An application that wants the difference can ask for it; nothing in the
 workbench does.
 
+**Addendum, 2026-08-19: the file names the syntax base too.** Choosing a
+theme turned out to be two choices, not one. The second is which syntax
+palette code is coloured from — a name, like the seed is a colour, and for
+the same reason: what is stored is the input to a derivation, never its
+output. So the file gains one optional key beside the seed:
+
+```
+{
+  "seed": "#e9232a",
+  "base": "catppuccin-latte",
+  "source": "finder-window-buttons.png",
+  "saved": "2026-08-18T23:42:01Z"
+}
+```
+
+`theme/brand` carries it as `Brand.Base` and does nothing else with it. It
+cannot: resolving a base means knowing which styles exist, which is the
+highlighting package's business and would drag a syntax-highlighting
+dependency into a module that keeps a colour. So the name travels as a
+string, and the reader resolves it — an empty name and an unrecognised one
+are the same answer, the reader's own default, which is today the
+catppuccin pair. Every `theme.json` written before this key existed
+therefore loads unchanged and colours code exactly as it did.
+
+**The styles folder.** A style is a small XML document, so the choice is not
+limited to what ships embedded. `brand.StylesDir` names a folder beside the
+file — `.../vibrantgio/styles` — where a person drops style files of their
+own; the same shared directory, so a style added once is offered by
+everything that looks. `brand` only says where it is. What reads it holds
+the loaded styles beside chroma's registry rather than in it, so the curated
+set stays exactly what it always was, and a file that will not parse is
+skipped with its reason shown rather than thrown.
+
 ## Phase A: Front door — make the org legible to a coding assistant
 
 Nothing here changes a line of library code. It fixes the reason an assistant
@@ -9610,20 +9643,20 @@ the embedded styles plus whatever the user's styles folder holds,
 and the choice persisted with the kept seed so the apps reproduce
 it.
 
-- [ ] The embedded page's code specimen is token-rich — keywords,
+- [x] The embedded page's code specimen is token-rich — keywords,
   strings, numbers, comments, types and function names visible at a
   glance — and re-derives through the adapted style per candidate
   seed, so picking a seed re-themes the code with everything else.
-- [ ] The base is choosable: a selector lists the embedded styles
+- [x] The base is choosable: a selector lists the embedded styles
   and any style XML loaded from the shared config directory's
   styles folder — a malformed file is skipped with its reason
   surfaced, never a crash — and switching bases re-derives live.
-- [ ] The choice persists: the kept theme records the chosen base
+- [x] The choice persists: the kept theme records the chosen base
   alongside the seed, the adopting apps reproduce the same derived
   style from it, and the dossier's kept-theme record gains the
   field. A missing or unknown base falls back to the current
   defaults.
-- [ ] Exit: choose a base and a seed in the themer, keep them, and
+- [x] Exit: choose a base and a seed in the themer, keep them, and
   the adopting app's code blocks render the same derived style,
   verified by measurement; tests green; fresh eyes on the themer's
   code specimen raise no complaint about judging code. Commit and
