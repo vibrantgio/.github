@@ -9559,6 +9559,14 @@ the Pygments ecosystem through chroma's own converter
 (`_tools/style.py` in the chroma repo), base16 ports included; the
 style XML is small enough to transcribe by hand.
 
+The owner rules the default base pair: `catppuccin-latte` on the
+light scheme and `catppuccin-mocha` on the dark, replacing the
+github pair, because the catppuccin family holds its accents in one
+band of perceptual lightness with hue carrying the semantics — the
+property the derivation preserves best. The base remains a
+preference; the pair is only what an app derives from when nothing
+else is chosen.
+
 #### P3.1: Adapt a chroma base style to the theme
 
 The measured defect: the code blocks wear chroma's stock github
