@@ -9552,6 +9552,13 @@ the base: chroma ships 74 styles embedded, a style is a small XML
 document loadable from a folder, and the chosen base is a preference
 like the seed.
 
+Reference for browsing bases: the splash gallery renders every
+embedded chroma style as a preview page —
+https://xyproto.github.io/splash/docs/ — and more styles come from
+the Pygments ecosystem through chroma's own converter
+(`_tools/style.py` in the chroma repo), base16 ports included; the
+style XML is small enough to transcribe by hand.
+
 #### P3.1: Adapt a chroma base style to the theme
 
 The measured defect: the code blocks wear chroma's stock github
