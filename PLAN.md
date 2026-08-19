@@ -5129,6 +5129,58 @@ the loaded styles beside chroma's registry rather than in it, so the curated
 set stays exactly what it always was, and a file that will not parse is
 skipped with its reason shown rather than thrown.
 
+**Addendum, 2026-08-19: a base has an appearance, and the name outlives it.**
+A chooser showing seventy-four styles at once shows half of them for a scheme
+nobody is looking at, so the list is split and follows the light/dark control:
+the sun's half is the bases fitted to a light ground and the moon's the ones
+fitted to a dark one. Three decisions came out of building that, and all three
+are about what a stored name means rather than about a list:
+
+*The ground is measured, never the name.* `highlight.BaseSuits(name, dark)`
+reads the style's own `Background` entry on the perceptual lightness axis — the
+same measure the derivation uses to decide which way an ink has to move — and a
+style loaded from the styles folder is measured exactly like one that ships. Of
+the seventy-four embedded styles, 32 measure light and 38 dark; chroma's own
+`Mode()`, which averages RGB instead, agrees with all seventy of them that have
+a ground at all. Names carry no weight either way: `xcode-dark` and
+`gruvbox-light` happen to say the truth, most of the set says nothing, and
+`hrdark` says "dark" while naming no ground at all — and the styles folder is a
+place people put files they wrote themselves, where a name is whatever its
+author typed.
+
+*A style fitted to no ground is offered under both.* Four embedded styles set no
+`Background` at all — `hr_high_contrast`, `hrdark`, `onesenterprise`,
+`pygments`. They were fitted to nothing, so whatever they are drawn on is the
+theme's own surface and there is no appearance they are the wrong choice for.
+Filing them under one half by the chroma default would have put a style out of
+reach under the other for no measured reason, so they appear on both lists. The
+split is therefore a cover of the set and not a partition, and the property a
+test can hold is the one that matters: no base is reachable under neither. A
+row on both lists says so — the first review of the filter read `hrdark` under
+the sun as a leak rather than a decision, and a word at the end of the row is
+the only place that reading can be corrected.
+
+*The applied base is never taken off the list, and flipping the scheme never
+edits the choice.* A base is a pair and not a side — `Adapt` already reaches
+catppuccin-mocha from the name catppuccin-latte on a dark theme — so a name
+kept under one appearance goes on being the right name under the other, and the
+file records what was chosen with no appearance attached to it. What the flip
+changes is what is offered; the applied name stays, keeps its sorted place on
+the half it does not match, and stays marked. The rejected alternative was to
+re-point the choice at the pair's other member on every flip: it would have
+rewritten a stored name behind the person's back, made the keep affordance
+report an unkept theme after a switch that changed nothing, and still left the
+unpaired styles mismatched anyway — only 22 of the 74 embedded styles name a
+counterpart, so a pairing rule would have covered under a third of the set and
+the other two thirds would have needed this rule regardless.
+
+One behaviour was dropped rather than kept: picking a base used to scroll the
+embedded page to the code specimen, because a base chosen from a column
+standing beside the whole page changed nothing anybody could see. With the list
+seated in the specimen's own row, the only place a base can be picked is beside
+the code it colours, so the reveal can only take a view the reader set
+themselves.
+
 ## Phase A: Front door — make the org legible to a coding assistant
 
 Nothing here changes a line of library code. It fixes the reason an assistant
@@ -9717,17 +9769,17 @@ name, and the visible half follows the scheme control at the top, so
 the sun shows light bases and the moon dark ones — one shared state,
 not a second control to disagree with the first.
 
-- [ ] The standing column is gone: the base selector renders to the
+- [x] The standing column is gone: the base selector renders to the
   left of the code specimen in the page's final region, the applied
   base still named where the owner can see it, and picking a base
   still re-derives live.
-- [ ] Bases are classified light or dark by the measured luminance
+- [x] Bases are classified light or dark by the measured luminance
   of each style's own background — folder-loaded XML styles
   classified the same way — and the selector lists only the polarity
   matching the scheme control's state, switching lists when the
   scheme switches, with the applied base's treatment under a
   polarity mismatch decided and recorded in the dossier.
-- [ ] Exit: the page rendered headlessly in both schemes shows the
+- [x] Exit: the page rendered headlessly in both schemes shows the
   selector seated beside the code block listing only
   matching-polarity bases, a base picked under each scheme
   re-derives and keeps correctly, tests green, goldens regenerated
