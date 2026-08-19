@@ -9992,14 +9992,19 @@ additive minor rides the wave.)
   and verified from VCS with `llms.txt` current when the owner
   unparks it. Commit and push.
 #### O2.3: Adopt the new breadcrumb API in vaultview
-
-ADR-014 S4, second half — the copy retires.
+ADR-014 S4, second half — the copy retires. (Written when the
+exit's published-tags world existed on paper: today the Trail API —
+and much beneath it — is unreleased, vaultview already resolves its
+siblings through the workspace, and the no-workspace verification
+belongs to the parked wave's exit, not this task's.)
 
 - [ ] vaultview's picker and note trails render through the new
-  patterns API; `crumb.go` is deleted; the patterns pin moves to
-  v0.7.0; goldens regenerated where the chevron glyph legitimately
+  patterns API; `crumb.go` is deleted; the patterns pin moves
+  forward to the newest existing patterns tag, the Trail API itself
+  resolving through the workspace until the wave republishes
+  patterns; goldens regenerated where the chevron glyph legitimately
   changes.
-- [ ] Exit: `GOWORK=off` build and test of vaultview from a clean
-  checkout against published tags only; a screenshot confirms both
-  trails render and click. Commit and push.
-
+- [ ] Exit: vaultview builds and tests green under the workspace;
+  headless renders confirm both trails draw and route clicks through
+  the new API; the verification against published tags only rides
+  the parked release wave. Commit and push.
