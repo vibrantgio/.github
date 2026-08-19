@@ -9962,13 +9962,13 @@ parked.)
 
 ADR-014 S2 — one sweep, zero behaviour.
 
-- [ ] `theme/tokens/seed.go` first: restructure the hand-aligned
+- [x] `theme/tokens/seed.go` first: restructure the hand-aligned
   documentation table so its gofmt-formatted form reads well — this
   file is why the sweep cannot be blind.
-- [ ] Run Go 1.26 gofmt across every module in the workspace; commit
+- [x] Run Go 1.26 gofmt across every module in the workspace; commit
   per repo with a formatting-only subject; no tags (formatting rides
   the next real release of each repo, per the emission-only precedent).
-- [ ] Exit: `gofmt -l` reports nothing in any module; every suite
+- [x] Exit: `gofmt -l` reports nothing in any module; every suite
   green; every golden byte-identical. Commit and push.
 
 
