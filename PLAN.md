@@ -9748,7 +9748,6 @@ stays deliberately parked — the owner wants progress first; the
 unreleased surface ships later in one wave.
 
 #### P5.1: Flip the accent on-colours dark when their accents are light
-
 The seed pipeline pins its on-colours light in the light scheme
 regardless of where the accent lands, so a light seed produces
 white-on-light at a fraction of the floor. The fix is a rule, not a
@@ -9759,7 +9758,13 @@ cannot reach the floor the ink flips to the dark side of the ramp,
 the accent itself untouched. The high-contrast variant follows the
 same rule at its stricter floor, and the projection property that
 makes a scheme reproducible from its own primary must survive
-unchanged.
+unchanged. A later review render adds a second face to the defect:
+the everything page's dark Inverse swatch draws a near-illegible
+light-grey ink on a near-white chip even though the inverse pair's
+own gate measures around 15:1, and the light neutral chips carry a
+weak grey ink — so either a pairing fails or the swatch paints a
+pairing the tokens do not prescribe, and the gate must see through
+both.
 
 - [ ] Every accent on-colour is chosen by measurement at
   derivation: light ink where it clears 4.5:1, otherwise dark ink
@@ -9771,6 +9776,11 @@ unchanged.
   accent pairing in both schemes measures at or above its floor,
   and the existing projection and contrast gates stay green
   byte-exact.
+- [ ] The everything page's role swatches paint each role's true
+  on-colour token: the dark Inverse swatch and the light neutral
+  chips re-measured from the rendered page at or above their
+  floors, with whichever is actually at fault — the swatch's
+  pairing or the token — fixed and named in the dossier.
 - [ ] Exit: the themer's candidate chips and Keep button rendered
   from the seeds that failed — sky-blue, green and cyan measured
   2.29–2.96:1 — now measure at or above 4.5:1, recorded; tests
@@ -9778,7 +9788,6 @@ unchanged.
   legitimately move; fresh eyes on the themer under a light seed
   raise no complaint about chip or button legibility. Commit and
   push.
-
 ## Phase Q: Deferred defects and polish
 
 The deferred work that predates the theme rulings, moved behind the
