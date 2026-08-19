@@ -9688,16 +9688,16 @@ a sun and a moon from the Material icon set — the selected segment
 is the current scheme — redrawn once where the control is defined so
 every surface that shows it inherits the new form.
 
-- [ ] The code specimen section renders as the last section of the
+- [x] The code specimen section renders as the last section of the
   everything page, the rest of the section order unchanged, and the
   named-section lookup used for scrolling to the code still resolves
   to the moved section.
-- [ ] The scheme control is a segment control of two Material icons
+- [x] The scheme control is a segment control of two Material icons
   — a sun for light, a moon for dark, the selected segment showing
   the current state — defined once and inherited by every window
   that shows it, with hit targets and icon contrast measured in both
   schemes.
-- [ ] Exit: the everything page rendered headlessly in both schemes
+- [x] Exit: the everything page rendered headlessly in both schemes
   shows the code block last and the sun-and-moon control at the top,
   tests green across touched modules, goldens regenerated where
   pixels legitimately move, and a fresh-eyes look at the page raises
@@ -9733,6 +9733,51 @@ not a second control to disagree with the first.
   re-derives and keeps correctly, tests green, goldens regenerated
   where pixels legitimately move, and a fresh-eyes look raises no
   complaint about finding and choosing a base. Commit and push.
+
+### G-P5: Any seed's accents carry readable text
+
+The themer's review surfaced the phase's one serious defect: light
+seeds derive light-scheme primaries too light for their white ink —
+2.29–2.96:1 measured on the themer's own candidate chips and its
+Keep button for sky-blue, green and cyan seeds — while the dark
+scheme contrast-targets to roughly 11:1. The owner rules for
+flipping the ink, not darkening the colour: an accent stays true to
+the seed and its on-colour goes dark when the accent is light, the
+way the design language itself pairs high tones. The release wave
+stays deliberately parked — the owner wants progress first; the
+unreleased surface ships later in one wave.
+
+#### P5.1: Flip the accent on-colours dark when their accents are light
+
+The seed pipeline pins its on-colours light in the light scheme
+regardless of where the accent lands, so a light seed produces
+white-on-light at a fraction of the floor. The fix is a rule, not a
+retune: at derivation, every accent pairing — primary, secondary,
+tertiary, error, and the containers and fills derived from them —
+measures its on-colour against its ground, and where the light ink
+cannot reach the floor the ink flips to the dark side of the ramp,
+the accent itself untouched. The high-contrast variant follows the
+same rule at its stricter floor, and the projection property that
+makes a scheme reproducible from its own primary must survive
+unchanged.
+
+- [ ] Every accent on-colour is chosen by measurement at
+  derivation: light ink where it clears 4.5:1, otherwise dark ink
+  from the same ramp, the accent colour itself unchanged, applied
+  uniformly to primary, secondary, tertiary, error and their
+  derived container and fill pairings in both schemes, with the
+  high-contrast variant enforcing its own stricter floor.
+- [ ] A sweep test holds the gate: across the full seed sweep every
+  accent pairing in both schemes measures at or above its floor,
+  and the existing projection and contrast gates stay green
+  byte-exact.
+- [ ] Exit: the themer's candidate chips and Keep button rendered
+  from the seeds that failed — sky-blue, green and cyan measured
+  2.29–2.96:1 — now measure at or above 4.5:1, recorded; tests
+  green across touched modules; goldens regenerated where pixels
+  legitimately move; fresh eyes on the themer under a light seed
+  raise no complaint about chip or button legibility. Commit and
+  push.
 
 ## Phase Q: Deferred defects and polish
 
