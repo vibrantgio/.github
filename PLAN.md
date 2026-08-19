@@ -9981,12 +9981,12 @@ master now carries the unreleased inverse-token toast surface and
 the no-workspace check fails, so the protocol forbids tagging — the
 additive minor rides the wave.)
 
-- [ ] `patterns/breadcrumb` grows an additive way to lay out a trail
+- [x] `patterns/breadcrumb` grows an additive way to lay out a trail
   that is decided at frame time and clickable per segment, keeping the
   existing `Render`/`Breadcrumb` surfaces byte-compatible; unit tests
   cover click routing and a trail that changes between frames; godoc
   names no consumers.
-- [ ] Exit: the API is committed, pushed and gated; the tag — the
+- [x] Exit: the API is committed, pushed and gated; the tag — the
   next additive minor above the newest existing patterns tag — is
   deferred into the parked release wave, cut per the release protocol
   and verified from VCS with `llms.txt` current when the owner
