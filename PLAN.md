@@ -9942,7 +9942,7 @@ through v0.9.2, so the pin moves to the newest existing tag instead —
 no new components tag is cut for this, the wider release wave being
 deliberately parked.)
 
-- [ ] `effects/springbutton`: `renderState` forwards `Props.Ground`;
+- [x] `effects/springbutton`: `renderState` forwards `Props.Ground`;
   the components pin moves forward to the newest existing components
   tag; the repo's forwarding test — the one that found the gap —
   passes under the workspace and `GOWORK=off` alike. Goldens
