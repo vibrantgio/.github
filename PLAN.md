@@ -5268,6 +5268,101 @@ both are defects. It is the gate that sees through both faces of the
 original report, because the question it asks is the one a token gate cannot:
 what did the page paint.
 
+**Addendum, 2026-08-19: a theme keeps a base per appearance, and the scheme
+control moves between them.** The owner, living with the window: "Whenever I
+switch between dark/light I notice that the selected syntax base stays
+selected. I expect it to switch to the other syntax base immediately. The
+syntax base for light and dark are different and unique." This supersedes the
+third decision in the appearance addendum above — *the applied base is never
+taken off the list, and flipping the scheme never edits the choice*. That rule
+existed to handle a base applied under the appearance it was not fitted to; the
+pair removes the state rather than treating it, and both halves of the rule go
+with it. The first two decisions stand unchanged: the ground is measured and
+never the name, and a style fitted to no ground is offered under both.
+
+*What is kept.* Two names, one per appearance, defaulting to catppuccin-latte
+and catppuccin-mocha. The file's one `base` key becomes an object:
+
+```
+{
+  "seed": "#e9232a",
+  "base": {
+    "light": "catppuccin-latte",
+    "dark": "catppuccin-mocha"
+  },
+  "source": "finder-window-buttons.png",
+  "saved": "2026-08-19T11:04:31Z"
+}
+```
+
+The two spellings are told apart by what JSON says they are — a string is the
+old one, an object the new — so no version number is needed and no file has to
+be rewritten. `theme/brand` still neither resolves a name nor judges one: it
+cannot, for the reason recorded above, so both spellings arrive as
+`brand.BasePair` and the reader sorts them out.
+
+*Migration is by measurement, not by counterpart.* A file naming one base with
+no appearance attached loads with that name in **both** members, and
+`highlight.BasesOrDefault` then keeps each member only where its own measured
+ground suits it: a kept `dracula` comes back as (catppuccin-latte, dracula), a
+kept `github` as (github, catppuccin-mocha), and a groundless style such as
+`pygments` keeps both halves. The alternative — filling the other member from
+chroma's registered counterpart — was rejected on the same count that has
+decided this question twice already: only 22 of the 74 embedded styles name a
+counterpart, so a counterpart rule would migrate under a third of the set and
+the measured fallback would have to exist anyway. The same rule cleans a file
+edited by hand, which is what makes "the applied base is always on the list the
+scheme is showing" true by construction rather than by exception.
+
+*The derivation takes the pair.* `highlight.AdaptPair(pair, tokens)` derives
+through the member the tokens' own code surface calls for; `Adapt(name, …)` is
+unchanged and is now defined as the pair whose two members are that one name,
+so chroma's counterpart rule still answers for a caller that has one. The
+gallery inventory gained `SetCodeBases` beside `SetCodeBase` on the same terms.
+The sweep gate is untouched and green: 74 bases × 2 schemes, worst emitted entry
+4.50:1 against the 4.5:1 floor in both.
+
+*The emphasis policy splits, deliberately.* One policy across the pair, taken
+from the light member, stands where **one name** reaches a counterpart nobody
+chose — the github pair's disagreement is still repaired there. Where the pair
+is **two chosen names**, each member now settles its own emphasis. The reason is
+the one the pair is for: with a shared policy the appearance on screen is a
+function of a choice made for the appearance that is not, so picking a light
+base silently re-typesets the dark specimen — measured in the themer as a
+window that repainted when the member it was not showing changed. Rewriting a
+chosen style's italics from the other half of somebody's pair is the derivation
+overruling a choice, and the anti-flicker argument that justified the shared
+policy is much weaker once a flip legitimately swaps every ink. Concretely: 13
+of github-dark's own entries keep the emphasis its author gave them where the
+shared policy would have taken solarized-light's, and the default pair is
+unaffected because catppuccin's two members already agree entry for entry.
+
+*In the window.* The sun's list sets the light member and the moon's the dark
+one; the scheme control switches the derivation, the marked row and the line
+naming the base in the same frame, and edits neither choice. Both members are
+written when the theme is kept, so a change to the member that is not showing
+is still an unkept change, and the keep affordance says so. The adopting reader
+reproduces the pair per appearance — measured ink for ink against each member
+derived alone, 11 coloured runs matching under each appearance and unlike the
+other member's.
+
+*What two reviews of the flip said, and what was left alone.* Both, given
+nothing but the two renders and the question, reported the base pool and the
+applied base following the scheme — different rosters, different marked rows,
+the caption naming each. Both also volunteered the light code ground unasked:
+"a flat mid-grey, a heavy drop from the white card around it", and "the light
+comment lines read as grey ink on a grey field, the weakest text in either
+shot". That is R1.2's subject, corroborated twice before it was started, and it
+was left alone here. One review read the flip's swap as a base "they never
+chose" and named github-dark as the obvious counterpart — which is the rejected
+alternative above arriving from a fresh pair of eyes, and the answer is the
+same: 22 of 74 styles have a counterpart to reach, the owner ruled for two
+unique bases, and the moon's list marks the one it applies. One niggle is
+recorded and not fixed: on the dark scheme the marked row's fill is a deep
+primary on a deep panel and carries little of the signal, leaving the accent
+bar to do the work — known when the row was drawn, and worth a task of its own
+rather than a change smuggled into this one.
+
 ## Phase A: Front door — make the org legible to a coding assistant
 
 Nothing here changes a line of library code. It fixes the reason an assistant
@@ -10034,16 +10129,16 @@ catppuccin-mocha; the sun's list picks the light member, the moon's
 the dark member; the scheme control switches both the derivation and
 the marked row in the same frame.
 
-- [ ] The kept theme records a light base and a dark base, defaults
+- [x] The kept theme records a light base and a dark base, defaults
   catppuccin-latte and catppuccin-mocha; a single-base file from
   before loads by filling its own polarity and defaulting the other,
   and the dossier's kept-theme record supersedes the earlier
   no-switch decision with the owner's ruling.
-- [ ] In the themer, picking a base under the sun sets the light
+- [x] In the themer, picking a base under the sun sets the light
   member and under the moon the dark member; flipping the scheme
   immediately re-derives through that scheme's member and marks its
   row, with no mismatch treatment left to explain.
-- [ ] Exit: keep a distinct pair in the themer, flip the scheme and
+- [x] Exit: keep a distinct pair in the themer, flip the scheme and
   watch the code re-derive through the other member immediately; the
   adopting app reproduces the same pair per scheme, verified by
   measurement; tests green; fresh eyes across a scheme flip raise no
