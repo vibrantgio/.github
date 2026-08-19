@@ -9662,6 +9662,78 @@ it.
   code specimen raise no complaint about judging code. Commit and
   push.
 
+### G-P4: The themer puts the theme before the code
+
+The owner rules on the themer's layout after living with it: the
+syntax block is too prominent for an app whose subject is theming
+Vibrant Gio. The code specimen moves to the back of the everything
+page and the base selector gives up its standing column to sit to
+the left of the code block it drives; the base list splits into dark
+and light kept in step with the scheme control at the top; and that
+control itself is redrawn — a sun and a moon from the Material icon
+set in a segment control, the selected icon showing the current
+state.
+
+#### P4.1: Move the code specimen to the back and redraw the scheme control as sun and moon
+
+Two placements read wrong: the code specimen sits high on the
+everything page, claiming a prominence the owner rejects — the page
+is about theming the system, not judging code — and the light/dark
+control at the top reads oddly rather than as a control. The
+specimen's section moves to the very back of the page so the
+inventory ends on code instead of leading with it, with the
+named-section lookup the selector's auto-scroll depends on following
+the move. The scheme control becomes a two-segment control carrying
+a sun and a moon from the Material icon set — the selected segment
+is the current scheme — redrawn once where the control is defined so
+every surface that shows it inherits the new form.
+
+- [ ] The code specimen section renders as the last section of the
+  everything page, the rest of the section order unchanged, and the
+  named-section lookup used for scrolling to the code still resolves
+  to the moved section.
+- [ ] The scheme control is a segment control of two Material icons
+  — a sun for light, a moon for dark, the selected segment showing
+  the current state — defined once and inherited by every window
+  that shows it, with hit targets and icon contrast measured in both
+  schemes.
+- [ ] Exit: the everything page rendered headlessly in both schemes
+  shows the code block last and the sun-and-moon control at the top,
+  tests green across touched modules, goldens regenerated where
+  pixels legitimately move, and a fresh-eyes look at the page raises
+  no complaint about the control reading as a control. Commit and
+  push.
+
+#### P4.2: Seat the base selector left of the code block and filter bases by scheme
+
+The base selector stands as a full-height column beside the whole
+page, granting the syntax choice a permanence the owner rules
+against. The column goes: the selector sits to the left of the code
+specimen in the page's final region, list and code sharing one
+region so the choice and its consequence stay side by side. The
+list also learns polarity: every base — embedded or folder-loaded —
+is classified light or dark by its own measured background, never by
+name, and the visible half follows the scheme control at the top, so
+the sun shows light bases and the moon dark ones — one shared state,
+not a second control to disagree with the first.
+
+- [ ] The standing column is gone: the base selector renders to the
+  left of the code specimen in the page's final region, the applied
+  base still named where the owner can see it, and picking a base
+  still re-derives live.
+- [ ] Bases are classified light or dark by the measured luminance
+  of each style's own background — folder-loaded XML styles
+  classified the same way — and the selector lists only the polarity
+  matching the scheme control's state, switching lists when the
+  scheme switches, with the applied base's treatment under a
+  polarity mismatch decided and recorded in the dossier.
+- [ ] Exit: the page rendered headlessly in both schemes shows the
+  selector seated beside the code block listing only
+  matching-polarity bases, a base picked under each scheme
+  re-derives and keeps correctly, tests green, goldens regenerated
+  where pixels legitimately move, and a fresh-eyes look raises no
+  complaint about finding and choosing a base. Commit and push.
+
 ## Phase Q: Deferred defects and polish
 
 The deferred work that predates the theme rulings, moved behind the
