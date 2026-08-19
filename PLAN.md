@@ -9540,6 +9540,80 @@ dossier when it is made.
   under the new theme raise no complaint about partial adoption.
   Commit and push.
 
+### G-P3: Code follows the theme
+
+The owner rules on syntax highlighting: stock chroma styles stay
+unmodified — they are curated artifacts — and what the theme needs is
+a way to derive a new style FROM a preferred base, adapted with the
+theme's colours, with contrast enforced rather than hoped for,
+because a base's finely tuned inks were fitted to a background ours
+is not. The themer then needs to show code and let the owner choose
+the base: chroma ships 74 styles embedded, a style is a small XML
+document loadable from a folder, and the chosen base is a preference
+like the seed.
+
+#### P3.1: Adapt a chroma base style to the theme
+
+The measured defect: the code blocks wear chroma's stock github
+styles verbatim — a second red beside any kept brand, the only
+foreign hues in the window, comments italic in one scheme and not
+the other, and keyword contrast failing AA because the base was
+tuned against a near-white surface ours is not. The fix derives a
+new style from a chosen base: hold each token entry's hue and chroma
+— the curated part — and re-fit its lightness against the actual
+code surface until it clears a contrast floor; optionally rotate
+every entry's hue by the one delta between the base's dominant hue
+and the seed's, preserving per-token offsets, so the style leans
+toward the brand; impose one italic and weight policy across the
+scheme pair; keep the plain-foreground fallback so body code still
+follows the code colour token. The registry is never mutated — the
+derived style is a new chroma style built beside it.
+
+- [ ] The derivation exists in the highlighter package: adapt a
+  named base with the theme's colours, surface re-fit always on,
+  brand alignment a dial default off, one italic and weight policy
+  across the pair, the plain-foreground fallback preserved, and the
+  stock registry untouched by construction.
+- [ ] The contrast is gated, not hoped for: every emitted token
+  entry measures against the code surface in both schemes with
+  failing entries lightness-corrected along their own hue at
+  construction, and a unit test sweeps every embedded base in both
+  schemes so a low-contrast entry is a test failure.
+- [ ] Exit: vaultview and the inventory's reading sample render
+  their fences through the adapted style derived from the active
+  tokens — under a kept brand the code block carries no clashing
+  second accent and every token clears the floor, measured; goldens
+  regenerated where pixels legitimately move; fresh eyes on a note
+  with highlighted code raise no complaint about the code's
+  legibility. Commit and push.
+
+#### P3.2: The themer judges code and chooses the base
+
+Judging a syntax palette needs code on screen and the base in hand:
+a token-rich specimen in the themer's embedded page, a selector over
+the embedded styles plus whatever the user's styles folder holds,
+and the choice persisted with the kept seed so the apps reproduce
+it.
+
+- [ ] The embedded page's code specimen is token-rich — keywords,
+  strings, numbers, comments, types and function names visible at a
+  glance — and re-derives through the adapted style per candidate
+  seed, so picking a seed re-themes the code with everything else.
+- [ ] The base is choosable: a selector lists the embedded styles
+  and any style XML loaded from the shared config directory's
+  styles folder — a malformed file is skipped with its reason
+  surfaced, never a crash — and switching bases re-derives live.
+- [ ] The choice persists: the kept theme records the chosen base
+  alongside the seed, the adopting apps reproduce the same derived
+  style from it, and the dossier's kept-theme record gains the
+  field. A missing or unknown base falls back to the current
+  defaults.
+- [ ] Exit: choose a base and a seed in the themer, keep them, and
+  the adopting app's code blocks render the same derived style,
+  verified by measurement; tests green; fresh eyes on the themer's
+  code specimen raise no complaint about judging code. Commit and
+  push.
+
 ## Phase Q: Deferred defects and polish
 
 The deferred work that predates the theme rulings, moved behind the
