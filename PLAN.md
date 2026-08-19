@@ -9975,18 +9975,22 @@ ADR-014 S2 — one sweep, zero behaviour.
 ### G-O2: Deferred polish
 
 #### O2.2: Add a clickable breadcrumb API to patterns
-
-ADR-014 S4 — the additive pattern API.
+ADR-014 S4 — the additive pattern API. (Written before v0.7.0 was
+cut for other work and before the release wave was parked: patterns
+master now carries the unreleased inverse-token toast surface and
+the no-workspace check fails, so the protocol forbids tagging — the
+additive minor rides the wave.)
 
 - [ ] `patterns/breadcrumb` grows an additive way to lay out a trail
   that is decided at frame time and clickable per segment, keeping the
   existing `Render`/`Breadcrumb` surfaces byte-compatible; unit tests
   cover click routing and a trail that changes between frames; godoc
   names no consumers.
-- [ ] Exit: patterns tagged v0.7.0 per the release protocol (additive
-  minor), verified from VCS; gates green; `llms.txt` current. Commit
-  and push.
-
+- [ ] Exit: the API is committed, pushed and gated; the tag — the
+  next additive minor above the newest existing patterns tag — is
+  deferred into the parked release wave, cut per the release protocol
+  and verified from VCS with `llms.txt` current when the owner
+  unparks it. Commit and push.
 #### O2.3: Adopt the new breadcrumb API in vaultview
 
 ADR-014 S4, second half — the copy retires.
