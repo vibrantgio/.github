@@ -9998,13 +9998,13 @@ and much beneath it — is unreleased, vaultview already resolves its
 siblings through the workspace, and the no-workspace verification
 belongs to the parked wave's exit, not this task's.)
 
-- [ ] vaultview's picker and note trails render through the new
+- [x] vaultview's picker and note trails render through the new
   patterns API; `crumb.go` is deleted; the patterns pin moves
   forward to the newest existing patterns tag, the Trail API itself
   resolving through the workspace until the wave republishes
   patterns; goldens regenerated where the chevron glyph legitimately
   changes.
-- [ ] Exit: vaultview builds and tests green under the workspace;
+- [x] Exit: vaultview builds and tests green under the workspace;
   headless renders confirm both trails draw and route clicks through
   the new API; the verification against published tags only rides
   the parked release wave. Commit and push.
