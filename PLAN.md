@@ -10008,3 +10008,70 @@ belongs to the parked wave's exit, not this task's.)
   headless renders confirm both trails draw and route clicks through
   the new API; the verification against published tags only rides
   the parked release wave. Commit and push.
+
+## Phase R: The themer's niggles
+
+The owner's daily-use reports after living with the themer: flipping
+the scheme keeps the same syntax base applied where it should switch
+to the other member of a pair — the light and dark bases are
+different and unique — and the light code ground reads far too dark.
+The second is measured and confirmed as ours, not the base's:
+catppuccin-latte's own ground is a near-white, while the light fence
+paints the neutral ramp's step 300, several steps darker than the
+page it sits on.
+
+### G-R1: The base pair and the code ground
+
+#### R1.1: Keep a syntax base per scheme
+
+The owner rules: switching light/dark must switch the applied syntax
+base immediately — one base per scheme, kept as a pair. This
+supersedes the earlier recorded decision that a scheme flip never
+edits the choice; the pair model removes the polarity-mismatch state
+that decision existed to handle. The kept theme records a light base
+and a dark base, defaulting to catppuccin-latte and
+catppuccin-mocha; the sun's list picks the light member, the moon's
+the dark member; the scheme control switches both the derivation and
+the marked row in the same frame.
+
+- [ ] The kept theme records a light base and a dark base, defaults
+  catppuccin-latte and catppuccin-mocha; a single-base file from
+  before loads by filling its own polarity and defaulting the other,
+  and the dossier's kept-theme record supersedes the earlier
+  no-switch decision with the owner's ruling.
+- [ ] In the themer, picking a base under the sun sets the light
+  member and under the moon the dark member; flipping the scheme
+  immediately re-derives through that scheme's member and marks its
+  row, with no mismatch treatment left to explain.
+- [ ] Exit: keep a distinct pair in the themer, flip the scheme and
+  watch the code re-derive through the other member immediately; the
+  adopting app reproduces the same pair per scheme, verified by
+  measurement; tests green; fresh eyes across a scheme flip raise no
+  complaint about the base following the scheme. Commit and push.
+
+#### R1.2: Lighten the light code ground
+
+The light fence fill is the neutral ramp's step 300 — the owner
+reads it as very dark, and the base is innocent: catppuccin-latte's
+own ground is near-white. The theme owns code surfaces by design —
+the adapter re-fits the base's inks to our ground — so the fix moves
+the ground, not the ownership: the light fence lightens to a
+near-white neutral treatment judged against the stored platform
+reference, keeping visible separation from the page surface and a
+sane relationship to the inline chip, with the dark ground re-judged
+for the same relationships and the syntax sweep re-gated against
+whatever the grounds become.
+
+- [ ] The light code ground lightens to a near-white neutral
+  treatment measured against the stored platform reference, keeping
+  visible separation from the page surface and preserving the
+  fence-versus-chip relationship, with the dark ground re-judged for
+  the same relationships rather than left asymmetric.
+- [ ] The syntax derivation re-gates: the sweep across every base in
+  both schemes measures every token at or above its floor against
+  the new grounds, worst pairs recorded.
+- [ ] Exit: a note with fenced code rendered in both schemes shows
+  the light fence reading as a light surface, goldens regenerated
+  where pixels legitimately move, tests green, and fresh eyes on the
+  rendered note raise no complaint about the code ground's weight.
+  Commit and push.
