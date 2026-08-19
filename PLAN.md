@@ -9936,17 +9936,20 @@ position is execution order.
 ### G-O1: Defects and formatting drift
 
 #### O1.1: Forward Props.Ground in effects/springbutton
-
-ADR-014 S1 — the forwarding fix and its release.
+ADR-014 S1 — the forwarding fix and its release. (The pin target
+below originally said v0.8.1; components has since been tagged
+through v0.9.2, so the pin moves to the newest existing tag instead —
+no new components tag is cut for this, the wider release wave being
+deliberately parked.)
 
 - [ ] `effects/springbutton`: `renderState` forwards `Props.Ground`;
-  the components pin moves to v0.8.1; the repo's forwarding test — the
-  one that found the gap — passes under the workspace and `GOWORK=off`
-  alike. Goldens regenerated only if the ground actually moves pixels
-  in a golden's scene, with the reason in the commit body.
+  the components pin moves forward to the newest existing components
+  tag; the repo's forwarding test — the one that found the gap —
+  passes under the workspace and `GOWORK=off` alike. Goldens
+  regenerated only if the ground actually moves pixels in a golden's
+  scene, with the reason in the commit body.
 - [ ] Exit: effects tagged v0.2.1 per the release protocol, verified
   from VCS; gates green; `llms.txt` current. Commit and push.
-
 #### O1.2: Apply Go 1.26 gofmt across the workspace
 
 ADR-014 S2 — one sweep, zero behaviour.
