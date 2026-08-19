@@ -5181,6 +5181,93 @@ seated in the specimen's own row, the only place a base can be picked is beside
 the code it colours, so the reveal can only take a view the reader set
 themselves.
 
+**Addendum, 2026-08-19: an accent keeps its colour and gives up its ink.**
+A seed is the whole theme only if every seed produces a theme worth having,
+and the themer's own candidate row proved that it did not: the light scheme
+pinned White over every accent whatever its depth, so a light seed came back
+as white-on-light. Measured on the fixture picture's five candidates, the
+light primary pair read 2.29:1 for its cyan, 2.92:1 for its sky blue, 2.96:1
+for its foliage green and 4.15:1 for its olive — against a 4.5:1 floor, and
+against roughly 11:1 on the dark side of the same pairs. Across a sweep of
+411 seeds, 266 of them derived a light primary pairing under the floor. The
+owner ruled for flipping the ink rather than deepening the colour, and the
+derivation now does exactly that.
+
+*The rule.* Every pinned accent pairing chooses its ink by measurement: the
+scheme's usual ink stands while it reaches the floor over its own base, and
+below the floor the ink flips to the other end of the tonal axis — unless
+that end reads worse still, in which case the better of the two stands. The
+base never moves. Nothing else in the palette moves either: the ink is a
+function of the base, so the projection `FromSeed(FromSeed(x).Primary)` is
+untouched, and a seed whose ink already cleared the floor derives byte for
+byte what it derived before. The canonical seed is one of those, so every
+stored image in the design system stayed where it was — the whole change
+lands on seeds nobody had a golden for.
+
+*Why pure black and not the ramp's own darkest stop.* Because the guarantee
+is worth more than the tint. Over any colour whatever, the better of pure
+white and pure black reaches 4.58:1, so no seed in the 24-bit cube can
+derive a pinned pairing under the floor. An ink one rung short of the axis
+end gives that up: the same sweep run with the ramp's 900 stop as the dark
+ink bottoms out at 4.31:1. An on-colour is text, where a tint buys nothing
+anyway.
+
+*What the stricter floor buys the high-contrast variant, honestly.* Its
+light ink is questioned at 7:1 rather than 4.5:1, and the axis has nothing
+further out than its two ends to answer with, so the variant's flipped set
+is the default's plus a sliver — four seeds of the 411, where White clears
+AA and Black still reads higher. That is the whole of it, and the gate is
+written as the property rather than the number: no variant pairing measures
+below the default's.
+
+*Recorded and not fixed: the solid state walk.* A solid fill walks toward
+its ramp's 900 end whichever depth its pin sits at, so on a mid-depth accent
+one ink reads at rest and the other reads under the pointer, and one token
+cannot be both. Choosing each ink for the whole walk instead of for the
+resting pair was measured over the same sweep: it buys four pairings back
+under the pointer and gives up eighty-three at rest. Resting is where a
+surface is read, so the ink is chosen for rest, and what the walk needs is a
+walk that knows which way its pin faces — a defect of the walk, awaiting its
+own task, and one the flip improves in aggregate anyway (pairings failing
+somewhere in the walk fall from 266 to 141).
+
+*The Inverse swatch: neither the pairing nor the token was at fault.* A
+review render reported the everything page's dark Inverse chip as a
+near-illegible light-grey ink on a near-white ground, and its light neutral
+chips as carrying a weak grey ink. Re-measured from the rendered page, the
+chips paint exactly what the tokens prescribe and nothing weaker: in the
+dark scheme the Inverse chip is filled #e8e8e8 and its label reaches #212121
+at 13.14:1, and in the light scheme the Background, Surface and Divider
+chips reach 14.72:1, 13.14:1 and 11.12:1. Every chip's most-covered label
+pixel lands 0.99 of the way from its fill to the ink its role names. What
+the review saw is real but is neither of the two things it could have been:
+a 13sp label at 1x has stems about a pixel wide, and a dark ink on a light
+ground loses more of itself to antialiasing than a light ink on a dark one
+gains, so identical measured contrast reads weaker one way round than the
+other. On a page where the Inverse chip is the only chip that way round, it
+is the one that looks wrong.
+
+Two further fresh-eyes reviews, given nothing but a rendered window and a
+question about something else entirely, volunteered the same complaint about
+the same neutral swatches unprompted — one calling the Divider chip
+"effectively unreadable", the other "close to invisible" — over pixels that
+measure 11.12:1. Three observers agreeing about a render that measures fine
+is not a palette defect but a rendering one, and it belongs to every dark ink
+on every light ground in the system rather than to these four chips. It is
+recorded here for a task of its own. The same two reviews also reported
+candidate chips as carrying light ink where the render holds pure black,
+which is the corroboration: a report about small text at 1x is evidence of
+what small text at 1x looks like, not of what colour it is.
+
+So the fix there is the gate rather than the paint. The page's role swatches
+are now measured off the render itself: each chip's fill is compared to the
+token exactly, and its label's most-covered pixel is measured for how far it
+travelled from that fill toward the token's ink — short means the chip is
+drawing a weaker ink than its role names, over means a stronger one, and
+both are defects. It is the gate that sees through both faces of the
+original report, because the question it asks is the one a token gate cannot:
+what did the page paint.
+
 ## Phase A: Front door — make the org legible to a coding assistant
 
 Nothing here changes a line of library code. It fixes the reason an assistant
@@ -9818,22 +9905,22 @@ weak grey ink — so either a pairing fails or the swatch paints a
 pairing the tokens do not prescribe, and the gate must see through
 both.
 
-- [ ] Every accent on-colour is chosen by measurement at
+- [x] Every accent on-colour is chosen by measurement at
   derivation: light ink where it clears 4.5:1, otherwise dark ink
   from the same ramp, the accent colour itself unchanged, applied
   uniformly to primary, secondary, tertiary, error and their
   derived container and fill pairings in both schemes, with the
   high-contrast variant enforcing its own stricter floor.
-- [ ] A sweep test holds the gate: across the full seed sweep every
+- [x] A sweep test holds the gate: across the full seed sweep every
   accent pairing in both schemes measures at or above its floor,
   and the existing projection and contrast gates stay green
   byte-exact.
-- [ ] The everything page's role swatches paint each role's true
+- [x] The everything page's role swatches paint each role's true
   on-colour token: the dark Inverse swatch and the light neutral
   chips re-measured from the rendered page at or above their
   floors, with whichever is actually at fault — the swatch's
   pairing or the token — fixed and named in the dossier.
-- [ ] Exit: the themer's candidate chips and Keep button rendered
+- [x] Exit: the themer's candidate chips and Keep button rendered
   from the seeds that failed — sky-blue, green and cyan measured
   2.29–2.96:1 — now measure at or above 4.5:1, recorded; tests
   green across touched modules; goldens regenerated where pixels
