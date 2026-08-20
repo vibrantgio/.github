@@ -10674,15 +10674,15 @@ in the top rows) must draw from one colour source of truth on the
 first frame and on every toggle, with the startup path and the
 toggle path proven identical by measurement.
 
-- [ ] The defect is reproduced headlessly and diagnosed: the colour
+- [x] The defect is reproduced headlessly and diagnosed: the colour
   the switch paints at first frame, after one toggle, and after a
   style click are captured and compared, and the divergent source
   named in the commit body.
-- [ ] The switch paints the active theme's colour from the first
+- [x] The switch paints the active theme's colour from the first
   frame, startup and toggle proven identical by a render test, with
   no other control found drawing from the stale source (checked, not
   assumed).
-- [ ] Exit: fresh startup renders in both schemes show the switch in
+- [x] Exit: fresh startup renders in both schemes show the switch in
   the active theme's colour, toggling changes only the scheme, tests
   green, and fresh eyes on a startup render raise no complaint about
   controls changing colour on first interaction. Commit and push.
