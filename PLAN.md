@@ -10698,16 +10698,16 @@ vivid-first order reads as randomized and makes catppuccin-latte
 findable only by scanning the whole list. Vivid-first retires,
 recorded.
 
-- [ ] Each card leads with the style's name at the top, the swatch
+- [x] Each card leads with the style's name at the top, the swatch
   strip and specimen below it, the card's other furniture unchanged.
-- [ ] The "Aa" specimen wears the measured on-colour of its derived
+- [x] The "Aa" specimen wears the measured on-colour of its derived
   accent in both schemes — the autumn card re-measured at or above
   the floor — using the same machinery that gates the seed
   candidate chips.
-- [ ] The grid orders alphabetically by style name, the polarity
+- [x] The grid orders alphabetically by style name, the polarity
   filter unchanged, and finding catppuccin-latte means jumping to
   the c's.
-- [ ] Exit: the grid rendered in both schemes shows named, legible,
+- [x] Exit: the grid rendered in both schemes shows named, legible,
   alphabetical cards; tests green; goldens regenerated where pixels
   legitimately move; fresh eyes on the grid raise no complaint about
   finding or reading a card. Commit and push.
