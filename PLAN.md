@@ -10304,17 +10304,17 @@ owner wants the change revertable in one step: the derivation change
 is one self-contained commit in its own repo, with downstream golden
 regenerations as their own commits.
 
-- [ ] The re-fit normalizes instead of floor-walking: each entry's
+- [x] The re-fit normalizes instead of floor-walking: each entry's
   contrast rank and relative spacing against the base's own ground
   are preserved while the span remaps onto the band from the 4.5:1
   floor to the aggressive top anchor, no ink ever made quieter than
   the author's own, and a palette whose inks already meet their
   targets passes through unchanged, held by test.
-- [ ] The plain code text gains weight: the light scheme's
+- [x] The plain code text gains weight: the light scheme's
   code-to-prose contrast relationship is measured against the dark
   scheme's and brought level with it, the values recorded, and the
   top anchor of the syntax band judged against the new plain weight.
-- [ ] The sweep gate grows teeth for hierarchy: across all bases and
+- [x] The sweep gate grows teeth for hierarchy: across all bases and
   both schemes every entry clears the floor, the author's ordering
   is preserved, and a minimum spread separates the quietest tier
   from the loudest for any base whose own palette is not flat —
