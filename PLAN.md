@@ -10947,51 +10947,49 @@ a quiet bar, the line count, room to grow later.
   regenerated where pixels legitimately move; fresh eyes raise no
   complaint about the bar shouting or lying. Commit and push.
 
-## Phase V: One workbench module
+## Phase V: A launcher module over independent apps
 
-Ruled by the owner on 2026-08-21. The workbench repo reworks from
-one module per app into one module at the root whose main package
-is the launcher, so a single tag versions the whole toolbox and the
-standard invocations mean something: `go run
-github.com/vibrantgio/workbench@latest` opens the launcher, and
-`go run github.com/vibrantgio/workbench/vaultview@latest` runs one
-app. One root module wins over nested per-app modules because both
-invocations resolve the same tag with no nested mirror-tag
-ceremony, and the apps already share one dependency world through
-the workspace. No tags are cut here — the release wave stays
-parked, and the invocations go live when it runs. Because no
-workbench tag has ever been published, the restructure carries no
-compatibility cost today, which is exactly why it happens before
-the first release rather than after.
+Ruled by the owner on 2026-08-21 and amended the same day: the apps
+are fully independent products — each keeps its own go.mod and its
+own release cadence, and the workbench is a way of collecting them
+in one accessible location, not a product boundary. What changes:
+the workbench root gains a module of its own
+(github.com/vibrantgio/workbench) whose main package is the
+launcher, so the root tag versions the launcher and `go run
+github.com/vibrantgio/workbench@latest` opens it; every app keeps
+its module and releases under its own nested tags
+(`vaultview/vX.Y.Z`), so `go run
+github.com/vibrantgio/workbench/vaultview@latest` runs that app at
+its own latest. Nested modules stand outside the root module by
+Go's own rules, so the root build never swallows an app. No tags
+are cut here — the release wave stays parked, the invocations go
+live when it runs, and tags never carry double-digit components.
 
-### G-V1: The workbench becomes one module
+### G-V1: The launcher gets its module, the apps keep theirs
 
-#### V1.1: Merge the per-app modules into one workbench module
+#### V1.1: Give the workbench root its own launcher module
 
-- [ ] The workbench root gains `go.mod` (module
-  github.com/vibrantgio/workbench) carrying the union of the app
-  dependencies; every nested per-app go.mod and go.sum is deleted;
-  every app builds and tests green from the root; the workspace
-  script regenerates go.work with the single workbench entry; any
-  org script or gate that assumed per-app modules is found and
-  updated (checked, not assumed).
-- [ ] Exit: `go build ./... && go test ./...` at the workbench root
-  is green across every app; the regenerated workspace builds; no
-  pixels move and no review runs. Commit and push. The plan
-  preamble's one-module-per-app note is amended by the orchestrator
-  when this lands.
+- [ ] The workbench root gains go.mod (module
+  github.com/vibrantgio/workbench) covering only the root packages;
+  every per-app go.mod stays byte-untouched; the workspace script
+  regenerates go.work carrying the root module beside the app
+  modules; any org script or gate that assumed the workbench has no
+  root module is found and updated (checked, not assumed).
+- [ ] Exit: the root module and every app module build and test
+  green; the regenerated workspace builds; no pixels move and no
+  review runs. Commit and push.
 
-#### V1.2: The launcher becomes the root package and runs apps by path
+#### V1.2: The launcher becomes the root package and runs the apps
 
-- [ ] The launcher's main package moves to the repo root and the old
-  launcher directory goes; the roster is audited to cover every app
-  in the repo — the themer included — rather than assumed.
-- [ ] Launching an app invokes `go run` on the app's package path
-  pinned to the launcher's own module version read from build info,
-  falling back to workspace-relative paths when the version is
-  devel; the command construction is unit-tested without spawning
-  anything.
+- [ ] The launcher's main package moves to the repo root and the
+  old launcher directory and its module go; the roster is audited
+  to cover every app in the repo — the themer included — rather
+  than assumed.
+- [ ] Launching an app invokes `go run` on the app's module path at
+  the app's own latest release, with a workspace-relative fallback
+  when the launcher is a devel build; the command construction is
+  unit-tested without spawning anything.
 - [ ] Exit: the launcher renders headlessly in both schemes with
-  its audited roster; goldens regenerated where pixels legitimately
+  the audited roster; goldens regenerated where pixels legitimately
   move, the standing review rule applying if they do; tests green.
   Commit and push.
