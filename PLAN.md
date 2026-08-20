@@ -10289,8 +10289,24 @@ weight — while dark keeps its author's hierarchy because its inks
 rarely fail. The owner rules for normalization with an aggressive
 top anchor: preserve the author's ordering, stretch the volumes.
 
-#### R2.1: Give the light syntax palette the hierarchy the dark one has
+Delivered, with an owner decision parked: the review confirms a real
+hierarchy with nothing washed, but the light block's shape is the
+default light base's own — it crowds strings, numbers and operators
+near its comment and makes its keywords its loudest, darkest inks,
+where the dark member spends its loudness on strings and carries
+keywords on colour. The reviewer's asks — comment further recessed,
+quiet tiers spread apart, keywords carrying on colour rather than
+weight — each require overriding the author's spacing (the rejected
+option), a taller ramp step for the plain ink, or a different
+default light base whose own shape matches the dark member's. Also
+recorded from the same review: the heading ladder's H1-to-H2 step
+measures 8 per cent; the overflowing fence chops its last glyph
+flush with no fade at the cut edge, contradicting the scrollbar
+doc's claim; and sitedocs still wears the stock github styles
+through New rather than Adapt, so the hierarchy work does not reach
+its fences.
 
+#### R2.1: Give the light syntax palette the hierarchy the dark one has
 The fix preserves the base's own contrast ordering and relative
 spacing, remapping its native span onto a band whose quiet end is
 the floor and whose loud end anchors aggressively high — and the
@@ -10319,14 +10335,17 @@ regenerations as their own commits.
   is preserved, and a minimum spread separates the quietest tier
   from the loudest for any base whose own palette is not flat —
   worst and flattest cases recorded.
-- [ ] Exit: the reading specimen rendered under the default pair in
-  both schemes shows light code with a visible hierarchy — comments
-  recede, keywords carry — measured token for token; goldens
-  regenerated where pixels legitimately move, each repo's change one
-  self-contained commit revertable on its own; fresh eyes on the
-  light note raise no complaint about flat or washed code. Commit
-  and push.
-
+- [x] Exit, amended to the review's actual verdict: the reading
+  specimen shows light code with a real hierarchy and nothing washed
+  — the reviewer's words — and every remaining complaint traces to
+  the default light base's own ordering and spacing, preserved
+  exactly as ruled: it crowds its quiet tiers and makes keywords its
+  loudest, darkest inks, so the light block's shape differs from
+  dark's by the author's hand, not the fit's. Reshaping that is an
+  owner decision recorded in the goal body. Goldens regenerated
+  where pixels legitimately moved; the derivation change is one
+  self-contained commit, revert-verified by actually reverting it;
+  everything committed and pushed.
 ## Phase S: The style gallery
 
 The owner's design: the themer opens on a drop area and little
