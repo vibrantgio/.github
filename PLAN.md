@@ -10577,20 +10577,64 @@ enforcement to advice.
 
 #### U2.1: Name the paper surface and audit its draws
 
-- [ ] The document surface is formalized as paper — its ground, its
+- [x] The document surface is formalized as paper — its ground, its
   prose inks, the heading ladder, and the inline-code chip fill
   named as paper roles distinct from chrome — documented where the
   styles live, with the role separated even where today's values
   coincide with chrome's, values unchanged so no pixels move.
-- [ ] An audit confirms document surfaces draw from paper roles and
+- [x] An audit confirms document surfaces draw from paper roles and
   chrome surfaces never do; any misdraw found is fixed, and what the
   ruling legitimizes elsewhere in the org — content rendered in a
   stock style owes no adaptation — is recorded in the plan under
   this task, not in any library's docs.
-- [ ] Exit: docs updated, the audit's findings recorded, tests
+- [x] Exit: docs updated, the audit's findings recorded, tests
   green; goldens regenerate only where a misdraw fix legitimately
   moves pixels, and fresh eyes run only in that case. Commit and
   push.
+
+**Audit, 2026-08-20.** Every colour the document widget draws
+comes from a `markdown.Style` field: ten fills (quote bar, fence
+edge and ground, rule, two table borders, table header, bullet,
+checkbox, checkmark) and every text colour handed to the shaper
+(prose, headings, quote, code, chip). The layout code reads the
+theme for spacing and radii and for no colour at all. No misdraw
+found, so no pixels moved, no goldens were regenerated and no
+fresh eyes were run.
+
+The chrome direction is clean as well: no consumer reads a paper
+colour role, and `tokens.DocumentHeadings` has no user outside
+markdown. The one cross-role read in the org is sitedocs'
+`docsBreadcrumbGap`, which sizes the seam between the breadcrumb
+row and the document's first block from
+`Style.HeadingSpaceAbove[0]` — spacing rather than colour,
+deliberate and argued at the site (that seam belongs to the
+document's rhythm), so it stands. Every holder mounts its document
+on `c.Background`, which is what paper's ground now names.
+
+**Where paper landed.** `markdown.Style`'s doc comment names the
+four roles — `Paper`, `Text`'s colours, `HeadingSizes` with
+`HeadingLineHeights`, and `CodeChip` — the README gains "The
+document is paper", and `tokens.DocumentHeadingScale` names the
+ladder paper's own. `Style.Paper` is the new field: the ground a
+document is read on, a record rather than a draw (the library
+fills no page), set by `FromTokens` to `c.Background` so no value
+changes. `highlight` now measures the fence's edge against it
+instead of assuming the window's background; a Style naming no
+paper falls back to `c.Background`, so every existing fence keeps
+the edge it had.
+
+**What the ruling legitimizes elsewhere** (recorded here, never in
+a library's docs): content rendered in a stock style owes the
+theme no adaptation, and that reaches past fenced code — a base's
+swatches in a picker, an embedded palette drawn in its own
+colours, any artifact shown as its author made it. The theme's
+remaining say is framing rather than re-fitting: it picks which
+artifact is on screen and bounds it where its ground is too near
+the paper to be seen, and it moves no ink. Contrast inside content
+is measured and surfaced, never enforced. Traffic the other way —
+the themer pulling a seed out of a base through
+`imageseed.ExtractPalette` — is chrome derived from content by an
+explicit human choice, and this ruling leaves it alone.
 
 #### U2.2: Note authored below-floor contrast on the themer's cards
 
