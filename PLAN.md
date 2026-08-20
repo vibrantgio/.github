@@ -10326,3 +10326,80 @@ regenerations as their own commits.
   self-contained commit revertable on its own; fresh eyes on the
   light note raise no complaint about flat or washed code. Commit
   and push.
+
+## Phase S: The style gallery
+
+The owner's design: the themer opens on a drop area and little
+else; below it, a grid shows a seed candidate extracted from every
+chroma style available — embedded and loaded from the styles folder
+— so the system can be dressed from a palette someone already
+loves, one click setting the seed and the base pair together. A
+style is a better seed source than a photograph — a curated palette
+of a few dozen discrete colours, no clustering noise — and the
+cards reuse the candidate row's visual language. Because most
+styles are natively light or dark, the click fills the other half
+of the base pair by the author's own counterpart where one is
+declared and by measured palette similarity where none is; the seed
+carries the cross-scheme identity either way, since everything
+outside the code block derives from it in both schemes.
+
+### G-S1: One click dresses the system in a style
+
+#### S1.1: Extract seed candidates from a style and complete its pair by measurement
+
+Two library abilities, no UI: a seed from a palette, and a pair
+from a name. The image pipeline clusters pixels; a style needs no
+clustering — its palette enters directly, ranked by the same
+chroma-weighted prominence, degenerate near-grey palettes yielding
+muted candidates rather than noise. Pair completion layers: a
+declared mode counterpart wins; otherwise the nearest
+opposite-polarity style by hue-family distance in the pipeline's
+colour space, chroma-weighted across comparable token classes; the
+metric is held honest by rediscovery — it must find the declared
+pairs without reading the declarations. Layering holds: the theme
+layer takes colours, not chroma types; the highlighter package owns
+the style side.
+
+- [ ] The seed pipeline gains a palette entry point: a list of
+  colours in, ranked candidates out, sharing the image path's
+  ranking and degenerate handling, unit-tested on style palettes
+  including a near-grey one, and the theme layer stays free of any
+  chroma dependency.
+- [ ] The highlighter package completes a pair from one name: a
+  declared counterpart wins; otherwise the nearest opposite-polarity
+  base by measured hue-family distance; groundless bases serve both
+  sides; the metric rediscovers the declared pairs without reading
+  the declarations, held by test, and the completion is
+  deterministic.
+- [ ] Exit: a test sweep computes the completed pair and the leading
+  seed candidate for every embedded base with no failures, the
+  flattest and strangest cases recorded in the dossier; tests green;
+  no pixels move and no review runs. Commit and push.
+
+#### S1.2: Show every style as a card in the themer and adopt it in one click
+
+The grid sits below the drop area — dropping an image stays the
+primary invitation — one card per style: its name, its dominant
+swatches, and the derived primary pair in the candidate row's
+visual language, vivid-first, filtered by the sun and moon like the
+base list, folder-loaded styles included. One click sets the seed
+from the card and fills the base pair — the card's style on its own
+side, the completed member on the other — and the caption names
+both members so nothing happens silently; the base list still
+overrides either half afterwards.
+
+- [ ] The grid renders below the drop area: one card per available
+  style in the candidate visual language, vivid-first,
+  polarity-filtered in step with the scheme control, folder styles
+  included, and the empty first screen reads as an invitation
+  rather than a blank.
+- [ ] One click adopts: the seed from the card's leading candidate,
+  the base pair filled card-side and completed-side, the caption
+  naming both members, keep and override behaving exactly as they
+  do for image-derived seeds.
+- [ ] Exit: click a dark card and a light card in a rendered themer
+  and measure both schemes wearing the expected seed and members;
+  keep one and the adopting app reproduces it; tests green; goldens
+  regenerated where pixels legitimately move; fresh eyes on the
+  start screen and a post-click window raise no complaint about the
+  grid's looks or about what a click did. Commit and push.
