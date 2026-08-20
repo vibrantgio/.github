@@ -10773,12 +10773,12 @@ from the switch — following automatically. The window buttons are
 placed on the row's centre line, so the alignment holds at any
 height by construction.
 
-- [ ] The switch's track shrinks to a chrome-scale height judged
+- [x] The switch's track shrinks to a chrome-scale height judged
   against the stored reference and recorded with before/after
   numbers; icons unchanged; the hit target held at or above the
   minimum via slop, never shrunk with the track; every consumer of
   the switch renders correctly (checked, not assumed).
-- [ ] Exit: the title row rendered in both schemes at two widths
+- [x] Exit: the title row rendered in both schemes at two widths
   shows the tighter switch on the shared centre line; tests green;
   goldens regenerated where pixels legitimately move; fresh eyes on
   the row raise no complaint about the switch's weight or the
