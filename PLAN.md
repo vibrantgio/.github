@@ -10306,6 +10306,12 @@ doc's claim; and sitedocs still wears the stock github styles
 through New rather than Adapt, so the hierarchy work does not reach
 its fences.
 
+2026-08-20: the parked reshaping options are resolved by
+supersession. The owner ruled that code content renders its base
+verbatim (Phase U), so the light block's shape is the author's own
+again by definition and no re-fit shapes it; the normalization
+leaves the display path under U1.1.
+
 #### R2.1: Give the light syntax palette the hierarchy the dark one has
 The fix preserves the base's own contrast ordering and relative
 spacing, remapping its native span onto a band whose quiet end is
@@ -10494,6 +10500,111 @@ under the swatch.
   complaint about alignment or about finding the way back. Commit
   and push.
 
+## Phase U: The verbatim code block
+
+Ruled by the owner on 2026-08-20, after Phase T was planned; it sits
+before Phase T because the walkthrough tasks regenerate goldens that
+must land on the new rendering, not the old one. The ruling: code
+fragments and rendered markdown are content, not chrome. Chrome
+answers to the seed-derived theme. The document is its own quiet
+surface — paper. And a fenced code block renders the chosen syntax
+base verbatim: the author's own ground and inks, unadapted. The
+scheme switch stays load-bearing — it picks which pair member shows,
+and pair completion guarantees the daytime member is genuinely
+light. Inline code chips stay on the paper treatment so prose is not
+spotted with foreign grounds; the chip and the fence part ways by
+this ruling, a recorded departure from the stored reference, where
+they share one fill. Contrast in content is surfaced, never
+enforced: a chosen style shows as its author drew it, and the system
+may note quietly when that authored contrast falls below the floor.
+This supersedes the hierarchy normalization as the display path, the
+parked reshaping options under G-R2, the parked ground-cast
+question, and Phase T's former latte-verification task (T1.4,
+removed); it also resolves why the three dark catppuccin flavours
+looked identical — they differ mostly by their grounds, which the
+adapter discarded and which now show.
+
+### G-U1: The fence renders its base verbatim
+
+The fence becomes an island of the chosen base: its authored
+background as the fence ground, its authored inks untouched, in both
+schemes through the pair. The island must still read as bounded on
+paper — a dark ground by night sits on a dark page, a light ground
+by day on a light one.
+
+#### U1.1: Render fenced code with the base's own ground and inks
+
+- [ ] Fenced blocks take the chosen base's authored background as
+  the fence ground and its authored token inks unadapted — the
+  normalizing re-fit leaves the display path, superseded or
+  reverted, whichever leaves the cleaner history, the choice
+  recorded in the commit body — while inline chips keep the quiet
+  fill and ink they have today, held by test.
+- [ ] Groundless bases fall back to the chip fill for their fence
+  ground, recorded; and the fence reads as a bounded island in both
+  schemes — a near-page ground (light on light, dark on dark) gains
+  a measured edge treatment so the block never dissolves into the
+  page.
+- [ ] The gates that walked authored inks to our floors retarget to
+  measurement only: the sweep still records every base's authored
+  contrast on its authored ground, worst cases named, but no ink is
+  altered and no test fails a style for its author's taste.
+- [ ] Exit: the reading specimen rendered in both schemes shows the
+  default pair's fences verbatim — latte visibly latte by day,
+  mocha visibly mocha by night — and the three dark catppuccin
+  flavours show three different grounds; tests green; goldens
+  regenerated where pixels legitimately move; fresh eyes on the
+  specimen raise no complaint about the fence dissolving into the
+  page or the chips going foreign. Commit and push.
+
+#### U1.2: Regenerate downstream surfaces on the verbatim fence
+
+- [ ] The components gallery and the workbench apps re-render on the
+  new fence with no code change beyond what adoption strictly
+  requires: goldens regenerated where pixels legitimately move, and
+  the themer's code specimen checked to visibly change when the kept
+  base changes.
+- [ ] Exit: themer and vaultview renders in both schemes show the
+  chosen pair's grounds in their fences; tests green across touched
+  modules; fresh eyes on the themer's specimen and a vaultview note
+  raise no complaint about the island's edge or about the code block
+  clashing unreadably with the chrome. Commit and push.
+
+### G-U2: Paper named, contrast surfaced
+
+The document surface gets its name, and the safety net moves from
+enforcement to advice.
+
+#### U2.1: Name the paper surface and audit its draws
+
+- [ ] The document surface is formalized as paper — its ground, its
+  prose inks, the heading ladder, and the inline-code chip fill
+  named as paper roles distinct from chrome — documented where the
+  styles live, with the role separated even where today's values
+  coincide with chrome's, values unchanged so no pixels move.
+- [ ] An audit confirms document surfaces draw from paper roles and
+  chrome surfaces never do; any misdraw found is fixed, and what the
+  ruling legitimizes elsewhere in the org — content rendered in a
+  stock style owes no adaptation — is recorded in the plan under
+  this task, not in any library's docs.
+- [ ] Exit: docs updated, the audit's findings recorded, tests
+  green; goldens regenerate only where a misdraw fix legitimately
+  moves pixels, and fresh eyes run only in that case. Commit and
+  push.
+
+#### U2.2: Note authored below-floor contrast on the themer's cards
+
+- [ ] A style card whose base's own inks fall below the floor on its
+  own ground carries a small calm note, judged against the card's
+  visual language rather than dressed as a warning, the measurement
+  reusing the sweep's advisory numbers, unit-tested — with a fixture
+  case if no shipped style falls below the floor.
+- [ ] Exit: a below-floor card and an above-floor card rendered in
+  both schemes show the note only where it belongs; tests green;
+  goldens regenerated where pixels legitimately move; fresh eyes
+  raise no complaint about the note shouting or about missing it
+  entirely. Commit and push.
+
 ## Phase T: The walkthrough niggles
 
 On 2026-08-20 the owner walked the themer, the gallery and vaultview
@@ -10502,6 +10613,12 @@ remaining rough edges, the status colours, the tag component, gallery
 fixes, and vaultview conveniences. Tasks run in plan order.
 
 ### G-T1: The themer after the walkthrough
+
+2026-08-20: this goal's fourth task — verifying that the kept light
+base actually reaches the code specimen — is superseded and removed.
+The verbatim ruling (Phase U) makes the kept base's presence visible
+by its own ground, so the span-for-span verification lost its
+purpose; the visible check now lives in Phase U's downstream task.
 
 #### T1.1: Paint the scheme switch from the active theme at startup
 
@@ -10569,26 +10686,6 @@ one-centre-line alignment; the separate navbar band goes.
   eyes comparing a vaultview render and a themer render raise no
   complaint about the two apps wearing different top-row idioms.
   Commit and push.
-
-#### T1.4: Verify the kept light base actually reaches the code specimen
-
-The owner screenshotted the berth specimen under what should be
-catppuccin-latte and reports it looks wrong. Verify by measurement:
-under a kept latte/mocha pair, the specimen's spans must match the
-latte derivation ink for ink in the light scheme — if they do not,
-find whether the display, the kept-pair resolution, or the
-derivation is lying and fix that; if they do, capture what the owner
-likely saw (for example the hierarchy normalization moving latte's
-inks) and record the explanation in the plan.
-
-- [ ] The light specimen's spans are measured against the latte
-  derivation under a kept default pair: either a defect is found and
-  fixed with a regression test, or the match is proven and the
-  visible explanation recorded.
-- [ ] Exit: the measurement and verdict are in the report and the
-  plan record; any fix is tested, green, and pushed; fresh eyes on
-  the light specimen raise no complaint about the code not matching
-  the named base. Commit and push.
 
 ### G-T2: Status colours that read clean
 
