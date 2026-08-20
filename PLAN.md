@@ -10731,6 +10731,35 @@ one-centre-line alignment; the separate navbar band goes.
   complaint about the two apps wearing different top-row idioms.
   Commit and push.
 
+#### T1.5: Take the window's native strip for the title row
+
+The owner's title-row ruling included the window treatment, and only
+half landed: vaultview extends its content behind a transparent
+title bar (the full-size-content treatment), re-asserts the window
+buttons, and draws its chrome row in the native strip beside them,
+so no empty title bar stands above the app. The themer still opens a
+decorated window — the platform's empty strip with the traffic
+lights, and the title row below it: two top bands where the ruling
+asks one. Adopt the treatment vaultview uses: content behind a
+transparent title bar on macOS, buttons shown, the title row
+claiming the strip with its leading inset reserving the buttons'
+zone, and decorations untouched on platforms where the treatment
+returns no options.
+
+- [ ] The themer window adopts the full-size-content treatment with
+  the window buttons re-asserted, and the title row claims the
+  native strip: its leading inset reserves the buttons' zone, the
+  strip above the content is the row and nothing else, and the
+  arrangement mirrors vaultview's mechanism point for point —
+  asserted at the configuration and inset level in tests, since
+  headless renders cannot show the native strip.
+- [ ] Exit: the window setup matches vaultview's (treatment,
+  buttons, strip claim); both screens still render correctly
+  headless in both schemes; tests green; goldens regenerated only
+  where pixels legitimately move, with the standing review rule
+  applying if they do; the configuration comparison recorded in the
+  report. Commit and push.
+
 ### G-T2: Status colours that read clean
 
 #### T2.1: De-muddle the status colours and give info its own anchor
