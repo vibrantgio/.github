@@ -10559,12 +10559,12 @@ by day on a light one.
 
 #### U1.2: Regenerate downstream surfaces on the verbatim fence
 
-- [ ] The components gallery and the workbench apps re-render on the
+- [x] The components gallery and the workbench apps re-render on the
   new fence with no code change beyond what adoption strictly
   requires: goldens regenerated where pixels legitimately move, and
   the themer's code specimen checked to visibly change when the kept
   base changes.
-- [ ] Exit: themer and vaultview renders in both schemes show the
+- [x] Exit: themer and vaultview renders in both schemes show the
   chosen pair's grounds in their fences; tests green across touched
   modules; fresh eyes on the themer's specimen and a vaultview note
   raise no complaint about the island's edge or about the code block
