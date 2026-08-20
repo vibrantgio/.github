@@ -10760,6 +10760,30 @@ returns no options.
   applying if they do; the configuration comparison recorded in the
   report. Commit and push.
 
+#### T1.6: Shrink the scheme switch to chrome scale
+
+With the title row standing in the native strip, the sun/moon
+switch keeps content-scale proportions — a 36dp track in a chrome
+band, visibly heavier than the platform dresses its own title-bar
+controls. Shrink the switch to chrome scale: the track height
+judged against the stored reference's title-bar and toolbar control
+heights, the icons keeping their present size, the selected pill
+keeping its inset rhythm, and the title row — whose height derives
+from the switch — following automatically. The window buttons are
+placed on the row's centre line, so the alignment holds at any
+height by construction.
+
+- [ ] The switch's track shrinks to a chrome-scale height judged
+  against the stored reference and recorded with before/after
+  numbers; icons unchanged; the hit target held at or above the
+  minimum via slop, never shrunk with the track; every consumer of
+  the switch renders correctly (checked, not assumed).
+- [ ] Exit: the title row rendered in both schemes at two widths
+  shows the tighter switch on the shared centre line; tests green;
+  goldens regenerated where pixels legitimately move; fresh eyes on
+  the row raise no complaint about the switch's weight or the
+  alignment. Commit and push.
+
 ### G-T2: Status colours that read clean
 
 #### T2.1: De-muddle the status colours and give info its own anchor
