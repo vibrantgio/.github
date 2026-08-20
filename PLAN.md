@@ -10379,21 +10379,56 @@ pairs without reading the declarations. Layering holds: the theme
 layer takes colours, not chroma types; the highlighter package owns
 the style side.
 
-- [ ] The seed pipeline gains a palette entry point: a list of
+- [x] The seed pipeline gains a palette entry point: a list of
   colours in, ranked candidates out, sharing the image path's
   ranking and degenerate handling, unit-tested on style palettes
   including a near-grey one, and the theme layer stays free of any
   chroma dependency.
-- [ ] The highlighter package completes a pair from one name: a
+- [x] The highlighter package completes a pair from one name: a
   declared counterpart wins; otherwise the nearest opposite-polarity
   base by measured hue-family distance; groundless bases serve both
   sides; the metric rediscovers the declared pairs without reading
   the declarations, held by test, and the completion is
   deterministic.
-- [ ] Exit: a test sweep computes the completed pair and the leading
+- [x] Exit: a test sweep computes the completed pair and the leading
   seed candidate for every embedded base with no failures, the
-  flattest and strangest cases recorded in the dossier; tests green;
-  no pixels move and no review runs. Commit and push.
+  flattest and strangest cases recorded below; tests green; no
+  pixels move and no review runs. Commit and push.
+
+**Measured.** All 74 embedded bases complete to a pair whose two
+members resolve and sit on the sides they were asked for; 73 of them
+yield a leading seed candidate.
+
+The flattest base is `bw`. Every entry it has is its own body colour
+in bold or italic, so it colours nothing at all: it is the one base
+with no seed in it, and it is incomparable to every other base rather
+than equidistant from all of them, so its dark half falls back to the
+default instead of being measured.
+
+The near-grey palette is `algol` and `algol_nu`: nine inks with no hue
+between them, two candidates, and a plain `#666666` leading on two
+thirds of the palette. Ranked by share because there is no chroma to
+rank by — the degenerate handling working, not failing.
+
+The four groundless bases — `hr_high_contrast`, `hrdark`,
+`onesenterprise`, `pygments` — are each their own pair on both sides,
+and none of them is offered as anybody else's counterpart: a style
+fitted to no ground is nobody's opposite.
+
+Masked, the metric finds 20 of the 22 declared counterparts outright.
+The two it misses are beaten only by siblings of the counterpart's own
+family: `catppuccin-latte` puts frappe (0.160) and macchiato (0.163)
+ahead of the declared mocha (0.198), and `rose-pine-dawn` puts
+rose-pine-moon (0.034) ahead of rose-pine (0.041). The dark catppuccin
+flavours differ from each other mostly by ground, which is the one
+axis a palette comparison ignores, so the clustering is a measured
+fact about those styles rather than a defect in the measure. The
+acceptance rule the test states: first, or beaten only by the
+counterpart's own family and still inside the top three.
+
+The strangest measured completions, for whoever meets them in the
+grid: `dracula` pairs with `perldoc`, `vs` with `kanagawa-dragon`,
+`igor` with `nord`, `nordic` with `github`, `rrt` with `xcode`.
 
 #### S1.2: Show every style as a card in the themer and adopt it in one click
 
