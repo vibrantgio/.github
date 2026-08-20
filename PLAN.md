@@ -10777,10 +10777,10 @@ lost. Widen the leading level edge to a width judged against the
 stored reference and the toast's own geometry, both schemes, without
 letting it read as a block.
 
-- [ ] The leading edge widens to a measured judgment call recorded
+- [x] The leading edge widens to a measured judgment call recorded
   with before/after numbers, visible at a glance in both schemes at
   every level.
-- [ ] Exit: toasts at all levels rendered in both schemes show the
+- [x] Exit: toasts at all levels rendered in both schemes show the
   level edge plainly; goldens regenerated where pixels legitimately
   move; tests green; fresh eyes raise no complaint about the edge
   getting lost. Commit and push.
