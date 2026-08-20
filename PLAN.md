@@ -10534,22 +10534,22 @@ by day on a light one.
 
 #### U1.1: Render fenced code with the base's own ground and inks
 
-- [ ] Fenced blocks take the chosen base's authored background as
+- [x] Fenced blocks take the chosen base's authored background as
   the fence ground and its authored token inks unadapted — the
   normalizing re-fit leaves the display path, superseded or
   reverted, whichever leaves the cleaner history, the choice
   recorded in the commit body — while inline chips keep the quiet
   fill and ink they have today, held by test.
-- [ ] Groundless bases fall back to the chip fill for their fence
+- [x] Groundless bases fall back to the chip fill for their fence
   ground, recorded; and the fence reads as a bounded island in both
   schemes — a near-page ground (light on light, dark on dark) gains
   a measured edge treatment so the block never dissolves into the
   page.
-- [ ] The gates that walked authored inks to our floors retarget to
+- [x] The gates that walked authored inks to our floors retarget to
   measurement only: the sweep still records every base's authored
   contrast on its authored ground, worst cases named, but no ink is
   altered and no test fails a style for its author's taste.
-- [ ] Exit: the reading specimen rendered in both schemes shows the
+- [x] Exit: the reading specimen rendered in both schemes shows the
   default pair's fences verbatim — latte visibly latte by day,
   mocha visibly mocha by night — and the three dark catppuccin
   flavours show three different grounds; tests green; goldens
