@@ -10799,15 +10799,15 @@ and add a dismissible variant carrying a tiny x that a click removes
 — a generic affordance (the owner has chip-like uses in mind beyond
 this org; the component names no consumers).
 
-- [ ] Filled and tonal tag pairings are measured in both schemes
+- [x] Filled and tonal tag pairings are measured in both schemes
   against the re-anchored status roles, failures fixed, the numbers
   recorded.
-- [ ] The pill compresses vertically at unchanged font size, the
+- [x] The pill compresses vertically at unchanged font size, the
   before/after heights recorded, every gallery tag following.
-- [ ] A dismissible tag variant carries a small close affordance
+- [x] A dismissible tag variant carries a small close affordance
   with a click target measured at or above the minimum hit size,
   removal wired through the component's event idiom, unit-tested.
-- [ ] Exit: the gallery's tag section rendered in both schemes shows
+- [x] Exit: the gallery's tag section rendered in both schemes shows
   the tighter pill and the dismissible variant; tests green; goldens
   regenerated where pixels legitimately move; fresh eyes raise no
   complaint about tag legibility or the close affordance. Commit and
