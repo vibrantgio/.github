@@ -10721,11 +10721,11 @@ leading edge, then the way back, then space, then the sun/moon
 switcher at the trailing edge. The identity strip below keeps its
 one-centre-line alignment; the separate navbar band goes.
 
-- [ ] The themer's top row follows vaultview's title-row idiom:
+- [x] The themer's top row follows vaultview's title-row idiom:
   "Themer" leading, "Back to styles" beside it on the after-click
   screen, the scheme switcher trailing, one shared centre line,
   measured; the navbar band and its rule are gone.
-- [ ] Exit: both screens rendered in both schemes show the title
+- [x] Exit: both screens rendered in both schemes show the title
   row; alignment measured at two window widths; tests green; fresh
   eyes comparing a vaultview render and a themer render raise no
   complaint about the two apps wearing different top-row idioms.
