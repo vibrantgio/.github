@@ -10638,12 +10638,12 @@ explicit human choice, and this ruling leaves it alone.
 
 #### U2.2: Note authored below-floor contrast on the themer's cards
 
-- [ ] A style card whose base's own inks fall below the floor on its
+- [x] A style card whose base's own inks fall below the floor on its
   own ground carries a small calm note, judged against the card's
   visual language rather than dressed as a warning, the measurement
   reusing the sweep's advisory numbers, unit-tested — with a fixture
   case if no shipped style falls below the floor.
-- [ ] Exit: a below-floor card and an above-floor card rendered in
+- [x] Exit: a below-floor card and an above-floor card rendered in
   both schemes show the note only where it belongs; tests green;
   goldens regenerated where pixels legitimately move; fresh eyes
   raise no complaint about the note shouting or about missing it
