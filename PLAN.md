@@ -10278,3 +10278,51 @@ whatever the grounds become.
   where pixels legitimately move, tests green, and fresh eyes on the
   rendered note raise no complaint about the code ground's weight.
   Commit and push.
+
+### G-R2: The light code palette gets its hierarchy
+
+The code-ground review measured the light syntax palette flat: the
+re-fit walks each failing ink to the first value clearing the 4.5:1
+floor, so a light base's mostly-under-floor entries all land exactly
+on the floor — keyword, string, number and comment at identical
+weight — while dark keeps its author's hierarchy because its inks
+rarely fail. The owner rules for normalization with an aggressive
+top anchor: preserve the author's ordering, stretch the volumes.
+
+#### R2.1: Give the light syntax palette the hierarchy the dark one has
+
+The fix preserves the base's own contrast ordering and relative
+spacing, remapping its native span onto a band whose quiet end is
+the floor and whose loud end anchors aggressively high — and the
+plain code text itself moves toward prose weight, matching the
+relationship the dark scheme already has, so the loudest tokens read
+genuinely loud, comments recede as the author's quietest tier, and a
+base that is flat by design stays flat. An ink never gets quieter
+than its author drew it, and a palette whose inks already meet their
+targets — the common dark case — passes through unchanged. The
+owner wants the change revertable in one step: the derivation change
+is one self-contained commit in its own repo, with downstream golden
+regenerations as their own commits.
+
+- [ ] The re-fit normalizes instead of floor-walking: each entry's
+  contrast rank and relative spacing against the base's own ground
+  are preserved while the span remaps onto the band from the 4.5:1
+  floor to the aggressive top anchor, no ink ever made quieter than
+  the author's own, and a palette whose inks already meet their
+  targets passes through unchanged, held by test.
+- [ ] The plain code text gains weight: the light scheme's
+  code-to-prose contrast relationship is measured against the dark
+  scheme's and brought level with it, the values recorded, and the
+  top anchor of the syntax band judged against the new plain weight.
+- [ ] The sweep gate grows teeth for hierarchy: across all bases and
+  both schemes every entry clears the floor, the author's ordering
+  is preserved, and a minimum spread separates the quietest tier
+  from the loudest for any base whose own palette is not flat —
+  worst and flattest cases recorded.
+- [ ] Exit: the reading specimen rendered under the default pair in
+  both schemes shows light code with a visible hierarchy — comments
+  recede, keywords carry — measured token for token; goldens
+  regenerated where pixels legitimately move, each repo's change one
+  self-contained commit revertable on its own; fresh eyes on the
+  light note raise no complaint about flat or washed code. Commit
+  and push.
