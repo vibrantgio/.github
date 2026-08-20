@@ -10493,3 +10493,251 @@ under the swatch.
   pixels legitimately move, and fresh eyes on the renders raise no
   complaint about alignment or about finding the way back. Commit
   and push.
+
+## Phase T: The walkthrough niggles
+
+On 2026-08-20 the owner walked the themer, the gallery and vaultview
+and filed thirteen findings. They group into five goals: the themer's
+remaining rough edges, the status colours, the tag component, gallery
+fixes, and vaultview conveniences. Tasks run in plan order.
+
+### G-T1: The themer after the walkthrough
+
+#### T1.1: Paint the scheme switch from the active theme at startup
+
+The owner reports: the light/dark switch comes up green and the
+first toggle turns it purple — theme colours on the control are fine
+when a theme is selected, but this reads as the control not painting
+the active colour on startup. The switch (and anything else themed
+in the top rows) must draw from one colour source of truth on the
+first frame and on every toggle, with the startup path and the
+toggle path proven identical by measurement.
+
+- [ ] The defect is reproduced headlessly and diagnosed: the colour
+  the switch paints at first frame, after one toggle, and after a
+  style click are captured and compared, and the divergent source
+  named in the commit body.
+- [ ] The switch paints the active theme's colour from the first
+  frame, startup and toggle proven identical by a render test, with
+  no other control found drawing from the stale source (checked, not
+  assumed).
+- [ ] Exit: fresh startup renders in both schemes show the switch in
+  the active theme's colour, toggling changes only the scheme, tests
+  green, and fresh eyes on a startup render raise no complaint about
+  controls changing colour on first interaction. Commit and push.
+
+#### T1.2: Name on top, honest specimen ink, and alphabetical order for the style cards
+
+Three owner rulings on the grid's cards: the style name moves to the
+top of the card; the "Aa" specimen must never be illegible — for
+autumn the ink against the red is, in the owner's words, horrendous,
+so the specimen wears the measured on-colour the accent gate already
+guarantees everywhere else; and the grid sorts alphabetically — the
+vivid-first order reads as randomized and makes catppuccin-latte
+findable only by scanning the whole list. Vivid-first retires,
+recorded.
+
+- [ ] Each card leads with the style's name at the top, the swatch
+  strip and specimen below it, the card's other furniture unchanged.
+- [ ] The "Aa" specimen wears the measured on-colour of its derived
+  accent in both schemes — the autumn card re-measured at or above
+  the floor — using the same machinery that gates the seed
+  candidate chips.
+- [ ] The grid orders alphabetically by style name, the polarity
+  filter unchanged, and finding catppuccin-latte means jumping to
+  the c's.
+- [ ] Exit: the grid rendered in both schemes shows named, legible,
+  alphabetical cards; tests green; goldens regenerated where pixels
+  legitimately move; fresh eyes on the grid raise no complaint about
+  finding or reading a card. Commit and push.
+
+#### T1.3: Replace the navbar with the vaultview-style title row
+
+The owner revises this morning's navbar ruling, which was given in a
+hurry: instead of a dedicated navbar, the themer takes the title-row
+idiom vaultview uses — one top row reading: app title at the
+leading edge, then the way back, then space, then the sun/moon
+switcher at the trailing edge. The identity strip below keeps its
+one-centre-line alignment; the separate navbar band goes.
+
+- [ ] The themer's top row follows vaultview's title-row idiom:
+  "Themer" leading, "Back to styles" beside it on the after-click
+  screen, the scheme switcher trailing, one shared centre line,
+  measured; the navbar band and its rule are gone.
+- [ ] Exit: both screens rendered in both schemes show the title
+  row; alignment measured at two window widths; tests green; fresh
+  eyes comparing a vaultview render and a themer render raise no
+  complaint about the two apps wearing different top-row idioms.
+  Commit and push.
+
+#### T1.4: Verify the kept light base actually reaches the code specimen
+
+The owner screenshotted the berth specimen under what should be
+catppuccin-latte and reports it looks wrong. Verify by measurement:
+under a kept latte/mocha pair, the specimen's spans must match the
+latte derivation ink for ink in the light scheme — if they do not,
+find whether the display, the kept-pair resolution, or the
+derivation is lying and fix that; if they do, capture what the owner
+likely saw (for example the hierarchy normalization moving latte's
+inks) and record the explanation in the plan.
+
+- [ ] The light specimen's spans are measured against the latte
+  derivation under a kept default pair: either a defect is found and
+  fixed with a regression test, or the match is proven and the
+  visible explanation recorded.
+- [ ] Exit: the measurement and verdict are in the report and the
+  plan record; any fix is tested, green, and pushed; fresh eyes on
+  the light specimen raise no complaint about the code not matching
+  the named base. Commit and push.
+
+### G-T2: Status colours that read clean
+
+#### T2.1: De-muddle the status colours and give info its own anchor
+
+The owner finds error, warning and success still muddled — the red
+reads as dirty pink in the Alert and the Toast — and distrusts the
+Info alert wearing the theme colour: a red-heavy theme makes info
+look more like an error than the error does. The design ruling to
+implement: the four status hues anchor to fixed semantic hues —
+error a true red that can never drift pink, warning amber, success
+green, and info its own blue rather than the accent — with the seed
+allowed only a slight tint influence, every pairing contrast-gated
+across the seed sweep, and the tonal treatments (the alert and toast
+fills) re-derived so the container of a status colour keeps its
+parent's hue identity instead of washing toward pink.
+
+- [ ] The status roles anchor to fixed hues with bounded seed
+  influence: error, warning, success and a new info role, the
+  derivation documented, the dirty-pink diagnosis named (which
+  treatment washed the red) and fixed, and no seed in the sweep able
+  to make the accent redder than the error.
+- [ ] Alert and Toast wear the re-anchored roles — info alerts on
+  the info role, not the accent — re-measured in both schemes with
+  every text and edge pairing at or above its floor.
+- [ ] Exit: alerts and toasts at all levels rendered in both schemes
+  under a red-heavy seed and a neutral seed show four visually
+  distinct, clean status colours; goldens regenerated where pixels
+  legitimately move; tests green; fresh eyes raise no complaint
+  about muddled or pinkish status colours. Commit and push.
+
+#### T2.2: Widen the toast's leading edge
+
+The owner: the toast's left tag is too subtle — too narrow, it gets
+lost. Widen the leading level edge to a width judged against the
+stored reference and the toast's own geometry, both schemes, without
+letting it read as a block.
+
+- [ ] The leading edge widens to a measured judgment call recorded
+  with before/after numbers, visible at a glance in both schemes at
+  every level.
+- [ ] Exit: toasts at all levels rendered in both schemes show the
+  level edge plainly; goldens regenerated where pixels legitimately
+  move; tests green; fresh eyes raise no complaint about the edge
+  getting lost. Commit and push.
+
+### G-T3: Tags that compress and dismiss
+
+#### T3.1: Tag contrast, a tighter pill, and a dismiss affordance
+
+Three owner rulings on tags: check the filled and tonal variants'
+contrast (the status colours read better on tags than in the alerts
+— reconcile the finding with the status re-anchoring, which runs
+first); compress the pill vertically while keeping the font size;
+and add a dismissible variant carrying a tiny x that a click removes
+— a generic affordance (the owner has chip-like uses in mind beyond
+this org; the component names no consumers).
+
+- [ ] Filled and tonal tag pairings are measured in both schemes
+  against the re-anchored status roles, failures fixed, the numbers
+  recorded.
+- [ ] The pill compresses vertically at unchanged font size, the
+  before/after heights recorded, every gallery tag following.
+- [ ] A dismissible tag variant carries a small close affordance
+  with a click target measured at or above the minimum hit size,
+  removal wired through the component's event idiom, unit-tested.
+- [ ] Exit: the gallery's tag section rendered in both schemes shows
+  the tighter pill and the dismissible variant; tests green; goldens
+  regenerated where pixels legitimately move; fresh eyes raise no
+  complaint about tag legibility or the close affordance. Commit and
+  push.
+
+### G-T4: Gallery fixes
+
+#### T4.1: Audit and fix the gallery's section seams
+
+Two collisions reported: the toast example runs into the "Tag"
+section header, and the accordion runs into the "Tabs" header. Fix
+both and audit every section seam on the everything page for the
+same class of defect rather than patching two.
+
+- [ ] Every section seam on the everything page is measured; the
+  toast/Tag and accordion/Tabs collisions are fixed and any other
+  seam under the standard gap corrected with it, the audit's
+  numbers recorded.
+- [ ] Exit: the everything page rendered in both schemes shows even
+  seams throughout; goldens regenerated where pixels legitimately
+  move; tests green; fresh eyes scrolling the page raise no
+  complaint about sections touching. Commit and push.
+
+#### T4.2: Show the dialog's close affordance
+
+The owner sees the Cancel/Done dialog but no variant with a close X
+at the top right. Give the dialog pattern the top-right close
+affordance if it lacks one, and show both variants in the gallery.
+
+- [ ] The dialog pattern offers a top-right close affordance —
+  added additively if absent — with hit target and contrast
+  measured in both schemes, and the gallery shows the Cancel/Done
+  and the close-X variants side by side.
+- [ ] Exit: both dialog variants render in both schemes; tests
+  green; goldens regenerated where pixels legitimately move; fresh
+  eyes raise no complaint about the close affordance's visibility
+  or reachability. Commit and push.
+
+#### T4.3: Align the gallery's own top bar
+
+The owner: the gallery's "Vibrant Gio" label is badly aligned with
+the Gallery/Tokens/Patterns tabs; the v1 badge at the right looks
+good. Put the label, the tabs and the badge on one measured centre
+line, reusing the centring approach the themer's rows now use.
+
+- [ ] The gallery's top bar puts label, tabs and badge on one shared
+  centre line, measured, the badge untouched in form.
+- [ ] Exit: the gallery rendered in both schemes shows the aligned
+  bar; tests green; goldens regenerated where pixels legitimately
+  move; fresh eyes raise no complaint about the bar's alignment.
+  Commit and push.
+
+### G-T5: Vaultview conveniences
+
+#### T5.1: Investigate a resizable sidebar
+
+Investigation only, by the owner's explicit instruction — no
+implementation. Establish whether a drag-resizable sidebar is
+practical in Gio for vaultview: what the pointer/drag machinery
+requires, whether any org component or upstream Gio example already
+does it, what state and persistence it needs, and the cost of the
+smallest honest version. Report options with a recommendation; write
+no feature code.
+
+- [ ] The investigation reports: the drag machinery required, prior
+  art found in the org or upstream, the state/persistence design,
+  the estimated size of the smallest implementation, and a
+  recommendation — recorded in the plan under this task.
+- [ ] Exit: the findings are recorded and pushed; no feature code
+  ships. Commit and push.
+
+#### T5.2: A status bar with the note's line count
+
+The owner would like vaultview to carry a status bar showing the
+number of lines in the open note. Keep it to the asked-for fact —
+a quiet bar, the line count, room to grow later.
+
+- [ ] Vaultview gains a status bar showing the open note's line
+  count, updating on note switch, styled from the theme's quiet
+  roles with measured contrast, unit-tested for the count and the
+  update.
+- [ ] Exit: vaultview rendered in both schemes shows the status bar
+  with the correct count for a known note; tests green; goldens
+  regenerated where pixels legitimately move; fresh eyes raise no
+  complaint about the bar shouting or lying. Commit and push.
