@@ -10479,16 +10479,16 @@ the drop-to-replace hint and the Keep button on one shared centre
 line, with the text block width-constrained so it can never run
 under the swatch.
 
-- [ ] A navbar spans the top of both screens: Back to styles at the
+- [x] A navbar spans the top of both screens: Back to styles at the
   left of the after-click screen, the scheme switcher at the right
   of both, every navbar item on one shared vertical centre, and the
   back control dressed as an action rather than a hint.
-- [ ] The identity header sits below the navbar: swatch, style name,
+- [x] The identity header sits below the navbar: swatch, style name,
   by-day/by-night caption, the drop-to-replace hint and the Keep
   button on one shared centre line, the text block width-constrained
   so it can never run under the swatch, measured at the reported
   window width and a narrower one.
-- [ ] Exit: both screens rendered in both schemes show the navbar
+- [x] Exit: both screens rendered in both schemes show the navbar
   and an aligned header, tests green, goldens regenerated where
   pixels legitimately move, and fresh eyes on the renders raise no
   complaint about alignment or about finding the way back. Commit
