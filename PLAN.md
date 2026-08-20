@@ -10442,16 +10442,16 @@ side, the completed member on the other — and the caption names
 both members so nothing happens silently; the base list still
 overrides either half afterwards.
 
-- [ ] The grid renders below the drop area: one card per available
+- [x] The grid renders below the drop area: one card per available
   style in the candidate visual language, vivid-first,
   polarity-filtered in step with the scheme control, folder styles
   included, and the empty first screen reads as an invitation
   rather than a blank.
-- [ ] One click adopts: the seed from the card's leading candidate,
+- [x] One click adopts: the seed from the card's leading candidate,
   the base pair filled card-side and completed-side, the caption
   naming both members, keep and override behaving exactly as they
   do for image-derived seeds.
-- [ ] Exit: click a dark card and a light card in a rendered themer
+- [x] Exit: click a dark card and a light card in a rendered themer
   and measure both schemes wearing the expected seed and members;
   keep one and the adopting app reproduces it; tests green; goldens
   regenerated where pixels legitimately move; fresh eyes on the
