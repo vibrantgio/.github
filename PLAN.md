@@ -10457,3 +10457,39 @@ overrides either half afterwards.
   regenerated where pixels legitimately move; fresh eyes on the
   start screen and a post-click window raise no complaint about the
   grid's looks or about what a click did. Commit and push.
+
+### G-S2: The themer's header becomes a navbar
+
+The owner's screenshot (2026-08-20 08:50) shows the after-click
+header carrying four items on mismatched baselines — the
+drop-to-replace hint, Back to styles, the Keep button and the scheme
+switcher — and the title block able to run under the palette swatch.
+The owner rules: a navbar along the top, Back to styles at the left,
+the light/dark switcher at the right, and delegates the remaining
+arrangement.
+
+#### S2.1: Give the themer a top navbar and align the header
+
+One navigation bar spans the top of both screens: Back to styles at
+the left on the after-click screen — dressed as an action, not a
+hint — the start screen leaving that slot empty, and the scheme
+switcher at the right on both. The theme identity moves to its own
+row below: palette swatch, style name, the by-day/by-night caption,
+the drop-to-replace hint and the Keep button on one shared centre
+line, with the text block width-constrained so it can never run
+under the swatch.
+
+- [ ] A navbar spans the top of both screens: Back to styles at the
+  left of the after-click screen, the scheme switcher at the right
+  of both, every navbar item on one shared vertical centre, and the
+  back control dressed as an action rather than a hint.
+- [ ] The identity header sits below the navbar: swatch, style name,
+  by-day/by-night caption, the drop-to-replace hint and the Keep
+  button on one shared centre line, the text block width-constrained
+  so it can never run under the swatch, measured at the reported
+  window width and a narrower one.
+- [ ] Exit: both screens rendered in both schemes show the navbar
+  and an aligned header, tests green, goldens regenerated where
+  pixels legitimately move, and fresh eyes on the renders raise no
+  complaint about alignment or about finding the way back. Commit
+  and push.
