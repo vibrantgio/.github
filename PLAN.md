@@ -10761,6 +10761,15 @@ parent's hue identity instead of washing toward pink.
   legitimately move; tests green; fresh eyes raise no complaint
   about muddled or pinkish status colours. Commit and push.
 
+2026-08-20, orchestrator record: both review rounds preceded a
+further fix — the final pushed state (the mark's step walk, the 3°
+tint cap, the severity ordering, and the regenerated goldens) was
+verified by the worker's own pixel sampling but seen by no fresh
+reviewer. The next task's fresh-eyes pass must therefore cover the
+full status composition — alerts and toasts, both schemes, a
+red-heavy and a neutral seed — and its verdict stands as this
+task's final review.
+
 #### T2.2: Widen the toast's leading edge
 
 The owner: the toast's left tag is too subtle — too narrow, it gets
