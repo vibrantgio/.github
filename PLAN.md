@@ -10747,15 +10747,15 @@ across the seed sweep, and the tonal treatments (the alert and toast
 fills) re-derived so the container of a status colour keeps its
 parent's hue identity instead of washing toward pink.
 
-- [ ] The status roles anchor to fixed hues with bounded seed
+- [x] The status roles anchor to fixed hues with bounded seed
   influence: error, warning, success and a new info role, the
   derivation documented, the dirty-pink diagnosis named (which
   treatment washed the red) and fixed, and no seed in the sweep able
   to make the accent redder than the error.
-- [ ] Alert and Toast wear the re-anchored roles — info alerts on
+- [x] Alert and Toast wear the re-anchored roles — info alerts on
   the info role, not the accent — re-measured in both schemes with
   every text and edge pairing at or above its floor.
-- [ ] Exit: alerts and toasts at all levels rendered in both schemes
+- [x] Exit: alerts and toasts at all levels rendered in both schemes
   under a red-heavy seed and a neutral seed show four visually
   distinct, clean status colours; goldens regenerated where pixels
   legitimately move; tests green; fresh eyes raise no complaint
