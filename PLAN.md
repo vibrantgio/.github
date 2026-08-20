@@ -10770,6 +10770,8 @@ full status composition — alerts and toasts, both schemes, a
 red-heavy and a neutral seed — and its verdict stands as this
 task's final review.
 
+Closed same day: the next task's designated review saw the final pixels (render hashes matched the pushed state) and raised no complaint about muddled or pinkish status colours; its composition findings are recorded for the owner.
+
 #### T2.2: Widen the toast's leading edge
 
 The owner: the toast's left tag is too subtle — too narrow, it gets
