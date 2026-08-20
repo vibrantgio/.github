@@ -10746,14 +10746,14 @@ claiming the strip with its leading inset reserving the buttons'
 zone, and decorations untouched on platforms where the treatment
 returns no options.
 
-- [ ] The themer window adopts the full-size-content treatment with
+- [x] The themer window adopts the full-size-content treatment with
   the window buttons re-asserted, and the title row claims the
   native strip: its leading inset reserves the buttons' zone, the
   strip above the content is the row and nothing else, and the
   arrangement mirrors vaultview's mechanism point for point —
   asserted at the configuration and inset level in tests, since
   headless renders cannot show the native strip.
-- [ ] Exit: the window setup matches vaultview's (treatment,
+- [x] Exit: the window setup matches vaultview's (treatment,
   buttons, strip claim); both screens still render correctly
   headless in both schemes; tests green; goldens regenerated only
   where pixels legitimately move, with the standing review rule
