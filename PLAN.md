@@ -10851,11 +10851,11 @@ section header, and the accordion runs into the "Tabs" header. Fix
 both and audit every section seam on the everything page for the
 same class of defect rather than patching two.
 
-- [ ] Every section seam on the everything page is measured; the
+- [x] Every section seam on the everything page is measured; the
   toast/Tag and accordion/Tabs collisions are fixed and any other
   seam under the standard gap corrected with it, the audit's
   numbers recorded.
-- [ ] Exit: the everything page rendered in both schemes shows even
+- [x] Exit: the everything page rendered in both schemes shows even
   seams throughout; goldens regenerated where pixels legitimately
   move; tests green; fresh eyes scrolling the page raise no
   complaint about sections touching. Commit and push.
