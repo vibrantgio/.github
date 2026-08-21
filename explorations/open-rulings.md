@@ -224,3 +224,16 @@ From the palette edges review (2026-08-21):
     which stay on screen at narrow widths — while keeping "nine
     steps a role", which repeats what the headers already show.
     The drop order is ruled and recorded; re-rule it?
+
+From the dropdown review (2026-08-21):
+
+50. **[bug]** The dropdown's popover doesn't dress like its
+    trigger: a rounded, outlined pill glued onto a square,
+    borderless, zero-padding slab, with transparent nicks at the
+    seam where the trigger's corners curve away. The chevron also
+    dims asymmetrically (5.5:1 light vs 9.9:1 dark).
+51. **[decide]** The menu's selection carries no secondary cue —
+    a full-width inverted row is also the standard hover/cursor
+    rendering, so the moment menus gain hover, selection and
+    cursor become indistinguishable. Add a checkmark, or reserve
+    inversion for the cursor and quiet the selection?

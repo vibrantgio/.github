@@ -11427,3 +11427,18 @@ the outline-geometry item already landed in the outline phase.
   pixels legitimately move; fresh eyes on the note confirm a
   bounded, quiet, compact panel whose head reads as a control;
   tests green. Commit and push.
+
+#### Z1.5: Every control shows the primary focus ring
+
+- [ ] Focus takes one idiom across the library: the ring the text
+  field already wears — primary-coloured, measured to at least
+  3:1 against the grounds it circles — replaces the grey ring on
+  buttons and links; checkbox and radio are measured first (the
+  walkthrough saw no ring at all; the code strokes a grey ring
+  that can dissolve into the border it circles — reconciled and
+  recorded) and join the same idiom; held by test in both
+  schemes.
+- [ ] Exit: renders of focused button, link, checkbox, radio and
+  text field in both schemes; goldens regenerated where pixels
+  legitimately move; fresh eyes confirm one focus idiom that
+  reads on every control; tests green. Commit and push.
