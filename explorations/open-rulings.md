@@ -32,7 +32,8 @@ different rules. One phase could cover all of them.
    lightness vary a bit per role. Pick one.
 7. **[decide]** Warning is brown in alerts and amber in toasts (same
    hue at two depths — dark yellow *is* brown). Fix would bend the
-   hue toward orange on deep surfaces.
+   hue toward orange on deep surfaces. — Ruled 2026-08-21 in
+   conversation: yes, bend it; planned.
 8. **[bug]** Text colours are checked against the page, then reused on
    darker card surfaces unchecked — card descriptions drop to 4.51:1.
 9. **[decide]** Light-mode elevation is inverted: surfaces get

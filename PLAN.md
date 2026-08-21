@@ -11198,3 +11198,39 @@ through the existing sun/moon switch.
   ramps above picks; goldens regenerated where pixels legitimately
   move; fresh eyes review the rendered section; tests green.
   Commit and push.
+
+## Phase X: Warning bends toward orange in the deep
+
+Ruled by the owner on 2026-08-21, closing the walkthrough's warning
+question: the warning family keeps its amber anchor where it is
+light and bends its hue toward orange as its tone deepens, because
+dark yellow is not read as yellow — it is read as brown, and a
+brown mark carries no warning. The bend is a function of the tone
+being realized, not of the step number, so both schemes come out
+right by one rule: the dark scheme's bright step-700 pin stays
+amber, the light scheme's deep step-700 pin turns orange, and the
+deep on-inks follow. The bend is bounded so a deep warning is
+never read as an error: the family-separation gates follow the
+bend to every tone the palette realizes rather than being
+weakened, with the chosen bound recorded from measurement.
+
+### G-X1: Deep warning reads orange, never brown
+
+#### X1.1: Bend the warning hue toward orange as its tone deepens
+
+- [ ] The warning family's hue becomes a function of realized
+  tone — amber at light tones, bending toward orange as the tone
+  deepens — implemented in the derivation so the ramp, the pin,
+  the container, and the measured inks all follow the one rule;
+  the curve and its bound are chosen by measurement, deep warning
+  clearly orange and never readable as error, the anchor and
+  family-separation gates reworked to hold at every realized tone
+  with the numbers recorded; the seed tint composes with the bend
+  and the composition order is recorded.
+- [ ] Exit: goldens regenerated wherever warning pixels
+  legitimately move, in every repo that renders warning; fresh
+  eyes on the warning surfaces — alert, toast, tag, and the
+  themer's palette display — confirm amber-when-light,
+  orange-when-deep, never brown, never mistakable for error, in
+  both schemes; tests green in every touched module. Commit and
+  push.
