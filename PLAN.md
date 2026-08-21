@@ -11223,7 +11223,7 @@ and the inverse pair; Surface and Divider stay single swatches.
 
 #### W1.3: Every colour the palette publishes is in the display
 
-- [ ] The palette display stops claiming a completeness it does
+- [x] The palette display stops claiming a completeness it does
   not have: every colour the palette publishes as a resting
   colour and that sits on no displayed rung joins the display
   with its true value and its rule — the light scheme's pinned
@@ -11236,7 +11236,7 @@ and the inverse pair; Surface and Divider stay single swatches.
   decision and the exclusion is recorded in the display's code,
   not silently. Nothing a widget receives at rest is missing from
   the window.
-- [ ] Exit: both schemes rendered headlessly; fresh eyes confirm
+- [x] Exit: both schemes rendered headlessly; fresh eyes confirm
   the display answers "is this colour in the picture?" with yes
   for every resting token — the seed reading clearly alongside
   its ramp — and that nothing reads as repeated; tests green;
