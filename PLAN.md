@@ -11284,6 +11284,20 @@ and the inverse pair; Surface and Divider stay single swatches.
   fresh eyes confirm the grid reads calm — no polarity flip mid
   ramp — and every cell still reads bounded by edge or by its own
   fill; tests green. Commit and push.
+
+#### W1.7: An off-ramp base carries the dot itself
+
+- [ ] Ruled by the owner on 2026-08-21: a pinned base that claims
+  no rung — the light scheme's lifted seed sitting between steps
+  — carries the dot on its own base chip, so every row always
+  shows where its pinned colour lives: on a rung, or on the chip;
+  the dot's ink is measured on the chip like on any cell; held by
+  test both ways — a seed pinned between rungs shows the chip
+  dot, a rung-exact pin keeps its rung dot and an undotted chip.
+- [ ] Exit: renders in both schemes with a seed whose light pin
+  sits between rungs; fresh eyes confirm the row reads as used
+  and placed; tests green. Commit and push.
+
 ## Phase X: Warning bends toward orange in the deep
 
 Ruled by the owner on 2026-08-21, closing the walkthrough's warning
