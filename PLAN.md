@@ -11165,3 +11165,36 @@ live when it runs, and tags never carry double-digit components.
   the audited roster; goldens regenerated where pixels legitimately
   move, the standing review rule applying if they do; tests green.
   Commit and push.
+
+## Phase W: The palette laid bare in the themer
+
+Ruled by the owner on 2026-08-21, while working through the colour
+rulings: the themer shows the palette's anatomy, generation first.
+A "Palette Ramps" grid comes first because the ramps are what the
+palette picks from; a "Palette Picks" listing sits below it and
+names every pick. The ramps grid orders the accent trio, then the
+four status roles, then Neutral last, with the step numbers 100 to
+900 standing above the columns. Each pick shows its token name,
+the rule that picked it — which ramp and step, the lifted seed,
+the other scheme's surface, or a measured ink and which way it
+fell — and the actual colour, the inks shown over their own bases.
+The display follows the derived theme and the active scheme
+through the existing sun/moon switch.
+
+### G-W1: The themer explains the palette
+
+#### W1.1: Show the palette ramps and picks in the themer
+
+- [ ] The themer gains a palette section: a "Palette Ramps" grid —
+  one row per ramp, ordered Primary, Secondary, Tertiary, Error,
+  Success, Warning, Info, Neutral, columns headed 100 to 900, each
+  cell the actual ramp colour — and below it a "Palette Picks"
+  listing every colour token with its name, the rule that picked
+  it, and the colour itself, On-inks rendered as glyphs over their
+  own base; both sections read the app's single derived pair and
+  follow the scheme switch live; placement in the app's reading
+  order is judged and recorded.
+- [ ] Exit: the themer renders headlessly in both schemes showing
+  ramps above picks; goldens regenerated where pixels legitimately
+  move; fresh eyes review the rendered section; tests green.
+  Commit and push.
