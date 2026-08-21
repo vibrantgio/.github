@@ -11354,3 +11354,33 @@ against the highlight's edge.
 - [x] Exit: renders in both schemes; goldens regenerated where
   pixels legitimately move; fresh eyes confirm rhythm, axis and
   tiers; tests green. Commit and push.
+
+## Phase Z: The walkthrough's plain bugs
+
+The ruling sheet's bug-tagged items — fixes needing no design
+ruling, per the owner's own taxonomy and the standing run-ahead
+order of 2026-08-21. Worked in sheet order within each repo lane;
+the outline-geometry item already landed in the outline phase.
+
+### G-Z1: App bugs
+
+#### Z1.1: The properties slab stops wearing the divider colour
+
+- [ ] The note's properties slab stops filling with the divider
+  colour: it takes a fitting ground from the theme's surface
+  story — judged against the note's own surfaces and recorded —
+  and its labels are re-measured to clear the text floor on the
+  new ground; no colour literals.
+- [ ] Exit: renders in both schemes; goldens regenerated where
+  pixels legitimately move; fresh eyes on the note confirm the
+  slab reads as a surface rather than the heaviest block in the
+  note; tests green. Commit and push.
+
+#### Z1.2: The themer's base list scrolls to every style
+
+- [ ] The base list's scrollbar computes the true row height,
+  padding included, so every style is reachable by scrolling; the
+  arithmetic is held by test rather than eyeballed.
+- [ ] Exit: renders showing the list scrolled to its last row in
+  both schemes; goldens where pixels legitimately move; fresh
+  eyes if pixels move; tests green. Commit and push.
