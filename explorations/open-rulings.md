@@ -146,8 +146,17 @@ Added 2026-08-21 (numbered past the end so nothing above shifts):
 
 ## G. Release
 
-41. **[decide]** The release wave is still parked. Order when ruled
-    go: theme → components → effects (re-pin, v0.2.1) → patterns
-    (next minor) — and now also the workbench root tag (launcher)
-    plus per-app tags whenever each app is ready. The
-    `go run …@latest` commands return real versions only after this.
+41. **[decide]** Updated 2026-08-21: the wave ran (theme v0.8.0,
+    markdown v0.5.1, patterns v0.8.0, components v0.9.3, gallery
+    v0.8.1 — each tag on its repo's head; vaultview and themer
+    re-pinned and building without the workspace). Three pieces
+    remain, rule on each:
+    - effects: its head is 10 commits past the released v0.2.0, so
+      the published effects predates the status-colour rework.
+    - the workbench root (launcher) go.mod still pins the old stack
+      — theme v0.6.0, patterns v0.6.0, components v0.9.1, mvu
+      v0.5.0 — so a launcher run from a release renders months-old
+      chrome next to up-to-date apps. Needs a pin bump.
+    - workbench has no tags: `go run …@latest` works for the
+      launcher and both apps today but returns pseudo-versions
+      until the root tag and per-app tags are cut.

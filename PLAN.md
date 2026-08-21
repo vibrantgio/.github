@@ -10094,7 +10094,13 @@ flipping the ink, not darkening the colour: an accent stays true to
 the seed and its on-colour goes dark when the accent is light, the
 way the design language itself pairs high tones. The release wave
 stays deliberately parked — the owner wants progress first; the
-unreleased surface ships later in one wave.
+unreleased surface ships later in one wave. (2026-08-21: the wave
+ran, cut by the owner outside this plan — theme v0.8.0, markdown
+v0.5.1, patterns v0.8.0, components v0.9.3 with gallery/v0.8.1,
+each tag on its repo's head, with the apps re-pinned and building
+without the workspace. Still unreleased: effects' head sits ten
+commits past v0.2.0, and workbench carries no tags yet, so the
+run-at-latest invocations resolve pseudo-versions.)
 
 #### P5.1: Flip the accent on-colours dark when their accents are light
 The seed pipeline pins its on-colours light in the light scheme
