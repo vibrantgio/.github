@@ -11401,12 +11401,12 @@ the outline-geometry item already landed in the outline phase.
 
 #### Z1.3: The dark dropdown's selected row reads its text
 
-- [ ] The dropdown's selected-row text is measured on the
+- [x] The dropdown's selected-row text is measured on the
   selected highlight in both schemes and re-inked from the theme
   so it clears the text floor — the highlight and its ink chosen
   as a pair, never independently — and the pairing is held by
   test so no scheme can lose it again.
-- [ ] Exit: renders of the open dropdown with a selected row in
+- [x] Exit: renders of the open dropdown with a selected row in
   both schemes; goldens regenerated where pixels legitimately
   move; fresh eyes confirm the selected row reads; tests green.
   Commit and push.
