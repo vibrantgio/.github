@@ -211,3 +211,16 @@ From the aside-edges review (2026-08-21):
     at the window's edge. Match dark down to light's whisper,
     lift light up, or meet in the middle? One thumb serves every
     app, so this is a components-wide call.
+
+From the palette edges review (2026-08-21):
+
+48. **[decide]** The ramps' base chip keeps the pick swatch's 44dp
+    width while the cells grow to 132dp on wide windows —
+    deliberate (one colour, one size, both sections) but the
+    row's rhythm falls off a cliff at its end at 1440+. Let the
+    chip take a share of the growth, or keep the one-size rule?
+49. **[decide]** The ramps caption drops its last clause first —
+    the one explaining the base column and Neutral's em dash,
+    which stay on screen at narrow widths — while keeping "nine
+    steps a role", which repeats what the headers already show.
+    The drop order is ruled and recorded; re-rule it?

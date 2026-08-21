@@ -11256,6 +11256,20 @@ and the inverse pair; Surface and Divider stay single swatches.
   caption register; tests green; goldens where pixels move.
   Commit and push.
 
+#### W1.5: The picks board elides like its bar
+
+- [ ] The picks board stops cutting identifiers mid-word: its
+  columns adapt to the window — two where three cannot hold the
+  content — and any line that still cannot fit gives up its tail
+  at a word or clause boundary with the identifier kept whole
+  ahead of its rule text; and the grid's hairline stops
+  dissolving into the Neutral 400 cell it borders, the outline
+  ink chosen so no cell's edge is its own fill, measured and
+  recorded.
+- [ ] Exit: renders at 900 and a wide width, both schemes; fresh
+  eyes confirm no mid-word cut anywhere on the board and every
+  cell edge reads; tests green. Commit and push.
+
 ## Phase X: Warning bends toward orange in the deep
 
 Ruled by the owner on 2026-08-21, closing the walkthrough's warning
