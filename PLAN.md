@@ -11221,6 +11221,28 @@ and the inverse pair; Surface and Divider stay single swatches.
   truncation still keeps the first clause whole; tests green.
   Commit and push.
 
+#### W1.3: Every colour the palette publishes is in the display
+
+- [ ] The palette display stops claiming a completeness it does
+  not have: every colour the palette publishes as a resting
+  colour and that sits on no displayed rung joins the display
+  with its true value and its rule — the light scheme's pinned
+  bases, the lifted seed first, shown alongside their ramp row
+  with their relation to the rungs visible; the ink ends, white
+  and black, shown where the inks are told; the status containers
+  shown as the grounds they are, with their marks; the inverse
+  pair already told as the counterpart's rungs. Interaction-state
+  derivations — hover, pressed, disabled — are excluded by
+  decision and the exclusion is recorded in the display's code,
+  not silently. Nothing a widget receives at rest is missing from
+  the window.
+- [ ] Exit: both schemes rendered headlessly; fresh eyes confirm
+  the display answers "is this colour in the picture?" with yes
+  for every resting token — the seed reading clearly alongside
+  its ramp — and that nothing reads as repeated; tests green;
+  goldens regenerated where pixels legitimately move. Commit and
+  push.
+
 ## Phase X: Warning bends toward orange in the deep
 
 Ruled by the owner on 2026-08-21, closing the walkthrough's warning
