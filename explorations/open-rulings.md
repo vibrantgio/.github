@@ -259,3 +259,13 @@ From the base-list review (2026-08-21):
     rows and tags keep two other right edges; and the caption's
     descenders overlap the first row's band, so a marked row
     arriving at the top would collide. One tidy pass.
+
+From the chip-dot review (2026-08-22):
+
+54. **[decide]** Light Secondary/Tertiary say "pinned just off …
+    700" while their dot sits on 700 — both true (the pins differ
+    by 2–3/255, invisible; the dot marks where a pick lives), but
+    read together one seems to lie. Drop "just off" on snapped
+    rows, or keep the byte-level honesty? Also: the light Neutral
+    em dash renders at 2.45:1 (thin-glyph coverage, not the
+    token) while carrying "pins none" — worth a heavier dash?
