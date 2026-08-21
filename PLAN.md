@@ -11398,3 +11398,32 @@ the outline-geometry item already landed in the outline phase.
 - [ ] Exit: renders showing the list scrolled to its last row in
   both schemes; goldens where pixels legitimately move; fresh
   eyes if pixels move; tests green. Commit and push.
+
+#### Z1.3: The dark dropdown's selected row reads its text
+
+- [ ] The dropdown's selected-row text is measured on the
+  selected highlight in both schemes and re-inked from the theme
+  so it clears the text floor — the highlight and its ink chosen
+  as a pair, never independently — and the pairing is held by
+  test so no scheme can lose it again.
+- [ ] Exit: renders of the open dropdown with a selected row in
+  both schemes; goldens regenerated where pixels legitimately
+  move; fresh eyes confirm the selected row reads; tests green.
+  Commit and push.
+
+#### Z1.4: The properties panel finishes its dress
+
+- [ ] Five recorded review findings settle in one pass: the dark
+  panel gains a second visual channel beside its hairline, a
+  faint fill or a stronger dark edge, measured; the panel's
+  corner radius joins the code blocks' so the note's boxes share
+  one radius; property values drop one step below the prose ink
+  so metadata stops competing with the note's own text; the
+  disclosure head gains a differentiator from the field keys so
+  it reads as a control; and the rows tighten to what metadata
+  needs, the reclaimed height recorded — each judged and
+  measured, tokens only.
+- [ ] Exit: renders in both schemes; goldens regenerated where
+  pixels legitimately move; fresh eyes on the note confirm a
+  bounded, quiet, compact panel whose head reads as a control;
+  tests green. Commit and push.
