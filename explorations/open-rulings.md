@@ -250,3 +250,12 @@ now bounded, quiet, ranked and 14px shorter):
     x26, box x24, keys x32, label x47 — pick an axis); and the
     keys sit 8px from a now-darker edge (a touch cramped). One
     small pass, if wanted.
+
+From the base-list review (2026-08-21):
+
+53. **[bug]** Base-list column cosmetics: the scroll thumb sits
+    2px from the applied row's pill but 9px from its other edge;
+    the header count right-aligns over the scrollbar gutter while
+    rows and tags keep two other right edges; and the caption's
+    descenders overlap the first row's band, so a marked row
+    arriving at the top would collide. One tidy pass.
