@@ -11413,7 +11413,7 @@ the outline-geometry item already landed in the outline phase.
 
 #### Z1.4: The properties panel finishes its dress
 
-- [ ] Five recorded review findings settle in one pass: the dark
+- [x] Five recorded review findings settle in one pass: the dark
   panel gains a second visual channel beside its hairline, a
   faint fill or a stronger dark edge, measured; the panel's
   corner radius joins the code blocks' so the note's boxes share
@@ -11423,7 +11423,7 @@ the outline-geometry item already landed in the outline phase.
   it reads as a control; and the rows tighten to what metadata
   needs, the reclaimed height recorded — each judged and
   measured, tokens only.
-- [ ] Exit: renders in both schemes; goldens regenerated where
+- [x] Exit: renders in both schemes; goldens regenerated where
   pixels legitimately move; fresh eyes on the note confirm a
   bounded, quiet, compact panel whose head reads as a control;
   tests green. Commit and push.
