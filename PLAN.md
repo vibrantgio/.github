@@ -11181,6 +11181,16 @@ fell — and the actual colour, the inks shown over their own bases.
 The display follows the derived theme and the active scheme
 through the existing sun/moon switch.
 
+Amended 2026-08-21 while the task was in flight, after the owner
+saw the work in progress: placement is ruled, not judged — the
+ramps grid and picks listing replace the themer's pre-existing
+palette presentation (the "Everything in this theme" area and its
+neighbouring swatch sections) rather than standing as a separate
+section in front of it; one palette story, nothing repeated. And a
+pinned base and its ink display as one cell — the ink glyphed over
+the base, both derivations told together — likewise the page pair
+and the inverse pair; Surface and Divider stay single swatches.
+
 ### G-W1: The themer explains the palette
 
 #### W1.1: Show the palette ramps and picks in the themer
