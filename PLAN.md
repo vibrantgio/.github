@@ -11473,12 +11473,12 @@ the outline-geometry item already landed in the outline phase.
 
 #### Z1.6: Code fences stop clipping at their trailing edge
 
-- [ ] The fence's asymmetric padding — 14px leading, none
+- [x] The fence's asymmetric padding — 14px leading, none
   trailing, glyphs cut in half against the frame — becomes
   symmetric in the markdown library, the trailing pad matching
   the leading one; goldens move in the library and in every
   consumer whose renders show fences, regenerated repo by repo.
-- [ ] Exit: a fence with a long line renders in both schemes with
+- [x] Exit: a fence with a long line renders in both schemes with
   the last glyph clear of the frame; fresh eyes confirm no clip
   at either edge; tests green in every touched module. Commit and
   push.
