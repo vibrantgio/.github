@@ -27,7 +27,8 @@ underneath it. The entire palette is derived from a single seed colour.
   the smallest complete application, and the one to read before writing your
   own. Six larger references sit beside it in
   [workbench](https://github.com/vibrantgio/workbench): `sitedocs`, `feeds`,
-  `vaultview`, `mindchat`, `iconbrowser` and `launcher`.
+  `vaultview`, `mindchat`, `iconbrowser` and `themer` — and the workbench
+  root itself is the launcher that runs them all.
 - **[llms.txt](https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt)** —
   the guide for writing Vibrant Gio applications, and the file to hand a
   coding assistant. Module inventory with current versions, the application
