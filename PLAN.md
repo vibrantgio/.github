@@ -11128,13 +11128,13 @@ live when it runs, and tags never carry double-digit components.
 
 #### V1.1: Give the workbench root its own launcher module
 
-- [ ] The workbench root gains go.mod (module
+- [x] The workbench root gains go.mod (module
   github.com/vibrantgio/workbench) covering only the root packages;
   every per-app go.mod stays byte-untouched; the workspace script
   regenerates go.work carrying the root module beside the app
   modules; any org script or gate that assumed the workbench has no
   root module is found and updated (checked, not assumed).
-- [ ] Exit: the root module and every app module build and test
+- [x] Exit: the root module and every app module build and test
   green; the regenerated workspace builds; no pixels move and no
   review runs. Commit and push.
 

@@ -3,7 +3,7 @@
 # Build and test every module with GOWORK=off — the way CI, pkg.go.dev and
 # every consumer outside this working tree sees them.
 #
-# The workspace at ../go.work makes the 37 modules resolve each other from the
+# The workspace at ../go.work makes the 40 modules resolve each other from the
 # checkout. That is the right thing while developing and the wrong thing to
 # trust: it hides version skew, because a module can build against a sibling's
 # uncommitted state and still be pinned to a stale tag in its own go.mod. This

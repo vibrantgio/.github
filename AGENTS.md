@@ -74,10 +74,10 @@ layer paragraph's dependency claim.
 run it if clones are missing or stale. Almost all work happens inside a sibling
 clone; the plan and the guide live here in `.github`.
 
-Those twenty-one repositories hold **39 Go modules**: twenty at repository
+Those twenty-one repositories hold **40 Go modules**: twenty-one at repository
 roots, eleven nested in subdirectories whose tags carry the subdirectory as a
-prefix, and eight example applications in `workbench`, which has no root
-module of its own.
+prefix, and eight applications in `workbench`, each its own module released on
+its own cadence beside the repository's root module.
 The go.mod files beside this checkout are the list — do not hand-maintain it.
 
 **`go.work` at the workspace root joins them**, so a module resolves its
@@ -155,7 +155,8 @@ class of wrong thing impossible to commit quietly:
 
 - **`check-layers.sh` refuses to let a module import a repository at or above
   its own tier.** It runs `go list -deps` over the nineteen tabled root
-  modules — all twenty minus `design`, the application — and judges
+  modules — all twenty-one minus `design` and `workbench`, the
+  applications — and judges
   every `github.com/vibrantgio` edge against ADR-001's tier table, so the
   layering is a measured property rather than an intention. Demo and adapter
   nested modules are exempt and skipped, and so are the applications —
@@ -164,11 +165,11 @@ class of wrong thing impossible to commit quietly:
   this repo's raw URL and run it as `check-layers.sh .`; the nine without CI
   are the support libraries, `workbench` and `design`, which the tier table
   exempts anyway. Its `--edges` mode reports that one
-  walk as TSV over all 39 modules instead of judging it, and that is where
+  walk as TSV over all 40 modules instead of judging it, and that is where
   every `AGENTS.md`'s layer sentence comes from — there must not be a second
   walk of the graph anywhere in the organization.
 - **`check-no-workspace.sh` refuses to let the workspace flatter you.** It
-  builds and tests all 39 modules with `GOWORK=off`, which is how CI,
+  builds and tests all 40 modules with `GOWORK=off`, which is how CI,
   pkg.go.dev and every consumer outside this tree see them. Under `go.work` a
   module compiles against a sibling's working copy while its own `go.mod` still
   points at a stale tag; this is what notices the difference, and the size of

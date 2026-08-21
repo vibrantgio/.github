@@ -123,7 +123,7 @@ field() {
 # There is exactly one walk of this graph in the organization and it is in
 # scripts/check-layers.sh, which judges ADR-001's tier rule with it. `--edges`
 # is that same walk asked to report rather than judge: one TSV row per edge,
-# `module kind tier imported-module direct|indirect packages`, over all 36
+# `module kind tier imported-module direct|indirect packages`, over all 40
 # modules beside .github rather than the 19 it judges — a guide has to describe
 # the demos, the adapters and the workbench applications too.
 #
@@ -185,7 +185,12 @@ nestedextra() {
 		!($4 in have) { print $col }' | sort -u
 }
 
-# True when repo $1 has a root module in the graph. Only workbench does not.
+# True when repo $1 has a root module in the graph. Every repository has one
+# now — workbench was the last without, until its root gained the module that
+# carries the launcher — so the false branch below is a fallback rather than a
+# case anything currently takes. A repo whose root module holds no packages at
+# all is also false here: check-layers.sh emits rows per package, so an empty
+# root module contributes none.
 hasroot() {
 	printf '%s\n' "$GRAPH" | awk -F'\t' -v r="$1" '$1 == r { f = 1 } END { exit !f }'
 }
@@ -213,7 +218,7 @@ layerline() {
 	from=$(nestedextra "$repo" 1)
 
 	if ! hasroot "$repo"; then
-		# workbench: no root module, so its applications are the whole story.
+		# No root module in the graph, so the applications are the whole story.
 		n=$(printf '%s\n' "$GRAPH" | awk -F'\t' -v r="$repo" \
 			'index($1, r "/") == 1 { m[$1] = 1 } END { print length(m) }')
 		if [ -n "$extra" ]; then

@@ -23,8 +23,12 @@
 # judgment, and a parent importing its own nested module is itself flagged.
 # Other nested modules (ivg/raster/gio, svg/driver/*, kiwi/gio, traer/gio,
 # seen/context/gio) are adapters outside the table and are skipped; the
-# workbench apps — and design, the published bundle — are applications at
-# the top of the stack and may import anything, so they are skipped too.
+# workbench apps — with the workbench root module that collects them, and
+# design, the published bundle — are applications at the top of the stack and
+# may import anything, so they are skipped too. The workbench root is named on
+# its own beside `workbench/*`: it is a module path with no directory after
+# it, so the pattern that catches its apps does not catch it, and without the
+# name it would fall through to the table and be reported as untabled.
 #
 # Usage:
 #   scripts/check-layers.sh              # from the .github plan root: checks
@@ -45,12 +49,11 @@
 # walk of the graph anywhere in the organization — extend this one.
 #
 # In --edges mode the judgment is unchanged, but the *scope* widens: the
-# default target becomes every module beside .github, all 37, because a guide
-# has to describe the exempt ones too — an application repository has no root
-# module and nothing but its applications to describe, and a demo's edges are
-# the ones most easily mistaken for its parent's, `components/gallery`'s to
-# effects being the cycle the whole of phase B went after. They are measured
-# and emitted, still never judged.
+# default target becomes every module beside .github, all 40, because a guide
+# has to describe the exempt ones too — an application repository is mostly
+# its applications, and a demo's edges are the ones most easily mistaken for
+# its parent's, `components/gallery`'s to effects being the cycle the whole of
+# phase B went after. They are measured and emitted, still never judged.
 #
 # What a guide never prints is this graph read backwards. Both directions are
 # measured here and the tier rule is judged on both, because a forbidden edge
@@ -204,7 +207,7 @@ for dir in $DIRS; do
   kind=root
   case "$rel" in
     components/gallery|mvu/example) kind=demo ;;
-    workbench/*|design)        kind=app ;;
+    workbench|workbench/*|design) kind=app ;;
     */*)                       kind=adapter ;;
   esac
   name=$rel

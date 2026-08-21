@@ -102,7 +102,7 @@ done
 
 # One measurement of the dependency graph for all twenty renders. sync-agents.sh
 # needs the whole graph to render a layer sentence — a nested module's edges
-# are read out of it too — and it walks all 36 modules with `go list` to get
+# are read out of it too — and it walks all 40 modules with `go list` to get
 # it, twenty times over, once per invocation below, if left alone. The file
 # is scratch, created here and
 # deleted on the way out, so the answer can never outlive the tree it was

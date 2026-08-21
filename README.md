@@ -80,15 +80,15 @@ of wrong thing be committed quietly.
 
 - [`scripts/check-layers.sh`](scripts/check-layers.sh) — refuses an import from
   a module into a repository at or above its own tier. It runs `go list -deps`
-  over the nineteen tabled root modules — all twenty minus `design`, the
-  application — and judges every `github.com/vibrantgio` edge
+  over the nineteen tabled root modules — all twenty-one minus `design` and
+  `workbench`, the applications — and judges every `github.com/vibrantgio` edge
   against ADR-001's tier table, so the layering is measured rather than
   intended; the twelve repositories that have CI fetch this same file and run
   it as `check-layers.sh .`. Its `--edges` mode reports that one walk as TSV instead
   of judging it, and the layer sentence in all twenty-one `AGENTS.md` files is
   rendered from that.
 - [`scripts/check-no-workspace.sh`](scripts/check-no-workspace.sh) — refuses to
-  let the workspace flatter the tree. It builds and tests all 39 modules with
+  let the workspace flatter the tree. It builds and tests all 40 modules with
   `GOWORK=off`, the way CI, `go get` and pkg.go.dev see them, because under
   `go.work` a module compiles against a sibling's working copy while its own
   `go.mod` still points at a stale tag. It also fails on a `replace` directive
@@ -109,9 +109,10 @@ of wrong thing be committed quietly.
   subscriber in the entire organization. Occurrences in `_test.go` files are
   counted and reported, never judged — the header says why.
 
-Across the twenty-one repositories there are 39 modules — twenty at repository
-roots, eleven nested in subdirectories with tags that carry the subdirectory
-as a prefix, and eight example applications in `workbench`, which has no root
-module of its own. All 39 declare Go 1.25.1; every one that depends on Gio is on
+Across the twenty-one repositories there are 40 modules — twenty-one at
+repository roots, eleven nested in subdirectories with tags that carry the
+subdirectory as a prefix, and eight applications in `workbench`, each its own
+module released on its own cadence beside the repository's root module.
+All 40 declare Go 1.25.1; every one that depends on Gio is on
 gioui.org v0.10.1 and every one that depends on rx is on
 github.com/reactivego/rx v0.3.0 — one version of each, organization-wide.
