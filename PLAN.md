@@ -11328,3 +11328,17 @@ against the highlight's edge.
 - [x] Exit: renders in both schemes; goldens regenerated where
   pixels legitimately move; fresh eyes on the outline against the
   sidebar confirm one idiom; tests green. Commit and push.
+
+#### Y1.3: The aside column agrees on its edges
+
+- [ ] The outline pane's edges stop disagreeing: the pill, the
+  scrollbar and the hairline share a right edge the way the rail
+  keeps one; the pill joins its own pane's leading text axis —
+  the one the pane's heading, the backlinks head and the hairline
+  already share — instead of hanging inboard of it; a gap stands
+  between the pill and the scrollbar; the outline's scrollbar
+  keeps the same window-edge distance as the note's identical
+  bar; each remedy measured, judged and recorded.
+- [ ] Exit: renders in both schemes; goldens regenerated where
+  pixels legitimately move; fresh eyes confirm one set of edges;
+  tests green. Commit and push.
