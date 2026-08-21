@@ -90,10 +90,10 @@ in a repository listing, and their tags carry the subdirectory as a prefix
 [llms.txt](https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt)
 lists them all with current versions.
 
-Three repositories hold no module in the table:
+Two repositories hold no module in the table:
 [workbench](https://github.com/vibrantgio/workbench), the seven example
-applications, [design](https://github.com/vibrantgio/design), the exported
-token bundle behind `claude.ai/design` together with the architecture
-rationale, and [.github](https://github.com/vibrantgio/.github), which holds
-this page and the canonical guide. Every module in the organization builds on gioui.org v0.10.1,
+applications and the canonical guide, and
+[design](https://github.com/vibrantgio/design), the exported token bundle
+together with the architecture
+rationale. Every module in the organization builds on gioui.org v0.10.1,
 github.com/reactivego/rx v0.3.0 and Go 1.25.1.
