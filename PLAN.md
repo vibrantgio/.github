@@ -11262,7 +11262,7 @@ weakened, with the chosen bound recorded from measurement.
 
 #### X1.1: Bend the warning hue toward orange as its tone deepens
 
-- [ ] The warning family's hue becomes a function of realized
+- [x] The warning family's hue becomes a function of realized
   tone — amber at light tones, bending toward orange as the tone
   deepens — implemented in the derivation so the ramp, the pin,
   the container, and the measured inks all follow the one rule;
@@ -11271,7 +11271,7 @@ weakened, with the chosen bound recorded from measurement.
   family-separation gates reworked to hold at every realized tone
   with the numbers recorded; the seed tint composes with the bend
   and the composition order is recorded.
-- [ ] Exit: goldens regenerated wherever warning pixels
+- [x] Exit: goldens regenerated wherever warning pixels
   legitimately move, in every repo that renders warning; fresh
   eyes on the warning surfaces — alert, toast, tag, and the
   themer's palette display — confirm amber-when-light,
