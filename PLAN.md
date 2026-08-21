@@ -11211,12 +11211,12 @@ and the inverse pair; Surface and Divider stay single swatches.
 
 #### W1.2: Say the dot's job in plain words
 
-- [ ] The ramps caption's first clause becomes plain language — a
+- [x] The ramps caption's first clause becomes plain language — a
   dot marks each pick's step — dropping "indistinguishable from";
   the pick cells keep carrying the honest nuance for the light
   pins that sit a hair beside their rung; the remaining caption
   clauses stay unless they fail the same plainness test.
-- [ ] Exit: both schemes re-rendered at the truncating width and a
+- [x] Exit: both schemes re-rendered at the truncating width and a
   wide one; fresh eyes confirm the caption reads plainly and the
   truncation still keeps the first clause whole; tests green.
   Commit and push.
