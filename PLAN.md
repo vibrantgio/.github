@@ -11097,11 +11097,11 @@ The owner would like vaultview to carry a status bar showing the
 number of lines in the open note. Keep it to the asked-for fact —
 a quiet bar, the line count, room to grow later.
 
-- [ ] Vaultview gains a status bar showing the open note's line
+- [x] Vaultview gains a status bar showing the open note's line
   count, updating on note switch, styled from the theme's quiet
   roles with measured contrast, unit-tested for the count and the
   update.
-- [ ] Exit: vaultview rendered in both schemes shows the status bar
+- [x] Exit: vaultview rendered in both schemes shows the status bar
   with the correct count for a known note; tests green; goldens
   regenerated where pixels legitimately move; fresh eyes raise no
   complaint about the bar shouting or lying. Commit and push.
