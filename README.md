@@ -88,7 +88,7 @@ of wrong thing be committed quietly.
   of judging it, and the layer sentence in all twenty-one `AGENTS.md` files is
   rendered from that.
 - [`scripts/check-no-workspace.sh`](scripts/check-no-workspace.sh) — refuses to
-  let the workspace flatter the tree. It builds and tests all 40 modules with
+  let the workspace flatter the tree. It builds and tests all 39 modules with
   `GOWORK=off`, the way CI, `go get` and pkg.go.dev see them, because under
   `go.work` a module compiles against a sibling's working copy while its own
   `go.mod` still points at a stale tag. It also fails on a `replace` directive
@@ -109,10 +109,10 @@ of wrong thing be committed quietly.
   subscriber in the entire organization. Occurrences in `_test.go` files are
   counted and reported, never judged — the header says why.
 
-Across the twenty-one repositories there are 40 modules — twenty-one at
+Across the twenty-one repositories there are 39 modules — twenty-one at
 repository roots, eleven nested in subdirectories with tags that carry the
-subdirectory as a prefix, and eight applications in `workbench`, each its own
+subdirectory as a prefix, and seven applications in `workbench`, each its own
 module released on its own cadence beside the repository's root module.
-All 40 declare Go 1.25.1; every one that depends on Gio is on
+All 39 declare Go 1.25.1; every one that depends on Gio is on
 gioui.org v0.10.1 and every one that depends on rx is on
 github.com/reactivego/rx v0.3.0 — one version of each, organization-wide.

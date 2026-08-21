@@ -13,7 +13,7 @@ using github.com/reactivego/rx generics-based observables. This file tells a
 coding assistant everything needed to scaffold and build a correct Vibrant Gio
 application. The full architecture rationale is in DESIGN.md in
 github.com/vibrantgio/design; the apps in workbench (todos/, sitedocs/,
-feeds/, mindchat/, iconbrowser/, launcher/, vaultview/) are the canonical
+feeds/, mindchat/, iconbrowser/, themer/, vaultview/) are the canonical
 usage references — todos/ is the minimal complete app; read it first, and
 read the larger ones before inventing a pattern.
 
@@ -1215,11 +1215,16 @@ them without the caveats older guides carried:
               and a global-shortcut key area done right. Chatting needs
               OPENAI_API_KEY in the environment (or .env) on first run to
               seed the config
-  launcher/   the workbench front door — a seen 3D triangle field composited
-              as an mvu background layer (palette re-keyed per theme emission
-              via an atomic handoff to the animation tick), hero + patterns
-              cards over it, and one streaming mvu.Command per launched app
-              (Started, then Exited when the process ends)
+  (root)      the workbench front door, and the repository's own root
+              package rather than a directory beside the others, so that
+              `go run github.com/vibrantgio/workbench@latest` opens it — a
+              seen 3D triangle field composited as an mvu background layer
+              (palette re-keyed per theme emission via an atomic handoff to
+              the animation tick), hero + patterns cards over it, and one
+              streaming mvu.Command per launched app (Started, then Exited
+              when the process ends). A card runs the app's own latest
+              release; a launcher built from the checkout runs the copy
+              next door instead
   feeds/      table-heavy app: sort/filter/pagination, tabs, split pane,
               modal forms, toasts; app.go's mirrorTokens is the reference
               theme-to-frame-time adapter (§Layers), and wiring_test.go

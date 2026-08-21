@@ -123,7 +123,7 @@ field() {
 # There is exactly one walk of this graph in the organization and it is in
 # scripts/check-layers.sh, which judges ADR-001's tier rule with it. `--edges`
 # is that same walk asked to report rather than judge: one TSV row per edge,
-# `module kind tier imported-module direct|indirect packages`, over all 40
+# `module kind tier imported-module direct|indirect packages`, over all 39
 # modules beside .github rather than the 19 it judges — a guide has to describe
 # the demos, the adapters and the workbench applications too.
 #

@@ -49,7 +49,7 @@
 # walk of the graph anywhere in the organization — extend this one.
 #
 # In --edges mode the judgment is unchanged, but the *scope* widens: the
-# default target becomes every module beside .github, all 40, because a guide
+# default target becomes every module beside .github, all 39, because a guide
 # has to describe the exempt ones too — an application repository is mostly
 # its applications, and a demo's edges are the ones most easily mistaken for
 # its parent's, `components/gallery`'s to effects being the cycle the whole of

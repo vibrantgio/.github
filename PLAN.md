@@ -11147,15 +11147,15 @@ live when it runs, and tags never carry double-digit components.
 
 #### V1.2: The launcher becomes the root package and runs the apps
 
-- [ ] The launcher's main package moves to the repo root and the
+- [x] The launcher's main package moves to the repo root and the
   old launcher directory and its module go; the roster is audited
   to cover every app in the repo — the themer included — rather
   than assumed.
-- [ ] Launching an app invokes `go run` on the app's module path at
+- [x] Launching an app invokes `go run` on the app's module path at
   the app's own latest release, with a workspace-relative fallback
   when the launcher is a devel build; the command construction is
   unit-tested without spawning anything.
-- [ ] Exit: the launcher renders headlessly in both schemes with
+- [x] Exit: the launcher renders headlessly in both schemes with
   the audited roster; goldens regenerated where pixels legitimately
   move, the standing review rule applying if they do; tests green.
   Commit and push.
