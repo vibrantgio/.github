@@ -9,13 +9,13 @@ semantic roles rather than a transcription of the Android widget set.
 
 ## Start here
 
-- **[llms.txt](https://raw.githubusercontent.com/vibrantgio/.github/master/llms.txt)** —
+- **[llms.txt](https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt)** —
   the canonical guide for writing Vibrant Gio applications, and the file to hand
   a coding assistant. Module inventory with current tags, the application
   skeleton, MVU and rx semantics, typography, and the pitfalls that are not
   guessable. It exists exactly once, in
-  [`.github`](https://github.com/vibrantgio/.github); every repository links
-  this URL instead of copying it.
+  [`workbench`](https://github.com/vibrantgio/workbench); every repository
+  links this URL instead of copying it.
 - **[design/DESIGN.md](https://github.com/vibrantgio/design/blob/master/DESIGN.md)** —
   the architecture and its rationale: the layering and its inversion, the
   generative colour model, the deliberate desktop divergences from Material
@@ -87,7 +87,7 @@ Ten further modules live in subdirectories of the repositories above:
 `seen/context/gio` and `svg/driver/{gio,pdf,raster,seen}`. They do not show up
 in a repository listing, and their tags carry the subdirectory as a prefix
 (`raster/gio/v0.1.6`, not `v0.1.6`) —
-[llms.txt](https://raw.githubusercontent.com/vibrantgio/.github/master/llms.txt)
+[llms.txt](https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt)
 lists them all with current versions.
 
 Three repositories hold no module in the table:

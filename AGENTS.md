@@ -42,7 +42,6 @@ org is checked out into.
       go.work             the development workspace (generated, never committed)
       .github/            <- you are here: plan root and org front door
         PLAN.md           the plan
-        llms.txt          the canonical agent guide (see below)
         AGENTS.md         this file
         README.md         this repository's own page
         profile/README.md what renders at github.com/vibrantgio
@@ -139,12 +138,12 @@ Five produce something:
   the plan asserts is checked against this rather than remembered.
 - **`sync-agents.sh`** renders `templates/AGENTS.md` into named clones and
   reports a diff; `-n` writes nothing. It never stages or commits.
-- **`sync-versions.sh`** writes the measured module versions into `llms.txt`,
-  reading `git tag` in every clone and rewriting nothing but the version
-  tokens; `-n` writes nothing. It exists because `sync-agents.sh` cannot reach
-  `llms.txt` — this repository is the parent of the clones, not one of them —
-  which is exactly why the guide's version table was the one that drifted.
-  Run it after cutting a tag, in the same task.
+- **`sync-versions.sh`** writes the measured module versions into the
+  workbench clone's `llms.txt`, reading `git tag` in every clone and rewriting
+  nothing but the version tokens; `-n` writes nothing. It exists because the
+  guide is hand-written prose with embedded numbers, not a template render
+  `sync-agents.sh` could own — which is exactly why the guide's version table
+  was the one that drifted. Run it after cutting a tag, in the same task.
 - **`push-design.sh`** regenerates `design/` from theme's `cmd/vg-tokens` and
   then prints the exact DesignSync sequence to run. There is no `designsync`
   binary — the upload half is a Claude-session step, so this script does the
@@ -239,10 +238,13 @@ plan exists to prevent.
 
 ## llms.txt answers a different question
 
-[`llms.txt`](llms.txt) is the organization's canonical agent guide, and it
-exists exactly once — here. Its raw URL is
+[`llms.txt`](https://github.com/vibrantgio/workbench/blob/master/llms.txt) is
+the organization's canonical agent guide, and it exists exactly once — in
+`vibrantgio/workbench`, the repository that showcases building applications
+with Vibrant Gio (ADR-004, amended; this repository is where Vibrant Gio
+itself is built). Its raw URL is
 
-    https://raw.githubusercontent.com/vibrantgio/.github/master/llms.txt
+    https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt
 
 and every repository's `AGENTS.md` links that URL instead of copying the
 content, so there is one version to read and one to edit (ADR-004).

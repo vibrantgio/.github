@@ -12,9 +12,12 @@ a `.json` fixture outside an app — does not show up in `git status` and is
 silently not committed. Check with `git check-ignore -v <path>` before
 concluding a write failed.
 
-**There is no `llms.txt` here.** The canonical agent guide lives once, in
-`vibrantgio/.github`, at the raw URL above; this repository links it and
-keeps neither a copy nor a pointer file. Do not add one back.
+**`llms.txt` lives here, at the repository root.** This is the canonical
+agent guide's one home (ADR-004, amended): workbench is where building
+applications *with* Vibrant Gio is showcased, so the guide that teaches
+exactly that lives beside the reference apps. Every other repository links
+the raw URL above rather than keeping a copy. Its version numbers are still
+generated from `.github`'s `scripts/sync-versions.sh` — never type them.
 
 **Development planning does not happen here.** The organization's plan lives
 once, in `vibrantgio/.github`. The finished plan this repository was built

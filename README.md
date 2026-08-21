@@ -12,17 +12,19 @@ That file, not this one, is the org page. This README renders only on
 [this repository's own page](https://github.com/vibrantgio/.github), so the two
 are edited separately and say different things.
 
-**[`llms.txt`](llms.txt) — the canonical agent guide.** The file to hand a
+**[`llms.txt`](https://github.com/vibrantgio/workbench/blob/master/llms.txt)
+— the canonical agent guide.** The file to hand a
 coding assistant before it writes a line of Vibrant Gio code: the module
 inventory with current tags, the application skeleton, MVU and rx semantics,
 typography, and the pitfalls that are not guessable. Its canonical URL is
 
-    https://raw.githubusercontent.com/vibrantgio/.github/master/llms.txt
+    https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt
 
-It exists exactly once, here. `workbench` was its old home and keeps nothing
-behind — not even a pointer file — and the per-repo `AGENTS.md` files that
-Phase A adds link it rather than copy it, so there is one version to read and
-one to edit.
+It exists exactly once, in `workbench` (ADR-004, amended): workbench
+showcases how to build applications with Vibrant Gio, so the guide that
+teaches exactly that lives beside the reference apps, while this repository
+is where Vibrant Gio itself is built. The per-repo `AGENTS.md` files link it
+rather than copy it, so there is one version to read and one to edit.
 
 **[`PLAN.md`](PLAN.md) — the plan.** Eight phases that turn the repositories
 from a loose collection into one design system: the front-door documentation
@@ -63,10 +65,10 @@ Ten scripts live in `scripts/`. Five of them do work.
   paragraphs, and both directions of the layer paragraph's dependency claim.
   It never commits.
 - [`scripts/sync-versions.sh`](scripts/sync-versions.sh) — write the measured
-  module versions into [`llms.txt`](llms.txt), reading `git tag` in every clone
-  and touching nothing but the version tokens. It is the last step of a
-  release, and it exists because `sync-agents.sh` cannot reach the canonical
-  guide — this repository is the parent of the clones, not one of them — so the
+  module versions into the workbench clone's `llms.txt`, reading `git tag` in
+  every clone and touching nothing but the version tokens. It is the last step
+  of a release, and it exists because the guide is prose with embedded
+  numbers, not a template render `sync-agents.sh` could own — the
   guide's table was the one that drifted, by three minors, under a line reading
   "EVERY TAG ABOVE IS RELEASED AND CURRENT".
 - [`scripts/push-design.sh`](scripts/push-design.sh) — regenerate the sibling
