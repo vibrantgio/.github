@@ -10890,11 +10890,11 @@ The owner sees the Cancel/Done dialog but no variant with a close X
 at the top right. Give the dialog pattern the top-right close
 affordance if it lacks one, and show both variants in the gallery.
 
-- [ ] The dialog pattern offers a top-right close affordance —
+- [x] The dialog pattern offers a top-right close affordance —
   added additively if absent — with hit target and contrast
   measured in both schemes, and the gallery shows the Cancel/Done
   and the close-X variants side by side.
-- [ ] Exit: both dialog variants render in both schemes; tests
+- [x] Exit: both dialog variants render in both schemes; tests
   green; goldens regenerated where pixels legitimately move; fresh
   eyes raise no complaint about the close affordance's visibility
   or reachability. Commit and push.
