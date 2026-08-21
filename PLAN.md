@@ -11271,7 +11271,7 @@ and the inverse pair; Surface and Divider stay single swatches.
   cell edge reads; tests green. Commit and push.
 
 #### W1.6: One edge colour per scheme in the palette grid
-- [ ] Ruled by the owner on 2026-08-21, sharpened the same day:
+- [x] Ruled by the owner on 2026-08-21, sharpened the same day:
   every cell, base chip and pick swatch in the palette section
   draws ONE edge colour per scheme — the inverse of the page,
   the InverseSurface token — strong on the near-page cells where
@@ -11280,7 +11280,7 @@ and the inverse pair; Surface and Divider stay single swatches.
   is recorded, the soft end named and accepted rather than
   engineered away; the no-edge-is-its-own-fill test retargets to
   assert the single colour and its recorded soft end.
-- [ ] Exit: renders at a narrow and a wide width, both schemes;
+- [x] Exit: renders at a narrow and a wide width, both schemes;
   fresh eyes confirm the grid reads calm — no polarity flip mid
   ramp — and every cell still reads bounded by edge or by its own
   fill; tests green. Commit and push.
