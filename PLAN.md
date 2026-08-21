@@ -11270,6 +11270,21 @@ and the inverse pair; Surface and Divider stay single swatches.
   eyes confirm no mid-word cut anywhere on the board and every
   cell edge reads; tests green. Commit and push.
 
+#### W1.6: One edge colour per scheme in the palette grid
+
+- [ ] Ruled by the owner on 2026-08-21: the per-cell edge choice
+  goes — every cell, base chip and pick swatch in the palette
+  section draws one edge colour per scheme, the single token
+  chosen by measurement to maximise the weakest edge across every
+  fill the section shows, with the accepted worst case — the cell
+  whose fill approaches the edge — named and recorded rather than
+  engineered away; the no-edge-is-its-own-fill test retargets to
+  assert the single colour and its recorded exception.
+- [ ] Exit: renders at a narrow and a wide width, both schemes;
+  fresh eyes confirm the grid reads calm, no polarity flip mid
+  ramp, and every cell still reads bounded via its neighbours;
+  tests green. Commit and push.
+
 ## Phase X: Warning bends toward orange in the deep
 
 Ruled by the owner on 2026-08-21, closing the walkthrough's warning
