@@ -11342,3 +11342,15 @@ against the highlight's edge.
 - [x] Exit: renders in both schemes; goldens regenerated where
   pixels legitimately move; fresh eyes confirm one set of edges;
   tests green. Commit and push.
+
+#### Y1.4: The aside column's inks and rhythms
+
+- [ ] Three small disagreements settle: the heading-level indent
+  joins the column's 8dp rhythm instead of stepping 10; the empty
+  state stands on the row axis its rows would use; and the dark
+  scheme's ink tiers keep the head-versus-row separation the
+  light scheme keeps instead of nearly collapsing — each measured
+  before and after, recorded.
+- [ ] Exit: renders in both schemes; goldens regenerated where
+  pixels legitimately move; fresh eyes confirm rhythm, axis and
+  tiers; tests green. Commit and push.

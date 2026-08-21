@@ -201,3 +201,13 @@ error on any fill or mark):
     - workbench has no tags: `go run …@latest` works for the
       launcher and both apps today but returns pseudo-versions
       until the root tag and per-app tags are cut.
+
+From the aside-edges review (2026-08-21):
+
+47. **[decide]** The scrollbar speaks at two volumes: the light
+    thumb measures 1.47:1 against its ground (a whisper), the dark
+    one 4.49:1 — loud enough that in dark it out-shouts the
+    selection pill (whose own step from ground is ΔL* 5.8) right
+    at the window's edge. Match dark down to light's whisper,
+    lift light up, or meet in the middle? One thumb serves every
+    app, so this is a components-wide call.
