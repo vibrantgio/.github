@@ -11380,12 +11380,12 @@ the outline-geometry item already landed in the outline phase.
 
 #### Z1.1: The properties slab stops wearing the divider colour
 
-- [ ] The note's properties slab stops filling with the divider
+- [x] The note's properties slab stops filling with the divider
   colour: it takes a fitting ground from the theme's surface
   story — judged against the note's own surfaces and recorded —
   and its labels are re-measured to clear the text floor on the
   new ground; no colour literals.
-- [ ] Exit: renders in both schemes; goldens regenerated where
+- [x] Exit: renders in both schemes; goldens regenerated where
   pixels legitimately move; fresh eyes on the note confirm the
   slab reads as a surface rather than the heaviest block in the
   note; tests green. Commit and push.
