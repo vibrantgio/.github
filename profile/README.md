@@ -72,9 +72,9 @@ Ten further modules live in subdirectories of the repositories above, such as
 lists them all with current versions.
 
 Two repositories sit outside the table:
-[workbench](https://github.com/vibrantgio/workbench) — one untagged module
-holding the seven example applications and the canonical guide, installed
-from the branch tip rather than a version — and
+[workbench](https://github.com/vibrantgio/workbench) — the seven example
+applications and the launcher, each its own untagged module installed from
+the branch tip rather than a version, plus the canonical guide — and
 [design](https://github.com/vibrantgio/design), the exported token bundle
 together with the architecture rationale. Every module in the organization
 builds on gioui.org v0.10.1, github.com/reactivego/rx v0.3.0 and Go 1.25.1.
