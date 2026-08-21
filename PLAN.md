@@ -11278,3 +11278,40 @@ weakened, with the chosen bound recorded from measurement.
   orange-when-deep, never brown, never mistakable for error, in
   both schemes; tests green in every touched module. Commit and
   push.
+
+## Phase Y: The outline answers every click
+
+Ruled by the owner on 2026-08-21, from the ruling sheet's
+vaultview group: clicking an outline entry must always select it,
+including the tail entries whose headings cannot be scrolled all
+the way to the top — the note scrolls as far as it can and the
+selection holds even though the heading does not land at the top.
+And the outline's selected row takes the geometry the sidebar
+already renders for the same idiom, instead of pressing its label
+against the highlight's edge.
+
+### G-Y1: Tail entries select, and the row wears one geometry
+
+#### Y1.1: Select outline entries whose headings cannot reach the top
+
+- [ ] Clicking any outline entry selects it: the note scrolls as
+  far toward the heading as it can, the clicked entry shows
+  selected even though its heading does not land at the top, and
+  whatever mechanism today denies tail entries the selection —
+  read from the code, not assumed — stops doing so without
+  breaking selection-follows-scroll for entries that do reach the
+  top.
+- [ ] Exit: the selection model proves the tail behaviour by unit
+  test; renders in both schemes where pixels move, goldens
+  regenerated there, the standing review rule applying if they
+  do; tests green. Commit and push.
+
+#### Y1.2: The outline's selected row takes the sidebar's geometry
+
+- [ ] The outline's selected-row inset joins the idiom the
+  sidebar already renders: the label no longer sits a pixel from
+  the highlight's edge, the inset taken from the sidebar's
+  pattern and the before/after numbers recorded.
+- [ ] Exit: renders in both schemes; goldens regenerated where
+  pixels legitimately move; fresh eyes on the outline against the
+  sidebar confirm one idiom; tests green. Commit and push.
