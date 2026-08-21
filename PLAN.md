@@ -10925,12 +10925,171 @@ does it, what state and persistence it needs, and the cost of the
 smallest honest version. Report options with a recommendation; write
 no feature code.
 
-- [ ] The investigation reports: the drag machinery required, prior
+- [x] The investigation reports: the drag machinery required, prior
   art found in the org or upstream, the state/persistence design,
   the estimated size of the smallest implementation, and a
   recommendation — recorded in the plan under this task.
-- [ ] Exit: the findings are recorded and pushed; no feature code
+- [x] Exit: the findings are recorded and pushed; no feature code
   ships. Commit and push.
+
+**Findings.** A drag-resizable sidebar is practical, and cheaper than
+it looks: the window already has one working divider drag, and the
+sidebar needs a second one of the same shape. Nothing new has to be
+invented, and the smallest honest version moves no pixel at rest.
+
+**The machinery, and that the app already runs it.** Gio 0.10.1 offers
+two routes. `gesture.Drag` is the packaged one — `Add(ops)` plus
+`Update(metric, source, axis)`, its pointer mask hardwired to
+Press|Drag|Release|Cancel, its press origin private, so a caller
+wanting a delta must still track the origin itself. The org uses the
+other route everywhere and uses `gesture.Drag` nowhere: a bare tag
+declared with `event.Op` inside a pushed `clip.Rect`, drained through
+`gtx.Event(pointer.Filter{Target, Kinds})`, with the width at press
+latched on Press and the delta taken as position-minus-press on every
+Drag. That idiom never accumulates rounding error, and it is what
+`vaultview/frame.go:500` already does for the note/aside divider —
+same file, same struct, 37 lines. `pointer.InputOp` does not exist in
+this version; stale doc comments in Gio's own tree still name it.
+
+The resize cursor exists and the app already sets it:
+`pointer.CursorColResize.Add(gtx.Ops)` at `frame.go:415`, inside the
+divider's clip. Gio's doc for that constant reads inverted — "for
+vertical resize" — but it is CSS `col-resize` and the macOS backend
+maps it to `NSCursor.resizeLeftRightCursor`, so it is the right one
+for a vertical edge dragged sideways.
+
+**Prior art.** Three implementations, all the same idiom, none of them
+resizing a *leading* pane:
+
+- `vaultview/frame.go:497-546` — the aside divider. Absolute dp width,
+  clamped 160–640, 6 dp hit strip registered in frame-local
+  coordinates so the delta measures against a stable origin even as
+  the divider moves, ink drawn only while hovered or dragging. Closest
+  possible template: the sidebar version is this code mirrored.
+- `patterns/shell/threecolumn.go:129-169` — the same drag, plus an
+  `OnAsideResize` callback and an `applied` guard so an externally
+  supplied width cannot snap the divider mid-drag.
+- `patterns/shell/shell.go:373-411` — the split pane, ratio-based and
+  axis-agnostic. Its tests (`shell_test.go:235`,
+  `threecolumn_test.go:74`) are the only worked examples of driving a
+  synthetic divider drag: two warm-up frames, then Press, Move,
+  Release through a real router. vaultview's own divider has no test
+  at all.
+
+Upstream, `gioui.org/example` is not in the module cache and cannot be
+fetched. `gioui.org/x@v0.10.1` is, and has `component.Resize`
+(`component/resizer.go`): ratio-primary, handle recorded into a macro
+so the drag lands in the same frame, but it accumulates `Pos += x`
+from each event's local coordinate, and it clamps only to the full
+track — either pane can collapse to nothing. Not worth adopting over
+what the app already has.
+
+**Where a width would flow.** The sidebar's width is the constant
+`treeWidthDp = 240` (`tree.go:64`), read in exactly two places:
+`frameGeometry` (`frame.go:306`), which builds the pane rectangle and
+sets `contentX` from it, and `treeView.layout` (`tree.go:308`), which
+re-derives the rail's own width although `layoutRailPane` already
+hands it an exact-sized slot — that second read can simply go, taking
+five lines with it. Making the width a parameter of `frameGeometry`
+is the whole layout change.
+
+**State and persistence.** Live width in `frameState`, exactly as
+`asideW` lives there now: the drag then costs no model round trip per
+frame, which matters because messages reach the model through a
+per-frame collector. On Release, and only then, emit one
+`SetSidebarWidth` message; the model records it beside `SidebarHidden`
+— already described there as window state rather than vault state —
+and a command writes it out. One file write per gesture, not per
+frame. This is deliberately unlike the shell's callback, which fires
+on every changed frame; that is fine for a callback into memory and
+wrong for a file. Because the frame state is the single live source
+and the model is written only on release, the shell's mid-drag
+snap-back hazard does not arise here at all.
+
+The store is `~/.config/vaultview/`, honouring `XDG_CONFIG_HOME` and
+deliberately not `os.UserConfigDir()`. A second file beside the vault
+path, holding the width in dp, keeps that file's one-value-one-file
+plainness. Absent or unparseable reads as the 240 default, and the
+value is clamped on read as well as on drag, so a stale or
+hand-edited number cannot open the window in an unusable shape.
+
+**Bounds, measured.** The hard floor is the pane's own top strip: the
+window buttons take `buttonEdge - railMargin` (71 dp on this
+machine), the hide toggle 24, the trailing margin 8 — 103 dp before
+the toggle collides with the buttons and the window-drag span between
+them vanishes. 160 dp is the honest minimum: it clears that floor with
+57 dp of drag left and matches the aside's own minimum and the shell's.
+
+For the ceiling, the stored macOS captures (ADR-019's reference set)
+give a bracket, measured off the leading pane at mid-height: Notes
+~220 dp, Finder ~310, Reminders ~360, Mail's flush mailbox list 392,
+Voice Memos 320. These are widths as captured, not defaults, but they
+say the platform sits between roughly 220 and 390, and that this
+window's 240 is at the low end. 400 dp is the recommended maximum: at
+the 1100 dp window with the aside at its 320 default it still leaves
+the note column 374 dp. `frameGeometry`'s existing half-window clamp
+stays underneath as the narrow-window backstop.
+
+Note that the note column has no floor of its own today — `mainW` is
+clamped only at zero — so with both edges draggable it can be squeezed
+from both sides. The width clamp above is what keeps that honest in
+the smallest version; a real note-column floor is a separate decision.
+
+**The hit strip.** 6 dp, matching the aside divider and the shell's
+divider, placed in the note column's leading inset rather than
+straddling the pane edge: the note's first ink is 24 dp in, so the
+strip lands on bare paper and steals nothing from the pane's own rows,
+find field or top-strip controls, which a straddling strip would take
+3 dp from. Registered after the note column's ops so the foremost-area
+rule gives it the press. `components/internal/hit`'s `Extend` is not
+the tool — its own doc scopes it to standalone controls, and an edge
+between two panes is not one. Running the strip the pane's full height
+costs 6 dp of the chrome row's 24 dp leading drag spacer, which is
+worth paying so that the edge is grabbable everywhere the edge exists.
+
+Ink follows the aside divider's rule: nothing at rest, a line under
+the pointer and while dragging, inset from top and bottom so it does
+not cross the pane's corner arcs. Because nothing is drawn at rest,
+**no golden moves and none needs regenerating** — the window goldens
+render at the default width, and `noteCanvasW` stays a constant
+expression because `treeWidthDp` stays a constant default.
+
+This also closes a niggle already carried here: that the
+sidebar/document edge is invisible while the document/aside edge is a
+6 dp slab, two dividers speaking two languages. Since the frame's
+rework neither inks at rest; giving the sidebar edge the same grab and
+the same hover ink makes them one language rather than two.
+
+**Double-click to reset: deferred, deliberately.** `pointer.Event` in
+this Gio carries no click count, so a reset gesture needs a
+`gesture.Click` on a parallel tag purely to read `NumClicks`, and the
+org instantiates neither `gesture.Drag` nor, outside one tooltip,
+`gesture.Hover`. That is a new gesture type and a new interaction on
+the same strip for a convenience nobody has asked for. Not part of the
+smallest version.
+
+**Size, counted honestly.** In vaultview only: the drag processor
+~35 lines mirroring the existing one; frame state and constants ~10;
+hit strip, cursor and hover ink ~20; `frameGeometry` taking the width
+~5; `tree.go` losing its redundant re-derivation ~-5; store round trip
+~35; model field, message, update case and save command ~25. About
+190 lines of code, plus roughly 120 of test — a drag test built on the
+shell's worked example, a clamp test, a store round-trip. Two existing
+assertions pin the rail to the constant: `frame_test.go:163` keeps
+passing, since the default width is still 240, and `tree_test.go:344`
+needs rewriting to assert the rail fills its slot once the redundant
+re-derivation goes. One repo, one commit, no golden regeneration, no
+other repo touched.
+
+**Recommendation.** Do it, in one task, as a mirror of the aside
+divider rather than as anything new: live width in the frame state,
+committed to the model on release, persisted beside the vault path,
+clamped 160–400 under the existing half-window backstop, a 6 dp strip
+in the note's leading inset carrying `CursorColResize` and inking only
+under the hand. Deferring persistence would split it into two smaller
+tasks cleanly, but the width is worth remembering and the store
+already exists, so one task is the better shape. Leave double-click
+reset out.
 
 #### T5.2: A status bar with the note's line count
 
