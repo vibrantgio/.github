@@ -11243,6 +11243,19 @@ and the inverse pair; Surface and Divider stay single swatches.
   goldens regenerated where pixels legitimately move. Commit and
   push.
 
+#### W1.4: The palette section's edges and elisions
+
+- [ ] The section's heading bar and its grid agree on width at
+  every window — no ragged right edge at wide widths, the remedy
+  judged and recorded; captions that cannot fit truncate at
+  clause boundaries, never mid-word; the light scheme's caption
+  contrast joins its neighbours' register instead of standing as
+  the section's outlier.
+- [ ] Exit: renders at the truncating width and a wide one, both
+  schemes; fresh eyes confirm the edge, the elision, and the
+  caption register; tests green; goldens where pixels move.
+  Commit and push.
+
 ## Phase X: Warning bends toward orange in the deep
 
 Ruled by the owner on 2026-08-21, closing the walkthrough's warning
