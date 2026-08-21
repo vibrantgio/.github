@@ -10906,9 +10906,9 @@ the Gallery/Tokens/Patterns tabs; the v1 badge at the right looks
 good. Put the label, the tabs and the badge on one measured centre
 line, reusing the centring approach the themer's rows now use.
 
-- [ ] The gallery's top bar puts label, tabs and badge on one shared
+- [x] The gallery's top bar puts label, tabs and badge on one shared
   centre line, measured, the badge untouched in form.
-- [ ] Exit: the gallery rendered in both schemes shows the aligned
+- [x] Exit: the gallery rendered in both schemes shows the aligned
   bar; tests green; goldens regenerated where pixels legitimately
   move; fresh eyes raise no complaint about the bar's alignment.
   Commit and push.
