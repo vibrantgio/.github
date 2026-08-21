@@ -11420,10 +11420,10 @@ the outline-geometry item already landed in the outline phase.
 
 #### Z1.2: The themer's base list scrolls to every style
 
-- [ ] The base list's scrollbar computes the true row height,
+- [x] The base list's scrollbar computes the true row height,
   padding included, so every style is reachable by scrolling; the
   arithmetic is held by test rather than eyeballed.
-- [ ] Exit: renders showing the list scrolled to its last row in
+- [x] Exit: renders showing the list scrolled to its last row in
   both schemes; goldens where pixels legitimately move; fresh
   eyes if pixels move; tests green. Commit and push.
 
