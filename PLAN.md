@@ -11442,3 +11442,26 @@ the outline-geometry item already landed in the outline phase.
   text field in both schemes; goldens regenerated where pixels
   legitimately move; fresh eyes confirm one focus idiom that
   reads on every control; tests green. Commit and push.
+
+#### Z1.6: Code fences stop clipping at their trailing edge
+
+- [ ] The fence's asymmetric padding — 14px leading, none
+  trailing, glyphs cut in half against the frame — becomes
+  symmetric in the markdown library, the trailing pad matching
+  the leading one; goldens move in the library and in every
+  consumer whose renders show fences, regenerated repo by repo.
+- [ ] Exit: a fence with a long line renders in both schemes with
+  the last glyph clear of the frame; fresh eyes confirm no clip
+  at either edge; tests green in every touched module. Commit and
+  push.
+
+#### Z1.7: The shell demo's sidebar loses its debug box
+
+- [ ] The unexplained centred 16px grey box in the shell demo's
+  sidebar is traced to its source — placeholder, leftover, or a
+  real affordance drawn too bare, read from the code rather than
+  assumed — and is removed or becomes the thing it was meant to
+  be, the finding recorded.
+- [ ] Exit: renders in both schemes; goldens regenerated where
+  pixels legitimately move; fresh eyes confirm the sidebar
+  carries nothing unexplained; tests green. Commit and push.

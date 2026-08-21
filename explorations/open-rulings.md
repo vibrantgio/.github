@@ -27,7 +27,10 @@ different rules. One phase could cover all of them.
    Secondary 700 #b2cdfd, steps 800/900 byte-identical, Info close
    behind.)
 5. **[bug]** Dark ramps: steps 1–4 are four near-blacks, then a jump.
-   The middle of the ramp is missing.
+   The middle of the ramp is missing. (2026-08-21: the top end
+   compresses too — dark Neutral 700/800/900 span 34 grey levels
+   where light's span 73, so "one step apart" separates far less
+   in dark; measured while fixing the properties panel.)
 6. **[decide]** Status colours: all four share one lightness, so in
    greyscale they're identical; and the seed's influence on them is
    now too small to see but still changes goldens on every seed
@@ -237,3 +240,13 @@ From the dropdown review (2026-08-21):
     rendering, so the moment menus gain hover, selection and
     cursor become indistinguishable. Add a checkmark, or reserve
     inversion for the cursor and quiet the selection?
+
+From the properties-panel review (2026-08-21; the panel itself is
+now bounded, quiet, ranked and 14px shorter):
+
+52. **[decide]** Three layout leftovers on the panel: the box runs
+    the full column width with ~70% empty interior (hug the
+    content instead?); the head row aligns with nothing (chevron
+    x26, box x24, keys x32, label x47 — pick an axis); and the
+    keys sit 8px from a now-darker edge (a touch cramped). One
+    small pass, if wanted.
