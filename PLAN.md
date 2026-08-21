@@ -11195,7 +11195,7 @@ and the inverse pair; Surface and Divider stay single swatches.
 
 #### W1.1: Show the palette ramps and picks in the themer
 
-- [ ] The themer gains a palette section: a "Palette Ramps" grid —
+- [x] The themer gains a palette section: a "Palette Ramps" grid —
   one row per ramp, ordered Primary, Secondary, Tertiary, Error,
   Success, Warning, Info, Neutral, columns headed 100 to 900, each
   cell the actual ramp colour — and below it a "Palette Picks"
@@ -11204,7 +11204,7 @@ and the inverse pair; Surface and Divider stay single swatches.
   own base; both sections read the app's single derived pair and
   follow the scheme switch live; placement in the app's reading
   order is judged and recorded.
-- [ ] Exit: the themer renders headlessly in both schemes showing
+- [x] Exit: the themer renders headlessly in both schemes showing
   ramps above picks; goldens regenerated where pixels legitimately
   move; fresh eyes review the rendered section; tests green.
   Commit and push.
