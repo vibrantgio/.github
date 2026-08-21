@@ -77,6 +77,14 @@ different rules. One phase could cover all of them.
     inset rounded card, right is a full-bleed slab. Pick one
     construction.
 
+Added 2026-08-21 (numbered past the end so nothing above shifts):
+
+42. **[bug]** Outline entries near the end of the note can't be
+    selected: an entry whose heading can't be scrolled all the way to
+    the top never becomes the selected one. Ruled: selection must
+    always work — the note scrolls as far as it can and the entry
+    simply doesn't land at the top.
+
 ## D. Themer
 
 23. **[feature]** No search, filter, or jump-to-letter in the 77-style
