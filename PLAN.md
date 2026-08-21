@@ -11271,20 +11271,19 @@ and the inverse pair; Surface and Divider stay single swatches.
   cell edge reads; tests green. Commit and push.
 
 #### W1.6: One edge colour per scheme in the palette grid
-
-- [ ] Ruled by the owner on 2026-08-21: the per-cell edge choice
-  goes — every cell, base chip and pick swatch in the palette
-  section draws one edge colour per scheme, the single token
-  chosen by measurement to maximise the weakest edge across every
-  fill the section shows, with the accepted worst case — the cell
-  whose fill approaches the edge — named and recorded rather than
+- [ ] Ruled by the owner on 2026-08-21, sharpened the same day:
+  every cell, base chip and pick swatch in the palette section
+  draws ONE edge colour per scheme — the inverse of the page,
+  the InverseSurface token — strong on the near-page cells where
+  an edge is needed and fading into the ink-end cells whose own
+  fills bound them; the measured contrast range across the grid
+  is recorded, the soft end named and accepted rather than
   engineered away; the no-edge-is-its-own-fill test retargets to
-  assert the single colour and its recorded exception.
+  assert the single colour and its recorded soft end.
 - [ ] Exit: renders at a narrow and a wide width, both schemes;
-  fresh eyes confirm the grid reads calm, no polarity flip mid
-  ramp, and every cell still reads bounded via its neighbours;
-  tests green. Commit and push.
-
+  fresh eyes confirm the grid reads calm — no polarity flip mid
+  ramp — and every cell still reads bounded by edge or by its own
+  fill; tests green. Commit and push.
 ## Phase X: Warning bends toward orange in the deep
 
 Ruled by the owner on 2026-08-21, closing the walkthrough's warning
