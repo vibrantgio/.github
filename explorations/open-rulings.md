@@ -106,6 +106,26 @@ themer):
     392/366 — 90pt shorter and balanced — at the cost of the fixed
     order. Keep order, or pack better?
 
+From the warning-orange review (2026-08-21; the bend itself landed
+and passed — deep warning reads orange, never mistakable for
+error on any fill or mark):
+
+45. **[decide]** Dark warning container vs dark error container
+    measure ΔE00 8.8 apart (light pair: 18.8; every other dark
+    pair: 26–36). Still distinguishable side by side, and the
+    marks carry the signal — but thin if a warning container ever
+    ships bare. Fixing it means the container stops taking its
+    hue at the depth it stands at (a special case the one-rule
+    derivation deliberately forbids) or the bend shrinks (deep
+    warning goes back toward brown). Accept 8.8, or make the
+    exception?
+46. **[decide]** Dark Tertiary and dark Error can converge on
+    near-identical pale pinks (ΔE00 11.9 with a green seed —
+    closer than any status pair). Tertiary is the seed hue +60°,
+    so some seeds park it on error's doorstep. Should tertiary
+    owe the error family a separation gate the way the accent
+    already does?
+
 ## D. Themer
 
 23. **[feature]** No search, filter, or jump-to-letter in the 77-style
