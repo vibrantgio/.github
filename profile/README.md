@@ -7,27 +7,6 @@ observables — state, theme and rendering are all driven reactively — and the
 design decisions follow Material Design's *generative* ideas, design tokens and
 semantic roles rather than a transcription of the Android widget set.
 
-## Start here
-
-- **[llms.txt](https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt)** —
-  the canonical guide for writing Vibrant Gio applications, and the file to hand
-  a coding assistant. Module inventory with current tags, the application
-  skeleton, MVU and rx semantics, typography, and the pitfalls that are not
-  guessable. It exists exactly once, in
-  [`workbench`](https://github.com/vibrantgio/workbench); every repository
-  links this URL instead of copying it.
-- **[design/DESIGN.md](https://github.com/vibrantgio/design/blob/master/DESIGN.md)** —
-  the architecture and its rationale: the layering and its inversion, the
-  generative colour model, the deliberate desktop divergences from Material
-  Design 3, the key architectural patterns, threading rules, and the decision
-  records — kept beside the exported token bundle in
-  [design](https://github.com/vibrantgio/design).
-- **[workbench/todos/](https://github.com/vibrantgio/workbench/tree/master/todos)** —
-  the smallest complete application, and the one to read before writing your
-  own. Six larger references sit beside it in
-  [workbench](https://github.com/vibrantgio/workbench): `sitedocs`, `feeds`,
-  `vaultview`, `mindchat`, `iconbrowser` and `launcher`.
-
 <p>
   <img src="launcher-dark.png" alt="Workbench launcher in dark mode — app cards on a live seen 3D field" width="49%">
   <img src="launcher-light.png" alt="Workbench launcher in light mode" width="49%">
@@ -37,24 +16,39 @@ semantic roles rather than a transcription of the Android widget set.
   <img src="mindchat-light.png" alt="MindChat in light mode" width="49%">
 </p>
 
-The [workbench](https://github.com/vibrantgio/workbench) launcher and MindChat,
-each captured in the OS dark and light appearance — theme re-themes every
-window live when the system switches, and these four shots are that switch: one
-running process per app, the appearance flipped underneath it, on the
-seed-derived palette (ADR-007).
+Two of the example applications, each captured in the OS dark and light
+appearance. Every window re-themes live when the system appearance switches —
+these four shots are one running process per app with the appearance flipped
+underneath it. The entire palette is derived from a single seed colour.
+
+## Start here
+
+- **[workbench/todos/](https://github.com/vibrantgio/workbench/tree/master/todos)** —
+  the smallest complete application, and the one to read before writing your
+  own. Six larger references sit beside it in
+  [workbench](https://github.com/vibrantgio/workbench): `sitedocs`, `feeds`,
+  `vaultview`, `mindchat`, `iconbrowser` and `launcher`.
+- **[llms.txt](https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt)** —
+  the guide for writing Vibrant Gio applications, and the file to hand a
+  coding assistant. Module inventory with current versions, the application
+  skeleton, MVU and rx semantics, typography, and the pitfalls that are not
+  guessable.
+- **[design/DESIGN.md](https://github.com/vibrantgio/design/blob/master/DESIGN.md)** —
+  the architecture and why it is shaped this way: the layering, the generative
+  colour model, the deliberate desktop divergences from Material Design 3, and
+  the decision records.
 
 ## The stack
 
-Nineteen modules, one per repository, layered. A module may import only modules
-in a strictly lower tier, plus anything in the support row; the support
-libraries import nothing else from the organization. This is ADR-001's tier
-table, and CI enforces it.
+Nineteen modules, one per repository, layered: a module may import only
+modules in a lower tier, plus anything in the support row, and CI enforces
+that direction.
 
 | Tier | Module | What it is |
 | --- | --- | --- |
 | 0 | [mvu](https://github.com/vibrantgio/mvu) | Model-View-Update runtime for Gio: `NewWindow`, the update/view loop, messages, commands, and the `MessageOp` widget protocol |
 | 0 | [font](https://github.com/vibrantgio/font) | Roboto and Roboto Mono packaged as Gio faces — six weights, Thin to Black, regular and italic, plus the mono face for code |
-| 0 | [style](https://github.com/vibrantgio/style) | Frozen (ADR-003): the old MD2 type scale and `FontFaces()`, superseded by theme's Typography — kept for existing consumers, never added to a new app |
+| 0 | [style](https://github.com/vibrantgio/style) | Frozen: the old MD2 type scale and `FontFaces()`, superseded by theme's Typography — kept for existing consumers, never added to a new app |
 | 0 | [textdraw](https://github.com/vibrantgio/textdraw) | Low-level text drawing: glyph-level control, measurement, alignment, label backgrounds |
 | 0 | [backdrop](https://github.com/vibrantgio/backdrop) | Solid colour fill widget |
 | 0 | [gradient](https://github.com/vibrantgio/gradient) | Linear gradient fill widget |
@@ -72,21 +66,8 @@ table, and CI enforces it.
 | — | [noise](https://github.com/vibrantgio/noise) | Perlin and Simplex noise, 2D and 3D |
 | — | [traer](https://github.com/vibrantgio/traer) | Particle-system physics: springs, attractions, Verlet integration |
 
-The inversion ADR-001 called for has landed: the token and theme contract lives
-in `theme`, theme transitions live in `effects`, and every component takes its
-typeface and colours from the theme rather than compiling in its own. The old
-forwarding aliases — `prism/tokens`, `prism/theme`, `prism/a11y` and
-`spectrum/transition` — were deleted by the breaking release (prism v0.2.0,
-spectrum v0.3.0); import the `theme/…` and `effects/transition` paths they
-used to forward to. `style` is frozen at v0.0.6 rather than deleted, and
-carries the table's one intra-tier edge: it imports `font` and `textdraw`,
-both tier 0.
-
-Ten further modules live in subdirectories of the repositories above:
-`components/gallery`, `mvu/example`, `ivg/raster/gio`, `kiwi/gio`, `traer/gio`,
-`seen/context/gio` and `svg/driver/{gio,pdf,raster,seen}`. They do not show up
-in a repository listing, and their tags carry the subdirectory as a prefix
-(`raster/gio/v0.1.6`, not `v0.1.6`) —
+Ten further modules live in subdirectories of the repositories above, such as
+`ivg/raster/gio` and `svg/driver/pdf` —
 [llms.txt](https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt)
 lists them all with current versions.
 
@@ -94,6 +75,5 @@ Two repositories hold no module in the table:
 [workbench](https://github.com/vibrantgio/workbench), the seven example
 applications and the canonical guide, and
 [design](https://github.com/vibrantgio/design), the exported token bundle
-together with the architecture
-rationale. Every module in the organization builds on gioui.org v0.10.1,
-github.com/reactivego/rx v0.3.0 and Go 1.25.1.
+together with the architecture rationale. Every module in the organization
+builds on gioui.org v0.10.1, github.com/reactivego/rx v0.3.0 and Go 1.25.1.
