@@ -22,7 +22,10 @@ different rules. One phase could cover all of them.
    toggle looks different per scheme.
 4. **[bug]** In dark mode, Primary and Secondary are nearly the same
    colour — side by side you cannot tell them apart. Saturation isn't
-   controlled in dark the way it is in light.
+   controlled in dark the way it is in light. (2026-08-21: the new
+   palette grid shows it plainly — dark Primary 700 #b0cdff vs
+   Secondary 700 #b2cdfd, steps 800/900 byte-identical, Info close
+   behind.)
 5. **[bug]** Dark ramps: steps 1–4 are four near-blacks, then a jump.
    The middle of the ramp is missing.
 6. **[decide]** Status colours: all four share one lightness, so in
@@ -85,6 +88,23 @@ Added 2026-08-21 (numbered past the end so nothing above shifts):
     the top never becomes the selected one. Ruled: selection must
     always work — the note scrolls as far as it can and the entry
     simply doesn't land at the top.
+
+From the palette-display review (these belong with group D, the
+themer):
+
+43. **[decide]** In dark scheme the seed-candidate chips at the top
+    of the window carry theme token values in the same chip-plus-Aa
+    vocabulary as a palette pick cell (the blue chip is exactly dark
+    Primary 700, the red Error 700, the grey Neutral 700) — the same
+    visual sentence twice, ~250px apart. Removing the chips would
+    gut the candidate row's promise of "what choosing this
+    delivers", so: accept the echo, or restyle one of the two?
+44. **[decide]** The picks board flows its four families in fixed
+    order at every width, which keeps a family's neighbours stable
+    but leaves narrow packing unbalanced (columns 482 vs 276).
+    Free assignment (Page+Accents | Inverse+Status) measures
+    392/366 — 90pt shorter and balanced — at the cost of the fixed
+    order. Keep order, or pack better?
 
 ## D. Themer
 
