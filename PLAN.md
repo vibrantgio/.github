@@ -11485,11 +11485,11 @@ the outline-geometry item already landed in the outline phase.
 
 #### Z1.7: The shell demo's sidebar loses its debug box
 
-- [ ] The unexplained centred 16px grey box in the shell demo's
+- [x] The unexplained centred 16px grey box in the shell demo's
   sidebar is traced to its source — placeholder, leftover, or a
   real affordance drawn too bare, read from the code rather than
   assumed — and is removed or becomes the thing it was meant to
   be, the finding recorded.
-- [ ] Exit: renders in both schemes; goldens regenerated where
+- [x] Exit: renders in both schemes; goldens regenerated where
   pixels legitimately move; fresh eyes confirm the sidebar
   carries nothing unexplained; tests green. Commit and push.
