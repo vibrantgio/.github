@@ -99,7 +99,10 @@ mvu carries no design tokens.
 seven app modules in subdirectories, and no library imports them. (G0E.2 later
 added `design`, a further sibling with a root module of its own;
 `check-layers.sh` classifies it as an application and exempts it, the same as
-the workbench apps, so the judged nineteen are unchanged.) A module may
+the workbench apps, so the judged nineteen are unchanged. Phase V later gave
+`workbench` a root module of its own for the launcher; it too classifies as
+an application and is exempt, so the judged nineteen hold again — the reason
+is now classification, no longer the absence of a root module.) A module may
 import only modules in a strictly lower tier, plus anything in the support row:
 
 | Tier | Modules | May import |
@@ -4987,7 +4990,11 @@ reasons, and the first is structural rather than a preference:
   root; the seven apps are seven independent modules in seven subdirectories.
   So the rule below — *a nested module's tag mirrors its root's version* — has
   nothing to mirror, and the only tags that could exist are `launcher/vX.Y.Z`,
-  `todos/vX.Y.Z` and five more, each running its own counter. That is exactly
+  `todos/vX.Y.Z` and five more, each running its own counter. (Amended under
+  Phase V: the root module now exists and its tag versions the launcher
+  alone; the apps keep their own counters by owner ruling — independent
+  products, not mirrors — so the conclusion stands on a premise that
+  changed.) That is exactly
   the drift the mirror rule forbids, with no root tag available to stop it.
 - **Nothing in the org depends on them.** `workbench` is the leaf of the
   layer diagram. A version number's job is to let a consumer resolve a
