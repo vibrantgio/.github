@@ -11294,14 +11294,14 @@ against the highlight's edge.
 
 #### Y1.1: Select outline entries whose headings cannot reach the top
 
-- [ ] Clicking any outline entry selects it: the note scrolls as
+- [x] Clicking any outline entry selects it: the note scrolls as
   far toward the heading as it can, the clicked entry shows
   selected even though its heading does not land at the top, and
   whatever mechanism today denies tail entries the selection —
   read from the code, not assumed — stops doing so without
   breaking selection-follows-scroll for entries that do reach the
   top.
-- [ ] Exit: the selection model proves the tail behaviour by unit
+- [x] Exit: the selection model proves the tail behaviour by unit
   test; renders in both schemes where pixels move, goldens
   regenerated there, the standing review rule applying if they
   do; tests green. Commit and push.
