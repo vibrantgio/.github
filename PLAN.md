@@ -11321,10 +11321,10 @@ against the highlight's edge.
 
 #### Y1.2: The outline's selected row takes the sidebar's geometry
 
-- [ ] The outline's selected-row inset joins the idiom the
+- [x] The outline's selected-row inset joins the idiom the
   sidebar already renders: the label no longer sits a pixel from
   the highlight's edge, the inset taken from the sidebar's
   pattern and the before/after numbers recorded.
-- [ ] Exit: renders in both schemes; goldens regenerated where
+- [x] Exit: renders in both schemes; goldens regenerated where
   pixels legitimately move; fresh eyes on the outline against the
   sidebar confirm one idiom; tests green. Commit and push.
