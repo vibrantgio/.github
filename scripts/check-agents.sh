@@ -156,6 +156,11 @@ unlisted=""
 for dir in "$WS"/*/; do
 	name=$(basename "$dir")
 	[ "$name" = .github ] && continue # the plan root is a sibling, not a surveyed repo
+	# eliasfonts is a local checkout of eliasnaur.com/font, not an org
+	# module to render. Skip any sibling whose go.mod is not ours.
+	if [ -f "$dir/go.mod" ] && ! grep -q '^module github.com/vibrantgio/' "$dir/go.mod"; then
+		continue
+	fi
 	case " $listed " in
 	*" $name "*) ;;
 	*) unlisted="$unlisted $name" ;;

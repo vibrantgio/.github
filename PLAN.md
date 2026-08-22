@@ -11594,18 +11594,18 @@ missed pin.
 
 ![[#ADR-006]]
 
-- [ ] Tag and push `font` at the next minor; tag and push
+- [x] Tag and push `font` at the next minor; tag and push
   `seen/context/gio` at its next nested version. Re-pin `design`
   onto the new `font` tag. Then walk the workspace members
   (except `style`): bump `font` to the new tag where they pin
   it, `go mod tidy`, so `eliasnaur.com/font` leaves every live
   `go.mod` and `go.sum`.
-- [ ] `GOWORK=off` verify the tags from VCS in `font`,
+- [x] `GOWORK=off` verify the tags from VCS in `font`,
   `seen/context/gio`, and `design`. A workspace-wide grep for
   `eliasnaur.com/font` in `go.mod` / `go.sum` names only
   `style`. Gates: `check-layers.sh`, `check-versions.sh`,
   `check-no-workspace.sh` as they apply.
-- [ ] `sync-agents.sh` and `llms.txt` pick up the hosting fact
+- [x] `sync-agents.sh` and `llms.txt` pick up the hosting fact
   and the new numbers; commit and push everything the pins
   touched, including `.github`.
 

@@ -116,6 +116,11 @@ for dir in "$WS"/*/; do
 	repo=$(basename "$dir")
 	[ "$repo" = .github ] && continue # the plan root is a sibling, not a surveyed repo
 	[ -d "$dir/.git" ] || continue
+	# eliasfonts is a local checkout of eliasnaur.com/font, not an org
+	# module — its tags and go directive must not enter the guide.
+	if [ -f "$dir/go.mod" ] && ! grep -q '^module github.com/vibrantgio/' "$dir/go.mod"; then
+		continue
+	fi
 
 	# Every tag, split into "<module path under the repo>|<version>" — an empty
 	# left side is the root module. A component of two digits or more is
@@ -156,17 +161,24 @@ nmod=$(wc -l <"$VERSIONS" | tr -d ' ')
 # The external pins, measured across every go.mod rather than typed. If the
 # organization is not on one version of something, that disagreement is news
 # and the line says so instead of picking a winner.
-pin_of() { # module path -> the set of versions required across all go.mod files
+# Only org modules: eliasfonts (eliasnaur.com/font) is a sibling checkout
+# used as a byte source, not a member, and its go 1.16 must not land here.
+org_gomods() {
 	find "$WS" -name go.mod -not -path '*/.git/*' -print0 |
-		xargs -0 awk -v m="$1" '
+		xargs -0 awk 'FNR==1 { org = ($1=="module" && $2 ~ /^github\.com\/vibrantgio\//) }
+			org { print FILENAME; nextfile }'
+}
+pin_of() { # module path -> the set of versions required across all go.mod files
+	org_gomods |
+		xargs awk -v m="$1" '
 			$1 == m && $2 ~ /^v/ { print $2 }
 			$1 == "require" && $2 == m && $3 ~ /^v/ { print $3 }' |
 		sort -u | tr '\n' ' ' | sed 's/ $//'
 }
 GIO=$(pin_of gioui.org)
 RX=$(pin_of github.com/reactivego/rx)
-GODIR=$(find "$WS" -name go.mod -not -path '*/.git/*' -print0 |
-	xargs -0 awk '$1 == "go" { print $2 }' | sort -u | tr '\n' ' ' | sed 's/ $//')
+GODIR=$(org_gomods |
+	xargs awk '$1 == "go" { print $2 }' | sort -u | tr '\n' ' ' | sed 's/ $//')
 
 awk -v org="$ORG" -v vfile="$VERSIONS" -v gio="$GIO" -v rx="$RX" -v godir="$GODIR" '
 	BEGIN {
