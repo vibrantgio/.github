@@ -11817,17 +11817,17 @@ name `"JetBrains Mono"`. Finish it as a first-class family.
 themer already sits a base selector beside the code specimen;
 the code face is the same kind of choice, two names, not sixty.
 
-- [ ] A markdown test with `Code.Typeface = "JetBrains Mono"`
+- [x] A markdown test with `Code.Typeface = "JetBrains Mono"`
   and those faces in the collection proves a fenced block
   shapes in JetBrains Mono at normal and bold, upright and
   italic — not Roboto Mono, not Roboto. Goldens that pin the
   default stay on Roboto Mono.
-- [ ] Every workbench app that renders markdown from a live
+- [x] Every workbench app that renders markdown from a live
   theme (vaultview, sitedocs, mindchat, themer) is audited:
   the live path uses the stream's typography, not a hardcoded
   `DefaultTypography`; goldens and unit tests may keep the
   default.
-- [ ] The themer's code specimen gains a two-value control —
+- [x] The themer's code specimen gains a two-value control —
   Roboto Mono and JetBrains Mono, exactly those, nothing else
   — beside the specimen the way the base selector already
   sits there. A press restyles the specimen on the next frame
@@ -11836,7 +11836,7 @@ the code face is the same kind of choice, two names, not sixty.
   empty for Roboto Mono) and does not drop the key; a kept
   file restores the same selection. A file without the key
   opens on Roboto Mono.
-- [ ] Exit: tests green in markdown and themer (selection,
+- [x] Exit: tests green in markdown and themer (selection,
   keep, restore, unknown name). Goldens regenerated where the
   themer's chrome gained the control; default-path document
   goldens should not move. Fresh eyes on the themer: both
