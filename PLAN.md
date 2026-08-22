@@ -11973,7 +11973,7 @@ not move.
 
 #### AD2.2: The live typography wears the face
 
-- [ ] `Typography.WithEmoji` / `EmojiTypography` in
+- [x] `Typography.WithEmoji` / `EmojiTypography` in
   `theme/tokens`. `WithEmoji` appends the one face and
   returns `t` unchanged when it is already there, so the
   shared cache is kept. `EmojiTypography()` is
@@ -11984,12 +11984,12 @@ not move.
   including when Mono is empty. First-frame snapshots in
   vaultview, sitedocs, mindchat and themer use that same
   value, not `DefaultTypography`.
-- [ ] Tests: `EmojiTypography` resolves 😀 under
+- [x] Tests: `EmojiTypography` resolves 😀 under
   `DeterministicShaper` and `'A'` stays on face 0;
   `CodeFace("JetBrains Mono").WithEmoji()` still names
   JetBrains on Code and still resolves 😀; a first-frame
   snapshot and the stream agree. Goldens unchanged.
-- [ ] Exit: tests green in `theme` and each workbench app
+- [x] Exit: tests green in `theme` and each workbench app
   whose first frame moved. Commit and push in each repo
   touched.
 
