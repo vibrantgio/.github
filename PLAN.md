@@ -12020,12 +12020,12 @@ modules that name them.
 
 #### AD3.1: Tag the family and re-pin the readers
 
-- [ ] Tag and push `font` at the next minor; re-pin `theme`
+- [x] Tag and push `font` at the next minor; re-pin `theme`
   and `components` onto it; tag `theme` at the next minor
   (`WithEmoji`); re-pin `markdown` and vaultview, sitedocs,
   mindchat, themer onto those tags. `GOWORK=off` verify
   the tagged modules from VCS.
-- [ ] Gates as they apply; `sync-agents.sh` / `llms.txt` /
+- [x] Gates as they apply; `sync-agents.sh` / `llms.txt` /
   `templates/repos.tsv` name the family and say the live
   stream wears it. Commit and push everything the pins
   touched, including `.github`.
