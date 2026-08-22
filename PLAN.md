@@ -11859,3 +11859,173 @@ re-pin the apps that name them.
 - [x] Gates as they apply; `sync-agents.sh` / `llms.txt` pick
   up the family and the `theme.json` key. Commit and push
   everything the pins touched, including `.github`.
+
+## Phase AD: Noto Color Emoji, and markdown that paints it
+
+Directed by the owner on 2026-08-22. Markdown draws tofu
+boxes for emoji. Two defects, both measured on this machine
+the same day, and both have to close or the tofu stays.
+
+**The collection has no emoji, and Gio's system fallback
+does not supply one.** `DefaultTypography.Shaper()` (system
+fonts on) and `DeterministicShaper()` (system fonts off)
+both resolve `😀` to glyph ID 0 on face 0 — Roboto's
+`.notdef`. Apple Color Emoji is installed here and never
+wins. The `notosansmono` premise that "a desktop already
+covers emoji" is false for Gio.
+
+**`components/richtext` never paints bitmap glyphs.**
+Every paragraph, heading, list item, table cell and fence
+goes through richtext. `glyphIter.paint` only calls
+`shaper.Shape` (outlines). Gio's `widget.Label` also calls
+`shaper.Bitmaps`. Noto Color Emoji is CBDT/PNG — no
+outlines — so `Shape` skips those glyphs. Packaging the
+face without this paint call reserves advance and draws
+nothing.
+
+This phase packages the face the way `notosansmono` is
+packaged — one optional Regular, family package is the
+leaf — then puts it on the path markdown actually draws.
+
+It is **not** another JetBrains Mono. Nothing names
+`"Noto Color Emoji"` as a role's Typeface. The shaper
+reaches it only as fallback. No themer control, no
+`theme.json` key.
+
+`DefaultTypography.Faces` stays Roboto + Roboto Mono.
+Putting 9.9 MB in the default would parse that TTF on
+every golden and every pinned shaper in the org, and no
+existing golden contains emoji. The live stream wears it:
+`LiveTheme`'s default typography, `Brand.Typography()` /
+`Brand.Options()`, and the first-frame snapshot those
+apps take before the stream emits. Same AC1.2 trap —
+snapshot Default, stream emits emoji, first frame flashes
+tofu.
+
+`eliasfonts/noto/emoji/color/NotoColorEmoji.ttf` is the
+file. Take the TTF and its OFL. **Do not read or copy
+`eliasfonts` code** — that tree uses a generated `data.go`
+layout. Ours is `go:embed` + `sync.Once` + `opentype.Parse`.
+
+Measured, do not re-discover: 10,353,636 bytes; SHA-256
+`2eeac855a08803c6d209f8eb74ed5f798af46e128bc93dd3913e04de57523a7c`;
+typeface `"Noto Color Emoji"` Regular; one 109 ppem CBDT
+strike, format 17 PNG; `opentype.Parse` on Gio v0.10.2
+succeeds. ZWJ sequences (`👨‍👩‍👧‍👦`) fall apart today —
+record what go-text does, do not invent a composer.
+
+Pinned Noto Color Emoji goldens are deterministic. The
+verification tests this phase asks for *are* those
+goldens, plus a tofu-control capture that must not match.
+Default-path corpus goldens stay emoji-free and must not
+move.
+
+### G-AD1: The face ships
+
+One Regular face, next to `notosansmono`, not in the
+default collection.
+
+#### AD1.1: Land notocoloremoji next to notosansmono
+
+Copy the TTF and OFL from `eliasfonts/noto/emoji/color/`.
+Write the package in our single-face layout. Do not open
+`eliasfonts/**/*.go`.
+
+- [ ] `github.com/vibrantgio/font/notocoloremoji` ships the
+  one Regular face, `go:embed`'d, OFL beside it, typeface
+  `"Noto Color Emoji"`. `Font` / `FontFace()` / `FontFaces()`
+  match `notosansmono`. Tests parse, assert metadata, assert
+  cmap coverage of the single-codepoint probes (😀 😂 😉 😍
+  🔥 🎉 ❤️ ✨ 🚀), assert `GlyphData` is a PNG bitmap, and
+  assert a `NoSystemFonts` shaper on this collection
+  resolves 😀 and does not resolve `'A'`. Package comment
+  records SHA-256, CBDT/PNG, and the measured ZWJ
+  behaviour. README and AGENTS.md list the family.
+  `DefaultTypography` is not changed.
+- [ ] Exit: `go build ./... && go test ./...` green in
+  `font`. No pixels to review. Commit and push in `font`.
+
+### G-AD2: Markdown paints emoji, not tofu
+
+Three seams: the painter, the live collection, the
+document tests. Goldens that pin `DefaultTypography` do
+not move.
+
+#### AD2.1: richtext paints bitmap glyphs
+
+- [ ] `glyphIter.paint` in `components/richtext/wrap.go`
+  calls `shaper.Bitmaps(line)` after the outline fill, the
+  way `widget.Label` does, so the PNG is not tinted by the
+  span colour. Existing paragraph/link goldens do not move
+  (they have no bitmaps).
+- [ ] Verification, pinned on
+  `DefaultTypography.WithEmoji().DeterministicShaper()`: a
+  span `"😀"` resolves to gid ≠ 0 on the appended face;
+  `"A"` stays on Roboto at 0. The same span on
+  `DefaultTypography.DeterministicShaper()` is gid 0 (the
+  tofu control). `golden.Capture` of `"Hi 😀!"` with the
+  face is not equal to the capture without it, and has
+  chromatic pixels in the grin's bounds that are not the
+  body ink. Store `emoji-inline-light.png` and
+  `emoji-inline-dark.png` from the with-face capture.
+- [ ] Exit: tests green in `components`. Commit and push
+  in `components`.
+
+#### AD2.2: The live typography wears the face
+
+- [ ] `Typography.WithEmoji` / `EmojiTypography` in
+  `theme/tokens`. `WithEmoji` appends the one face and
+  returns `t` unchanged when it is already there, so the
+  shared cache is kept. `EmojiTypography()` is
+  `DefaultTypography.WithEmoji()`, built once.
+  `LiveTheme`'s default `typ` is `EmojiTypography()`, not
+  bare `DefaultTypography`. `Brand.Typography()` and
+  `Brand.Options()` apply `WithEmoji` on top of `CodeFace`,
+  including when Mono is empty. First-frame snapshots in
+  vaultview, sitedocs, mindchat and themer use that same
+  value, not `DefaultTypography`.
+- [ ] Tests: `EmojiTypography` resolves 😀 under
+  `DeterministicShaper` and `'A'` stays on face 0;
+  `CodeFace("JetBrains Mono").WithEmoji()` still names
+  JetBrains on Code and still resolves 😀; a first-frame
+  snapshot and the stream agree. Goldens unchanged.
+- [ ] Exit: tests green in `theme` and each workbench app
+  whose first frame moved. Commit and push in each repo
+  touched.
+
+#### AD2.3: markdown verification tests
+
+- [ ] `markdown/emoji_test.go`, pinned on
+  `DefaultTypography.WithEmoji().DeterministicShaper()`:
+  a paragraph `"Hello 😀"`, a heading, a list item and a
+  table cell each resolve the grin to gid ≠ 0. A fenced
+  comment containing 😀 still resolves (fallback from
+  `"Roboto Mono"` onto the appended face).
+- [ ] Paint: `golden.Capture` of a short document `Hello 😀`
+  in light and dark, stored as `emoji-hello-light.png` and
+  `emoji-hello-dark.png`. A second capture without the face
+  is the tofu control and must not match the stored golden.
+  Default-path corpus goldens do not move and contain no
+  emoji.
+- [ ] Exit: tests green in `markdown`. Commit and push in
+  `markdown`.
+
+### G-AD3: Tag the family
+
+The package is additive, so `font` is a minor. `WithEmoji`
+is additive, so `theme` is a minor. Then re-pin the
+modules that name them.
+
+![[#ADR-006]]
+
+#### AD3.1: Tag the family and re-pin the readers
+
+- [ ] Tag and push `font` at the next minor; re-pin `theme`
+  and `components` onto it; tag `theme` at the next minor
+  (`WithEmoji`); re-pin `markdown` and vaultview, sitedocs,
+  mindchat, themer onto those tags. `GOWORK=off` verify
+  the tagged modules from VCS.
+- [ ] Gates as they apply; `sync-agents.sh` / `llms.txt` /
+  `templates/repos.tsv` name the family and say the live
+  stream wears it. Commit and push everything the pins
+  touched, including `.github`.
