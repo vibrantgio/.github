@@ -11995,19 +11995,19 @@ not move.
 
 #### AD2.3: markdown verification tests
 
-- [ ] `markdown/emoji_test.go`, pinned on
+- [x] `markdown/emoji_test.go`, pinned on
   `DefaultTypography.WithEmoji().DeterministicShaper()`:
   a paragraph `"Hello 😀"`, a heading, a list item and a
   table cell each resolve the grin to gid ≠ 0. A fenced
   comment containing 😀 still resolves (fallback from
   `"Roboto Mono"` onto the appended face).
-- [ ] Paint: `golden.Capture` of a short document `Hello 😀`
+- [x] Paint: `golden.Capture` of a short document `Hello 😀`
   in light and dark, stored as `emoji-hello-light.png` and
   `emoji-hello-dark.png`. A second capture without the face
   is the tofu control and must not match the stored golden.
   Default-path corpus goldens do not move and contain no
   emoji.
-- [ ] Exit: tests green in `markdown`. Commit and push in
+- [x] Exit: tests green in `markdown`. Commit and push in
   `markdown`.
 
 ### G-AD3: Tag the family
