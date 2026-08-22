@@ -14,3 +14,19 @@ same way, in one line:
 The package comment carries the measured coverage table and the file's
 provenance and SHA-256; `notosansmono_test.go` asserts that table block by
 block, so change the TTF and the test tells you what moved.
+
+**`notocoloremoji` is optional, and keeping it optional is the design.** It is
+Noto Color Emoji Regular — one weight — carrying the CBDT/PNG color emoji
+the rest of the collection cannot resolve. Do **not** add it to
+`tokens.DefaultTypography.Faces`: putting 9.9 MB in the default would parse
+that TTF on every golden and every pinned shaper in the organization, and no
+existing golden contains emoji. Gio's system fallback does not supply a
+color-emoji face either, so a document that draws emoji appends this one
+the same way as the symbol face:
+
+    tokens.DefaultTypography.WithFaces(notocoloremoji.FontFace())
+
+Nothing names `"Noto Color Emoji"` as a role's Typeface; the shaper reaches
+it only as fallback. The package comment records the file's SHA-256, that
+the face is one 109 ppem CBDT/PNG strike, and the measured ZWJ behaviour
+(go-text applies the face's GSUB; this package does not compose sequences).

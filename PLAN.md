@@ -11931,7 +11931,7 @@ Copy the TTF and OFL from `eliasfonts/noto/emoji/color/`.
 Write the package in our single-face layout. Do not open
 `eliasfonts/**/*.go`.
 
-- [ ] `github.com/vibrantgio/font/notocoloremoji` ships the
+- [x] `github.com/vibrantgio/font/notocoloremoji` ships the
   one Regular face, `go:embed`'d, OFL beside it, typeface
   `"Noto Color Emoji"`. `Font` / `FontFace()` / `FontFaces()`
   match `notosansmono`. Tests parse, assert metadata, assert
@@ -11942,7 +11942,7 @@ Write the package in our single-face layout. Do not open
   records SHA-256, CBDT/PNG, and the measured ZWJ
   behaviour. README and AGENTS.md list the family.
   `DefaultTypography` is not changed.
-- [ ] Exit: `go build ./... && go test ./...` green in
+- [x] Exit: `go build ./... && go test ./...` green in
   `font`. No pixels to review. Commit and push in `font`.
 
 ### G-AD2: Markdown paints emoji, not tofu
