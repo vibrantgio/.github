@@ -18,6 +18,14 @@ application that cannot rely on system fonts — a container, a kiosk — ships 
 own symbol coverage. The face is optional and is not in
 `DefaultTypography.Faces`; see ADR-003.
 
+**Kept `"mono"`.** `brand.Brand` carries `Mono`, persisted as `"mono"` in
+`theme.json` beside `"seed"` and `"base"`. Empty, absent, or unknown falls
+back to Roboto Mono. `"JetBrains Mono"` restyles `Typography.Code` and
+appends the four JetBrains faces via `system.WithTypography`;
+`Brand.Options()` includes that option so every app that already does
+`LiveTheme(..., brand.Kept().Options()...)` picks it up. Default
+typography, goldens, and `DeterministicShaper` stay on Roboto Mono.
+
 **Line height means the line box, and `typeset` is how.**
 `tokens.TextStyle.LineHeight` is the CSS thing — the height of one line box,
 leading split evenly around the ink — and `gioui.org/widget.Label` does not

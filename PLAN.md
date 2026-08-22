@@ -11851,11 +11851,11 @@ re-pin the apps that name them.
 
 ![[#ADR-006]]
 
-- [ ] Tag and push `font` at the next minor; re-pin `theme`
+- [x] Tag and push `font` at the next minor; re-pin `theme`
   onto it; tag and push `theme` at the next minor; re-pin
   vaultview, sitedocs, mindchat, themer (and any other live
   consumer that needs the new option) onto that tag.
   `GOWORK=off` verify the tagged modules from VCS.
-- [ ] Gates as they apply; `sync-agents.sh` / `llms.txt` pick
+- [x] Gates as they apply; `sync-agents.sh` / `llms.txt` pick
   up the family and the `theme.json` key. Commit and push
   everything the pins touched, including `.github`.
