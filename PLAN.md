@@ -11791,7 +11791,7 @@ name `"JetBrains Mono"`. Finish it as a first-class family.
 
 ![[#ADR-020]]
 
-- [ ] `Brand` grows a `Mono` string. The file key is `"mono"`,
+- [x] `Brand` grows a `Mono` string. The file key is `"mono"`,
   omitted when empty, ignored when unknown (fallback: Roboto
   Mono). Round-trip tests: absent file, empty, `"JetBrains
   Mono"`, junk name, and an exported prototype `theme.json`
@@ -11799,7 +11799,7 @@ name `"JetBrains Mono"`. Finish it as a first-class family.
   whose seed parses — unknown object keys stay ignored; this
   new key is a sibling of `"seed"` and `"base"`, not nested
   under `"fonts"`.
-- [ ] Typography can apply the name: `Code.Typeface` becomes
+- [x] Typography can apply the name: `Code.Typeface` becomes
   `"JetBrains Mono"` and the four JetBrains faces are appended
   to `Faces` (Roboto and Roboto Mono stay in the collection).
   `system.WithTypography` is the option; `Brand.Options()`
@@ -11808,7 +11808,7 @@ name `"JetBrains Mono"`. Finish it as a first-class family.
   picks it up. The first-frame fallback those apps snapshot
   before the stream emits must use the same typography, or
   the first code block flashes Roboto Mono.
-- [ ] Exit: tests green in `theme`. Goldens unchanged (they
+- [x] Exit: tests green in `theme`. Goldens unchanged (they
   pin `DefaultTypography`). Commit and push in `theme`.
 
 #### AC1.3: Themer selects Roboto Mono or JetBrains Mono for code
