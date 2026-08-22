@@ -116,5 +116,5 @@ repository roots, eleven nested in subdirectories with tags that carry the
 subdirectory as a prefix, and seven applications in `workbench`, each its own
 module released on its own cadence beside the repository's root module.
 All 39 declare Go 1.25.1; every one that depends on Gio is on
-gioui.org v0.10.1 and every one that depends on rx is on
+gioui.org v0.10.2 and every one that depends on rx is on
 github.com/reactivego/rx v0.3.0 — one version of each, organization-wide.

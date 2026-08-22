@@ -31,7 +31,7 @@
 #   §Modules and versions   "  components  v0.6.1  components: ..."
 #   §Nested modules         "  github.com/vibrantgio/components/gallery  v0.6.1  ..."
 #   §Minimal go.mod         "      github.com/vibrantgio/components v0.6.1"
-#   the External pins line  "External pins: gioui.org v0.10.1, ... go 1.25.1"
+#   the External pins line  "External pins: gioui.org v0.10.2, ... go 1.25.1"
 #
 # The prose around them was rewritten by G0C.6 so that it names no numbers at
 # all: a paragraph that restates the table is a second copy of it, and the

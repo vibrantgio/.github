@@ -78,4 +78,4 @@ applications and the launcher, each its own untagged module installed from
 the branch tip rather than a version, plus the canonical guide — and
 [design](https://github.com/vibrantgio/design), the exported token bundle
 together with the architecture rationale. Every module in the organization
-builds on gioui.org v0.10.1, github.com/reactivego/rx v0.3.0 and Go 1.25.1.
+builds on gioui.org v0.10.2, github.com/reactivego/rx v0.3.0 and Go 1.25.1.
