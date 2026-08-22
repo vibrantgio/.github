@@ -11724,3 +11724,138 @@ minor. Vaultview is the one consumer that names them.
 - [x] Gates as they apply; `sync-agents.sh` / `llms.txt` pick
   up the hook if they describe the renderer. Commit and push
   everything the pins touched, including `.github`.
+
+## Phase AC: JetBrains Mono for markdown code
+
+Directed by the owner on 2026-08-22. Roboto Mono is still the
+default code face (G-F0). This phase packages JetBrains Mono
+beside it, the same four-face layout `robotomono` already has,
+and lets a person pick it for markdown **code blocks** — fenced
+source — from the themer, the way they already pick a syntax
+base. The choice is kept in the brand file ADR-020 owns:
+
+```
+~/Library/Application Support/vibrantgio/theme.json
+```
+
+```
+"mono": "JetBrains Mono"
+```
+
+The themer offers exactly two names, sitting with the code
+specimen: **Roboto Mono** and **JetBrains Mono**. Not a font
+picker, not a list of faces on disk. Selecting one restyles the
+specimen on the next frame and is what Keep writes. Empty,
+absent, or unknown in the file is Roboto Mono — the same
+fallback `"base"` already uses.
+
+Default typography, goldens, and `DeterministicShaper` stay on
+Roboto Mono: a person's config is a runtime fact about their
+machine, not something baked into an application.
+
+Markdown has one `Style.Mono`, taken from `Typography.Code`.
+Fences and inline `code` spans share it today; this phase does
+not invent a second typeface for chips. Body and headings stay
+Roboto.
+
+`font` already has an untracked `jetbrainsmono` tree from the
+Elias cutover. **Start from that work; do not begin again.**
+### G-AC1: The face ships, and a kept theme can name it for code
+
+Four seams: the package, the file, the themer's two-name
+control, the tag. Markdown already follows `typo.Code`;
+vaultview, sitedocs, mindchat and themer already call
+`FromTokens` with the typography they hold. What they hold
+today is always `DefaultTypography`, because `LiveTheme`
+hardcodes it.
+#### AC1.1: Land jetbrainsmono next to robotomono
+
+The untracked tree already mirrors `robotomono`: four faces
+(normal/bold × upright/italic), `FontFaces()`, OFL, typeface
+name `"JetBrains Mono"`. Finish it as a first-class family.
+
+- [x] `github.com/vibrantgio/font/jetbrainsmono` ships the four
+  faces the markdown highlight path shapes, `go:embed`'d, OFL
+  beside them, tests that parse and assert typeface/weight/style
+  the way `robotomono` does. README and AGENTS.md list the
+  family. `DefaultTypography` is not changed: Roboto Mono
+  remains the default Code face and the default collection.
+- [x] Exit: `go build ./... && go test ./...` green in `font`.
+  No pixels to review. Commit and push in `font`.
+
+#### AC1.2: theme.json names the code face; the stream wears it
+
+`theme/brand` already keeps seed and syntax-base names in
+`vibrantgio/theme.json`. `LiveTheme` always emits
+`tokens.DefaultTypography`. A kept `"mono"` has nowhere to go.
+
+![[#ADR-020]]
+
+- [ ] `Brand` grows a `Mono` string. The file key is `"mono"`,
+  omitted when empty, ignored when unknown (fallback: Roboto
+  Mono). Round-trip tests: absent file, empty, `"JetBrains
+  Mono"`, junk name, and an exported prototype `theme.json`
+  (which already has `fonts.mono`) still loads as a brand
+  whose seed parses — unknown object keys stay ignored; this
+  new key is a sibling of `"seed"` and `"base"`, not nested
+  under `"fonts"`.
+- [ ] Typography can apply the name: `Code.Typeface` becomes
+  `"JetBrains Mono"` and the four JetBrains faces are appended
+  to `Faces` (Roboto and Roboto Mono stay in the collection).
+  `system.WithTypography` is the option; `Brand.Options()`
+  includes it when `Mono` names a known face, so every app
+  that already does `LiveTheme(..., brand.Kept().Options()...)`
+  picks it up. The first-frame fallback those apps snapshot
+  before the stream emits must use the same typography, or
+  the first code block flashes Roboto Mono.
+- [ ] Exit: tests green in `theme`. Goldens unchanged (they
+  pin `DefaultTypography`). Commit and push in `theme`.
+
+#### AC1.3: Themer selects Roboto Mono or JetBrains Mono for code
+
+`FromTokens` already sets `Style.Mono` from `typo.Code`. The
+themer already sits a base selector beside the code specimen;
+the code face is the same kind of choice, two names, not sixty.
+
+- [ ] A markdown test with `Code.Typeface = "JetBrains Mono"`
+  and those faces in the collection proves a fenced block
+  shapes in JetBrains Mono at normal and bold, upright and
+  italic — not Roboto Mono, not Roboto. Goldens that pin the
+  default stay on Roboto Mono.
+- [ ] Every workbench app that renders markdown from a live
+  theme (vaultview, sitedocs, mindchat, themer) is audited:
+  the live path uses the stream's typography, not a hardcoded
+  `DefaultTypography`; goldens and unit tests may keep the
+  default.
+- [ ] The themer's code specimen gains a two-value control —
+  Roboto Mono and JetBrains Mono, exactly those, nothing else
+  — beside the specimen the way the base selector already
+  sits there. A press restyles the specimen on the next frame
+  (the parsed document stays; only `Code` and the extra faces
+  change). Keep writes `Brand.Mono` (`"JetBrains Mono"` or
+  empty for Roboto Mono) and does not drop the key; a kept
+  file restores the same selection. A file without the key
+  opens on Roboto Mono.
+- [ ] Exit: tests green in markdown and themer (selection,
+  keep, restore, unknown name). Goldens regenerated where the
+  themer's chrome gained the control; default-path document
+  goldens should not move. Fresh eyes on the themer: both
+  names reachable, the specimen's fence is the face that is
+  selected, Keep round-trips. Commit and push in each repo
+  touched.
+#### AC1.4: Tag the family and the kept key
+
+The package is additive, so `font` is a minor. The brand field
+and `WithTypography` are additive, so `theme` is a minor. Then
+re-pin the apps that name them.
+
+![[#ADR-006]]
+
+- [ ] Tag and push `font` at the next minor; re-pin `theme`
+  onto it; tag and push `theme` at the next minor; re-pin
+  vaultview, sitedocs, mindchat, themer (and any other live
+  consumer that needs the new option) onto that tag.
+  `GOWORK=off` verify the tagged modules from VCS.
+- [ ] Gates as they apply; `sync-agents.sh` / `llms.txt` pick
+  up the family and the `theme.json` key. Commit and push
+  everything the pins touched, including `.github`.
