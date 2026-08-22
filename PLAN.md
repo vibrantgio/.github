@@ -11684,7 +11684,7 @@ handles `OnTaskClick` splices the marker and writes the file
 before it returns a message; reload and viewport seating happen
 after that write, off the bytes that just landed.
 
-- [ ] `Note` keeps the original file bytes. `OnTaskClick` is
+- [x] `Note` keeps the original file bytes. `OnTaskClick` is
   wired on the note's document. A click, provided the file still
   matches `Mod`/`Size`, flips the one marker character at the
   recorded offset mapped through the frontmatter split — check
@@ -11695,13 +11695,13 @@ after that write, off the bytes that just landed.
   rebuilds its document seated at the same viewport. If the
   file has moved on, the write is refused, the note is re-read,
   and a toast says why.
-- [ ] The Notes map still replaces, never mutates, the `*Note`.
+- [x] The Notes map still replaces, never mutates, the `*Note`.
   Scroll lives on the cached `Document`; transferring it is the
   work, not mutating `ListItem.Checked` in place to dodge a
   rebuild. Other markdown consumers are not wired. No queue,
   debounce, or dirty bit: a toggle that has not yet hit disk
   has not happened.
-- [ ] Exit: unit tests cover the splice (frontmatter present
+- [x] Exit: unit tests cover the splice (frontmatter present
   and absent, `[x]` and `[X]`, nested item, stale file) and
   assert the file bytes after the toggle command, without
   opening a window; `go test` green in vaultview. Renders in
