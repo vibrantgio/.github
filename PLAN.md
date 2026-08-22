@@ -11717,10 +11717,10 @@ minor. Vaultview is the one consumer that names them.
 
 ![[#ADR-006]]
 
-- [ ] Tag and push `markdown` at the next minor; re-pin
+- [x] Tag and push `markdown` at the next minor; re-pin
   `workbench/vaultview` onto that tag; `GOWORK=off` verify both
   from VCS. Other in-org markdown consumers are not forced onto
   the new tag unless a pin walk requires it.
-- [ ] Gates as they apply; `sync-agents.sh` / `llms.txt` pick
+- [x] Gates as they apply; `sync-agents.sh` / `llms.txt` pick
   up the hook if they describe the renderer. Commit and push
   everything the pins touched, including `.github`.
