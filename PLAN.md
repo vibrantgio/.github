@@ -11953,12 +11953,12 @@ not move.
 
 #### AD2.1: richtext paints bitmap glyphs
 
-- [ ] `glyphIter.paint` in `components/richtext/wrap.go`
+- [x] `glyphIter.paint` in `components/richtext/wrap.go`
   calls `shaper.Bitmaps(line)` after the outline fill, the
   way `widget.Label` does, so the PNG is not tinted by the
   span colour. Existing paragraph/link goldens do not move
   (they have no bitmaps).
-- [ ] Verification, pinned on
+- [x] Verification, pinned on
   `DefaultTypography.WithEmoji().DeterministicShaper()`: a
   span `"😀"` resolves to gid ≠ 0 on the appended face;
   `"A"` stays on Roboto at 0. The same span on
@@ -11968,7 +11968,7 @@ not move.
   chromatic pixels in the grin's bounds that are not the
   body ink. Store `emoji-inline-light.png` and
   `emoji-inline-dark.png` from the with-face capture.
-- [ ] Exit: tests green in `components`. Commit and push
+- [x] Exit: tests green in `components`. Commit and push
   in `components`.
 
 #### AD2.2: The live typography wears the face
