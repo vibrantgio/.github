@@ -11493,3 +11493,234 @@ the outline-geometry item already landed in the outline phase.
 - [x] Exit: renders in both schemes; goldens regenerated where
   pixels legitimately move; fresh eyes confirm the sidebar
   carries nothing unexplained; tests green. Commit and push.
+
+## Phase AA: Host the faces; drop eliasnaur.com/font
+
+Directed by the owner on 2026-08-22, after the plan went DONE
+and a dirty tree in `font` showed the work already started: the
+typefaces this system ships live in `github.com/vibrantgio/font`,
+not in `eliasnaur.com/font`. Roboto Mono and Noto Sans Mono
+already follow that rule — their TTFs are `go:embed`'d beside
+the leaves, under their own licences. Roboto is the hold-out:
+every leaf still imports `eliasnaur.com/font/roboto/*`, and that
+module then fans out as a direct require from `design` and
+`seen/context/gio` and as an indirect pin from almost every
+other `go.mod` in the workspace.
+
+The cutover is a hosting change, not a design change. The twelve
+Roboto faces keep their names, weights, and metrics. The bytes
+come from the revision the org already pins
+(`eliasnaur.com/font` at `dd43949`, the local `eliasfonts`
+checkout is that commit) so goldens do not move. A newer Roboto
+from Google Fonts is a different task.
+
+`font` already has an uncommitted start: the `roboto` leaves
+switched to `go:embed`, `go.mod` dropped the Elias require, and
+an untracked `jetbrainsmono` family appeared beside them.
+**Start from that work; do not begin again.** JetBrains Mono is
+not this phase — leave it untracked, do not commit it, do not
+wire it. `style` is archived at v0.0.6 (ADR-003) and is not
+retagged; its `go.mod` may keep naming Elias.
+
+### G-AA1: Roboto is hosted here, and no live module names Elias
+
+The design-system copy of Roboto lives in `font`. The two
+remaining *direct* importers leave `eliasnaur.com/font`: `design`
+is an application and takes the bytes from `font`; `seen` is a
+support library and must not import `font` (ADR-001's last row),
+so it hosts the two faces it actually uses. Then the pins move
+and a grep over the workspace is the proof.
+
+#### AA1.1: Embed Roboto in font the way Roboto Mono already is
+
+The `robotomono` leaves are the pattern: a TTF beside the `.go`,
+`//go:embed`, parse lazily. The uncommitted `roboto` tree is
+that pattern applied to the twelve faces; finish it.
+
+- [x] The twelve Roboto TTFs live in `font/roboto` next to the
+  leaves that parse them, bytes identical to
+  `eliasnaur.com/font` at `dd43949` (the local `eliasfonts`
+  checkout, or the module cache — measured, not assumed). Each
+  leaf `go:embed`s its file the way `robotomono` already does;
+  `eliasnaur.com/font` disappears from `font/go.mod` and from
+  every `roboto` import.
+- [x] Each leaf exports the embedded bytes as `TTF` — the name
+  Elias used — so a consumer that is not a Gio shaper can still
+  take the file. The `Font` / `FontFace()` / `FontFaces()` API
+  stays. Apache 2.0 for the faces sits at `roboto/LICENSE`;
+  README and AGENTS.md stop sending a reader to
+  `eliasnaur.com/font`.
+- [x] Do not add, wire, or commit `jetbrainsmono`. If it is in
+  the working tree, leave it untracked.
+- [x] Exit: `go build ./... && go test ./...` green in `font`;
+  `grep -R eliasnaur.com/font font` is empty outside historical
+  prose that says the dependency is gone. No pixels to review.
+  Commit and push in `font` only.
+
+#### AA1.2: The two remaining importers leave Elias
+
+`design/mirror` serves Roboto Regular and Medium to Chromium;
+`seen/context/gio/canvas` shapes Regular and Bold. Both import
+`eliasnaur.com/font` directly today.
+
+![[#ADR-001]]
+
+- [ ] `design/mirror` takes those two files from
+  `github.com/vibrantgio/font/roboto/...` `TTF` bytes — the same
+  paths it serves today, the same Content-Type. `design/go.mod`
+  drops `eliasnaur.com/font` and names `font` as a direct
+  require. `design` is an application; the import is legal.
+- [ ] `seen/context/gio` does **not** import `font`. It embeds
+  Regular and Bold itself, the same two files, the same
+  `go:embed` pattern, Apache 2.0 beside them. ADR-001's support
+  row forbids the design-system edge; duplicating two TTFs is
+  the cost of that rule. `eliasnaur.com/font` leaves
+  `seen/context/gio/go.mod`.
+- [ ] Exit: both modules build and test green under the
+  workspace; `grep` of their trees for `eliasnaur.com/font` is
+  empty. Goldens do not move (same bytes); if any do, stop and
+  report — that means the files were not the pinned ones. Commit
+  and push in `design` and `seen`.
+
+#### AA1.3: Tag the hosted faces and drop Elias from every live pin
+
+The `TTF` export is additive, so `font` is a minor (`v0.2.0` if
+`v0.1.0` is still the newest). `seen/context/gio` dropped a
+require: its next nested tag. Then every *live* module that
+still names `eliasnaur.com/font` — direct or indirect — is
+re-pinned onto the new `font` and tidied. `style` stays on
+v0.0.6 / font v0.0.4; it is the archival exception, not a
+missed pin.
+
+![[#ADR-006]]
+
+- [ ] Tag and push `font` at the next minor; tag and push
+  `seen/context/gio` at its next nested version. Re-pin `design`
+  onto the new `font` tag. Then walk the workspace members
+  (except `style`): bump `font` to the new tag where they pin
+  it, `go mod tidy`, so `eliasnaur.com/font` leaves every live
+  `go.mod` and `go.sum`.
+- [ ] `GOWORK=off` verify the tags from VCS in `font`,
+  `seen/context/gio`, and `design`. A workspace-wide grep for
+  `eliasnaur.com/font` in `go.mod` / `go.sum` names only
+  `style`. Gates: `check-layers.sh`, `check-versions.sh`,
+  `check-no-workspace.sh` as they apply.
+- [ ] `sync-agents.sh` and `llms.txt` pick up the hosting fact
+  and the new numbers; commit and push everything the pins
+  touched, including `.github`.
+
+## Phase AB: Task checkboxes toggle in vaultview
+
+Directed by the owner on 2026-08-22. Vaultview is a reader
+(ADR-012), and the markdown renderer draws GFM task boxes as
+paint — `drawCheckbox` says the state "belongs to the document,
+not the reader." Clicking a box in a note does nothing. This
+phase makes that click flip the marker in the file.
+
+The click *is* the write. There is no dirty flag, no debounce,
+no save-on-navigate: when the box toggles, the file on disk
+already contains the new marker before the handler returns. A
+kill after that click still has the change.
+
+It is still not an editor. The one write is the GFM task marker
+itself: `[ ]` becomes `[x]`, `[x]`/`[X]` becomes `[ ]`, one
+character, everything else — frontmatter, line endings, list
+punctuation, the rest of the line — byte-identical. No other
+syntax is writable. sitedocs, mindchat, and every other
+`markdown.Document` stay display-only: the hook is opt-in, the
+same shape as `Style.Text.OnLinkClick`.
+
+The library does not write files. It reports which item was
+activated, the way it already reports which link was. Vaultview
+owns the splice, the freshness check, and the reload.
+
+Do not replace the hung 14 dp mark with `components/input.Checkbox`.
+That widget is a form control (20 dp, density, a focus ring, an
+FRP stream). A task box in a note is a list marker; it keeps the
+mark it has and gains a hit target.
+### G-AB1: A click flips the marker in the file
+
+Two seams, then the tag: markdown identifies the box and fires
+when it is activated; vaultview writes the character in that
+same click — on disk before the handler returns — and keeps
+the reader where they were.
+#### AB1.1: The renderer knows which box was clicked
+
+`ListItem` already carries `Task` and `Checked`. It does not
+carry where in the source the marker sits, and `drawCheckbox`
+registers no pointer. Goldmark's `TaskCheckBox` node itself
+stores no segment — the parser consumes `[x] ` and drops the
+span — so the offset has to be read off the list item's first
+block `Lines()` at convert time, from the bytes `Parse` was
+handed.
+
+- [ ] Each task `ListItem` records the byte offset of the
+  marker's opening `[` in the source `Parse` received; nested
+  items, ordered items, and `[X]` as well as `[x]` are included;
+  a checkbox inside a fence or a code span is not a task item
+  (already true) and gains no offset. Held by parse tests on a
+  fixture that mixes those cases.
+- [ ] `Style` grows an `OnTaskClick` hook, nil by default. When
+  it is set, the existing mark is a hit target and a click (and
+  the platform's activate key once the target is focused) calls
+  it with the `*ListItem` Parse produced — the same pointer, so
+  the caller can find it in the tree. When it is nil the
+  checkbox stays display-only: no pointer ops, no visual change.
+  The idle pixels do not move.
+- [ ] Exit: tests green in `markdown`; goldens unchanged unless
+  a legitimate hover/focus treatment was added, in which case
+  regenerate them in the same commit and say so. Commit and
+  push in `markdown`.
+
+#### AB1.2: Vaultview writes the one character and stays put
+
+`LoadNote` reads the file, splits frontmatter, parses the body,
+and drops the bytes. A toggle needs those bytes, a freshness
+stamp (the `Mod`/`Size` it already keeps), and a document that
+does not jump to the top when the note pointer is replaced.
+
+The write is the click, not a later flush. The command that
+handles `OnTaskClick` splices the marker and writes the file
+before it returns a message; reload and viewport seating happen
+after that write, off the bytes that just landed.
+
+- [ ] `Note` keeps the original file bytes. `OnTaskClick` is
+  wired on the note's document. A click, provided the file still
+  matches `Mod`/`Size`, flips the one marker character at the
+  recorded offset mapped through the frontmatter split — check
+  writes `x`, uncheck writes a space, brackets and surrounding
+  whitespace untouched — and `WriteFile`s (or equivalent) before
+  the command returns, so a process kill after the click still
+  sees the new marker on disk. Then it reloads that note and
+  rebuilds its document seated at the same viewport. If the
+  file has moved on, the write is refused, the note is re-read,
+  and a toast says why.
+- [ ] The Notes map still replaces, never mutates, the `*Note`.
+  Scroll lives on the cached `Document`; transferring it is the
+  work, not mutating `ListItem.Checked` in place to dodge a
+  rebuild. Other markdown consumers are not wired. No queue,
+  debounce, or dirty bit: a toggle that has not yet hit disk
+  has not happened.
+- [ ] Exit: unit tests cover the splice (frontmatter present
+  and absent, `[x]` and `[X]`, nested item, stale file) and
+  assert the file bytes after the toggle command, without
+  opening a window; `go test` green in vaultview. Renders in
+  both schemes of a note that has tasks; goldens regenerated
+  where pixels legitimately move; fresh eyes confirm a click
+  on the box, not the row, is what toggles, the reader does
+  not jump, and the file on disk matches the box that is
+  showing. Commit and push in vaultview.
+#### AB1.3: Tag the hook and re-pin the viewer
+
+The offset field and the hook are additive, so `markdown` is a
+minor. Vaultview is the one consumer that names them.
+
+![[#ADR-006]]
+
+- [ ] Tag and push `markdown` at the next minor; re-pin
+  `workbench/vaultview` onto that tag; `GOWORK=off` verify both
+  from VCS. Other in-org markdown consumers are not forced onto
+  the new tag unless a pin walk requires it.
+- [ ] Gates as they apply; `sync-agents.sh` / `llms.txt` pick
+  up the hook if they describe the renderer. Commit and push
+  everything the pins touched, including `.github`.
