@@ -11565,18 +11565,18 @@ that pattern applied to the twelve faces; finish it.
 
 ![[#ADR-001]]
 
-- [ ] `design/mirror` takes those two files from
+- [x] `design/mirror` takes those two files from
   `github.com/vibrantgio/font/roboto/...` `TTF` bytes — the same
   paths it serves today, the same Content-Type. `design/go.mod`
   drops `eliasnaur.com/font` and names `font` as a direct
   require. `design` is an application; the import is legal.
-- [ ] `seen/context/gio` does **not** import `font`. It embeds
+- [x] `seen/context/gio` does **not** import `font`. It embeds
   Regular and Bold itself, the same two files, the same
   `go:embed` pattern, Apache 2.0 beside them. ADR-001's support
   row forbids the design-system edge; duplicating two TTFs is
   the cost of that rule. `eliasnaur.com/font` leaves
   `seen/context/gio/go.mod`.
-- [ ] Exit: both modules build and test green under the
+- [x] Exit: both modules build and test green under the
   workspace; `grep` of their trees for `eliasnaur.com/font` is
   empty. Goldens do not move (same bytes); if any do, stop and
   report — that means the files were not the pinned ones. Commit
