@@ -11654,20 +11654,20 @@ span — so the offset has to be read off the list item's first
 block `Lines()` at convert time, from the bytes `Parse` was
 handed.
 
-- [ ] Each task `ListItem` records the byte offset of the
+- [x] Each task `ListItem` records the byte offset of the
   marker's opening `[` in the source `Parse` received; nested
   items, ordered items, and `[X]` as well as `[x]` are included;
   a checkbox inside a fence or a code span is not a task item
   (already true) and gains no offset. Held by parse tests on a
   fixture that mixes those cases.
-- [ ] `Style` grows an `OnTaskClick` hook, nil by default. When
+- [x] `Style` grows an `OnTaskClick` hook, nil by default. When
   it is set, the existing mark is a hit target and a click (and
   the platform's activate key once the target is focused) calls
   it with the `*ListItem` Parse produced — the same pointer, so
   the caller can find it in the tree. When it is nil the
   checkbox stays display-only: no pointer ops, no visual change.
   The idle pixels do not move.
-- [ ] Exit: tests green in `markdown`; goldens unchanged unless
+- [x] Exit: tests green in `markdown`; goldens unchanged unless
   a legitimate hover/focus treatment was added, in which case
   regenerate them in the same commit and say so. Commit and
   push in `markdown`.
