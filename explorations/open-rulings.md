@@ -285,3 +285,28 @@ From the chip-dot review (2026-08-22):
     Docs rail. Related: ADR-014 S8's Docs-outline truncation item
     (a resize/tooltip story belongs in the shared pattern, not in one
     app).
+
+56. **[decide]** Added 2026-08-24, from AG1.1's review: the tab strip
+    draws no bottom rule while every content section band carries one;
+    scrolled content in a Surface band slides flush against the strip's
+    16 dp gap and the chrome/content boundary disappears (Surface
+    cannot separate Surface from Surface). A rule is a new visual
+    element and plausibly belongs in `patterns/tabs` — where it moves
+    every consumer's goldens — not in one app's shell.
+
+57. **[decide]** The active-tab underline has no chromatic identity:
+    byte-identical to Primary content below it in both schemes
+    ((114,58,212) light, (208,196,255) dark), so separation rests
+    entirely on distance. Two reviewers landed on it independently.
+    Reserve exact Primary for one of the two, or give the indicator
+    its own shade — a token-level call.
+
+58. **[decide]** Active and inactive tab labels are pixel-identical
+    ink — no weight, tint, or ground change; cover the underline and
+    the strip carries no state. A `patterns/tabs` question, paired
+    with 57.
+
+59. **[decide]** Full-width text tabs with a Material underline are
+    not a macOS idiom; a segmented control or source list would be.
+    Platform-fidelity call, system-wide (pairs with the Roboto-vs-SF
+    item in ADR-014 S8).
