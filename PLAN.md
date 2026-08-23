@@ -3594,6 +3594,19 @@ chrome and traffic lights, the scrollbar drawn at rest, the search field
 not being the platform's, no key-window distinction between two lists
 showing selection at once, and the bare chevrons — all recorded already.
 
+#### S8 — carried out of Phase AF
+
+AF2.1's fresh-eyes review recorded three items beyond the fencing fix
+that became G-AF5:
+
+- Dark-mode link colour sits close to the ground. The choice lives in
+  `markdown`'s token mapping (`FromTokens`), so the fix is a support-lib
+  change, judged on the library's own terms.
+- The guide's canonical raw URL stands as a bare line in the prose;
+  give it a carrying sentence or drop it.
+- [decide] Roboto versus the platform system font for reading surfaces —
+  a system-wide question, not a sitedocs fix.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -12512,6 +12525,29 @@ third telling.
   theme and both schemes. A golden pins it in both schemes.
 - [ ] Exit: tests green in `sitedocs`. Commit and push in
   `workbench`.
+
+### G-AF5: The guide's code blocks are fenced
+
+Inserted 2026-08-23 from AF2.1's fresh-eyes review. `llms.txt` has no
+fenced code blocks: its code-shaped regions — the module and version
+tables, the bootstrap skeleton, the go.mod sample, every 2-space-indented
+sample, roughly forty regions — are plain indented text, which the
+markdown viewer soft-wraps into prose. In the Docs tab those sections are
+unreadable. Fixed here, before AF4's review looks at the tabs.
+
+#### AF5.1: Fence the code-shaped regions in llms.txt
+
+Walk `llms.txt` and put each code-shaped region in a fenced block — a
+language tag where one clearly applies (`go`, `sh`), bare fences
+otherwise. Judgment per region: fence what is code, a command, file
+content, or anything whose reading depends on monospace alignment; leave
+prose lists alone. No heading changes and no rewording; AF1.1's
+inventory stays true.
+
+- [ ] Every code-shaped region renders as a code block in the Docs tab;
+  spot-checked in both schemes. No `##` or `###` retitled.
+- [ ] Exit: tests green in `sitedocs`; the fixture-based Docs goldens
+  did not churn. Commit and push in `workbench`.
 
 ### G-AF4: The shell is three tabs
 
