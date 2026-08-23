@@ -118,12 +118,9 @@ class of wrong thing impossible to commit quietly:
   layering is a measured property rather than an intention. Demo and adapter
   nested modules are exempt and skipped, and so are the applications —
   `workbench`'s and `design`; their parents do not inherit the
-  exemption. All twelve repositories that have CI fetch this same file from
-  this repo's raw URL and run it as `check-layers.sh .`; the nine without CI
-  are the support libraries, `workbench` and `design`, which the tier table
-  exempts anyway. Its `--edges` mode reports that one
-  walk as TSV over all 39 modules instead of judging it. There must not be
-  a second walk of the graph anywhere in the organization.
+  exemption. Run it here, from the plan root. Its `--edges` mode reports
+  that one walk as TSV over all 39 modules instead of judging it. There
+  must not be a second walk of the graph anywhere in the organization.
 - **`check-no-workspace.sh` refuses to let the workspace flatter you.** It
   builds and tests all 39 modules with `GOWORK=off`, which is how CI,
   pkg.go.dev and every consumer outside this tree see them. Under `go.work` a

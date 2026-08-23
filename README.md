@@ -73,9 +73,8 @@ of wrong thing be committed quietly.
   over the nineteen tabled root modules — all twenty-one minus `design` and
   `workbench`, the applications — and judges every `github.com/vibrantgio` edge
   against ADR-001's tier table, so the layering is measured rather than
-  intended; the twelve repositories that have CI fetch this same file and run
-  it as `check-layers.sh .`. Its `--edges` mode reports that one walk as TSV instead
-  of judging it.
+  intended. Run it here, from the plan root. Its `--edges` mode reports
+  that one walk as TSV instead of judging it.
 - [`scripts/check-no-workspace.sh`](scripts/check-no-workspace.sh) — refuses to
   let the workspace flatter the tree. It builds and tests all 39 modules with
   `GOWORK=off`, the way CI, `go get` and pkg.go.dev see them, because under

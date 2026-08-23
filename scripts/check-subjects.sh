@@ -117,14 +117,11 @@
 # Usage:
 #   scripts/check-subjects.sh            # from the .github plan root: every
 #                                        # module beside .github
-#   scripts/check-subjects.sh DIR [DIR..]  # check specific trees; this is what
-#                                        # a repo's CI runs, as
-#                                        # `check-subjects.sh .`
+#   scripts/check-subjects.sh DIR [DIR..]  # check specific trees
 #   scripts/check-subjects.sh --tests    # also list the _test.go occurrences
 #
-# CI distribution, as with check-layers.sh: the rule lives in this one file and
-# each repo's workflow fetches it and runs it against its own checkout:
-#   curl -fsSL https://raw.githubusercontent.com/vibrantgio/.github/master/scripts/check-subjects.sh
+# The rule lives in this one file. Run it from the plan root. There is no
+# per-repo CI.
 #
 # Exit status: 0 when no non-test file outside the allowlist uses rx.Subject
 # and no package exports a package-level observable; 1 when one does, or when a

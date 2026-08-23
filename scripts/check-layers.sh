@@ -34,9 +34,7 @@
 #   scripts/check-layers.sh              # from the .github plan root: checks
 #                                        # all 19 root modules beside .github
 #                                        # (requires clone-all.sh + go.work)
-#   scripts/check-layers.sh DIR [DIR..]  # check specific module directories;
-#                                        # this is what each repo's CI runs,
-#                                        # as `check-layers.sh .`
+#   scripts/check-layers.sh DIR [DIR..]  # check specific module directories
 #   scripts/check-layers.sh --edges      # emit the measured graph as TSV on
 #                                        # stdout and say nothing else there
 #
@@ -73,13 +71,9 @@
 # direct/indirect column keeps the other question answerable — what does this
 # module's own source name — so that neither has to be guessed from the other.
 #
-# CI distribution: the tier table lives in this one file, so each core repo's
-# workflow fetches the raw script from the .github repo and runs it against
-# its own checkout:
-#   curl -fsSL https://raw.githubusercontent.com/vibrantgio/.github/master/scripts/check-layers.sh
-# In CI there is no workspace, so `go list -deps` resolves dependencies from
-# the module proxy at published tags — the check judges the released graph,
-# while a run from the plan root judges the working tree.
+# The tier table lives in this one file. Run it from the plan root, where
+# the workspace is; `go list -deps` then judges the working tree. There is
+# no per-repo CI.
 #
 # Exit status: non-zero if any non-allowlisted forbidden edge exists.
 
