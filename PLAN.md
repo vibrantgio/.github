@@ -12585,10 +12585,10 @@ copy that named the other apps can die with the page.
 
 Standing visual-review rule on the three tabs.
 
-- [ ] sitedocs has no Home, no About, no landing. Three tabs:
+- [x] sitedocs has no Home, no About, no landing. Three tabs:
   Docs, Gallery, Theme. Roster, README, llms.txt and the profile
   describe it that way. Fresh-eyes review of all three tabs;
   cheap defects fixed.
-- [ ] Exit: tests green in `sitedocs` and at the workbench root.
+- [x] Exit: tests green in `sitedocs` and at the workbench root.
   `scripts/check-layers.sh` from this directory. Commit and push
   in `workbench` and `.github` if the profile moved.
