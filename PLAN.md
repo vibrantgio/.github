@@ -12045,3 +12045,300 @@ modules that name them.
   `templates/repos.tsv` name the family and say the live
   stream wears it. Commit and push everything the pins
   touched, including `.github`.
+
+## Phase AE: A marketing window of its own
+
+Directed by the owner on 2026-08-23. Site Docs is two products in one
+window: a Features & Pricing landing and a documentation shell. Split
+them. This phase is the marketing product. Site Docs keeps its Home
+until Phase AF; do not gut it here.
+
+The new app is `workbench/marketing`, a nested module beside the
+others. It is one full-screen page. There is no application navbar,
+no Home / Docs / About, no Hero, no testimonials. The feature
+columns and the pricing row are the page. A quiet wordmark
+("Vibrant Gio") may sit above the columns so the window has a name;
+it is not the Hero pattern and it has no CTA into Site Docs.
+
+On macOS the window uses `mvu/desktop.FullSizeContent` and
+`ShowWindowButtons`. The title bar exists — Mission Control still
+reads `app.Title` — and the traffic lights sit on the left, painted
+over the marketing page. The triangle field and the page ground go
+under the strip. The feature columns start below
+`desktop.TopInset()` so their type is not in the buttons' hit area.
+Off macOS the options are a no-op and the window keeps its ordinary
+decorations.
+
+The backdrop borrows the launcher's tilted triangle field — same
+geometry, same camera, same overfill — and then refuses the
+launcher's look. Do not fill the faces. Do not run the hue-spread
+palette. Stroke every triangle in one muted colour from the theme
+(Neutral 500, the old Outline step / `FocusRing()`) and leave the
+ground as the Background pin. Subdued: if the vertex noise reads as
+shimmer on a stroke, drop the amplitude until the motion is
+sub-pixel again. Do not import the launcher; copy the field into
+this module and change the paint.
+
+No library tags. Workbench apps are consumed from the branch tip.
+`scripts/check-layers.sh` exempts applications; still run it from
+this directory if a task grows an import edge, so a stray uphill
+import is caught.
+
+### G-AE1: The window is a page of columns
+
+A new module, the chrome the owner named, and the Features &
+Pricing content living on it.
+
+#### AE1.1: Scaffold marketing and put it on the launcher
+
+`workbench/marketing` is a nested module
+(`github.com/vibrantgio/workbench/marketing`) with its own `go.mod`,
+pinned to the same tags the other apps name. Bootstrap is the todos
+skeleton: `mvu.NewWindow` + `theme/window` + `LiveTheme` wearing
+`brand.Kept()`, `mvu.Loop`, a surface-fill backdrop. On macOS,
+`desktop.FullSizeContent()` at construction and
+`desktop.ShowWindowButtons` after, options only through
+`mvuWin.Option`. Title "Vibrant Gio". Size in the same family as
+sitedocs (1200×800).
+
+Register it on the launcher roster in `apps.go` — Name "Marketing",
+Dir `marketing`, a blurb that says features and pricing on an
+outline field, an icon none of the other cards already use
+(`ActionViewQuilt` is free). The eighth card moves the grid; update
+the launcher window size if the last row no longer fits, and
+regenerate the launcher goldens. `README.md`, `llms.txt` §Where to
+look, the run-workbench skill's app list, and
+`.github/profile/README.md`'s workbench sentence all name the new
+app. Site Docs' own blurb stays as it is until AF.
+
+Regenerate the workspace (`scripts/clone-all.sh` discovers the new
+`go.mod`). Do not commit `go.work`.
+
+- [ ] `workbench/marketing` builds and tests green as its own
+  module. The window opens with FullSizeContent + traffic lights on
+  macOS. The launcher roster includes Marketing; launcher goldens
+  updated if the card grid moved. README, llms.txt, the run-workbench
+  skill and the org profile name it.
+- [ ] Exit: `go build ./... && go test ./...` green in `marketing`
+  and at the workbench root. `scripts/check-layers.sh` from this
+  directory. Commit and push in `workbench` and `.github` if the
+  profile moved.
+
+#### AE1.2: Feature columns and pricing are the page
+
+The page is `patterns/feature` (the existing three-up copy from
+`sitedocs/landing_content.go`) over `patterns/pricing` (the same
+three tiers). No Hero, no testimonials, no navbar, no About, no
+route into Site Docs. A quiet wordmark above the columns is
+allowed. Centre the column at sitedocs' `contentMaxWidthDp` (1100).
+Inset the content from the top by `desktop.TopInset()` at frame
+time so the first line of type sits below the traffic lights; the
+inset is 0 off macOS and in goldens.
+
+Do not use `patterns/shell` StackedPage — it pins a navbar the page
+does not have. A scrolling column is enough. Pricing CTAs stay
+visual; they do not navigate.
+
+Headless goldens of the page in light and dark, structural like
+sitedocs' landing goldens (sharp radius, deterministic shaper). The
+runtime path uses the real copy.
+
+- [ ] The marketing window's only page is the wordmark, the feature
+  columns and the pricing row. Goldens
+  `testdata/golden/light-page.png` and `dark-page.png` pin it.
+- [ ] Exit: tests green in `marketing`. Standing visual-review rule
+  does not run yet — the field is still missing. Commit and push in
+  `workbench`.
+
+### G-AE2: Outlines, not fills
+
+The launcher field, restated as a wireframe.
+
+#### AE2.1: Stroke the triangles in one colour
+
+Copy `field.go` / the HSL helper the launcher field needs into
+`marketing`. Same patch, tilt, camera, overfill, grow-on-resize.
+Drop `SetFill`. `SetStroke` every face to one colour taken from the
+theme — Neutral 500, the same step `FocusRing()` uses — and a thin
+stroke width. No hue-spread, no per-face palette. The Background
+pin remains the ground layer under the field, so the window is not
+a hole.
+
+Keep the slow vertex noise only if the strokes stay quiet; if they
+shimmer, drop `noiseAmplitude` until the motion is sub-pixel. The
+field is full-bleed, including under the title-bar strip. Theme
+changes re-key the one stroke colour the way the launcher re-keys
+its palette: an atomic hand-off, applied on the animation tick.
+
+The field is subscription-scoped state (`rx.Defer`), built once.
+Do not import the workbench root module.
+
+- [ ] The marketing backdrop is the launcher's triangle field
+  drawn as a single-colour wireframe over Background. Goldens
+  regenerated — the field will move pixels; say so in the commit
+  body. A unit test asserts faces have a stroke and no fill, and
+  that every face shares one colour.
+- [ ] Exit: tests green in `marketing`. Commit and push in
+  `workbench`.
+
+### G-AE3: Look at the composition
+
+#### AE3.1: Fresh eyes on the marketing window
+
+The standing visual-review rule: capture the whole window at a
+realistic size, both schemes, and hand the images to a fresh
+subagent that has not seen this packet, with no checklist — what
+would a developer on this platform complain about? The traffic
+lights must sit on the page, not on a padded empty strip. The
+triangles must read as a backdrop, not as the subject. Fix what is
+cheap and in scope; record the rest.
+
+- [ ] Whole-window captures in light and dark reviewed by a fresh
+  subagent. Cheap in-scope defects fixed in this task; the rest
+  written down in the commit body.
+- [ ] Exit: tests green. Commit and push in `workbench`.
+
+## Phase AF: Site Docs becomes the app guide
+
+Directed by the owner on 2026-08-23, to be worked after Phase AE.
+Site Docs stops being a marketing site. The landing, the About
+page and the Home / Docs / About navbar go away — Features &
+Pricing now live in `workbench/marketing`. What remains is a
+three-tab app:
+
+1. **Docs** — `llms.txt`, the application guide. A markdown
+   control is the document; a tree on the left is its outline.
+2. **Gallery** — components and patterns with live, clickable
+   controls.
+3. **Theme** — the same palette story the themer already shows
+   (ramp grid and named picks).
+
+The Docs tree shows `##` as the top level. `llms.txt` has one `#`
+title; that title is not a tree root. Today the file has no
+`###` headings, so the disclosed children have nowhere to land.
+This phase inserts those `###` spots into `llms.txt` itself —
+real headings in the one file, not a second document — and the
+tree's children scroll the markdown control to them.
+
+The file is already the application guide. Its `##` cuts and its
+level of detail stay. A `###` is an outline target at a break the
+prose already has, not a rewrite and not a second table of
+contents. A sentence or two of extra orientation is fine where a
+coding assistant would otherwise miss a seam; do not pad. Do not
+add a second `#`. Do not promote or demote existing `##` titles.
+Cross-references that say `§Colour` keep working because those
+titles do not move.
+
+The viewer may be `vibrantgio/markdown` over the whole file. The
+tree is an outline control for that one document. Clicking a `##`
+or a `###` scrolls to that heading (`markdown.NewDocumentAt` /
+the block index). Do not split `llms.txt` into per-section files.
+
+### G-AF1: llms.txt grows the spots the tree will name
+
+#### AF1.1: Insert ### headings at the breaks already there
+
+Walk each `##` and put a `###` on the named turns the section
+already takes — the deleted/renamed lists under Modules, the five
+numbered rules, ramps/pins/states under Colour, the live-stream
+vs golden split under Typography, one child per app under Where
+to look (including marketing once AE has landed). Name the
+heading in the document's own words. A `##` that is already one
+thought can stay childless; do not invent subsections to fill
+the tree.
+
+- [ ] `llms.txt` has `###` spots at the natural breaks, still
+  aimed at coding assistants, no `##` retitled. A checked
+  inventory in the commit body lists each `##` with its `###`
+  children (or none).
+- [ ] Exit: the file still reads as the application guide.
+  Commit and push in `workbench`.
+
+### G-AF2: Docs is one document and its outline
+
+#### AF2.1: Markdown in the main slot, ## outline on the left
+
+Replace the current accordion-of-pages docs shell with one
+document: `llms.txt` rendered by `vibrantgio/markdown`. Load the
+file from the workbench root when the process is a checkout
+(`../llms.txt` from `marketing` is the wrong sibling — from
+`sitedocs` it is `../llms.txt`); when the file is not there
+(a `go run …@latest` install), fetch the canonical raw URL and
+keep it in memory. Tests use a fixture, never the network.
+
+The left tree is the outline of that document:
+
+- Skip a lone `#`.
+- Each `##` is a top-level row with a disclosure triangle.
+- Its `###` children are the disclosed sublevel.
+- No deeper heading is shown.
+- A `##` with no `###` still appears; it simply has nothing to
+  disclose.
+
+Clicking a row scrolls the markdown control to that heading's
+block. The selected row is visible. Disclosure state lives in the
+MVU model.
+
+Goldens of the Docs tab in light and dark, with the first `##`
+open so the children show.
+
+- [ ] Docs tab: one markdown document of `llms.txt`, outline tree
+  as specified, click-to-scroll pinned by a test. Goldens for the
+  tab in both schemes.
+- [ ] Exit: tests green in `sitedocs`. Commit and push in
+  `workbench`.
+
+### G-AF3: Gallery and Theme
+
+#### AF3.1: Gallery tab of live controls
+
+A Gallery tab lists components and patterns as live, clickable
+controls. `components/gallery/inventory` is the catalogue the
+themer already embeds — use it, do not invent a second inventory.
+The controls must work (click, type, toggle), not be screenshots.
+
+- [ ] Gallery tab renders the inventory's live controls. A golden
+  pins the first screen in both schemes.
+- [ ] Exit: tests green in `sitedocs`. Commit and push in
+  `workbench`.
+
+#### AF3.2: Theme tab is the themer's palette section
+
+A Theme tab shows the same information as the themer's palette
+section: the ramps grid (roles × steps 100–900, colour names) and
+the named picks with the rule that chose each one. Prefer calling
+into whatever already draws that section; if it lives only in
+`themer/`, copy the presentation into `sitedocs` rather than
+extracting a new library package and rather than inventing a
+third telling.
+
+- [ ] Theme tab shows ramps and named picks, following the live
+  theme and both schemes. A golden pins it in both schemes.
+- [ ] Exit: tests green in `sitedocs`. Commit and push in
+  `workbench`.
+
+### G-AF4: The shell is three tabs
+
+#### AF4.1: Drop the marketing shell; install Docs / Gallery / Theme
+
+Remove Home, About, the landing patterns, `content/*.md` and the
+old accordion route table. The window is a tabbed shell —
+`patterns/tabs` — whose three pages are Docs, Gallery and Theme.
+Keep FullSizeContent + traffic lights if they still fit a docs
+app; the Docs tree and the tab strip must not sit under the
+buttons (`desktop.TopInset()`).
+
+Update the launcher blurb, `README.md`, `llms.txt` §Where to look
+(sitedocs is no longer "marketing + docs"), and the org profile
+if it still describes Site Docs as a marketing site. About-page
+copy that named the other apps can die with the page.
+
+Standing visual-review rule on the three tabs.
+
+- [ ] sitedocs has no Home, no About, no landing. Three tabs:
+  Docs, Gallery, Theme. Roster, README, llms.txt and the profile
+  describe it that way. Fresh-eyes review of all three tabs;
+  cheap defects fixed.
+- [ ] Exit: tests green in `sitedocs` and at the workbench root.
+  `scripts/check-layers.sh` from this directory. Commit and push
+  in `workbench` and `.github` if the profile moved.
