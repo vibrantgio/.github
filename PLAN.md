@@ -12240,6 +12240,73 @@ cheap and in scope; record the rest.
   written down in the commit body.
 - [x] Exit: tests green. Commit and push in `workbench`.
 
+### G-AE4: A scrollbar when the page does not fit
+
+The page already scrolls (`layout.List` in `landing.go`). At the
+window's 1200×800 it does not fit, and there is no bar, so nothing
+says there is more below. That is the defect AE3.1 recorded and
+left.
+
+#### AE4.1: Show a scrollbar on the marketing page
+
+Use `components/list` with `LayoutScrollbar`. Overlay, not Occupy:
+the centred 1100 dp column must not jump sideways when the bar
+appears. Style from `scrollbar.FromTokens`. When everything fits,
+no bar (the list package already does that). Goldens of the
+runtime page at 1200×800 in both schemes must show the bar.
+
+- [ ] The marketing page paints a trailing overlay scrollbar
+  whenever the stack is taller than the window. Goldens pin it.
+- [ ] Exit: tests green in `marketing`. Commit and push in
+  `workbench`.
+
+### G-AE5: Testimonials on the first screen
+
+Opening the window, the testimonial row sits entirely under the
+bottom edge. Hero, features and pricing eat the 1200×800 viewport.
+A visitor who does not scroll never sees them, and until AE4.1
+there is no cue that they exist.
+
+#### AE5.1: Let the first frame show the testimonials
+
+At the app's own size (1200×800), the first frame must show some
+of the testimonial section: the top of the cards, not an empty
+band under pricing. Tighten the stack (the shorter hero subtitle
+in AE6.1 is part of that). Do not grow the default window to
+swallow the overflow; the rest of the cards still scroll. A
+golden at 1200×800 in both schemes shows pricing and the
+testimonial peek together.
+
+- [ ] First frame at 1200×800 includes a visible slice of the
+  testimonials. Goldens pin it.
+- [ ] Exit: tests green in `marketing`. Commit and push in
+  `workbench`.
+
+### G-AE6: The hero subtitle, without an em dash
+
+The subtitle is one long clause glued with an em dash:
+
+`Tools for knowing where a sentence came from. Provenance,
+authenticity and source custody — so work still stands when
+anyone can generate a paragraph.`
+
+It does not read. The dash is the usual generated tic. Replace
+the string. Do not put U+2014 in any marketing copy this task
+touches (hero, features, pricing, testimonials).
+
+Use this subtitle:
+
+`Where did this sentence come from? Who wrote it, and was it
+generated? The trail stays in the file.`
+
+#### AE6.1: Rewrite the subtitle and strip the dash
+
+- [ ] Hero subtitle is the three short questions above. No U+2014
+  in `landing_content.go` user-facing strings. Tests that pin the
+  old sentence are updated.
+- [ ] Exit: tests green in `marketing`. Commit and push in
+  `workbench`.
+
 ## Phase AF: Site Docs becomes the app guide
 
 Directed by the owner on 2026-08-23, to be worked after Phase AE.
