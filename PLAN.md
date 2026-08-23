@@ -12235,10 +12235,10 @@ lights must sit on the page, not on a padded empty strip. The
 triangles must read as a backdrop, not as the subject. Fix what is
 cheap and in scope; record the rest.
 
-- [ ] Whole-window captures in light and dark reviewed by a fresh
+- [x] Whole-window captures in light and dark reviewed by a fresh
   subagent. Cheap in-scope defects fixed in this task; the rest
   written down in the commit body.
-- [ ] Exit: tests green. Commit and push in `workbench`.
+- [x] Exit: tests green. Commit and push in `workbench`.
 
 ## Phase AF: Site Docs becomes the app guide
 
