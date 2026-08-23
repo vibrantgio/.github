@@ -12307,6 +12307,78 @@ generated? The trail stays in the file.`
 - [ ] Exit: tests green in `marketing`. Commit and push in
   `workbench`.
 
+### G-AE7: Cards share a top and a bottom
+
+The feature row and the pricing row each lay out as
+`layout.Flex` with `Alignment: Start`. Cards (and feature cells)
+are only as tall as their own stack, so a longer body or a
+longer feature list leaves a ragged bottom, and the Popular
+chip sitting above Pro makes that card taller still. It reads
+as three loose piles, not one row.
+
+Fix it in `patterns/feature` and `patterns/pricing`. Marketing
+only consumes them. The chip move is G-AE8; this goal is the
+shared rectangle.
+
+#### AE7.1: Pricing cards are one height; the CTA sits on the floor
+
+Every tier card in the row is as tall as the tallest. Name,
+price and bullets stay at the top. The CTA sits on the bottom
+inset, not flush under the last bullet. Uneven feature counts
+are why the pattern exists; they must not change the card
+height. `Alignment: Start` on the row is the defect.
+
+Regenerate `patterns/pricing` goldens. Then every consumer
+whose pixels move: marketing, and sitedocs' landing while it
+still mounts this pattern. No patterns tag; the workspace sees
+the module.
+
+- [ ] Three-tier pricing goldens show equal-height cards and
+  CTAs on one line. Marketing and sitedocs landing goldens
+  updated if they moved.
+- [ ] Exit: tests green in `patterns`, `marketing`, and
+  `sitedocs` if touched. `scripts/check-layers.sh` from this
+  directory. Commit and push in each repo.
+
+#### AE7.2: Feature cells share a top line and a bottom edge
+
+In a feature row the titles share the top of the cell. Bodies
+start on one line under the tallest title, so a wrapping title
+does not shove one body down on its own. The three cells are
+one height. Same `Alignment: Start` defect as the pricing row.
+
+Regenerate `patterns/feature` goldens and the same consumers.
+
+- [ ] Feature-row goldens show a shared title line, a shared
+  body line, and a shared cell bottom. Consumer goldens
+  updated if they moved.
+- [ ] Exit: tests green in `patterns` and each consumer.
+  Commit and push in each repo.
+
+### G-AE8: The Popular chip sits on the name
+
+The emphasised tier is `Highlighted`. The mark it grows is a
+**chip**: `patterns/tag` in the Filled variant, hard-coded
+label `Popular`. That is the word this codebase uses (not
+badge). It currently stacks above the tier name, which is why
+Pro is taller than Free and Studio before the feature lists
+even differ.
+
+#### AE8.1: Chip on the name row, trailing
+
+The Highlighted card's first row is the tier name and the
+Popular chip, one line: name leading, chip trailing (right
+edge of the card's inset). The chip stays `patterns/tag`
+Filled, still only when `Highlighted`. It does not take a
+row of its own. Goldens in `patterns/pricing` and the
+consumers.
+
+- [ ] Popular chip is on the Pro name row, to the right.
+  Goldens updated. The flag is still `Highlighted`; the
+  drawing is still the tag chip.
+- [ ] Exit: tests green in `patterns` and each consumer.
+  Commit and push in each repo.
+
 ## Phase AF: Site Docs becomes the app guide
 
 Directed by the owner on 2026-08-23, to be worked after Phase AE.
