@@ -25,9 +25,9 @@ underneath it. The entire palette is derived from a single seed colour.
 
 - **[workbench/todos/](https://github.com/vibrantgio/workbench/tree/master/todos)** —
   the smallest complete application, and the one to read before writing your
-  own. Six larger references sit beside it in
+  own. Seven larger references sit beside it in
   [workbench](https://github.com/vibrantgio/workbench): `sitedocs`, `feeds`,
-  `vaultview`, `mindchat`, `iconbrowser` and `themer` — and the workbench
+  `vaultview`, `mindchat`, `iconbrowser`, `themer` and `marketing` — and the workbench
   root itself is the launcher that runs them all.
 - **[llms.txt](https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt)** —
   the guide for writing an *application* with Vibrant Gio — modules and
@@ -71,7 +71,7 @@ Eleven further modules live in subdirectories of the repositories above, such as
 lists them all with current versions.
 
 Two repositories sit outside the table:
-[workbench](https://github.com/vibrantgio/workbench) — the seven example
+[workbench](https://github.com/vibrantgio/workbench) — the eight example
 applications and the launcher, each its own untagged module installed from
 the branch tip rather than a version, plus the canonical guide — and
 [design](https://github.com/vibrantgio/design), the exported token bundle

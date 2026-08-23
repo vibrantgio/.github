@@ -12125,12 +12125,12 @@ app. Site Docs' own blurb stays as it is until AF.
 Regenerate the workspace (`scripts/clone-all.sh` discovers the new
 `go.mod`). Do not commit `go.work`.
 
-- [ ] `workbench/marketing` builds and tests green as its own
+- [x] `workbench/marketing` builds and tests green as its own
   module. The window opens with FullSizeContent + traffic lights on
   macOS. The launcher roster includes Marketing; launcher goldens
   updated if the card grid moved. README, llms.txt, the run-workbench
   skill and the org profile name it.
-- [ ] Exit: `go build ./... && go test ./...` green in `marketing`
+- [x] Exit: `go build ./... && go test ./...` green in `marketing`
   and at the workbench root. `scripts/check-layers.sh` from this
   directory. Commit and push in `workbench` and `.github` if the
   profile moved.
