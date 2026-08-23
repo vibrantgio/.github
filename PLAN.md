@@ -12255,9 +12255,9 @@ appears. Style from `scrollbar.FromTokens`. When everything fits,
 no bar (the list package already does that). Goldens of the
 runtime page at 1200×800 in both schemes must show the bar.
 
-- [ ] The marketing page paints a trailing overlay scrollbar
+- [x] The marketing page paints a trailing overlay scrollbar
   whenever the stack is taller than the window. Goldens pin it.
-- [ ] Exit: tests green in `marketing`. Commit and push in
+- [x] Exit: tests green in `marketing`. Commit and push in
   `workbench`.
 
 ### G-AE5: Testimonials on the first screen
