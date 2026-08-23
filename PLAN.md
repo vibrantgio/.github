@@ -12047,13 +12047,14 @@ modules that name them.
   touched, including `.github`.
 
 ## Phase AE: A marketing window of its own
-Directed by the owner on 2026-08-23, and amended the same day:
-the page carries a Hero and testimonials as well as Features &
-Pricing, and the copy is a fictional SimpleApps site — not
-Vibrant Gio. Site Docs is two products in one window: a marketing
-landing and a documentation shell. Split them. This phase is the
-marketing product. Site Docs keeps its Home until Phase AF; do
-not gut it here.
+Directed by the owner on 2026-08-23, and amended twice the
+same day: the page carries a Hero and testimonials as well as
+Features & Pricing; the copy is a fictional SimpleApps site —
+not Vibrant Gio; and it must not name another company's
+product or catalogue. Site Docs is two products in one
+window: a marketing landing and a documentation shell. Split
+them. This phase is the marketing product. Site Docs keeps its
+Home until Phase AF; do not gut it here.
 
 The new app is `workbench/marketing`, a nested module beside the
 others. It is one full-screen scrolling page: Hero, feature
@@ -12064,14 +12065,12 @@ no extra wordmark above it. Its CTAs do not open Site Docs (that
 app is a different product). They may scroll within the page or
 stay visual.
 
-The copy pretends to be the new home simpleapps.eu says is on
-its way. SimpleApps (Nijmegen) is the studio behind SimpleMind;
-the live site today is a coming-soon card that points
-SimpleMind visitors at simplemind.eu. Invent a plausible
-product page for that new home — flagship mind mapping, a small
-family of simple tools, one-time licences, no ads, no account.
-Do not paste Vibrant Gio layer names. Do not claim the prices
-or sibling apps are real. The strings live in this phase
+The copy pretends to be a product page for simpleapps.eu. Invent
+a small family of simple tools, one-time licences, no ads, no
+account. Do not paste Vibrant Gio layer names. Do not claim the
+prices or sibling apps are real. Do not name another company's product
+anywhere the user will see — window title, copy, comments,
+goldens, launcher blurb, README. The strings live in this phase
 (AE1.2), not in `sitedocs/landing_content.go`.
 
 On macOS the window uses `mvu/desktop.FullSizeContent` and
@@ -12144,37 +12143,36 @@ Do not use `patterns/shell` StackedPage — it pins a navbar the page
 does not have. A scrolling column is enough.
 
 The copy is fictional SimpleApps, written here so the implementer
-does not invent Vibrant Gio again and does not scrape
-simplemind.eu. It is demo content: uneven pricing bullets, a
-highlighted middle tier, a Hero with two CTAs. The CTAs do not
-open another app; primary may scroll to pricing, secondary stays
-visual (the label may name simplemind.eu). Pricing CTAs stay
-visual.
+does not invent Vibrant Gio and does not name anyone else's
+product. It is demo content: uneven pricing bullets, a highlighted
+middle tier, a Hero with two CTAs. The CTAs do not open another
+app; primary may scroll to pricing, secondary stays visual.
+Pricing CTAs stay visual. Do not name another company's product.
 
 **Hero**
 
 - Eyebrow: `simpleapps.eu · coming soon`
 - Title: `SimpleApps`
-- Subtitle: `A new home for the studio behind SimpleMind. Simple tools for thinking on screen — mind maps, outlines and the next small app — on the computer and in your pocket.`
+- Subtitle: `A new home for small tools that stay out of the way. Write, list and plan on the computer and in your pocket — no account, no feed, no subscription.`
 - Primary CTA: `See plans`
-- Secondary CTA: `SimpleMind →`
+- Secondary CTA: `Learn more`
 
 **Features** (three columns)
 
-- `SimpleMind` — `Free-form mind maps you place yourself, or a layout that arranges them. Notes, icons, checkboxes and cross-links on every topic.`
-- `Every screen` — `Mac, Windows, iPhone and Android. The same map on the desk and on the train, synced when you want, fine offline when you do not.`
-- `Yours` — `No ads, no account, no feed. Maps stay on your device. A one-time licence, not a subscription.`
+- `Write` — `Notes and outlines that open in one beat. Pictures, checkboxes and links sit on the page, not in a sidebar you have to hunt.`
+- `Every screen` — `Mac, Windows, iPhone and Android. The same file on the desk and on the train, synced when you want, fine offline when you do not.`
+- `Yours` — `No ads, no account, no feed. Files stay on your device. A one-time licence, not a subscription.`
 
-**Pricing** (one-time, not `/mo` — the real studio does not sell seats by the month; the fiction follows that. Cadence is `once`. Middle tier highlighted.)
+**Pricing** (one-time. Cadence is `once`. Middle tier highlighted.)
 
-- `Free` — `€0` `once` — `SimpleMind free edition`; `No ads, no sign-in`; `Maps on one device`. CTA `Start free`.
-- `Pro` — `€29` `once` — Highlighted, name the chip `Popular` if the pattern has one — `Full SimpleMind`; `Every layout and style`; `Images, notes and share as PDF`; `Phone and desktop, one platform`. CTA `Buy Pro`.
-- `Studio` — `€79` `once` — `Pro on every platform you use`; `The rest of the SimpleApps set (fiction)`; `Style sheets for a team look`; `Priority mail`. CTA `Contact us`.
+- `Free` — `€0` `once` — `One app, basic edition`; `No ads, no sign-in`; `Files on one device`. CTA `Start free`.
+- `Pro` — `€29` `once` — Highlighted, name the chip `Popular` if the pattern has one — `Every layout and export`; `Images, notes and share as PDF`; `Phone and desktop, one platform`; `The rest of the writing tools`. CTA `Buy Pro`.
+- `Studio` — `€79` `once` — `Pro on every platform you use`; `The rest of the SimpleApps set (fiction)`; `Shared style sheets`; `Priority mail`. CTA `Contact us`.
 
-**Testimonials** (invented people, invented firms)
+**Testimonials** (invented people, invented firms — no real city of the studio)
 
-- `I still open a map before a meeting. Twenty years of notes and it has never asked me to subscribe.` — `Kees de Wit`, `Planner, Rivierenland`
-- `Students get the free edition on their phones. I bought Pro on the Mac and we share the same files over the folder, not an account.` — `Amira Haddad`, `Lecturer, Nijmegen`
+- `I still open a note before a meeting. Years of files and it has never asked me to subscribe.` — `Kees de Wit`, `Planner, Westferry`
+- `Students get the free edition on their phones. I bought Pro on the Mac and we share the same files over the folder, not an account.` — `Amira Haddad`, `Lecturer, Harbour College`
 - `We tried the big names. SimpleApps is the one that stayed out of the way.` — `Jonah Eller`, `Counsel, North Harbour`
 
 Headless goldens of the page in light and dark, structural like
@@ -12183,8 +12181,8 @@ The runtime path uses the copy above.
 
 - [ ] The marketing window's only page is Hero, feature columns,
   pricing and testimonials, in the SimpleApps fiction above.
-  Goldens `testdata/golden/light-page.png` and `dark-page.png`
-  pin it.
+  No third-party product name in the module. Goldens
+  `testdata/golden/light-page.png` and `dark-page.png` pin it.
 - [ ] Exit: tests green in `marketing`. Standing visual-review rule
   does not run yet — the field is still missing. Commit and push in
   `workbench`.
