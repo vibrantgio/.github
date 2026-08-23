@@ -2,8 +2,7 @@
 
 The organization's front door and the root of its plan. No library code lives
 here — that is in the twenty-one sibling repositories listed on the
-[organization page](https://github.com/vibrantgio). This repository holds three
-things.
+[organization page](https://github.com/vibrantgio).
 
 **[`profile/README.md`](profile/README.md) — the organization page.** GitHub
 renders it at [github.com/vibrantgio](https://github.com/vibrantgio): what
@@ -12,29 +11,21 @@ That file, not this one, is the org page. This README renders only on
 [this repository's own page](https://github.com/vibrantgio/.github), so the two
 are edited separately and say different things.
 
+**[`PLAN.md`](PLAN.md) — the plan.** How Vibrant Gio itself is built. Eight
+phases that turn the repositories from a loose collection into one design
+system. The architecture decisions behind them are ADRs in its Reference
+section. Work is picked up one `####` task at a time —
+`mdplan next PLAN.md` — and each task is one commit.
+
 **[`llms.txt`](https://github.com/vibrantgio/workbench/blob/master/llms.txt)
-— the canonical agent guide.** The file to hand a
-coding assistant before it writes a line of Vibrant Gio code: the module
-inventory with current tags, the application skeleton, MVU and rx semantics,
-typography, and the pitfalls that are not guessable. Its canonical URL is
+is not in this repository.** It lives in `workbench` and is the guide for
+writing an *application* with Vibrant Gio — modules and tags, the bootstrap
+skeleton, MVU and rx, typography, the pitfalls that bite app code. It is
+not how you work this plan. Its URL is
 
     https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt
 
-It exists exactly once, in `workbench` (ADR-004, amended): workbench
-showcases how to build applications with Vibrant Gio, so the guide that
-teaches exactly that lives beside the reference apps, while this repository
-is where Vibrant Gio itself is built. The per-repo `AGENTS.md` files are
-short static pointers to it, so there is one version to read and one to edit.
-
-**[`PLAN.md`](PLAN.md) — the plan.** Eight phases that turn the repositories
-from a loose collection into one design system: the front-door documentation
-(A), repairing the module graph (B), giving the theme ownership of the typeface
-(C), generative colour (D), reimagining Material Design's ideas for desktop (E),
-proving and releasing it (F), a design-agent surface (G), and the desktop
-seam (H). The architecture
-decisions behind them are recorded as ADRs in its Reference section. Work is
-picked up one `####` task at a time — `mdplan next PLAN.md` — and each task is
-one commit.
+Every sibling's `AGENTS.md` is a short static pointer to that URL.
 
 ## Working tree
 
@@ -77,7 +68,7 @@ of wrong thing be committed quietly.
   that one walk as TSV instead of judging it.
 - [`scripts/check-no-workspace.sh`](scripts/check-no-workspace.sh) — refuses to
   let the workspace flatter the tree. It builds and tests all 39 modules with
-  `GOWORK=off`, the way CI, `go get` and pkg.go.dev see them, because under
+  `GOWORK=off`, the way `go get` and pkg.go.dev see them, because under
   `go.work` a module compiles against a sibling's working copy while its own
   `go.mod` still points at a stale tag. It also fails on a `replace` directive
   in any member.
@@ -94,8 +85,9 @@ of wrong thing be committed quietly.
 
 Across the twenty-one repositories there are 39 modules — twenty-one at
 repository roots, eleven nested in subdirectories with tags that carry the
-subdirectory as a prefix, and seven applications in `workbench`, each its own
-module released on its own cadence beside the repository's root module.
+subdirectory as a prefix, and seven applications in `workbench` beside that
+repository's root module. `workbench` and `design` carry no tags; they are
+consumed from the branch tip.
 All 39 declare Go 1.25.1; every one that depends on Gio is on
 gioui.org v0.10.2 and every one that depends on rx is on
 github.com/reactivego/rx v0.3.0 — one version of each, organization-wide.
