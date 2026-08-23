@@ -103,6 +103,32 @@ finished, commit it, and report that the task needs splitting — with a propose
 split. Do not push through. A task that silently runs for hours is the failure
 mode this plan exists to prevent.
 
+## Phase AG: The tab strip keeps its own line
+
+Reported by the owner on 2026-08-24. In sitedocs' Gallery tab the
+strip's active underline and the inventory's first group banner — both
+Primary — sit flush and merge into one band. The same adjacency skewed
+the AF4.1 reviewer into reading the underline as a different colour.
+
+### G-AG1: The strip and the content part company
+
+#### AG1.1: Air between the tab strip and the Gallery content
+
+Give the tab shell's content slot breathing room under the strip so the
+active underline reads as its own line against every content. Decide
+where the gap lives — the shell (all three tabs, consistent) or the
+Gallery column only (Docs and Theme already open with quiet surfaces) —
+and say why in the commit body. Do not touch the inventory's banner:
+its presentation items are recorded in ADR-014 S8 and ruled separately.
+Regenerate the goldens the change legitimately moves, in the same task.
+Fresh-eyes on the Gallery tab afterwards; the strip/banner seam is the
+question, so brief the reviewer on the recorded inventory items.
+
+- [ ] The Gallery tab's strip underline reads as its own line in both
+  schemes; the chosen gap placement is argued in the commit body.
+- [ ] Exit: tests green in `sitedocs`; goldens regenerated where moved.
+  Commit and push in `workbench`.
+
 ## Reference
 
 Decision records and shared contracts. `mdplan next` never visits this section
