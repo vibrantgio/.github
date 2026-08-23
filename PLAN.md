@@ -27,6 +27,17 @@ test ./...` must pass. Golden-image tests are part of that — when a change
 legitimately moves pixels, regenerate the goldens *within the same task* and
 say so in the commit body. Never commit red.
 
+**Layers from this directory.** A task that can grow an import edge — a new
+`import`, a `go.mod` change, a package moved across repos — ends with
+`scripts/check-layers.sh` run from *this* directory, no arguments. It walks
+every cloned tabled root and judges the working tree: a module may import
+only a strictly lower tier, plus the support row. That is how an uphill
+edge (a used package learning about a user) is caught before it becomes a
+cycle. Do not run it inside one sibling, and do not put it in CI: a single
+repo cannot see the other clones, and GitHub would judge yesterday's tags
+and mail on a seam. Apps and nested demos are exempt; a missing clone is
+an error, not a smaller check.
+
 **Look with fresh eyes.** A task that changes how an application looks ends
 with an adversarial review, because the author is the worst reviewer of their
 own composition: an agent checking its own screenshot confirms the items on

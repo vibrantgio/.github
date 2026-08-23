@@ -167,6 +167,10 @@ test ./...` must pass. Golden-image tests count — when a change legitimately
 moves pixels, regenerate the goldens within the same task and say so in the
 commit body. Never commit red.
 
+**Layers from this directory.** A task that can grow an import edge ends with
+`scripts/check-layers.sh` from here, no arguments — the working tree, every
+cloned tabled root. Do not run it inside one sibling, and do not put it in CI.
+
 **Push when it's green.** A commit on `master` is not a release — the tag is.
 So there is nothing to hold back: once a task's commits are made and green,
 push them, in every repository you touched, without asking. Rene works from
