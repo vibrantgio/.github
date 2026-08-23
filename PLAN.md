@@ -12624,8 +12624,8 @@ Regenerate the goldens the change legitimately moves, in the same task.
 Fresh-eyes on the Gallery tab afterwards; the strip/banner seam is the
 question, so brief the reviewer on the recorded inventory items.
 
-- [ ] The Gallery tab's strip underline reads as its own line in both
+- [x] The Gallery tab's strip underline reads as its own line in both
   schemes; the chosen gap placement is argued in the commit body.
-- [ ] Exit: tests green in `sitedocs`; goldens regenerated where moved.
+- [x] Exit: tests green in `sitedocs`; goldens regenerated where moved.
   Commit and push in `workbench`.
 
