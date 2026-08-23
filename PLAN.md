@@ -12443,11 +12443,11 @@ heading in the document's own words. A `##` that is already one
 thought can stay childless; do not invent subsections to fill
 the tree.
 
-- [ ] `llms.txt` has `###` spots at the natural breaks, still
+- [x] `llms.txt` has `###` spots at the natural breaks, still
   aimed at coding assistants, no `##` retitled. A checked
   inventory in the commit body lists each `##` with its `###`
   children (or none).
-- [ ] Exit: the file still reads as the application guide.
+- [x] Exit: the file still reads as the application guide.
   Commit and push in `workbench`.
 
 ### G-AF2: Docs is one document and its outline
