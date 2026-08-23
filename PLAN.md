@@ -12506,9 +12506,9 @@ controls. `components/gallery/inventory` is the catalogue the
 themer already embeds — use it, do not invent a second inventory.
 The controls must work (click, type, toggle), not be screenshots.
 
-- [ ] Gallery tab renders the inventory's live controls. A golden
+- [x] Gallery tab renders the inventory's live controls. A golden
   pins the first screen in both schemes.
-- [ ] Exit: tests green in `sitedocs`. Commit and push in
+- [x] Exit: tests green in `sitedocs`. Commit and push in
   `workbench`.
 
 #### AF3.2: Theme tab is the themer's palette section
