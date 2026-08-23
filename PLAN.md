@@ -12478,10 +12478,10 @@ MVU model.
 Goldens of the Docs tab in light and dark, with the first `##`
 open so the children show.
 
-- [ ] Docs tab: one markdown document of `llms.txt`, outline tree
+- [x] Docs tab: one markdown document of `llms.txt`, outline tree
   as specified, click-to-scroll pinned by a test. Goldens for the
   tab in both schemes.
-- [ ] Exit: tests green in `sitedocs`. Commit and push in
+- [x] Exit: tests green in `sitedocs`. Commit and push in
   `workbench`.
 
 ### G-AF3: Gallery and Theme
