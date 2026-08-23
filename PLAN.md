@@ -12215,12 +12215,12 @@ its palette: an atomic hand-off, applied on the animation tick.
 The field is subscription-scoped state (`rx.Defer`), built once.
 Do not import the workbench root module.
 
-- [ ] The marketing backdrop is the launcher's triangle field
+- [x] The marketing backdrop is the launcher's triangle field
   drawn as a single-colour wireframe over Background. Goldens
   regenerated — the field will move pixels; say so in the commit
   body. A unit test asserts faces have a stroke and no fill, and
   that every face shares one colour.
-- [ ] Exit: tests green in `marketing`. Commit and push in
+- [x] Exit: tests green in `marketing`. Commit and push in
   `workbench`.
 
 ### G-AE3: Look at the composition
