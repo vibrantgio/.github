@@ -12373,10 +12373,10 @@ Filled, still only when `Highlighted`. It does not take a
 row of its own. Goldens in `patterns/pricing` and the
 consumers.
 
-- [ ] Popular chip is on the Pro name row, to the right.
+- [x] Popular chip is on the Pro name row, to the right.
   Goldens updated. The flag is still `Highlighted`; the
   drawing is still the tag chip.
-- [ ] Exit: tests green in `patterns` and each consumer.
+- [x] Exit: tests green in `patterns` and each consumer.
   Commit and push in each repo.
 
 ## Phase AF: Site Docs becomes the app guide
