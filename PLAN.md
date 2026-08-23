@@ -12669,18 +12669,18 @@ sweep the tellings that say "three tabs": launcher blurb, README,
 ### G-AH2: The seed made explicit
 
 #### AH2.1: The Theme tab names its seed
-
 At the head of the Theme tab's palette story, show the seed: a swatch
 of the colour the palette derives from, its value, and one plain
 sentence of derivation (seed fixes each role's hue and chroma; ramps
-walk it through nine tones, bases pin it at one depth). Read what the
-live theme actually exposes — the light Primary base is the seed,
-lifted only when a too-light brand colour had to be raised — and say
-what is true: if the shown value is the lifted seed, do not caption it
-as the raw input. Prefer the presentation vocabulary the palette
-section already uses; no new library package. Golden in both schemes.
+walk it through nine tones, bases pin it at one depth). One honesty
+rule: the generator may not use the picked colour exactly as given —
+a seed too pale to carry readable text is first darkened, and the
+palette grows from the darkened version. The caption must say which
+colour the swatch shows, the one picked or the one the palette grew
+from; never label the adjusted colour as the picked one. Prefer the
+presentation vocabulary the palette section already uses; no new
+library package. Golden in both schemes.
 
 - [ ] The Theme tab opens with the seed made explicit, captioned
   honestly, followed by ramps, picks, and the type ladder.
 - [ ] Exit: tests green in `sitedocs`. Commit and push in `workbench`.
-
