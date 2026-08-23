@@ -12681,6 +12681,6 @@ from; never label the adjusted colour as the picked one. Prefer the
 presentation vocabulary the palette section already uses; no new
 library package. Golden in both schemes.
 
-- [ ] The Theme tab opens with the seed made explicit, captioned
+- [x] The Theme tab opens with the seed made explicit, captioned
   honestly, followed by ramps, picks, and the type ladder.
-- [ ] Exit: tests green in `sitedocs`. Commit and push in `workbench`.
+- [x] Exit: tests green in `sitedocs`. Commit and push in `workbench`.
