@@ -12349,10 +12349,10 @@ one height. Same `Alignment: Start` defect as the pricing row.
 
 Regenerate `patterns/feature` goldens and the same consumers.
 
-- [ ] Feature-row goldens show a shared title line, a shared
+- [x] Feature-row goldens show a shared title line, a shared
   body line, and a shared cell bottom. Consumer goldens
   updated if they moved.
-- [ ] Exit: tests green in `patterns` and each consumer.
+- [x] Exit: tests green in `patterns` and each consumer.
   Commit and push in each repo.
 
 ### G-AE8: The Popular chip sits on the name
