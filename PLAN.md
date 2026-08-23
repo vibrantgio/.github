@@ -12047,19 +12047,32 @@ modules that name them.
   touched, including `.github`.
 
 ## Phase AE: A marketing window of its own
-Directed by the owner on 2026-08-23, and amended the same day: the
-page carries a Hero and testimonials as well as Features & Pricing.
-Site Docs is two products in one window: a marketing landing and a
-documentation shell. Split them. This phase is the marketing
-product. Site Docs keeps its Home until Phase AF; do not gut it here.
+Directed by the owner on 2026-08-23, and amended the same day:
+the page carries a Hero and testimonials as well as Features &
+Pricing, and the copy is a fictional SimpleApps site — not
+Vibrant Gio. Site Docs is two products in one window: a marketing
+landing and a documentation shell. Split them. This phase is the
+marketing product. Site Docs keeps its Home until Phase AF; do
+not gut it here.
 
 The new app is `workbench/marketing`, a nested module beside the
-others. It is one full-screen scrolling page: Hero, feature columns,
-pricing, testimonials — the same four patterns sitedocs Home already
-composes, without the application navbar and without Home / Docs /
-About. The Hero is the name of the window; there is no extra
-wordmark above it. Its CTAs do not open Site Docs (that app is a
-different product). They may scroll within the page or stay visual.
+others. It is one full-screen scrolling page: Hero, feature
+columns, pricing, testimonials — the same four patterns sitedocs
+Home already composes, without the application navbar and without
+Home / Docs / About. The Hero is the name of the window; there is
+no extra wordmark above it. Its CTAs do not open Site Docs (that
+app is a different product). They may scroll within the page or
+stay visual.
+
+The copy pretends to be the new home simpleapps.eu says is on
+its way. SimpleApps (Nijmegen) is the studio behind SimpleMind;
+the live site today is a coming-soon card that points
+SimpleMind visitors at simplemind.eu. Invent a plausible
+product page for that new home — flagship mind mapping, a small
+family of simple tools, one-time licences, no ads, no account.
+Do not paste Vibrant Gio layer names. Do not claim the prices
+or sibling apps are real. The strings live in this phase
+(AE1.2), not in `sitedocs/landing_content.go`.
 
 On macOS the window uses `mvu/desktop.FullSizeContent` and
 `ShowWindowButtons`. The title bar exists — Mission Control still
@@ -12084,10 +12097,8 @@ No library tags. Workbench apps are consumed from the branch tip.
 this directory if a task grows an import edge, so a stray uphill
 import is caught.
 ### G-AE1: The window is a page of columns
-A new module, the chrome the owner named, and the landing —
-Hero, features, pricing, testimonials — living on it.
+A new module, the chrome the owner named, and a fictional SimpleApps landing — Hero, features, pricing, testimonials — living on it.
 #### AE1.1: Scaffold marketing and put it on the launcher
-
 `workbench/marketing` is a nested module
 (`github.com/vibrantgio/workbench/marketing`) with its own `go.mod`,
 pinned to the same tags the other apps name. Bootstrap is the todos
@@ -12095,12 +12106,12 @@ skeleton: `mvu.NewWindow` + `theme/window` + `LiveTheme` wearing
 `brand.Kept()`, `mvu.Loop`, a surface-fill backdrop. On macOS,
 `desktop.FullSizeContent()` at construction and
 `desktop.ShowWindowButtons` after, options only through
-`mvuWin.Option`. Title "Vibrant Gio". Size in the same family as
+`mvuWin.Option`. Title "SimpleApps". Size in the same family as
 sitedocs (1200×800).
 
 Register it on the launcher roster in `apps.go` — Name "Marketing",
-Dir `marketing`, a blurb that says features and pricing on an
-outline field, an icon none of the other cards already use
+Dir `marketing`, a blurb that says a fictional SimpleApps landing
+on an outline field, an icon none of the other cards already use
 (`ActionViewQuilt` is free). The eighth card moves the grid; update
 the launcher window size if the last row no longer fits, and
 regenerate the launcher goldens. `README.md`, `llms.txt` §Where to
@@ -12120,29 +12131,60 @@ Regenerate the workspace (`scripts/clone-all.sh` discovers the new
   and at the workbench root. `scripts/check-layers.sh` from this
   directory. Commit and push in `workbench` and `.github` if the
   profile moved.
-
 #### AE1.2: Hero, features, pricing and testimonials are the page
-The page is the four marketing patterns, in this order, with the
-existing copy from `sitedocs/landing_content.go`: `patterns/hero`,
-`patterns/feature` (the three-up), `patterns/pricing` (the three
-tiers), `patterns/testimonial` (the three-card grid). No navbar, no
-About, no route into Site Docs. Hero CTAs do not open another app;
-they may scroll to pricing or stay visual. Centre the column at
-sitedocs' `contentMaxWidthDp` (1100). Inset the content from the
-top by `desktop.TopInset()` at frame time so the Hero sits below
-the traffic lights; the inset is 0 off macOS and in goldens.
+The page is the four marketing patterns, in this order:
+`patterns/hero`, `patterns/feature` (three-up), `patterns/pricing`
+(three tiers), `patterns/testimonial` (three-card grid). No navbar,
+no About, no route into Site Docs. Centre the column at sitedocs'
+`contentMaxWidthDp` (1100). Inset the content from the top by
+`desktop.TopInset()` at frame time so the Hero sits below the
+traffic lights; the inset is 0 off macOS and in goldens.
 
 Do not use `patterns/shell` StackedPage — it pins a navbar the page
-does not have. A scrolling column is enough. Pricing CTAs stay
-visual; they do not navigate.
+does not have. A scrolling column is enough.
+
+The copy is fictional SimpleApps, written here so the implementer
+does not invent Vibrant Gio again and does not scrape
+simplemind.eu. It is demo content: uneven pricing bullets, a
+highlighted middle tier, a Hero with two CTAs. The CTAs do not
+open another app; primary may scroll to pricing, secondary stays
+visual (the label may name simplemind.eu). Pricing CTAs stay
+visual.
+
+**Hero**
+
+- Eyebrow: `simpleapps.eu · coming soon`
+- Title: `SimpleApps`
+- Subtitle: `A new home for the studio behind SimpleMind. Simple tools for thinking on screen — mind maps, outlines and the next small app — on the computer and in your pocket.`
+- Primary CTA: `See plans`
+- Secondary CTA: `SimpleMind →`
+
+**Features** (three columns)
+
+- `SimpleMind` — `Free-form mind maps you place yourself, or a layout that arranges them. Notes, icons, checkboxes and cross-links on every topic.`
+- `Every screen` — `Mac, Windows, iPhone and Android. The same map on the desk and on the train, synced when you want, fine offline when you do not.`
+- `Yours` — `No ads, no account, no feed. Maps stay on your device. A one-time licence, not a subscription.`
+
+**Pricing** (one-time, not `/mo` — the real studio does not sell seats by the month; the fiction follows that. Cadence is `once`. Middle tier highlighted.)
+
+- `Free` — `€0` `once` — `SimpleMind free edition`; `No ads, no sign-in`; `Maps on one device`. CTA `Start free`.
+- `Pro` — `€29` `once` — Highlighted, name the chip `Popular` if the pattern has one — `Full SimpleMind`; `Every layout and style`; `Images, notes and share as PDF`; `Phone and desktop, one platform`. CTA `Buy Pro`.
+- `Studio` — `€79` `once` — `Pro on every platform you use`; `The rest of the SimpleApps set (fiction)`; `Style sheets for a team look`; `Priority mail`. CTA `Contact us`.
+
+**Testimonials** (invented people, invented firms)
+
+- `I still open a map before a meeting. Twenty years of notes and it has never asked me to subscribe.` — `Kees de Wit`, `Planner, Rivierenland`
+- `Students get the free edition on their phones. I bought Pro on the Mac and we share the same files over the folder, not an account.` — `Amira Haddad`, `Lecturer, Nijmegen`
+- `We tried the big names. SimpleApps is the one that stayed out of the way.` — `Jonah Eller`, `Counsel, North Harbour`
 
 Headless goldens of the page in light and dark, structural like
-sitedocs' landing goldens (sharp radius, deterministic shaper). The
-runtime path uses the real copy.
+sitedocs' landing goldens (sharp radius, deterministic shaper).
+The runtime path uses the copy above.
 
 - [ ] The marketing window's only page is Hero, feature columns,
-  pricing and testimonials. Goldens
-  `testdata/golden/light-page.png` and `dark-page.png` pin it.
+  pricing and testimonials, in the SimpleApps fiction above.
+  Goldens `testdata/golden/light-page.png` and `dark-page.png`
+  pin it.
 - [ ] Exit: tests green in `marketing`. Standing visual-review rule
   does not run yet — the field is still missing. Commit and push in
   `workbench`.
