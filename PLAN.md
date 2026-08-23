@@ -12301,10 +12301,10 @@ generated? The trail stays in the file.`
 
 #### AE6.1: Rewrite the subtitle and strip the dash
 
-- [ ] Hero subtitle is the three short questions above. No U+2014
+- [x] Hero subtitle is the three short questions above. No U+2014
   in `landing_content.go` user-facing strings. Tests that pin the
   old sentence are updated.
-- [ ] Exit: tests green in `marketing`. Commit and push in
+- [x] Exit: tests green in `marketing`. Commit and push in
   `workbench`.
 
 ### G-AE7: Cards share a top and a bottom
