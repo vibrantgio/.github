@@ -3625,6 +3625,16 @@ the catalogue the tab embeds unchanged, so they belong to
 - [decide] Whether these earn an inventory-module task of their own, or
   the catalogue stays a deliberately plain census.
 
+AF4.1's whole-app review adds two candidate items, neither cheap in
+scope there:
+
+- The Docs outline's sentence-length titles truncate in the 300dp rail
+  with no resize affordance or tooltip; a real story for either is new
+  pattern work.
+- The guide's Modules table sets essay-length descriptions in monospace
+  table cells; turning those cells into body prose is a guide edit with
+  its own judgment.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
