@@ -12562,9 +12562,9 @@ content, or anything whose reading depends on monospace alignment; leave
 prose lists alone. No heading changes and no rewording; AF1.1's
 inventory stays true.
 
-- [ ] Every code-shaped region renders as a code block in the Docs tab;
+- [x] Every code-shaped region renders as a code block in the Docs tab;
   spot-checked in both schemes. No `##` or `###` retitled.
-- [ ] Exit: tests green in `sitedocs`; the fixture-based Docs goldens
+- [x] Exit: tests green in `sitedocs`; the fixture-based Docs goldens
   did not churn. Commit and push in `workbench`.
 
 ### G-AF4: The shell is three tabs
