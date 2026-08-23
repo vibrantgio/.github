@@ -12521,9 +12521,9 @@ into whatever already draws that section; if it lives only in
 extracting a new library package and rather than inventing a
 third telling.
 
-- [ ] Theme tab shows ramps and named picks, following the live
+- [x] Theme tab shows ramps and named picks, following the live
   theme and both schemes. A golden pins it in both schemes.
-- [ ] Exit: tests green in `sitedocs`. Commit and push in
+- [x] Exit: tests green in `sitedocs`. Commit and push in
   `workbench`.
 
 ### G-AF5: The guide's code blocks are fenced
