@@ -310,3 +310,154 @@ From the chip-dot review (2026-08-22):
     not a macOS idiom; a segmented control or source list would be.
     Platform-fidelity call, system-wide (pairs with the Roboto-vs-SF
     item in ADR-014 S8).
+
+## I. From AH1.1's five-tab review
+
+Added 2026-08-24. One fresh-eyes pass over all five sitedocs tabs in
+both schemes returned 26 items; the reviewer pixel-measured every
+colour and size claim. Two were fixed in AH1.1 itself (the Theme tab's
+type band now matches its neighbours; the launcher blurb cut to two
+lines). Four were already recorded and are not repeated here:
+left-hugging layout and `sp` units and opposite-direction ramps
+(ADR-014 S8), and the strip's missing bottom rule (56). The rest are
+below. Most are owned by `components`, `patterns`, `theme` or
+`markdown` rather than by sitedocs, which is only where they became
+visible.
+
+### Contrast and state
+
+60. **[bug]** Light-scheme disabled states collapse to invisibility:
+    disabled Button label 1.23:1, text-field placeholder 1.44:1,
+    checkbox and radio outline 1.31:1 — against 5.5–17.7:1 for every
+    enabled counterpart. At 1x the disabled radio reads as a solid
+    pale disc, i.e. as *selected*. Dark's equivalent is 3.14:1, so
+    this is a light-only collapse, not a global "disabled is quiet"
+    choice.
+61. **[bug]** Dark-scheme buttons have almost no interaction feedback:
+    rest/hover/press are L* 81.9 → 88.0 → 94.1, ΔL* 6.1 per step,
+    where light is 40.2 → 29.2 → 8.5 (ΔL* 11.0 then 20.7). Hover is
+    half as strong and press a third as strong; press is also the
+    *lightest* state, inverting the usual pressed-is-recessed reading.
+62. **[bug]** The Divider token cannot divide: Neutral 300 is 1.37:1
+    against Background, 1.21:1 against Surface, 1.31:1 in dark. Every
+    rule drawn in it — the Palette Picks column groups, the Docs
+    sidebar seam — is imperceptible at 1x.
+63. **[bug]** Dark: the disabled dropdown and text field (#555555,
+    2.38:1) are twice as visible as their enabled counterparts
+    (#222222 on #181818, 1.12:1). The eye lands on the control that
+    cannot be used.
+64. **[bug]** Light: the open dropdown's popup surface is #B6B6B6 —
+    darker than both the page and the control's own closed fill, a
+    1.88:1 step *down*. It reads as disabled rather than as floating.
+65. **[bug]** The focused text field draws no caret in either scheme;
+    focus is signalled only by a 2px border recolour. In a gallery
+    whose job is showing states, the insertion point is absent.
+
+### Elevation and marks
+
+66. **[bug]** Light: the "Elevated" card is #D4D4D4 — darker than the
+    flat card *and* darker than the page — with no border and no
+    shadow, so elevation is expressed by dimming and reuses the
+    Divider token as a surface. Dark is correct. Twelve pixels above,
+    the toasts draw a real 6px soft shadow: two contradictory
+    elevation models in one screen.
+67. **[bug]** All four alert levels draw the identical glyph, a small
+    right-pointing solid triangle differing only in hue. Severity is
+    carried by colour alone (WCAG 1.4.1), and the glyph reads as a
+    disclosure or play control, so every alert looks expandable.
+68. **[bug]** Patterns, light: the Flat and Elevated cards sit 1px out
+    of vertical alignment — the bordered card draws its 2px border
+    outside its box, the unbordered one does not.
+69. **[bug]** The inventory's List section shows its overlay scrollbar
+    thumb floating in open space: the list has no container, border or
+    distinct surface, so the thumb reads as an unexplained grey
+    capsule mid-window.
+
+### Markdown
+
+70. **[bug]** Inline code chips push adjacent punctuation away: the
+    chip's horizontal padding is added outside its background box, so
+    a trailing comma is visibly detached and a leading space doubles.
+    Every chip in the sample shows it.
+71. **[bug]** The heading ladder collapses at the bottom: cap heights
+    are H1 18px, H2 16px, H3 14px, H4 13px, body 11px, all at the same
+    weight and colour. H3 and H4 differ by one pixel.
+
+### Palette presentation (the themer's copied section)
+
+72. **[decide]** The ramp grid is drawn in a 2px line of the
+    full-strength Text colour — the same ink weight as body copy — so
+    the lattice out-shouts the colours it exists to show. It is also
+    asymmetric: rows are separated by ~6px of chrome, columns by 2px.
+    Swatches are 20px by ~111px letterboxes in a section with 500px of
+    vertical room to spare, which makes cross-row hue comparison hard.
+73. **[decide]** The Palette Picks board is unbalanced: the left and
+    middle columns run to y≈855, the right ends at y≈445. In dark the
+    right column ("Ink ends") holds exactly two swatches, both
+    annotated "no ink here" — a section whose whole content is two
+    colours it says are unused. Separately, the pick chips carry three
+    different contents (an "Aa", a nested square, or nothing) with no
+    key anywhere in the UI.
+74. **[bug]** The Accents rules change their claim with the scheme:
+    light says Primary is "the seed, lifted, just off Primary 700",
+    dark says flatly "Primary 700". Toggling appearance changes what
+    the documentation asserts about provenance. Bears directly on
+    AH2.1, which has to caption the seed honestly.
+
+### Docs tab
+
+75. **[decide]** No search, no anchors, and dead cross-references: the
+    tab strip is empty from x≈400 to 1200 while the guide runs to ~20
+    sections and many screens, and the body's "(§Nested modules)"
+    style references render in plain body ink — not links, not
+    coloured, not underlined — while the Markdown tab proves the app
+    can draw real links.
+76. **[decide]** The sidebar is a fixed 300px that ellipsises three
+    labels exactly where the informative part starts, while the
+    reading pane leaves ~240px of the window empty. Pairs with 55
+    (a shared tree pattern is where a resize story belongs).
+77. **[bug]** The Docs tab paints its page one tonal step off every
+    other tab (#E8E8E8 vs #F6F6F6 light, #222222 vs #181818 dark), so
+    switching tabs shifts the whole window. Its sidebar also shares
+    the reading pane's fill, separated only by a 1.21:1 hairline, so
+    nothing makes the sidebar read as a sidebar.
+78. **[decide]** The outline tree signals depth with a 13px indent and
+    one pixel of cap height at identical ink, and childless top-level
+    rows carry no chevron — so parents, children and leaves all read
+    at the same weight and the tree's shape is unreadable.
+79. **[bug]** Reference content is set lighter than the chrome around
+    it: the module table (~60 lines, the actual reference material) is
+    #424242 at 8.2:1, while the heading and the throwaway lead-in
+    above it are #131313 at 15.2:1.
+
+### Wording and scale
+
+80. **[decide]** The type scale names 16 roles across 9 distinct
+    sizes: seven roles sit at 14 or 16sp, and the specimen renders
+    them as visually identical lines of the same words — the opposite
+    of what a specimen is for.
+81. **[decide]** Section band captions read as compressed notes rather
+    than UI copy: "Tag — filled, tonal and the three status levels,
+    two of the five carrying the close mark every treatment can take"
+    is a 24-word comma-spliced sentence used as a header, and
+    "List — a virtual list with its scrollbar in the gutter" exposes
+    an implementation detail as a heading.
+
+### Introduced or sharpened by AH1.1
+
+82. **[decide]** The tab strip's labels start at x=13 while every
+    other element in the app — section band labels, buttons, field
+    labels, alerts, cards, prose — starts at x=24–25, so the nav row
+    hangs 11px left of everything below it. A `patterns/tabs`
+    question; pairs with 56–59.
+83. **[decide]** Two leftovers of the group-per-tab cut. The Markdown
+    tab's strip cell reads "Markdown" and its single section band
+    reads "Markdown — headings, links, chips…", separated by the
+    shell's 16 dp of blank ground: dropping the group banner removed
+    one repetition and left a quieter one at section level. And each
+    group tab still closes with the inventory's own PageEnd row,
+    which says "End of the inventory — N sections in the current
+    theme" on a tab showing one group of four. Both are the
+    inventory's words, so neither can be fixed in sitedocs without
+    either editing the inventory (out of bounds for AH1.1) or
+    restating its copy locally.

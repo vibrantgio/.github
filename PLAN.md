@@ -12660,10 +12660,10 @@ five tabs, regenerate the goldens the change legitimately moves, and
 sweep the tellings that say "three tabs": launcher blurb, README,
 `llms.txt` §Where to look.
 
-- [ ] Five tabs as named; the group banners no longer repeat a tab's
+- [x] Five tabs as named; the group banners no longer repeat a tab's
   own name redundantly if the group is the whole tab. No inventory
   changes. Goldens updated in both schemes.
-- [ ] Exit: tests green in `sitedocs`; `scripts/check-layers.sh` from
+- [x] Exit: tests green in `sitedocs`; `scripts/check-layers.sh` from
   the plan root. Commit and push in `workbench`.
 
 ### G-AH2: The seed made explicit
