@@ -12065,13 +12065,17 @@ no extra wordmark above it. Its CTAs do not open Site Docs (that
 app is a different product). They may scroll within the page or
 stay visual.
 
-The copy pretends to be a product page for simpleapps.eu. Invent
-a small family of simple tools, one-time licences, no ads, no
-account. Do not paste Vibrant Gio layer names. Do not claim the
-prices or sibling apps are real. Do not name another company's product
-anywhere the user will see — window title, copy, comments,
-goldens, launcher blurb, README. The strings live in this phase
-(AE1.2), not in `sitedocs/landing_content.go`.
+The copy pretends to be a product page for simpleapps.eu. The
+fiction is knowledge-theory tools for the age of AI: provenance
+(where a claim came from), authenticity (who wrote it, what was
+generated), and custody of sources. Not mind mapping, not a
+second notes app. A small family of those tools, one-time
+licences, no ads, no account. Do not paste Vibrant Gio layer
+names. Do not claim the prices or sibling apps are real. Do not
+name another company's product anywhere the user will see —
+window title, copy, comments, goldens, launcher blurb, README.
+The strings live in this phase (AE1.2), not in
+`sitedocs/landing_content.go`.
 
 On macOS the window uses `mvu/desktop.FullSizeContent` and
 `ShowWindowButtons`. The title bar exists — Mission Control still
@@ -12096,7 +12100,7 @@ No library tags. Workbench apps are consumed from the branch tip.
 this directory if a task grows an import edge, so a stray uphill
 import is caught.
 ### G-AE1: The window is a page of columns
-A new module, the chrome the owner named, and a fictional SimpleApps landing — Hero, features, pricing, testimonials — living on it.
+A new module, the chrome the owner named, and a fictional SimpleApps landing for provenance and authenticity tools — Hero, features, pricing, testimonials — living on it.
 #### AE1.1: Scaffold marketing and put it on the launcher
 `workbench/marketing` is a nested module
 (`github.com/vibrantgio/workbench/marketing`) with its own `go.mod`,
@@ -12144,36 +12148,38 @@ does not have. A scrolling column is enough.
 
 The copy is fictional SimpleApps, written here so the implementer
 does not invent Vibrant Gio and does not name anyone else's
-product. It is demo content: uneven pricing bullets, a highlighted
-middle tier, a Hero with two CTAs. The CTAs do not open another
-app; primary may scroll to pricing, secondary stays visual.
-Pricing CTAs stay visual. Do not name another company's product.
+product. The product story is knowledge work in the age of AI:
+provenance, authenticity, custody of sources. Not mind mapping.
+It is demo content: uneven pricing bullets, a highlighted middle
+tier, a Hero with two CTAs. The CTAs do not open another app;
+primary may scroll to pricing, secondary stays visual. Pricing
+CTAs stay visual. Do not name another company's product.
 
 **Hero**
 
 - Eyebrow: `simpleapps.eu · coming soon`
 - Title: `SimpleApps`
-- Subtitle: `A new home for small tools that stay out of the way. Write, list and plan on the computer and in your pocket — no account, no feed, no subscription.`
+- Subtitle: `Tools for knowing where a sentence came from. Provenance, authenticity and source custody — so work still stands when anyone can generate a paragraph.`
 - Primary CTA: `See plans`
 - Secondary CTA: `Learn more`
 
-**Features** (three columns)
+**Features** (three columns — three fictional apps, not a map)
 
-- `Write` — `Notes and outlines that open in one beat. Pictures, checkboxes and links sit on the page, not in a sidebar you have to hunt.`
-- `Every screen` — `Mac, Windows, iPhone and Android. The same file on the desk and on the train, synced when you want, fine offline when you do not.`
-- `Yours` — `No ads, no account, no feed. Files stay on your device. A one-time licence, not a subscription.`
+- `Provenance` — `Every claim keeps the page, the quote and the date it came from. A rewrite does not drop the trail.`
+- `Authenticity` — `Mark what you wrote, what a model drafted, and what a source attested. The distinction travels with the file.`
+- `Custody` — `Sources stay on your device. Export a signed bundle, not a screenshot of a chat. No account, no feed.`
 
 **Pricing** (one-time. Cadence is `once`. Middle tier highlighted.)
 
-- `Free` — `€0` `once` — `One app, basic edition`; `No ads, no sign-in`; `Files on one device`. CTA `Start free`.
-- `Pro` — `€29` `once` — Highlighted, name the chip `Popular` if the pattern has one — `Every layout and export`; `Images, notes and share as PDF`; `Phone and desktop, one platform`; `The rest of the writing tools`. CTA `Buy Pro`.
-- `Studio` — `€79` `once` — `Pro on every platform you use`; `The rest of the SimpleApps set (fiction)`; `Shared style sheets`; `Priority mail`. CTA `Contact us`.
+- `Free` — `€0` `once` — `Provenance on one device`; `Manual source cards`; `No ads, no sign-in`. CTA `Start free`.
+- `Pro` — `€29` `once` — Highlighted, name the chip `Popular` if the pattern has one — `Authenticity marks on every file`; `Signed export bundles`; `Phone and desktop, one platform`; `Import from the browser`. CTA `Buy Pro`.
+- `Studio` — `€79` `once` — `Pro on every platform you use`; `Shared custody for a small team`; `Attestation keys`; `Priority mail`. CTA `Contact us`.
 
-**Testimonials** (invented people, invented firms — no real city of the studio)
+**Testimonials** (invented people, invented firms)
 
-- `I still open a note before a meeting. Years of files and it has never asked me to subscribe.` — `Kees de Wit`, `Planner, Westferry`
-- `Students get the free edition on their phones. I bought Pro on the Mac and we share the same files over the folder, not an account.` — `Amira Haddad`, `Lecturer, Harbour College`
-- `We tried the big names. SimpleApps is the one that stayed out of the way.` — `Jonah Eller`, `Counsel, North Harbour`
+- `I can open a brief from last year and still see which paragraph was mine and which was generated. That is the whole product.` — `Kees de Wit`, `Editor, Westferry Review`
+- `Students must show the source, not the vibe. We keep the trail in the file, not in a slide they will lose.` — `Amira Haddad`, `Lecturer, Harbour College`
+- `Discovery used to be a folder of unmarked drafts. Now each claim carries its page.` — `Jonah Eller`, `Counsel, North Harbour`
 
 Headless goldens of the page in light and dark, structural like
 sitedocs' landing goldens (sharp radius, deterministic shaper).
@@ -12181,7 +12187,7 @@ The runtime path uses the copy above.
 
 - [ ] The marketing window's only page is Hero, feature columns,
   pricing and testimonials, in the SimpleApps fiction above.
-  No third-party product name in the module. Goldens
+  No third-party product name, no mind mapping. Goldens
   `testdata/golden/light-page.png` and `dark-page.png` pin it.
 - [ ] Exit: tests green in `marketing`. Standing visual-review rule
   does not run yet — the field is still missing. Commit and push in
