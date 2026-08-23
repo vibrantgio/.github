@@ -12629,3 +12629,58 @@ question, so brief the reviewer on the recorded inventory items.
 - [x] Exit: tests green in `sitedocs`; goldens regenerated where moved.
   Commit and push in `workbench`.
 
+
+## Phase AH: Sitedocs shows one telling in five tabs
+
+Ruled by the owner on 2026-08-24. The Gallery tab embeds the raw
+inventory, so sitedocs is the only place in the org showing the palette
+twice: the Theme tab's ramps-and-picks and the inventory's
+foundations-roles/foundations-ramps. The themer already solved this —
+`themer/gallery.go` splices its palette rows in place of exactly those
+two sections. Sitedocs applies the same judgment at the tab level: the
+inventory's groups become tabs, the redundant Foundations colour
+sections are dropped, and the typography ladder joins the Theme tab —
+ADR-003, the theme owns the typeface, so the Theme tab shows the whole
+theme. The owner also wants the seed made explicit: the display shows
+ramps, picks and bases but never the colour they all derive from.
+
+### G-AH1: The inventory's groups become the tabs
+
+#### AH1.1: Five tabs — Docs, Theme, Components, Patterns, Markdown
+
+Replace the Gallery tab with three tabs cut from the inventory's own
+groups — Components, Patterns, Markdown — via `GroupItems`; the
+inventory module is not modified. Drop `foundations-roles` and
+`foundations-ramps` in sitedocs (the Theme tab is their telling, the
+themer's `swapped` list is the precedent) and move the
+`foundations-type` ladder onto the Theme tab, after the palette
+section. Tab order: Docs, Theme, Components, Patterns, Markdown. Each
+inventory tab keeps its own scroll state. Update the shell test to the
+five tabs, regenerate the goldens the change legitimately moves, and
+sweep the tellings that say "three tabs": launcher blurb, README,
+`llms.txt` §Where to look.
+
+- [ ] Five tabs as named; the group banners no longer repeat a tab's
+  own name redundantly if the group is the whole tab. No inventory
+  changes. Goldens updated in both schemes.
+- [ ] Exit: tests green in `sitedocs`; `scripts/check-layers.sh` from
+  the plan root. Commit and push in `workbench`.
+
+### G-AH2: The seed made explicit
+
+#### AH2.1: The Theme tab names its seed
+
+At the head of the Theme tab's palette story, show the seed: a swatch
+of the colour the palette derives from, its value, and one plain
+sentence of derivation (seed fixes each role's hue and chroma; ramps
+walk it through nine tones, bases pin it at one depth). Read what the
+live theme actually exposes — the light Primary base is the seed,
+lifted only when a too-light brand colour had to be raised — and say
+what is true: if the shown value is the lifted seed, do not caption it
+as the raw input. Prefer the presentation vocabulary the palette
+section already uses; no new library package. Golden in both schemes.
+
+- [ ] The Theme tab opens with the seed made explicit, captioned
+  honestly, followed by ramps, picks, and the type ladder.
+- [ ] Exit: tests green in `sitedocs`. Commit and push in `workbench`.
+
