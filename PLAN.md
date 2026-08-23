@@ -12333,10 +12333,10 @@ whose pixels move: marketing, and sitedocs' landing while it
 still mounts this pattern. No patterns tag; the workspace sees
 the module.
 
-- [ ] Three-tier pricing goldens show equal-height cards and
+- [x] Three-tier pricing goldens show equal-height cards and
   CTAs on one line. Marketing and sitedocs landing goldens
   updated if they moved.
-- [ ] Exit: tests green in `patterns`, `marketing`, and
+- [x] Exit: tests green in `patterns`, `marketing`, and
   `sitedocs` if touched. `scripts/check-layers.sh` from this
   directory. Commit and push in each repo.
 
