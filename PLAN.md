@@ -82,6 +82,21 @@ between its steps. In the same task that cuts a tag, run
 `scripts/sync-versions.sh` so this file's guide (`workbench/llms.txt`) names
 the tags you just published.
 
+**Discover through the graph, not by reading files.** The whole checkout is
+indexed by codebase-memory-mcp as project `vibrantgio`, auto-refreshing in the
+background. For structural questions — where a symbol lives, who calls it,
+what a change would touch — the graph tools come first: `search_graph` to find
+symbols, `trace_path` for callers and call chains, `get_code_snippet` for the
+exact lines, `get_architecture` for orientation. For point queries at a known
+position — definition, references, type, diagnostics after an edit — use
+gopls through the LSP tool. Read a file whole only when about to edit it;
+grep only for literal or non-code text, or where the index reports a gap —
+and run `check_index_coverage` before any "nowhere in the codebase" claim.
+The reason is measured, not aesthetic: whole-file reads averaged ~14K tokens
+each and, re-sent with every turn, dominated the token budget of the week
+they were measured. If the graph tools are absent from your session, say so
+in your report instead of silently falling back to whole-file reads.
+
 **Stop if a task is too big.** Tasks are cut to fit ~100K tokens of Opus 5 at
 high effort. If one turns out larger than that, check off what you genuinely
 finished, commit it, and report that the task needs splitting — with a proposed
