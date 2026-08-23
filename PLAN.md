@@ -3607,6 +3607,24 @@ that became G-AF5:
 - [decide] Roboto versus the platform system font for reading surfaces —
   a system-wide question, not a sitedocs fix.
 
+AF3.1's Gallery review adds the inventory-owned presentation items —
+the catalogue the tab embeds unchanged, so they belong to
+`components/gallery/inventory`, not sitedocs:
+
+- The first screen leaves the right half of the canvas empty at any
+  realistic width; the swatches, ramp grid, and type-scale labels hug
+  the left edge.
+- The dark scheme's section header band reads as a light-mode leftover
+  (white on lavender, weak contrast).
+- Type-scale labels say `sp` — Android units on a desktop catalogue.
+- Ramp rows carry no 100–900 step labels, and the light and dark ramps
+  run in opposite directions with nothing saying so.
+- The Background swatch is invisible in both schemes; dark-scheme grey
+  steps fuse with the hairline borders.
+
+- [decide] Whether these earn an inventory-module task of their own, or
+  the catalogue stays a deliberately plain census.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
