@@ -12185,11 +12185,11 @@ Headless goldens of the page in light and dark, structural like
 sitedocs' landing goldens (sharp radius, deterministic shaper).
 The runtime path uses the copy above.
 
-- [ ] The marketing window's only page is Hero, feature columns,
+- [x] The marketing window's only page is Hero, feature columns,
   pricing and testimonials, in the SimpleApps fiction above.
   No third-party product name, no mind mapping. Goldens
   `testdata/golden/light-page.png` and `dark-page.png` pin it.
-- [ ] Exit: tests green in `marketing`. Standing visual-review rule
+- [x] Exit: tests green in `marketing`. Standing visual-review rule
   does not run yet — the field is still missing. Commit and push in
   `workbench`.
 ### G-AE2: Outlines, not fills
