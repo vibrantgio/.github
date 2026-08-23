@@ -12277,9 +12277,9 @@ swallow the overflow; the rest of the cards still scroll. A
 golden at 1200×800 in both schemes shows pricing and the
 testimonial peek together.
 
-- [ ] First frame at 1200×800 includes a visible slice of the
+- [x] First frame at 1200×800 includes a visible slice of the
   testimonials. Goldens pin it.
-- [ ] Exit: tests green in `marketing`. Commit and push in
+- [x] Exit: tests green in `marketing`. Commit and push in
   `workbench`.
 
 ### G-AE6: The hero subtitle, without an em dash
