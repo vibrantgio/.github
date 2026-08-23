@@ -41,12 +41,9 @@
 #                                        # stdout and say nothing else there
 #
 # --edges exists so that the one derivation in this file can be *read* as well
-# as judged. scripts/sync-agents.sh renders every repository's "**Layer.**"
-# sentence out of it, which is the only reason those sentences cannot say
-# something `go list` denies (G0.1): before that they were typed into
-# templates/repos.tsv, and nine of the twenty had gone false. Two measurements
-# of one fact is exactly the defect that fixed, so there must not be a second
-# walk of the graph anywhere in the organization — extend this one.
+# as judged. Two measurements of one fact is the defect G0.1 closed, so there
+# must not be a second walk of the graph anywhere in the organization —
+# extend this one.
 #
 # In --edges mode the judgment is unchanged, but the *scope* widens: the
 # default target becomes every module beside .github, all 39, because a guide

@@ -45,13 +45,10 @@ org is checked out into.
         AGENTS.md         this file
         README.md         this repository's own page
         profile/README.md what renders at github.com/vibrantgio
-        scripts/          clone-all.sh, inventory.sh, sync-agents.sh,
-                          sync-versions.sh, push-design.sh, and the five
-                          gates — check-layers.sh, check-no-workspace.sh,
-                          check-agents.sh, check-versions.sh,
-                          check-subjects.sh
-        templates/        AGENTS.md, its per-repo rows in repos.tsv,
-                          and notes/<repo>.md
+        scripts/          clone-all.sh, inventory.sh, sync-versions.sh,
+                          push-design.sh, and the four gates —
+                          check-layers.sh, check-no-workspace.sh,
+                          check-versions.sh, check-subjects.sh
         explorations/     spike proposals not yet scheduled into the plan
       mvu/ theme/ components/ effects/ patterns/ markdown/
       font/ style/ textdraw/ backdrop/ gradient/ circle/
@@ -59,19 +56,13 @@ org is checked out into.
       workbench/ design/
 
 This repository is one sibling among twenty-two, and the only one that is not
-surveyed: `scripts/sync-agents.sh` renders an `AGENTS.md` into each named
-sibling and deliberately skips this one, which is why this file is hand-written
-and describes a plan rather than a module. Every sibling's `AGENTS.md` is
-generated — edit `templates/AGENTS.md` for wording that applies to all of them,
-`templates/repos.tsv` for one repo's role sentence and the tier half of its
-layer line, and `templates/notes/<repo>.md` for anything longer. The rest is
-measured from the clone and cannot be written by hand at all: the module
-paragraph, the build and golden-image paragraphs, and both directions of the
-layer paragraph's dependency claim.
+surveyed. This file is hand-written and describes a plan rather than a
+module. Every sibling's `AGENTS.md` is a short static pointer to `llms.txt`
+— what the module is, and the guide URL. It is not generated.
 
 `scripts/clone-all.sh` clones the siblings and pulls what is already there —
 run it if clones are missing or stale. Almost all work happens inside a sibling
-clone; the plan and the guide live here in `.github`.
+clone; the plan lives here, the guide in `workbench/llms.txt`.
 
 Those twenty-one repositories hold **39 Go modules**: twenty-one at repository
 roots, eleven nested in subdirectories whose tags carry the subdirectory as a
@@ -96,39 +87,9 @@ for everyone. `scripts/check-no-workspace.sh` is what measures that gap. No
 member repo ever gets a `go.work` or a `replace` directive. ADR-006 in
 `PLAN.md` is the full argument.
 
-## Editing a generated file is a silent no-op
+## `scripts/` — four that do work, four that refuse
 
-It is the mistake this organization actually made, and it is worth stating in
-the general form, because nothing about it is specific to this plan: a
-correction typed into a generated file survives exactly until the generator
-runs again. It looks like the most direct possible fix — the words in front of
-you are wrong, you make them right, the diff is clean, the commit is honest.
-But the file is an output. The wrong words are still in the input, and the next
-render puts them back. Nothing complains in between, which is why the mistake
-can be made repeatedly by careful people: the failure is not visible at the
-moment it is made, and by the time it is visible it looks like someone else
-undid your work.
-
-Here that means **correcting a sibling's `AGENTS.md` inside its clone is
-never the fix.** Fix the template it was rendered from — a `repos.tsv` field, a
-notes file, or the shared wording in `templates/AGENTS.md` — and regenerate.
-Do not skip that because the words you are fixing are true. True words in a
-generated file are precisely the failure mode: they read as correct, they pass
-review, and the next `sync-agents.sh` run replaces them with the stale
-template's false ones. Four of the twenty had drifted that way before anything
-went looking, three of them with the *file* right and the *template* wrong.
-
-The general lesson has a general remedy: a generated file with no gate on it is
-not generated, it is a file a script happened to write once. The remedy is a
-check that re-renders the file and fails on any difference, and for the
-twenty-one `AGENTS.md` files that check is `scripts/check-agents.sh`. It is why the
-mistake is now loud instead of silent. Run it before believing anything a
-generated file says — and if you add another generated artifact here, add its
-gate in the same task, or you have added the next instance of this problem.
-
-## `scripts/` — five that do work, five that refuse
-
-Five produce something:
+Four produce something:
 
 - **`clone-all.sh`** clones all twenty-one siblings beside this checkout, pulling any
   already present. The whole set every time: this plan edits the module graph,
@@ -136,20 +97,17 @@ Five produce something:
 - **`inventory.sh`** surveys those clones and prints a Markdown table — README,
   `AGENTS.md`, `doc.go`, CI, Gio and rx versions, modules per repo. Every count
   the plan asserts is checked against this rather than remembered.
-- **`sync-agents.sh`** renders `templates/AGENTS.md` into named clones and
-  reports a diff; `-n` writes nothing. It never stages or commits.
 - **`sync-versions.sh`** writes the measured module versions into the
   workbench clone's `llms.txt`, reading `git tag` in every clone and rewriting
-  nothing but the version tokens; `-n` writes nothing. It exists because the
-  guide is hand-written prose with embedded numbers, not a template render
-  `sync-agents.sh` could own — which is exactly why the guide's version table
-  was the one that drifted. Run it after cutting a tag, in the same task.
+  nothing but the version tokens; `-n` writes nothing. A number typed into
+  prose has no gate on it; this is the rewriter. Run it after cutting a tag,
+  in the same task.
 - **`push-design.sh`** regenerates `design/` from theme's `cmd/vg-tokens` and
   then prints the exact DesignSync sequence to run. There is no `designsync`
   binary — the upload half is a Claude-session step, so this script does the
   local half and hands over.
 
-Five answer one yes-or-no question each, and each exists to make a specific
+Four answer one yes-or-no question each, and each exists to make a specific
 class of wrong thing impossible to commit quietly:
 
 - **`check-layers.sh` refuses to let a module import a repository at or above
@@ -164,9 +122,8 @@ class of wrong thing impossible to commit quietly:
   this repo's raw URL and run it as `check-layers.sh .`; the nine without CI
   are the support libraries, `workbench` and `design`, which the tier table
   exempts anyway. Its `--edges` mode reports that one
-  walk as TSV over all 39 modules instead of judging it, and that is where
-  every `AGENTS.md`'s layer sentence comes from — there must not be a second
-  walk of the graph anywhere in the organization.
+  walk as TSV over all 39 modules instead of judging it. There must not be
+  a second walk of the graph anywhere in the organization.
 - **`check-no-workspace.sh` refuses to let the workspace flatter you.** It
   builds and tests all 39 modules with `GOWORK=off`, which is how CI,
   pkg.go.dev and every consumer outside this tree see them. Under `go.work` a
@@ -176,11 +133,6 @@ class of wrong thing impossible to commit quietly:
   fails on a `replace` directive in any member — the most tempting wrong way to
   make it go green, and one that would silently redirect every outside
   consumer.
-- **`check-agents.sh` refuses to let a generated `AGENTS.md` be corrected in
-  the clone.** It re-renders all twenty-one and fails on any whose committed file
-  differs, so the silent no-op above becomes a red check. It also names any
-  clone with no row in `templates/repos.tsv`, because an unlisted repository is
-  never rendered and therefore never judged.
 - **`check-versions.sh` refuses a typed version number in `llms.txt`.** It runs
   `sync-versions.sh -n` and fails on any difference. Before G0C.6 the canonical
   guide claimed prism v0.3.1 where the tag was v0.6.0 and was wrong for five of
@@ -198,7 +150,7 @@ class of wrong thing impossible to commit quietly:
   header says so rather than implying otherwise. `_test.go` occurrences are
   counted, printed and never judged.
 
-Nothing runs these five for you: this repository has no CI of its own, and the
+Nothing runs these four for you: this repository has no CI of its own, and the
 per-repo CI can only see its own repo. Run them here before you believe the
 tree.
 
@@ -246,8 +198,8 @@ itself is built). Its raw URL is
 
     https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt
 
-and every repository's `AGENTS.md` links that URL instead of copying the
-content, so there is one version to read and one to edit (ADR-004).
+and every repository's `AGENTS.md` is a short static pointer to that URL,
+so there is one version to read and one to edit (ADR-004).
 
 **It covers writing Gio code against these libraries, not working this plan.**
 Module inventory and current tags, the application skeleton, the MVU loop and

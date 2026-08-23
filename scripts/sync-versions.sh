@@ -13,14 +13,11 @@
 # G. Nothing had noticed, because nothing could: a number typed into prose has
 # no gate on it.
 #
-# This is the same lesson, and the same remedy, as scripts/sync-agents.sh — a
-# fact `git tag` can answer must not be typed — with one difference that is the
-# whole reason a second script exists. sync-agents.sh renders AGENTS.md files
-# from templates; llms.txt is prose with embedded numbers, not a render, so it
-# needs its own rewriter. The guide lives in the workbench clone (ADR-004,
-# amended: workbench showcases building apps with Vibrant Gio, so the guide
-# that teaches exactly that lives beside the reference apps), and this script
-# reaches across to it.
+# A fact `git tag` can answer must not be typed. llms.txt is prose with
+# embedded numbers, so this script is the rewriter. The guide lives in the
+# workbench clone (ADR-004: workbench showcases building apps with Vibrant
+# Gio, so the guide that teaches exactly that lives beside the reference
+# apps), and this script reaches across to it.
 #
 # WHAT IS GENERATED, AND WHAT IS NOT. Only version numbers move. The role
 # descriptions beside them, the layer headings and every word of prose are

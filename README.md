@@ -23,8 +23,8 @@ typography, and the pitfalls that are not guessable. Its canonical URL is
 It exists exactly once, in `workbench` (ADR-004, amended): workbench
 showcases how to build applications with Vibrant Gio, so the guide that
 teaches exactly that lives beside the reference apps, while this repository
-is where Vibrant Gio itself is built. The per-repo `AGENTS.md` files link it
-rather than copy it, so there is one version to read and one to edit.
+is where Vibrant Gio itself is built. The per-repo `AGENTS.md` files are
+short static pointers to it, so there is one version to read and one to edit.
 
 **[`PLAN.md`](PLAN.md) — the plan.** Eight phases that turn the repositories
 from a loose collection into one design system: the front-door documentation
@@ -45,7 +45,7 @@ shared parent, the workspace root, is not a repository; `go.work` lives there,
 the modules so they resolve each other from the checkout — the members never
 carry a workspace themselves, and the workspace itself is committed nowhere.
 
-Ten scripts live in `scripts/`. Five of them do work.
+Eight scripts live in `scripts/`. Four of them do work.
 
 - [`scripts/clone-all.sh`](scripts/clone-all.sh) — clone all twenty-one siblings
   beside this checkout, pulling any already present, then regenerate `go.work`. The whole set every time: the
@@ -55,29 +55,17 @@ Ten scripts live in `scripts/`. Five of them do work.
   a Markdown table: README, `AGENTS.md`, `doc.go`, CI, Gio and rx versions, and
   module count per repo. Every count the plan asserts is checked against this,
   not remembered.
-- [`scripts/sync-agents.sh`](scripts/sync-agents.sh) — render
-  [`templates/AGENTS.md`](templates/AGENTS.md) into named clones and report a
-  diff, writing nothing with `-n`. Every repository carries the same
-  `AGENTS.md` in the same shape (ADR-004); only two fields are typed per repo —
-  the role sentence and the tier half of the layer line — and those live in
-  [`templates/repos.tsv`](templates/repos.tsv). Everything else is measured
-  from the clone and so cannot drift: the module, build and golden-image
-  paragraphs, and both directions of the layer paragraph's dependency claim.
-  It never commits.
 - [`scripts/sync-versions.sh`](scripts/sync-versions.sh) — write the measured
   module versions into the workbench clone's `llms.txt`, reading `git tag` in
   every clone and touching nothing but the version tokens. It is the last step
-  of a release, and it exists because the guide is prose with embedded
-  numbers, not a template render `sync-agents.sh` could own — the
-  guide's table was the one that drifted, by three minors, under a line reading
-  "EVERY TAG ABOVE IS RELEASED AND CURRENT".
+  of a release. A number typed into prose has no gate on it; this is the rewriter.
 - [`scripts/push-design.sh`](scripts/push-design.sh) — regenerate the sibling
   [`design`](https://github.com/vibrantgio/design) repository's bundle from
   theme's `cmd/vg-tokens` and print the DesignSync
   sequence that uploads it. There is no `designsync` binary: the script does
   the local half and hands the push to the agent running it.
 
-Five more answer a single yes-or-no question, and each refuses to let one kind
+Four more answer a single yes-or-no question, and each refuses to let one kind
 of wrong thing be committed quietly.
 
 - [`scripts/check-layers.sh`](scripts/check-layers.sh) — refuses an import from
@@ -87,19 +75,13 @@ of wrong thing be committed quietly.
   against ADR-001's tier table, so the layering is measured rather than
   intended; the twelve repositories that have CI fetch this same file and run
   it as `check-layers.sh .`. Its `--edges` mode reports that one walk as TSV instead
-  of judging it, and the layer sentence in all twenty-one `AGENTS.md` files is
-  rendered from that.
+  of judging it.
 - [`scripts/check-no-workspace.sh`](scripts/check-no-workspace.sh) — refuses to
   let the workspace flatter the tree. It builds and tests all 39 modules with
   `GOWORK=off`, the way CI, `go get` and pkg.go.dev see them, because under
   `go.work` a module compiles against a sibling's working copy while its own
   `go.mod` still points at a stale tag. It also fails on a `replace` directive
   in any member.
-- [`scripts/check-agents.sh`](scripts/check-agents.sh) — refuses a generated
-  `AGENTS.md` that was corrected in the clone. It re-renders every repository
-  and fails on any whose committed file differs. The way the drift happens is
-  that a correction lands in the generated file instead of the template, where
-  it survives only until the next render throws it away; this is what notices.
 - [`scripts/check-versions.sh`](scripts/check-versions.sh) — refuses a typed
   version number in `llms.txt`. It runs `sync-versions.sh -n` and fails on any
   difference, so the guide cannot claim a tag the repositories do not carry.

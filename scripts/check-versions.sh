@@ -16,13 +16,11 @@
 #
 #     scripts/sync-versions.sh
 #
-# after cutting a tag — it is the last step of a release, beside re-running
-# scripts/check-agents.sh, whose generated files embed tag versions too.
+# after cutting a tag — it is the last step of a release.
 #
 # The rendering is not reimplemented here: `sync-versions.sh -n` already
 # measures, renders, diffs and writes nothing, so this runs exactly that and
-# judges its report. One renderer, one place for it to be wrong — the same
-# arrangement check-agents.sh has with sync-agents.sh.
+# judges its report. One renderer, one place for it to be wrong.
 #
 # Usage:
 #   scripts/check-versions.sh      # from the .github plan root; no arguments
