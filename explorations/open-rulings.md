@@ -269,3 +269,19 @@ From the chip-dot review (2026-08-22):
     rows, or keep the byte-level honesty? Also: the light Neutral
     em dash renders at 2.45:1 (thin-glyph coverage, not the
     token) while carrying "pins none" — worth a heavier dash?
+
+## H. Patterns
+
+55. **[feature]** Added 2026-08-24: extract a disclosure-tree pattern.
+    Three apps hand-roll the same widget shape — `vaultview/tree.go`
+    (634 lines, the vault file tree), `vaultview/outline.go` (the
+    aside's heading outline), and `sitedocs/docs_outline.go` (344
+    lines, new in AF2.1) — with no shared code; a fourth
+    document-shaped app would make a fourth telling. Candidate:
+    `patterns/tree` owning rows, disclosure triangles, selection
+    geometry, and scroll plumbing, the three call sites becoming thin
+    adapters. Real differences to design through: files vs headings,
+    selection semantics, vaultview's floating-pane geometry vs the
+    Docs rail. Related: ADR-014 S8's Docs-outline truncation item
+    (a resize/tooltip story belongs in the shared pattern, not in one
+    app).
