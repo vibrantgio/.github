@@ -12047,27 +12047,27 @@ modules that name them.
   touched, including `.github`.
 
 ## Phase AE: A marketing window of its own
-
-Directed by the owner on 2026-08-23. Site Docs is two products in one
-window: a Features & Pricing landing and a documentation shell. Split
-them. This phase is the marketing product. Site Docs keeps its Home
-until Phase AF; do not gut it here.
+Directed by the owner on 2026-08-23, and amended the same day: the
+page carries a Hero and testimonials as well as Features & Pricing.
+Site Docs is two products in one window: a marketing landing and a
+documentation shell. Split them. This phase is the marketing
+product. Site Docs keeps its Home until Phase AF; do not gut it here.
 
 The new app is `workbench/marketing`, a nested module beside the
-others. It is one full-screen page. There is no application navbar,
-no Home / Docs / About, no Hero, no testimonials. The feature
-columns and the pricing row are the page. A quiet wordmark
-("Vibrant Gio") may sit above the columns so the window has a name;
-it is not the Hero pattern and it has no CTA into Site Docs.
+others. It is one full-screen scrolling page: Hero, feature columns,
+pricing, testimonials — the same four patterns sitedocs Home already
+composes, without the application navbar and without Home / Docs /
+About. The Hero is the name of the window; there is no extra
+wordmark above it. Its CTAs do not open Site Docs (that app is a
+different product). They may scroll within the page or stay visual.
 
 On macOS the window uses `mvu/desktop.FullSizeContent` and
 `ShowWindowButtons`. The title bar exists — Mission Control still
 reads `app.Title` — and the traffic lights sit on the left, painted
 over the marketing page. The triangle field and the page ground go
-under the strip. The feature columns start below
-`desktop.TopInset()` so their type is not in the buttons' hit area.
-Off macOS the options are a no-op and the window keeps its ordinary
-decorations.
+under the strip. The Hero starts below `desktop.TopInset()` so its
+type is not in the buttons' hit area. Off macOS the options are a
+no-op and the window keeps its ordinary decorations.
 
 The backdrop borrows the launcher's tilted triangle field — same
 geometry, same camera, same overfill — and then refuses the
@@ -12083,12 +12083,9 @@ No library tags. Workbench apps are consumed from the branch tip.
 `scripts/check-layers.sh` exempts applications; still run it from
 this directory if a task grows an import edge, so a stray uphill
 import is caught.
-
 ### G-AE1: The window is a page of columns
-
-A new module, the chrome the owner named, and the Features &
-Pricing content living on it.
-
+A new module, the chrome the owner named, and the landing —
+Hero, features, pricing, testimonials — living on it.
 #### AE1.1: Scaffold marketing and put it on the launcher
 
 `workbench/marketing` is a nested module
@@ -12124,16 +12121,16 @@ Regenerate the workspace (`scripts/clone-all.sh` discovers the new
   directory. Commit and push in `workbench` and `.github` if the
   profile moved.
 
-#### AE1.2: Feature columns and pricing are the page
-
-The page is `patterns/feature` (the existing three-up copy from
-`sitedocs/landing_content.go`) over `patterns/pricing` (the same
-three tiers). No Hero, no testimonials, no navbar, no About, no
-route into Site Docs. A quiet wordmark above the columns is
-allowed. Centre the column at sitedocs' `contentMaxWidthDp` (1100).
-Inset the content from the top by `desktop.TopInset()` at frame
-time so the first line of type sits below the traffic lights; the
-inset is 0 off macOS and in goldens.
+#### AE1.2: Hero, features, pricing and testimonials are the page
+The page is the four marketing patterns, in this order, with the
+existing copy from `sitedocs/landing_content.go`: `patterns/hero`,
+`patterns/feature` (the three-up), `patterns/pricing` (the three
+tiers), `patterns/testimonial` (the three-card grid). No navbar, no
+About, no route into Site Docs. Hero CTAs do not open another app;
+they may scroll to pricing or stay visual. Centre the column at
+sitedocs' `contentMaxWidthDp` (1100). Inset the content from the
+top by `desktop.TopInset()` at frame time so the Hero sits below
+the traffic lights; the inset is 0 off macOS and in goldens.
 
 Do not use `patterns/shell` StackedPage — it pins a navbar the page
 does not have. A scrolling column is enough. Pricing CTAs stay
@@ -12143,13 +12140,12 @@ Headless goldens of the page in light and dark, structural like
 sitedocs' landing goldens (sharp radius, deterministic shaper). The
 runtime path uses the real copy.
 
-- [ ] The marketing window's only page is the wordmark, the feature
-  columns and the pricing row. Goldens
+- [ ] The marketing window's only page is Hero, feature columns,
+  pricing and testimonials. Goldens
   `testdata/golden/light-page.png` and `dark-page.png` pin it.
 - [ ] Exit: tests green in `marketing`. Standing visual-review rule
   does not run yet — the field is still missing. Commit and push in
   `workbench`.
-
 ### G-AE2: Outlines, not fills
 
 The launcher field, restated as a wireframe.
