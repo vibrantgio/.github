@@ -12715,7 +12715,7 @@ carrying slot they leave empty and a rule slot holding a value; the
 band's third clause reads as a noun phrase; the seed body is ~97%
 ground and pushes the first pick to y=628.
 
-- [ ] The dark disclosure and the grew-from claim survive every
+- [x] The dark disclosure and the grew-from claim survive every
   `fitLine` cut, pinned by tests; the swatch pair differs in a second
   channel. Goldens regenerated in both schemes.
-- [ ] Exit: tests green in `sitedocs`. Commit and push in `workbench`.
+- [x] Exit: tests green in `sitedocs`. Commit and push in `workbench`.
