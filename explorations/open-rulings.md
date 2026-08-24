@@ -469,3 +469,27 @@ visible.
     from. sitedocs candidate-and-verifies via `FromSeed`, which works
     but cannot recover a brand seed it was never told. Durable fix:
     `theme` publishes its seed — a cross-repo change.
+
+85. **[feature]** Added 2026-08-24, from AH2.2's review: the seed
+    row's truncation guards are width-only — room is measured in dp,
+    text in sp, so a raised OS text scale cuts rules at wider windows
+    than the tests assert (at 130% the dark rule cuts at ~560px). The
+    no-seam invariant holds at every scale — every cut stays marked —
+    so this is comfort, not honesty. A scale-swept truncation test is
+    the fix. Related fragility: `SeedKeptRuleDark` clears the 560px
+    budget with ~6% headroom, and that path is never photographed.
+
+86. **[decide]** The dark matched cell is named
+    `Lifted seed the light scheme pins` — honest, in the picks board's
+    cross-scheme vocabulary, and it buys the disclosure ~150px of
+    survival, but it reads as a run-on over a swatch. Owner's eye on
+    the dark Theme golden.
+
+87. **[decide]** The seed cells borrow the paired-cell grammar and
+    misuse it: the ink slot every other paired cell paints stays
+    empty, and a hex value sits in a rule line (the only hex on the
+    tab). Separately the seed body is ~97% ground and costs 196px
+    before the ramps band, pushing the picks body to y=510. A
+    purpose-built seed cell shape would settle both; the size channel
+    (the smaller pick swatch, 4dp handed inset) should survive any
+    restyle.
