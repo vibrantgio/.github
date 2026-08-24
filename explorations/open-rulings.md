@@ -461,3 +461,11 @@ visible.
     inventory's words, so neither can be fixed in sitedocs without
     either editing the inventory (out of bounds for AH1.1) or
     restating its copy locally.
+
+84. **[feature]** Added 2026-08-24, from AH2.1: the seed is not
+    observable from the theme stream — `theme.Theme` publishes only
+    Color/Typography, and the palette precedence (OS accent > default)
+    is internal, so an app cannot ask which colour its palette came
+    from. sitedocs candidate-and-verifies via `FromSeed`, which works
+    but cannot recover a brand seed it was never told. Durable fix:
+    `theme` publishes its seed — a cross-repo change.

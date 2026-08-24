@@ -12673,10 +12673,13 @@ At the head of the Theme tab's palette story, show the seed: a swatch
 of the colour the palette derives from, its value, and one plain
 sentence of derivation (seed fixes each role's hue and chroma; ramps
 walk it through nine tones, bases pin it at one depth). One honesty
-rule: the generator may not use the picked colour exactly as given —
-a seed too pale to carry readable text is first darkened, and the
-palette grows from the darkened version. The caption must say which
-colour the swatch shows, the one picked or the one the palette grew
+rule — corrected 2026-08-24, the first telling here claimed a
+darkening rule that does not exist: the generator keeps the picked
+colour's hue and depth but raises its chroma to the palette's accent
+strength, so the palette can grow from a more saturated colour than
+the pick (the default #6750A4 grows #723AD4); a too-pale pick keeps
+its colour and the ink flips instead. The display must say which
+colour a swatch shows, the one picked or the one the palette grew
 from; never label the adjusted colour as the picked one. Prefer the
 presentation vocabulary the palette section already uses; no new
 library package. Golden in both schemes.
