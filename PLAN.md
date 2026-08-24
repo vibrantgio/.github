@@ -12687,3 +12687,35 @@ library package. Golden in both schemes.
 - [x] The Theme tab opens with the seed made explicit, captioned
   honestly, followed by ramps, picks, and the type ladder.
 - [x] Exit: tests green in `sitedocs`. Commit and push in `workbench`.
+
+#### AH2.2: The seed row's claim survives truncation
+
+Added 2026-08-24: AH2.1's verification review returned after the task
+closed and found the rework regressed while fixing. Three findings are
+binding, in its priority order:
+
+- The dark rules' honesty disclosure sits after their only comma, so
+  `fitLine`'s clause cut sheds it unmarked at windows under ~586px,
+  restoring the original false claim. The truncation invariant tested
+  today is "the leading clause is true alone"; the bar is *sufficient*
+  alone — move the scheme fact into the leading clause or the cell's
+  name, and extend the test to sufficiency and to the name strings
+  (`"Seed, lifted"` cuts to `"Seed"` today, unguarded).
+- On the matched path no line states which colour the palette grew
+  from — a section titled Palette Seed that identifies no seed. Say
+  the claim outright in a clause no cut can shed.
+- The two swatches are separated by chroma alone (1.00:1 luminance,
+  Δ4/255 greyscale): one swatch twice to a reduced-chroma viewer.
+  Encode the difference in a second channel, within the section's
+  existing vocabulary.
+
+Cheap if in reach, else record: "the base this scheme pins" should
+name the Primary base; the paired-cell shape gives seed cells an ink-
+carrying slot they leave empty and a rule slot holding a value; the
+band's third clause reads as a noun phrase; the seed body is ~97%
+ground and pushes the first pick to y=628.
+
+- [ ] The dark disclosure and the grew-from claim survive every
+  `fitLine` cut, pinned by tests; the swatch pair differs in a second
+  channel. Goldens regenerated in both schemes.
+- [ ] Exit: tests green in `sitedocs`. Commit and push in `workbench`.
