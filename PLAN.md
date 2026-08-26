@@ -12719,3 +12719,46 @@ ground and pushes the first pick to y=628.
   `fitLine` cut, pinned by tests; the swatch pair differs in a second
   channel. Goldens regenerated in both schemes.
 - [x] Exit: tests green in `sitedocs`. Commit and push in `workbench`.
+
+## Phase AI: The icon browser shows the disclosure mark's open state
+
+Requested by the owner on 2026-08-26. The icon set carries one
+disclosure drawing by design: the mark is drawn as the row stands
+closed, and a control showing an open row turns it a quarter turn
+rather than swapping in a second drawing (`components/icons/icons.go`,
+the `Disclosure` doc). The browser's marks section is a stateless
+registry dump — `markCell` paints whatever `marks.Mark(name)` returns
+— so the open rendition never appears anywhere an author can see it
+before wiring a control. The section's own charter says what an author
+sees here is what a control ships; for disclosure that is currently
+half true.
+
+### G-AI1: The disclosure cell shows both states
+
+The turn is a paint-time affine, not a second icon: the precedent is
+vaultview's `drawDisclosure` (`workbench/vaultview/main.go`), which
+rotates the same mark π/2 about its square's own centre when the row
+is open. The browser applies the same transform in its own cell.
+
+#### AI1.1: Paint the quarter-turned rendition beside the closed one
+
+In `workbench/iconbrowser/marks.go`, make `markCell` show the open
+state for the disclosure mark alongside the closed one, each drawn by
+rotating the one registered drawing π/2 about its square's centre —
+never by registering a second mark or name. Constraints that need
+layout judgment rather than a fixed recipe: the cell is `CellW` 160 dp
+and a doubled row of all three `MarkSizes` plus gaps is wider than
+that, so decide whether the open rendition shows at every size or at
+one representative size, and keep the closed row's centring rule (all
+squares centred on the band's line). The captions and the section
+heading's note must stay honest about what the cell shows: the open
+rendition is the same mark turned, not a second name a call site could
+write.
+
+- [ ] The disclosure cell shows the closed and the open rendition, the
+  open one produced by the quarter-turn transform; other marks' cells
+  are unchanged.
+- [ ] The heading note or caption says what the extra drawing is, so it
+  does not read as a mark named "open".
+- [ ] Exit: tests green in `iconbrowser` (`go test ./...` from
+  `workbench/iconbrowser`). Commit and push in `workbench`.
