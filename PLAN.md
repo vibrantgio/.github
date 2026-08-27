@@ -15963,9 +15963,9 @@ arrangements hold. Goldens regenerate; whole-window fresh-eyes on
 BOTH apps, both schemes, with the retired briefings removed from the
 packet and the remaining ledger intact.
 
-- [ ] Both windows monotonic under the check, measured off frames in
+- [x] Both windows monotonic under the check, measured off frames in
   both schemes; goldens regenerated.
-- [ ] Exit: green in `workbench` and both nested modules; fresh-eyes
+- [x] Exit: green in `workbench` and both nested modules; fresh-eyes
   per the preamble; commit and push in `workbench` and `.github`.
 
 #### AU2.2: The remaining apps follow
