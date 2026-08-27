@@ -13944,7 +13944,7 @@ a measurement rather than a guess.
 - [x] The window can be dragged by its top edge, and nothing the
   window draws collides with the three window buttons.
 - [x] Goldens that legitimately moved are regenerated in this task.
-- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
   `scripts/check-layers.sh` from `.github`; fresh-eyes review per the
   preamble; commit and push in `workbench`, `.github`.
 
