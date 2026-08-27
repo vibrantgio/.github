@@ -13212,10 +13212,10 @@ is replaced by the helper call, deleted, and nothing moves a pixel.
 No design judgment — AK5.1 fixed the API; this task is text surgery
 with the goldens as the witness.
 
-- [ ] All four apps call the helpers; their local copies are gone.
-- [ ] No golden moved; any that did is a defect in the adoption, not
+- [x] All four apps call the helpers; their local copies are gone.
+- [x] No golden moved; any that did is a defect in the adoption, not
   a regeneration case.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   `scripts/check-layers.sh` from `.github`; commit and push in
   `workbench`.
 
