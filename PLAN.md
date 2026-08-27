@@ -3780,6 +3780,75 @@ folklore is durable enough to have now survived being written down twice.
   crosses a band, and changing it moves components/gallery goldens —
   left for a deliberate ruling rather than a silent inheritance.
 
+#### S12 — carried out of AK6.4's fresh-eyes review
+
+AK6.4 (2026-08-27) put the sitedocs guide on the Background pin and showed
+the whole window, both schemes, to eyes that had not read the task. The
+platform-integration cluster came back almost intact — no San Francisco, no
+AppKit control anywhere, a flat sidebar where a Mac would put a vibrant
+material — which is S9, S10 and S11 restating themselves for the fourth
+time. Recorded here are only the findings none of them holds. The first is
+this task's own doing.
+
+- **The outline rail floats under a stripe of page.** The shell's content
+  slot pushes every tab's content down by S4 so the strip's Primary
+  underline keeps its own line (AG1.1). While `patterns/tabs` painted one
+  fill across strip and panel that band was the strip's own Surface and
+  invisible; on the pin it is page-coloured, and the rail — flush left,
+  flush bottom, inset 16 dp at the top only — reads as floating rather than
+  as a pane. Two answers are open and neither is AK6.4's to take: exempt a
+  tab whose leading column is furniture from the slot, or retire the gap
+  entirely, since the strip's lower edge is now a rung change and no longer
+  only an underline. The gap is AG1.1's decision and it should be the task
+  that reopens it.
+- **The outline's disclosure marks de-emphasise unequally across the
+  schemes.** The chevron inks 3.3:1 against the rail in light and 8.6:1 in
+  dark — barely over the component floor on paper, nearly as loud as the
+  labels on slate. That is the same place the paired scales stop holding
+  that `markdown`'s `codeInk` measured and corrected for code ink
+  (`markdown/style.go`); the outline's mark has no such correction and was
+  never measured.
+- **Whether a fence on the pin should take its edge is undecided.** A code
+  fence separates from the page it lies on by exactly one rung — 1.13:1 in
+  light, 1.12:1 in dark — which is R2's "one rung, not two" working as
+  written and ADR-019's measured platform delta. But `markdown/highlight`
+  already owns the question "too near the page to be seen against it" and
+  can answer it with a border (`fence.go`, `CodeBorder`). Whether that edge
+  should engage for an ordinary fence on a level-0 page, rather than only
+  under a syntax palette, is a `markdown` ruling nobody has made.
+- **The fence is the one raised inset in the system with square corners.**
+  Every other one — the outline pill, cards, tags, toasts — is radiused.
+- **The outline rail truncates and cannot be widened.** Four of the guide's
+  `##` titles ellipsise at the rail's fixed 300 dp with 10 px of trailing
+  padding, and the rail's divider offers no grip.
+- **The two columns do not align across that divider.** The first rail
+  row's centre sits ~30 px above the first heading's, with nothing tying
+  the two starts together.
+- **The tab strip has no leading inset.** The first cell's underline runs
+  to x=0 and its label sits S3 from the window's edge. On this window the
+  strip is below the title band, so it never meets the window buttons; the
+  bare leading edge is the pattern's, not the app's.
+- **A documentation viewer with no search.** Twenty-one outline sections,
+  several longer than the viewport, and no way to find a string; and no
+  copy affordance on a fenced block whose content is a table of module
+  versions people exist to copy out of.
+
+Six readings in that review were wrong, and they are recorded so the next
+packet's briefing can pre-empt them. **The accent is not hard-coded**: the
+app reads the OS accent through the live theme stream, and the review frame
+shows the default seed because it is a frozen `DefaultLight`/`DefaultDark`
+render. **The dark scheme's lighter chrome over darker content is the
+rule**, not a deviation from the platform — R7 in the dark, and the
+reviewer offered our own arrangement as the counter-example. **The fenced
+block does not clip itself**: what cuts its last line is the document
+viewport's own bottom edge on a scrolled page, with the outer inset below
+it, and the missing scrollbar is macOS overlay behaviour a headless frame
+cannot summon. **The unused width inside every code line** is the guide's
+own hard wrapping in the source, and the blank beside the block is AF2.1's
+deliberate reading measure. **The outline's levels are not size-identical**
+— children are BodySmall under BodyMedium parents. And **the 1x greyscale
+antialiasing** is the offscreen render, not the app's backing scale.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -5771,8 +5840,20 @@ Stated as rules:
   (`patterns/card`); a control inside a dialog walks from level 2, which is
   what `RenderState.Ground` exists to say. So "one rung up" always means one
   rung up *from the surface you are sitting on*, and a raised inset inside
-  a level-0 transcript — a code fence, a quote block — steps up from the
-  paper it lies on rather than reaching for an absolute step.
+  a level-0 transcript — a code fence — steps up from the paper it lies on
+  rather than reaching for an absolute step.
+
+  Not every inset on a page is a raised one, and the ladder has nothing to
+  say about the rest. A block that is *marked* rather than filled — a
+  blockquote led by a Primary bar with its prose in the low-contrast step
+  (`markdown/style.go`), a horizontal rule, a callout that is an ink and
+  not a surface — stands off its page by contrast, owes no rung, and gets
+  none. The rung is owed where a fill is drawn. (Added 2026-08-27: this
+  rule listed a quote block beside a code fence as though the two stood off
+  a page the same way. AK6.4 put a document on the pin and checked its
+  insets — the fence had a step to take and the quote block had nothing to
+  take one with, because it is drawn as a bar and a muted ink and never was
+  a surface. Demanding a rung of it would have invented one.)
 
   One ground answers differently, and it is the commonest one: level 0's
   fill is the Background pin, which is off the neutral ramp and has no step
@@ -13667,13 +13748,13 @@ from it rather than from an absolute neutral 300), and R4's addendum
 now says why. Whichever way this task decides, `patterns/tabs` and
 `patterns/table` should end up saying it the same way.
 
-- [ ] The document plane is the Background pin; the outline rail and
+- [x] The document plane is the Background pin; the outline rail and
   the tab strip stand exactly one rung over it.
-- [ ] A code fence and a quote block in the guide read as raised off
+- [x] A code fence and a quote block in the guide read as raised off
   the page they lie on.
-- [ ] The strip above the shell wears the fill of the region it caps.
-- [ ] Goldens that legitimately moved are regenerated in this task.
-- [ ] Exit: `go build ./... && go test ./...` green in every touched
+- [x] The strip above the shell wears the fill of the region it caps.
+- [x] Goldens that legitimately moved are regenerated in this task.
+- [x] Exit: `go build ./... && go test ./...` green in every touched
   module; `scripts/check-layers.sh` from `.github` if an import edge
   moved; fresh-eyes review per the preamble; commit and push in every
   repo touched.
