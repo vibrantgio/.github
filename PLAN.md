@@ -27,8 +27,12 @@ test ./...` must pass. Golden-image tests are part of that — when a change
 legitimately moves pixels, regenerate the goldens *within the same task* and
 say so in the commit body. The update flag must follow the package list
 (`go test ./button ./input -golden.update`); placed before the packages,
-`go test` swallows them and tests the current directory only. Never commit
-red.
+`go test` swallows them and tests the current directory only. Goldens also
+live *downstream*: the components gallery renders other repos' specimens,
+so a change that moves pixels in a rendered repo — `patterns` above all —
+runs `components/gallery`'s goldens in the same task and regenerates the
+stale tiles with the cause named, or master goes red across a repo seam
+(it did on 2026-08-23, found four tasks later). Never commit red.
 
 **Layers from this directory.** A task that can grow an import edge — a new
 `import`, a `go.mod` change, a package moved across repos — ends with
