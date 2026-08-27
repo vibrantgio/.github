@@ -12762,3 +12762,44 @@ write.
   does not read as a mark named "open".
 - [ ] Exit: tests green in `iconbrowser` (`go test ./...` from
   `workbench/iconbrowser`). Commit and push in `workbench`.
+
+
+## Phase AJ: A filled button can carry a pinned fill
+
+Requested by the owner on 2026-08-27. `components/button`'s Filled
+register resolves its colours unconditionally from the primary role:
+`buttonColors` reaches `SolidStateColor(RolePrimary, …)` under
+`OnPrimary`, and no Props field reaches a different ramp. A consuming
+app's destructive confirmation needs a fill the theme does not carry:
+macOS pins one scheme-stable systemRed for a destructive button, while
+the Error token is a paired status role whose dark pin is a lightened
+red for text — filled with it, the one irreversible act in the dialog
+reads pink, and paler than the Cancel beside it. A role parameter alone
+therefore does not close the gap; the ruled seam is an explicit fill
+override: the caller pins the fill and its on-colour, and the register's
+existing treatments — the state walk toward the 900 end, the disabled
+opacity, the focus ring measured against the returned ground — apply to
+the pinned pair exactly as they do to the primary pin. Icon-plus-label
+composition was considered alongside and ruled out: the consumer drops
+the glyph rather than the label, and `Props.Icon`'s icon-only contract
+stands.
+
+### G-AJ1: The fill override on Props
+
+#### AJ1.1: A pinned fill/ink pair rides the Filled register
+
+Give `button.Props` (and `RenderState`, for the static render path) a
+way to name a fill pin and its on-colour, honoured by the Filled
+register only; when unset, everything resolves exactly as today — the
+addition must be invisible to every Props written before it existed.
+The state walk needs a ramp to ladder against (`solidWalk` reads L*
+rungs off a ramp); decide whether the override names one or the walk
+defaults to the Error ramp, and say why in the commit body. Golden
+coverage in both schemes; the gallery shows the pinned variant beside
+the stock Filled.
+
+- [ ] The override renders through the same hover, press, focus,
+  disabled treatments as the primary pin; zero value draws today's
+  button, goldens prove both.
+- [ ] Exit: tests green in `components`; tag the seam release. Commit
+  and push in `components` and `workbench`.
