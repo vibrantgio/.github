@@ -15001,7 +15001,7 @@ defaults to the Error ramp, and say why in the commit body. Golden
 coverage in both schemes; the gallery shows the pinned variant beside
 the stock Filled.
 
-- [ ] The override renders through the same hover, press, focus,
+- [x] The override renders through the same hover, press, focus,
   disabled treatments as the primary pin; zero value draws today's
   button, goldens prove both.
 - [ ] Exit: tests green in `components`; tag the seam release. Commit
