@@ -4462,6 +4462,10 @@ land in whichever task cuts the next tags, beside `sync-versions.sh`:
 - Once `patterns/shell` is tagged with `NavbarHeight` (AK6.14), the
   guide's band-height sentence can name it.
 
+- `workbench/llms.txt` L~554 still says focus strokes `FocusRing()`
+  (neutral 500); the Gio side moved to `focus.Ring`'s MarkOn walk.
+  The guide line updates with the same release pass.
+
 #### S20 — carried out of AK6.13's fresh-eyes review
 
 AK6.13 (2026-08-27) moved feeds' pager off the Primary pin and onto the
@@ -4638,6 +4642,10 @@ frame shows one emission.
   `var(--color-neutral-500)` while the Gio side moved to `focus.Ring`'s
   MarkOn walk — pre-existing drift, no fixture mirrors the focused
   state. Folded into the Phase AP task.
+
+- AP1.1's mirror run leaves two other fixtures near tolerance:
+  `dropdown.html` 0.0165 and `button-tonal.html` 0.0159 of 0.0170 —
+  pre-existing, untouched, worth a task when either next drifts.
 
 #### S23 — carried out of AI1.1's fresh-eyes review
 
@@ -15135,6 +15143,27 @@ repo at a green seam and report.
 - [ ] Exit: green in every touched module; `scripts/check-layers.sh`
   from `.github`; fresh-eyes look per the preamble if any window's
   look changed; commit and push in every repo touched.
+
+#### AQ1.3: The focus ring derives against its storey
+
+AP1.1 measured the gap while splitting the sheet's ring tokens: a
+ghost control's ring inside a level-2 or level-3 host circles that
+storey, where the ring rung answers 2.92:1 and 2.14:1 in the light
+scheme — under the 3:1 floor (dark clears it). The ghost's contextual
+wash overrides already have the shape for per-storey derivation
+(`button`'s `Ground`-walked washes); give the ring the same
+treatment on the Gio side, and emit whatever per-storey token the
+sheet then needs through `theme/export` in the same pass so the two
+sides stay one design.
+
+- [ ] The ring clears 3:1 against every storey a ghost control can
+  stand on, both schemes, pinned by a test.
+- [ ] The published sheet's ring tokens follow through the generator;
+  the mirror stays green.
+- [ ] Exit: green in `theme`, `components`, `design` (mirror
+  included), and every consumer whose goldens moved (gallery and its
+  downstream per the preamble); `scripts/check-layers.sh` from
+  `.github`; commit and push in every repo touched.
 
 ## Phase AR: The seam release ships what master carries
 
