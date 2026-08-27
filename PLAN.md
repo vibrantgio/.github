@@ -3635,6 +3635,37 @@ scope there:
   table cells; turning those cells into body prose is a guide edit with
   its own judgment.
 
+#### S9 — carried out of AK2.1's fresh-eyes review
+
+AK2.1 (2026-08-27) re-grounded the mindchat transcript and put the
+whole window, both schemes, in front of fresh eyes. The review's
+findings that are real but were not that task's to fix:
+
+- The composer offers no send or attach affordance and the field shows
+  no visible focus ring.
+- The transcript opened mid-scroll in the captured frames rather than
+  pinned to the newest message — possibly the headless render's fresh
+  list state; verify in the live app before treating it as a defect.
+- Message shape is undecided voice: the user turn is a full-bleed
+  Primary stripe with no gutter or radius, and the large surfaces
+  (message rows, code fences) keep hard corners while the small
+  controls are pills. ADR-021 leaves shape to the app; it should be
+  decided, not inherited.
+- Platform integration, as a cluster: the accent does not follow the
+  OS accent choice; the faces are not the platform's; no
+  vibrancy/material; Settings sits in the sidebar rather than the
+  platform's place; keyboard access, focus rings and screen-reader
+  labels on the icon-only buttons are unverified; delete sits beside
+  rename with no visible confirmation (an undo bar exists, which a
+  still frame cannot show).
+- The assistant avatar is a third party's mark; whether it stays is an
+  owner ruling.
+- The light scheme's code keyword ink measures 4.37:1 over the
+  neutral-200 fence it now rests on (its highlight plate fits that ink
+  to white, where it reads 4.68:1). The highlight package deliberately
+  surfaces contrast rather than enforcing it; recorded as a
+  token-versus-plate observation, not a defect.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -12943,6 +12974,16 @@ Primary tint. The window reads darker in the middle than at its
 edges — the owner's complaint — and every violation traces to the same
 missing rule, not to a missing token.
 
+**Defaults before repetition** (owner ruling, 2026-08-27). When a task
+in this phase finds itself building the same mechanism in a second
+app — a titlebar treatment, a selection recipe, a surface assignment —
+it does not copy the first app's code and move on: it weighs whether
+the mechanism's real home is the system's defaults (theme, components
+or patterns, wherever the layer table admits it) and says so in its
+report, so the per-app work can shrink to adoption. The audit in
+G-AK4 obeys the same rule: a violation recurring across apps files
+one hoisting task plus thin adoption tasks, not N repaints.
+
 ### G-AK1: The surface grammar is derived and recorded
 
 The grammar is already implicit in what ships: the content's resting
@@ -13005,24 +13046,46 @@ the new grounds in both schemes.
   fresh-eyes review per the preamble; commit and push in `workbench`.
 
 #### AK2.2: The chrome details match the vaultview reference
-
 Still in `workbench/mindchat`: the titlebar wears the app ground the
 way vaultview's does instead of the native white strip, and the
 selected conversation row fills with the Primary-tinted step
-(vaultview's selection recipe) instead of neutral 300, with the hover
-fill re-derived to sit between rest and selected over Surface. Whether
-the sidebar keeps full-width row fills or adopts vaultview's inset
-pill is app voice, not doctrine — decide it for legibility and say
-which way it went.
+(vaultview's selection recipe; ADR-021 R5 — the *chosen* item is
+Primary-tinted, while hover and any keyboard cursor stay neutral step
+walks) instead of neutral 300, with the hover fill re-derived to sit
+between rest and selected over Surface. Whether the sidebar keeps
+full-width row fills or adopts vaultview's inset pill is app voice,
+not doctrine — decide it for legibility and say which way it went.
+
+AK2.1's fresh-eyes review left this task two measured warnings. With
+the titlebar drawn by the app, the sidebar's brand row ("MindChat" at
+x≈16dp) collides with the window controls, which need their leading
+inset reserved — take the numbers from `reference/macos/` via ADR-019's
+titlebar bands before drawing, and if the reference lacks the
+window-control inset, close that gap per the preamble's measurement
+rule. Note the header band's 44dp height against the platform's plain
+and unified bands while there. And AK2.1 grounded the header band on
+the content ground with a Divider hairline for its edge; the composer's
+seam has no such hairline — it is the same kind of edge, so it takes
+the same line.
+
+This is also the phase's first defaults test: vaultview already paints
+its own titlebar, and this task makes mindchat the second app doing it.
+Per the phase rule, weigh whether the mechanism belongs in a support
+tier the layer table admits, and put the verdict in the report; if
+hoisting is right, propose it as a task rather than doing it here.
 
 - [ ] The titlebar is painted with the window's ground in both
-  schemes.
-- [ ] The selected row's fill is Primary-tinted; hover re-derived;
-  the accent bar still reads.
+  schemes, with the window-control inset reserved per the stored
+  reference.
+- [ ] The selected row's fill is Primary-tinted; hover re-derived; the
+  accent bar still reads.
+- [ ] The transcript's seam under the composer carries the same
+  Divider hairline the header band's edge has.
+- [ ] The titlebar mechanism is weighed for a support-tier home; the
+  verdict and its reasoning are in the report.
 - [ ] Goldens that legitimately moved are regenerated in this task.
 - [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
   fresh-eyes review per the preamble; commit and push in `workbench`.
-
 ### G-AK3: The guide teaches the grammar
 
 #### AK3.1: llms.txt tells an assistant how to dress a window
@@ -13063,6 +13126,41 @@ Fix nothing in this task.
   `mdedit`, each naming its fills by file and line.
 - [ ] Exit: no code changed; `mdplan lint` clean; commit and push in
   `.github`.
+
+## Phase AL: MindChat renders lists as lists
+
+Found by AK2.1's fresh-eyes review (2026-08-27): list items in a
+rendered reply sit ~52px apart against a 24px line box, in both
+schemes. The cause is mindchat's own degrade shim —
+`workbench/mindchat/markdown.go`'s `degradeList` flattens every list
+into prefixed paragraphs, so each item inherits paragraph spacing.
+The shim predates the system's document rendering; the question is
+not how to space the shim better but whether it should exist at all.
+The owner's standing rule applies: when an app re-implements what the
+system should provide, the system's default is the fix and the app's
+copy is the defect.
+
+### G-AL1: Replies show real lists
+
+#### AL1.1: Replace the list degrade shim with the system's list rendering
+
+Establish what the document renderer mindchat already uses
+(`Doc.LayoutColumn` and the markdown/richtext stack) does with a
+`markdown.List` today. If it renders lists, delete `degradeList` and
+let the system default do its job. Only if the stack genuinely cannot
+render lists does the shim survive — and then its items space by the
+list's line box, not by paragraph spacing, and the system gap it
+papers over goes on record as a proposed task of its own.
+
+- [ ] Replies render bullet and numbered lists with list spacing; the
+  paragraph-sized gaps between items are gone in both schemes.
+- [ ] `degradeList` is deleted, or its survival is justified in the
+  report with the system gap it papers over recorded as a proposed
+  task.
+- [ ] Goldens that legitimately moved are regenerated in this task.
+- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+  fresh-eyes look at a rendered list per the preamble; commit and push
+  in `workbench`.
 
 ## Phase AI: The icon browser shows the disclosure mark's open state
 
