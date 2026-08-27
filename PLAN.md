@@ -14036,6 +14036,48 @@ it, and delete both local copies.
   `scripts/check-layers.sh` from `.github`; commit and push in every
   repo touched.
 
+#### AK6.11: The launcher's cards rest at level 1
+
+Found by AK6.6's review, verified against `patterns/card`'s own doc:
+the AK4.1 audit called the launcher's cards level 1, but
+`workbench/view.go` passes `Elevated: true` and the Elevated variant
+fills `SurfaceAt(Level2)` — eight resting cards at neutral 300, ADR-021
+forbidden shape #1, confirmed off the committed goldens
+(`#D4D4D4`/`#2E2E2E`). Stop the launcher resting at level 2: use the
+level-1 variant (or ground the card explicitly) so the grid stands one
+rung over the page. The larger question — whether `card.Elevated`'s
+level-2 fill survives ADR-021 at all, now that E2.2 retired its shadow
+and "elevated" buys nothing but a deeper rung — is the owner's ruling,
+recorded here and in the deferred ledger; this task changes the
+launcher only.
+
+- [ ] The launcher's cards fill at level 1 over the level-0 page,
+  measured off the frame in a test.
+- [ ] Goldens that legitimately moved are regenerated in this task,
+  downstream included.
+- [ ] Exit: green in `workbench`; fresh-eyes look per the preamble;
+  commit and push in `workbench` and `.github`.
+
+#### AK6.12: mvu/desktop caps the top of a plain page
+
+AK6.6 made `dragUnderStrip` (DragTop + InsetTop over one height
+function) its third copy — marketing, the launcher, and sitedocs'
+banded variant. Hoist the plain form into `mvu/desktop` (the AK6.6
+report proposes `CapTop(height func() unit.Dp, w layout.Widget)
+layout.Widget`); the filled variant stays app-side — the band package
+is geometry only and what a band is painted with belongs to the
+packages that know about colour. Convert marketing, the launcher, and
+sitedocs (its band fill wraps the hoisted form) to adoption; no pixel
+moves anywhere.
+
+- [ ] `mvu/desktop` offers the helper, documented and tested, naming
+  no consumers.
+- [ ] The three apps adopt it; the local copies are deleted; no golden
+  moves.
+- [ ] Exit: green in `mvu/desktop` and `workbench`;
+  `scripts/check-layers.sh` from `.github`; commit and push in `mvu`,
+  `workbench`, `.github`.
+
 ## Phase AL: MindChat renders lists as lists
 
 Found by AK2.1's fresh-eyes review (2026-08-27): list items in a
