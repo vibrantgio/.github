@@ -15176,16 +15176,16 @@ treatment on the Gio side, and emit whatever per-storey token the
 sheet then needs through `theme/export` in the same pass so the two
 sides stay one design.
 
-- [ ] The ring clears 3:1 against every storey a ghost control can
+- [x] The ring clears 3:1 against every storey a ghost control can
   stand on, both schemes, pinned by a test.
-- [ ] The published sheet's ring tokens follow through the generator;
+- [x] The published sheet's ring tokens follow through the generator;
   the mirror stays green.
-- [ ] Exit: green in `theme`, `components`, `design` (mirror
+- [x] Exit: green in `theme`, `components`, `design` (mirror
   included), and every consumer whose goldens moved (gallery and its
   downstream per the preamble); `scripts/check-layers.sh` from
   `.github`; commit and push in every repo touched.
 
-- [ ] AQ1.2's recorded one-liners land: vaultview's tree filter
+- [x] AQ1.2's recorded one-liners land: vaultview's tree filter
   passes the Level1 ground its Surface card gives it, and feeds'
   preferences-panel ghost buttons pass button.Props.Ground.
 
