@@ -14939,3 +14939,35 @@ the stock Filled.
   button, goldens prove both.
 - [ ] Exit: tests green in `components`; tag the seam release. Commit
   and push in `components` and `workbench`.
+
+## Phase AO: Chip padding respects the line's edges
+
+Found by AL1.1's fresh-eyes review (2026-08-27), verified in source
+and recorded in ADR-014 S21: `components/richtext` reserves a chip
+fragment's padding in the line's wrapping (`richtext.go` documents
+the reservation), but the flip side was never policed — punctuation
+after a chip clears the fill (`` `MessageOp`; `` renders as
+`MessageOp ;`), and a chip beginning a line spends its leading
+padding at the left edge, so a list item opening with a chip starts
+~4dp right of its siblings and the list's left edge stair-steps.
+
+### G-AO1: Chips sit flush where the line needs them to
+
+#### AO1.1: No leading chip padding at a line start, none before closing punctuation
+
+In `components/richtext` (with `markdown/style.go`'s chip recipe as
+the consumer that surfaces it): a chip fragment that begins a wrapped
+line spends no leading padding, and a chip followed immediately by
+closing punctuation spends no trailing padding before it, so lists
+align and punctuation hugs its word. The wrapping must keep counting
+what is actually painted. Consumers inherit: regenerate the goldens
+that legitimately move in sitedocs, vaultview, mindchat and the
+gallery, naming them in the commit body.
+
+- [ ] A line-initial chip starts flush; punctuation after a chip
+  hugs the fill; both pinned by a test.
+- [ ] Goldens that legitimately moved are regenerated in this task,
+  the gallery included.
+- [ ] Exit: green in `components`, `markdown`, and every consumer
+  whose goldens moved; fresh-eyes look at a rendered document per
+  the preamble; commit and push in every repo touched.
