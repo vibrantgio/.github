@@ -13890,6 +13890,27 @@ AK6.3 settles the rungs first, so the band has a ground to wear.
   `scripts/check-layers.sh` from `.github`; fresh-eyes review per the
   preamble; commit and push in `workbench`, `.github`.
 
+#### AK6.10: tokens.ElevationLevel owns the raised-one-rung step
+
+AK6.3 gave `patterns/table` a `raisedFrom` helper (the header one
+rung over the plane); AK6.4 duplicated it into `patterns/tabs` (the
+strip one rung over the panel) because patterns are copy-into-your-app
+source and cannot share an internal package. The AK6.4 report names
+the hoist that survives copying: a method on `tokens.ElevationLevel`
+in `theme/tokens`, where the ladder lives. Design the method (name,
+clamping at the ladder's top, doc comment stating the local-ground
+rule) as tier-0-of-the-ladder public API, convert both patterns to
+it, and delete both local copies.
+
+- [ ] `theme/tokens` offers the method, documented and tested, its
+  clamping stated.
+- [ ] `patterns/table` and `patterns/tabs` call it; both local
+  `raisedFrom` copies are deleted; no golden moves anywhere (the
+  gallery included).
+- [ ] Exit: green in `theme`, `patterns`, `components`;
+  `scripts/check-layers.sh` from `.github`; commit and push in every
+  repo touched.
+
 ## Phase AL: MindChat renders lists as lists
 
 Found by AK2.1's fresh-eyes review (2026-08-27): list items in a
