@@ -4708,6 +4708,61 @@ verbatim is in the task record):
 - The overlay scrollbar defect is Phase AS's task, cross-referenced
   here.
 
+#### S26 — carried out of AS1.1's fresh-eyes review
+
+AS1.1 (2026-08-27) made the light scheme's overlay thumb readable and put
+vaultview's whole window in front of fresh eyes that had not read the
+task. Two reviewers ran — the second dispatched when the first appeared
+to stall, and the first then reported as well, which is why the verbatim
+record holds two replies. Most of what came back is the vaultview list
+S25 already carries: the search field whose fill equals its ground, the
+code line clipped mid-word, the platform cluster as S9 wrote it, and the
+app-polish inventory (the unlabelled "29 lines" counter, the chromeless
+footer text buttons, the dead space in both side panels). None
+re-recorded. Four findings are new, and every one of them arrived because
+the bar can now be seen.
+
+- **The two scrollbars in one view disagree.** Both reviewers reached this
+  independently: the document's vertical thumb composites to `#8E8E8E`
+  while the fence's horizontal bar is opaque `#5C5C5C` — "50 levels apart
+  in the same view, same 6px thickness. Two scrollbars, two colours, no
+  shared style." That contests AS1.1's own ruling, which kept markdown's
+  opaque bar because a pairing already reading 5.46:1 should not be walked
+  back by a derivation aimed at 3:1, and because translucency buys nothing
+  over a fence's bottom padding where nothing shows through. The ruling
+  stands and is recorded as challenged, and there is a third answer nobody
+  has weighed: the system's own opaque-mark rule, MarkOn against the fence
+  fill at the graphic floor, answers neutral 600 at 3.55:1 — neither the
+  hand-picked 700 markdown draws nor the shared bar's 3.01:1. A `markdown`
+  ruling, inside G-AS1's own phase.
+- **A near-full-length thumb is drawn when there is nothing to scroll.**
+  Measured at 546 px of a roughly 550 px track: the bar reports that the
+  whole document is on screen and draws itself anyway. A bar is hidden
+  only when the content fits exactly, so one pixel of overflow buys a
+  full-height thumb. This was invisible while the thumb measured 1.49:1;
+  it is a `components/scrollbar` or `components/list` question now.
+- **The bar can be misread as the outline pane's divider.** Both
+  reviewers: it sits alone in the 30 px gutter at x=766–771 with the pane
+  edge at x=780 and no track behind it, so at a glance it reads as that
+  pane's missing border rather than as this column's scrollbar. A
+  vaultview gutter question — and new for the same reason, since a
+  `#CCCCCC` thumb could not be mistaken for anything.
+- **The thumb starts below content that is on screen.** Its top edge lands
+  at y=198, the Properties box's bottom border, while that box is visible
+  from y=110 — so either the box sits outside the scroll region or the
+  track is mis-measured. vaultview geometry.
+
+**Two misreads for the next packet's briefing.** *The overlay thumb is
+neither opaque nor always-visible*: one reviewer called it "opaque,
+always-visible… it does not fade, it is not translucent", where it is
+neutral 900 at 182/255 coverage and fades out a second after the content
+stops. A still frame catches the bar at full presence and can show
+neither property, and over uniform paper translucency has nothing to show
+through it. *A missing track is not a missing part*: the same reviewer
+read "no track is drawn — thumb only" as a defect, where `TrackColor` is
+transparent by design and the platform's own overlay bars draw no track
+either.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -15212,10 +15267,10 @@ recipe) and say which way it went. Consumers inherit: trace and run
 goldens (gallery and its sitedocs downstream by name), regenerate
 what legitimately moves.
 
-- [ ] The composited thumb clears 3:1 over levels 0 and 1 in both
+- [x] The composited thumb clears 3:1 over levels 0 and 1 in both
   schemes, pinned by a test; states re-derive from one recipe.
-- [ ] Goldens that legitimately moved are regenerated in this task.
-- [ ] Exit: green in `components`, `markdown` if touched, and every
+- [x] Goldens that legitimately moved are regenerated in this task.
+- [x] Exit: green in `components`, `markdown` if touched, and every
   consumer whose goldens moved; fresh-eyes look per the preamble if a
   shipped window changes; commit and push in every repo touched.
 
