@@ -15118,11 +15118,11 @@ the border with the MarkOn walk against that ground, and have the
 patterns that place checkboxes on raised surfaces pass their level.
 Assert the floor over levels 0–3 in both schemes.
 
-- [ ] The border clears 3:1 over every ladder level it can be placed
+- [x] The border clears 3:1 over every ladder level it can be placed
   on, both schemes, pinned by a test.
-- [ ] Goldens that legitimately moved are regenerated in this task,
+- [x] Goldens that legitimately moved are regenerated in this task,
   the gallery included.
-- [ ] Exit: green in `components` and every consumer whose goldens
+- [x] Exit: green in `components` and every consumer whose goldens
   moved; `scripts/check-layers.sh` from `.github`; commit and push in
   every repo touched.
 
