@@ -5783,6 +5783,21 @@ Stated as rules:
   which is where most of a window's controls sit. (Added 2026-08-27, the
   gap G-AK2 hit on the first window dressed to this ADR.)
 
+  And a shared surface takes its ground as a parameter, because it cannot
+  know it. A pattern that paints a plane and then paints a band over it —
+  a table's grid and its header, a tab panel and its strip — has to walk
+  that band from the plane's own rung rather than naming an absolute step.
+  An absolute step is right only for as long as every caller happens to
+  rest where it was written: `patterns/table`'s header band read neutral
+  300, which was exactly one rung up while every table in the system stood
+  on Surface, and became two rungs off its own grid the moment one stood on
+  the window's paper. What `RenderState.Ground` is for a component, a
+  pattern that owns a plane needs too — and a pattern without one cannot be
+  dressed to R4 by the application using it, which is the difference
+  between an app that is wrong and an app that cannot be right. (Added
+  2026-08-27, the gap AK6.3 hit taking a window's content planes down to
+  the pin.)
+
 - **R5 — what is chosen is Primary-tinted; what is transient is a neutral
   walk.** The item a window is currently showing — the open note, the open
   conversation — fills from the Primary ramp's tinted end,
@@ -13493,13 +13508,65 @@ row's mark belongs in `patterns/table` or in the app's cell closures
 is this task's judgment; a table with no way to show its current row
 is a gap in the pattern, and the phase's defaults rule applies.
 
-- [ ] The window ground is the Background pin and the sidebar, navbar
+**What the fresh-eyes review of the dressed window raised.** Given both
+schemes at 1200×800 and nothing else, a reviewer answered with one
+finding about the fill grammar and nine about everything around it. The
+grammar one was fixed in the task: the chosen-feed pill had its label
+flush on its leading edge and hung off the rail's trailing side, so the
+row indent and the pill inset were made equal and the label padded in
+from the fill's edge — a pill whose text starts on its own edge is a bar
+with a rounded corner. The rest are recorded here rather than discarded,
+none of them this task's subject:
+
+1. The article list paginates rather than scrolls — ten rows, then a
+   `◀ 1 2 ▶` row, in a window 800 px tall. The split buys nothing: the
+   last row ends at y 516 and the pager sits at y 748, so a third of the
+   pane's height is empty between them, and the pager is left-aligned in
+   a 570 px pane. A feed reader is a thing a reader holds the down-arrow
+   on.
+2. The column widths are inverted. Title truncates on eight of ten rows
+   at ~175 px while Author holds one repeated string in 160 px and the
+   trailing 140 px of every row is empty. Nothing suggests the header
+   dividers drag or that the last column autosizes.
+3. Both chosen items wear the same ink at the same time — the open feed
+   and the open article are pixel-identical — with nothing saying which
+   list the keyboard is pointing at. The platform reserves the
+   emphasized fill for the first responder and mutes the other. R5 says
+   what the chosen item wears; it does not say what a window with two
+   lists does when only one of them is being driven, and neither list
+   here has keyboard traversal yet for a focus state to follow.
+4. The sort chevron is right-aligned in its column, some 50 px from the
+   header word it belongs to, so it reads as attached to nothing.
+   (`patterns/table`'s `drawHeaderCell`.)
+5. Two date formats in one window: `May 13 2026` in the cell and the
+   pane subtitle, `May 13, 2026` in the body text. Two formatters, and
+   neither locale-aware.
+6. The unread mark is a neutral dot in the trailing column rather than
+   an accent mark, so it does not read as a state at all.
+7. The sidebar/main boundary is a bare colour change while the split
+   seam beside it draws a hairline; neither offers a grip.
+8. The sidebar's group headers are set larger and heavier than the feeds
+   under them, inverting the hierarchy a rail usually draws.
+9. Row density reads as touch-sized against the platform: 36 dp rows,
+   a 52 px navbar, a 40 px filter field, where a native table row is
+   17–24 px. `tokens.Compact` exists; whether the desktop default should
+   be it is a token question, not an app one.
+
+What the review raised that is already recorded or was a misread: the
+hardcoded accent, the Roboto face and the absent vibrancy are ADR-014
+S9–S11; the missing titlebar and window controls are AK6.9 plus the
+headless frame's own limit, which draws no window chrome; the Unread
+header glyph is a bullet rather than the full stop it was read as at 1×;
+and the settings accelerator the reviewer listed as unverifiable is
+implemented (`feeds/shortcut.go`).
+
+- [x] The window ground is the Background pin and the sidebar, navbar
   and article pane each wear the rung ADR-021 gives them; R7's walk
   out from the middle never decreases.
-- [ ] The open feed and the open article carry a Primary-tinted fill;
+- [x] The open feed and the open article carry a Primary-tinted fill;
   hover stays a neutral walk over the region's own ground.
-- [ ] Goldens that legitimately moved are regenerated in this task.
-- [ ] Exit: `go build ./... && go test ./...` green in every touched
+- [x] Goldens that legitimately moved are regenerated in this task.
+- [x] Exit: `go build ./... && go test ./...` green in every touched
   module; `scripts/check-layers.sh` from `.github` if an import edge
   moved; fresh-eyes review per the preamble; commit and push in every
   repo touched.
@@ -13539,6 +13606,19 @@ band.
 
 The outline's selection pill is already `Ramps.Primary.Step(300)`
 (`docs_outline.go:180`); it satisfies R5 and stays.
+
+What AK6.3 left here. `feeds` hit the same tab-panel fill and did not
+change the pattern: its tab contents paint the level-0 ground over
+their own panel rect, which is the only part of the pattern's canvas
+an application is handed, leaving the strip's Surface standing as
+furniture over the reading surface it caps. That works because the
+panel there is one closure per tab; it is a workaround, and the
+second app to write it is the evidence the pattern should take a
+ground of its own — `patterns/table` grew exactly that in AK6.3
+(`Props.Ground`, defaulting to Level0, with the header band walked
+from it rather than from an absolute neutral 300), and R4's addendum
+now says why. Whichever way this task decides, `patterns/tabs` and
+`patterns/table` should end up saying it the same way.
 
 - [ ] The document plane is the Background pin; the outline rail and
   the tab strip stand exactly one rung over it.
