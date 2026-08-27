@@ -15080,12 +15080,12 @@ now-false comments in `design/mirror/fixtures/checkbox.html` and
 `checkbox-checked.html`; the mirror margins must come back out of the
 red zone and the run stays green.
 
-- [ ] The sheet's checkbox shows the check and the derived border in
+- [x] The sheet's checkbox shows the check and the derived border in
   both schemes; the mirror margins recover; roundtrip guards hold,
   reshaped deliberately if at all.
-- [ ] `--color-focus-ring` follows the focus walk; the generated
+- [x] `--color-focus-ring` follows the focus walk; the generated
   files are regenerated, not hand-edited.
-- [ ] Exit: green in `theme`, `design` (mirror included); commit and
+- [x] Exit: green in `theme`, `design` (mirror included); commit and
   push in `theme`, `design`, `.github`.
 
 ## Phase AQ: Borders derive against their ground
