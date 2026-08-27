@@ -4688,6 +4688,26 @@ truncation. *The section labels do not scroll away*: both headings are
 Rigid children stacked above the scrolling list (`view.go`, Page), so
 they are already pinned; a still frame cannot show what moves.
 
+#### S25 — carried out of AQ1.2's fresh-eyes review
+
+Recorded from the AQ1.2 report (vaultview whole-window review; the
+verbatim is in the task record):
+
+- The sidebar search field's fill EQUALS its ground in both schemes
+  (`#E8E8E8` on `#E8E8E8` light, `#222222` on `#222222` dark), so the
+  control is carried entirely by its edge — AQ1.2 raised that edge to
+  3.55:1 and the reviewer still reads "not a control". The remaining
+  problem is the missing fill step, not the border. Design-level;
+  compare S15's field-reads-disabled entry before ruling.
+- The code block's Catppuccin highlight theme is a third-party
+  palette dropped in whole: comment ink measures 2.3:1 light /
+  3.36:1 dark over the block. Same family as S18's token-vs-plate
+  observation; a `markdown/highlight` ruling.
+- A code line clips mid-word at the block's right edge (x=750 in the
+  reviewed frame) with no wrap or fade.
+- The overlay scrollbar defect is Phase AS's task, cross-referenced
+  here.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -15164,6 +15184,40 @@ sides stay one design.
   included), and every consumer whose goldens moved (gallery and its
   downstream per the preamble); `scripts/check-layers.sh` from
   `.github`; commit and push in every repo touched.
+
+- [ ] AQ1.2's recorded one-liners land: vaultview's tree filter
+  passes the Level1 ground its Surface card gives it, and feeds'
+  preferences-panel ghost buttons pass button.Props.Ground.
+
+## Phase AS: The scrollbar thumb reads on its ground
+
+Found by AQ1.2's fresh-eyes review, verified in source: one widget,
+two weights. `components/scrollbar`'s `FromTokens` gives the overlay
+thumb `Neutral.Step(700)` at alpha 100, compositing to `#CCCCCC` on
+the light paper — 1.49:1, under any graphic floor — while markdown's
+code-block horizontal bar draws the same step opaque at 5.91:1. The
+pale thumb is invisible exactly when a reader looks for it.
+
+### G-AS1: One thumb recipe that clears a floor
+
+#### AS1.1: The overlay thumb derives against its ground and clears 3:1
+
+In `components/scrollbar`: derive the thumb's rest ink so its
+COMPOSITED result clears 3:1 against the ground it rides (the tokens'
+contrast machinery over the alpha-composited pair, not a hand-picked
+alpha), keeping the overlay's translucency intent; hover/drag states
+re-derive from the same recipe. Weigh whether markdown's opaque bar
+should consume the same recipe (defaults rule — one thumb, one
+recipe) and say which way it went. Consumers inherit: trace and run
+goldens (gallery and its sitedocs downstream by name), regenerate
+what legitimately moves.
+
+- [ ] The composited thumb clears 3:1 over levels 0 and 1 in both
+  schemes, pinned by a test; states re-derive from one recipe.
+- [ ] Goldens that legitimately moved are regenerated in this task.
+- [ ] Exit: green in `components`, `markdown` if touched, and every
+  consumer whose goldens moved; fresh-eyes look per the preamble if a
+  shipped window changes; commit and push in every repo touched.
 
 ## Phase AR: The seam release ships what master carries
 
