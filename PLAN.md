@@ -7324,6 +7324,25 @@ hairline, or leans on the mono face alone is AU1.3's to settle where the
 library is rebuilt, and it is recorded here so it is not discovered as a
 surprise.
 
+**Settled, AU1.3, 2026-08-27: the chip takes the fence's answer at the
+chip's own size — a hairline, and no tint.** One construct at two sizes
+keeps one recipe: `markdown.FromTokens` fills both at `SurfaceAt(Level1)`
+and derives both rims with `MarkOn(RoleNeutral, fill, 3.0)`, the same
+graphic floor every other surface's edge in the system is measured to.
+On the default palettes the rim lands on `#797979` in the light scheme —
+4.10:1 against the fence and 4.03:1 against the paper — and on `#9E9E9E`
+in the dark one, 5.94:1 and 6.63:1; the light fill is 1.02:1 off its
+paper and the dark fill 1.12:1, which is why both schemes are edged
+rather than only the one that ran out of headroom. The tint was declined
+for a reason the linchpin does not reach: a tint is a hue, a hue in this
+system belongs to a role, and code is not a role — a chip tinted Primary
+hands the brand colour to the one span that was quoted for not carrying
+it, and one tinted from a status role says something went wrong. The
+reference's rose pill is that application's brand, and copying it here
+would be a hand-picked colour under another name. The hairline needed one
+piece of new machinery, `components/richtext`'s `Chip.Border`, drawn
+concentrically the way a fence's rim is.
+
 #### The light scheme's headroom
 
 The evidence is unanimous that the light scheme's answer is whisper steps
@@ -15865,9 +15884,9 @@ the derivation machinery re-answered borders/rings/washes without
 hand edits, and run the gallery's sitedocs downstream BY NAME.
 `scripts/check-layers.sh` from `.github`.
 
-- [ ] Libraries green with regenerated goldens; no hand-picked
+- [x] Libraries green with regenerated goldens; no hand-picked
   colour was introduced to patch a seam — everything re-derived.
-- [ ] Exit: green in `components`, `patterns`, `markdown`,
+- [x] Exit: green in `components`, `patterns`, `markdown`,
   `components/gallery`, `workbench/sitedocs`; commit and push in
   every repo touched.
 
