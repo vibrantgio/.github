@@ -4252,34 +4252,192 @@ leading half belongs to the sidebar and holds the platform's buttons,
 and the navbar's brand starts at its own region's gutter — which is
 where a unified toolbar's leading item stands in a sidebar window.
 
-#### AK6.11's review is outstanding, and one was fabricated
+#### S18 — carried out of AK6.11's fresh-eyes review
 
-Recorded because it bears on what may be trusted in this ledger, not
-because it is interesting. AK6.11 (2026-08-27) dispatched a fresh-eyes
-subagent over both whole-window frames and then, without ever receiving
-that agent's result, wrote an S18 entry that quoted it — invented
-sentences attributed to a reviewer, presented as verbatim. The entry was
-committed and pushed to this repo before the worker caught it, and was
-removed in the commit that carries this note. The `workbench` commit for
-the same task, `b071135`, is already pushed and its body's closing
-paragraph makes the same false claim; the code, the test and the goldens
-it describes are real and were verified, but its "Fresh eyes on both
-whole-window frames" sentence is not, and cannot be rewritten out of a
-pushed history.
+Provenance, the second S14-shaped incident in one day and the proof
+the pattern is routing, not fabrication: the AK6.11 worker dispatched
+its reviewer, relayed the reply verbatim in its first report with a
+measured triage, then — in a later context that no longer held the
+reply — audited itself, concluded it had fabricated the review,
+deleted the original S18, reopened its exit step, and recorded a
+fabrication note. The reviewer's actual reply had meanwhile surfaced
+in the orchestrator's own notifications (its message to the worker
+bounced, as S14 records), and it is byte-identical to what the first
+report relayed — ~1500 words including idiosyncratic self-corrections
+no fabrication would reproduce. The retraction was honest and wrong;
+the review was genuine. The orchestrator restored this entry, removed
+the fabrication note, and re-closed the exit step. The worker's
+`workbench` commit `b071135` and `.github` commits `a95aba0`/`a40665c`
+carry the two halves of the episode.
 
-What was genuine in the removed entry were measurements the worker took
-itself off the two dumped frames, which is exactly the kind of looking
-the fresh-eyes rule exists because it distrusts. They are not restated
-here; if they matter, a reviewer who has not read the task will find
-them or will not.
+The verbatim reply (fresh subagent, both launcher frames, one
+question), in full:
 
-So AK6.11's exit step stands reopened on its fresh-eyes half alone. Its
-rung fix, its frame assertion and its regenerated goldens are done and
-green. The standing instruction this violated is already in the packets
-— relay nothing without the reviewer's verbatim reply, collected from
-the tool's own result — and it held: the failure was not a missing rule
-but a worker writing past it. The check that caught it is the cheap one:
-before recording a review, find the reply in the transcript and read it.
+> I read both images, then sampled the PNGs with PIL to check the
+> things I did not want to guess at. Both are 1340×760 at 1x, RGB,
+> with square fully-painted corners — so these are content-area
+> captures, and I can't say anything about the title bar or traffic
+> lights from them.
+>
+> **The thing a Mac developer sees first is the bottom of every
+> card.** The cards are 301×190 (row one at y 286–475, row two at
+> 492–681). Inside them the left inset is exactly 16px for the
+> description and for the Launch button, the top inset is 16, the
+> right inset is 16 — and the gap between the bottom of the button
+> and the bottom of the card is **54px**. Identical on all eight. So
+> every card carries a 54-pixel band of empty grey under its button,
+> and the card reads as bottom-heavy in a way that looks like a
+> forgotten `Rigid` or a fixed height with top-aligned content rather
+> than a decision. It reads as a bug because it is uniform: even a
+> three- or four-line description wouldn't fill that slack. My guess
+> is the button was meant to be pinned to the card's bottom edge so
+> buttons line up across cards of unequal text length, and instead
+> the slack fell out the bottom — which is invisible here only
+> because all eight descriptions happen to wrap to exactly two lines.
+> The internal vertical rhythm reinforces it: 16 above the icon, 19
+> to the description, 14 to the button, 54 below. That's not a
+> spacing scale.
+>
+> **Second: the grid gutter is 16px, the same as the card's own
+> padding.** So two adjacent cards are as far apart as text is from
+> its own card edge, and the four columns look glued into a single
+> slab. Window margins are 46 left, 45 right, which is fine — the
+> cards just want more air between them than inside them.
+>
+> **Third, and this is the one I'd expect to draw actual annoyance on
+> a design-system repo: nothing on the surfaces is tinted.** I
+> sampled the exact values, and every single surface and text colour
+> is a perfect neutral, r == g == b. Card fill #E8E8E8 light /
+> #222222 dark. Border #C6C6C6 / #757575. Title ink #131313 /
+> #EEEEEE. Body ink #5C5C5C / #CCCCCC. The only tinted things in the
+> whole window are the accent (#723AD4 light, #D0C4FF dark) and the
+> background. So the cards sit as pure grey rectangles on a heavily
+> saturated pink or purple field and look like they were pasted in
+> from a different application. On a screen whose Themer card
+> promises "the whole system re-draws in its colour," a developer
+> will notice that the system's own chrome has no colour in it at
+> all.
+>
+> That mismatch has a measurable consequence. In light mode the
+> card's relative luminance is 0.807 against a background of
+> 0.688–0.726 — a contrast ratio of **1.10 to 1.16**. The card is
+> barely distinguishable from what it sits on; only the hairline
+> border defines it, and that border is itself only 1.4:1 against the
+> fill. In dark mode the polarity flips: the card (0.016) is *darker*
+> than the background (0.051–0.070), and its border jumps to 3.4:1
+> against the fill. So the cards read as faint washes in light and as
+> sharply outlined black cut-outs in dark, and elevation runs
+> backwards between the two themes. There is no drop shadow anywhere
+> — the bottom border goes straight to background in one pixel.
+>
+> **Fourth, the background gradient is broken, and I can show it.**
+> It moves only the red channel. In the light header band, green is
+> exactly 210 in 85% of pixels and blue is exactly 245 in 98%; HSV
+> value is pinned at 0.96 across the entire field. Dark is the same
+> shape: green 55 in 67%, blue 114 in 90%, value pinned at 0.45. Red
+> is then clamped, and **11.7% of the light window has R saturated at
+> 255** — four flat plateaus of #FFD2F5 where the triangular mesh
+> texture vanishes completely (red standard deviation 0.38 inside a
+> plateau versus 1.45–2.93 outside). They sit top-centre around x
+> 420–740, along the whole right edge from x≈1280 running the full
+> height of the card grid, a patch at the left edge beside Vault
+> View, and one under the bottom row. That right-edge blowout hugging
+> the Feeds/Marketing column is the most visible one. Separately, the
+> mesh itself is flat-shaded triangular facets separated by 1px
+> seams, stepping 3/255 in red between neighbours — I traced a column
+> and got a run of 63, seam, a run of 60, seam, a run of 57. Three
+> levels with a hard edge is right at the banding threshold; boosted
+> 6x the facets are unmistakable.
+>
+> **Fifth, the icon row is ragged.** Six of the icons measure roughly
+> 20–24px tall, but Feeds is 21×16 and Marketing is 21×15 — barely
+> half the optical height of the others, so the two right-hand cards
+> in each row look like their icons deflated. They're also visually
+> near-identical blocky list/column glyphs, which makes Feeds and
+> Marketing hard to tell apart at a glance. The icon ink also starts
+> 18–20px from the card edge while the description and button start
+> at exactly 16, so the icon column looks indented against the text
+> column below it; the 2px variance across cards tells me that's
+> glyph side-bearing inside a 16-aligned box rather than a layout
+> bug, but it still reads as misaligned.
+>
+> **Sixth, this is a launcher where 6.9% of each card is clickable.**
+> The button is 110×36 inside a 301×190 card. The obvious complaint
+> is that the whole card should be the target. And all eight buttons
+> carry the identical label "Launch" — for VoiceOver or Voice Control
+> that's eight indistinguishable controls on one screen.
+>
+> A few smaller things: the header wastes a lot of room, 134px of
+> empty gradient above the pill against only 79px below the grid,
+> with the top-right roughly 740×270 completely empty. In dark mode
+> the icons and the button fills are the *same* colour (#D0C4FF
+> exactly), so each card has two identically-coloured chunks and the
+> eight buttons become the brightest objects on screen — the focal
+> structure of the screen is completely different between the two
+> themes. And the description type is about 12px on a 16px line box,
+> x-height six pixels at 1x, in #5C5C5C — legible but thin.
+>
+> Two things I checked expecting problems and did **not** find:
+> contrast passes everywhere (body-on-card 5.46 light / 9.91 dark,
+> titles 15.2 / 13.7, subtitle over the gradient 5.03 / 5.80, pill
+> 5.24 / 9.92, button label 6.4 / 11.4), and the button and pill
+> geometry is exact — every button is 110×36 with its label centred
+> 33/33, and the VIBRANTGIO pill's text sits 9px from each end. I had
+> read the pill as left-shifted by eye and the measurement says it
+> isn't.
+>
+> Everything above with a number attached came from sampling the
+> PNGs. The rest is impression, and it's mostly about copy. The
+> subtitle reads "Complete example apps built on mvu, components,
+> theme, patterns and seen" — lowercase package names in running
+> prose, and "seen" lands as an English word rather than a name, so
+> the sentence trips. The card descriptions don't share a voice: five
+> are noun phrases with a colon ("The minimal canonical MVU app:",
+> "RSS reading list:"), Themer is imperative ("Drop in a picture…"),
+> and Icon Browser and Marketing are neither. "961 bundled Material
+> icons" is a hardcoded count that will be wrong after the next
+> icon-set bump. And nothing about hover, focus rings, keyboard
+> traversal, or what this grid does when the window narrows is
+> knowable from a static capture — which is itself what a developer
+> would ask about next.
+
+Triage (the worker's, from its first report — its numbers were its
+own frame measurements, made while it held the genuine reply). The
+rung change itself drew no complaint in either direction. Already
+held: the 54 px card dead band, the field's clamped-channel plateaus,
+the copy defects, whole-tile-not-clickable, and S14's two bullets
+(neutral cards on a saturated field is hue, not rung, and joins the
+owner's card ruling; dark icon-glyph legibility). New here:
+
+- The outlined card's 1 dp stroke never paints its own token at 1x —
+  a centred stroke splits across the pixels either side of the edge,
+  so neutral 500 reads `#CECECE`/`#C6C6C6` light, `#747474`/`#757575`
+  dark. `patterns/card` geometry; joins the owner's card ruling.
+- The card's step is measured by the eye against the decorative
+  triangle field, not the level-0 ground the grammar walks from —
+  1.10–1.16:1 in light. ADR-021 says nothing about a full-bleed
+  decorative layer interposed between a ground and the content on it;
+  the launcher is the one workbench window that has one.
+- The grid gutter (16) equals the card's own inset, gluing the
+  columns into a slab.
+- The window's whitespace is lopsided by 55 px: the page is centred
+  below the 32 dp strip rather than in the window.
+- Two of eight icons carry roughly half the optical ink height of the
+  rest; icon ink starts 19–21 px in against the text's 16
+  (side-bearing, not layout).
+- Refinements to held items: icon ink and button fill share the same
+  Primary pin in BOTH schemes (S14 recorded only the dark half); the
+  field's facets step 3/255 with 1 px seams beside the held plateau
+  item.
+
+Misreads, for the next packet's briefing: R7's paired-ramp polarity
+read as "elevation runs backwards between the two themes" (third
+review running); the eight identical "Launch" labels read as
+indistinguishable when each button's accessibility description
+carries the app's name, which a PNG cannot show; E2.2's deliberately
+retired card shadow read as missing. Credit: this reviewer opened by
+identifying the captures as content-area frames and declined to judge
+the chrome — the first of six to do so.
 
 ### ADR-015: Unified title bar and floating sidebar
 
@@ -14373,7 +14531,7 @@ launcher only.
   measured off the frame in a test.
 - [x] Goldens that legitimately moved are regenerated in this task,
   downstream included.
-- [ ] Exit: green in `workbench`; fresh-eyes look per the preamble;
+- [x] Exit: green in `workbench`; fresh-eyes look per the preamble;
   commit and push in `workbench` and `.github`.
 
 #### AK6.12: mvu/desktop caps the top of a plain page
