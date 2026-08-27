@@ -13337,9 +13337,9 @@ the file already cites apps. Point the rationale-hungry reader at the
 design repository's rationale document by URL, as `design/AGENTS.md`
 points the other way.
 
-- [ ] llms.txt carries the window-anatomy instruction beside the token
+- [x] llms.txt carries the window-anatomy instruction beside the token
   sections, free of plan-internal identifiers.
-- [ ] Exit: `mdedit links --check` clean if wikilinks were touched;
+- [x] Exit: `mdedit links --check` clean if wikilinks were touched;
   `scripts/sync-versions.sh -n` still exits 0 from `.github/scripts`;
   commit and push in `workbench`.
 
