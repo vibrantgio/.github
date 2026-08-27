@@ -12720,6 +12720,154 @@ ground and pushes the first pick to y=628.
   channel. Goldens regenerated in both schemes.
 - [x] Exit: tests green in `sitedocs`. Commit and push in `workbench`.
 
+## Phase AK: Every window assigns surfaces by one written grammar
+
+Requested by the owner on 2026-08-27 after putting two workbench
+windows side by side. The token set defines the vocabulary — the
+semantic layer (Background, Surface, Divider, Text) and the elevation
+ladder (level 0 the Background pin, level 1 neutral 200, level 2
+neutral 300) — but no document says which region of an application
+window wears which token. So every app re-derives the assignment, and
+some get it backwards; an app built from the guide alone has nothing
+to check its window against.
+
+The two windows are the evidence, measured from the owner's captures
+(light scheme: Background `#F6F6F6`, Surface = neutral 200 `#E8E8E8`,
+neutral 300 = Divider `#D4D4D4`). vaultview is the shape the owner
+wants: the window's ground — titlebar included — is the Background
+paper, the side panes are raised one rung to Surface, and the selected
+row is a Primary-tinted pill (`Ramps.Primary.Step(300)`,
+`vaultview/tree.go`). mindchat inverts it: the sidebar sits on Surface,
+but `MessageRow` (`mindchat/view.go`) fills every assistant row —
+full-width, and in practice most of the window — with
+`Ramps.Neutral.Step(300)`, the level-2 rung the ladder reserves for
+menus and toasts; the titlebar stays native white above it, and the
+selected conversation row fills with the same neutral 300 instead of a
+Primary tint. The window reads darker in the middle than at its
+edges — the owner's complaint — and every violation traces to the same
+missing rule, not to a missing token.
+
+### G-AK1: The surface grammar is derived and recorded
+
+The grammar is already implicit in what ships: the content's resting
+ground is level 0, the Background pin — in light mode the lightest
+expanse in the window; chrome furniture (sidebars, asides, toolbars,
+rails) stands one rung up on Surface; neutral 300 belongs to dividers,
+state fills, and transient level-2 surfaces, never to a resting
+content expanse; selection fills are Primary-tinted, not neutral; the
+titlebar wears the ground of the region it caps, never an unpainted
+native strip. Derive the written rule from the elevation ladder's own
+comments (`theme/tokens/elevation.go`), vaultview's practice, and the
+macOS reference captures — do not invent new tokens or repaint
+anything in this goal.
+
+#### AK1.1: Record the surface grammar as ADR-021 and in the design rationale
+
+Write ADR-021 into this file's Reference section, after ADR-020: the
+window-anatomy rule (which region wears which semantic token / ladder
+rung), stated mode-neutrally in rungs and roles with the measured light
+hexes as evidence only; what it prescribes, what it forbids, and the
+two windows above as the worked example. Then lift the doctrine's core
+into `design/DESIGN.md` — the rationale document for people working on
+the system — as a section beside the existing colour-system material,
+in that file's voice and citing conventions.
+
+- [ ] ADR-021 added to Reference after ADR-020, stating the assignment
+  grammar with the vaultview/mindchat evidence.
+- [ ] `design/DESIGN.md` carries the doctrine section; the generated
+  parts of the design repo are untouched.
+- [ ] Exit: no code changed, so no build gate; commit and push in
+  `.github` and `design`.
+
+### G-AK2: MindChat wears the grammar
+
+The doctrine's first proof. If applying ADR-021 to a real transcript
+surfaces a flaw in its wording, amend the ADR in the same task and say
+so in the report — the rule and the proof must not disagree.
+
+#### AK2.1: The transcript sits on the window ground
+
+In `workbench/mindchat`, stop filling assistant rows with
+`Neutral.Step(300)`: assistant ink sits directly on the Background
+ground (`theme.go`'s `BotBubble`/`BotText`, consumed by `MessageRow`
+in `view.go`). The user bubble keeps its Primary fill. Judgment the
+task must exercise rather than receive: markdown insets inside a reply
+— code fences above all — must step *up* the ladder from the new paper
+ground so they read as raised, not lighter-than-a-dark-slab; the
+header band with the model chip needs a deliberate surface under the
+doctrine (chrome rung or content ground); and the code-chroma
+selection (`isDarkColor`) plus text contrast must still gate against
+the new grounds in both schemes.
+
+- [ ] Assistant rows carry no neutral-300 fill; the transcript's
+  resting ground is the Background pin in both schemes.
+- [ ] Code fences and other markdown insets take a deliberate rung
+  over the new ground; the header band's surface is chosen and stated
+  in the commit body.
+- [ ] Goldens that legitimately moved are regenerated in this task.
+- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+  fresh-eyes review per the preamble; commit and push in `workbench`.
+
+#### AK2.2: The chrome details match the vaultview reference
+
+Still in `workbench/mindchat`: the titlebar wears the app ground the
+way vaultview's does instead of the native white strip, and the
+selected conversation row fills with the Primary-tinted step
+(vaultview's selection recipe) instead of neutral 300, with the hover
+fill re-derived to sit between rest and selected over Surface. Whether
+the sidebar keeps full-width row fills or adopts vaultview's inset
+pill is app voice, not doctrine — decide it for legibility and say
+which way it went.
+
+- [ ] The titlebar is painted with the window's ground in both
+  schemes.
+- [ ] The selected row's fill is Primary-tinted; hover re-derived;
+  the accent bar still reads.
+- [ ] Goldens that legitimately moved are regenerated in this task.
+- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+  fresh-eyes review per the preamble; commit and push in `workbench`.
+
+### G-AK3: The guide teaches the grammar
+
+#### AK3.1: llms.txt tells an assistant how to dress a window
+
+With the doctrine recorded and proven, add the operative rule to
+`workbench/llms.txt` where an app-writing assistant will meet it —
+beside "The semantic layer" and "Elevation: the surface ladder" — as a
+short imperative section: window ground, chrome rung, selection tint,
+titlebar, insets. Follow the file's own conventions: no ADR or task
+numbers in this file, vaultview cited as the working example the way
+the file already cites apps. Point the rationale-hungry reader at the
+design repository's rationale document by URL, as `design/AGENTS.md`
+points the other way.
+
+- [ ] llms.txt carries the window-anatomy instruction beside the token
+  sections, free of plan-internal identifiers.
+- [ ] Exit: `mdedit links --check` clean if wikilinks were touched;
+  `scripts/sync-versions.sh -n` still exits 0 from `.github/scripts`;
+  commit and push in `workbench`.
+
+### G-AK4: The remaining apps are measured against the grammar
+
+#### AK4.1: Audit the workbench apps' window surfaces
+
+Read — do not repaint — every other workbench app (`workbench` root
+launcher, `todos`, `feeds`, `themer`, `sitedocs`, `iconbrowser`,
+`marketing`) against ADR-021: what each window region's resting fill
+resolves to, found through the graph and the code rather than by
+launching apps. For each violation, append a task to this phase via
+`mdedit` (one app per task, plain title, the violating fills named
+with file and line) so the fixes run as their own worker-sized units.
+Fix nothing in this task.
+
+- [ ] Every listed app's window regions are traced to their token
+  fills, with the violations (or a clean bill) recorded per app in the
+  report.
+- [ ] One follow-up task per violating app appended to this phase via
+  `mdedit`, each naming its fills by file and line.
+- [ ] Exit: no code changed; `mdplan lint` clean; commit and push in
+  `.github`.
+
 ## Phase AI: The icon browser shows the disclosure mark's open state
 
 Requested by the owner on 2026-08-26. The icon set carries one
