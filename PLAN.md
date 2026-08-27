@@ -4452,6 +4452,86 @@ land in whichever task cuts the next tags, beside `sync-versions.sh`:
 - Once `patterns/shell` is tagged with `NavbarHeight` (AK6.14), the
   guide's band-height sentence can name it.
 
+#### S20 — carried out of AK6.13's fresh-eyes review
+
+AK6.13 (2026-08-27) moved feeds' pager off the Primary pin and onto the
+chosen-item step, then put both schemes' resting frames in front of eyes
+that had not read the task. The mark itself drew no complaint: nothing
+in the reply reports the current page as the wrong tone, as illegible,
+or as disagreeing with the sidebar and the table — which is the outcome
+S17's first bullet was filed to produce. The pager is still the reply's
+loudest complaint, but for the reason the polish list already holds,
+that a list on this platform scrolls and this one paginates. That, the
+filter field's un-`NSSearchField` shape, the inverted column widths, the
+unread dot drawn as a literal `·`, the date format, the missing focus
+ring and the whole S9 platform cluster — Roboto rather than the system
+face, no vibrancy, no `NSSegmentedControl`, greys that are the design
+system's rather than Dark Appearance's — all came back and all stand as
+already written. Recorded here are the findings none of that holds.
+
+- **The Primary pin still marks this window, one region above the
+  pager.** The active tab's underline in the Reader/Raw/Comments strip
+  is a 69 px rule two pixels deep at y 162–163, and it fills `#723AD4`
+  light and `#D0C4FF` dark — the pin exactly, the same pair AK6.13 just
+  took off the pager, running saturated in one scheme and pale in the
+  other. Whether a tab's indicator owes R5 the chosen-item step or is a
+  different thing that may keep the pin is a ruling this task did not
+  have and did not take: S17 counted the window's chosen-item marks as
+  three, named their shapes pill / bar / chip, and did not count the tab
+  rule among them. It is a *mark* in the sense `MarkOn` uses rather than
+  a fill, which is the argument for leaving it — but nobody has made
+  that argument on the record, and the window currently answers "which
+  one" in the step three times and in the pin once.
+- **The sidebar's group labels outrank the feeds inside them.** "Tech"
+  and "News" are drawn bold and in the darkest neutral while the feed
+  names beneath them — the rows a reader actually clicks — are grey and
+  regular, so each heading shouts over its own contents. A platform
+  source list does the reverse: the group label is the small grey one
+  and the sources are the plain dark rows.
+- **The window's two vertical seams are made of different material.**
+  The split between the article list and the reading pane at x=796 draws
+  a hairline; the boundary between the sidebar and the content at x=192
+  draws none and is a change of fill only. One window, two answers to
+  what a pane edge is.
+- **Two platform-arrangement claims the stored reference cannot
+  settle.** The reply reads the top band spanning the full width with
+  the sidebar beginning below it as the Mojave arrangement, and holds
+  that the convention since Big Sur is a full-height sidebar with the
+  toolbar inset over it; and it notes the window offers no sidebar
+  toggle. Both bear on AK6.9's deliberated band rather than on anything
+  AK6.13 touched, and neither is in `reference/macos` — ADR-019 holds no
+  capture of a source-list window's top edge. Recorded as open, not as
+  defects, and to be settled by measurement before either is acted on.
+- **The app keeps its own accent through the user's.** The purple is the
+  palette's rather than the accent colour the platform hands out, so
+  every other window on the machine changes together and this one stays
+  purple. Adjacent to S9's cluster and not literally inside it.
+
+**A misread of a new shape, worth the next packet's briefing.** *The
+window's two selections are not two different purples.* The reply
+reports the sidebar's open feed at `#3F0085` against the table's open
+row at `#685796` in the dark scheme — which, had it held, would have
+been exactly the defect S17 filed and this task closed. Read off the
+same frame the reviewer was handed: the open row is `#3F0085` across
+14,994 pixels, pixel-identical to the pill, and `#685796` occurs twice
+in the whole 1200×800 frame — two antialiasing pixels on the edge of a
+letter. The briefing has warned since S14 that hue impressions are
+unreliable without sampling; what is new here is that this reviewer did
+sample, and still reported a glyph's edge as a region's fill. So the
+briefing needs the sharper form: a stated measurement is not a fill
+value unless it is a value the palette actually holds, and the cheapest
+way to know is to count how many pixels carry it. Two is a letter;
+fifteen thousand is a row. `TestChosenItemsCarryThePrimaryTint` now
+asserts all three chosen-item marks in both schemes off the frame, so
+the question is settled by the suite rather than argued.
+
+*And the fourth window in a row is reported for its chrome.* No traffic
+lights, square corners, no shadow, "Feeds" drawn as content rather than
+as a real title. A headless frame carries no window chrome, no vibrancy
+and no shadow, and it cannot show the absence of a native strip. S17
+said third; this is fourth, and it will be fifth unless the briefing
+leads with it.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -14590,10 +14670,10 @@ chosen-item step with its ink re-derived for contrast over it; the
 three marks' differing SHAPES (pill / bar / chip) are recorded voice,
 not this task's.
 
-- [ ] The current page's fill is the chosen-item step in both
+- [x] The current page's fill is the chosen-item step in both
   schemes, ink gated over it; asserted off the frame or a golden.
-- [ ] Goldens that legitimately moved are regenerated in this task.
-- [ ] Exit: green in `workbench/feeds` and the workbench root;
+- [x] Goldens that legitimately moved are regenerated in this task.
+- [x] Exit: green in `workbench/feeds` and the workbench root;
   fresh-eyes look per the preamble; commit and push in `workbench`
   and `.github`.
 
