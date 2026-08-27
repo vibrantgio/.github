@@ -15909,13 +15909,13 @@ existing machinery against the new fills (no hand-picked colours);
 goldens regenerate (components, gallery, its sitedocs downstream BY
 NAME); the mirror stays green with both halves moved.
 
-- [ ] The four input fills answer `SurfaceAt(Ground.Raised())` in
+- [x] The four input fills answer `SurfaceAt(Ground.Raised())` in
   both schemes; the sheet's rules follow through the generator; the
   mirror is green.
-- [ ] The FadeColor judgment is made and stated.
-- [ ] Goldens that legitimately moved are regenerated, the gallery
+- [x] The FadeColor judgment is made and stated.
+- [x] Goldens that legitimately moved are regenerated, the gallery
   and its downstream included.
-- [ ] Exit: green in `components`, `design` (mirror), and the
+- [x] Exit: green in `components`, `design` (mirror), and the
   sitedocs golden check; `scripts/check-layers.sh` from `.github`;
   commit and push in every repo touched.
 
