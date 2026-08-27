@@ -4532,6 +4532,77 @@ and no shadow, and it cannot show the absence of a native strip. S17
 said third; this is fourth, and it will be fifth unless the briefing
 leads with it.
 
+#### S21 — carried out of AL1.1's fresh-eyes review
+
+AL1.1 (2026-08-27) deleted mindchat's list degrade shim and let the
+document renderer draw lists itself, then put both schemes' frames — a
+transcript carrying a bulleted list with a nested sublist, a numbered
+list and a citations list — in front of eyes that had not read the task.
+The lists themselves drew no complaint: nothing in the reply reports the
+gaps between items, the markers, or the hanging indent as wrong, which
+is the outcome Phase AL was opened to produce. The reply's platform
+cluster — the title beside the traffic lights, no vibrancy behind the
+sidebar, the greys of Dark Appearance, the model picker that is no
+`NSPopUpButton`, the missing focus ring, Settings in the sidebar footer
+rather than at ⌘, — is S9's, and stands as already written; so do the
+message shape's voice, the composer's alignment, the secondary greys,
+the absent scrollbar and the scroll insets that clip the newest message,
+all held by S10 and S15. The single accent, the unfocused-window state
+and the syntax palette's two appearances are what a frozen-scheme
+headless frame cannot show and are not findings. Recorded here are the
+findings none of that holds.
+
+- **A code chip spends its padding inside the line, so it moves the
+  words around it.** `markdown`'s inline code span asks
+  `richtext.Chip` for `Spacing.S1` of horizontal padding, and that
+  padding is *reserved* by design — `components/richtext` documents it
+  as counted by the line's wrapping "so the words on either side clear
+  the fill instead of running under it". The flip side had not been
+  looked at. Punctuation set immediately after a chip clears the fill
+  too, so a body whose source reads ``a `MessageOp`; after the frame``
+  renders as "a `MessageOp` ; after the frame" — a space the author
+  never typed, in front of a semicolon. And a chip that *begins* a line
+  spends its leading padding at the line's left edge, so the first
+  glyph sits ~4 dp right of where a plain sibling line starts: in a
+  numbered list whose second item opens with a chip, item 2's text
+  starts 5 px right of items 1 and 3 and the list's left edge visibly
+  stair-steps. Both are one decision — padding that is always reserved
+  on both sides — and both want the same refinement: no leading padding
+  when a chip fragment starts a line, and no trailing padding before a
+  closing punctuation mark. It is a `components/richtext` policy change
+  with goldens in every markdown consumer behind it (sitedocs,
+  vaultview, mindchat, the gallery), so it is a task of its own rather
+  than a fix inside the one that found it.
+- **The model picker is wider than anything in it.** The pill runs
+  x 766–996 while its label ends near x 955, leaving ~27 px of dead
+  ground before the chevron, so the text reads as floating in a box cut
+  for something longer. The pill states three facts at once — default,
+  provider, model — joined by middots, which is also the reply's reading
+  of a control whose author had not decided which one the reader needs.
+- **Two horizontal rules miss each other across the vertical seam.**
+  The sidebar's footer divider is inset (x 12–212) and sits at y≈718;
+  the composer's top edge sits at y≈722. Four pixels apart, on either
+  side of the pane divider, reading as one line that failed to meet
+  itself rather than as two deliberate edges.
+- **A provider's mark is recoloured to the brand accent.** The
+  assistant avatar is the bundled OpenAI glyph taking the transcript's
+  ink, which renders it purple. Bundling a provider's mark to label its
+  own replies is the point of `Style.Images`; tinting that mark is a
+  different act, and nobody has decided it. Whether provider glyphs
+  should opt out of the ink they inherit is the question, not this one
+  frame.
+- **Nothing offers the code in a fence to the reader.** A chat client
+  that highlights Go for people who will want it in an editor within
+  seconds carries no copy affordance on a fenced block. Filed as a
+  feature rather than a defect; it is a decision about the transcript's
+  chrome, not a thing rendering got wrong.
+
+Two claims in the reply are answered by what the app already does
+rather than by a change: deleting a conversation *is* undoable —
+mindchat carries trash-backed session-wide undo on ⌘Z — and the
+reply's worry that there is "no obvious ⌘Z" is about the affordance's
+visibility, not its absence.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -14740,13 +14811,13 @@ render lists does the shim survive — and then its items space by the
 list's line box, not by paragraph spacing, and the system gap it
 papers over goes on record as a proposed task of its own.
 
-- [ ] Replies render bullet and numbered lists with list spacing; the
+- [x] Replies render bullet and numbered lists with list spacing; the
   paragraph-sized gaps between items are gone in both schemes.
-- [ ] `degradeList` is deleted, or its survival is justified in the
+- [x] `degradeList` is deleted, or its survival is justified in the
   report with the system gap it papers over recorded as a proposed
   task.
-- [ ] Goldens that legitimately moved are regenerated in this task.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [x] Goldens that legitimately moved are regenerated in this task.
+- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   fresh-eyes look at a rendered list per the preamble; commit and push
   in `workbench`.
 
