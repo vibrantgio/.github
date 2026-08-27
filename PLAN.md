@@ -32,7 +32,12 @@ live *downstream*: the components gallery renders other repos' specimens,
 so a change that moves pixels in a rendered repo — `patterns` above all —
 runs `components/gallery`'s goldens in the same task and regenerates the
 stale tiles with the cause named, or master goes red across a repo seam
-(it did on 2026-08-23, found four tasks later). The gallery itself has
+(it did on 2026-08-23, found four tasks later). Generated bundles commit
+WITH their generator: a `design/` regeneration whose `theme/export` delta
+is uncommitted silently reverts on the next `vg-tokens` run — before any
+`design` commit, regenerate and require a clean diff against the
+generator actually committed (it bit on 2026-08-27, found one task
+later). The gallery itself has
 a downstream: sitedocs renders it in a tab, so a gallery/inventory
 change also runs `workbench/sitedocs`' goldens — and note the root
 `go test ./...` does NOT reach the nested app modules; run them by
@@ -4811,6 +4816,35 @@ through it. *A missing track is not a missing part*: the same reviewer
 read "no track is drawn — thumb only" as a defect, where `TrackColor` is
 transparent by design and the platform's own overlay bars draw no track
 either.
+
+#### S27 — carried out of AU1.4
+
+- The AU1.3 seam: `design/styles.css` was regenerated and committed
+  while the `theme/export` generator changes that produced it were
+  not — `vg-tokens` at HEAD would have silently reverted the
+  published sheet. Repaired in AU1.4 by reconstructing the generator
+  delta from the published bytes; the preamble now carries the
+  regenerate-and-diff rule.
+- Harness trap for future workers: `theme/export`'s `parseSheet`
+  treats any line whose trimmed text starts with `--` as a
+  declaration, so a COMMENT line beginning with a variable name fails
+  every sheet-parsing test — wrap such comments so the name is not
+  line-initial.
+- `design/mirror`'s `dropdown.html` carries a recorded per-pair
+  ceiling (0.0185 over the 0.0170 Tolerance, `g2_test.go`
+  `dropdownInkFloor`): column-scored, every cell right of the label
+  is 0.0000 and the whole distance is Chromium-vs-Gio stem-weight
+  gamma inside the label, scaling with the ink-to-ground gap exactly
+  as predicted (0.0177 predicted, 0.0178 measured). Accepted by the
+  orchestrator on that evidence. Honest retirement condition: a
+  contrast-normalised Distance metric — a candidate task if a second
+  pair ever needs a ceiling.
+- Two `workbench` root-module reds surfaced beside AU1.2's designed
+  seam and belong to the app repaints: `TestWindowGolden/light-window`
+  and `TestTheCardsRestOneRungOverThePage/light` (the launcher's
+  cards now rise as whispers), joining sitedocs'
+  `TestWindowRegionsWearTheirRungs/light` (the outline rail still on
+  the ramp alias). All three are named in the AU2.x packets.
 
 ### ADR-015: Unified title bar and floating sidebar
 
