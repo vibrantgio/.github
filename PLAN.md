@@ -15898,6 +15898,38 @@ tags. `check-no-workspace.sh` read 40/40.
 - [x] Exit: `scripts/check-layers.sh` from `.github`; every repo
   pushed with its tags; commit and push in every repo touched.
 
+## Phase AV: The kept brand's links clear the floor
+
+Found by AU2.1's live-capture review, verified by the worker: with
+the owner's KEPT brand active (the one-seed shared file, the kept
+theme), light-scheme links measure 1.92:1 (`#88B6FC` on the paper) —
+a dark-tint link ink dropped onto a light page. The shipped default
+brand measures 5.94:1, and no golden runs with the kept brand, so
+the defect is invisible to every stored image and only a live run
+with the real seed shows it. The fix is in the brand derivation
+pipeline, not the app: link ink (and by implication every
+brand-derived ink) must gate per scheme through the tokens' contrast
+machinery for ANY seed, and the sweep that guards it must include
+kept-brand-shaped seeds.
+
+### G-AV1: Brand-derived inks gate per scheme
+
+#### AV1.1: The link ink derives against its scheme's paper for every seed
+
+Locate where the kept brand's link colour is derived (the theme
+pipeline behind the one-seed shared file), make it gate against the
+scheme's own paper through the contrast machinery, and extend the
+seed sweeps so a seed shaped like the owner's kept brand is always
+in the matrix. Verify with the actual kept seed: light links clear
+4.5:1, dark links keep clearing theirs. Regenerate whatever the
+generator owns if sheet values move.
+
+- [ ] Link ink clears 4.5:1 over the paper in both schemes for every
+  swept seed, the kept-brand shape included, pinned by a test.
+- [ ] Verified against the owner's actual kept seed, both schemes.
+- [ ] Exit: green in `theme` (and `design` if the sheet moved);
+  commit and push in every repo touched.
+
 ## Phase AU: Lightness climbs toward the viewer
 
 Owner ruling, 2026-08-27 evening — the linchpin: in BOTH schemes, a
@@ -16079,34 +16111,32 @@ module, `sync-versions.sh`, and the guide already true from AU1.1.
 - [ ] Exit: `scripts/check-layers.sh` from `.github`; every repo and
   tag pushed; commit and push in every repo touched.
 
-## Phase AV: The kept brand's links clear the floor
+## Phase AW: The fixtures speak like feeds
 
-Found by AU2.1's live-capture review, verified by the worker: with
-the owner's KEPT brand active (the one-seed shared file, the kept
-theme), light-scheme links measure 1.92:1 (`#88B6FC` on the paper) —
-a dark-tint link ink dropped onto a light page. The shipped default
-brand measures 5.94:1, and no golden runs with the kept brand, so
-the defect is invisible to every stored image and only a live run
-with the real seed shows it. The fix is in the brand derivation
-pipeline, not the app: link ink (and by implication every
-brand-derived ink) must gate per scheme through the tokens' contrast
-machinery for ANY seed, and the sweep that guards it must include
-kept-brand-shaped seeds.
+Found by AU2.2's live-capture review, colliding with the standing
+no-internal-jargon rule: `workbench/feeds/fixtures.go` publishes "out
+of scope for Phase 5" and "…is a defect" as the window's largest text
+block — plan-shaped prose in shipped UI, the first thing anyone would
+point at in a screenshot. The `i % 3 == 0` unread-dot pattern rides
+with it (every third row unread reads as fixture arithmetic, not a
+reading list).
 
-### G-AV1: Brand-derived inks gate per scheme
+### G-AW1: The demo content reads as content
 
-#### AV1.1: The link ink derives against its scheme's paper for every seed
+#### AW1.1: Fixture prose and unread marks read as a real reading list
 
-Locate where the kept brand's link colour is derived (the theme
-pipeline behind the one-seed shared file), make it gate against the
-scheme's own paper through the contrast machinery, and extend the
-seed sweeps so a seed shaped like the owner's kept brand is always
-in the matrix. Verify with the actual kept seed: light links clear
-4.5:1, dark links keep clearing theirs. Regenerate whatever the
-generator owns if sheet values move.
+Rewrite `feeds/fixtures.go`'s article bodies and titles as plausible
+feed content — no phase numbers, task IDs, "defect" talk, or any
+plan-shaped prose (the no-internal-jargon rule governs emitted text);
+vary the unread marks so they read as a reading list rather than
+modular arithmetic. Keep the fixtures' structural properties the
+tests rely on (counts, dates, the two date-format sites recorded in
+S17 stay as they are — that item is separately recorded). Goldens
+that render fixture text regenerate.
 
-- [ ] Link ink clears 4.5:1 over the paper in both schemes for every
-  swept seed, the kept-brand shape included, pinned by a test.
-- [ ] Verified against the owner's actual kept seed, both schemes.
-- [ ] Exit: green in `theme` (and `design` if the sheet moved);
-  commit and push in every repo touched.
+- [ ] No plan-shaped prose survives in fixture content; unread marks
+  read organically; the structural properties tests rely on are
+  unchanged.
+- [ ] Goldens that legitimately moved are regenerated in this task.
+- [ ] Exit: green in `workbench/feeds` and the workbench root; commit
+  and push in `workbench` and `.github`.
