@@ -15930,6 +15930,49 @@ generator owns if sheet values move.
 - [x] Exit: green in `theme` (and `design` if the sheet moved);
   commit and push in every repo touched.
 
+#### AV1.2: The remaining light-pin marks take the ink gate
+
+AV1.1's enumerated family remainder — the same "light primary pin
+used as a mark on the paper", broken for the same 208/414 seeds, each
+a one-line move to `InkOn(RolePrimary, <its ground>, GraphicFloor)`:
+`patterns/tabs/tabs.go` ~L385 and `patterns/navbar/navbar.go` ~L357
+(the active underline), `patterns/pricing/pricing.go` ~L325/470 (the
+featured card's stroke), `components/input/radio.go` ~L203 (the
+selected radio's edge). Grounds are each site's own — re-derive, do
+not guess. The canonical seed clears everywhere, so NO golden may
+move (that is the same no-golden-moved guarantee AV1.1 stated as a
+test — state it for these sites too); the pastel seeds in the sweeps
+must clear post-gate.
+
+- [ ] The four sites gate through `InkOn`; sweeps cover them; the
+  canonical seed's pixels are proven unmoved by test and by golden
+  runs (gallery and its sitedocs downstream by name).
+- [ ] Exit: green in `patterns`, `components`, `components/gallery`,
+  `workbench/sitedocs`; `scripts/check-layers.sh` from `.github`;
+  commit and push in every repo touched.
+
+#### AV1.3: The markdown checkbox splits its stroke from its fill
+
+The one family member that needs an API change (AV1.1's analysis):
+`markdown/style.go`'s `CheckboxColor` does double duty — the
+unchecked box's STROKE on the paper and the checked box's FILL under
+its own tick (`CheckmarkColor: c.OnPrimary`, derived against the
+ungated pin). Gating the shared field would move the fill out from
+under the tick. Split it: a stroke field (gated `InkOn` at
+`GraphicFloor` against the page) and a fill field (the pin — a fill
+is entitled to its brand), with the tick re-derived against whichever
+fill actually wins, and the sweep asserting tick-on-fill and
+stroke-on-page separately for every seed. Style fields are public
+API: document the split, migrate `FromTokens`, and check for other
+constructors.
+
+- [ ] Stroke and fill are separate fields, each gated against its own
+  neighbour, tick re-derived; sweeps cover both, pastels included.
+- [ ] Goldens that legitimately moved are regenerated (canonical seed
+  should move none — verify).
+- [ ] Exit: green in `markdown` and every consumer whose goldens
+  moved; commit and push in every repo touched.
+
 ## Phase AU: Lightness climbs toward the viewer
 
 Owner ruling, 2026-08-27 evening — the linchpin: in BOTH schemes, a
