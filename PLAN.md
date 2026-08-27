@@ -15034,11 +15034,11 @@ what is actually painted. Consumers inherit: regenerate the goldens
 that legitimately move in sitedocs, vaultview, mindchat and the
 gallery, naming them in the commit body.
 
-- [ ] A line-initial chip starts flush; punctuation after a chip
+- [x] A line-initial chip starts flush; punctuation after a chip
   hugs the fill; both pinned by a test.
-- [ ] Goldens that legitimately moved are regenerated in this task,
+- [x] Goldens that legitimately moved are regenerated in this task,
   the gallery included.
-- [ ] Exit: green in `components`, `markdown`, and every consumer
+- [x] Exit: green in `components`, `markdown`, and every consumer
   whose goldens moved; fresh-eyes look at a rendered document per
   the preamble; commit and push in every repo touched.
 
