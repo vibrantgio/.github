@@ -15136,11 +15136,11 @@ and a direct derivation where it is fixed. One coherent recipe, no
 hand-picked steps left. If the sweep exceeds one worker run, split by
 repo at a green seam and report.
 
-- [ ] No `Ramps.Neutral.Step(500)` border pairing survives ungated;
+- [x] No `Ramps.Neutral.Step(500)` border pairing survives ungated;
   each site's replacement names its ground.
-- [ ] Goldens that legitimately moved are regenerated in this task,
+- [x] Goldens that legitimately moved are regenerated in this task,
   the gallery included.
-- [ ] Exit: green in every touched module; `scripts/check-layers.sh`
+- [x] Exit: green in every touched module; `scripts/check-layers.sh`
   from `.github`; fresh-eyes look per the preamble if any window's
   look changed; commit and push in every repo touched.
 
