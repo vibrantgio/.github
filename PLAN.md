@@ -3666,6 +3666,66 @@ findings that are real but were not that task's to fix:
   surfaces contrast rather than enforcing it; recorded as a
   token-versus-plate observation, not a defect.
 
+#### S10 — carried out of AK2.2's fresh-eyes review
+
+AK2.2 (2026-08-27) gave mindchat the window's own title bar, the
+Primary-tinted selection and the composer's hairline, and put the whole
+window in front of fresh eyes again. Only findings NOT already in S9 are
+recorded here; the platform-integration cluster, the undecided message
+shape and the composer's missing affordances stand as written there.
+
+- The split handle inks a 6dp Divider-coloured bar at rest between two
+  panes that already stand on different grounds — and now that the
+  application paints its own title bar, that bar runs the full height of
+  the window and cuts the top strip in two, stranding the app's name on
+  an island of the sidebar's fill. ADR-021's worked example says the
+  opposite for exactly this case: where two sides stand on different
+  grounds the edge between them is the seam, there is no line to draw at
+  rest, and the handle inks only under the pointer. The handle belongs to
+  `patterns/shell`, so this is one support-tier change plus adoption, not
+  an app repaint — the phase's defaults rule.
+- Nothing in the window has an inactive-window state: the selection keeps
+  its full tint when the window loses key, where the platform desaturates
+  it.
+- The transcript's scrollbar occupies a permanent gutter and its thumb
+  never fades, where the platform's is a translucent capsule that goes
+  away when idle. The side effect is three different right margins in one
+  pane — the text column, the message fills and the track all stop at
+  different x.
+- Neither end of the scroll view has a content inset: the first row
+  begins one pixel under the header band's hairline and the last line is
+  sliced mid-glyph by the composer's, with no fade or material at either
+  boundary to say the content continues.
+- The composer's box aligns to neither the message column nor the
+  scrollbar gutter — wider than the column on both sides, and its
+  trailing edge inside the track — and its fill is the same value as the
+  band behind it, so only a hairline stroke says a field is there.
+- Markdown list items are spaced as paragraphs: bullets fall a full
+  paragraph apart while wrapped lines within an item fall a line apart,
+  and there is no hanging indent, so a wrapped item runs back under its
+  own bullet. The bullet glyph renders as a middot.
+- One secondary grey does all the de-emphasis in both schemes. In the
+  dark scheme it measures ~9.9:1 against primary text's ~15.3:1, close
+  enough that the composer's placeholder reads at nearly the weight of
+  typed text.
+- The conversation row's rename and delete glyphs are small, close
+  together, carry no hover background or hit-target padding, and the
+  destructive one takes the same ink as the benign one.
+- The model chip's chevron is a single down-chevron, which on this
+  platform marks a pull-down; a control displaying a current value takes
+  the up/down pair.
+
+**Two misreads, for the next review packet.** The reviewer measured the
+window controls at 14dp across on a 23dp pitch and called them wrong
+against a remembered 12pt/20pt. ADR-019 measured 14 and 23 off the
+platform itself on this display and says in as many words that the
+folklore 12 and 20 match neither band on this OS — the numbers were
+right and the recollection was not. Their flat fills and the window's
+square corners are artifacts of the headless frame, which draws stand-ins
+where the shipped window carries AppKit's own buttons and lets the OS
+round the glass. The reviewer also caught themselves on the recorded one:
+dark ink read as washed out at 1x until they measured it at 7.5:1.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -5675,6 +5735,28 @@ Stated as rules:
   capped region's own fill reach the window's top edge; where it does not,
   the application paints its own band in that region's fill. The strip is
   part of the region below it, not a fourth kind of area.
+
+  Two things come with the strip, and a window dressed to the fill alone gets
+  both of them wrong. The first is that the platform's own furniture is now
+  standing inside the application's layout: on macOS the three window control
+  buttons float over the top-leading corner of whatever the application drew
+  there, so the region that reaches that corner owes them their run —
+  reserved from a measurement, never from a guess — and the band holding them
+  is what their geometry is read off (ADR-019: the buttons are centred in
+  whatever band the window has, and their leading inset equals their top
+  one). The second is that the native drag leaves with the native strip: a
+  window that takes the treatment and claims nothing back cannot be moved by
+  its top edge at all, so the regions that cap the window say where it may be
+  picked up, over their own empty runs.
+
+  And where the strip crosses a seam — a split window's furniture on one side
+  of it, its content on the other — the two sides wear their own fills but
+  hold one height between them. R6 fixes the fill of each half and, left
+  there, would let their bands differ; two bands of different depths across
+  one strip read as a step in the window's top edge, which is the edge a
+  reader measures every other alignment in the window against. (Added
+  2026-08-27, both gaps hit by G-AK2 on the first window to take the
+  treatment after this ADR was written.)
 
 - **R7 — the check.** Walk out from the middle of the window: rung numbers
   must never decrease. Content 0, furniture 1, transient 2–3. In the light
@@ -13074,17 +13156,17 @@ Per the phase rule, weigh whether the mechanism belongs in a support
 tier the layer table admits, and put the verdict in the report; if
 hoisting is right, propose it as a task rather than doing it here.
 
-- [ ] The titlebar is painted with the window's ground in both
+- [x] The titlebar is painted with the window's ground in both
   schemes, with the window-control inset reserved per the stored
   reference.
-- [ ] The selected row's fill is Primary-tinted; hover re-derived; the
+- [x] The selected row's fill is Primary-tinted; hover re-derived; the
   accent bar still reads.
-- [ ] The transcript's seam under the composer carries the same
+- [x] The transcript's seam under the composer carries the same
   Divider hairline the header band's edge has.
-- [ ] The titlebar mechanism is weighed for a support-tier home; the
+- [x] The titlebar mechanism is weighed for a support-tier home; the
   verdict and its reasoning are in the report.
-- [ ] Goldens that legitimately moved are regenerated in this task.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [x] Goldens that legitimately moved are regenerated in this task.
+- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   fresh-eyes review per the preamble; commit and push in `workbench`.
 ### G-AK3: The guide teaches the grammar
 
