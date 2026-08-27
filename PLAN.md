@@ -4456,22 +4456,33 @@ identifying the captures as content-area frames and declined to judge
 the chrome — the first of six to do so.
 
 #### S19 — release-gated guide updates
-
 Not defects; doc updates the standing rules forbid making early. The
 guide must not describe a version the org has not published, so these
-land in whichever task cuts the next tags, beside `sync-versions.sh`:
+land in whichever task cuts the next tags, beside `sync-versions.sh`.
+**Closed in AR1.1**, the release that published `mvu/desktop v1.0.0`,
+`patterns v0.9.0` and `components v1.0.0`:
 
-- `workbench/llms.txt`'s window-anatomy section still teaches the
+- [x] `workbench/llms.txt`'s window-anatomy section still teaches the
   two-call form (`desktop.InsetTop` + a `system.ActionMove` claim);
   once `mvu/desktop` is tagged with `CapTop` (AK6.12), the guide
-  names the one-call form instead.
-- Once `patterns/shell` is tagged with `NavbarHeight` (AK6.14), the
-  guide's band-height sentence can name it.
+  names the one-call form instead. — done: the titlebar bullet now
+  teaches `desktop.CapTop(height, w)` as the one call that insets the
+  page and claims the strip, keeps `InsetTop` for a layout placing its
+  own drag region, and the drag sentence names `DragTop`, `DragRun` and
+  `DragBand` where it used to name `system.ActionMove`.
+- [x] Once `patterns/shell` is tagged with `NavbarHeight` (AK6.14), the
+  guide's band-height sentence can name it. — done: the one-band-height
+  bullet says the height is `shell.NavbarHeight(density)` and to ask for
+  it rather than restating a number.
 
-- `workbench/llms.txt` L~554 still says focus strokes `FocusRing()`
+- [x] `workbench/llms.txt` L~554 still says focus strokes `FocusRing()`
   (neutral 500); the Gio side moved to `focus.Ring`'s MarkOn walk.
-  The guide line updates with the same release pass.
-
+  The guide line updates with the same release pass. — done: the states
+  section describes the walk (the rung of the primary ramp nearest its
+  mid-value step that still clears 3:1 against the storey the control
+  stands on, re-derived from the control's `Ground`) and says
+  `ColorTokens.FocusRing()` still exists but no longer strokes focus,
+  with the three measurements that retired it.
 #### S20 — carried out of AK6.13's fresh-eyes review
 
 AK6.13 (2026-08-27) moved feeds' pager off the Primary pin and onto the
@@ -15326,7 +15337,6 @@ one release covers everything.
 ### G-AR1: One deliberate release, bottom-up
 
 #### AR1.1: Tag the seam bottom-up and true the pins and the guide
-
 Follow ADR-006's order end to end — push masters, tag bottom-up (the
 tag-version rule: no double-digit components; nested modules get the
 root tag first, then the nested go.mod bump, then the mirror-numbered
@@ -15338,9 +15348,29 @@ verify, then the second self-referencing pass. In the same task: run
 release-gated guide updates (the window-anatomy section teaches
 `desktop.CapTop`'s one-call form and names `shell.NavbarHeight`).
 
-- [ ] Every support repo with unreleased API is tagged bottom-up per
+**What shipped.** Nine tags, bottom-up: `mvu v1.0.0` and its mirrored
+`desktop/v1.0.0` and `example/v1.0.0`; `theme v1.1.0`; `components
+v1.0.0` and its mirrored `gallery/v1.0.0`; `effects v0.2.2`; `patterns
+v0.9.0`; `markdown v0.6.2`. Two of the numbers are the no-double-digit
+rule doing its work: `mvu` and `components` both carried additive API
+with the minor already at 9, so the roll went to the major rather than
+minting a v0.10.0 — the same step `theme` took at AD3.1. `effects` and
+`markdown` took patches because neither changed an exported symbol;
+`patterns` took a plain minor. The tier-0 and support repos carried only
+the gofmt sweep, the CI removal and the Gio bump since their last tags —
+no unreleased API, so no tag, `backdrop` included. `design` and
+`workbench` stay untagged, which is what the Release protocol's last
+round says an application is.
+
+The second self-referencing pass cost nothing this time: tagging strictly
+bottom-up and cutting both nested demo modules *after* the layers above
+their roots left every published `go.mod` already naming the newest tag
+of everything beneath it, verified by reading `go.mod` out of all nine
+tags. `check-no-workspace.sh` read 40/40.
+
+- [x] Every support repo with unreleased API is tagged bottom-up per
   ADR-006, pins bumped, `GOWORK=off` green in every module.
-- [ ] `sync-versions.sh` is clean and the guide teaches the published
+- [x] `sync-versions.sh` is clean and the guide teaches the published
   helpers (S19's two items closed).
-- [ ] Exit: `scripts/check-layers.sh` from `.github`; every repo
+- [x] Exit: `scripts/check-layers.sh` from `.github`; every repo
   pushed with its tags; commit and push in every repo touched.
