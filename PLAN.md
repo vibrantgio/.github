@@ -13178,7 +13178,6 @@ is the split seam the band crosses. Paint stays in the apps — desktop
 is tier 0 and may not learn theme; only geometry hoists.
 
 #### AK5.1: mvu/desktop owns the title-band geometry
-
 Hoist the arithmetic every adopter re-derives into `mvu/desktop`,
 with vaultview — the richest user — converted in the same task as the
 proof: the leading-inset-or-own-gutter helper (`vaultview/frame.go`
@@ -13189,20 +13188,22 @@ rule ADR-019's "Window buttons" states and mindchat now derives from
 `BrandRowHeight`), and the inset-by-`TopInset` wrapper (vaultview,
 sitedocs, marketing each have one). API design is this task's
 judgment; the helpers carry the reference rule in their doc comments
-without naming which applications call them. While in the go.mods:
-the root `workbench` module's apps import `mvu/desktop` but the
-module does not require it (the workspace resolves it; `GOWORK=off`
-will not) — true that up alongside the adoption.
+without naming which applications call them.
+
+A fourth step asked for a `mvu/desktop` require in the root
+`workbench` go.mod; measurement killed its premise — the importing
+apps are nested modules that each already require it directly, the
+root launcher imports no desktop package, and `GOWORK=off go mod tidy
+-diff` on the root is empty — so the step was struck rather than
+done. The full finding is in the task's `.github` commit body.
 
 - [x] `mvu/desktop` offers the band geometry helpers, documented and
   tested, importing no theme or components package.
 - [x] vaultview adopts them; its local copies are deleted; its look
   is pixel-unchanged (goldens are the witness).
-- [ ] The `workbench` root go.mod requires `mvu/desktop` explicitly.
 - [x] Exit: `go build ./... && go test ./...` green in `mvu/desktop`
   and `workbench`; `scripts/check-layers.sh` from `.github`; commit
   and push in `mvu`, `workbench`, `.github`.
-
 #### AK5.2: The remaining apps adopt the desktop geometry helpers
 
 Mechanical adoption of AK5.1's helpers in `themer`, `sitedocs`,
