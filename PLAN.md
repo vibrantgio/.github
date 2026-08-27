@@ -14377,6 +14377,44 @@ what the hoisted helper would not have given it.
   `scripts/check-layers.sh` from `.github`; commit and push in `mvu`,
   `workbench`, `.github`.
 
+#### AK6.13: The pager's current page wears the chosen-item step
+
+Found by AK6.9's fresh-eyes review, recorded in ADR-014 S17 with the
+measured values: feeds' pager marks the current page with the Primary
+PIN (`#723AD4`/`#D0C4FF`), while the sidebar pill and the selected
+table row wear `Ramps.Primary.Step(300)` (`#D8CEFF`/`#3F0085`) — so
+the window's three chosen-item marks invert against each other
+between schemes. R5 reached the sidebar and the table in AK6.3 and
+never reached the pager. Move the pager's current-page fill to the
+chosen-item step with its ink re-derived for contrast over it; the
+three marks' differing SHAPES (pill / bar / chip) are recorded voice,
+not this task's.
+
+- [ ] The current page's fill is the chosen-item step in both
+  schemes, ink gated over it; asserted off the frame or a golden.
+- [ ] Goldens that legitimately moved are regenerated in this task.
+- [ ] Exit: green in `workbench/feeds` and the workbench root;
+  fresh-eyes look per the preamble; commit and push in `workbench`
+  and `.github`.
+
+#### AK6.14: patterns/shell exports its navbar height
+
+AK6.9's defaults verdict: the one number feeds could not get from a
+default is the band height — `patterns/shell.navbarHeight(d)` is
+unexported, so the app restates the rule (52 dp Comfortable, 40 dp
+Compact) in `feeds/band.go` and guards the drift with a
+frame-measured test. Export it (`shell.NavbarHeight(d tokens.Density)
+unit.Dp`, doc comment stating whose height it is, naming no
+consumers), convert feeds' restatement to a call, and keep the drift
+test as the seam's witness.
+
+- [ ] `patterns/shell` exports the height, documented and tested.
+- [ ] `feeds/band.go` calls it; the restated rule is deleted; no
+  golden moves.
+- [ ] Exit: green in `patterns`, `workbench/feeds`, the workbench
+  root; `scripts/check-layers.sh` from `.github`; commit and push in
+  `patterns`, `workbench`, `.github`.
+
 ## Phase AL: MindChat renders lists as lists
 
 Found by AK2.1's fresh-eyes review (2026-08-27): list items in a
