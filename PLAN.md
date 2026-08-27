@@ -14709,9 +14709,9 @@ untouched: iconbrowser's `TestTheSearchFieldKeepsItsOwnPresses`,
 todos' `TestTheStripStaysDraggableUnderTheModal`, sitedocs' two
 `bandedCap` tests, and every whole-window render test.
 
-- [ ] The duplicate contract tests are deleted in all four apps; the
+- [x] The duplicate contract tests are deleted in all four apps; the
   named app-specific witnesses are untouched.
-- [ ] Exit: `go build ./... && go test ./...` green in the workbench
+- [x] Exit: `go build ./... && go test ./...` green in the workbench
   root, `todos`, `iconbrowser`, `sitedocs`; commit and push in
   `workbench`.
 
