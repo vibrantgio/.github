@@ -13360,13 +13360,327 @@ launching apps. For each violation, append a task to this phase via
 with file and line) so the fixes run as their own worker-sized units.
 Fix nothing in this task.
 
-- [ ] Every listed app's window regions are traced to their token
+- [x] Every listed app's window regions are traced to their token
   fills, with the violations (or a clean bill) recorded per app in the
   report.
-- [ ] One follow-up task per violating app appended to this phase via
+- [x] One follow-up task per violating app appended to this phase via
   `mdedit`, each naming its fills by file and line.
-- [ ] Exit: no code changed; `mdplan lint` clean; commit and push in
+- [x] Exit: no code changed; `mdplan lint` clean; commit and push in
   `.github`.
+
+### G-AK6: The audit's findings are fixed
+
+What AK4.1 read off the seven remaining windows, and the work it
+leaves. `themer` is clean outright. `marketing`, the `workbench` root
+launcher and `iconbrowser` are clean in their fills and wrong only at
+the window's top edge. `feeds` and `sitedocs` ground their whole
+window one rung too high, so nothing in either is at level 0 and
+their furniture stands level with the content it is meant to frame.
+`todos` gets it the other way round: its ground is the Background pin
+and its one pane is raised above it, which is R7's walk failing in
+the small.
+
+Two verdicts on defaults, per the phase's rule. The window ground
+needs no new mechanism — `backdrop.Widget(c.Background)` is already
+the shared one and five of the eight windows call it, while `feeds`
+and `sitedocs` hand-roll a `paint.FillShape` with the wrong token
+instead. So their fix is adoption of something that exists, and what
+stays per app is that app's own content plane, which is a different
+shape in each. The drag claim does need one: three apps carry a
+near-identical `windowDragArea` and two more want it, so it hoists
+into `mvu/desktop` before a sixth copy is written.
+
+The titlebar tasks run after the ground tasks for the two apps that
+have both, because R6 says the band wears the ground of the region it
+caps: a band painted before its region's rung is settled is a band
+painted twice.
+
+#### AK6.1: mvu/desktop owns the window drag band
+
+The full-size-content treatment takes the native drag with the native
+strip (`TopInset`'s own doc says so), so every window on the treatment
+has to hand a region back with `system.ActionInputOp(system.ActionMove)`
+— and three of them do it with the same six lines under two different
+names: `vaultview/frame.go:706` `windowDragArea`, `mindchat/view.go:722`
+`windowDragArea`, `themer/view.go:407` `windowDrag`. Two more windows
+need the same claim and have none (AK6.2). Hoist it into `mvu/desktop`
+beside AK5.1's band geometry, with the three existing users converted
+in this task as the proof.
+
+API design is this task's judgment. The three copies differ in how
+they take their rectangle — one from a width and the row's own height,
+two from a whole `image.Rectangle` — and the plain-page case that
+AK6.2 and AK6.6–AK6.9 need is narrower still: a window whose page is
+inset by `desktop.InsetTop(desktop.TopInset, …)` wants the strip above
+that inset claimed and nothing else, which the existing helpers cannot
+say in one call. Whether that case collapses into a second entry point
+or falls out of the general one is part of the design. The helper
+carries the reason in its doc comment — the treatment removes the
+native drag — and names no application.
+
+`mvu/desktop` is tier 0 and stays there: this is `gioui.org/io/system`
+and geometry, no theme and no components.
+
+- [ ] `mvu/desktop` offers the drag-band helper, documented with the
+  rule it exists for and tested, naming no application that calls it.
+- [ ] vaultview, mindchat and themer call it and their local copies
+  are deleted; no golden moves, and one that does is a defect in the
+  conversion rather than a regeneration case.
+- [ ] Exit: `go build ./... && go test ./...` green in `mvu` and
+  `workbench`; `scripts/check-layers.sh` from `.github`; commit and
+  push in `mvu`, `workbench`, `.github`.
+
+#### AK6.2: sitedocs and marketing claim the window drag
+
+Both windows take the treatment — `sitedocs/main.go:73`,
+`marketing/main.go:47` — and both inset their whole page below the
+strip (`sitedocs/main.go:187`, `marketing/view.go:40`), so the strip
+is paint with nothing laid out in it. Neither module contains a
+`system.ActionMove` anywhere, which means neither window can be moved
+by its top edge at all: R6's second half, unmet in the two apps that
+took its first half. Adopt AK6.1's helper over the strip each app
+already reserves.
+
+Mechanical adoption, not design: AK6.1 fixes the API and the region
+is the inset both apps already compute. Nothing moves a pixel, so the
+goldens are the witness.
+
+- [ ] `sitedocs` claims its strip through the AK6.1 helper and the
+  window can be dragged by its top edge.
+- [ ] `marketing` does the same over its own inset.
+- [ ] No golden moved.
+- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+  commit and push in `workbench`, `.github`.
+
+#### AK6.3: The feeds window sits on the Background pin
+
+`feeds` has no level-0 surface anywhere. `backdropLayer`
+(`feeds/app.go:139`, painted at `:142`) fills the whole window with
+`c.Surface`, and everything drawn over it is Surface too: the sidebar
+(`feeds/sidebar.go:127`), the navbar (`patterns/navbar/navbar.go:174`),
+the articles table's own plane (`patterns/table/table.go:259`), and —
+because `drawDetail` (`feeds/detail.go:108`) paints no ground of its
+own — the article pane, which shows the SplitPane's backstop fill
+(`patterns/shell/shell.go:490`, also Surface). R1 fails because the
+content ground is level 1; R2 fails because the furniture is zero
+rungs off the content rather than one.
+
+Drop the window to the Background pin by adopting the mechanism the
+other five windows use — `backdrop.Widget(c.Background)`,
+`workbench/todos/backdrop.go` is the two-line shape of it — and then
+decide, region by region, what stands back up: the sidebar and navbar
+stay Surface and become genuinely one rung up; the article pane needs
+a ground of its own at level 0 the way mindchat's transcript got one
+(`mindchat/theme.go:111`, `Ground: c.SurfaceAt(tokens.Level0)`); the
+table's Surface plane is a raised inset on level-0 paper and is
+R4-legal as it stands, but whether the reader wants it raised at all
+is this task's call. If the answer is that `patterns/shell`'s SplitPane
+backstop is painting the wrong rung for panes that are content, say so
+in the report rather than fixing it here — that backstop is shared
+with mindchat, which covers it completely.
+
+The same window also has no chosen-item fill at all, which is R5
+unmet. `feeds/sidebar.go:242` `drawFeedEntry` draws every feed row in
+one ink and the sidebar is never handed the selection in the first
+place (`feeds/app.go:249` builds it from open-sections and the feed
+list only); `patterns/table`'s `drawRow` (`table.go:465`) paints no
+row fill either, so the article the detail pane is showing is unmarked
+in the list it came from. Give the open feed and the open article the
+Primary-tinted fill R5 asks for — `Ramps.Primary.Step(300)`, as
+`vaultview/tree.go:549` and `sitedocs/docs_outline.go:180` already do
+— keeping any neutral hover walk distinct from it. Whether the article
+row's mark belongs in `patterns/table` or in the app's cell closures
+is this task's judgment; a table with no way to show its current row
+is a gap in the pattern, and the phase's defaults rule applies.
+
+- [ ] The window ground is the Background pin and the sidebar, navbar
+  and article pane each wear the rung ADR-021 gives them; R7's walk
+  out from the middle never decreases.
+- [ ] The open feed and the open article carry a Primary-tinted fill;
+  hover stays a neutral walk over the region's own ground.
+- [ ] Goldens that legitimately moved are regenerated in this task.
+- [ ] Exit: `go build ./... && go test ./...` green in every touched
+  module; `scripts/check-layers.sh` from `.github` if an import edge
+  moved; fresh-eyes review per the preamble; commit and push in every
+  repo touched.
+
+#### AK6.4: The sitedocs document sits on the Background pin
+
+The same inversion as `feeds`, reached by a different route.
+`backdropLayer` (`sitedocs/main.go:197`, painted at `:200`) fills the
+window with `c.Surface`, and `patterns/tabs` then fills its whole
+panel — strip and content plane together — with Surface as well
+(`patterns/tabs/tabs.go:234`). So the guide document, which is the
+thing this window exists to show, rests at level 1 and the outline
+rail beside it (`sitedocs/docs_outline.go:136`) rests at level 1 too:
+R1 and R2, both failing. The tell is in the document itself — the
+markdown style gives a fenced block `Ramps.Neutral.Step(200)`
+(`markdown/style.go:401`, commented "the step off the page"), which on
+this page is the page's own colour, so a code fence has no step to
+stand on.
+
+Put the document on the Background pin and let the rail's Surface do
+the work it was drawn for. The judgment is what happens to the tab
+panel: `patterns/tabs` painting one Surface across strip and content
+is what forces the app's hand, so weigh whether the pattern should
+stop grounding its content plane — the strip is furniture and belongs
+at Surface, the plane under it is not — and say what you decided. If
+the change lands in `patterns/tabs`, note that `components/gallery`
+draws through it and that AM1.1 must have run first, since a golden
+suite already red cannot witness anything.
+
+The window's top edge needs re-reading in the same pass. The strip
+above the inset shell currently shows the backdrop's Surface, which
+matches the tab strip below it by accident of both being wrong; once
+the ground is the Background pin, the fill the strip shows and the
+fill of the region it caps have to be made to agree deliberately —
+R6, and the reason this task runs before nothing else touches that
+band.
+
+The outline's selection pill is already `Ramps.Primary.Step(300)`
+(`docs_outline.go:180`); it satisfies R5 and stays.
+
+- [ ] The document plane is the Background pin; the outline rail and
+  the tab strip stand exactly one rung over it.
+- [ ] A code fence and a quote block in the guide read as raised off
+  the page they lie on.
+- [ ] The strip above the shell wears the fill of the region it caps.
+- [ ] Goldens that legitimately moved are regenerated in this task.
+- [ ] Exit: `go build ./... && go test ./...` green in every touched
+  module; `scripts/check-layers.sh` from `.github` if an import edge
+  moved; fresh-eyes review per the preamble; commit and push in every
+  repo touched.
+
+#### AK6.5: The todos list sits on the window ground
+
+`todos` paints its window with the Background pin already
+(`todos/backdrop.go:20`) and then raises the one thing in it above
+that ground: the list pane fills `p.Pane` — `c.Surface`,
+`todos/theme.go:35` — and is painted at `todos/list.go:30` across the
+whole window less a 12 dp margin. So the biggest resting expanse in
+the window is at level 1 and the only level-0 surface is a border
+round it. R7's walk out from the middle decreases, which in the light
+scheme is the window reading darker in its middle than at its edges —
+the complaint that opened this phase, in miniature. ADR-021's
+forbidden list names the shape directly: furniture at level 0 under
+content that has been raised.
+
+Put the list on the ground it is standing on. Whether the 12 dp
+margin survives, and whether anything at all keeps a rounded plate,
+is the app's voice and this task's call — the grammar fixes the rung,
+not the shape.
+
+Two smaller readings in the same file, to settle rather than carry:
+the modal at `todos/upsertdialog.go:108` fills `p.Pane` as well, where
+the pattern library reserves level 2 for a dialog (`patterns/modal`),
+so a dialog and the page behind it are the same rung apart from the
+scrim; and its text field at `todos/theme.go:36` is neutral 300, which
+is correctly one rung over the dialog *as the dialog stands now* and
+has to move with it if the dialog does.
+
+- [ ] The list's resting fill is the window ground; no region of the
+  window is deeper in its middle than at its edges.
+- [ ] The dialog and its field sit at rungs that hold together, with
+  the choice recorded in the commit body.
+- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+  fresh-eyes review per the preamble; commit and push in `workbench`,
+  `.github`.
+
+#### AK6.6: The launcher takes the title-bar treatment
+
+The `workbench` root window opens with nothing but a title and a size
+(`workbench/main.go:52`), so a native strip stands above a window that
+paints its own ground, its own animated field and eight cards on top —
+R6's fourth forbidden thing. Its fills are otherwise clean: the ground
+is the Background pin (`workbench/view.go:59`) and the cards are
+`patterns/card` at level 1 over it, which is R4 exactly.
+
+`marketing` is the recipe to follow, being the same shape of window —
+one page over a field, no chrome band: `desktop.FullSizeContent()` in
+the options, `desktop.ShowWindowButtons`, the content layer wrapped in
+`desktop.InsetTop(desktop.TopInset, …)` so the hero clears the strip,
+and AK6.1's helper claiming the strip so the window can still be
+dragged. The field and the ground stay full-bleed and run under the
+strip; only the page is inset. Watch the top-leading corner: the
+window buttons stand in the app's own layout now, and AK5.1's
+`desktop.ButtonRunIn` / `ButtonRunAt` are what reserve their run from
+a measurement rather than a guess.
+
+- [ ] The launcher window carries no native strip; the ground and the
+  field reach the window's top edge and the page starts below it.
+- [ ] The window can be dragged by its top edge, and nothing the
+  window draws collides with the three window buttons.
+- [ ] Goldens that legitimately moved are regenerated in this task.
+- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+  `scripts/check-layers.sh` from `.github`; fresh-eyes review per the
+  preamble; commit and push in `workbench`, `.github`.
+
+#### AK6.7: The todos window takes the title-bar treatment
+
+Same violation, same recipe, on the smallest window in the workbench:
+`todos/main.go:37` opens with a title and a size and nothing else, so
+a native strip caps a painted window. AK6.5 settles what the region
+under that strip wears first; this task gives it the strip.
+
+`todos` has no golden suite, so the fresh-eyes capture is the only
+witness this task has — take it at a realistic size and hand it over
+whole.
+
+- [ ] The todos window carries no native strip; the ground reaches
+  the window's top edge and the page starts below it.
+- [ ] The window can be dragged by its top edge, and nothing collides
+  with the three window buttons.
+- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+  `scripts/check-layers.sh` from `.github`; fresh-eyes review per the
+  preamble; commit and push in `workbench`, `.github`.
+
+#### AK6.8: The iconbrowser window takes the title-bar treatment
+
+`iconbrowser` is clean in every fill the audit traced — the ground is
+the Background pin (`iconbrowser/backdrop.go:20`), the grid draws
+straight onto it, there is no furniture and no selection to tint —
+and wrong only at the top edge: `iconbrowser/main.go:41` opens an
+undecorated-nothing window, so the native strip stands over painted
+content. Same recipe as AK6.6.
+
+The search field is the one thing near the top-leading corner
+(`iconbrowser/view.go:106`), so its inset is what has to clear the
+window buttons' run.
+
+- [ ] The iconbrowser window carries no native strip; the ground
+  reaches the window's top edge.
+- [ ] The window can be dragged by its top edge, and the search field
+  clears the three window buttons.
+- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+  `scripts/check-layers.sh` from `.github`; fresh-eyes review per the
+  preamble; commit and push in `workbench`, `.github`.
+
+#### AK6.9: The feeds window takes the title-bar treatment
+
+The last native strip in the workbench: `feeds/main.go:22` opens with
+a title and a size. This one is not the plain-page case — the window
+is a sidebar, a navbar and a split, so the strip crosses a seam and
+R6's later half applies in full: the two sides of the strip wear their
+own fills but hold one band height between them, and the seam paints a
+hairline through the band rather than stopping at it. `patterns/shell`
+already does the seam (AK5.3), so this app restates none of it; what
+`feeds` owes is the band height, the window buttons' run in whichever
+region reaches the top-leading corner, and the drag claim over the
+band's empty run. `mindchat/view.go` is the worked example of exactly
+this arrangement.
+
+AK6.3 settles the rungs first, so the band has a ground to wear.
+
+- [ ] The feeds window carries no native strip; the sidebar and the
+  main column each wear their own fill up to the window's top edge,
+  at one band height.
+- [ ] The window buttons stand in the band with their run reserved
+  from a measurement, and the window can be dragged by the band's
+  empty run.
+- [ ] Goldens that legitimately moved are regenerated in this task.
+- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+  `scripts/check-layers.sh` from `.github`; fresh-eyes review per the
+  preamble; commit and push in `workbench`, `.github`.
 
 ## Phase AM: Master runs green again
 
