@@ -14847,12 +14847,12 @@ legitimately move (components' own, the gallery tiles, and any app
 goldens that render a checkbox — trace through the graph), naming
 them in the commit body.
 
-- [ ] Checked draws a visible check in both schemes; the unchecked
+- [x] Checked draws a visible check in both schemes; the unchecked
   border reads at or above 3:1 over level 0 in both schemes, measured
   in a test.
-- [ ] Goldens that legitimately moved are regenerated in this task,
+- [x] Goldens that legitimately moved are regenerated in this task,
   the gallery included.
-- [ ] Exit: green in `components` and every consumer whose goldens
+- [x] Exit: green in `components` and every consumer whose goldens
   moved; fresh-eyes look at a checkbox row per the preamble; commit
   and push in every repo touched.
 
