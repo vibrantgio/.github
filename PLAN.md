@@ -32,7 +32,11 @@ live *downstream*: the components gallery renders other repos' specimens,
 so a change that moves pixels in a rendered repo — `patterns` above all —
 runs `components/gallery`'s goldens in the same task and regenerates the
 stale tiles with the cause named, or master goes red across a repo seam
-(it did on 2026-08-23, found four tasks later). Never commit red.
+(it did on 2026-08-23, found four tasks later). The gallery itself has
+a downstream: sitedocs renders it in a tab, so a gallery/inventory
+change also runs `workbench/sitedocs`' goldens — and note the root
+`go test ./...` does NOT reach the nested app modules; run them by
+name (it bit on 2026-08-27, found one task later). Never commit red.
 
 **Layers from this directory.** A task that can grow an import edge — a new
 `import`, a `go.mod` change, a package moved across repos — ends with
@@ -3729,6 +3733,12 @@ square corners are artifacts of the headless frame, which draws stand-ins
 where the shipped window carries AppKit's own buttons and lets the OS
 round the glass. The reviewer also caught themselves on the recorded one:
 dark ink read as washed out at 1x until they measured it at 7.5:1.
+
+- Added 2026-08-27 from AO1.1's review: the model picker's label is
+  centred in its pill, so the chevron and label shift horizontally as
+  the model name changes length; and CONVERSATIONS is letterspaced
+  all-caps where the platform's section labels are small bold
+  sentence case.
 
 #### S11 — carried out of AK5.3's fresh-eyes review
 
