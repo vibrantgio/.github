@@ -4008,6 +4008,87 @@ rung, and joins that ruling. The dark-scheme icon-glyph legibility on
 the card is new and stands recorded here: the glyph ink is the
 button-text lavender, thin at icon size over the near-black card.
 
+#### S15 — carried out of AK6.7's fresh-eyes review
+
+AK6.7 (2026-08-27) gave the todos window the title-bar treatment and put
+all four frames — both schemes, at rest and with the add dialog open — in
+front of eyes that had not read the task, which sampled the pixels rather
+than trusting them. Most of what came back is S13 word for word: the FAB
+at the Android placement, the 64 dp row pitch on a plain ground, the
+checkbox with no tick in it, the completed row with no strikethrough, the
+two identical dialog buttons in their fixed 100 dp boxes — the reviewer
+measured the same `(114,58,212)` and `(208,196,255)` pairs independently —
+the accent border on a resting field, the dialog at its window's width
+with 90 dp of empty gut, delete armed on every row in the accent with no
+confirmation, and a window with no header of any kind. The
+platform-integration cluster came back a sixth time and stands as S9 wrote
+it. Recorded here are the findings none of that holds.
+
+- **The light scheme's text-entry fill reads as a disabled control.** The
+  field is level 3 — neutral 400 `#B6B6B6` — on a level-2 dialog on the
+  pin, which is R4's walk taken correctly. On this platform a text field
+  is `textBackgroundColor`: white in the light appearance, always, and the
+  lightest thing in the window. A mid-grey field is the value AppKit uses
+  to say *you cannot type here*, and the reviewer said it would be filed
+  as a bug about a greyed-out field before it was filed as a design note.
+  This is not the recorded elevation-direction misread below: the walk's
+  direction is right, and the claim is that an editable field is the one
+  surface the platform exempts from it.
+- **Primary on a filled control in the dark scheme, which is S11's
+  finding in a second place.** `#723AD4` is L≈53%; its dark twin
+  `#D0C4FF` is L≈88% — a pastel tint rather than a colour — so the
+  dialog's two filled buttons are the lightest ink on the screen and read
+  as a selected row or a disabled tint rather than as buttons. S11
+  recorded the same inversion on mindchat's full-bleed message band and
+  left the value to a shape decision; on a control there is no shape
+  decision to defer it to. The platform keeps its own accent at one
+  lightness across both appearances for exactly this reason.
+- **Nothing in the window shares a right gutter.** Three trailing edges
+  down one column: the delete ✕'s ink stops at x=617, the dialog's field
+  and button row at 625, and the FAB's circle at 633 — so the FAB hangs
+  16 px further right than the run of delete glyphs directly above it,
+  though both start from the same 12 dp page inset. Each is a different
+  optical inset inside a correctly aligned box. This is S11's "six
+  distinct trailing edges" arriving in the smallest window in the
+  workbench.
+- **The list reserves no bottom inset for the button floating over it.**
+  The FAB occupies a 48 dp box at the bottom-trailing corner and the list
+  runs underneath it, so the moment there are enough todos to scroll,
+  whichever row passes through that box has its delete target sitting
+  under an opaque circle. At four todos the frame cannot show it; the fix
+  is a content inset, and it belongs with whatever settles the FAB's
+  placement.
+- **Every stroke in the window is 2 dp where the platform draws
+  hairlines** — the checkbox border and the field's accent border both —
+  and the dialog measures ~4 px of corner radius with no shadow at all,
+  so a surface meant to float lands as a band laid across the window.
+  `BorderRadius` and `BorderWidth` are `todos/theme.go` constants; the
+  checkbox's stroke is `components/input`'s.
+
+**Three misreads for the next packet's briefing, and one new kind.** *The
+light scheme's elevation does not run backwards*: the reviewer read
+`#F6F6F6` → `#D4D4D4` → `#B6B6B6` as a ramp derived once and negated,
+which is R7 in the light scheme and the misread S13 already wrote down in
+both directions — it has now recurred in a reviewer who had never seen it.
+*The accent is not hard-coded* and does not ignore the OS accent: the
+frames are frozen `DefaultLight`/`DefaultDark` renders and the app reads
+the live theme, which is S12's misread for the third time. *The absent
+shadow, the flat fills and the missing materials* are headless artifacts,
+as S10 briefs.
+
+The new kind is worth adding to the briefing. The reviewer wrote that the
+ground "will not match the titlebar AppKit draws above it" — of the one
+window whose whole point this task was that AppKit no longer draws one. A
+still frame cannot show the absence of a strip, so a review can neither
+confirm nor deny the thing a title-bar task changes; what the frame is for
+in these tasks is the composition below the strip, and the treatment
+itself has to be pinned by assertions read off the frame instead. One
+consequence deserves saying out loud before a later task "fixes" it: the
+reviewer's *64 px of empty space above the first row* is S13's
+missing-header item plus this task's 32 dp strip, and on macOS those 32 dp
+are where the window's three control buttons stand. They are not empty in
+the shipped window.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -14004,11 +14085,11 @@ under that strip wears first; this task gives it the strip.
 witness this task has — take it at a realistic size and hand it over
 whole.
 
-- [ ] The todos window carries no native strip; the ground reaches
+- [x] The todos window carries no native strip; the ground reaches
   the window's top edge and the page starts below it.
-- [ ] The window can be dragged by its top edge, and nothing collides
+- [x] The window can be dragged by its top edge, and nothing collides
   with the three window buttons.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   `scripts/check-layers.sh` from `.github`; fresh-eyes review per the
   preamble; commit and push in `workbench`, `.github`.
 
@@ -14107,17 +14188,20 @@ launcher only.
 
 AK6.6 made `dragUnderStrip` (DragTop + InsetTop over one height
 function) its third copy — marketing, the launcher, and sitedocs'
-banded variant. Hoist the plain form into `mvu/desktop` (the AK6.6
-report proposes `CapTop(height func() unit.Dp, w layout.Widget)
-layout.Widget`); the filled variant stays app-side — the band package
-is geometry only and what a band is painted with belongs to the
-packages that know about colour. Convert marketing, the launcher, and
-sitedocs (its band fill wraps the hoisted form) to adoption; no pixel
-moves anywhere.
+banded variant — and AK6.7 wrote a fourth in `todos`. Hoist the plain
+form into `mvu/desktop` (the AK6.6 report proposes `CapTop(height
+func() unit.Dp, w layout.Widget) layout.Widget`); the filled variant
+stays app-side — the band package is geometry only and what a band is
+painted with belongs to the packages that know about colour. Convert
+marketing, the launcher, todos and sitedocs (its band fill wraps the
+hoisted form) to adoption; no pixel moves anywhere. todos also
+re-declares `desktop.DragTop` over the strip after its modal, because
+the dialog's whole-window Escape catcher shadows the band's claim —
+that second call is the app's and stays where it is.
 
 - [ ] `mvu/desktop` offers the helper, documented and tested, naming
   no consumers.
-- [ ] The three apps adopt it; the local copies are deleted; no golden
+- [ ] The four apps adopt it; the local copies are deleted; no golden
   moves.
 - [ ] Exit: green in `mvu/desktop` and `workbench`;
   `scripts/check-layers.sh` from `.github`; commit and push in `mvu`,
