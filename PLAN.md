@@ -4439,6 +4439,19 @@ retired card shadow read as missing. Credit: this reviewer opened by
 identifying the captures as content-area frames and declined to judge
 the chrome — the first of six to do so.
 
+#### S19 — release-gated guide updates
+
+Not defects; doc updates the standing rules forbid making early. The
+guide must not describe a version the org has not published, so these
+land in whichever task cuts the next tags, beside `sync-versions.sh`:
+
+- `workbench/llms.txt`'s window-anatomy section still teaches the
+  two-call form (`desktop.InsetTop` + a `system.ActionMove` claim);
+  once `mvu/desktop` is tagged with `CapTop` (AK6.12), the guide
+  names the one-call form instead.
+- Once `patterns/shell` is tagged with `NavbarHeight` (AK6.14), the
+  guide's band-height sentence can name it.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -14601,6 +14614,26 @@ test as the seam's witness.
 - [ ] Exit: green in `patterns`, `workbench/feeds`, the workbench
   root; `scripts/check-layers.sh` from `.github`; commit and push in
   `patterns`, `workbench`, `.github`.
+
+#### AK6.15: The apps stop re-testing the desktop cap's own contract
+
+AK6.12 left four apps — the launcher, marketing, iconbrowser, todos —
+each carrying near-duplicate unit tests of `desktop.CapTop`'s own
+contract (`TestTheStripClaimsTheWindowDrag`,
+`TestTheCapIsANoOpWithNoStrip`), now asserted once in
+`mvu/desktop/cap_test.go`. By the phase's defaults rule they are
+eight tests of somebody else's contract, and feeds — which calls the
+desktop helpers directly and carries no drag test of its own — is the
+precedent. Delete the duplicates. The app-specific witnesses survive
+untouched: iconbrowser's `TestTheSearchFieldKeepsItsOwnPresses`,
+todos' `TestTheStripStaysDraggableUnderTheModal`, sitedocs' two
+`bandedCap` tests, and every whole-window render test.
+
+- [ ] The duplicate contract tests are deleted in all four apps; the
+  named app-specific witnesses are untouched.
+- [ ] Exit: `go build ./... && go test ./...` green in the workbench
+  root, `todos`, `iconbrowser`, `sitedocs`; commit and push in
+  `workbench`.
 
 ## Phase AL: MindChat renders lists as lists
 
