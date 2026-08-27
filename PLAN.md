@@ -13194,12 +13194,12 @@ the root `workbench` module's apps import `mvu/desktop` but the
 module does not require it (the workspace resolves it; `GOWORK=off`
 will not) — true that up alongside the adoption.
 
-- [ ] `mvu/desktop` offers the band geometry helpers, documented and
+- [x] `mvu/desktop` offers the band geometry helpers, documented and
   tested, importing no theme or components package.
-- [ ] vaultview adopts them; its local copies are deleted; its look
+- [x] vaultview adopts them; its local copies are deleted; its look
   is pixel-unchanged (goldens are the witness).
 - [ ] The `workbench` root go.mod requires `mvu/desktop` explicitly.
-- [ ] Exit: `go build ./... && go test ./...` green in `mvu/desktop`
+- [x] Exit: `go build ./... && go test ./...` green in `mvu/desktop`
   and `workbench`; `scripts/check-layers.sh` from `.github`; commit
   and push in `mvu`, `workbench`, `.github`.
 
