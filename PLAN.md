@@ -4089,6 +4089,86 @@ missing-header item plus this task's 32 dp strip, and on macOS those 32 dp
 are where the window's three control buttons stand. They are not empty in
 the shipped window.
 
+#### S16 — carried out of AK6.8's fresh-eyes review
+
+AK6.8 (2026-08-27) gave the iconbrowser window the title-bar treatment
+and put both schemes' resting frames in front of eyes that had not read
+the task, which sampled the pixels rather than trusting them. The
+platform-integration cluster came back a seventh time and stands as S9
+wrote it — Roboto rather than the system face, no focus ring, no
+vibrancy, a window ground that is the design system's pin rather than
+the platform's. The light scheme's text-entry fill reading as a disabled
+control came back too, and it is S15's first bullet arriving one rung
+lower: there the field was level 3 on a level-2 dialog, here it is level
+1 on the pin, and the same complaint was filed about both — which makes
+it the walk's direction over an editable surface rather than any one
+app's arithmetic. Recorded here are the findings none of that holds.
+
+- **The neutral ramp's midpoint is nearly the same grey in both schemes,
+  and its surroundings are not.** The field's border measures `#989898`
+  light and `#9E9E9E` dark — neutral 500 in each, so the paired ramps are
+  doing exactly what they are built to do — but 500 sits where the two
+  ramps pass each other, so the one step that barely moves is drawn on
+  grounds that move the whole way. Against `#F6F6F6` the hairline is a
+  quiet edge; against `#181818` it is the loudest thing in the frame
+  after the glyphs, and the level-1 fill inside it (`#222222`) is too
+  close to the ground to hold it. The reviewer's inference — "nobody
+  re-picked it for dark" — is wrong and the measurement is exact; what is
+  owed is a border step chosen per scheme rather than one that resolves
+  to the same colour in both.
+- **The grid's trailing gutter is 15 px wider than its leading one.** Ink
+  in a catalogue row spans x=44..940 of 1000, because the column count is
+  `size.X/cellW` and the 16 px the division leaves over all land on the
+  trailing side (`iconbrowser/view.go`, Grid). The search field and both
+  section labels are symmetric at 12/12 above it, so the grid visibly
+  hangs leading against chrome that does not.
+- **The last row is clipped mid-cell and then padded.** Ink stops at row
+  687 of 700 and the remaining twelve rows are clear ground: the grid's
+  Flexed child carries a `Bottom: Padding` inset, so the list severs a
+  row's glyphs from their captions and then leaves a strip of nothing
+  below the decapitated row. Either the list runs to the window's edge
+  and the clip reads as "there is more below", or it does not; this reads
+  as broken.
+- **"one mark at 16, 20, 24 dp" is read as a count, and the unit is
+  Android's.** The note means each cell shows one mark at three sizes —
+  `marks.go` says exactly that in its own comment — and the reviewer
+  counted the four marks on screen and reported the caption as
+  contradicting them. A note whose whole job is to stop a row of three
+  drawings reading as three marks fails that job on first contact. And on
+  this platform the unit is points; `dp` is the only Android word in the
+  shipped copy.
+- **Nothing marks the seam the grid will scroll under.** There is no
+  hairline under the search row and none between the two sections, so a
+  scrolled catalogue slides into the search field with no edge to stop
+  it. ADR-021 already names the platform's answer — the separator is a
+  scroll-state indicator rather than a fixed edge — and this window has
+  neither the indicator nor an edge.
+- **The catalogue is 3.5% visible and every glyph is the accent.** Six
+  columns of a 160 × 84 dp cell around a 40 dp glyph show about 34 of the
+  961, so the set takes some 160 rows to walk; and `PaletteFrom` inks
+  every glyph with the Primary pin, so the one window whose job is to
+  show what a glyph looks like never shows one in the ink a caller would
+  draw it in. Both are the app's voice rather than defects, and both are
+  what a reader of this window says first.
+- **A glyph's name cannot be copied.** Nothing in the window suggests the
+  catalogue is interactive, and the caption under every cell is the
+  identifier a call site then has to type by hand.
+
+**Three misreads for the next packet's briefing.** *The 44 px above the
+search field are not dead*: 32 of them are the title-bar strip this task
+opened, where the window's three control buttons stand, and 12 are the
+page's own inset. That is S15's finding recurring in the very next window
+to take the treatment — a still frame cannot show the absence of a native
+strip, and it cannot show what the platform puts in the space the absence
+leaves either. *The Material glyphs are size-normalised*: each is laid
+out on one 40 dp box and their ink extents differ because that is how the
+set is authored, so a row measuring 24 to 40 px of ink is the drawings
+differing, not the boxes. *The marks are not thinning as they scale
+down*: a stroke judged by mean ink lightness loses coverage at 16 px on a
+1x antialiased render for arithmetic reasons — the 1x briefing item
+arriving on a stroke rather than on a fill — and whether the small
+variants hold is a question for 2x, not for this frame.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -14106,11 +14186,11 @@ The search field is the one thing near the top-leading corner
 (`iconbrowser/view.go:106`), so its inset is what has to clear the
 window buttons' run.
 
-- [ ] The iconbrowser window carries no native strip; the ground
+- [x] The iconbrowser window carries no native strip; the ground
   reaches the window's top edge.
-- [ ] The window can be dragged by its top edge, and the search field
+- [x] The window can be dragged by its top edge, and the search field
   clears the three window buttons.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   `scripts/check-layers.sh` from `.github`; fresh-eyes review per the
   preamble; commit and push in `workbench`, `.github`.
 
@@ -14188,20 +14268,21 @@ launcher only.
 
 AK6.6 made `dragUnderStrip` (DragTop + InsetTop over one height
 function) its third copy — marketing, the launcher, and sitedocs'
-banded variant — and AK6.7 wrote a fourth in `todos`. Hoist the plain
-form into `mvu/desktop` (the AK6.6 report proposes `CapTop(height
-func() unit.Dp, w layout.Widget) layout.Widget`); the filled variant
-stays app-side — the band package is geometry only and what a band is
-painted with belongs to the packages that know about colour. Convert
-marketing, the launcher, todos and sitedocs (its band fill wraps the
-hoisted form) to adoption; no pixel moves anywhere. todos also
-re-declares `desktop.DragTop` over the strip after its modal, because
-the dialog's whole-window Escape catcher shadows the band's claim —
-that second call is the app's and stays where it is.
+banded variant — AK6.7 wrote a fourth in `todos`, and AK6.8 a fifth in
+`iconbrowser`. Hoist the plain form into `mvu/desktop` (the AK6.6
+report proposes `CapTop(height func() unit.Dp, w layout.Widget)
+layout.Widget`); the filled variant stays app-side — the band package
+is geometry only and what a band is painted with belongs to the
+packages that know about colour. Convert marketing, the launcher,
+todos, iconbrowser and sitedocs (its band fill wraps the hoisted form)
+to adoption; no pixel moves anywhere. todos also re-declares
+`desktop.DragTop` over the strip after its modal, because the dialog's
+whole-window Escape catcher shadows the band's claim — that second call
+is the app's and stays where it is.
 
 - [ ] `mvu/desktop` offers the helper, documented and tested, naming
   no consumers.
-- [ ] The four apps adopt it; the local copies are deleted; no golden
+- [ ] The five apps adopt it; the local copies are deleted; no golden
   moves.
 - [ ] Exit: green in `mvu/desktop` and `workbench`;
   `scripts/check-layers.sh` from `.github`; commit and push in `mvu`,
