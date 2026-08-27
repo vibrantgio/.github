@@ -15004,8 +15004,11 @@ the stock Filled.
 - [x] The override renders through the same hover, press, focus,
   disabled treatments as the primary pin; zero value draws today's
   button, goldens prove both.
-- [ ] Exit: tests green in `components`; tag the seam release. Commit
-  and push in `components` and `workbench`.
+- [x] Exit: tests green in `components`; commit and push in
+  `components` (`workbench` needed no change — its stake is the
+  tag-time guide sync). The seam release moved to Phase AR: three more
+  support-repo phases (AO, AP, AQ) land in the same repos first, so
+  one deliberate release covers them all instead of tagging twice.
 
 ## Phase AO: Chip padding respects the line's edges
 
@@ -15122,3 +15125,39 @@ repo at a green seam and report.
 - [ ] Exit: green in every touched module; `scripts/check-layers.sh`
   from `.github`; fresh-eyes look per the preamble if any window's
   look changed; commit and push in every repo touched.
+
+## Phase AR: The seam release ships what master carries
+
+Master has outrun the published tags across the support row: `theme`
+carries `ElevationLevel.Raised` and `PinnedStateColor` (AK6.10,
+AJ1.1) that `patterns` and `components` masters already call;
+`mvu/desktop` carries the band, drag, and cap helpers (AK5.1, AK6.1,
+AK6.12) that six workbench apps call; `patterns` carries the hairline
+seam, `Ground` props, the pagination R5 fix and `NavbarHeight`
+(AK5.3, AK6.3, AK6.4, AK6.13, AK6.14); `components` carries the
+checkbox and the pinned button register (AN1.1, AJ1.1). Every
+`GOWORK=off` build of a consumer fails until the seam is cut. Phases
+AO, AP and AQ land in these same repos first; this phase runs last so
+one release covers everything.
+
+### G-AR1: One deliberate release, bottom-up
+
+#### AR1.1: Tag the seam bottom-up and true the pins and the guide
+
+Follow ADR-006's order end to end — push masters, tag bottom-up (the
+tag-version rule: no double-digit components; nested modules get the
+root tag first, then the nested go.mod bump, then the mirror-numbered
+nested tag — `mvu/desktop` is nested), bump every consumer pin,
+`GOWORK=off go build ./... && go test ./...` in every module as the
+verify, then the second self-referencing pass. In the same task: run
+`scripts/sync-versions.sh` from `.github/scripts` so
+`workbench/llms.txt` names the published tags, and land ADR-014 S19's
+release-gated guide updates (the window-anatomy section teaches
+`desktop.CapTop`'s one-call form and names `shell.NavbarHeight`).
+
+- [ ] Every support repo with unreleased API is tagged bottom-up per
+  ADR-006, pins bumped, `GOWORK=off` green in every module.
+- [ ] `sync-versions.sh` is clean and the guide teaches the published
+  helpers (S19's two items closed).
+- [ ] Exit: `scripts/check-layers.sh` from `.github`; every repo
+  pushed with its tags; commit and push in every repo touched.
