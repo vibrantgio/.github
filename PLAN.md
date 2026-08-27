@@ -14316,12 +14316,12 @@ clamping at the ladder's top, doc comment stating the local-ground
 rule) as tier-0-of-the-ladder public API, convert both patterns to
 it, and delete both local copies.
 
-- [ ] `theme/tokens` offers the method, documented and tested, its
+- [x] `theme/tokens` offers the method, documented and tested, its
   clamping stated.
-- [ ] `patterns/table` and `patterns/tabs` call it; both local
+- [x] `patterns/table` and `patterns/tabs` call it; both local
   `raisedFrom` copies are deleted; no golden moves anywhere (the
   gallery included).
-- [ ] Exit: green in `theme`, `patterns`, `components`;
+- [x] Exit: green in `theme`, `patterns`, `components`;
   `scripts/check-layers.sh` from `.github`; commit and push in every
   repo touched.
 
