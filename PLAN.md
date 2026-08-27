@@ -5612,6 +5612,19 @@ Stated as rules:
   a level-0 transcript — a code fence, a quote block — steps up from the
   paper it lies on rather than reaching for an absolute step.
 
+  One ground answers differently, and it is the commonest one: level 0's
+  fill is the Background pin, which is off the neutral ramp and has no step
+  to walk from. So a raised thing on the content ground is drawn as a
+  level-1 surface, and a state walk there starts from level 1's step rather
+  than from the pin. Both halves are already written down — the ladder says
+  "a level-0 surface is the app background, which has no ramp ground; treat
+  interactive regions on it as level-1 surfaces instead"
+  (`theme/tokens/elevation.go`), and the button register resolves level 0 to
+  step 200 for exactly that reason (`ghostGroundStep`,
+  `components/button`) — but R4 without them has no answer over the paper,
+  which is where most of a window's controls sit. (Added 2026-08-27, the
+  gap G-AK2 hit on the first window dressed to this ADR.)
+
 - **R5 — what is chosen is Primary-tinted; what is transient is a neutral
   walk.** The item a window is currently showing — the open note, the open
   conversation — fills from the Primary ramp's tinted end,
@@ -12982,13 +12995,13 @@ doctrine (chrome rung or content ground); and the code-chroma
 selection (`isDarkColor`) plus text contrast must still gate against
 the new grounds in both schemes.
 
-- [ ] Assistant rows carry no neutral-300 fill; the transcript's
+- [x] Assistant rows carry no neutral-300 fill; the transcript's
   resting ground is the Background pin in both schemes.
-- [ ] Code fences and other markdown insets take a deliberate rung
+- [x] Code fences and other markdown insets take a deliberate rung
   over the new ground; the header band's surface is chosen and stated
   in the commit body.
-- [ ] Goldens that legitimately moved are regenerated in this task.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [x] Goldens that legitimately moved are regenerated in this task.
+- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   fresh-eyes review per the preamble; commit and push in `workbench`.
 
 #### AK2.2: The chrome details match the vaultview reference
