@@ -15890,6 +15890,35 @@ hand edits, and run the gallery's sitedocs downstream BY NAME.
   `components/gallery`, `workbench/sitedocs`; commit and push in
   every repo touched.
 
+#### AU1.4: The input fills rise with their ground
+
+AU1.3's recorded residue — the last place the linchpin has not landed
+in the libraries: `components/input/textfield.go` ~L587,
+`dropdown.go` ~L357, `checkbox.go` ~L322, `radio.go` ~L205 still fill
+`c.Surface` (the ramp alias), so a light field paints `#E8E8E8` BELOW
+its `#F6F6F6` page — the "darkest thing in the window" complaint
+ADR-022 exists to end — and each has a live `design/mirror` fixture
+pinned to the sheet's `--color-surface`, so the two halves must move
+together: `bg = c.SurfaceAt(s.Ground.Raised())` on the Gio side and
+the matching `--elevation-*` variables in the sheet's `.input`,
+`.checkbox`, `.radio`, dropdown rules through the generator, in one
+task. `scrollarea`'s `FadeColor` (~L139) is the fifth site — judge
+whether a fade is a surface that rises or an overlay that matches its
+own pane, and say which. Borders and rings re-derive through the
+existing machinery against the new fills (no hand-picked colours);
+goldens regenerate (components, gallery, its sitedocs downstream BY
+NAME); the mirror stays green with both halves moved.
+
+- [ ] The four input fills answer `SurfaceAt(Ground.Raised())` in
+  both schemes; the sheet's rules follow through the generator; the
+  mirror is green.
+- [ ] The FadeColor judgment is made and stated.
+- [ ] Goldens that legitimately moved are regenerated, the gallery
+  and its downstream included.
+- [ ] Exit: green in `components`, `design` (mirror), and the
+  sitedocs golden check; `scripts/check-layers.sh` from `.github`;
+  commit and push in every repo touched.
+
 ### G-AU2: The windows prove it
 
 #### AU2.1: vaultview and mindchat wear the linchpin
