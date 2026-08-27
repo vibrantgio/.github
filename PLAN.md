@@ -14556,11 +14556,11 @@ below one, so it insets no page and calls `desktop.DragTop` on its own
 — the claim without the cap, which is what the split case needs and
 what the hoisted helper would not have given it.
 
-- [ ] `mvu/desktop` offers the helper, documented and tested, naming
+- [x] `mvu/desktop` offers the helper, documented and tested, naming
   no consumers.
-- [ ] The five apps adopt it; the local copies are deleted; no golden
+- [x] The five apps adopt it; the local copies are deleted; no golden
   moves.
-- [ ] Exit: green in `mvu/desktop` and `workbench`;
+- [x] Exit: green in `mvu/desktop` and `workbench`;
   `scripts/check-layers.sh` from `.github`; commit and push in `mvu`,
   `workbench`, `.github`.
 
