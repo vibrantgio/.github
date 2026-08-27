@@ -13168,6 +13168,77 @@ hoisting is right, propose it as a task rather than doing it here.
 - [x] Goldens that legitimately moved are regenerated in this task.
 - [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   fresh-eyes review per the preamble; commit and push in `workbench`.
+
+### G-AK5: The repeated window mechanics move into the system
+
+AK2.2's defaults verdict, applied. The platform half of the unified
+title bar already lives in `mvu/desktop` and five apps take it; what
+still repeats per app is the geometry arithmetic, and what nobody owns
+is the split seam the band crosses. Paint stays in the apps — desktop
+is tier 0 and may not learn theme; only geometry hoists.
+
+#### AK5.1: mvu/desktop owns the title-band geometry
+
+Hoist the arithmetic every adopter re-derives into `mvu/desktop`,
+with vaultview — the richest user — converted in the same task as the
+proof: the leading-inset-or-own-gutter helper (`vaultview/frame.go`
+`toolbarLeading`, `themer/view.go` `TitleLead`, `mindchat/view.go`
+`brandLead`), the band→button-run derivation (buttons centred in
+whatever band the window has, leading inset equals top inset — the
+rule ADR-019's "Window buttons" states and mindchat now derives from
+`BrandRowHeight`), and the inset-by-`TopInset` wrapper (vaultview,
+sitedocs, marketing each have one). API design is this task's
+judgment; the helpers carry the reference rule in their doc comments
+without naming which applications call them. While in the go.mods:
+the root `workbench` module's apps import `mvu/desktop` but the
+module does not require it (the workspace resolves it; `GOWORK=off`
+will not) — true that up alongside the adoption.
+
+- [ ] `mvu/desktop` offers the band geometry helpers, documented and
+  tested, importing no theme or components package.
+- [ ] vaultview adopts them; its local copies are deleted; its look
+  is pixel-unchanged (goldens are the witness).
+- [ ] The `workbench` root go.mod requires `mvu/desktop` explicitly.
+- [ ] Exit: `go build ./... && go test ./...` green in `mvu/desktop`
+  and `workbench`; `scripts/check-layers.sh` from `.github`; commit
+  and push in `mvu`, `workbench`, `.github`.
+
+#### AK5.2: The remaining apps adopt the desktop geometry helpers
+
+Mechanical adoption of AK5.1's helpers in `themer`, `sitedocs`,
+`marketing`, and `mindchat`: each app's local copy of the arithmetic
+is replaced by the helper call, deleted, and nothing moves a pixel.
+No design judgment — AK5.1 fixed the API; this task is text surgery
+with the goldens as the witness.
+
+- [ ] All four apps call the helpers; their local copies are gone.
+- [ ] No golden moved; any that did is a defect in the adoption, not
+  a regeneration case.
+- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+  `scripts/check-layers.sh` from `.github`; commit and push in
+  `workbench`.
+
+#### AK5.3: The shell split keeps the title band whole
+
+Found by AK2.2's fresh-eyes review (ADR-014 S10): the shell's split
+handle paints its full 6dp width the whole window height, through the
+title band, cutting the band in two and stranding the window title on
+an island — where the platform's dividers are a hairline. The fix
+belongs to the shell pattern so every split app inherits it. Decide
+the shape against ADR-021 R6 as amended (the band's sides wear their
+own fills but hold one height): the grab area may stay wide; what the
+seam *paints*, and whether the band is exempt from it, is this task's
+judgment. vaultview's floating-pane arrangement (ADR-015) and the
+stored platform captures are the references.
+
+- [ ] The split seam no longer reads as a wide stripe cutting the
+  title band; every split app inherits the change.
+- [ ] Goldens that legitimately moved are regenerated in this task.
+- [ ] Exit: `go build ./... && go test ./...` green in every touched
+  module; `scripts/check-layers.sh` from `.github`; fresh-eyes review
+  per the preamble (the change moves window-level pixels); commit and
+  push in every repo touched.
+
 ### G-AK3: The guide teaches the grammar
 
 #### AK3.1: llms.txt tells an assistant how to dress a window
@@ -13187,6 +13258,10 @@ points the other way.
 - [ ] Exit: `mdedit links --check` clean if wikilinks were touched;
   `scripts/sync-versions.sh -n` still exits 0 from `.github/scripts`;
   commit and push in `workbench`.
+
+By the time this task runs, AK5.1 has moved the title-band
+geometry into `mvu/desktop` — where the instruction touches the title
+bar, name those helpers rather than describing arithmetic.
 
 ### G-AK4: The remaining apps are measured against the grammar
 
