@@ -13169,9 +13169,9 @@ handoff (channel or mutex — match the file's idiom) so
 `go test -race ./mindchat` passes from `workbench`; the rendered
 frames must be byte-identical before and after.
 
-- [ ] `go test -race ./mindchat` passes from `workbench`; the
+- [x] `go test -race ./mindchat` passes from `workbench`; the
   unsynchronised write is gone.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   commit and push in `workbench`.
 
 ## Phase AK: Every window assigns surfaces by one written grammar
