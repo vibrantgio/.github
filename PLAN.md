@@ -13939,12 +13939,12 @@ window buttons stand in the app's own layout now, and AK5.1's
 `desktop.ButtonRunIn` / `ButtonRunAt` are what reserve their run from
 a measurement rather than a guess.
 
-- [ ] The launcher window carries no native strip; the ground and the
+- [x] The launcher window carries no native strip; the ground and the
   field reach the window's top edge and the page starts below it.
-- [ ] The window can be dragged by its top edge, and nothing the
+- [x] The window can be dragged by its top edge, and nothing the
   window draws collides with the three window buttons.
-- [ ] Goldens that legitimately moved are regenerated in this task.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [x] Goldens that legitimately moved are regenerated in this task.
+- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   `scripts/check-layers.sh` from `.github`; fresh-eyes review per the
   preamble; commit and push in `workbench`, `.github`.
 
