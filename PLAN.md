@@ -13127,6 +13127,49 @@ ground and pushes the first pick to y=628.
   channel. Goldens regenerated in both schemes.
 - [x] Exit: tests green in `sitedocs`. Commit and push in `workbench`.
 
+## Phase AM: Master runs green again
+
+Two breakages found beside the road during Phase AK, both
+stash-confirmed as pre-existing by the AK5.3 worker on 2026-08-27.
+Red on master is the one state the standing rules exist to prevent;
+these run before any task that would build on either module.
+
+### G-AM1: The found breakage is fixed
+
+#### AM1.1: components/gallery goldens pass on master again
+
+`components/gallery` `TestGroupGoldens/patterns-light|dark` fails on
+master: 51946 and 52951 pixels differ, identical with and without
+AK5.3's shell change stashed — so an earlier change moved pixels
+without its author regenerating these goldens, or a real regression
+shipped. Diagnose which: walk the golden's history to the commit
+whose upstream change first moved the pixels, judge whether the new
+rendering is the intended look of that change, and either regenerate
+the goldens (naming the causal commit in the commit body) or fix the
+regression. Do not regenerate blind — a golden updated over an
+unexplained diff hides whatever broke it.
+
+- [ ] The cause is named: the commit whose change first moved the
+  pixels, and whether the movement was intended.
+- [ ] `go test ./...` green in `components`, goldens regenerated or
+  rendering fixed accordingly.
+- [ ] Exit: green in `components`; commit and push in every repo
+  touched.
+
+#### AM1.2: The mindchat render harness stops racing its subscriber
+
+`workbench/mindchat/window_render_test.go` (~L115) fails under
+`-race`: the Subscribe callback's unsynchronised `latest = w` write
+races the harness's own `for latest == nil` poll. Synchronise the
+handoff (channel or mutex — match the file's idiom) so
+`go test -race ./mindchat` passes from `workbench`; the rendered
+frames must be byte-identical before and after.
+
+- [ ] `go test -race ./mindchat` passes from `workbench`; the
+  unsynchronised write is gone.
+- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+  commit and push in `workbench`.
+
 ## Phase AK: Every window assigns surfaces by one written grammar
 
 Requested by the owner on 2026-08-27 after putting two workbench
@@ -13761,49 +13804,6 @@ AK6.3 settles the rungs first, so the band has a ground to wear.
 - [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
   `scripts/check-layers.sh` from `.github`; fresh-eyes review per the
   preamble; commit and push in `workbench`, `.github`.
-
-## Phase AM: Master runs green again
-
-Two breakages found beside the road during Phase AK, both
-stash-confirmed as pre-existing by the AK5.3 worker on 2026-08-27.
-Red on master is the one state the standing rules exist to prevent;
-these run before any task that would build on either module.
-
-### G-AM1: The found breakage is fixed
-
-#### AM1.1: components/gallery goldens pass on master again
-
-`components/gallery` `TestGroupGoldens/patterns-light|dark` fails on
-master: 51946 and 52951 pixels differ, identical with and without
-AK5.3's shell change stashed — so an earlier change moved pixels
-without its author regenerating these goldens, or a real regression
-shipped. Diagnose which: walk the golden's history to the commit
-whose upstream change first moved the pixels, judge whether the new
-rendering is the intended look of that change, and either regenerate
-the goldens (naming the causal commit in the commit body) or fix the
-regression. Do not regenerate blind — a golden updated over an
-unexplained diff hides whatever broke it.
-
-- [ ] The cause is named: the commit whose change first moved the
-  pixels, and whether the movement was intended.
-- [ ] `go test ./...` green in `components`, goldens regenerated or
-  rendering fixed accordingly.
-- [ ] Exit: green in `components`; commit and push in every repo
-  touched.
-
-#### AM1.2: The mindchat render harness stops racing its subscriber
-
-`workbench/mindchat/window_render_test.go` (~L115) fails under
-`-race`: the Subscribe callback's unsynchronised `latest = w` write
-races the harness's own `for latest == nil` poll. Synchronise the
-handoff (channel or mutex — match the file's idiom) so
-`go test -race ./mindchat` passes from `workbench`; the rendered
-frames must be byte-identical before and after.
-
-- [ ] `go test -race ./mindchat` passes from `workbench`; the
-  unsynchronised write is gone.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
-  commit and push in `workbench`.
 
 ## Phase AL: MindChat renders lists as lists
 
