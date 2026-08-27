@@ -15924,10 +15924,10 @@ in the matrix. Verify with the actual kept seed: light links clear
 4.5:1, dark links keep clearing theirs. Regenerate whatever the
 generator owns if sheet values move.
 
-- [ ] Link ink clears 4.5:1 over the paper in both schemes for every
+- [x] Link ink clears 4.5:1 over the paper in both schemes for every
   swept seed, the kept-brand shape included, pinned by a test.
-- [ ] Verified against the owner's actual kept seed, both schemes.
-- [ ] Exit: green in `theme` (and `design` if the sheet moved);
+- [x] Verified against the owner's actual kept seed, both schemes.
+- [x] Exit: green in `theme` (and `design` if the sheet moved);
   commit and push in every repo touched.
 
 ## Phase AU: Lightness climbs toward the viewer
