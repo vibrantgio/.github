@@ -15374,3 +15374,155 @@ tags. `check-no-workspace.sh` read 40/40.
   helpers (S19's two items closed).
 - [x] Exit: `scripts/check-layers.sh` from `.github`; every repo
   pushed with its tags; commit and push in every repo touched.
+
+## Phase AU: Lightness climbs toward the viewer
+
+Owner ruling, 2026-08-27 evening — the linchpin: in BOTH schemes, a
+surface nearer the viewer is lighter. Furniture is the window's
+FLOOR beneath the paper, not a storey above it; raised and floating
+surfaces go toward the scheme's light extreme. One perceptual rule,
+no mirror.
+
+The evidence, measured this evening. The Claude desktop app: light
+sidebar 251,251,249 → content 252,252,251 → composer 255,255,255;
+dark sidebar 17,17,17 → content 21,21,21 → composer 32,32,31 —
+monotonic in both. The current macOS Settings app, dark: sidebar
+`#1C2123` → content ground `#23292C` → setting cards `#2A2F32`, with
+the search field raised on the sidebar at `#2F3233` — strictly
+monotonic (the wallpaper tint was on; the ordering is what matters,
+and the sidebar is uniform down its whole height). The stored light
+references already comply: panes `#E8E8E8` sit below paper `#F6F6F6`.
+The platform has moved to this model; adopting it is convergence,
+not divergence.
+
+What it overturns: ADR-021's furniture-one-rung-UP model and R7's
+bidirectional mirror (light darkening upward while dark lightens).
+Every light-mode floating surface flips from the `#D4D4D4` slab to
+lighter-than-paper — dissolving the recorded complaints from five
+independent reviews (the disabled-looking dialog, the
+darkest-thing-you-type-into field, the cut-out cards). Every DARK
+window's furniture flips from lighter-than-paper (`#222222` over
+`#181818`) to darker-than-paper. What it preserves: every light-mode
+RESTING arrangement — chrome under paper keeps its pixels — and dark
+floaters, already lighter. The reviewers the misread ledger briefed
+away on "elevation direction" were right; those briefings retire
+with this phase.
+
+### G-AU1: The doctrine and the tokens re-found
+
+#### AU1.1: Mint ADR-022 and rewrite the surface grammar to the linchpin
+
+Write ADR-022 into Reference after ADR-021: the linchpin stated with
+this phase's evidence; the ladder re-founded as floor (furniture) →
+paper (content ground) → raised (insets, cards, bands' controls) →
+floating (dialogs, menus, popovers, toasts), with lightness
+increasing monotonically toward the viewer in both schemes; the
+mirror abolished — the check becomes one sentence: walking toward
+the viewer never gets darker, in either scheme. Rewrite ADR-021's
+affected rules in place (R2's direction, R4's walk direction, R7)
+with a dated note pointing at ADR-022 rather than silent edits, and
+re-found the twins: `design/DESIGN.md` §"Which region wears which
+rung" and `workbench/llms.txt` §"Window anatomy" (the region
+assignments stand; the directions change; no plan identifiers in the
+guide). Design judgment this task owns, decided from evidence and
+stated: whether a fenced code block is a raised chip (lighter than
+its page) or a recessed well (darker, away from the viewer) — the
+one construct the linchpin does not answer by itself. Retire the
+elevation-direction reviewer-misread briefings in ADR-014 with a
+dated note (the reviewers were right). No code.
+
+- [ ] ADR-022 added after ADR-021; ADR-021's affected rules carry
+  dated amendments pointing at it; both twins re-founded.
+- [ ] The fence ruling is made and stated in all three homes.
+- [ ] The ledger's elevation-direction misread briefings are retired
+  with a dated note.
+- [ ] Exit: no code changed; commit and push in `.github`, `design`,
+  `workbench`.
+
+#### AU1.2: SurfaceAt answers the linchpin
+
+In `theme/tokens`: the elevation scale re-founds — a furniture rung
+BELOW the pin, the paper pin, and above-paper rungs toward the
+scheme's light extreme. Dark largely reassigns values the ramp
+already carries (furniture darker than `#181818`, raised at the
+current `#222222`/`#2E2E2E` family). Light needs the half-scale
+above `#F6F6F6` that the darkening ramp cannot express — decide the
+headroom strategy (whisper steps toward white with the derived
+hairlines carrying separation, the platform's current answer; a
+floater-only shadow revival; or re-pinning the paper for room) and
+state the trade. Every derivation downstream (MarkOn borders, rings,
+state walks from local grounds, `Raised()`) must re-answer through
+the same machinery — the seed sweeps and the mirror are the
+witnesses; `theme/export` re-emits the sheet in the same task and
+the mirror stays green. API compatibility judgment: whether
+`SurfaceAt`/`ElevationLevel` keep their names with new answers or
+the scale grows new vocabulary — prefer re-answering over renaming
+where call sites can stand.
+
+- [ ] The tokens answer the linchpin in both schemes, swept and
+  pinned by tests; the mirror is green against the regenerated
+  sheet.
+- [ ] `theme`'s own goldens and `theme/export` outputs regenerate
+  with the cause named.
+- [ ] Exit: green in `theme` and `design`; commit and push in
+  `theme`, `design`, `.github`.
+
+#### AU1.3: The libraries inherit the new answers
+
+`components`, `patterns`, `markdown`, the gallery: rebuild against
+the re-founded tokens, regenerate every golden that legitimately
+moves (this is the largest golden round in the plan — the cause is
+one commit and every band is named by family, not per-pixel), verify
+the derivation machinery re-answered borders/rings/washes without
+hand edits, and run the gallery's sitedocs downstream BY NAME.
+`scripts/check-layers.sh` from `.github`.
+
+- [ ] Libraries green with regenerated goldens; no hand-picked
+  colour was introduced to patch a seam — everything re-derived.
+- [ ] Exit: green in `components`, `patterns`, `markdown`,
+  `components/gallery`, `workbench/sitedocs`; commit and push in
+  every repo touched.
+
+### G-AU2: The windows prove it
+
+#### AU2.1: vaultview and mindchat wear the linchpin
+
+The reference window and the first proof re-prove: dark furniture
+drops below the paper, floaters lift above it, light resting
+arrangements hold. Goldens regenerate; whole-window fresh-eyes on
+BOTH apps, both schemes, with the retired briefings removed from the
+packet and the remaining ledger intact.
+
+- [ ] Both windows monotonic under the check, measured off frames in
+  both schemes; goldens regenerated.
+- [ ] Exit: green in `workbench` and both nested modules; fresh-eyes
+  per the preamble; commit and push in `workbench` and `.github`.
+
+#### AU2.2: The remaining apps follow
+
+feeds, sitedocs, todos, iconbrowser, themer, marketing, the
+launcher: apps consuming the tokens re-answer largely for free —
+sweep each for hard-coded assumptions the flip exposes (a palette
+field naming the old direction, a test asserting the old rung),
+regenerate goldens, and fresh-eyes ONE representative window (the
+busiest that changed most).
+
+- [ ] Every app green with regenerated goldens; the sweep's findings
+  fixed or recorded per app.
+- [ ] Exit: green in the workbench root and every nested module;
+  fresh-eyes on the chosen window per the preamble; commit and push
+  in `workbench` and `.github`.
+
+### G-AU3: The seam ships it
+
+#### AU3.1: The linchpin release
+
+The ADR-006 ceremony over the round: tags bottom-up under the
+version rules (minors at 9 roll to the major — the recorded
+precedent), nested mirrors, pins bumped, `GOWORK=off` green in every
+module, `sync-versions.sh`, and the guide already true from AU1.1.
+
+- [ ] Tags pushed bottom-up; pins bumped; `GOWORK=off` matrix green;
+  `sync-versions.sh` clean.
+- [ ] Exit: `scripts/check-layers.sh` from `.github`; every repo and
+  tag pushed; commit and push in every repo touched.
