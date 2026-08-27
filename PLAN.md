@@ -14688,10 +14688,10 @@ unit.Dp`, doc comment stating whose height it is, naming no
 consumers), convert feeds' restatement to a call, and keep the drift
 test as the seam's witness.
 
-- [ ] `patterns/shell` exports the height, documented and tested.
-- [ ] `feeds/band.go` calls it; the restated rule is deleted; no
+- [x] `patterns/shell` exports the height, documented and tested.
+- [x] `feeds/band.go` calls it; the restated rule is deleted; no
   golden moves.
-- [ ] Exit: green in `patterns`, `workbench/feeds`, the workbench
+- [x] Exit: green in `patterns`, `workbench/feeds`, the workbench
   root; `scripts/check-layers.sh` from `.github`; commit and push in
   `patterns`, `workbench`, `.github`.
 
