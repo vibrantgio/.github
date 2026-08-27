@@ -15847,12 +15847,12 @@ the mirror stays green. API compatibility judgment: whether
 the scale grows new vocabulary — prefer re-answering over renaming
 where call sites can stand.
 
-- [ ] The tokens answer the linchpin in both schemes, swept and
+- [x] The tokens answer the linchpin in both schemes, swept and
   pinned by tests; the mirror is green against the regenerated
   sheet.
-- [ ] `theme`'s own goldens and `theme/export` outputs regenerate
+- [x] `theme`'s own goldens and `theme/export` outputs regenerate
   with the cause named.
-- [ ] Exit: green in `theme` and `design`; commit and push in
+- [x] Exit: green in `theme` and `design`; commit and push in
   `theme`, `design`, `.github`.
 
 #### AU1.3: The libraries inherit the new answers
