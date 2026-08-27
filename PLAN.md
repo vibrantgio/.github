@@ -4846,6 +4846,88 @@ either.
   `TestWindowRegionsWearTheirRungs/light` (the outline rail still on
   the ramp alias). All three are named in the AU2.x packets.
 
+#### S28 — carried out of AU2.2's fresh-eyes review
+
+AU2.2 (2026-08-28) swept the seven remaining workbench windows onto
+ADR-022's ladder and put the busiest of them — the feeds window, split,
+furniture on both sides, table and tabs and pager all re-grounded — in
+front of eyes that had not read the task, in both schemes, from live
+`screencapture -l` of the real decorated window with a feed chosen and an
+article open. The reply is kept verbatim at
+`reviews/au2.2-feeds-fresh-eyes.md`.
+
+Most of the volume is already recorded and is not re-recorded here. The
+platform-integration cluster came back a ninth time and stands as S9
+wrote it — the accent does not follow `controlAccentColor`, the face is
+not San Francisco, there is no vibrancy and no focus ring, and the window
+is none of `NSToolbar`, `NSTableView`, `NSSearchField`,
+`NSSegmentedControl`. This window's own polish list (S17) absorbs the
+pagination, the column widths, the density, the two simultaneous
+selections and the unread dot; S17 also already carries the date written
+two ways — the reviewer found the same `May 13 2026` / `May 13, 2026`
+pair, three inches apart — and the sort caret standing away from its
+label. S13 already carries the missing inactive-window selection state,
+which is what the reviewer's focused-versus-unfocused pair asks for.
+
+Two findings are new.
+
+- **The linchpin is challenged a third time, and stands.** "In dark mode
+  the sidebar is near-black and *darker* than the content panes. On macOS
+  the sidebar is a translucent material that sits *lighter* than the
+  window body in dark mode; it never recedes below it." That is ADR-022's
+  V1 and V2 — an owner ruling of 2026-08-27, and the third reviewer to
+  contest its direction after the two AU2.1 ran. Recorded as challenged,
+  not relitigated. Worth keeping beside it: the record's own evidence
+  measures the *current* macOS Settings app's dark sidebar at `#1C2123`
+  under a `#23292C` content ground, and the reference application's dark
+  sidebar at 17,17,17 under a 21,21,21 content — the opposite of the
+  claim, and measured rather than remembered. The magnitude of the step
+  is the open question and it is the owner's; three of these now agree
+  that the dark furniture reads *heavier* than the platform's, which is
+  about how far the floor drops, not about which way it lies.
+- **The feeds detail pane publishes internal fixture prose.** The demo
+  body reads "…while persistence and networking are out of scope for
+  Phase 5" and "any visual difference between the two tabs beyond
+  typeface is a defect" — a phase number and an internal acceptance
+  criterion, in the window's largest block of text, one screenshot away
+  from a README. That collides with the standing rule that emitted text
+  never cites internal task or phase identifiers. In the same family, the
+  reviewer clocked the unread-dot column as `i % 3 == 0` rather than data
+  ("those dots land on rows 1, 4, 7, and 10"), which is true of the
+  fixture and reads as a bug to anyone who has not seen it. Both are
+  `feeds/fixtures.go`; neither is a surface-grammar question, which is
+  why AU2.2 recorded rather than fixed them.
+
+**Four misreads for the next packet's briefing, three of them created by
+the linchpin itself.** The flip moved which scheme leans on its edges,
+and reviewers keep reading the wrong half of that.
+
+- *The dark search field is not "a black rectangle on a black pane".*
+  Since AU1.2 a field rises a storey off its ground, and on slate that is
+  `#222222` over `#181818` — 5.0 L\*, the largest fill step of the pair.
+  It is the LIGHT field that is a whisper, `#F8F8F8` over `#F6F6F6` at
+  0.7 L\* with the bezel carrying the whole edge, and the light scheme is
+  the one this reviewer called correct. The complaint is real and it is
+  pointed at the wrong appearance.
+- *The dark selected row is not a hole.* `Ramps.Primary.Step(300)`
+  measures L\* 19.0 on slate against a paper of L\* 8.2 — the mark is
+  10.8 L\* LIGHTER than the surface it lies on. The light half of the
+  pair is the one that sits under its ground (L\* 85.0 against 96.9). The
+  saturation half of the complaint is taste, and it is S17's chosen-item
+  entry.
+- *The divider is not crisper in one scheme than the other.* Measured
+  against the paper it separates, `Divider` is 1.37:1 in the light scheme
+  and 1.31:1 in the dark one. There is no asymmetry to fix; and ADR-021's
+  worked example, carried in S13, says there should be no line at rest
+  between two panes standing on different grounds at all.
+- *Dark secondary ink is the higher-contrast half of the pair.* "Contrast
+  on secondary text in dark mode — column headers, the byline, the
+  placeholder — is dim enough to be worth measuring." Measured: neutral
+  700 reads 11.06:1 on the dark paper against 6.19:1 on the light one,
+  and neutral 600 reads 8.76:1 against 4.03:1. Every step is higher on
+  slate. This is the dark-ink-reads-grey-at-1x family the ledger already
+  briefs, arriving through a new door.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -15977,9 +16059,9 @@ field naming the old direction, a test asserting the old rung),
 regenerate goldens, and fresh-eyes ONE representative window (the
 busiest that changed most).
 
-- [ ] Every app green with regenerated goldens; the sweep's findings
+- [x] Every app green with regenerated goldens; the sweep's findings
   fixed or recorded per app.
-- [ ] Exit: green in the workbench root and every nested module;
+- [x] Exit: green in the workbench root and every nested module;
   fresh-eyes on the chosen window per the preamble; commit and push
   in `workbench` and `.github`.
 
