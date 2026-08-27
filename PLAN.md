@@ -3726,6 +3726,51 @@ where the shipped window carries AppKit's own buttons and lets the OS
 round the glass. The reviewer also caught themselves on the recorded one:
 dark ink read as washed out at 1x until they measured it at 7.5:1.
 
+#### S11 — carried out of AK5.3's fresh-eyes review
+
+AK5.3 (2026-08-27) narrowed the shell's split seam to a hairline and put
+the whole window, both schemes, in front of fresh eyes again. The seam drew
+no complaint at all — the reviewer's only remark on it was that "the 1px
+separators are the right weight", offered among the things the window gets
+right — and the platform-integration cluster came back almost word for word
+as S9 and S10 already hold it. Recorded here are only the findings neither
+section has.
+
+- The selected conversation row is told apart by hue and very little else.
+  Its Primary tint measures 1.21:1 against the sidebar fill in the light
+  scheme and 1.17:1 in the dark one, so a reader who does not separate
+  those two hues loses the current item entirely. R5 asks for a tint and
+  the tint is right; what this finds is that a tint alone was never meant
+  to carry the whole signal by itself.
+- The horizontal rules on the two sides of the split land at different
+  heights. Measured in the light frame: the content side closes its title
+  band with a hairline at y=51 and its lower strip at y=711, while the
+  sidebar side rules at y=93 and at y=721 — 42 px apart at the top of the
+  window and 10 px apart at the bottom, on sightlines a reader reads
+  straight across the seam. R6 makes the two sides hold one band height
+  between them and they do; it says nothing about the rules each side then
+  draws inside its own half, and that is the gap. The reviewer counted six
+  distinct trailing edges down the window's right side on the same
+  complaint, which widens S10's "three different right margins" from one
+  pane to the whole window.
+- The user message band changes ends of the value scale between schemes.
+  In light it is the darkest thing in the window; in dark it is the
+  brightest, near-white lavender slabs at 11:1 over the field, pulling the
+  eye harder than the body text does. The paired ramps are working exactly
+  as designed — one rung resolving opposite ways — but a full-bleed Primary
+  fill is the one element where that inverts what the composition
+  emphasises. The shape decision S9 defers should settle the value along
+  with the geometry.
+
+**The recorded misread recurred, unprompted, in a reviewer who had never
+seen S10.** They measured the window control pitch at 23 and called it
+wrong against a remembered 20, read the diameter as 12 — the folklore
+number, off the saturated core inside the antialiased rim, where the
+harness draws 14 — and took the flat discs and square corners for defects
+rather than headless stand-ins. That is the second review in a row to make
+the same three calls. Keep all of them in the next packet's briefing: this
+folklore is durable enough to have now survived being written down twice.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -4491,6 +4536,23 @@ its panes are (30,30,30), split by a 1 px pure-black divider
 (`voicememos-window.png`). Notes uses the same 1 px pure-black divider
 between its note list and the note. So the floating, tinted, rounded pane is
 a choice a window makes, not something the OS imposes.
+
+**A split seam runs the window's whole height, band included.** The two
+captures above give the seam's width; its *extent* was read down the seam
+column of the same files, and it matters to anything that paints a band
+across the top of a window. In `voicememos-window.png` the 1 px black seam
+at x=320 is present on every row from y=0 — panes at luminance 30.0 on both
+sides of it, all the way up through the band. In `notes-window.png` the
+note-list/note seam at x=508 does the same from y=0, with the list at 40.7
+on its left and the note at 30.0 on its right. Neither seam starts below the
+toolbar and neither is interrupted by it.
+
+So the platform does not exempt its top band from a split seam. It makes the
+seam thin enough that crossing the band costs the band nothing — which is
+the whole trick, and the reason the width and the extent have to be read
+together. A seam several points wide crossing the same band would not divide
+it, it would sever it. (Extent added 2026-08-27 by AK5.3, measured off these
+stored captures; nothing was launched.)
 
 #### Scrollbars
 
@@ -5757,6 +5819,22 @@ Stated as rules:
   reader measures every other alignment in the window against. (Added
   2026-08-27, both gaps hit by G-AK2 on the first window to take the
   treatment after this ADR was written.)
+
+  That fixes the two sides. What the seam *between* them paints is the third
+  thing, and the rule is that it is a hairline and it is not exempted from
+  the band. Exempting it is the tempting answer and it is wrong: a seam that
+  stops at the band's lower edge leaves the two fills meeting with nothing
+  between them along the one strip where a reader most needs telling which
+  side is which, and it puts a visible stub end in the window's top edge.
+  Making it thin is the right answer, and it is the platform's: its own split
+  dividers are one point wide and run from the window's top edge down, band
+  included (ADR-019). At that width a seam crosses a band; several points
+  wide it severs it, leaving the window title marooned on whichever piece is
+  smaller. What the seam *grabs* is a separate number and stays as wide as a
+  pointer needs — reaching into both panes and taking the hit ahead of them,
+  rather than reserving a gutter that would reintroduce the stripe by another
+  name. (Added 2026-08-27, the gap AK5.3 hit applying R6 to the first split
+  window; the shell pattern owns the seam, so no application restates this.)
 
 - **R7 — the check.** Walk out from the middle of the window: rung numbers
   must never decrease. Content 0, furniture 1, transient 2–3. In the light
@@ -13232,10 +13310,10 @@ seam *paints*, and whether the band is exempt from it, is this task's
 judgment. vaultview's floating-pane arrangement (ADR-015) and the
 stored platform captures are the references.
 
-- [ ] The split seam no longer reads as a wide stripe cutting the
+- [x] The split seam no longer reads as a wide stripe cutting the
   title band; every split app inherits the change.
-- [ ] Goldens that legitimately moved are regenerated in this task.
-- [ ] Exit: `go build ./... && go test ./...` green in every touched
+- [x] Goldens that legitimately moved are regenerated in this task.
+- [x] Exit: `go build ./... && go test ./...` green in every touched
   module; `scripts/check-layers.sh` from `.github`; fresh-eyes review
   per the preamble (the change moves window-level pixels); commit and
   push in every repo touched.
