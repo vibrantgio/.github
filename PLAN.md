@@ -13149,11 +13149,11 @@ the goldens (naming the causal commit in the commit body) or fix the
 regression. Do not regenerate blind — a golden updated over an
 unexplained diff hides whatever broke it.
 
-- [ ] The cause is named: the commit whose change first moved the
+- [x] The cause is named: the commit whose change first moved the
   pixels, and whether the movement was intended.
-- [ ] `go test ./...` green in `components`, goldens regenerated or
+- [x] `go test ./...` green in `components`, goldens regenerated or
   rendering fixed accordingly.
-- [ ] Exit: green in `components`; commit and push in every repo
+- [x] Exit: green in `components`; commit and push in every repo
   touched.
 
 #### AM1.2: The mindchat render harness stops racing its subscriber
