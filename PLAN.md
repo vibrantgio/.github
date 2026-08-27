@@ -15996,3 +15996,35 @@ module, `sync-versions.sh`, and the guide already true from AU1.1.
   `sync-versions.sh` clean.
 - [ ] Exit: `scripts/check-layers.sh` from `.github`; every repo and
   tag pushed; commit and push in every repo touched.
+
+## Phase AV: The kept brand's links clear the floor
+
+Found by AU2.1's live-capture review, verified by the worker: with
+the owner's KEPT brand active (the one-seed shared file, the kept
+theme), light-scheme links measure 1.92:1 (`#88B6FC` on the paper) —
+a dark-tint link ink dropped onto a light page. The shipped default
+brand measures 5.94:1, and no golden runs with the kept brand, so
+the defect is invisible to every stored image and only a live run
+with the real seed shows it. The fix is in the brand derivation
+pipeline, not the app: link ink (and by implication every
+brand-derived ink) must gate per scheme through the tokens' contrast
+machinery for ANY seed, and the sweep that guards it must include
+kept-brand-shaped seeds.
+
+### G-AV1: Brand-derived inks gate per scheme
+
+#### AV1.1: The link ink derives against its scheme's paper for every seed
+
+Locate where the kept brand's link colour is derived (the theme
+pipeline behind the one-seed shared file), make it gate against the
+scheme's own paper through the contrast machinery, and extend the
+seed sweeps so a seed shaped like the owner's kept brand is always
+in the matrix. Verify with the actual kept seed: light links clear
+4.5:1, dark links keep clearing theirs. Regenerate whatever the
+generator owns if sheet values move.
+
+- [ ] Link ink clears 4.5:1 over the paper in both schemes for every
+  swept seed, the kept-brand shape included, pinned by a test.
+- [ ] Verified against the owner's actual kept seed, both schemes.
+- [ ] Exit: green in `theme` (and `design` if the sheet moved);
+  commit and push in every repo touched.
