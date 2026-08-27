@@ -13445,11 +13445,11 @@ Mechanical adoption, not design: AK6.1 fixes the API and the region
 is the inset both apps already compute. Nothing moves a pixel, so the
 goldens are the witness.
 
-- [ ] `sitedocs` claims its strip through the AK6.1 helper and the
+- [x] `sitedocs` claims its strip through the AK6.1 helper and the
   window can be dragged by its top edge.
-- [ ] `marketing` does the same over its own inset.
-- [ ] No golden moved.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [x] `marketing` does the same over its own inset.
+- [x] No golden moved.
+- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   commit and push in `workbench`, `.github`.
 
 #### AK6.3: The feeds window sits on the Background pin
