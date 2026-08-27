@@ -15274,6 +15274,35 @@ what legitimately moves.
   consumer whose goldens moved; fresh-eyes look per the preamble if a
   shipped window changes; commit and push in every repo touched.
 
+## Phase AT: The spring button forwards every field Props carries
+
+`effects/springbutton` is red on master: its own forwarding test
+(`TestRenderStateForwardsEveryFieldPropsCarries`) fails on AJ1.1's
+new `button.Props.Fill`/`OnFill` — "a color.NRGBA, which this test
+does not know how to fill" — stash-confirmed by the AS1.1 worker.
+And ADR-014 S1 has recorded since Phase K that the same copier drops
+`button.Props.Ground`, pin-gated until now. One task closes both.
+
+### G-AT1: The copier and its test cover the whole struct
+
+#### AT1.1: renderState forwards Ground, Fill and OnFill; the test learns NRGBA
+
+In `effects/springbutton`: the `Props`→`RenderState` copier forwards
+`Ground`, `Fill` and `OnFill`; the forwarding test learns to fill a
+`color.NRGBA` (a distinct sentinel value per field, the way it fills
+its other types) so the next field addition fails loudly instead of
+red-on-master. The workspace resolves the components master; the
+`GOWORK=off` seam closes in the release task, as everywhere. Update
+ADR-014 S1's entry to record its closure.
+
+- [ ] The copier forwards all three fields; the test fills NRGBA and
+  passes; a deliberately dropped field fails it (verified, then
+  restored).
+- [ ] S1 records the closure with this task named.
+- [ ] Exit: `go build ./... && go test ./...` green in `effects`;
+  `scripts/check-layers.sh` from `.github`; commit and push in
+  `effects` and `.github`.
+
 ## Phase AR: The seam release ships what master carries
 
 Master has outrun the published tags across the support row: `theme`
