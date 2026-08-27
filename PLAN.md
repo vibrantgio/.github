@@ -13421,12 +13421,12 @@ native drag — and names no application.
 `mvu/desktop` is tier 0 and stays there: this is `gioui.org/io/system`
 and geometry, no theme and no components.
 
-- [ ] `mvu/desktop` offers the drag-band helper, documented with the
+- [x] `mvu/desktop` offers the drag-band helper, documented with the
   rule it exists for and tested, naming no application that calls it.
-- [ ] vaultview, mindchat and themer call it and their local copies
+- [x] vaultview, mindchat and themer call it and their local copies
   are deleted; no golden moves, and one that does is a defect in the
   conversion rather than a regeneration case.
-- [ ] Exit: `go build ./... && go test ./...` green in `mvu` and
+- [x] Exit: `go build ./... && go test ./...` green in `mvu` and
   `workbench`; `scripts/check-layers.sh` from `.github`; commit and
   push in `mvu`, `workbench`, `.github`.
 
