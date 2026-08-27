@@ -14071,6 +14071,41 @@ papers over goes on record as a proposed task of its own.
   fresh-eyes look at a rendered list per the preamble; commit and push
   in `workbench`.
 
+## Phase AN: The checkbox reads as a checkbox
+
+Found by AK6.5's fresh-eyes review (2026-08-27), verified in source:
+`components/input/checkbox.go` paints the checked state as a plain
+Primary-filled square — no check glyph — so a checked box reads as a
+swatch or an indeterminate state, and completion in a list is carried
+by colour alone. And the unchecked border rests on neutral 500, which
+measures 2.67:1 against the light scheme's Background pin — under the
+3:1 non-text floor (the dark scheme measures 6.63:1; the pairing is
+scheme-blind). Both are library defects every consumer inherits.
+
+### G-AN1: The checkbox draws its state and clears the floor
+
+#### AN1.1: The checked box draws a check and the border clears 3:1
+
+In `components/input/checkbox.go`: the checked state draws a check
+mark over the Primary fill, its ink from the tokens' on-colour
+machinery (`OnPrimary` or the MarkOn gate, whichever the component
+row's convention is); the unchecked border's ink is re-derived so it
+clears the 3:1 non-text floor against the level-0 ground in BOTH
+schemes, using the tokens' contrast machinery rather than a
+hand-picked step. Consumers inherit: regenerate the goldens that
+legitimately move (components' own, the gallery tiles, and any app
+goldens that render a checkbox — trace through the graph), naming
+them in the commit body.
+
+- [ ] Checked draws a visible check in both schemes; the unchecked
+  border reads at or above 3:1 over level 0 in both schemes, measured
+  in a test.
+- [ ] Goldens that legitimately moved are regenerated in this task,
+  the gallery included.
+- [ ] Exit: green in `components` and every consumer whose goldens
+  moved; fresh-eyes look at a checkbox row per the preamble; commit
+  and push in every repo touched.
+
 ## Phase AI: The icon browser shows the disclosure mark's open state
 
 Requested by the owner on 2026-08-26. The icon set carries one
