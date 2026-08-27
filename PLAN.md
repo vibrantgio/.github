@@ -3963,6 +3963,51 @@ corners in a rounded-corner OS. Nothing in
 with that pinning; it now renders at the real scale, and future review
 frames from it carry the corners the app draws.
 
+#### S14 — carried out of AK6.6's fresh-eyes review
+
+Provenance, recorded because it shaped what may be relayed: the AK6.6
+worker dispatched its reviewers, but the replies could not route back
+to it — the reviewer's message to the finished worker bounced and its
+reply surfaced only in the orchestrator's own notifications. The
+worker, unable to see any reply, retracted its review claims and
+reopened the exit step; the orchestrator holds ONE reviewer's reply
+verbatim and authenticated (received directly from the reviewer
+agent), reproduced below. Two further review passes ran but their
+replies are unverifiable and nothing from them is relayed. The
+verbatim reply, on the corrected final frames (real radius, themed
+palette), both schemes:
+
+> The card backgrounds barely lift off the page background in either
+> scheme: light mode is a warm light-grey card (#d4d4d4-ish) sitting
+> on a pink/lavender gradient, dark mode is a near-black card on a
+> purple/violet gradient — in both cases the card edge is a soft,
+> low-contrast step rather than a clear boundary, and it would read
+> on a real display as "did they forget to theme the card surface, or
+> is that intentional muddiness." A developer skinning this for their
+> own app would specifically complain that the card color looks like
+> a hardcoded neutral grey/near-black that wasn't derived from the
+> same purple hue as the rest of the palette (accent buttons,
+> background gradient, pill outline) — it looks bolted on rather than
+> generated from the theme.
+>
+> The second thing: in dark mode the app icon glyphs (checkmark,
+> palette, document, grid, bookmark, wand, chat bubble, layout icon)
+> are rendered in the same light lavender as the "Launch" button
+> text, but at small icon size on a dark card they lose definition —
+> several of the glyphs (document icon for Site Docs, bookmark for
+> Vault View) are thin-lined and low-contrast enough against the
+> near-black card that they'd be flagged as "barely legible at a
+> glance" compared to their crisper, higher-contrast appearance in
+> light mode.
+
+Triage: the card-fill complaint is the same surface AK6.11 already
+fixes (the Elevated variant resting at level 2), with an extra layer
+for the owner's card ruling — the reviewer read the neutral card as
+"not derived from the theme", which is an argument about hue, not
+rung, and joins that ruling. The dark-scheme icon-glyph legibility on
+the card is new and stands recorded here: the glyph ink is the
+button-text lavender, thin at icon size over the near-black card.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -13944,7 +13989,7 @@ a measurement rather than a guess.
 - [x] The window can be dragged by its top edge, and nothing the
   window draws collides with the three window buttons.
 - [x] Goldens that legitimately moved are regenerated in this task.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   `scripts/check-layers.sh` from `.github`; fresh-eyes review per the
   preamble; commit and push in `workbench`, `.github`.
 
