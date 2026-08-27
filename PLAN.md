@@ -3465,6 +3465,12 @@ raised surface silently keeps the Level-0 wash. Confirmed pre-existing
 twice (K1.2 and K1.5 both stash-tested it). effects' published tag is
 v0.2.0.
 
+2026-08-27: closed by AT1.1 — `renderState` now forwards `Ground`
+alongside `Fill`/`OnFill`, and
+`TestRenderStateForwardsEveryFieldPropsCarries` passes under the
+workspace. The guard was verified live: dropping a forwarded field
+failed the test, and restoring the field turned it green again.
+
 #### S2 — Go 1.26 gofmt drift
 
 Go 1.26's gofmt sorts import groups; roughly sixty files across ~10
@@ -15295,11 +15301,11 @@ red-on-master. The workspace resolves the components master; the
 `GOWORK=off` seam closes in the release task, as everywhere. Update
 ADR-014 S1's entry to record its closure.
 
-- [ ] The copier forwards all three fields; the test fills NRGBA and
+- [x] The copier forwards all three fields; the test fills NRGBA and
   passes; a deliberately dropped field fails it (verified, then
   restored).
-- [ ] S1 records the closure with this task named.
-- [ ] Exit: `go build ./... && go test ./...` green in `effects`;
+- [x] S1 records the closure with this task named.
+- [x] Exit: `go build ./... && go test ./...` green in `effects`;
   `scripts/check-layers.sh` from `.github`; commit and push in
   `effects` and `.github`.
 
