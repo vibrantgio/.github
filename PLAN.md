@@ -4169,6 +4169,89 @@ down*: a stroke judged by mean ink lightness loses coverage at 16 px on a
 arriving on a stroke rather than on a fill — and whether the small
 variants hold is a question for 2x, not for this frame.
 
+#### S17 — carried out of AK6.9's fresh-eyes review
+
+AK6.9 (2026-08-27) gave the feeds window the title-bar treatment — the
+last native strip in the workbench, and the one case where the strip
+crosses a seam — and put both schemes' resting frames in front of eyes
+that had not read the task. The band itself drew no complaint: nothing
+in the reply reports a step in the window's top edge, an empty corner,
+or a strip of dead space above the sidebar, which is the outcome this
+task existed to produce and the one S15 and S16 had to be briefed
+against twice. The platform-integration cluster came back an eighth
+time and stands as S9 wrote it — Roboto rather than the system face, no
+focus ring, no vibrancy, greys that are the design system's rather than
+Dark Appearance's, and every AppKit control the window is not (no
+`NSToolbar`, `NSTableView`, `NSSearchField`, `NSSegmentedControl`,
+`NSVisualEffectView`). This window's own recorded polish list absorbs
+the rest of the volume: the pagination, the column widths, the density,
+the two simultaneous selections and the unread dot are all on it
+already. Recorded here are the findings none of that holds.
+
+- **The window's two chosen-item marks invert against each other
+  between schemes.** Measured off the frames: the sidebar's open feed
+  and the table's open row both fill `#D8CEFF` light and `#3F0085`
+  dark — `Ramps.Primary.Step(300)`, the paired step ADR-021 R5 names —
+  while the pagination's current page fills `#723AD4` light and
+  `#D0C4FF` dark, which is the Primary pin. The pin runs saturated in
+  light and pale in dark; the ramp step runs the other way. So one
+  window says "this is the one you are on" in a pale tint and a
+  saturated one at the same moment, and swaps which is which when the
+  scheme changes. R5 reached the sidebar and the table in AK6.3 and
+  never reached the pager.
+- **And their three shapes disagree.** The same answer is drawn as an
+  inset rounded pill in the sidebar, as a full-bleed row fill in the
+  table, and as a small chip in the pager. The pill's inset was
+  deliberated in AK6.3 for the sidebar alone; nothing carried the
+  verdict across, so the window holds three drawings of one idea.
+- **The same date is written two ways, three inches apart.** The table
+  cell formats `Jan 2 2006` (`feeds/articles.go:383`), so a row reads
+  "May 13 2026"; the reading pane's body copy formats `January 2, 2006`
+  (`feeds/fixtures.go:230`), so the paragraph beside it reads
+  "Published May 13, 2026". The pane's own byline uses the table's
+  form (`feeds/detail.go:135`), which leaves the body text as the one
+  odd voice. Neither is locale-aware and neither is relative, which is
+  what a reader expects of a feed list; but the visible defect is the
+  disagreement, and it is one `Format` string.
+- **The reading pane is the narrowest of the three columns.** The
+  window opens with the article list at some 605 dp and the pane that
+  holds the prose at some 404 dp, so the mostly-empty list is given
+  half again the room of the thing the app is for. The split ratio is
+  model state and drag-adjustable; what is wrong is where it starts.
+- **The sort caret stands at its column's trailing edge, not after its
+  label.** "Published" ends around x=618 and the caret is drawn around
+  x=667, so the two read as unrelated marks. Whether that is a defect
+  or the platform's own right-aligned header indicator is left open
+  here: `reference/macos` holds no table-header capture to settle it,
+  and this is `patterns/table`'s placement rather than this app's.
+
+**Three misreads for the next packet's briefing.** *The middle pane is
+not a bordered card*: swept along row 300, the frame holds no vertical
+rule anywhere between x=200 and the split seam at x=796. What closes
+into a rectangle is the filter field's own hairline above it —
+`#989898` light, `#9E9E9E` dark, S16's first bullet arriving a third
+time — together with the table's horizontal row rules, which stop at
+the table's own width. *The sidebar is not darker than the content it
+frames*: it measures `#222222` against the panes' `#181818`, so it is
+the lighter of the two, which is R7's walk in the dark scheme
+behaving exactly as written. The reviewer's own reading had the
+ordering right and only the values approximate; the complaint
+underneath it — that both are darker than Dark Appearance's greys — is
+S9's, not a new one. *The traffic lights, the rounded corners and the
+title bar are not missing*: a headless frame carries no window chrome,
+no vibrancy and no shadow, and it cannot show the absence of a native
+strip either. That is now the third window in a row to be reported for
+it. The buttons' placement and the clearance under them are asserted
+instead, off the frame, by `TestTheSidebarClearsTheWindowButtons`.
+
+One further remark is worth keeping out of both lists. The reply reads
+the top strip as "doing a toolbar's job" while noting that "Feeds"
+sits at x≈208, aligned to the content pane's leading edge rather than
+to the window's. That is the arrangement, not a slip: the band's
+leading half belongs to the sidebar and holds the platform's buttons,
+and the navbar's brand starts at its own region's gutter — which is
+where a unified toolbar's leading item stands in a sidebar window.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -14210,14 +14293,14 @@ this arrangement.
 
 AK6.3 settles the rungs first, so the band has a ground to wear.
 
-- [ ] The feeds window carries no native strip; the sidebar and the
+- [x] The feeds window carries no native strip; the sidebar and the
   main column each wear their own fill up to the window's top edge,
   at one band height.
-- [ ] The window buttons stand in the band with their run reserved
+- [x] The window buttons stand in the band with their run reserved
   from a measurement, and the window can be dragged by the band's
   empty run.
-- [ ] Goldens that legitimately moved are regenerated in this task.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [x] Goldens that legitimately moved are regenerated in this task.
+- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   `scripts/check-layers.sh` from `.github`; fresh-eyes review per the
   preamble; commit and push in `workbench`, `.github`.
 
@@ -14279,6 +14362,12 @@ to adoption; no pixel moves anywhere. todos also re-declares
 `desktop.DragTop` over the strip after its modal, because the dialog's
 whole-window Escape catcher shadows the band's claim — that second call
 is the app's and stays where it is.
+
+The count stays five. AK6.9 gave `feeds` the treatment without writing
+a sixth copy: its regions reach into the band rather than starting
+below one, so it insets no page and calls `desktop.DragTop` on its own
+— the claim without the cap, which is what the split case needs and
+what the hoisted helper would not have given it.
 
 - [ ] `mvu/desktop` offers the helper, documented and tested, naming
   no consumers.
