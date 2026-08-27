@@ -3849,6 +3849,120 @@ deliberate reading measure. **The outline's levels are not size-identical**
 — children are BodySmall under BodyMedium parents. And **the 1x greyscale
 antialiasing** is the offscreen render, not the app's backing scale.
 
+#### S13 — carried out of AK6.5's fresh-eyes review
+
+AK6.5 (2026-08-27) took the todos list down to the window ground and put
+the whole window in front of eyes that had not read the task — both
+schemes, at rest and with the add dialog open — and the reviewer measured
+the pixels rather than trusting them. The platform-integration cluster
+came back a fifth time (no San Francisco, no AppKit control, no vibrancy,
+no focus indicator anywhere in a still frame) and stands as S9 wrote it;
+the missing title bar and window drag are AK6.7, this app's next task.
+Recorded here are the findings none of that covers. Two of them are this
+task's own doing.
+
+- **A checked checkbox is a filled square with no check in it.**
+  `components/input` paints the Primary fill and stops (`checkbox.go`);
+  nothing draws a tick. On a list of todos that is the one glyph the
+  control exists to show, and the reviewer read the filled square as a
+  colour swatch rather than as "done". Its only companion signal is the
+  row's dimmed ink — no strikethrough, and completed items neither sort
+  nor move.
+- **The unchecked checkbox's border misses the non-text contrast floor
+  in the light scheme.** Neutral 500 `#989898` measures 2.67:1 against
+  the pin it now stands on, under WCAG 1.4.11's 3:1 for a non-text
+  graphic, where its dark twin measures 6.63:1. This task moved the
+  ground under it and *improved* the number — on the level-1 pane it used
+  to stand on, the same border measured 2.36:1 — but improved is not
+  passed, and the border is `components/input`'s rather than the app's.
+  The library measures its dropdown's contrast and has never measured
+  this one.
+- **`Ramps.Neutral.Step(700)` does not read as "muted" in both schemes.**
+  The dialog's placeholder inks 3.30:1 against the field in light and
+  5.79:1 in dark — properly quiet on paper, brighter than most apps' body
+  text on slate — and the completed row's ink falls from 17.19:1 to
+  6.19:1 in light but only 15.30:1 to 11.06:1 in dark, so "done" barely
+  registers there. This is S12's disclosure-mark finding in a second
+  place, at the same 3.30:1 in light: the low-contrast step is where the
+  paired scales stop carrying one statement across both schemes.
+- **The dialog's two actions are the same button.** Cancel and Add are
+  byte-identical fills — `(114,58,212)` in light, `(208,196,255)` in dark
+  — in identical 100 dp boxes, so the question has no default and leaving
+  costs exactly what answering does. The fixed 100 dp will also clip the
+  first translation that needs "Annuleren". This is the strongest single
+  piece of evidence for adopting `patterns/modal` here: a Decision's
+  footer already puts a default at the end of the row, binds Return to it
+  and Escape to Cancel, and gives the dialog the title this one has never
+  had.
+- **The dialog is its window's width and twice the height of its
+  content.** `ModalWidth` is 650 dp against a 650 dp window, so the
+  surface always runs the full inset width and reads as a band parked in
+  the middle rather than as a dialog; of its 200 dp, 90 dp is empty. Its
+  padding is asymmetric — 12 dp above the field, 18 dp below the buttons
+  — and the field's right edge lands one pixel inside the action row's.
+  Both constants live in `todos/theme.go` and neither was ever sized
+  against its content.
+- **The text field wears the accent as a resting border.** The 2 dp
+  border is the pinned Primary whatever the field is doing, so a field at
+  rest already looks focused and taking focus can say nothing. Every
+  other control in the library reserves that rung for the focus ring.
+- **The scrim is a fixed black wash and separates by little in either
+  scheme.** `Cover` is `color.NRGBA{A: 153}`, with a comment saying a
+  scrim darkens regardless of scheme. Measured, the dialog stands 1.68:1
+  off the page it covers in light and 1.44:1 in dark with no shadow
+  making up the difference, and in light the wash takes the whole window
+  to `#A4A4A4` — which this platform's own sheets never do to a parent.
+  One rung plus a scrim is exactly what ADR-021 and `patterns/modal`
+  prescribe; whether that is enough separation, and whether a scrim
+  should be scheme-aware at all, is the modal's question rather than this
+  app's.
+- **A floating action button in the bottom-right corner**, for the app's
+  only additive action, at the Android placement, in a Mac window; the
+  reviewer named it unprompted in both passes. Where a "+" belongs on
+  this platform — a toolbar, a Cmd-N, a new-item row at the end of the
+  list — is an app-voice decision this task did not take. The window also
+  has no header of any kind: no title, no item count, no
+  all/active/completed filter.
+- **Nothing groups the rows, and this task is why.** Taking the pane away
+  left the rows on a plain ground with no separator, no alternating tint
+  and a 64 dp pitch around a 20 dp box and 15 px of text — phone density,
+  so a 600 dp window holds eight todos and half of it is empty at four.
+  The grammar fixes the rung and leaves the shape open; nothing has yet
+  been put in the shape's place. An empty list is a blank window with no
+  first-run copy at all.
+- **Delete is one click, on every row, in the accent colour.** Four X
+  marks in Primary, each stranded ~300 px from the text it belongs to,
+  always visible and always armed, with no row highlight tying one to its
+  row, no confirmation and no undo.
+
+Four readings in that review were wrong, and one of them is a briefing
+the packets have had only half of. **The dialog is not sitting above
+centre**: it is drawn at y 200–400 of a 600 dp window, exactly centred,
+which the render test now measures — what leans the frame upward is the
+list behind it and the dialog's own top-weighted content. **The accent is
+not hard-coded**: the frames are frozen `DefaultLight`/`DefaultDark`
+renders and the app reads the OS accent through the live theme stream,
+which is S12's misread returning verbatim. **The dark scheme's ground is
+not `#0C0C0C`**: that is the scrimmed page read off the dialog frame and
+tabulated as the app background; the ground is `#181818`, which the
+reviewer's own 6.63:1 border figure is correctly computed against. And
+**the light scheme's elevation does not run backwards.** A raised surface
+darker than the ground it floats on was read as a ramp derived once and
+negated, with the dark scheme offered as the correct one — but that is
+R7 in the light scheme, the exact mirror of the dark-scheme misread the
+packets already brief. Both directions belong in that briefing from now
+on: level 1 is darker than level 0 in light and lighter in dark, one
+rule, because the ramps are paired.
+
+A fifth reading was the harness's fault rather than the app's, and AK6.5
+fixed the harness. The review frames were rendered with the theme's
+radius scale pinned sharp, the way the stored goldens upstream pin it, so
+every rounded corner in them was square and the reviewer reported square
+corners in a rounded-corner OS. Nothing in
+`todos/window_render_test.go` stores an image, so it had nothing to buy
+with that pinning; it now renders at the real scale, and future review
+frames from it carry the corners the app draws.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -5948,6 +6062,17 @@ Stated as rules:
   one rule, both schemes, because the ramps are paired. A window that is
   deeper in the middle than at its edges has the grammar inverted
   somewhere.
+
+  The walk is over the window *at rest*, and that has to be said because a
+  modal breaks it on purpose. A dialog stands in the middle of the window at
+  level 2 with the content ground all round it, so read literally the check
+  fails for every modal in the system — and for every control inside one,
+  which R4 puts a rung deeper still. What is transient is not on the walk: it
+  lies *over* the resting window rather than in it, and R4 walks its interior
+  from its own ground. Dismiss the overlays; the window left behind is the one
+  this check is about. (Added 2026-08-27, the gap AK6.5 hit writing the check
+  down as a test: the assertion had to name the route with no dialog on it
+  before it could state R7 at all.)
 
 **Stated in rungs, evidenced in hexes.** The rules above name rungs and
 semantic roles only, because the paired ramps make one statement serve both
@@ -13786,11 +13911,11 @@ scrim; and its text field at `todos/theme.go:36` is neutral 300, which
 is correctly one rung over the dialog *as the dialog stands now* and
 has to move with it if the dialog does.
 
-- [ ] The list's resting fill is the window ground; no region of the
+- [x] The list's resting fill is the window ground; no region of the
   window is deeper in its middle than at its edges.
-- [ ] The dialog and its field sit at rungs that hold together, with
+- [x] The dialog and its field sit at rungs that hold together, with
   the choice recorded in the commit body.
-- [ ] Exit: `go build ./... && go test ./...` green in `workbench`;
+- [x] Exit: `go build ./... && go test ./...` green in `workbench`;
   fresh-eyes review per the preamble; commit and push in `workbench`,
   `.github`.
 
