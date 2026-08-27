@@ -5550,6 +5550,189 @@ primary on a deep panel and carries little of the signal, leaving the accent
 bar to do the work — known when the row was drawn, and worth a task of its own
 rather than a change smuggled into this one.
 
+### ADR-021: Which region of a window wears which rung
+
+**Status.** Accepted 2026-08-27, requested by René after putting two
+workbench windows side by side.
+
+#### The gap this closes
+
+The token set has always carried the vocabulary — a thin semantic layer
+(Background, Surface, Divider, Text) over nine-step ramps, and a
+four-storey elevation ladder whose rungs are neutral steps (ADR-007,
+`theme/tokens/colors.go`, `theme/tokens/elevation.go`). What no document
+said is *which region of an application window wears which of them*. So
+every application re-derived the assignment from first principles, some
+derived it backwards, and an application built from the guide alone had
+nothing to check its own window against. The fix is not another token. It
+is one page of anatomy.
+
+#### The grammar
+
+A window is read as three kinds of area, and each kind has a rung.
+
+| area | what it is | rung | resolves to |
+| --- | --- | --- | --- |
+| content ground | the thing the window exists to show — the document, the transcript, the list | level 0 | the Background pin (`SurfaceAt(Level0)`) |
+| chrome furniture | what stands around the content — sidebars, asides, rails, toolbars, inspectors | level 1 | semantic `Surface`, neutral 200 |
+| transient surfaces and edges | what appears and leaves, plus what draws a boundary or a state | levels 2–3, and Divider | neutral 300 / 400 |
+
+Stated as rules:
+
+- **R1 — the resting content ground is level 0.** The largest expanse in a
+  window, the one the window exists to show, fills with the Background pin.
+  The ladder says so in its own comment: level 0's step is a sentinel, not
+  a ramp step, because "a level-0 surface is the app's bg pin sitting over
+  the step-100 ground" (`theme/tokens/elevation.go`). The component library
+  already assumes it — `RenderState.Ground`'s zero value is `Level0`,
+  documented there as "the window ground" (`components/button/button.go`).
+
+- **R2 — chrome furniture stands exactly one rung up.** Sidebars, asides,
+  rails, toolbars and inspectors fill at level 1, the semantic `Surface`.
+  One rung, not two: the separation between furniture and content is a
+  single step of the neutral ramp, which is all a desktop window needs to
+  read the two apart.
+
+- **R3 — levels 2 and 3 are transient, or they are edges.** Neutral 300 and
+  400 belong to what appears and goes away and to what draws a boundary:
+  the semantic `Divider` (neutral 300), state fills, and the surfaces the
+  pattern library already reserves — a dialog at level 2
+  (`patterns/modal`), a toast's base at level 2 (`patterns/toast`), a
+  popover and a dropdown menu at level 3 (`patterns/popover`,
+  `components/input/dropdown.go`). No resting expanse of a window may fill
+  at level 2 or deeper. Permanence is the test, and size is its tell: if a
+  fill is the biggest thing on screen and it never goes away, it is not a
+  level-2 surface no matter what it is called.
+
+- **R4 — rungs are walked from the local ground, not from the window.** A
+  card resting on the content ground is level 1 over level 0
+  (`patterns/card`); a control inside a dialog walks from level 2, which is
+  what `RenderState.Ground` exists to say. So "one rung up" always means one
+  rung up *from the surface you are sitting on*, and a raised inset inside
+  a level-0 transcript — a code fence, a quote block — steps up from the
+  paper it lies on rather than reaching for an absolute step.
+
+- **R5 — what is chosen is Primary-tinted; what is transient is a neutral
+  walk.** The item a window is currently showing — the open note, the open
+  conversation — fills from the Primary ramp's tinted end,
+  `Ramps.Primary.Step(300)` (`workbench/vaultview/tree.go`). Hover, pressed
+  and a keyboard cursor stay neutral step walks over the region's own
+  ground (ADR-007's state model). That division is deliberate and vaultview
+  says so in its own comment — "Keyboard selection and the active note keep
+  their distinct colours" — because a list must be able to show a cursor
+  and a current item at the same time without the two colliding. A neutral
+  fill says *something happened here*; a tinted one says *this is the one
+  you are looking at*.
+
+- **R6 — the titlebar wears the ground of the region it caps.** A painted
+  window may not carry an unpainted native strip above it. Where the
+  platform lets content run behind the titlebar, take that treatment
+  (`desktop.FullSizeContent`, as `workbench/vaultview` does) and let the
+  capped region's own fill reach the window's top edge; where it does not,
+  the application paints its own band in that region's fill. The strip is
+  part of the region below it, not a fourth kind of area.
+
+- **R7 — the check.** Walk out from the middle of the window: rung numbers
+  must never decrease. Content 0, furniture 1, transient 2–3. In the light
+  scheme that means the window is lightest at its centre and steps darker
+  outward; in the dark scheme, darkest at its centre and lighter outward —
+  one rule, both schemes, because the ramps are paired. A window that is
+  deeper in the middle than at its edges has the grammar inverted
+  somewhere.
+
+**Stated in rungs, evidenced in hexes.** The rules above name rungs and
+semantic roles only, because the paired ramps make one statement serve both
+schemes. The measured light-scheme values are evidence, not the rule:
+Background `#F6F6F6`, Surface = neutral 200 `#E8E8E8`, Divider = neutral
+300 `#D4D4D4`, neutral 400 `#B6B6B6`. The same rungs in the dark scheme are
+`#181818`, `#222222`, `#2E2E2E`, `#474747` — furniture *lighter* than
+content there, and no second rule was needed to say so.
+
+#### What it forbids
+
+1. A resting content expanse filled at neutral 300 or 400 — the rungs the
+   ladder reserves for what appears and leaves.
+2. Chrome furniture two or more rungs off its content, in either direction,
+   including furniture at level 0 under content that has been raised.
+3. A neutral step standing in for the current item where a Primary tint is
+   what the reader needs.
+4. A native, unpainted titlebar strip above a painted window.
+5. New tokens minted to express any of this. Every rule above resolves
+   inside the existing vocabulary; a window that cannot be dressed from it
+   is a window whose anatomy is wrong, not a token set that is short.
+
+#### The worked example: two windows
+
+**vaultview is the shape.** The frame fills the whole window with
+`tok.col.Background` and then raises the panes: the sidebar and the aside
+fill with `tok.col.Surface` (`workbench/vaultview/frame.go`), the
+note/aside divider inks at neutral 500 under the pointer, and the pane
+carries a level-2 shadow because it floats. The window uses the
+full-size-content treatment, so the ground runs to the top edge and the
+titlebar is the ground rather than a strip above it. The tree's current
+note is a Primary-tinted pill at `Ramps.Primary.Step(300)`, with the
+keyboard cursor left on neutral 300 (`workbench/vaultview/tree.go`). Every
+rule above is already satisfied there; the grammar was read off this window
+as much as it was derived.
+
+**mindchat inverts it.** Its sidebar is correct — `Sidebar: c.Surface` in
+`workbench/mindchat/theme.go` — but the transcript beside it is not.
+`BotBubble` resolves to `Ramps.Neutral.Step(300)` and `MessageRow`
+(`workbench/mindchat/view.go`) fills every assistant row with it,
+full-width; since most of a transcript is assistant text, the level-2 rung
+covers most of the window. `RowSelected` is the same neutral 300 where R5
+asks for a Primary tint. And the window keeps its native decorations, so a
+white strip sits above the painted content. The result is the complaint
+that opened this phase: the window reads darker in its middle than at its
+edges — R7 failing out loud. Four violations, one missing rule; not one
+missing token among them.
+
+#### Where the platform agrees
+
+Two things carry over from the stored macOS reference (ADR-019, captures in
+`reference/macos/`), and one deliberately does not.
+
+- **Content reaches the window's top edge.** The platform's translucent
+  toolbar treatment starts its scroll view at y=0; lines pass under the
+  material and are cut only by the window's own top glass, and the
+  separator hairline is a scroll-state indicator rather than a fixed edge.
+  That is R6 measured: the band belongs to the region under it.
+- **The furniture/content separation is one small step.** The measured tint
+  delta between a floating pane and the ground it sits on is under ten
+  luminance units — a nudge, not a storey. That is R2's "one rung, not
+  two", independently arrived at.
+- **The direction is ours, not the platform's.** The reference shows panes
+  both darker *and* lighter than their ground across different windows, and
+  ADR-019 concludes that a tinted floating pane "is a choice a window makes,
+  not something the OS imposes". So the grammar does not inherit a
+  direction from the platform; it inherits one from the paired ramps, which
+  is why R1–R3 are stated in rungs and resolve opposite ways in the two
+  schemes.
+
+#### What this ADR does not decide
+
+- **No new token, and no repaint in the goal that wrote this.** The rules
+  resolve entirely inside ADR-007's ramps, pins and semantic layer.
+- **Shadows are unchanged.** They remain opt-in vibrancy marking what
+  floats and can leave, never a substitute for a rung (ADR-015,
+  `effects/depth`).
+- **App voice is left to the app.** Whether a selected row is an inset pill
+  or a full-bleed bar, how wide the furniture runs, whether a pane floats
+  or sits flush — all of that stays the application's. The grammar fixes
+  *which rung*, never *which shape*.
+- **This is anatomy, not layout.** Nothing here says where a sidebar goes
+  or how wide it is.
+
+#### Consequences
+
+Applying the grammar to a real window is the proof, and if the wording and
+a window disagree, one of them is wrong and it must be settled in the same
+task rather than left standing. The follow-on goals in this phase do that:
+mindchat is repainted to the rule, the agent guide learns to state it, and
+the remaining workbench windows are read against it. An application built
+from the guide alone now has something to check its window against, which
+is the whole point.
+
 ## Phase A: Front door — make the org legible to a coding assistant
 
 Nothing here changes a line of library code. It fixes the reason an assistant
@@ -12772,11 +12955,11 @@ into `design/DESIGN.md` — the rationale document for people working on
 the system — as a section beside the existing colour-system material,
 in that file's voice and citing conventions.
 
-- [ ] ADR-021 added to Reference after ADR-020, stating the assignment
+- [x] ADR-021 added to Reference after ADR-020, stating the assignment
   grammar with the vaultview/mindchat evidence.
-- [ ] `design/DESIGN.md` carries the doctrine section; the generated
+- [x] `design/DESIGN.md` carries the doctrine section; the generated
   parts of the design repo are untouched.
-- [ ] Exit: no code changed, so no build gate; commit and push in
+- [x] Exit: no code changed, so no build gate; commit and push in
   `.github` and `design`.
 
 ### G-AK2: MindChat wears the grammar
