@@ -4629,6 +4629,47 @@ frame shows one emission.
   MarkOn walk — pre-existing drift, no fixture mirrors the focused
   state. Folded into the Phase AP task.
 
+#### S23 — carried out of AI1.1's fresh-eyes review
+
+AI1.1 (2026-08-27) put the iconbrowser's whole window in front of eyes
+that had not read the task, both schemes, and got AK6.8's review back
+almost line for line — the platform cluster as S9 wrote it, the
+neutral-500 border sampled to the same two hex values S16 already
+carries, the 44 dead rows, the last row clipped mid-cell, the
+all-accent glyphs, the uncopyable name, and the 16 dp marks judged
+anemic. All held; none re-recorded. One finding was not in that list,
+and one complaint landed on the copy this task wrote and was fixed
+inside it.
+
+- **Two long captions in neighbouring cells all but collide.** Measured
+  off the light frame: `ActionAssignmentReturned` and
+  `ActionAssignmentTurnedIn` stand 15 px apart while the 40 dp glyphs
+  above them stand 130 px apart, so a row of long names reads as one
+  run-on string with the glyph row above it airy. The caption box is the
+  whole cell (`iconbrowser/view.go`, Grid, and `marks.go`, markCell,
+  which does the same), so a name is allowed to reach the cell's own
+  edge and its neighbour's begins at the next pixel. What is owed is a
+  caption box inset from the cell — the truncation already works, so the
+  inset buys the gutter rather than the ellipsis.
+- **The marks note read as a design note in shipped chrome** — fixed in
+  AI1.1, recorded because the slot keeps drawing this. The turn clause
+  first landed as a sentence ("the turned disclosure is that same mark,
+  as an open row draws it") hanging off a section label whose sibling
+  says "961 icons", and was cut to "disclosure also turned, for an open
+  row". S16's own bullet is the same slot failing differently: prose in
+  a right-aligned muted note reads as a note somebody left in the
+  window.
+
+**Two misreads for the next packet's briefing.** *Captions do not
+overrun their neighbours*: the reviewer predicted that "the next longer
+name in a set of 961 simply overflows", but `textdraw.FillText` shapes
+at `min(constraints, rect.Dx())` with the style's `MaxLines: 1` and "…"
+truncator, so a name too long for its cell ends in an ellipsis at the
+cell's width — what the frame shows is the missing gutter, not a missing
+truncation. *The section labels do not scroll away*: both headings are
+Rigid children stacked above the scrolling list (`view.go`, Page), so
+they are already pinned; a still frame cannot show what moves.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -14917,12 +14958,12 @@ heading's note must stay honest about what the cell shows: the open
 rendition is the same mark turned, not a second name a call site could
 write.
 
-- [ ] The disclosure cell shows the closed and the open rendition, the
+- [x] The disclosure cell shows the closed and the open rendition, the
   open one produced by the quarter-turn transform; other marks' cells
   are unchanged.
-- [ ] The heading note or caption says what the extra drawing is, so it
+- [x] The heading note or caption says what the extra drawing is, so it
   does not read as a mark named "open".
-- [ ] Exit: tests green in `iconbrowser` (`go test ./...` from
+- [x] Exit: tests green in `iconbrowser` (`go test ./...` from
   `workbench/iconbrowser`). Commit and push in `workbench`.
 
 
