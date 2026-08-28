@@ -16262,11 +16262,11 @@ tests rely on (counts, dates, the two date-format sites recorded in
 S17 stay as they are — that item is separately recorded). Goldens
 that render fixture text regenerate.
 
-- [ ] No plan-shaped prose survives in fixture content; unread marks
+- [x] No plan-shaped prose survives in fixture content; unread marks
   read organically; the structural properties tests rely on are
   unchanged.
-- [ ] Goldens that legitimately moved are regenerated in this task.
-- [ ] Exit: green in `workbench/feeds` and the workbench root; commit
+- [x] Goldens that legitimately moved are regenerated in this task.
+- [x] Exit: green in `workbench/feeds` and the workbench root; commit
   and push in `workbench` and `.github`.
 
 ## Phase AX: The guide teaches the ink gate
