@@ -15966,11 +15966,11 @@ stroke-on-page separately for every seed. Style fields are public
 API: document the split, migrate `FromTokens`, and check for other
 constructors.
 
-- [ ] Stroke and fill are separate fields, each gated against its own
+- [x] Stroke and fill are separate fields, each gated against its own
   neighbour, tick re-derived; sweeps cover both, pastels included.
-- [ ] Goldens that legitimately moved are regenerated (canonical seed
+- [x] Goldens that legitimately moved are regenerated (canonical seed
   should move none — verify).
-- [ ] Exit: green in `markdown` and every consumer whose goldens
+- [x] Exit: green in `markdown` and every consumer whose goldens
   moved; commit and push in every repo touched.
 
 ## Phase AU: Lightness climbs toward the viewer
