@@ -6592,6 +6592,18 @@ nothing anyway and v0.9's forced successor is a v1.0.0 compatibility promise
 no one scheduled. A patch series that hits .9 still rolls the minor — that
 spend is the double-digit rule being mechanical, not a judgment made here.
 
+Two recorded precedents are superseded by this rule, by the owner's
+2026-08-28 direction, and a release task that finds them first should follow
+this paragraph instead. AR1.1 weighed shipping additive API under a patch
+and rejected it, which is part of how `mvu` and `components` rolled v0.9.x
+to v1.0.0; that rejection is reversed — a module in the same position today
+cuts the next patch. And the twice-applied ruling that a repaint with no
+exported-API delta is a minor — most recently `patterns` at AU3.1, where it
+rolled .9 into v1.0.0 — inverts: a release that changes pixels but no
+contract is a patch, and the goldens and the tag annotation carry the news a
+wider bump used to. What keeps the minor is F5.2's kind of change: anything
+a caller's *code* could have relied on.
+
 **A nested module's tag mirrors its root's version.** A module in a
 subdirectory is tagged `<subdir>/vX.Y.Z`, and that tag requires the root at
 exactly `vX.Y.Z`:
