@@ -16296,3 +16296,108 @@ version-shaped strings the sync script does not own,
   voice, conventions verified.
 - [x] Exit: `sync-versions.sh -n` exits 0; commit and push in
   `workbench`.
+
+## Phase AY: The dark floor is a measured step, and a floating pane carries its edge
+
+Owner ruling, 2026-08-28: Option B at `#151515`. The dark floor's one
+full band step (4.93 L* below the paper, `#0C0C0C`) overshot every
+measured reference — Voice Memos puts its dark sidebar panel 1.50 L*
+under the content (`#1B1B1B` under `#1E1E1E`), the reference chat app
+1.71, Settings ~3.8 with wallpaper tint — and read as pure black
+where the platform reads dark grey. The dark floor becomes the
+MEASURED constant `#151515` (1.48 L* under the `#181818` paper, the
+Voice Memos step almost exactly); the light floor stays the band step
+`#E8E8E8`, which is itself the measured platform behaviour (macOS
+light panes ~4.9 L* under their paper). The asymmetry is the
+platform's own, documented like ADR-019's numbers, not a hand-pick.
+
+And a distinction the owner drew, with Voice Memos as the worked
+example: there are two kinds of chrome. A FLOATING PANE — vaultview's
+sidebar, which a button slides out of the window — is an object, and
+its elevation reads through its own internal hairline outline (Voice
+Memos: `#3A3A3A` on `#1B1B1B`, a deliberate 1.51:1 whisper — a
+decorative seam, NOT a 3:1 mark) plus shadow, never through lightness:
+the platform paints even the floating panel darker than the content.
+INTEGRAL FURNITURE — vaultview's aside, fixed and flush, the outline
+pane that cannot slide — carries no outline; it is a flush region
+whose boundary is a plain seam. Voice Memos' flush right side is
+plain. This closes ADR-014's "assert it or drop it" seam question
+(assert — by edge, not tone) and the rail's
+shadow-lighter-than-its-caster paradox.
+
+### G-AY1: The tokens take the measured step
+
+#### AY1.1: The dark floor becomes #151515, documented as measured
+
+In `theme/tokens/elevation.go`: the floor's dark answer becomes the
+measured constant `#151515`, documented with the three references and
+their L* steps the way ADR-019 documents button geometry; the light
+floor's band-step derivation stands, with the doc stating why the two
+schemes differ (the platform's own asymmetry). Amend ADR-022 (and the
+DESIGN.md twin, and llms.txt's anatomy prose if it names the depth):
+chrome's depth is semantic, not geometric — a floating chrome pane is
+still chrome and still recedes; its elevation reads through edge and
+shadow, Voice Memos quoted as evidence. Sheet regenerates through the
+generator (bundle with generator, per the preamble). Sweeps re-answer;
+enumerate expected downstream golden staleness for AY1.2, regenerate
+nothing outside theme/design.
+
+- [ ] The dark floor answers `#151515`; the doc carries the measured
+  evidence; sweeps and mirror green.
+- [ ] ADR-022 and both twins carry the semantic-depth amendment.
+- [ ] Exit: green in `theme` and `design`; commit and push in
+  `theme`, `design`, `.github`.
+
+#### AY1.2: The org inherits the shallower floor
+
+Libraries and apps rebuild: regenerate every dark golden that
+legitimately moves (`#0C0C0C` family → `#151515` family — patterns
+furniture, gallery, sitedocs downstream by name, every app's dark
+frames), verify light is byte-stable everywhere, derivation-machinery
+edges re-answer without hand edits. No design decisions here.
+
+- [ ] Dark goldens regenerated across every affected repo, bands
+  named; light byte-stable, proven.
+- [ ] Exit: green in `components`, `patterns`, `markdown`,
+  `components/gallery`, the workbench root and every nested module;
+  `scripts/check-layers.sh` from `.github`; commit and push in every
+  repo touched.
+
+### G-AY2: vaultview shows both kinds of chrome
+
+#### AY2.1: The sliding pane is outlined; the flush aside keeps a plain seam
+
+In `workbench/vaultview`: the rail (the pane the toggle slides out)
+gains an internal hairline outline at the SEAM strength — a
+seam-specific derivation targeting the platform's ~1.5:1 whisper,
+documented as measured, explicitly NOT the 3:1 graphic floor (a 3:1
+line on these grounds needs `#666`-class ink, far louder than
+anything the platform draws); its shadow resolves against its own
+storey or retires in favour of the edge — the recorded
+shadow-lighter-than-caster item closes either way, stated. The aside
+stays flush and un-outlined; its boundary takes the plain seam
+treatment consistent with the shell's existing hairline convention
+(worker's judgment against R6 and the split-seam precedent). Both
+schemes; goldens regenerate; fresh-eyes on the whole window, live
+capture preferred if the screen allows, else headless with the
+limitation stated.
+
+- [ ] The rail is outlined at seam strength in both schemes; the
+  aside is flush with a plain seam; the shadow item is closed and
+  stated.
+- [ ] Goldens regenerated; fresh-eyes review per the preamble with
+  the reply saved verbatim to a file on receipt.
+- [ ] Exit: green in `workbench/vaultview` and the workbench root;
+  commit and push in `workbench` and `.github`.
+
+### G-AY3: The seam ships it
+
+#### AY3.1: The measured-floor release
+
+ADR-006 end to end over the round: tags bottom-up under the recorded
+version rules, pins, `GOWORK=off` matrix green, `sync-versions.sh`,
+push everything with its tags.
+
+- [ ] Tags pushed bottom-up; pins bumped; matrix green; sync clean.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+  every repo and tag pushed; commit and push in every repo touched.
