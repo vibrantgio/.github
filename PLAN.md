@@ -15944,10 +15944,10 @@ move (that is the same no-golden-moved guarantee AV1.1 stated as a
 test — state it for these sites too); the pastel seeds in the sweeps
 must clear post-gate.
 
-- [ ] The four sites gate through `InkOn`; sweeps cover them; the
+- [x] The four sites gate through `InkOn`; sweeps cover them; the
   canonical seed's pixels are proven unmoved by test and by golden
   runs (gallery and its sitedocs downstream by name).
-- [ ] Exit: green in `patterns`, `components`, `components/gallery`,
+- [x] Exit: green in `patterns`, `components`, `components/gallery`,
   `workbench/sitedocs`; `scripts/check-layers.sh` from `.github`;
   commit and push in every repo touched.
 
