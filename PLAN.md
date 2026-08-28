@@ -16268,3 +16268,31 @@ that render fixture text regenerate.
 - [ ] Goldens that legitimately moved are regenerated in this task.
 - [ ] Exit: green in `workbench/feeds` and the workbench root; commit
   and push in `workbench` and `.github`.
+
+## Phase AX: The guide teaches the ink gate
+
+AU3.1 shipped `InkOn`/`TextFloor`/`GraphicFloor` and markdown's split
+checkbox fields in the tags, but `workbench/llms.txt` teaches none of
+them — an assistant building an app today would re-invent the
+fill-colour-as-ink bug the AV phase just ended (a pin is entitled to
+be its own colour as a FILL; used as an INK it must gate against its
+ground, and only the light primary pin can ever fail).
+
+### G-AX1: An app author learns the gate
+
+#### AX1.1: llms.txt teaches InkOn and the split checkbox fields
+
+Add the ink-gate instruction where the colour sections live: when a
+brand colour is used as text or a mark on a ground, derive through
+`c.InkOn(role, ground, tokens.TextFloor|GraphicFloor)` — the pin
+returns untouched when it clears, so the canonical brand is
+unchanged; state the fill-vs-ink distinction in one sentence. Name
+markdown's `CheckboxBorder`/`CheckboxFill` where the file describes
+the markdown style. File conventions hold: no ADR/task jargon, no
+version-shaped strings the sync script does not own,
+`sync-versions.sh -n` exits 0 after the edit.
+
+- [ ] The guide teaches the gate and the split fields, in the file's
+  voice, conventions verified.
+- [ ] Exit: `sync-versions.sh -n` exits 0; commit and push in
+  `workbench`.
