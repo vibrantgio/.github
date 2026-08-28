@@ -493,3 +493,20 @@ visible.
     purpose-built seed cell shape would settle both; the size channel
     (the smaller pick swatch, 4dp handed inset) should survive any
     restyle.
+
+88. **[feature]** Added 2026-08-28, carried in from a consuming app's
+    chip census. The system has no designed chip: a clickable raised
+    chip — fill one storey above its local ground (the SurfaceAt
+    walk), hairline and radius carrying the edge, hover and press via
+    StateAt, icon and label as inks over the fill, the pointer target
+    at Density.MinHitTarget — plus the same face non-interactive, as
+    a badge for marks that keep a fill. The species already exists by
+    hand in-org: mindchat's model-picker chip (modelmenu.go, a label
+    and chevron anchoring a popover) draws it from parts. The window
+    anatomy licenses the object — a filled inset is a raised chip,
+    never a recessed well — and what is missing is the component.
+    Distinct from the button on purpose: a button's label is a verb
+    and its icon-only contract stands (Phase AJ considered
+    icon-plus-label for the register and ruled it out), so the chip
+    is where a data-bearing summary with a glyph lives, and the
+    ruled-out composition needs no revisiting.
