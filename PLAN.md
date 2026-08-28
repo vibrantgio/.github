@@ -16426,6 +16426,22 @@ edges re-answer without hand edits. No design decisions here.
   `scripts/check-layers.sh` from `.github`; commit and push in every
   repo touched.
 
+#### AY1.3: DESIGN.md's ladder table tells the released truth
+
+AY1.1 found `design/DESIGN.md` still carrying the pre-linchpin
+elevation table ("| 1 | card / raised-in-place surface | neutral 200
+|" …) under the sentence "the ladder as the released tokens still
+resolve it" — false since the linchpin release. Rewrite the table to
+the five measured storeys the released tokens actually answer (both
+schemes' values, the floor's measured step), keeping the file's voice
+and its ADR citations; verify no other stale pre-linchpin table or
+claim survives in the file (grep for the old rung/step vocabulary).
+
+- [ ] The table matches the released tokens in both schemes; no stale
+  ladder claim survives in the file.
+- [ ] Exit: green in `design` (`-count=1`, the embed test); commit
+  and push in `design`.
+
 ### G-AY2: vaultview shows both kinds of chrome
 
 #### AY2.1: The sliding pane is outlined; the flush aside keeps a plain seam
@@ -16452,6 +16468,18 @@ limitation stated.
   the reply saved verbatim to a file on receipt.
 - [ ] Exit: green in `workbench/vaultview` and the workbench root;
   commit and push in `workbench` and `.github`.
+
+Reference discipline (AY1.1 found the conflict): the stored
+`reference/macos/voicememos-window.png` predates the owner's
+2026-08-28 measurements and shows both panes at `#1E1E1E` with no
+panel outline — ADR-019's "Voice Memos tints nothing" row describes
+the OLD capture. If the owner has dropped a current Voice Memos
+capture on the Desktop, store it in `reference/macos/` and amend
+ADR-019 with a dated note (old capture kept, new one beside it);
+if no capture file exists, record the owner's attested numbers
+(panel `#1B1B1B`, outline `#3A3A3A` at 1.51:1, content `#1E1E1E`)
+in the ADR-019 amendment with their provenance, and close the gap
+when a capture lands.
 
 ### G-AY3: The seam ships it
 
