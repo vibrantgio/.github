@@ -15991,10 +15991,10 @@ through the palette rather than hardcoded bytes, so the proof holds
 for any seed on either side of the floor. Test-only change; the
 window's pixels are already correct.
 
-- [ ] The adoption proof asserts role-presence through the palette's
+- [x] The adoption proof asserts role-presence through the palette's
   own answers; it passes for the kept brand AND for a seed whose pin
   clears (both directions pinned).
-- [ ] Exit: green in `workbench/vaultview` and the workbench root;
+- [x] Exit: green in `workbench/vaultview` and the workbench root;
   commit and push in `workbench` and `.github`.
 
 ## Phase AU: Lightness climbs toward the viewer
