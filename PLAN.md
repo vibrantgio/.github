@@ -6572,6 +6572,26 @@ missed a second time. (Both were cut as named; the buried tags stay buried on
 what are now the frozen `spectrum` and `pulse` paths, which ended at v0.5.0
 and v0.1.4 — `theme` and `effects` continue the count per ADR-009.)
 
+**The patch is the default bump; the minor is rationed.** Added 2026-08-28,
+with `theme` at v1.3.0 — three of its post-1.0 minors spent in its first
+month at 1.x. The rule above makes the minor a budget: single-digit
+components give a major ten minors, and past v1.0.0 the series has no relief
+valve, because v1.9's only successor is v2.0.0 — which in Go is not a bigger
+number but a different module, a `/v2` in the module path that every consumer
+must edit into every import. So nothing takes the major, and the minor is
+spent only where its meaning is load-bearing: a release that changes an
+existing contract — an exported symbol moved, removed or re-signatured, or
+observable behaviour a caller could have relied on (F5.2's rule stands: such
+a change is never a patch). Everything else is a patch — additive API, new
+components, fixes, re-pins, docs. This deliberately under-promises against
+strict SemVer, which would call additive API a minor; the signal that a
+release is purely additive is traded for the survival of the major, and a
+consumer that needs a new symbol names the exact version rather than reading
+the bump's width. The same default holds under v0.x, where SemVer promises
+nothing anyway and v0.9's forced successor is a v1.0.0 compatibility promise
+no one scheduled. A patch series that hits .9 still rolls the minor — that
+spend is the double-digit rule being mechanical, not a judgment made here.
+
 **A nested module's tag mirrors its root's version.** A module in a
 subdirectory is tagged `<subdir>/vX.Y.Z`, and that tag requires the root at
 exactly `vX.Y.Z`:
