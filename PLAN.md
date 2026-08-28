@@ -16292,7 +16292,7 @@ the markdown style. File conventions hold: no ADR/task jargon, no
 version-shaped strings the sync script does not own,
 `sync-versions.sh -n` exits 0 after the edit.
 
-- [ ] The guide teaches the gate and the split fields, in the file's
+- [x] The guide teaches the gate and the split fields, in the file's
   voice, conventions verified.
-- [ ] Exit: `sync-versions.sh -n` exits 0; commit and push in
+- [x] Exit: `sync-versions.sh -n` exits 0; commit and push in
   `workbench`.
