@@ -16173,9 +16173,70 @@ version rules (minors at 9 roll to the major — the recorded
 precedent), nested mirrors, pins bumped, `GOWORK=off` green in every
 module, `sync-versions.sh`, and the guide already true from AU1.1.
 
-- [ ] Tags pushed bottom-up; pins bumped; `GOWORK=off` matrix green;
+**What shipped.** Six tags, bottom-up: `theme v1.2.0`; `components
+v1.1.0`; `effects v0.2.3`; `patterns v1.0.0`; `markdown v0.7.0`; and
+the nested `components/gallery v1.1.0`, cut last so that it names the
+newest tag of everything it renders.
+
+The numbers, each judged against what actually moved. **`theme` is a
+minor.** `tokens` grew `LevelFloor`, `Elevation.Floor`, `StateAt`,
+`InkOn`, `TextFloor` and `GraphicFloor` additively while `SurfaceAt`
+re-answers, but `export` took a real break: `ElevationParams.
+SurfaceSteps` is replaced by `Surfaces` and `ShadowDp` widens to five.
+That break rides a minor deliberately, and the reasoning is the org's
+own rather than plain semver. This organization mints majors by the
+no-double-digit roll — theme's own v0.9.0 → v1.0.0 at AD3.1, and
+`components` and `mvu` the same way at AR1.1 — never as a stability
+promise; it has no `/vN` import path anywhere and no ADR contemplating
+one; and its recorded precedent for removed exported symbols is a
+minor, the G0C round taking `cadence` v0.4.1 → v0.5.0 over
+`popover.Arbitration` and its siblings. Minting `theme/v2` would
+rewrite every import in the org and is a plan-level decision, not a
+release step. **`components` is a minor** for `richtext.Chip.Border`
+plus the control fills that rise with their ground and the ink gates.
+**`effects` is a patch**: no source moved at all, and the tag exists so
+that a consumer resolving it alone receives the ladder its rendering is
+derived against — the same reason AR1.1 cut v0.2.2. **`patterns` has no
+exported-API delta** but repaints every window it dresses, which the
+plan has twice ruled a minor, and a minor from `.9` rolls to
+**v1.0.0**. **`markdown` is a minor carrying a break of its own**:
+`Style.CheckboxColor` removed for `CheckboxBorder` and `CheckboxFill`,
+argued in AV1.3's commit and stated in the annotation in the module's
+own terms, with no deprecated alias.
+
+Untagged, and why. `mvu`, `font` and every tier-0 and support repo
+carry no unreleased API since their last tags — only the gofmt sweep,
+the CI removal, the Gio bump and doc regeneration — so no tag,
+`backdrop` included. `mvu/desktop` and `mvu/example` keep the tags that
+mirror an unmoved root; `example`'s pin bump rides master untagged.
+`design` and `workbench` stay untagged by the Release protocol.
+
+The second self-referencing pass cost nothing again: tagging strictly
+bottom-up and cutting the nested gallery after the layers above its
+root left every published `go.mod` already naming the newest tag
+beneath it, verified by reading `go.mod` out of all six tags. The
+`GOWORK=off` matrix went 29/40 before the round to **40/40** after —
+the eleven failures were exactly the seam this release closes.
+`check-layers.sh` and `check-versions.sh` both read OK, and the `design`
+bundle regenerates byte-identical from the generator that was tagged.
+
+`sync-versions.sh` rewrote nine version tokens in `workbench/llms.txt`.
+One piece of version-shaped drift was found beside them and fixed in the
+same commit: §Elevation still taught a four-rung ladder read off the
+neutral ramp, false since the ladder was re-founded on the Background
+pin in CIELAB L*. It now names five storeys from `LevelFloor`, says a
+storey is a ramp step only where the two coincide (the light floor at
+neutral 200; the dark scheme's three storeys above the paper at
+200/300/400) and that `c.Surface` is a ramp alias rather than a storey,
+and gives state walks their storey-grounded form `c.StateAt`.
+§"Window anatomy" was already true from AU1.1 and is untouched. Left
+open and worth a task: the guide does not yet teach
+`InkOn`/`TextFloor`/`GraphicFloor` or markdown's split checkbox fields,
+which is missing coverage of new published API rather than drift.
+
+- [x] Tags pushed bottom-up; pins bumped; `GOWORK=off` matrix green;
   `sync-versions.sh` clean.
-- [ ] Exit: `scripts/check-layers.sh` from `.github`; every repo and
+- [x] Exit: `scripts/check-layers.sh` from `.github`; every repo and
   tag pushed; commit and push in every repo touched.
 
 ## Phase AW: The fixtures speak like feeds
