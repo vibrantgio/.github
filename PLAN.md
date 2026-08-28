@@ -16437,9 +16437,9 @@ schemes' values, the floor's measured step), keeping the file's voice
 and its ADR citations; verify no other stale pre-linchpin table or
 claim survives in the file (grep for the old rung/step vocabulary).
 
-- [ ] The table matches the released tokens in both schemes; no stale
+- [x] The table matches the released tokens in both schemes; no stale
   ladder claim survives in the file.
-- [ ] Exit: green in `design` (`-count=1`, the embed test); commit
+- [x] Exit: green in `design` (`-count=1`, the embed test); commit
   and push in `design`.
 
 ### G-AY2: vaultview shows both kinds of chrome
