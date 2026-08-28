@@ -16419,9 +16419,9 @@ furniture, gallery, sitedocs downstream by name, every app's dark
 frames), verify light is byte-stable everywhere, derivation-machinery
 edges re-answer without hand edits. No design decisions here.
 
-- [ ] Dark goldens regenerated across every affected repo, bands
+- [x] Dark goldens regenerated across every affected repo, bands
   named; light byte-stable, proven.
-- [ ] Exit: green in `components`, `patterns`, `markdown`,
+- [x] Exit: green in `components`, `patterns`, `markdown`,
   `components/gallery`, the workbench root and every nested module;
   `scripts/check-layers.sh` from `.github`; commit and push in every
   repo touched.
