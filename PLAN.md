@@ -7264,7 +7264,7 @@ Four storeys, ordered away from the desk and toward the reader:
 
 | storey | what wears it | lightness |
 | --- | --- | --- |
-| **floor** | chrome furniture — sidebars, asides, rails, toolbars, inspectors | darkest in the window |
+| **floor** | chrome furniture — sidebars, asides, rails, toolbars, inspectors, and a chrome pane that floats | darkest in the window — a *measured* step under the paper, 4.89 L\* in the light scheme (`#E8E8E8`) and 1.48 in the dark one (`#151515`); amended 2026-08-28 |
 | **paper** | the content ground — the document, the transcript, the list | the Background pin |
 | **raised** | filled insets on the paper — cards, code fences, a band's own controls, a text field | above the pin |
 | **floating** | what appears and leaves — dialogs, menus, popovers, toasts | nearest the light extreme |
@@ -7285,7 +7285,9 @@ Stated as rules:
   desktop window needs to read furniture and content apart, and which the
   platform independently arrives at (the Settings sidebar sits 3.8 L\* under
   its content ground; the light triple above steps 0.4). What is overturned
-  is R2's direction.
+  is R2's direction. *Amended 2026-08-28:* "one small step" is now a
+  measurement rather than a derivation, and the two schemes measure
+  differently — see the amendment below.
 
 - **V3 — the walk is still local, and it still means one step, but "up" now
   means lighter.** R4 stands entire in its structure: a rung is walked from
@@ -7326,6 +7328,67 @@ Stated as rules:
   is darker in its middle than at its edges has the grammar inverted — which
   is what R7 said about the light scheme and could not say about the dark
   one.
+
+#### Amendment, 2026-08-28: the floor's step is measured, and chrome's depth is semantic
+
+Ruled by René after putting the platform's dark windows beside ours again.
+Two things change; V1's direction and everything above the paper are
+untouched.
+
+**The floor's step under the paper is a measurement, per scheme, and the
+two schemes measure differently.** V2 fixed the direction and left the
+magnitude to the ramp: one band step, the neutral ramp's own first surface
+interval. In the light scheme that derivation and the platform agree — the
+interval is 4.89 L\* and macOS light panes sit about 4.9 L\* under their
+paper — so the light floor stands exactly as it was, on `#E8E8E8` under the
+`#F6F6F6` paper. In the dark scheme the same interval is 4.98 L\*, and it
+overshoots every reference there is:
+
+| reference, dark | step from content to furniture | fills |
+| --- | --- | --- |
+| Voice Memos, sidebar panel under content | 1.50 L\* | `#1B1B1B` under `#1E1E1E` |
+| the reference chat application | 1.71 L\* | — |
+| macOS Settings, sidebar under content | 3.81 L\* | `#1C2123` under `#23292C`, wallpaper tint on |
+| *our band step, for comparison* | *4.93 L\* realized* | *`#0C0C0C` under `#181818`* |
+
+A window whose furniture is nearly black where the platform's is dark grey
+is not reading as furniture; it is reading as a hole. **So the dark floor
+becomes the measured constant `#151515`, 1.48 L\* under the `#181818`
+paper** — the Voice Memos reading almost exactly, and 1.47 L\* once the
+value is quantized to eight bits.
+
+The asymmetry between 4.89 and 1.48 is the platform's own, and it is
+recorded the way ADR-019 records button geometry: the number, the pair it
+was read from, and what it is a measurement of. It is emphatically not a
+mode branch — `theme/tokens/elevation.go` carries two measurements and
+tells the schemes apart off the direction of the surface band, the way its
+headroom calculation already did, so neither scheme is named in the code
+and neither number is derived from the other. Mirroring one measurement
+into the other scheme is the move this record abolished; taking two
+measurements is not that move.
+
+**Chrome's depth is semantic, not geometric.** A chrome pane that FLOATS —
+a sidebar a button slides out of the window, an inspector that detaches —
+is still chrome and still fills at the floor. It does not climb the ladder
+by leaving the wall, because the ladder is about what a region *is*, not
+about whether it is currently flush. What says a pane is a floating object
+is its own hairline edge and its shadow, never a lighter fill.
+
+Voice Memos is the worked example, and it draws both kinds in one window.
+Its floating panel is painted 1.50 L\* *darker* than the content beside it
+and outlined internally at `#3A3A3A` on `#1B1B1B` — a 1.51:1 whisper, a
+decorative seam and deliberately not a 3:1 mark. Its flush side carries no
+outline at all; that boundary is a plain seam. So: **a floating pane is
+outlined and shadowed at its own storey; integral furniture — fixed, flush,
+unable to slide — is a flush region whose boundary is a plain seam.**
+
+That answers two items the ledger is still holding, and they are retired
+in ADR-014 where the code lands (AY2.1), not here. ADR-014's "assert it or
+drop it" question about the pane seam is settled in principle — assert it,
+by edge rather than by tone. And the rail's
+shadow-lighter-than-its-caster paradox dissolves: a rail that recedes and
+is edged has no reason to cast a lighter surface, so its shadow resolves
+against its own storey or retires in favour of the edge.
 
 #### What ADR-021 keeps
 
@@ -16342,10 +16405,10 @@ generator (bundle with generator, per the preamble). Sweeps re-answer;
 enumerate expected downstream golden staleness for AY1.2, regenerate
 nothing outside theme/design.
 
-- [ ] The dark floor answers `#151515`; the doc carries the measured
+- [x] The dark floor answers `#151515`; the doc carries the measured
   evidence; sweeps and mirror green.
-- [ ] ADR-022 and both twins carry the semantic-depth amendment.
-- [ ] Exit: green in `theme` and `design`; commit and push in
+- [x] ADR-022 and both twins carry the semantic-depth amendment.
+- [x] Exit: green in `theme` and `design`; commit and push in
   `theme`, `design`, `.github`.
 
 #### AY1.2: The org inherits the shallower floor
