@@ -4928,6 +4928,98 @@ and reviewers keep reading the wrong half of that.
   slate. This is the dark-ink-reads-grey-at-1x family the ledger already
   briefs, arriving through a new door.
 
+#### S29 — two held items retire, from AY2.1
+
+AY2.1 (2026-08-28) drew ADR-022's floating-versus-integral distinction on
+the vaultview window, and the two items this ledger was holding for it
+close there rather than here. Both are recorded closed, with the answer,
+so that a future reader finds the resolution beside the question.
+
+- **The pane seam's "assert it or drop it" is ASSERTED, by edge.** The
+  rail carries an internal hairline just inside its own rounded boundary,
+  at the platform's measured 1.51:1 whisper against its own fill —
+  `#BEBEBE` on the light floor, `#363636` on the dark one, the second
+  within a level of Voice Memos' own `#3A3A3A` on `#1B1B1B`. The flush
+  trailing column is NOT outlined; its leading edge takes a plain
+  `Divider` hairline running the window's full height. Two boundaries,
+  one weight, two inks, and the difference between them is the doctrine.
+- **The rail's shadow-lighter-than-its-caster paradox is CLOSED by
+  retiring the shadow, and the ladder retired it.** The pane's storey is
+  the floor and `tokens.Elevation.Floor` is zero dp — the desk has nothing
+  to cast onto — so ADR-022's "resolves against its own storey" and
+  "retires in favour of the edge" are the same answer. The arithmetic that
+  made the item real: `effects/depth`'s fixed black at 76/255 peaks at
+  `#111111`, L\* 5.1, on the dark paper, against a pane that used to sit
+  at L\* 3.3 (`#0C0C0C`) — the shadow was 1.8 L\* lighter than the thing
+  casting it. AY1.1's measured floor inverted the sign without buying a
+  lift, and the storey settles both schemes at once. ADR-017's D3
+  correction, which ruled FOR the shadow in 2026-08-17, is superseded by
+  ADR-022's amendment reopening the question, not relitigated.
+
+Untouched, and still open: S11's last bullet, whether `patterns/shell`'s
+ThreeColumn aside divider (6 dp, `asideDividerDp`) should become a
+hairline. That is a different construct in a different repo — a divider
+between two columns of furniture that never crosses a band — and moving
+it moves `components/gallery` goldens. vaultview's own answer is evidence
+for it and not a ruling on it.
+
+One observation worth keeping beside the choice above rather than acting
+on: on the platform, the FLUSH seam is the louder of the two boundaries —
+Voice Memos parts its panes with pure black on `#1E1E1E`, about 1.85:1,
+against its panel outline's 1.51:1 — where ours is the quieter, `Divider`
+reading 1.21:1 to 1.37:1 depending on which side it is measured against.
+Whether `Divider` should assert more is a token-level question and not an
+application's to answer.
+
+**The fresh-eyes review, and what came out of it.** AY2.1's whole-window
+review ran headless in both schemes — the machine's screen was locked for
+the whole task, so the live route was unavailable and the reply says so.
+The verbatim reply is kept at `reviews/ay2.1-vaultview-fresh-eyes.md`. It
+returned ONE complaint, and it is a harness defect rather than a design
+one; it was verified claim by claim and fixed in the same task.
+
+- **AK6.5's trap was still open in vaultview, in a sharper form.** The
+  static renders pinned the theme's radius scale to an empty one
+  (`sharpRadius`), on the reading that antialiased corners vary between
+  GPU contexts. The parameter reaches exactly ONE widget — `renderWindow`
+  → `renderTree` → `input.Render`, the rail's find field — because
+  everything else rounded in the window reads a module-local constant or
+  the `tokens.Radius` global. So the pin flattened the search field and
+  nothing else, leaving the only square box in a rounded window, sitting
+  six pixels inside the rail's own rounded corner; and it made
+  `renderTree`'s written promise ("the golden carries the same field the
+  live rail wears") false, since the live field builds from the reactive
+  theme at `Radius.Md`. The determinism it claimed to buy was already
+  there without it: the pane's ten dp, both pills' eight, the properties
+  box and the fence at `Radius.Base` and the scrollbar caps all draw
+  antialiased arcs into these same goldens and have always diffed
+  exactly. Fixed — `goldenRadius = tokens.Radius`, goldens regenerated,
+  and the only pixels that moved were that one control's corners. In
+  `todos` the same pin flattened everything and read as an artifact at a
+  glance (AK6.5); here it flattened one widget, which reads as a real
+  defect, which is why it survived a round of reviews.
+- **The linchpin's dark magnitude is corroborated for the first time.**
+  Three consecutive reviewers contested the floor's direction (S28 and
+  the two AU2.1 ran). This one measured 1.03:1 between furniture and
+  content in the dark scheme, went to `reference/macos/` to check it, and
+  found the platform doing the same thing — filing it under what it was
+  NOT complaining about. ADR-019's own numbers agree: Notes' pane samples
+  at luminance 31.2 against a 30.0 content ground. Recorded because the
+  challenges were.
+- **Recorded, not fixed, and in another repo:** `markdown/style.go`'s
+  `codeScrollbar` rationale argues from the fence fill being "lighter
+  than both in either scheme". In the light scheme the fence `#EFF1F5` is
+  lighter than the floor and DARKER than the `#F6F6F6` page. The
+  conclusion survives — a bar clearing 3:1 at both extremes over-clears
+  between them — so it is a comment to correct, not a defect.
+- **Nothing was said against this task's own subject.** The reviewer read
+  the outlined inset rail beside the flush unoutlined aside as current
+  platform idiom and named the 1.51:1 outline; no complaint about the
+  retired shadow or either seam's weight. And it filtered the whole known
+  false-positive set for itself, unbriefed — absent titlebar and traffic
+  lights, square window corners, scrollbars drawn at rest, the fence
+  bar's weight, thin-looking ink at 1x. None re-recorded.
+
 ### ADR-015: Unified title bar and floating sidebar
 
 **Status.** Accepted 2026-08-16, from René's third visual pass. 
@@ -5710,6 +5802,52 @@ the whole trick, and the reason the width and the extent have to be read
 together. A seam several points wide crossing the same band would not divide
 it, it would sever it. (Extent added 2026-08-27 by AK5.3, measured off these
 stored captures; nothing was launched.)
+
+#### Amendment, 2026-08-28: Voice Memos on the current OS draws an outlined panel
+
+**The row above is the OLD capture and it stays.** `voicememos-window.png`
+was taken in the sweep this record documents, on macOS 26.5.2; it shows both
+panes at (30,30,30) split by a 1 px pure-black divider, and "Voice Memos
+tints nothing" is a true statement about that file. It is not a true
+statement about the application on the owner's machine today, and the
+difference is the whole reason this amendment exists rather than an edit.
+
+**The current readings, owner-attested 2026-08-28.** Ruling ADR-022's
+amendment, the owner read the current Voice Memos window and reported three
+numbers, which the record carries with their provenance rather than as
+measurements of a stored file:
+
+| region | fill | against | reading |
+| --- | --- | --- | --- |
+| content ground | `#1E1E1E` | — | — |
+| the floating panel | `#1B1B1B` | the content beside it | 1.50 L\* DARKER |
+| that panel's internal outline | `#3A3A3A` | the panel it is drawn on | 1.51:1, 14.65 L\* lighter |
+| the flush side's boundary | no outline at all | — | a plain seam |
+
+Computed from the pair rather than attested: `#3A3A3A` on `#1B1B1B` is
+1.5143:1 and 14.654 L\*, and `#1B1B1B` under `#1E1E1E` is 1.50 L\* — the
+step ADR-022's amendment adopts as the dark floor's measurement.
+
+**Provenance, stated plainly.** OWNER-ATTESTED, CURRENT OS. No capture file
+backs these three values; the stored capture is the PRIOR OS and reads
+differently. A task may cite them for what they are — the owner's reading of
+the platform as it ships today, on the same machine and display the rest of
+this record was measured on — and may not cite them as pixels read from
+`reference/macos/`. Where a stored number and an attested one disagree, the
+attested one describes the current platform and the stored one describes the
+file; say which is meant.
+
+**The gap, and how it closes.** The Desktop was checked for a current Voice
+Memos capture on 2026-08-28 and holds none — the Voice Memos screenshots
+there are the 2026-08-13 set this sweep was taken from, and the 2026-08-27
+files beside them are the reference application's fence and appearance
+captures ADR-022 cites. Nothing was launched to close the gap: the owner
+uses this machine, and the numbers needed were already attested. WHEN A
+CURRENT CAPTURE LANDS, store it in `reference/macos/` under a name that
+says which OS it is, read these four values off the pixels, and replace
+this section's attestation with a measurement — leaving both the old
+capture and this note standing, because a reference whose history is
+overwritten cannot explain why a task read what it read.
 
 #### Scrollbars
 
@@ -16461,12 +16599,153 @@ schemes; goldens regenerate; fresh-eyes on the whole window, live
 capture preferred if the screen allows, else headless with the
 limitation stated.
 
-- [ ] The rail is outlined at seam strength in both schemes; the
+**What shipped.** The window now draws the two kinds of chrome
+differently, and the difference is one pixel wide on both sides.
+
+*The rail's edge, and where the derivation lives.* `paneSeam` is a
+vaultview-local function beside `chromeSurface`: it solves for the ink
+standing `paneSeamRatio` — 1.51:1, the platform's measured whisper —
+off the fill it is drawn on, in the luminance a contrast ratio is taken
+in, and realizes it at that fill's own hue and chroma the way the
+ladder realizes a storey. The direction names no scheme: the edge steps
+toward the scheme's own ink, which is lighter than the pane in the dark
+appearance (as Voice Memos draws it) and darker in the light one, where
+the whole distance left to white from `#E8E8E8` is 1.23:1 — less than
+the whisper itself, so light has only the one direction available.
+Realized on the default palettes: **`#BEBEBE` on the light floor,
+1.517:1 against it and 1.720:1 against the paper; `#363636` on the dark
+floor, 1.511:1 and 1.469:1** — the dark pairing within a level of the
+platform's own `#3A3A3A` on `#1B1B1B` at 1.514:1. It is emphatically
+not `outline.Ink`'s 3:1: on this floor that answers `#666`-class ink,
+several times louder than anything the platform draws around a sidebar,
+and the reason is that the two lines are different constructs — a 3:1
+mark carries meaning alone, a pane's edge is read beside the fill, the
+inset and the radius already saying the same thing.
+
+The edge is drawn as two concentric fills rather than a stroke, and
+that is not a detail: `clip.Stroke` centres on its path and
+antialiases both sides, so a one-pixel stroke arrives as two rows of
+half-strength ink and the colour the palette asked for is never
+painted. Filling the pane in the seam's ink and filling the inset pane
+back over it leaves exactly one pixel of the seam's own value down
+every straight run, corners antialiased against each other. The rail
+is then clipped to the pane's INSIDE, so a selected row running the
+pane's full width cannot paint over the edge.
+
+*Not hoisted, and why.* The defaults rule says one consumer is not a
+default, and there is no second consumer: mindchat's sidebar is NOT a
+sliding pane. It is the leading half of `patterns/shell`'s SplitPane —
+flush to the window's edge, never inset, never rounded, casting
+nothing — and its `[|]` toggle COLLAPSES it to an icon rail rather
+than sliding it out; it always occupies a column. By the owner's
+distinction it is integral furniture that changes width. vaultview's
+rail is the organization's only floating chrome pane, so the
+derivation stays app-local until a second one exists.
+
+*The shadow item closes, and the ladder closed it.* The pane cast at
+`Level2` on the reading that anything floating and dismissible earns a
+shadow. What that missed is which storey the pane occupies: chrome
+furniture is the floor, and `tokens.Elevation` gives the floor **zero
+dp** — "the window's desk is behind everything and has nothing to cast
+onto". So ADR-022's two branches are one answer: a shadow resolved
+against the pane's own storey and a shadow retired in favour of the
+edge both paint nothing, and the call, the import and nine paint
+operations per frame are gone. That settles the paradox the ledger was
+holding — a fixed black fringe cast by the darkest region of the window
+reading lighter than the thing casting it. The arithmetic, for the
+record, because the item's history has two halves: `effects/depth`
+paints a fixed black at 76/255, so on the `#181818` paper the fringe's
+peak composites to `#111111`, L\* 5.1. Under the OLD dark floor
+(`#0C0C0C`, L\* 3.3) the shadow was 1.8 L\* LIGHTER than the pane
+casting it, which is the paradox exactly as it was recorded. AY1.1's
+measured floor (`#151515`, L\* 6.8) inverted the sign without buying a
+lift: 1.7 L\* of black on near-black is a smudge at the pane's edge,
+which is what `effects/depth`'s own doc warns of — "a dark theme that
+wants visible elevation needs something other than this package". The
+storey settles it in both schemes at once. ADR-017's D3 correction,
+which ruled FOR the shadow on
+2026-08-17, is superseded by ADR-022's amendment reopening it, not
+relitigated. A composition test now reads the whole 8 dp gutter the
+pane floats in and requires bare paper.
+
+*The aside's plain seam: a hairline, and the divider's own ink.* The
+trailing column takes a 1 px line down its leading edge, running the
+window's FULL height — over the chrome row and under the status bar —
+because ADR-019 measured the platform's split seams running from y=0
+with no band interrupting them, and R6/AK5.3 say the seam is a
+hairline that crosses the band. The ink is `Divider` rather than
+`paneSeam`, deliberately: the two boundaries are two different things
+and the window is meant to say so — an object's edge circles a pane at
+the measured whisper, a region's seam is a divider between grounds.
+One weight, two inks, and the difference IS the doctrine this phase
+draws. `Divider` measures 1.372:1 against the paper and 1.210:1
+against the floor in the light scheme, 1.308:1 and 1.345:1 in the
+dark.
+
+The drag affordance folds into that line. The gutter's hover mark used
+to be a separate 2 dp bar in the middle of the grab band, which was the
+only thing available while the boundary carried no line at all; beside
+a drawn seam it would read as a stray second edge three dp off the real
+one. The seam itself now thickens to 2 dp and takes neutral 500 while a
+hand is in the band — one line, two states — and no golden moves,
+because the resting pixel is the same pixel.
+
+What changed to make a line right where the frame used to argue for
+none: ADR-021's worked example — where two sides stand on different
+grounds the edge between them IS the seam — was written when furniture
+and paper stood a full band step apart in BOTH schemes. The dark
+floor's step is a measured 1.47 L\* now, a whisper the eye can lose,
+and the platform's answer at a whisper is a line: Voice Memos' two
+panes are the SAME fill and the divider is the whole of what parts
+them. Recorded honestly beside it: the platform's flush seam is the
+LOUDER of its two boundaries (pure black on `#1E1E1E`, ~1.85:1, against
+its panel outline's 1.51:1) where ours is the quieter. Making `Divider`
+assert more is a token-level question and not an application's to
+answer.
+
+*Capture route.* The screen was LOCKED for the whole task
+(`CGSSessionScreenIsLocked` true), so the live route was unavailable —
+under the display shield window capture fails, a screen capture returns
+black, and the toolkit panics initialising a window. The fresh-eyes
+review ran on the headless whole-window renders at 1100×800, both
+schemes, which is the composition the goldens store; a headless frame
+cannot draw the platform's own window buttons, its corner rounding, its
+vibrancy or a focus ring, and that limitation is stated in the review
+record. Nothing was launched and nothing on the owner's screen was
+touched.
+
+*What the review found, and the one fix it bought.* The reply is at
+`reviews/ay2.1-vaultview-fresh-eyes.md` and the triage is ADR-014's S29.
+It raised nothing against this task's subject — it read the outlined
+inset rail beside the flush unoutlined aside as current platform idiom
+and named the 1.51:1 outline — and one complaint about the frame: the
+find field was the only square box in a rounded window. That turned out
+to be AK6.5's harness trap still open here, in a form sharp enough to
+survive several rounds of review: `renderWindow`'s radius parameter
+reaches exactly ONE widget, so pinning it to an empty scale flattened
+the search field alone while every other rounded thing in the frame kept
+its antialiased arcs and diffed exactly anyway. `goldenRadius =
+tokens.Radius` now, and the only pixels that moved when the goldens were
+regenerated a second time were that field's four corners — which is the
+proof the pin never bought what its comment claimed.
+
+*Goldens.* Ten window goldens (`window`, `window-hidden`,
+`window-outline`, `window-plain`, `window-cited`, both schemes) moved
+for the outline, the retired shadow and the aside's seam; the four tree
+goldens joined them for the harness fix. Three new composition tests
+guard what moved: the seam's derived strength and direction in both
+schemes, the pane's hairline read off the frame with bare paper in the
+gutter it floats in — the shadow's absence and the edge's presence
+asserted together, because a test checking only one of them would pass
+on the arrangement this task replaced — and the aside's full-height
+`Divider` seam with an unoutlined trailing edge.
+
+- [x] The rail is outlined at seam strength in both schemes; the
   aside is flush with a plain seam; the shadow item is closed and
   stated.
-- [ ] Goldens regenerated; fresh-eyes review per the preamble with
+- [x] Goldens regenerated; fresh-eyes review per the preamble with
   the reply saved verbatim to a file on receipt.
-- [ ] Exit: green in `workbench/vaultview` and the workbench root;
+- [x] Exit: green in `workbench/vaultview` and the workbench root;
   commit and push in `workbench` and `.github`.
 
 Reference discipline (AY1.1 found the conflict): the stored
@@ -16480,6 +16759,13 @@ if no capture file exists, record the owner's attested numbers
 (panel `#1B1B1B`, outline `#3A3A3A` at 1.51:1, content `#1E1E1E`)
 in the ADR-019 amendment with their provenance, and close the gap
 when a capture lands.
+
+*Taken, 2026-08-28:* the attested-numbers route. The Desktop holds no
+current Voice Memos capture — its Voice Memos screenshots are the
+2026-08-13 set this sweep was taken from, and the 2026-08-27 files
+beside them are the reference application's. The three attested values
+are recorded in ADR-019's dated amendment beside the old row, which
+stays; the old capture stays too, still labelled as the prior OS.
 
 ### G-AY3: The seam ships it
 
