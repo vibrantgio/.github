@@ -16775,6 +16775,83 @@ ADR-006 end to end over the round: tags bottom-up under the recorded
 version rules, pins, `GOWORK=off` matrix green, `sync-versions.sh`,
 push everything with its tags.
 
-- [ ] Tags pushed bottom-up; pins bumped; matrix green; sync clean.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+**What shipped.** Six tags, bottom-up: `theme v1.3.0`; `components
+v1.1.1`; `effects v0.2.4`; `patterns v1.0.1`; `markdown v0.7.1`; and
+the nested `components/gallery v1.1.1`, cut last so that it names the
+newest tag of everything it renders.
+
+**One repo authored the change and the rest inherited it, which is what
+sets the numbers.** `theme` is a **minor** although no exported symbol
+moved: `SurfaceAt` at `LevelFloor` answers `#151515` in the dark scheme
+where it answered `#0C0C0C`, the light scheme does not move a byte, and
+the recorded precedent for a module whose default rendering changes is a
+minor — G-F3's round put it plainly ("spectrum's default rendering
+changes, so it is a minor bump, and the layers above move in patch
+unless their own API moved"), and AU3.1 read `patterns`' window-visible
+repaint the same way. `darkFloorStep`, `floorStep` and `bandTop` are all
+unexported, so the API surface is unchanged and the minor rests entirely
+on behaviour a caller can see. The minor slot was free at 1.2, so no
+roll.
+
+Everything above it takes a **patch**, and the same sentence of that
+precedent is why: the repaint's author takes the minor, the layers that
+inherit it take patches. Judged per repo, against what actually moved:
+
+- **`patterns v1.0.1`** — its own source did not move at all; only the
+  dark goldens regenerated in AY1.2. That is not "testdata only, so no
+  tag owed": the regenerated goldens encode a floor no published tag
+  carried, so the module was green under the workspace and **red with
+  `GOWORK=off`**, which is the whole reason a tag is owed. Re-pinned and
+  tagged, its suite is green both ways and its published tag ships the
+  goldens that match it.
+- **`components v1.1.1`** — nothing this module renders moved (its own
+  goldens are untouched and were green against the old pin). It is
+  tagged for two reasons: the pin bump, so a consumer resolving it alone
+  is given the floor the system paints; and the mirror rule, which needs
+  a root at exactly v1.1.1 for `gallery/v1.1.1` to require.
+- **`components/gallery v1.1.1`** — the same red-with-`GOWORK=off` seam
+  as `patterns`: AY1.2 regenerated its dark tiles. Cut last, after every
+  module it renders was tagged.
+- **`effects v0.2.4`** and **`markdown v0.7.1`** — no source moved and
+  no pixel moved; measured, not assumed, since AY1.2 regenerated goldens
+  across the org and touched neither. Tagged for the reason AR1.1 and
+  AU3.1 both cut `effects`: a consumer resolving one of them alone
+  should receive the ladder its rendering is derived against, not the
+  answer that preceded it.
+
+Untagged, verified rather than assumed. `mvu`, `font` and every tier-0
+and support repo carry nothing new since their last tags — their commit
+lists still end where AU3.1 left them — so no tag, `backdrop` included.
+`mvu/desktop` and `mvu/example` keep the tags that mirror an unmoved
+root; `example`'s theme pin bump rides master untagged, as at AU3.1.
+`design` and `workbench` stay untagged by the Release protocol, and
+`workbench/marketing` keeps its own counter untouched. `design`'s bundle
+was regenerated from the generator that was tagged in this round and
+came back byte-identical — the check that says its committed sheet,
+snapshot and reference already carry the measured floor — so only its
+pins moved.
+
+The second self-referencing pass cost nothing for the third round
+running: tagging strictly bottom-up and cutting the nested gallery after
+the layers above its root left every published `go.mod` already naming
+the newest tag beneath it, verified by reading `go.mod` out of all six
+tags. The `GOWORK=off` matrix went **36/40 before the round to 40/40
+after** — the four failures were exactly `patterns`, `components/
+gallery`, `workbench/vaultview` and `workbench/sitedocs`, the four
+places AY1.2 and AY2.1 regenerated goldens against an unpublished floor.
+`check-layers.sh` and `check-versions.sh` both read OK.
+
+Pins moved in fifteen modules beyond the tagged six: `design`,
+`mvu/example`, and all nine `workbench` modules — the app repo's set
+stays coherent through the module whose sliding pane changed in AY2.1,
+whose `effects` requirement is indirect and moved with the rest, and
+`go mod tidy` dropped a now-unneeded indirect from two app modules.
+`sync-versions.sh` rewrote nine version tokens in `workbench/llms.txt`,
+including the go.mod skeleton an assistant copies. No version-shaped
+drift was found beside them this time: the guide's elevation prose was
+brought true in AY1.1 and AY2.1 and already teaches the floor as one
+measured step under the paper, with the dark value written out.
+
+- [x] Tags pushed bottom-up; pins bumped; matrix green; sync clean.
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo and tag pushed; commit and push in every repo touched.
