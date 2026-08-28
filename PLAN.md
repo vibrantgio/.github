@@ -15973,6 +15973,30 @@ constructors.
 - [x] Exit: green in `markdown` and every consumer whose goldens
   moved; commit and push in every repo touched.
 
+#### AV1.4: The adoption proof asserts what the phase emits
+
+AV1.3 found `workbench/vaultview`'s
+`TestAKeptBrandDressesTheWholeWindow/light` red on master —
+pre-existing AV1.1 fallout, stash-proven. The kept `harbourRed`
+brand's light pin measures 4.27:1: it clears `GraphicFloor` and
+fails `TextFloor`, so the phase deliberately emits the gated ink
+(`#BB001F`, primary 700, 260 px in the probed window) and the ramp's
+tint (15,126 px) instead of the bare pin the assertion demands
+(`pixels(after, adopted.Primary) == 0` hits). The orchestrator's
+ruling, applied here: once inks gate, "the window adopted the brand"
+means the PRIMARY ROLE dresses the window — assert the presence of
+the palette's own emitted answers for the role (the pin where it
+clears, its gated walk where it does not, the ramp's steps), derived
+through the palette rather than hardcoded bytes, so the proof holds
+for any seed on either side of the floor. Test-only change; the
+window's pixels are already correct.
+
+- [ ] The adoption proof asserts role-presence through the palette's
+  own answers; it passes for the kept brand AND for a seed whose pin
+  clears (both directions pinned).
+- [ ] Exit: green in `workbench/vaultview` and the workbench root;
+  commit and push in `workbench` and `.github`.
+
 ## Phase AU: Lightness climbs toward the viewer
 
 Owner ruling, 2026-08-27 evening — the linchpin: in BOTH schemes, a
