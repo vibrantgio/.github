@@ -639,6 +639,10 @@ bloom already carried as 89 and is not repeated. The rest are below;
 they belong to mindchat, `patterns/popover`, `components/scrollbar` and
 `markdown` rather than to the chip.
 
+BA2.1 rebuilt this window's composition on the floating pane and closed
+some of them on the way; each is marked **FIXED in BA2.1** below rather
+than recorded again under a new number.
+
 100. **[decide]** The accent's meaning inverts between the schemes. In
      light the user's turn is a solid `#723AD4` with white text while
      the selected conversation row is a pale `#D8CEFF` tint with dark
@@ -657,7 +661,13 @@ they belong to mindchat, `patterns/popover`, `components/scrollbar` and
      all. A thumb that fills its track means nothing scrolls and
      nothing should be drawn; a bar parked 6 px off the window edge in
      both schemes is also not what this platform's overlay scrollbars
-     look like.
+     look like. SHARPENED by BA2.1's review, which met it again in the
+     new composition: with the pane away and the transcript centred in
+     the window, the bar now stands at x 901 with 117 px of empty ground
+     trailing it — a scroller floating that far inboard of the view's
+     own edge is not something this platform does at all. Contrast to
+     ground measured 3.03 light / 4.94 dark, so it is LOUDER in the dark
+     scheme, and it never goes away.
 
 102. **[decide]** The user's turn is a full-bleed banner rather than a
      message: square corners, no avatar, running from the sidebar
@@ -671,7 +681,14 @@ they belong to mindchat, `patterns/popover`, `components/scrollbar` and
      message band ends at 1009, the composer's border at 1011, the
      scrollbar thumb occupies 1012–1017; the band starts at 226 and the
      composer at 234. Nothing in the transcript column agrees with
-     anything else in it.
+     anything else in it. SHARPENED by BA2.1's review after the column
+     was centred: in the pane state the message band runs 248–1013, the
+     composer 256–1015, the rule above the composer 260–1011, a code
+     block 310–1001 and the picker 787–1005 — six elements, five
+     different trailing margins (10, 8, 12, 22, 18). The band is flush
+     against the pane on its leading side and stops 10 px short on its
+     trailing side to clear the scrollbar, so the user's slab is visibly
+     off-centre inside its own column.
 
 104. **[decide]** The model menu reads as pasted on rather than
      floating: a flat 2 px `#C6C6C6` border with the underlying content
@@ -691,9 +708,22 @@ they belong to mindchat, `patterns/popover`, `components/scrollbar` and
      1 px rounded outline with the page's own fill inside it — so a
      code span in a sentence reads as a tiny text field or button, and
      the outline crowds the baseline. The convention everywhere else is
-     a filled tint with no border; this is the inverse.
+     a filled tint with no border; this is the inverse. SHARPENED by
+     BA2.1's review, which sampled the border ink at four places and got
+     ONE colour — `#797979` light, `#9E9E9E` dark — under the composer's
+     text field, the model picker, an inline code chip and a fenced
+     block alike, at 4.10:1 / 5.94:1 against their fill. So the window's
+     only text input is outlined exactly like a non-interactive code
+     span. The fenced block's own fill measures 1.02:1 against the page,
+     which means the fill does nothing and the block exists entirely by
+     that heavy border — while the pane's structural outline whispers at
+     1.52:1 as the platform draws it. The chrome that defines the window
+     is the quietest line in it and a code snippet is the loudest.
 
-107. **[decide]** The sidebar spends one ink on four roles: the
+107. **[decide]** PARTLY FIXED in BA2.1 — the CONVERSATIONS label was
+     one of the four roles and it retired with the header it stood in,
+     so the ink now covers three. The rest stands. The sidebar spends
+     one ink on four roles: the
      "CONVERSATIONS" group label, the unselected conversation titles,
      the "Settings" footer and the composer's placeholder are all the
      same grey (`#5C5C5C` on paper, `#CCCCCC` on slate). The clickable
@@ -701,7 +731,14 @@ they belong to mindchat, `patterns/popover`, `components/scrollbar` and
      above them and the placeholder below them; nothing in the ink says
      which of the four is content.
 
-108. **[decide]** Two stacked headers in the left column — the window's
+108. **[decide]** PARTLY FIXED in BA2.1 — the two stacked headers are
+     gone: the wordmark row and the CONVERSATIONS row both retired, and
+     the pane now carries one strip and nothing else above its list. The
+     welding is not fixed: the transcript still begins immediately under
+     the chrome row (the row's own hairline went with the header band,
+     but the first message band still butts against it), and the avatar
+     question is untouched. Original finding: two stacked headers in the
+     left column — the window's
      own title row and the "CONVERSATIONS" row under it, two header
      bars in the first 100 px — and none at all on the right: the
      toolbar divider is at y 51 and the first message band starts at
@@ -757,4 +794,73 @@ its goldens. Nothing to settle there.
      when. But every pane wearing this pattern has a strip whose one
      control puts the pane away, so every one of them will want the
      same order. Either the pattern grows a reserve-then-draw pair, or
-     the convention is written down once as the caller's duty.
+     the convention is written down once as the caller's duty. CONFIRMED
+     by BA2.1: mindchat reserved the strip's depth in its pane's flex and
+     drew the band last, copying vaultview's order because there was
+     nowhere else to read it from. Two windows, one duplicated
+     convention, which is what this item said would happen.
+
+## L. From BA2.1's fresh-eyes review of the rebuilt MindChat window
+
+Added 2026-08-29. The reviewer was handed the whole window at its opening
+size in both schemes AND both pane states — four frames — and pixel-sampled
+every claim. Most of what it found was already pooled and is sharpened
+above rather than repeated; two of its eleven items were misreads worth
+briefing into the next review packet (the window control buttons in a
+headless capture are the HARNESS's flat stand-ins, not the application's,
+and "the pane is flush on its trailing side" describes the floating pane
+exactly as ruled). The four below are new. The verbatim reply and the full
+triage are in `reviews/ba2.1-mindchat-fresh-eyes.md`.
+
+113. **[decide]** The recall convention holds the LINE and not the COLUMN,
+     and the reviewer read the horizontal move as the same defect the
+     phase was called to kill. Measured: the toggle's mark stands at
+     x 184–203 while the pane is up (the pane's own trailing corner) and
+     at x 95–114 once it is gone (the chrome row's leading end) — 89 px
+     left, with the new-chat mark moving the same 89 and the title moving
+     94. Vertically nothing moves at all, which is what the phase ruled
+     and what BA2.1 measured: both marks occupy y 18–33 in both states
+     and both schemes. So the rung defect is gone and a horizontal one is
+     what a reviewer sees instead — click the toggle twice in one place
+     and the second click lands on nothing. This is not mindchat's
+     arrangement to change: it is the vocabulary's, vaultview wears it
+     too, and the alternative (the recalling half standing where the
+     dismissing half stood) puts a control in the middle of a window's
+     top strip with nothing under it. An owner's call on whether the
+     convention should pin the column as well as the line.
+
+114. **[decide]** The pane's outline cuts the window's top strip in two.
+     The card's own hairline runs at y 8 from x 8 to x 247 — across the
+     strip, eleven pixels above the control buttons — and then simply
+     stops, with the rest of the strip bare window ground. The reviewer
+     called the title bar "visually split into two different surfaces",
+     and it is: on the leading side the strip is the top of an object,
+     on the trailing side it is the window itself. That is what a
+     floating pane under a full-size-content treatment necessarily looks
+     like, so it is `patterns/pane`'s question rather than this window's,
+     and vaultview has it too. Either the strip is allowed to read as two
+     surfaces (it is, arguably, telling the truth) or the pattern owes
+     the top of the pane something the platform does — which is worth
+     measuring before it is designed.
+
+115. **[decide]** Two hairlines two pixels apart across the seam at the
+     window's foot: the pane's own foot rule at y 713 (x 20–235, inside
+     the pane) and the transcript's rule above the composer at y 711
+     (x 260–1011). They do not touch — the pane's edge is between them —
+     but they are near enough to read as one line that failed to meet
+     itself, and the bands under them are staggered too (the pane's foot
+     begins at y 714, the composer at y 720; both bottom out correctly at
+     y 759). This is the rail's old complaint in a new form: a bottom
+     rhythm on one side of the window that the other side answers at a
+     different height. The cheap fixes both cost something real — dropping
+     the pane's foot rule diverges from vaultview, and coupling the two
+     heights ties two columns that are otherwise independent — so it is
+     recorded rather than patched.
+
+116. **[decide]** Nothing in any of the four frames says what has focus.
+     The reviewer looked for a focus ring at launch and found none, which
+     means a keyboard reader has no way to tell where Tab will go from.
+     Every control in the window is one the components carry rings for,
+     so this is about what the window focuses when it opens rather than
+     about any control's ring — and the answer is presently nothing.
+

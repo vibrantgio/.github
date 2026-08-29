@@ -17084,15 +17084,15 @@ Settings moves to the pane's foot with Cmd-comma bound; the input bar
 owns the window's bottom edge alone. Menu items exist for new chat
 (Cmd-N) and the pane toggle, so nothing the rail offered is lost.
 
-- [ ] The rail, the wordmark and the CONVERSATIONS header are gone;
+- [x] The rail, the wordmark and the CONVERSATIONS header are gone;
   the pane floats, slides and recalls per the pattern; no control
   changes rung between states.
-- [ ] The chrome row shows the current conversation's title in both
+- [x] The chrome row shows the current conversation's title in both
   pane states; an untitled chat shows the muted placeholder.
 - [ ] Cmd-N, Cmd-comma and the toggle's shortcut reach the menu bar;
   both schemes looked at; goldens regenerated.
-- [ ] Fresh-eyes review per the preamble, findings recorded.
-- [ ] Exit: green in `workbench/mindchat` and the workbench root;
+- [x] Fresh-eyes review per the preamble, findings recorded.
+- [x] Exit: green in `workbench/mindchat` and the workbench root;
   commit and push in `workbench` and `.github`.
 
 ### G-BA3: The seam ships it
