@@ -577,3 +577,139 @@ visible.
     the question is whether a mark should be reserved its ink extent
     rather than its line box — which would move every control that
     sets a glyph beside text.
+
+96. **[decide]** Added 2026-08-29, from AZ2.1's fit check — the first
+    real anchor use of `components/chip`. The live `chip.Chip` takes
+    its Props by value, once per subscription, so a chip whose LABEL
+    is data cannot be built once: mindchat's model picker now derives
+    a deduplicated key from the Model and re-subscribes a whole chip
+    whenever the label or its chevron changes. The deduplication is
+    not optional — the Model emits on every streamed token, and a
+    component subscription per token is not a rate anything here was
+    built for — and it costs the app a third cold subscription on its
+    model stream. `patterns/popover` shows the other shape in the
+    same file: its one dynamic prop, Open, is an observable. Whether
+    a live component should take its data as observables (or a props
+    function) rather than as captured values is the ruling; every
+    data-bearing component the system grows will meet it.
+
+97. **[decide]** Added 2026-08-29, from AZ2.1: a chip anchoring a
+    popover cannot say that the popover is open. The chip knows rest,
+    hover, press and focus, and an anchor is none of those while its
+    surface stands — the hand-rolled picker it replaced used its
+    hover fill to say so, and that reading is gone. mindchat now says
+    it with its own mark instead (the chevron it hands the chip as a
+    Glyph flips), which works and is the caller's affordance, not the
+    component's. If a chip should carry an expanded/active face of
+    its own, that brushes the deliberate no-Emphasis ruling and is an
+    owner's call rather than a control's.
+
+98. **[decide]** Added 2026-08-29, from AZ2.1: `components/chip` never
+    stretches ("a summary that stretches is a banner") and
+    `patterns/popover` centres its anchor in the canvas it is given,
+    so the two together cannot right-align an anchor. mindchat's
+    picker is pinned to the header's trailing edge; with the box now
+    a width CAP rather than a shape, a short label leaves the chip
+    floating up to half the slack inboard of where a long one sits
+    (measured 219 px drawn in a 230 px cap: the trailing edge moved
+    5 px). Nothing here is a workaround and the app draws correctly
+    either way, but a container that wants an anchor at an edge has
+    no way to ask for one.
+
+99. **[decide]** Added 2026-08-29, from AZ2.1: the live `chip.Chip`
+    reads density and label role from the theme alone, so an app
+    cannot ask for the compact pill. The chip's own table names
+    Compact × LabelMedium as the geometry that reproduces mindchat's
+    hand-rolled 28 dp picker; mindchat's theme is Comfortable, so
+    adopting the component honestly grew the picker to the 32 dp
+    control height in LabelLarge. Only the pure `Render` path takes a
+    density. This may well be right — density is a theme axis, not a
+    call site's — but it is the reason a documented one-for-one
+    replacement is not pixel-identical, and it is worth saying so
+    once.
+
+## J. From AZ2.1's fresh-eyes review of the MindChat window
+
+Added 2026-08-29. The reviewer was handed the whole window in both
+schemes plus the picker's menu open, and pixel-measured every colour
+and metric claim. It raised NOTHING about the chip the task had just
+put there — the complaints are all about the composition around it, and
+most of them are older than this phase. Its first item was the dark ink
+bloom already carried as 89 and is not repeated. The rest are below;
+they belong to mindchat, `patterns/popover`, `components/scrollbar` and
+`markdown` rather than to the chip.
+
+100. **[decide]** The accent's meaning inverts between the schemes. In
+     light the user's turn is a solid `#723AD4` with white text while
+     the selected conversation row is a pale `#D8CEFF` tint with dark
+     text; in dark the two swap exactly — the turn becomes the pale
+     `#D0C4FF` and the row a near-black `#3F0085`. So one accent token
+     means "saturated fill" in one component and "faint tint" in the
+     other, and which is which flips with the scheme. The dark row's
+     purple is also DARKER than the light one's, which is backwards for
+     a ladder that climbs toward the viewer, and on the floor it reads
+     as a muddy smear under a bright lavender rail.
+
+101. **[bug]** The transcript's scrollbar thumb fills its whole track
+     and is drawn anyway: a 6 px bar at x 1012–1017 running the full
+     viewport height in both schemes, at `#8D8D8D` light and `#878787`
+     dark — the same hard mid grey either way, so it is not themed at
+     all. A thumb that fills its track means nothing scrolls and
+     nothing should be drawn; a bar parked 6 px off the window edge in
+     both schemes is also not what this platform's overlay scrollbars
+     look like.
+
+102. **[decide]** The user's turn is a full-bleed banner rather than a
+     message: square corners, no avatar, running from the sidebar
+     divider (zero left gutter) to a 15 px right gutter, with its text
+     starting at the same x as the assistant's body. It reads as a
+     section header or a selected row spanning the pane. The assistant's
+     turn, meanwhile, gets an avatar and no surface at all. The two
+     speakers look like two unrelated components.
+
+103. **[bug]** One column, three right edges and two left edges: the
+     message band ends at 1009, the composer's border at 1011, the
+     scrollbar thumb occupies 1012–1017; the band starts at 226 and the
+     composer at 234. Nothing in the transcript column agrees with
+     anything else in it.
+
+104. **[decide]** The model menu reads as pasted on rather than
+     floating: a flat 2 px `#C6C6C6` border with the underlying content
+     unmodified immediately outside it — no shadow, no blur, no
+     vibrancy — and its right edge lands 2 px from the window edge at
+     the DEFAULT window size, so the anchoring has already run out of
+     room. Rows are spaced far looser than this platform's menus and
+     the current pick is marked with a purple bullet where a checkmark
+     is the convention.
+
+105. **[bug]** The menu lists the same model twice with nothing saying
+     so: "Default (OpenAI · gpt-5.5)" at the top and "gpt-5.5" three
+     rows down under the OpenAI caption resolve to one model, and only
+     one of them carries the active dot.
+
+106. **[decide]** Inline code is drawn as a hollow outlined box — a
+     1 px rounded outline with the page's own fill inside it — so a
+     code span in a sentence reads as a tiny text field or button, and
+     the outline crowds the baseline. The convention everywhere else is
+     a filled tint with no border; this is the inverse.
+
+107. **[decide]** The sidebar spends one ink on four roles: the
+     "CONVERSATIONS" group label, the unselected conversation titles,
+     the "Settings" footer and the composer's placeholder are all the
+     same grey (`#5C5C5C` on paper, `#CCCCCC` on slate). The clickable
+     list items are therefore set at exactly the weight of the label
+     above them and the placeholder below them; nothing in the ink says
+     which of the four is content.
+
+108. **[decide]** Two stacked headers in the left column — the window's
+     own title row and the "CONVERSATIONS" row under it, two header
+     bars in the first 100 px — and none at all on the right: the
+     toolbar divider is at y 51 and the first message band starts at
+     y 52, so the transcript is welded to the chrome and its first
+     message reads as part of the toolbar. Also: the assistant avatar
+     is a third party's mark recoloured to this app's accent, which is
+     a trademark question before it is a design one.
+
+109. **[decide]** The composer is a bare one-line box: no send control,
+     no attachment control, nothing but a placeholder set in the same
+     grey as the sidebar's chrome.

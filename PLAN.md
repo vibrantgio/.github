@@ -16972,10 +16972,10 @@ with its last caller. This is the fit check for the anchor use: a chip
 that cannot anchor a popover without workarounds is an API finding for
 this task to record, not to paper over.
 
-- [ ] The model picker draws `components/chip`; the hand-rolled
+- [x] The model picker draws `components/chip`; the hand-rolled
   drawing is gone; goldens regenerated; both schemes looked at.
-- [ ] Fresh-eyes review per the preamble, findings recorded.
-- [ ] Exit: green in `workbench/mindchat` and the workbench root;
+- [x] Fresh-eyes review per the preamble, findings recorded.
+- [x] Exit: green in `workbench/mindchat` and the workbench root;
   commit and push in `workbench` and `.github`.
 
 ### G-AZ3: The seam ships it
