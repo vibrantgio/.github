@@ -628,6 +628,161 @@ visible.
     replacement is not pixel-identical, and it is worth saying so
     once.
 
+    **Evidence, 2026-08-29 — the size is right; close the mindchat
+    half.** The owner reported the picker "looks a bit oversized". A
+    design review rendered the window headlessly at both revisions
+    and measured the platform out of the stored reference. Nothing
+    was launched.
+
+    *First, a correction to the paragraph above.* The picker did not
+    grow to 32 dp. `chip.Chip` hard-codes `typ.LabelLarge` and takes
+    the theme's density, and mindchat is Comfortable, so the row that
+    applies is Comfortable × LabelLarge — 36 dp, the fourth row of
+    `components/chip/doc.go`'s table, not the 32 of Compact ×
+    LabelLarge. The drawn pill measures 36 px. The growth was
+    28 → 36 dp, a 29% step, not 28 → 32.
+
+    *The A/B.* `workbench` at `cc655e8^` (f9fbf4f) was checked out
+    into a scratch worktree and its `TestWholeWindowRender` run at
+    the same 1024×768, both schemes, against that revision's own
+    pinned dependencies; the worktree was removed afterwards.
+
+    | measure | old (f9fbf4f) | new (HEAD) | macOS reference |
+    | --- | --- | --- | --- |
+    | band depth | 52 dp (`HeaderRowHeight`) | 52 dp (`ChromeRowHeight` = 2 × button centre) | 52 px unified toolbar |
+    | pill box, window rows | y 12–39 | y 8–43 | y 8–43 |
+    | pill height | 28 dp | 36 dp | 36 px |
+    | air above / below in the band | 12 dp | 8 dp | 8 px |
+    | height ÷ band | 0.538 | 0.692 | 0.692 |
+    | height ÷ window-button diameter | 2.00 | 2.57 | 2.57 |
+    | label role | LabelMedium (12 sp) | LabelLarge (14 sp) | — |
+    | label cap height | 9 px | 10 px | 10 px |
+    | cap ÷ box | 0.32 | 0.278 | 0.278 |
+    | pill width | 230 dp, fixed | 219 dp, content-sized in a 230 cap | 215 px (Mail's search field) |
+    | leading side padding | none — label centred in a fixed box | 16 dp (`PaddingX`) | — |
+    | fill step over the band, dark | +10.0 luminance | +10.0 luminance | +2.65 luminance |
+
+    The reference column is measured, today, off `reference/macos`
+    per ADR-019 — one pixel is one dp on that display. Every toolbar
+    control capsule in `mail-window.png` occupies exactly rows 8–43:
+    the reply group, the archive/trash group, the **folder pop-up
+    button with its chevron**, the **flag pop-up button with its
+    chevron**, and the search field. `notes-toolbar.png` and
+    `notes-window.png` put the compose button, the format group, the
+    share/more group and the search field on the same rows 8–43;
+    `finder-window.png` does too. Three applications, five control
+    kinds, one number: **36 px, centred on the window buttons' line,
+    8 px of air top and bottom in a 52 px band.** The new chip is
+    that geometry to the pixel, including the label — Notes' "Search"
+    placeholder has a 10 px cap in a 36 px capsule, the same 0.278 the
+    chip draws.
+
+    **The gap ADR-019 has.** The record holds window buttons, band
+    depths, the floating pane, scrollbars and reading surfaces, but
+    no row for *toolbar control height* or for pop-up buttons as
+    such. The numbers above were readable from captures already
+    stored, so no gap blocked this review — but a task needing the
+    platform's control height today has to re-derive it. ADR-019
+    should gain the row, cited to those three files.
+
+    **Fresh eyes disagreed, and its numbers are the folklore ADR-019
+    already corrected once.** A reviewer that had not seen this
+    packet was handed the A/B and asked only whether either pill is
+    the wrong size for a menu anchor on this platform. Verbatim:
+
+    > Version B's pill is the wrong size. Measured at 1x it is 36 pt
+    > tall with roughly 15 pt label text; Version A's is 28 pt tall
+    > with roughly 13 pt label text. On macOS, a pop-up/pull-down
+    > menu anchor is an AppKit `NSPopUpButton` (or a SwiftUI
+    > `Menu`/`Picker(.menu)`), and a developer on this platform
+    > expects it at the regular control size: 22 pt tall standing
+    > alone in a window body, stretching to about 24–28 pt when it
+    > lives in a unified toolbar row, with a 13 pt system-font label.
+    > Version A's 28 pt sits at the top of that range and reads as a
+    > native toolbar control. Version B's 36 pt is larger than even
+    > AppKit's large control size and carries a 15 pt label with it;
+    > next to the 52 pt title row it reads as a web or iOS button
+    > that has been dropped into a Mac window, and it will look wrong
+    > beside any real system menu the app ever shows.
+    >
+    > I would ship Version A: it is the only one of the two whose
+    > height and type size a Mac user would recognise as a menu
+    > button rather than a call-to-action.
+    >
+    > Two smaller things about that pill, though, and Version B
+    > actually wins on the first. Version A's interior padding is
+    > lopsided — the label sits about 42 pt from the leading edge
+    > while the chevron ends only about 6 pt from the trailing edge,
+    > so the control looks like it is leaning to the right and the
+    > chevron is nearly touching the border. Version B's padding is
+    > balanced at roughly 17 pt leading and 19 pt trailing. Take A's
+    > height and B's padding: about 12–16 pt of inset on each side,
+    > with the chevron 8–10 pt clear of the trailing edge. Second,
+    > Version A's pill ends at x≈995 while the message column and the
+    > composer below it both end at x≈1011, so the pill hangs about
+    > 16 pt short of the column it sits above; B misses the same edge
+    > by about 6 pt. Align the pill's trailing edge with the content
+    > column in whichever version ships.
+    >
+    > One thing in that row unrelated to the pill: Version A puts the
+    > application's own name, "MindChat", in the title position, while
+    > Version B puts the current conversation, "Reactive layouts",
+    > there. The macOS convention is the document or current item, not
+    > the app name — the app name already lives in the menu bar. B has
+    > that right, and A should adopt it.
+
+    The reviewer's 22 pt and 24–28 pt are recalled AppKit metrics,
+    not read off anything; its own measurement of the two pills (36
+    and 28) agrees with ours exactly, and only the expectation it
+    judged them against is remembered. The platform on this machine
+    puts every one of its toolbar controls at 36. This is the same
+    failure ADR-019 already caught once — "the folklore 12 px and
+    20 px values match neither band on this OS" — and it is why the
+    reference exists. The label reading is off in the same direction:
+    LabelLarge is 14 sp, not 15 pt, and LabelMedium is 12, not 13.
+    A reviewer measuring pixels and comparing them to memory will
+    reproduce the owner's impression rather than test it.
+
+    **Recommendation: (c).** 36 dp is the platform's control height
+    in a 52 dp band; the hand-rolled 28 dp pill was the anomaly, and
+    it was anomalous in the direction of looking *small*, which is
+    why it never drew a complaint. Do NOT add a per-instance
+    density or size override to `chip.Chip` for this — shape (a)
+    would spend a new public seam to move a control off the number
+    the platform measures at. Nor is the Comfortable derivation
+    wrong for the anchor role — shape (b) — since the anchor role is
+    exactly where the platform's own 36 was measured, on two real
+    chevron pop-up buttons. **The mindchat half of this item closes
+    as working-as-intended.** What remains of 99 is the narrow,
+    honest note it already makes: the live path takes no density, so
+    the doc's "reproduces the old pill exactly" claim is reachable
+    only through `Render`. That sentence in `doc.go` should say so.
+
+    **What the eye is actually seeing, and it is not the height.**
+    Two independent impressions called the chip heavy, so something
+    is there. The measurements point at the fill, not the box. In
+    the dark scheme the chip's fill stands +10.0 luminance over the
+    band it sits in; Mail's toolbar capsules stand +2.65 over theirs
+    — the platform's toolbar controls are hairline outlines over the
+    band, and this one is a filled block roughly four times that
+    step. That step is IDENTICAL in the old pill and the new one, so
+    it is not the regression; it is a constant that 29% more area
+    made 29% more visible. The width compounds it: 219 dp is Mail's
+    *search field* width, spent on a three-part label
+    ("Default · OpenAI · gpt-5.5") in an otherwise empty row. If the
+    picker is to read lighter, the cheap moves are the fill step and
+    the label's verbosity, not the control height. That is a
+    colour-and-content finding rather than a density one and wants
+    its own number if the owner rules it in; it is recorded here
+    rather than numbered unilaterally.
+
+    Two of the reviewer's side notes survive its size error and are
+    worth keeping: the old pill's centred label in a fixed box was
+    genuinely lopsided (42 px leading against a chevron 6 px off the
+    trailing edge) and the new chip's 16 dp padding fixes it; and the
+    chip's trailing edge misses the content column below it by about
+    6 px, which is 98's right-alignment seam seen from the outside.
+
 ## J. From AZ2.1's fresh-eyes review of the MindChat window
 
 Added 2026-08-29. The reviewer was handed the whole window in both
