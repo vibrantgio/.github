@@ -16887,3 +16887,110 @@ measured step under the paper, with the dark value written out.
 - [x] Tags pushed bottom-up; pins bumped; matrix green; sync clean.
 - [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo and tag pushed; commit and push in every repo touched.
+
+## Phase AZ: A designed chip component
+
+Ruled by the owner 2026-08-29, cutting open-rulings item 88 (carried in
+from a consuming app's chip census). The system has no designed chip,
+and the species already exists by hand in-org: mindchat's model-picker
+chip (`modelmenu.go`, a label and a chevron anchoring a popover) draws
+it from parts. The window anatomy licenses the object — a filled inset
+is a raised chip, never a recessed well — and what is missing is the
+component.
+
+One geometry, two faces. The CHIP is clickable: fill one storey above
+its local ground (the SurfaceAt walk, with a Ground prop like the
+button's — zero value the window ground, whose raised answer is the
+storey above the pin), hairline and radius carrying the edge (in the
+light scheme the storey step is a fraction of an L*; the hairline is
+what makes it visible), hover and press via StateAt from the chip's own
+fill, the focus ring derived against its storey, the pointer target at
+Density.MinHitTarget. The BADGE is the same face non-interactive — for
+marks that keep a fill — with no state walk and no extended pointer
+target. On both faces the label and the glyph are inks over the fill,
+resolved through InkOn: the label at TextFloor, the glyph at
+GraphicFloor.
+
+What the chip deliberately is not: there is no emphasis axis. Selection
+rides the button's emphasis axis (Tonal when picked, Ghost when not —
+the feeds preferences idiom), and a button's label stays a verb with
+its icon-only contract standing (Phase AJ considered icon-plus-label
+for the register and ruled it out). The chip is where a data-bearing
+summary with a glyph lives. A worker who finds itself adding Emphasis
+to chip Props is re-litigating a ruling, not closing a gap.
+
+Geometry is derived, not invented: from the density derivation table
+the button already documents, checked against the hand-rolled instance
+it replaces; any platform measurement comes from the stored references,
+never from launching an application to look.
+
+### G-AZ1: The component draws both faces
+
+#### AZ1.1: The chip's static core, in components/chip
+
+The package with the derivation and the two static render paths:
+geometry documented in the package doc the way the button documents
+its own (heights and insets from the density table, radius and
+hairline from tokens, the icon size stated); `Render` for the chip
+face over a `RenderState` (hovered, pressed, focused, ground) and
+`RenderBadge` for the non-interactive face; the fill from the local
+walk, the states from StateAt, the inks through InkOn. Goldens per
+scheme on the three grounds a chip actually rests on — the paper, the
+furniture floor, a dialog — and the contrast sweep and bench the
+sibling packages carry.
+
+- [ ] `components/chip` renders both faces from documented, derived
+  geometry; no hand-mixed color anywhere in the package.
+- [ ] Goldens cover both schemes on paper, floor and dialog grounds;
+  contrast tests pin the ink floors; bench present.
+- [ ] Exit: green in `components`; commit and push in `components`
+  and `.github`.
+
+#### AZ1.2: The theme-driven component, and the gallery shows it
+
+The rx entry point over the static core: `chip.Chip` with Props
+(Label, Icon, Description falling back to Label, Ground, Clickable,
+OnClick and the message through the one loop), the pointer target
+extended to Density.MinHitTarget, keyboard activation, the focus ring
+derived against the chip's storey. The gallery gains the chip page:
+both faces on the three grounds, both schemes.
+
+- [ ] `chip.Chip` is the theme-driven entry point; activation
+  dispatches like the button's; `go test -race` clean.
+- [ ] The gallery page shows both faces on all three grounds in both
+  schemes; goldens land.
+- [ ] Exit: green in `components` and `components/gallery`; commit
+  and push in `components` and `.github`.
+
+### G-AZ2: The hand-rolled instance adopts it
+
+#### AZ2.1: mindchat's model picker wears the chip
+
+`menuChip`'s drawing is replaced by `components/chip` as the popover's
+anchor — the popover wiring stays, the hand-rolled drawing deletes
+with its last caller. This is the fit check for the anchor use: a chip
+that cannot anchor a popover without workarounds is an API finding for
+this task to record, not to paper over.
+
+- [ ] The model picker draws `components/chip`; the hand-rolled
+  drawing is gone; goldens regenerated; both schemes looked at.
+- [ ] Fresh-eyes review per the preamble, findings recorded.
+- [ ] Exit: green in `workbench/mindchat` and the workbench root;
+  commit and push in `workbench` and `.github`.
+
+### G-AZ3: The seam ships it
+
+#### AZ3.1: The chip release
+
+The guide first, then the ceremony: `llms.txt` adds the chip to the
+component roster and one paragraph in the controls prose saying where
+a data-bearing summary with a glyph lives (and that selection stays on
+the button's emphasis axis). Then the release: `components` takes the
+minor as the new contract's author — latest tags derived at execution,
+never remembered — the gallery's nested tag mirrors per the ceremony,
+workbench pins bump, `GOWORK=off` matrix green.
+
+- [ ] `llms.txt` roster and prose carry the chip; sync clean.
+- [ ] Tags pushed bottom-up; pins bumped; matrix green.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+  every repo touched pushed.

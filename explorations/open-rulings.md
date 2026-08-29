@@ -509,4 +509,5 @@ visible.
     and its icon-only contract stands (Phase AJ considered
     icon-plus-label for the register and ruled it out), so the chip
     is where a data-bearing summary with a glyph lives, and the
-    ruled-out composition needs no revisiting.
+    ruled-out composition needs no revisiting. — Ruled 2026-08-29 in
+    conversation: planned as Phase AZ.
