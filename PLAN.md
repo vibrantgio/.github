@@ -17089,11 +17089,39 @@ owns the window's bottom edge alone. Menu items exist for new chat
   changes rung between states.
 - [x] The chrome row shows the current conversation's title in both
   pane states; an untitled chat shows the muted placeholder.
-- [ ] Cmd-N, Cmd-comma and the toggle's shortcut reach the menu bar;
-  both schemes looked at; goldens regenerated.
+- [x] Cmd-N, Cmd-comma and the toggle's chord are live as window
+  accelerators, each driven through a real input router in the test;
+  both schemes looked at; goldens regenerated. The menu-bar half
+  moves to BA2.2, found 2026-08-29 executing this task: Gio exposes
+  no API for adding menu items, so `mvu/desktop` grows one there.
 - [x] Fresh-eyes review per the preamble, findings recorded.
 - [x] Exit: green in `workbench/mindchat` and the workbench root;
   commit and push in `workbench` and `.github`.
+
+#### BA2.2: The application menu carries what the window does
+
+Split from BA2.1, found 2026-08-29: "menu items exist" could not be
+made true from the application — Gio 0.10.2 builds a fixed menu bar
+(Hide, Quit) in its own darwin glue and exposes no API for adding
+items. So the seam is `mvu/desktop`'s: a menu API — item title,
+chord, and a callback that posts an mvu message — built on
+NSMenu/NSMenuItem in the darwin layer, with a stub off darwin so
+every other platform compiles and the declaration is simply inert.
+mindchat then declares New Chat (Cmd-N), Hide/Show Conversations
+(Cmd-backslash) and Settings (Cmd-comma) through it; the window
+accelerators BA2.1 landed stay as the in-window fallback. The stakes
+are not symmetric: with the pane away, Settings is reachable only by
+Cmd-comma, so this is the one place the composition currently leans
+on a menu that does not exist.
+
+- [ ] `mvu/desktop` grows the menu API with the darwin
+  implementation and the non-darwin stub; tests on both paths;
+  `go test -race` clean in `mvu/desktop`.
+- [ ] mindchat declares the three items through it; the accelerators
+  stay; the items fire the same messages the chords do, asserted.
+- [ ] Exit: green in `mvu/desktop`, `workbench/mindchat` and the
+  workbench root; `check-layers.sh` from `.github`; commit and push
+  in `mvu`, `workbench`, `.github`.
 
 ### G-BA3: The seam ships it
 
@@ -17103,7 +17131,8 @@ owns the window's bottom edge alone. Menu items exist for new chat
 anatomy prose (the floating pane is the vocabulary's, not a per-app
 composition). `patterns` takes the minor as the new contract's author
 — latest tags derived at execution, never remembered — workbench pins
-bump, `GOWORK=off` matrix green.
+bump, `GOWORK=off` matrix green. BA2.2's `mvu/desktop` menu API ships
+in this same round; its tag joins the per-repo reasoning.
 
 - [ ] `llms.txt` roster and prose carry the pattern; sync clean.
 - [ ] Tags pushed bottom-up; pins bumped; matrix green.
