@@ -16939,11 +16939,11 @@ scheme on the three grounds a chip actually rests on — the paper, the
 furniture floor, a dialog — and the contrast sweep and bench the
 sibling packages carry.
 
-- [ ] `components/chip` renders both faces from documented, derived
+- [x] `components/chip` renders both faces from documented, derived
   geometry; no hand-mixed color anywhere in the package.
-- [ ] Goldens cover both schemes on paper, floor and dialog grounds;
+- [x] Goldens cover both schemes on paper, floor and dialog grounds;
   contrast tests pin the ink floors; bench present.
-- [ ] Exit: green in `components`; commit and push in `components`
+- [x] Exit: green in `components`; commit and push in `components`
   and `.github`.
 
 #### AZ1.2: The theme-driven component, and the gallery shows it
