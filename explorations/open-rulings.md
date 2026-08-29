@@ -864,3 +864,12 @@ triage are in `reviews/ba2.1-mindchat-fresh-eyes.md`.
      so this is about what the window focuses when it opens rather than
      about any control's ring — and the answer is presently nothing.
 
+
+117. **[bug]** Added 2026-08-29, from BA2.2's live verification: with
+     the display asleep, any org app crashes on launch — Gio 0.10.2's
+     window init gets a `newDisplayLink` failure, releases the view
+     early, and dies with `runtime/cgo: misuse of an invalid Handle`
+     (`os_macos.go:1076`). Pre-existing upstream behaviour, reproduced
+     on a pre-change binary at HEAD. The workaround every live-launch
+     task needs: `caffeinate -u -t 3` before launching. Candidate for
+     a line in `reference/macos` and an upstream report.
