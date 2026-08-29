@@ -538,3 +538,42 @@ visible.
     behaviour (mindchat's shipping hover value matches); if the dark
     walk should stride longer, the answer lives in `StateAt`, not in
     any one control.
+
+92. **[decide]** Added 2026-08-29, from AZ1.2's fresh-eyes review of
+    the gallery's chip section: in the LIGHT scheme the three storeys
+    are visually one. Paper, card and dialog sit within a couple of
+    percent of each other, so a chip filled one rung over any of them
+    is white on white and only its rim says a pill is there — the
+    reviewer's words were that the light capture demonstrates nothing
+    the first row alone would not. The chip documents this as the
+    reason it carries a rim at all; the open question is whether the
+    light ladder should have more headroom above its paper, which is
+    an ADR-022 answer and not a control's.
+
+93. **[decide]** Added 2026-08-29, from AZ1.2's fresh-eyes review: the
+    badge does not read as a badge. Same pill, same radius, same
+    hairline, same fill and same height as a resting chip — the only
+    difference in the specimen is the missing mark, so the reviewer
+    read it as "a chip whose icon failed to load", not as a face that
+    takes no input. "One geometry, two faces" is the ruling and this
+    is its cost; if the badge should carry a property of its own — a
+    weight, a scale, a mark set aside for it — that is a design
+    ruling, not a gallery fix.
+
+94. **[bug]** Added 2026-08-29, from AZ1.2's fresh-eyes review: the
+    gallery's own caption convention — neutral step 600 at 11 sp —
+    measures roughly 3:1 on the light page, under the 4.5:1 text
+    floor, and it is the least legible text in the capture. It is not
+    one section's choice: every inventory section labels its
+    specimens that way. The fix is one convention changed in one
+    place, and it moves every stored group image.
+
+95. **[decide]** Added 2026-08-29, from AZ1.2's fresh-eyes review: the
+    chip's trailing mark reads as detached — the gap before it looks
+    wider than the pill's own leading padding, because the glyph is
+    reserved the label's whole line box while a chevron's ink fills
+    perhaps two thirds of it. Both numbers are derived and ruled in
+    AZ1.1 (the S2 gap is patterns/tag's, the box is the line's), so
+    the question is whether a mark should be reserved its ink extent
+    rather than its line box — which would move every control that
+    sets a glyph beside text.

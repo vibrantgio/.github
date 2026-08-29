@@ -16955,11 +16955,11 @@ extended to Density.MinHitTarget, keyboard activation, the focus ring
 derived against the chip's storey. The gallery gains the chip page:
 both faces on the three grounds, both schemes.
 
-- [ ] `chip.Chip` is the theme-driven entry point; activation
+- [x] `chip.Chip` is the theme-driven entry point; activation
   dispatches like the button's; `go test -race` clean.
-- [ ] The gallery page shows both faces on all three grounds in both
+- [x] The gallery page shows both faces on all three grounds in both
   schemes; goldens land.
-- [ ] Exit: green in `components` and `components/gallery`; commit
+- [x] Exit: green in `components` and `components/gallery`; commit
   and push in `components` and `.github`.
 
 ### G-AZ2: The hand-rolled instance adopts it
