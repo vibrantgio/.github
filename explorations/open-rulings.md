@@ -511,3 +511,30 @@ visible.
     is where a data-bearing summary with a glyph lives, and the
     ruled-out composition needs no revisiting. — Ruled 2026-08-29 in
     conversation: planned as Phase AZ.
+
+89. **[decide]** Added 2026-08-29, from AZ1.1's fresh-eyes review: the
+    dark scheme lays ~57% more ink than light for the same label at
+    the same size (glyph coverage 409 vs 261, half-alpha pixels 438
+    vs 252) — the classic light-on-dark bloom, well past subtle, and
+    a token-set property (`c.Text` both schemes), not any control's.
+    Side by side the dark label reads semibold against a regular.
+    Compensate in the ink (a lighter grade or a dimmed dark ink) or
+    accept and record; every text control inherits the answer.
+
+90. **[decide]** Added 2026-08-29, from AZ1.1's fresh-eyes review:
+    `theme/typeset`'s line-box centring drifts against the cap band —
+    a label with no descender sits visibly high in one control size
+    and low in another (measured 11/14 and 9/7 above/below on the
+    same control's two densities). Optical centring on the cap band
+    would move goldens across every text control; a ruling picks the
+    band and the blast radius.
+
+91. **[decide]** Added 2026-08-29, from AZ1.1: the dark state ladder
+    is quiet and relative — `StateAt` hover in dark is a Δ12/255 step
+    on a flat fill (about the floor of what registers), dark pressed
+    at level 1 lands on the same mid grey other surfaces rest on, so
+    no absolute colour means "pressed", and a light press moves a
+    derived rim while a dark press cannot. Pre-existing system
+    behaviour (mindchat's shipping hover value matches); if the dark
+    walk should stride longer, the answer lives in `StateAt`, not in
+    any one control.
