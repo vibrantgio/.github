@@ -16990,9 +16990,9 @@ minor as the new contract's author — latest tags derived at execution,
 never remembered — the gallery's nested tag mirrors per the ceremony,
 workbench pins bump, `GOWORK=off` matrix green.
 
-- [ ] `llms.txt` roster and prose carry the chip; sync clean.
-- [ ] Tags pushed bottom-up; pins bumped; matrix green.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+- [x] `llms.txt` roster and prose carry the chip; sync clean.
+- [x] Tags pushed bottom-up; pins bumped; matrix green.
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
 
 ## Phase BA: The floating sidebar becomes a pattern, and mindchat wears it
