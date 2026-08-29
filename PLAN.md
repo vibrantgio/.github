@@ -17061,12 +17061,12 @@ proof the seam was cut where the design actually is. A composition
 detail that refuses to hoist is an API finding for this task to
 record, not to paper over.
 
-- [ ] The pattern draws the pane's float, outline, strip and hidden
+- [x] The pattern draws the pane's float, outline, strip and hidden
   states from documented, derived geometry; the package doc names no
   application.
-- [ ] vaultview adopts it; every vaultview golden byte-identical;
+- [x] vaultview adopts it; every vaultview golden byte-identical;
   `go test -race` clean in patterns and vaultview.
-- [ ] Exit: green in `patterns`, `workbench/vaultview` and the
+- [x] Exit: green in `patterns`, `workbench/vaultview` and the
   workbench root; commit and push in `patterns`, `workbench`,
   `.github`.
 

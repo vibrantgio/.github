@@ -713,3 +713,48 @@ they belong to mindchat, `patterns/popover`, `components/scrollbar` and
 109. **[decide]** The composer is a bare one-line box: no send control,
      no attachment control, nothing but a placeholder set in the same
      grey as the sidebar's chrome.
+
+## K. From BA1.1's hoist of the floating pane
+
+Added 2026-08-29. `patterns/pane` was cut out of vaultview's frame and
+vaultview converted to it in the same task, every golden byte-identical.
+Four details did NOT hoist, three of them deliberately. They are recorded
+because the second consumer will meet all four and should not re-decide
+them one window at a time.
+
+The one that is simply a window fact and needs no ruling: where the
+platform's control buttons END is a measurement of a live window, and a
+headless render has none — so the strip takes that number as a parameter
+rather than deriving it, exactly as vaultview already had to pin it for
+its goldens. Nothing to settle there.
+
+110. **[decide]** The strip takes its controls but not the air between
+     them. `Strip` places each control it is handed as a rigid child at
+     the trailing corner, so a pane with two figures up there — a
+     toggle and a primary action — must pass its own spacer between
+     them, and two windows can drift apart on that gap without either
+     of them being wrong. Either the pattern owns one gap (and then it
+     owes a token to derive it from), or the vocabulary states the gap
+     once somewhere both windows read it.
+
+111. **[decide]** The floor fill is named twice. The pattern's
+     `Surface` is the pane's fill; vaultview's `chromeSurface` is the
+     same resolution — the floor storey — spent on three regions the
+     pane knows nothing about (the pane, the flush trailing column, and
+     the backdrop the two float on). They agree byte-for-byte because
+     both are the floor, so nothing moved; but "the window's furniture
+     fill" is a bigger idea than "the pane's fill" and it currently has
+     no home above the application. If a second window repeats the
+     three-region spend, the floor deserves naming in the theme rather
+     than in each frame.
+
+112. **[decide]** When the strip is DRAWN stayed app-side, and it is
+     not obvious it should have. vaultview reserves the strip's depth
+     in the pane's vertical flex and draws the band last, so that Tab
+     out of the find field reaches the rows rather than the pane's own
+     dismiss control — a focus-order fact about the pane's CONTENTS,
+     which is why the pattern lays out a band and says nothing about
+     when. But every pane wearing this pattern has a strip whose one
+     control puts the pane away, so every one of them will want the
+     same order. Either the pattern grows a reserve-then-draw pair, or
+     the convention is written down once as the caller's duty.
