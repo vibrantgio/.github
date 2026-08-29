@@ -17134,7 +17134,79 @@ composition). `patterns` takes the minor as the new contract's author
 bump, `GOWORK=off` matrix green. BA2.2's `mvu/desktop` menu API ships
 in this same round; its tag joins the per-repo reasoning.
 
-- [ ] `llms.txt` roster and prose carry the pattern; sync clean.
-- [ ] Tags pushed bottom-up; pins bumped; matrix green.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+**What shipped.** Three tags, bottom-up: `mvu v1.0.1`, `mvu/desktop
+v1.0.1`, `patterns v1.1.0`.
+
+- **`patterns v1.1.0`** — the **minor**, as the round's author: BA1.1
+  added `patterns/pane`, a whole new package and a new contract, and
+  nothing existing moved a byte. The minor slot was free at 1.0, so no
+  roll. Its own pins moved onto the mvu tags cut a moment earlier, so a
+  consumer resolving `patterns` alone receives the round rather than the
+  one before it.
+- **`mvu/desktop v1.0.1`** — a **patch**, although BA2.2 added
+  `NewMenuBar`, `MenuItem` and `MenuBar.Messages`. Additive API is a
+  patch under the rationed-minor rule; nothing existing was moved,
+  removed or re-signatured, and no observable behaviour changed for a
+  caller that declares no menus.
+- **`mvu v1.0.1`** — the root carries **no change of its own**. Every
+  line BA2.2 wrote landed under `desktop/`, which is a separate module,
+  so this tag republishes bytes identical to v1.0.0's. It is cut anyway,
+  and the mirror rule is why: a nested module's tag requires its root at
+  exactly the same number, `desktop/v1.0.0` had already spent v1.0.0,
+  and the rule's own closing sentence rules the case explicitly —
+  *cut a fresh root tag rather than letting the submodule run ahead*. The
+  competing reading, that a tag restating a pin publishes a number that
+  says nothing, is the weaker one here: the alternative is not "no tag"
+  but `desktop/v1.1.0` against an `mvu v1.0.0`, which breaks the
+  correspondence the mirror rule exists to keep and leaves no number
+  saying which root the submodule belongs to. AY3.1 had already ruled
+  the same way on the same shape — `components v1.1.1` was cut with its
+  own source unmoved, partly so `gallery/v1.1.1` had a root to require.
+  A root tag that says nothing about the root still says which root.
+
+**Untagged, verified rather than assumed.** The tier-0 and support repos
+carry only the standing pre-round debt — `backdrop`, `circle`,
+`gradient`, `textdraw` and `style` the 2026-08-22 Gio bump, `csg`,
+`kiwi`, `svg` and `traer` the O1.2 gofmt — none of it this round's, none
+of it swept in. `theme`, `components`, `effects`, `markdown`, `font`,
+`ivg`, `seen` and `noise` have no commit at all since their last tags.
+`components/gallery` is one commit ahead of `gallery/v1.2.0` — AZ3.1's
+dead-loop-variable removal, committed after that round tagged — and it
+renders no pane, so it is green both ways at its existing `patterns
+v1.0.2` pin and takes no tag; the mirror rule blesses a submodule
+lagging its root. `mvu/example` likewise keeps `mvu v1.0.0`: it does not
+touch the menu API. `design` and `workbench` stay untagged by the
+Release protocol.
+
+**The two gaps this round existed to close, closed.** `vaultview` and
+`mindchat` import `patterns/pane`, and `mindchat` calls
+`desktop.NewMenuBar` — neither of which any pinned tag carried, which is
+the definition of green under the workspace and red without it. Pins
+moved in the `workbench` root and all eight app modules; `go mod tidy`
+then dropped the `patterns` requirement from `iconbrowser` and `todos`,
+which do not import it. The matrix is **24/24**: `patterns`,
+`components`, `components/gallery`, and the workbench root with `feeds`,
+`iconbrowser`, `marketing`, `mindchat`, `sitedocs`, `themer`, `todos`
+and `vaultview`, each built and tested under the workspace and again
+under `GOWORK=off`. Org-wide, `check-no-workspace.sh` reads **40/40**.
+
+**The second self-referencing pass cost nothing**, for the fourth round
+running: tagging strictly bottom-up left `patterns v1.1.0`'s published
+`go.mod` naming `mvu v1.0.1` and `mvu/desktop v1.0.1`, and
+`desktop/v1.0.1`'s naming `mvu v1.0.1` — read back out of the tags
+rather than assumed. `sync-versions.sh` rewrote three version tokens in
+`workbench/llms.txt`, including the go.mod skeleton an assistant copies,
+and read clean on the second run. `check-layers.sh` and
+`check-versions.sh` both read OK. No fresh-eyes review is owed: this
+task moves guide text and version tokens and not one pixel.
+
+One piece of guide debt was found and paid in passing: the `mvu/desktop`
+roster entry described window chrome and file drops and said nothing
+about the menu bar it now ships, so it names it. The prose that would
+teach an application how to declare a menu is still unwritten, and is
+recorded here rather than invented at a release.
+
+- [x] `llms.txt` roster and prose carry the pattern; sync clean.
+- [x] Tags pushed bottom-up; pins bumped; matrix green.
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
