@@ -17114,12 +17114,12 @@ are not symmetric: with the pane away, Settings is reachable only by
 Cmd-comma, so this is the one place the composition currently leans
 on a menu that does not exist.
 
-- [ ] `mvu/desktop` grows the menu API with the darwin
+- [x] `mvu/desktop` grows the menu API with the darwin
   implementation and the non-darwin stub; tests on both paths;
   `go test -race` clean in `mvu/desktop`.
-- [ ] mindchat declares the three items through it; the accelerators
+- [x] mindchat declares the three items through it; the accelerators
   stay; the items fire the same messages the chords do, asserted.
-- [ ] Exit: green in `mvu/desktop`, `workbench/mindchat` and the
+- [x] Exit: green in `mvu/desktop`, `workbench/mindchat` and the
   workbench root; `check-layers.sh` from `.github`; commit and push
   in `mvu`, `workbench`, `.github`.
 
