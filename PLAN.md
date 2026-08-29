@@ -16994,3 +16994,118 @@ workbench pins bump, `GOWORK=off` matrix green.
 - [ ] Tags pushed bottom-up; pins bumped; matrix green.
 - [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
+
+## Phase BA: The floating sidebar becomes a pattern, and mindchat wears it
+
+Ruled by the owner 2026-08-29 in conversation, from two screenshots of
+mindchat's collapsed rail. The rail's two symptoms were called by name:
+the sidebar toggle drops to a lower rung when the pane collapses — the
+control just clicked jumps out from under the pointer — and the rail
+invents a bottom rhythm (a hairline over the gear) that nothing on the
+content side answers. The diagnosis is the rail itself: a region whose
+only job is to store displaced controls. The ruling, in four parts:
+
+- The wordmark goes, in both states. The menu bar and the Dock carry
+  the application's identity; a band that truncates the name it cannot
+  afford is the proof the name never belonged there.
+- mindchat's sidebar joins vaultview's class: a FLOATING PANE — inset
+  from the window's leading, top and bottom edges, rounded, carrying
+  its own hairline just inside its edge, the window's ground showing
+  around it; hidden, it takes no width at all and the content reflows
+  from the window's leading edge. This overturns the definition AY2.1
+  declined the hoist on (a sidebar that collapses to a rail and never
+  leaves the window): the rail retires, so the pane leaves.
+- The controls obey vaultview's sentence: a control that travels with
+  the pane cannot be the one that recalls it. The pane's toggle and
+  the new-chat action ride the pane's top strip on the window buttons'
+  line while the pane stands; hidden, the chrome row carries the same
+  two figures on the same line — one height, one mark size, no rung
+  change in either direction. New chat is the application's primary
+  action and is never unreachable. Settings retreats to the pane's
+  foot and the app menu (Cmd-comma); it earns no standing place in a
+  window whose pane is away.
+- The window control buttons are measured from the window's glass and
+  from nothing else, vaultview's rule — which is what dissolves this
+  window's traffic-lights-straddle-the-seam defect: the pane's strip
+  is cut deep enough to hold them, and when the pane goes, nothing
+  about them changes.
+- The chrome row is a title row, vaultview's class: the current
+  conversation's title stands at its leading end in both pane states —
+  the window's one orientation cue once the pane is away — with the
+  model picker at its trailing end; an untitled chat shows a muted
+  placeholder until it earns a name. And the CONVERSATIONS header
+  retires: its one control moves to the strip, a one-section list does
+  not announce itself, and the strip's line carries controls and
+  identities only — a section label is neither (the vault name on
+  vaultview's line is an identity; CONVERSATIONS is a category).
+
+And because the object is now drawn twice, the floating pane moves
+into the vocabulary. vaultview's reason for standing off the
+three-column shell (a chrome row, not a navbar band) is untouched;
+what is one design in two windows is the PANE itself — the float
+geometry, the outline, the strip arithmetic, the hidden-takes-no-width
+contract — and that is the hoisting bar. vaultview adopts its own
+hoist and proves it byte-identically; mindchat wears it second.
+
+### G-BA1: The pane moves into the vocabulary
+
+#### BA1.1: patterns gains the floating pane, and vaultview adopts it
+
+Extract from vaultview's frame: the float geometry (edge margin,
+corner radius, internal hairline at seam weight), the top strip whose
+depth is derived from the window-button run, the hidden state (zero
+width, content reflows), and the recall convention, documented
+consumer-agnostically in the package doc. vaultview converts to the
+pattern in the same task — its goldens staying byte-identical is the
+proof the seam was cut where the design actually is. A composition
+detail that refuses to hoist is an API finding for this task to
+record, not to paper over.
+
+- [ ] The pattern draws the pane's float, outline, strip and hidden
+  states from documented, derived geometry; the package doc names no
+  application.
+- [ ] vaultview adopts it; every vaultview golden byte-identical;
+  `go test -race` clean in patterns and vaultview.
+- [ ] Exit: green in `patterns`, `workbench/vaultview` and the
+  workbench root; commit and push in `patterns`, `workbench`,
+  `.github`.
+
+### G-BA2: mindchat wears it
+
+#### BA2.1: The rail retires and the pane floats
+
+mindchat leaves the SplitPane arrangement for the floating pane: the
+wordmark, the CONVERSATIONS header and the rail delete with their last
+callers; the pane's strip carries the toggle and new-chat on the
+buttons' line; the chrome row carries the conversation's title leading
+and the model picker trailing in both pane states and, while the pane
+is away, the recall toggle and new-chat at the same height and figure;
+Settings moves to the pane's foot with Cmd-comma bound; the input bar
+owns the window's bottom edge alone. Menu items exist for new chat
+(Cmd-N) and the pane toggle, so nothing the rail offered is lost.
+
+- [ ] The rail, the wordmark and the CONVERSATIONS header are gone;
+  the pane floats, slides and recalls per the pattern; no control
+  changes rung between states.
+- [ ] The chrome row shows the current conversation's title in both
+  pane states; an untitled chat shows the muted placeholder.
+- [ ] Cmd-N, Cmd-comma and the toggle's shortcut reach the menu bar;
+  both schemes looked at; goldens regenerated.
+- [ ] Fresh-eyes review per the preamble, findings recorded.
+- [ ] Exit: green in `workbench/mindchat` and the workbench root;
+  commit and push in `workbench` and `.github`.
+
+### G-BA3: The seam ships it
+
+#### BA3.1: The floating-pane release
+
+`llms.txt` adds the pattern to the roster and one sentence to the
+anatomy prose (the floating pane is the vocabulary's, not a per-app
+composition). `patterns` takes the minor as the new contract's author
+— latest tags derived at execution, never remembered — workbench pins
+bump, `GOWORK=off` matrix green.
+
+- [ ] `llms.txt` roster and prose carry the pattern; sync clean.
+- [ ] Tags pushed bottom-up; pins bumped; matrix green.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+  every repo touched pushed.
