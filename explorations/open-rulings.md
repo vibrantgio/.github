@@ -873,3 +873,24 @@ triage are in `reviews/ba2.1-mindchat-fresh-eyes.md`.
      on a pre-change binary at HEAD. The workaround every live-launch
      task needs: `caffeinate -u -t 3` before launching. Candidate for
      a line in `reference/macos` and an upstream report.
+
+118. **[decide]** Added 2026-08-29, from BA3.1: `design/go.mod` pins
+     `patterns v1.0.1` — two rounds stale before that task started.
+     The module is untagged and green in the 40/40 sweep, so nothing
+     is broken; the ruling is whether design tracks the current
+     family each release round or only when its own content moves.
+
+119. **[feature]** Added 2026-08-29, from BA3.1: `llms.txt` has no
+     prose teaching menu declaration — the `mvu/desktop` menu API
+     shipped with a roster line only. An app built from the guide
+     alone cannot discover that its window's actions belong in the
+     application menu, or how to put them there (`NewMenuBar` over
+     `MenuItem`s, choices on `Messages`, chords as the in-window
+     fallback).
+
+120. **[bug]** Added 2026-08-29, from BA3.1: `llms.txt`'s vaultview
+     paragraph (~line 1560) says "panes raised one rung to Surface",
+     which contradicts the anatomy bullet and `patterns/pane`'s own
+     doc — a floating pane stays at the floor and never takes a
+     lighter fill. Stale pre-linchpin prose; the fix is one sentence
+     told the current truth.
