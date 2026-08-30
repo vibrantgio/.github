@@ -18009,6 +18009,29 @@ ruling, the picker absorbs all five.
 - [ ] Exit: commit and push in `components`, `workbench` and
   `.github`.
 
+#### BI2.3: The picker's marks tell the truth about direction
+
+Owner-reported from the running app (2026-08-30): the header
+trigger's paired up/down chevrons say "pops up" while its menu drops
+below like a pull-down, and the settings trigger's down triangle
+points down while its menu opens upward. A mark that contradicts the
+motion it announces is a bug, not a style. The rule: the mark
+follows the behaviour the control actually has.
+
+- [ ] Field's triangle points the way its Drop opens: down for
+  DropDown, up for DropUp.
+- [ ] Anchor's mark matches its placement: while its menu is placed
+  below (the popover coupling), it wears the single down chevron of
+  a pull-down; the paired chevrons are reserved for a true pop-over
+  (menu over the trigger), which no caller has yet — recorded as the
+  pair's re-entry condition in the component doc.
+- [ ] mindchat's two pickers and the gallery specimens pick the
+  change up; goldens/captures regenerated with causes named.
+- [ ] Exit: green in `components`, `components/gallery`,
+  `workbench/mindchat`, `workbench/sitedocs`, `workbench/themer`,
+  `workbench` root; commit and push in `components`, `workbench`
+  and `.github`.
+
 ### G-BI3: The seam ships it
 
 #### BI3.1: The picker release
