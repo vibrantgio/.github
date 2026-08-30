@@ -17249,7 +17249,7 @@ contrast sweep still pins every ink and rim floor.
   hand-mixed color; both faces follow.
 - [x] Goldens regenerated in `components/chip`, `components/gallery`
   and `workbench/sitedocs`, cause named; contrast sweep green.
-- [ ] Exit: green in `components` and downstream by name; commit and
+- [x] Exit: green in `components` and downstream by name; commit and
   push in `components`, `workbench`, `.github`.
 
 #### BB1.2: The chip pins to an edge, and the picker aligns
