@@ -1058,3 +1058,13 @@ triage are in `reviews/ba2.1-mindchat-fresh-eyes.md`.
      doc — a floating pane stays at the floor and never takes a
      lighter fill. Stale pre-linchpin prose; the fix is one sentence
      told the current truth.
+
+121. **[decide]** Added 2026-08-30, from BB1.1's fresh-eyes review:
+     the model picker's anchor is a full-radius pill with a single
+     down-chevron, where the platform's pop-up control is a
+     rounded-rect with paired up/down chevrons. Nothing here is a
+     bug — the pill is the chip's ruled identity and the chevron is
+     the caller's glyph — but if an anchor-role chip should take the
+     platform's pop-up shape, that is either a chip variant or the
+     caller's dress, and the choice is the owner's. Colour was
+     settled by BB1.1; this is shape only.
