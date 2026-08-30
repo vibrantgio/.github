@@ -1565,3 +1565,26 @@ popover clamp and tail; recorded by the worker, none blocking.
      border-through-base seams the popover just fixed is unknown —
      measure once, fix if found, one tail grammar for both patterns.
      *(§S, BI2.5)*
+
+## T. From the org-wide comment cleanup (comments session)
+
+Added 2026-08-30. String literals surfaced during the comments-only
+sweep, out of its scope by definition; parked here for ruling.
+
+163. **[bug]** `theme/export/css.go` emits five ADR-022 citations
+     into the generated CSS — emitted text never cites ADR/task IDs
+     (standing rule). Fixing moves the export goldens. *(§T)*
+
+164. **[bug]** a residue of in-org consumer naming survives in
+     support-library prose across effects, components and patterns —
+     the no-consumer-mentions rule extended to all support-library
+     text on 2026-08-18. *(§T)*
+
+165. **[decide]** `markdown/internal/lint/nogofont_test.go:78` emits
+     "ADR-003 violation" in test output. Test output is not a
+     published artifact; whether the no-jargon rule reaches it is a
+     ruling. *(§T)*
+
+166. **[decide]** sitedocs test fixtures carry task/ADR IDs as
+     strings (`guide_test.go:328` "AF1.1", `shell_test.go:80`
+     "ADR-021 R2") — same reach question as 165. *(§T)*
