@@ -17941,13 +17941,13 @@ its trigger; `picker.Anchor` from chip's anchor face (chevron pair,
 Md corner, pin — moved, not redrawn). Pure and live paths on the
 package contract; input and chip keep forwarders.
 
-- [ ] The package lands: Field, Anchor, Menu, pure + live paths,
+- [x] The package lands: Field, Anchor, Menu, pure + live paths,
   keyboard reach preserved from both sources.
-- [ ] input.RenderDropdown and chip.RenderAnchor forward, marked
+- [x] input.RenderDropdown and chip.RenderAnchor forward, marked
   deprecated; no caller breaks.
-- [ ] Package tests cover trigger/menu contracts; existing dropdown
+- [x] Package tests cover trigger/menu contracts; existing dropdown
   and chip tests stay green.
-- [ ] Exit: green in `components` and `components/gallery`; commit
+- [x] Exit: green in `components` and `components/gallery`; commit
   and push in `components` and `.github`.
 
 #### BI1.2: The shared inventory shows the picker
