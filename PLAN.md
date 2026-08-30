@@ -17957,11 +17957,11 @@ and Anchor triggers, the Menu open — drawn from the new package; the
 chip block keeps its three faces via the forwarder until the chip
 re-anatomy. One edit in the shared gallery; both apps inherit.
 
-- [ ] Picker section in components/gallery/inventory; section names
+- [x] Picker section in components/gallery/inventory; section names
   and goldens updated with the cause named.
-- [ ] workbench/sitedocs tab goldens and workbench/themer captures
+- [x] workbench/sitedocs tab goldens and workbench/themer captures
   regenerated where the section moved them, byte-identical elsewhere.
-- [ ] Exit: green in `components/gallery`, `workbench/sitedocs`,
+- [x] Exit: green in `components/gallery`, `workbench/sitedocs`,
   `workbench/themer`; commit and push in `components`, `workbench`
   and `.github`.
 
