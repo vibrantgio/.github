@@ -17281,12 +17281,41 @@ recorded.
 - [ ] Exit: green in `workbench/mindchat` and the workbench root;
   commit and push in `workbench`, `.github`.
 
-### G-BB3: The seam ships it
+### G-BB3: The picker takes the native pop-up shape
 
-#### BB3.1: The quiet-chip release
+#### BB3.1: The anchor face joins the chip family
+
+Ruled by the owner 2026-08-30, cutting open-rulings item 121. The
+platform's pop-up control is a rounded rectangle with the paired
+up/down chevrons; the picker currently wears the chip's full-radius
+pill with a single flipping chevron. The pill is the chip's ruled
+identity, so the shape change is a new FACE, not a restyle: the
+ANCHOR face — the chip's geometry at the button's rounded-rect
+radius, the paired chevrons drawn by the component (static on the
+platform: they say "this pops up", never "this is open"), with the
+measured fill, the rim, the states and the pointer target unchanged
+from the chip face. mindchat's picker adopts it, and the caller's
+chevron-flip logic retires with its last caller — which also settles
+this app's half of the open-state question the first adoption
+recorded: on the platform the anchor's glyph does not say open.
+
+- [ ] `components/chip` gains the anchor face: rounded-rect radius
+  derived the way the button derives its own, paired chevrons drawn
+  by the component, everything else the chip's; goldens and the
+  contrast sweep extend to it.
+- [ ] mindchat's picker wears the anchor face; the flip logic and
+  its glyphs delete with their last caller; both schemes looked at
+  in the render.
+- [ ] Exit: green in `components`, `components/gallery`,
+  `workbench/sitedocs`, `workbench/mindchat` and the workbench root;
+  commit and push in `components`, `workbench`, `.github`.
+
+### G-BB4: The seam ships it
+
+#### BB4.1: The quiet-chip release
 
 The ceremony, latest derived at execution: components carries a pixel
-change and one additive seam — the bump size is reasoned against the
+change and additive seams — the bump size is reasoned against the
 round's own precedent (additive API in an existing package took a
 patch at mvu/desktop v1.0.1). Workbench pins bump; matrix green; sync
 clean.

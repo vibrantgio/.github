@@ -1068,3 +1068,5 @@ triage are in `reviews/ba2.1-mindchat-fresh-eyes.md`.
      platform's pop-up shape, that is either a chip variant or the
      caller's dress, and the choice is the owner's. Colour was
      settled by BB1.1; this is shape only.
+     — Ruled 2026-08-30 in conversation: the picker takes the native
+     shape; planned as BB3.1, the chip's anchor face.
