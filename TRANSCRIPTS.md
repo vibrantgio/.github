@@ -52,3 +52,7 @@ points down but only shows items above. All selections in the popup
 are BLACK. There is now scrollbar so the list in the settings is cut
 off. This is really a very big step back in functionality.
 ^0001-picker-regressions
+
+Rene: Well selection behavior is pretty standard across a platform,
+so why have a sudden BLACK/WHITE selection going on. That doesn't
+even make sense in our color design language ^0001-selection-not-state

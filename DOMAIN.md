@@ -43,6 +43,15 @@ the value. Multiselect of a few visible options is the Filter chip's;
 a summarizing multi-picker does not exist until a consumer outgrows
 that.
 
+**Selection** — persistent and semantic, never a state. A state
+(hover, press, focus) is transient and walks its fill from the
+ground; a selection marks meaning and speaks through the accent — a
+role-tinted container with floored ink — the same in a menu, a
+sidebar or a list (ruled 2026-08-30, after a menu marked selection by
+escaping to the inverse surface: a dead end reached by walking the
+neutral ramp on a mid-grey ground, which is the state grammar applied
+to a concept it does not cover).
+
 **Tag** — the status label, drawn in a role's own hue: the system's
 word about content. A tag may carry a close mark (ruled 2026-08-30:
 tag keeps dismissible); what separates a dismissible tag from an
