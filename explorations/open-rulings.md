@@ -550,6 +550,13 @@ visible.
     light ladder should have more headroom above its paper, which is
     an ADR-022 answer and not a control's.
 
+    (Witnessed 2026-08-30 on a consuming app's real surface: a
+    clickable recall chip sits in one modal beside inert participant
+    and status badges — same corner, rim and fill weight, nothing but
+    the glyph and hover separating live from inert. The consumer holds
+    captures in its own harness and recorded the question; this is no
+    longer hypothetical.)
+
 93. **[decide]** Added 2026-08-29, from AZ1.2's fresh-eyes review: the
     badge does not read as a badge. Same pill, same radius, same
     hairline, same fill and same height as a resting chip — the only
@@ -600,6 +607,11 @@ visible.
     a live component should take its data as observables (or a props
     function) rather than as captured values is the ruling; every
     data-bearing component the system grows will meet it.
+
+    (Confirmed 2026-08-30 by a second consumer: it chose the static
+    render register over the live chip.Chip specifically because
+    by-value Props resubscribe on model-driven labels. Two of two
+    adopters have now worked around the same seam.)
 
 97. **[decide]** Added 2026-08-29, from AZ2.1: a chip anchoring a
     popover cannot say that the popover is open. The chip knows rest,
