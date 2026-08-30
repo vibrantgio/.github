@@ -17575,7 +17575,55 @@ an additive accessor, and sitedocs and the themer consume it. Bump
 size reasoned against the round's own precedent; workbench pins bump;
 matrix green off-workspace; sync clean.
 
-- [ ] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
+**What shipped.** Two tags, bottom-up: `components v1.2.3` and
+`components/gallery v1.2.3`. `patterns` needed nothing — its master
+still sits on `v1.1.0`, the tag BE2.1's indirect-to-direct move
+required, so the themer's `patterns` pin does not budge.
+
+- **`components/gallery v1.2.3`** — a **patch**. BE1.1 added
+  `Inventory.TabItems`, an additive accessor on an existing type in an
+  existing package: a named group's sections with the closing line and
+  without the banner that would only repeat the label clicked to reach
+  it, and nil for a name no group carries. Nothing exported moved, was
+  removed or re-signatured, which is the rationed-minor rule's patch
+  case as `mvu/desktop v1.0.1` and `gallery/v1.2.2` itself read it.
+- **`components v1.2.3`** — the root carries **no change of its own**
+  since v1.2.2: BE1.1's single commit landed entirely under `gallery/`,
+  a separate module. Cut anyway, by the mirror rule — `gallery/v1.2.2`
+  was spent and a nested tag requires its root at the same number. The
+  fourth time the round has ruled this shape (`components v1.1.1`,
+  `mvu v1.0.1`, `components v1.2.2`).
+
+**Only the two consumers re-pin.** `sitedocs` and `themer` — the two
+that render the inventory — move to `components/gallery v1.2.3` and
+`components v1.2.3`. The other seven workbench modules stay on
+`components v1.2.2`, and that is deliberate: the root tag this round
+cut is a mirror with no change of its own, so re-pinning nine modules
+onto it would be exactly the commit BD2.1 declined to earn when it left
+the support floor unchased. Nothing asks for it and `check-versions`
+reads OK either way.
+
+**The matrix is 24/24** — twelve modules each built and tested under
+the workspace and again under `GOWORK=off`: `patterns`, `components`,
+`components/gallery`, and the nine workbench modules (root plus
+`feeds`, `iconbrowser`, `marketing`, `mindchat`, `sitedocs`, `themer`,
+`todos`, `vaultview`). Org-wide `check-no-workspace.sh` reads **40/40**.
+No golden moved: sitedocs' and themer's tab captures pass unchanged
+resolving from the published tags, which is the point of running them
+off-workspace rather than trusting the pins.
+
+**The second self-referencing pass cost nothing, for the sixth round
+running** — and this time it was not even a second pass: the root tag
+went out before the nested `go.mod` was written, so `gallery/v1.2.3`
+published already naming `components v1.2.3` and `patterns v1.1.0`,
+read back out of the tag rather than assumed. `sync-versions.sh`
+rewrote three version tokens in `workbench/llms.txt` — the gallery
+roster entry and the components line of the go.mod skeleton an
+assistant copies — and read clean on the second run. `check-layers.sh`,
+`check-versions.sh` and `check-subjects.sh` all read OK. No fresh-eyes
+review is owed: this task moves version tokens and not one pixel.
+
+- [x] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
   sync clean.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
