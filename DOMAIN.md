@@ -7,7 +7,11 @@ component. The attachment roles: **Anchor** (the element a floating
 surface is positioned against), **Trigger** (the interaction that
 opens or closes it), **Surface** (the floating thing itself),
 **Placement** (which side, and who arbitrates). Anchor and trigger
-usually coincide; they are still two roles.
+usually coincide; they are still two roles. "Anchor" is reserved for
+the role alone (ruled 2026-08-30): no component may carry it as a
+name. The picker's chrome-register trigger, shipped as
+picker.Anchor, renames to picker.Toolbar when the chip re-anatomy
+round touches it (deprecated alias until then).
 
 **Ground** — the plane a control stands on; every colour a control
 draws is derived against its ground, never absolute. The elevation
@@ -33,7 +37,8 @@ content and context.
 
 **Picker** — the pick-one-from-many control: one shared **Menu**
 (the surface) behind two register triggers (**Field**, form;
-**Anchor**, chrome). Single-choice by contract — the trigger shows
+**Toolbar**, chrome — shipped as picker.Anchor, renaming per the
+Role entry). Single-choice by contract — the trigger shows
 the value. Multiselect of a few visible options is the Filter chip's;
 a summarizing multi-picker does not exist until a consumer outgrows
 that.
