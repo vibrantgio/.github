@@ -18241,3 +18241,35 @@ the workbench commit.
   sync clean.
 - [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
+
+## Phase BK: The gallery's tooltip and popover specimens become icon buttons
+
+**Gate: starts only after the comment-cleanup branches in
+`vibrantgio-cleanup/` are merged** (owner-sequenced 2026-08-30) — this
+edits `components/gallery`, which those branches also touch; landing
+first would hand the cleanup merge a conflict.
+
+The shared inventory fills the tooltip's Trigger and the popover's
+Anchor with literal tags wearing the role's own name
+(`inventory/patterns.go`: a Filled tag "Anchor", a Tonal tag
+"Trigger") — a statement posing as a control, in the system's
+textbook, the exact confusion the ontology cleared up. The role slots
+stay open to any widget; only the specimens change, to the 90% case:
+a Ghost icon-only button for both — hover the glyph and the tooltip
+names it, click it and the popover opens — the same control in both
+demos so they teach the pattern difference, not an anchor difference.
+
+### G-BK1: The specimens become controls
+
+#### BK1.1: Ghost icon buttons take the trigger and anchor slots
+
+Both specimens become Ghost icon-only buttons (`button` `Props.Icon`
+with empty `Label`), each with `Description` carrying the accessible
+name — the tooltip demo then models both halves of naming an
+unlabeled control: the visible tooltip and the screen-reader label.
+
+- [ ] Tooltip Trigger and popover Anchor specimens swapped to Ghost
+  icon-only buttons; `Description` set on both; gallery goldens
+  regenerated, cause named in the commit.
+- [ ] Exit: green in `components` and `components/gallery`; commit
+  and push in `components` and `.github`.
