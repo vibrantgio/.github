@@ -22,6 +22,14 @@ call a badge). Both are ruled components, not patterns. Read every
 badge face reads as mark territory. Chip anatomy ruled:
 [icon] text [x], brackets optional.
 
+Vocabulary update (2026-08-30, DOMAIN decision 0004): "tag" is now
+**Badge** (textual status label, a component), **Mark** enters as the
+icon-like signal component, and the chip's anatomy is ruled
+[icon] text [x]. §3d's tag-dismissible migration was already
+overruled (badge keeps dismissible; the boundary is voice); read
+"patterns/tag" below as the badge component. Renames execute when a
+round touches them, per the picker.Toolbar precedent.
+
 Sources: the M3 chips overview/guidelines (taxonomy), and the
 canonical Compose Material3 token files (AssistChipTokens,
 FilterChipTokens, InputChipTokens — exact values quoted below were
