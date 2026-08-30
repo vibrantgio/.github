@@ -18059,16 +18059,16 @@ which under a trailing pin is the full offered width, so the arrow
 aims well off the drawn control and floats above it. Both are the
 placement layer's to absorb.
 
-- [ ] The popover nudges its surface back inside the window's bounds
+- [x] The popover nudges its surface back inside the window's bounds
   (clamped, tail still pointing at the anchor) rather than clipping.
-- [ ] The tail centres on the drawn anchor, not the reported box —
+- [x] The tail centres on the drawn anchor, not the reported box —
   the Pin seam gives placement the drawn rect it needs.
-- [ ] The tail meets the anchor and the surface edge cleanly (no
+- [x] The tail meets the anchor and the surface edge cleanly (no
   floating gap, no border row through its base).
-- [ ] Goldens/captures regenerated with causes named; green in
+- [x] Goldens/captures regenerated with causes named; green in
   `patterns`, `components`, `workbench/mindchat`, `workbench` root
   and the other workbench apps by name where popover moves them.
-- [ ] Exit: commit and push in every repo touched and `.github`.
+- [x] Exit: commit and push in every repo touched and `.github`.
 
 ### G-BI3: The seam ships it
 
