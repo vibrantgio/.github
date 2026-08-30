@@ -1209,7 +1209,7 @@ and the triage are in `reviews/bd1.1-gallery-fresh-eyes.md`.
 128. **[bug]** The gallery window's sidebar ground does not fill the
      window height on the components page — it stops below the last
      nav item and leaves a lighter block beneath, while the patterns
-     page fills correctly, so the chrome's extent depends on the
+     page fills correctly (corrected by §O: both pages behaved identically and the misdiagnosed fill was nav entries painting over the floor), so the chrome's extent depends on the
      content scrolled beside it. Gallery chrome, cheap; tasked as
      BD1.2.
 
@@ -1218,3 +1218,70 @@ and the triage are in `reviews/bd1.1-gallery-fresh-eyes.md`.
      ground than the light one. The pin is deliberate — that is the
      row's whole point — but whether a pinned fill owes a per-scheme
      ink gate is a standing question, not a gallery one.
+
+## O. From BD1.2's fresh-eyes review of the gallery window
+
+Added 2026-08-30, after the rail fix. The reviewer probed every claim
+against the pixels and was verified against its own transcript; the
+verbatim reply and the triage are in
+`reviews/bd1.2-gallery-fresh-eyes.md`. Its chrome-darker-than-content
+headline is the recorded ADR-022 linchpin, not pooled; the six items
+below are what survives. Correction to item 128, from the same
+review's probes and BD1.2's fix: the rail always filled the window
+height — the defect was unselected nav entries painting an opaque
+Background band over the floor, the block below the last entry was
+darker (floor) rather than lighter, and the patterns page behaved
+identically to the components page.
+
+130. **[decide]** The dark rail-to-content seam carries no edge at
+     all: floor #151515 against background #181818 is 1.028:1 and the
+     scan across the boundary finds no divider hairline — the bare
+     21→24 step is the whole seam (light manages 1.134:1 plus the
+     same absence). The storey relation is ADR-022's own; the open
+     question is whether a floor-to-paper seam owes a hairline where
+     the measured step is imperceptible. Sharpens item 125.
+
+131. **[decide]** Light muted text fails WCAG AA while dark doubles
+     it: the subtitle at 4.03:1 and the type-spec labels at 3.97:1 on
+     ~12–14px text (the 4.5:1 floor applies), against 8.76:1 for the
+     same roles in dark; the inactive toggle glyph and swatch "Aa"
+     pairs show the same ~2x split. Four independent measurements —
+     the default scheme is the failing one. New evidence under item
+     122's schemes-derived-to-a-floor-not-a-ladder finding.
+
+132. **[decide]** Every dark ramp skips its middle: Neutral runs
+     24/34/46/71 then jumps 87 levels to 158/182/204/221/238 — 41% of
+     the ramp's range unsampled — and Primary, Info and Success jump
+     the same way, where light's worst Neutral gap is 47. Consequence
+     with teeth: dark has no mid-tone step for a disabled label, a
+     hairline on a raised surface, or a secondary border — 71 is
+     near-invisible on 24 and 158 is near-full-strength. A ramp
+     derivation question in theme.
+
+133. **[bug]** The Background swatch and the Neutral ramp's first
+     step are painted exactly the page ground (246 on 246 light, 24
+     on 24 dark) with only a 1.3–1.9:1 hairline saying where they
+     are. A gallery-page issue: a swatch whose job is showing a
+     colour needs a boundary that survives 1x — likely a stronger
+     border or a checker/contrast backing for ground-coloured cells.
+
+134. **[bug]** The role-swatch row breaks its grid at one cell: 64px
+     pitch everywhere except after Background, which is 67px, because
+     the "Background" caption (58px) outgrows its 56px swatch and the
+     column is sized by its label. Fixed column width or a truncated
+     caption; identical in both schemes, pure layout.
+
+135. **[decide]** The section bands are inset 25px on the leading
+     edge and 0 on the trailing edge — full bleed that reads as
+     clipped on this platform — while the content column they frame
+     leaves 32–52% of a 1280-wide window empty. Whether the bands get
+     a symmetric inset, the column breathes with the window, or both,
+     is a gallery-page composition call.
+
+136. **[decide]** Two platform-fit complaints a Mac developer files
+     first: the type ladder's visible labels say "57sp/45sp/…" —
+     Android's unit, Material 3's exact scale — where this platform
+     specifies points; and the theme control is a hard two-position
+     sun/moon switch with no Auto/System position, where macOS apps
+     are expected to follow the system appearance and its scheduled
+     flip.
