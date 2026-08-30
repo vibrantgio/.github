@@ -953,16 +953,6 @@ consumer ships the answer whether or not it asked the question.
      about any control's ring — and the answer is presently nothing.
      *(§L, BA2.1's fresh-eyes review of the rebuilt MindChat window)*
 
-149. **[decide]** The seed row now lives twice — sitedocs'
-     theme_seed.go and the themer's seed.go — sharing the honesty
-     constants, the two-cell rule and the cell drawing, while each app
-     keeps what is genuinely its own (the themer knows the pick
-     first-hand and has an unpicked state; sitedocs infers through
-     four token sets). A hoist would carry the constants, the two-cell
-     rule and drawSeedCell, parameterised over each app's geometry
-     (swatch sizes, radius, line fitting). Until it lands the two rows
-     can drift. *(§Q, BF1.1's Palette Seed review)*
-
 ## Tier 3 — Window and page composition
 
 Rulings scoped to one window, page or app surface. Visible, but the
@@ -1484,4 +1474,4 @@ schemes, every claim probed with PIL/numpy; the verbatim reply and
 triage are in `reviews/bf1.1-themer-seed-fresh-eyes.md`. One copy
 regression was fixed in the task; the panel-clipping claim was a
 misread of the window margin; the two-swatch size channel was
-confirmed working untold. Items 144–149.
+confirmed working untold. Items 144–148.

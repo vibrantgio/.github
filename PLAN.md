@@ -17769,11 +17769,11 @@ open-rulings item 149. The themer keeps its first-hand pick states;
 sitedocs keeps its inference cases; neither keeps a copy of the
 shared halves.
 
-- [ ] The shared seed row lands; both apps adopt; the honesty tests
+- [x] The shared seed row lands; both apps adopt; the honesty tests
   (no unmarked seam, claims checked against the palette) move with
   it and pass from the shared package.
-- [ ] Item 149 retires from open-rulings with the landing named.
-- [ ] Exit: green in `components/gallery`, `workbench/themer`,
+- [x] Item 149 retires from open-rulings with the landing named.
+- [x] Exit: green in `components/gallery`, `workbench/themer`,
   `workbench/sitedocs`; commit and push in `components`, `workbench`
   and `.github`.
 
