@@ -12,6 +12,16 @@ rounded rect is acceptable; the pill is not a requirement. This
 confirms the §3c direction (outline-resting body, corner-small,
 smaller-than-button height) as the destination, not an option.
 
+Vocabulary update (2026-08-30, DOMAIN decision 0004, mark-and-badge):
+"tag" has left the language. The textual status label is the
+**badge** (the voice and dismissibility rulings carry over intact;
+the hero eyebrow is a badge at its quietest), and the **mark** enters
+as the icon-like signal — glyph or count, never a word (what M3/iOS
+call a badge). Both are ruled components, not patterns. Read every
+"patterns/tag" below as the coming components/badge; the chip's old
+badge face reads as mark territory. Chip anatomy ruled:
+[icon] text [x], brackets optional.
+
 Sources: the M3 chips overview/guidelines (taxonomy), and the
 canonical Compose Material3 token files (AssistChipTokens,
 FilterChipTokens, InputChipTokens — exact values quoted below were
