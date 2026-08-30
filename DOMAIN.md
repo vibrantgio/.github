@@ -43,9 +43,20 @@ the value. Multiselect of a few visible options is the Filter chip's;
 a summarizing multi-picker does not exist until a consumer outgrows
 that.
 
-**Tag** — the non-interactive status label, drawn in a role's own
-hue. It does not move under the pointer; the dismissible pill is the
-Input chip's, not the tag's.
+**Tag** — the status label, drawn in a role's own hue: the system's
+word about content. A tag may carry a close mark (ruled 2026-08-30:
+tag keeps dismissible); what separates a dismissible tag from an
+Input chip is voice, not the mark — a tag is applied by the system
+or author *about* the thing, an Input chip is a token the user
+entered themselves. Dismissing a tag removes a label; dismissing an
+Input chip removes the user's own entry.
+
+**Chrome** — the window's furniture: every region that frames the
+document rather than being it — toolbar, header, sidebar, rail,
+status bar. Chrome fills at the window's floor in both schemes; the
+shell pattern is the composition of chrome regions; a register is
+"chrome" when the control lives in that furniture. palette.Chrome
+names the colours the furniture draws.
 
 **Button** — a persistent verb. Selection does not ride its emphasis
 registers; that is the Filter chip's intent.

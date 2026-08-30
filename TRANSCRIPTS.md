@@ -37,3 +37,10 @@ Rene: A new package is additive, minimize version churn is your
 priority. ^0001-churn
 
 Rene: according to /crunchgate:method this is DOMAIN.md ^0001-domain-home
+
+Rene (crunch selection): tag keeps dismissible — chip Input and
+dismissible tag coexist; the boundary gets written instead of a
+migration. ^0001-tag-keeps-dismissible
+
+Rene: what do you use the concept Chrome for in your ontology?
+^0001-chrome-question
