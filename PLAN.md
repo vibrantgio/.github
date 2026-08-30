@@ -18018,16 +18018,16 @@ points down while its menu opens upward. A mark that contradicts the
 motion it announces is a bug, not a style. The rule: the mark
 follows the behaviour the control actually has.
 
-- [ ] Field's triangle points the way its Drop opens: down for
+- [x] Field's triangle points the way its Drop opens: down for
   DropDown, up for DropUp.
-- [ ] Anchor's mark matches its placement: while its menu is placed
+- [x] Anchor's mark matches its placement: while its menu is placed
   below (the popover coupling), it wears the single down chevron of
   a pull-down; the paired chevrons are reserved for a true pop-over
   (menu over the trigger), which no caller has yet — recorded as the
   pair's re-entry condition in the component doc.
-- [ ] mindchat's two pickers and the gallery specimens pick the
+- [x] mindchat's two pickers and the gallery specimens pick the
   change up; goldens/captures regenerated with causes named.
-- [ ] Exit: green in `components`, `components/gallery`,
+- [x] Exit: green in `components`, `components/gallery`,
   `workbench/mindchat`, `workbench/sitedocs`, `workbench/themer`,
   `workbench` root; commit and push in `components`, `workbench`
   and `.github`.
