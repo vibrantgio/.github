@@ -17551,19 +17551,19 @@ with the code section to the Markdown tab. Selected tab survives a
 palette pick; each tab keeps its own scroll position, exactly the
 economy the inventory is built around.
 
-- [ ] The tab strip renders in the embedded palette (it is furniture
+- [x] The tab strip renders in the embedded palette (it is furniture
   of the page, not of the window), Theme selected on open.
-- [ ] Theme tab: the window's palette rows and the type ladder; the
+- [x] Theme tab: the window's palette rows and the type ladder; the
   swap logic retires with the single column.
-- [ ] Components, Patterns and Markdown tabs use the inventory's tab
+- [x] Components, Patterns and Markdown tabs use the inventory's tab
   cut; a group renamed upstream fails a test, not silently.
-- [ ] The syntax-base selector and the gallery hint still address the
+- [x] The syntax-base selector and the gallery hint still address the
   code specimen on the Markdown tab.
-- [ ] Goldens land; stale themer captures regenerated with the cause
+- [x] Goldens land; stale themer captures regenerated with the cause
   named.
-- [ ] Fresh-eyes review of the whole themer window at a realistic
+- [x] Fresh-eyes review of the whole themer window at a realistic
   size, both schemes; reply relayed verbatim, findings pooled.
-- [ ] Exit: green in `workbench/themer` (and `workbench` root); commit
+- [x] Exit: green in `workbench/themer` (and `workbench` root); commit
   and push in `workbench` and `.github`.
 
 ### G-BE3: The seam ships it
