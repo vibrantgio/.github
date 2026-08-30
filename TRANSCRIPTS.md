@@ -108,6 +108,16 @@ a badge and it does have succes/danger/warning/info primary and
 secondary. That is also part of the mark right success/danger etc...
 ^0002-fold-mark-into-badge
 
+Rene: So this means that tag will be migrated to a component named
+badge. I want this to be quite abrupt, no affordances for other
+programs. Diarizer needs to go cold turkey and convert to the new
+status quo, once we are ready. If we do it with little steps
+everything churns like hell and I want it to arrive quickly, not be
+working on it for 3 days and then concluding it is not what I want
+again. We are going to be transforming the library once again,
+perhaps we need to schedule the golden snapshots phase after we do
+our work to prevent a lot of duplicated work. ^0002-cold-turkey
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's

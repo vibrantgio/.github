@@ -174,6 +174,18 @@ count utterances too. Sources:
 [[TRANSCRIPTS#^0002-badge-mark-doubt]],
 [[TRANSCRIPTS#^0002-fold-mark-into-badge]]
 
+### 0006 — abrupt-badge-migration
+
+2026-08-30 · strategic. The tag pattern migrates to a component
+named badge in one abrupt transformation: no compatibility
+affordances, no deprecated aliases, no little steps — consumers
+convert cold turkey to the new status quo once the library is ready.
+Rationale: stepwise migration churns every version on the way to a
+destination that may itself be re-ruled; the transformation must
+arrive quickly. Sequencing: the golden-snapshots phase moves to
+after this transformation, so snapshots are cut once against the
+settled anatomy. Sources: [[TRANSCRIPTS#^0002-cold-turkey]]
+
 ## Example dialogue
 
 Rene: anchor doesn't even look like a chip where it stands. So how
