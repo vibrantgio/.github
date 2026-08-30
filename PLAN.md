@@ -17527,11 +17527,11 @@ Sitedocs' `groupRows` retires in favour of it; `scrollingColumn` and
 the tabs strip stay app-side (the strip is already patterns/tabs, and
 the column glue is three lines neither app needs to share).
 
-- [ ] The inventory exports the tab cut; doc comment carries the
+- [x] The inventory exports the tab cut; doc comment carries the
   banner-drop reasoning that lives in sitedocs' file header today.
-- [ ] sitedocs adopts it and deletes `groupRows`; its tab goldens hold
+- [x] sitedocs adopts it and deletes `groupRows`; its tab goldens hold
   byte-for-byte, since the rows are the same rows.
-- [ ] Exit: green in `components/gallery` and `workbench/sitedocs`
+- [x] Exit: green in `components/gallery` and `workbench/sitedocs`
   (workspace build; the pin bump waits for the release task); commit
   and push in `components`, `workbench` and `.github`.
 
