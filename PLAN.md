@@ -17366,7 +17366,7 @@ new graph.
   its newest tag except by a nested pin-bump commit its nested tag
   covers.
 
-## Phase BC: The gallery inventory shows every published family
+## Phase BD: The gallery inventory shows every published family
 
 An audit of the inventory against the published repos (2026-08-30)
 found three gaps: the floating pane pattern has no section, the
@@ -17377,9 +17377,9 @@ patterns — is represented. The inventory is what the themer's embedded
 page renders, so a family it omits is a family no theme is ever judged
 on.
 
-### G-BC1: The inventory gains the missing specimens
+### G-BD1: The inventory gains the missing specimens
 
-#### BC1.1: The pane, the emphasis row and the icon button join the inventory
+#### BD1.1: The pane, the emphasis row and the icon button join the inventory
 
 Three additions to components/gallery/inventory, each drawn from
 static state in a bounded slot like every existing section. The pane
@@ -17401,9 +17401,26 @@ captioned — and an icon-button specimen via `button.RenderIcon`.
   builds against the inventory; commit and push in `components` and
   `.github`.
 
-### G-BC2: The seam ships it
+#### BD1.2: The gallery sidebar ground fills the window height
 
-#### BC2.1: The inventory-completion release
+BD1.1's fresh-eyes review (open-rulings item 128) caught the gallery
+window's own chrome short: on the components page the sidebar's ground
+stops just below the last nav item, leaving a lighter block beneath it,
+while the patterns page fills to the window's bottom edge — so the
+chrome's extent depends on what the content column beside it measures.
+A [bug]: the sidebar paints its ground to its content's height instead
+of the window's.
+
+- [ ] The sidebar's ground fills the window height on every page,
+  regardless of the content column beside it.
+- [ ] Any gallery goldens the fill shifts are regenerated with the
+  cause named.
+- [ ] Exit: green in `components/gallery` and `workbench/sitedocs`;
+  commit and push in `components` and `.github`.
+
+### G-BD2: The seam ships it
+
+#### BD2.1: The inventory-completion release
 
 The ceremony, latest derived at execution: the gallery module carries
 additive sections and a new import of the pane pattern. Bump size

@@ -1158,3 +1158,63 @@ reply and the full triage are in `reviews/bb3.1-mindchat-fresh-eyes.md`.
      measurement under this one. Likely a `patterns/pane` question
      rather than this window's, since the strip's depth on the leading
      side is the pane's and on the trailing side is the frame's.
+
+## N. From BD1.1's fresh-eyes review of the gallery window
+
+Added 2026-08-30. The reviewer was handed four whole-window gallery
+captures — the two sections BD1.1 added, both schemes — briefed on the
+1x dark-ink misread, and asked one question. One of its findings (the
+icon button's fill diverging between schemes) was disproved by pixel
+probe and recorded as a misread rather than pooled; the verbatim reply
+and the triage are in `reviews/bd1.1-gallery-fresh-eyes.md`.
+
+124. **[decide]** The Filled and Tonal registers trade perceived
+     loudness between schemes. Light: Filled is the saturated fill
+     with on-colour ink, Tonal the pale wash — a clear ladder. Dark:
+     the derivation hands Filled the light tone and Tonal the deep
+     saturated container, so the same two call sites produce opposite
+     visual hierarchies per appearance. The consequence with teeth is
+     the modal footer: light makes Discard the unmistakable solid
+     primary beside a pale Cancel; dark reverses which of the pair
+     shouts. The semantics hold — this is the dark derivation working
+     as derived — but the loudness ladder does not survive the flip.
+     A token-derivation decision, above every control that inherits it.
+
+125. **[decide]** Dark-scheme elevation is near-flat where the
+     specimens advertise it. The floating pane's floor-vs-paper step
+     is invisible in dark — page ground, card and pane read as the
+     same near-black with only the hairline doing the work — so the
+     pane section demonstrates the gap faithfully rather than the
+     step. The modal scrim mirrors it: barely-there in dark, an
+     opaque slab that hides its backdrop entirely in light. May
+     sharpen earlier elevation items rather than stand alone.
+
+126. **[bug]** Focus and selected-state collide on checkbox and
+     radio: the focus treatment replaces the fill, so a focused
+     checkbox renders unchecked and a focused radio loses its dot —
+     focused-and-checked cannot be drawn at all. The reviewer named
+     this the first thing to escalate; keyboard focus is an
+     accessibility requirement. Also under this item: focus is drawn
+     three different ways across families (chip outlines outside the
+     shape, text field recolours its border, checkbox/radio replace
+     the fill) — the fix should pick one grammar.
+
+127. **[decide]** Two dark-scheme legibility soft spots in the
+     component states: the disabled text field's placeholder is
+     grey-on-grey to the point of illegibility, and the pressed chip
+     carries near-white ink on a mid-grey fill far weaker than its
+     light counterpart. Possibly the same root as item 122's
+     schemes-measure-differently finding.
+
+128. **[bug]** The gallery window's sidebar ground does not fill the
+     window height on the components page — it stops below the last
+     nav item and leaves a lighter block beneath, while the patterns
+     page fills correctly, so the chrome's extent depends on the
+     content scrolled beside it. Gallery chrome, cheap; tasked as
+     BD1.2.
+
+129. **[decide]** The pinned specimen's fixed red delivers two
+     legibility outcomes: markedly weaker contrast against the dark
+     ground than the light one. The pin is deliberate — that is the
+     row's whole point — but whether a pinned fill owes a per-scheme
+     ink gate is a standing question, not a gallery one.
