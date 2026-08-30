@@ -17367,7 +17367,6 @@ new graph.
   covers.
 
 ## Phase BD: The gallery inventory shows every published family
-
 An audit of the inventory against the published repos (2026-08-30)
 found three gaps: the floating pane pattern has no section, the
 button's emphasis registers (Tonal, Ghost) have no specimen of their
@@ -17377,6 +17376,13 @@ patterns — is represented. The inventory is what the themer's embedded
 page renders, so a family it omits is a family no theme is ever judged
 on.
 
+History note: this phase was authored as Phase BC and re-lettered to
+BD the same day, after a concurrently pushed Phase BC (the drifted-
+repo patch sweep) took the letter. BD1.1's commits in `components` and
+`workbench` therefore carry the subject "BC1.1: The pane, the emphasis
+row and the icon button join the inventory" — unrelated to the sweep's
+"BC1.1: Every drifted repo tags its master", so archaeology by heading
+is ambiguous there; go by content.
 ### G-BD1: The inventory gains the missing specimens
 
 #### BD1.1: The pane, the emphasis row and the icon button join the inventory
