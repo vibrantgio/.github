@@ -550,13 +550,6 @@ visible.
     light ladder should have more headroom above its paper, which is
     an ADR-022 answer and not a control's.
 
-    (Witnessed 2026-08-30 on a consuming app's real surface: a
-    clickable recall chip sits in one modal beside inert participant
-    and status badges — same corner, rim and fill weight, nothing but
-    the glyph and hover separating live from inert. The consumer holds
-    captures in its own harness and recorded the question; this is no
-    longer hypothetical.)
-
 93. **[decide]** Added 2026-08-29, from AZ1.2's fresh-eyes review: the
     badge does not read as a badge. Same pill, same radius, same
     hairline, same fill and same height as a resting chip — the only
@@ -566,6 +559,14 @@ visible.
     is its cost; if the badge should carry a property of its own — a
     weight, a scale, a mark set aside for it — that is a design
     ruling, not a gallery fix.
+
+    (Witnessed 2026-08-30 on a consuming app's real surface: a
+    clickable recall chip sits in one modal beside inert participant
+    and status badges — same corner, rim and fill weight, nothing but
+    the glyph and hover separating live from inert. The consumer holds
+    captures in its own harness and recorded the question; this is no
+    longer hypothetical.)
+
 
 94. **[bug]** Added 2026-08-29, from AZ1.2's fresh-eyes review: the
     gallery's own caption convention — neutral step 600 at 11 sp —
