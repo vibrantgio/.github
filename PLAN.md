@@ -17358,7 +17358,7 @@ new graph.
 - [x] Every drifted repo carries a patch tag at master, pushed, with
   the drift's content named per repo in the report; anything
   non-plumbing reported instead of swept.
-- [ ] `GOWORK=off` and workspace builds green in `components`,
+- [x] `GOWORK=off` and workspace builds green in `components`,
   `patterns` and the workbench root and nested apps by name;
   `sync-versions.sh` clean.
 - [x] Exit: `check-layers.sh` and `check-versions.sh` from
@@ -17433,11 +17433,65 @@ additive sections and a new import of the pane pattern. Bump size
 reasoned against the round's own precedent; workbench pins bump;
 matrix green; sync clean.
 
-- [ ] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
-  sync clean.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
-  every repo touched pushed.
+**What shipped.** Two tags, bottom-up: `components v1.2.2` and
+`components/gallery v1.2.2`. `patterns` needed nothing — the sweep
+session's round had already cut `v1.1.0`, the first tag carrying
+`patterns/pane`, and its master sits on it.
 
+- **`components/gallery v1.2.2`** — a **patch**. BD1.1 added three
+  inventory specimens (the floating-pane section, the button emphasis
+  row, the icon-button face) and BD1.2 fixed the rail's ground fill.
+  All of it is additive drawing inside a demo module; nothing exported
+  moved, was removed or re-signatured, which is the rationed-minor
+  rule's patch case as `mvu/desktop v1.0.1` read it. The new import of
+  `patterns/pane` is a change to what this module *consumes*, not to
+  what it offers, so it does not lift the bump either.
+- **`components v1.2.2`** — the root carries **no change of its own**
+  since v1.2.1: both commits landed under `gallery/`, a separate
+  module. Cut anyway, by the mirror rule — `gallery/v1.2.1` was spent
+  and a nested tag requires its root at the same number. The same
+  shape AY3.1 and BA3.1 ruled on twice before (`components v1.1.1`,
+  `mvu v1.0.1`).
+
+**The seam this round existed to close, closed.** `components/gallery`
+pinned `patterns v1.0.2`, which predates the pane package its new
+section imports: green under the workspace, red without it. It now
+pins `patterns v1.1.0`, and `go mod tidy` carried `mvu` to v1.0.1 with
+`mvu/desktop v1.0.1` as an indirect behind it. The support floor the
+sweep raised this morning is *not* chased into the `components` root —
+its pins resolve and `check-versions` reads OK, and a pin bump with no
+consumer asking for it is a commit the round did not earn.
+
+**The matrix is 21/21**: `patterns`, `components`, `components/gallery`
+and the nine workbench modules (root plus `feeds`, `iconbrowser`,
+`marketing`, `mindchat`, `sitedocs`, `themer`, `todos`, `vaultview`),
+each built and tested under the workspace and again under `GOWORK=off`.
+Org-wide `check-no-workspace.sh` reads **40/40**. No golden moved:
+BD1.1 regenerated the four gallery captures and sitedocs' four tab
+captures against local source, and this round verifies they hold
+byte-for-byte against the published tags — which is the whole point of
+running the goldens off-workspace rather than assuming the pins are a
+formality.
+
+**The second self-referencing pass cost nothing**, for the fifth round
+running: `gallery/v1.2.2`'s published `go.mod` names `components
+v1.2.2` and `patterns v1.1.0`, read back out of the tag rather than
+assumed. `sync-versions.sh` rewrote two version tokens in
+`workbench/llms.txt` — the gallery roster entry and the go.mod skeleton
+an assistant copies — and read clean on the second run.
+`check-layers.sh`, `check-versions.sh` and `check-subjects.sh` all read
+OK. No fresh-eyes review is owed: this task moves version tokens and
+not one pixel.
+
+The sweep session's BC1.1 had one honestly-open box — its `GOWORK=off`
+verify — blocked on exactly this release, since the gallery could not
+resolve without the pane tag. This round's matrix is that verify, and
+the box is ticked here on that session's explicit request.
+
+- [x] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
+  sync clean.
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+  every repo touched pushed.
 ## Phase BE: The themer's embedded page adopts the sitedocs tabs
 
 Owner request (2026-08-30): the themer shows the whole inventory as one
