@@ -18174,6 +18174,68 @@ removing them is not this ceremony's business.
   sync clean.
 - [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
+
+## Phase BL: The chip loses its anchor forwarders and badge face
+
+Owner-ruled 2026-08-30: "Cut the forwarders now, it dies with the
+re-anatomy anyway. Also cut the Badge because I don't think it is
+used anywhere." The picker round left `chip.FaceAnchor` and
+`chip.RenderAnchor` as deprecated forwarders to keep that release a
+patch; the owner now takes the contract change instead of waiting.
+The badge face was verified unused outside the gallery's own
+specimen rows before this phase was cut — no workbench app calls
+`RenderBadge` or `FaceBadge` — and DOMAIN decision 0004 assigns that
+territory to the coming mark component, so it retires rather than
+survives into the re-anatomy. Removing public API is a contract
+change: the release is a MINOR bump. (Placed before the held Phase
+BJ by owner instruction; BJ's hold stands.)
+
+### G-BL1: The cut
+
+#### BL1.1: Remove the deprecated anchor forwarders and the badge face
+
+- [ ] In `components/chip`: delete `FaceAnchor`, `RenderAnchor`, and
+  `RenderBadge`; drop the `import` of `components/picker` if it
+  becomes unused; rewrite the `Face` doc and `chip.go` prose so the
+  chip has one face again (the pill) — the "The anchor face has
+  moved" doc section reduces to one pointer sentence naming
+  `picker.Anchor`, or goes entirely if the package doc already says
+  it.
+- [ ] In `components/internal/chipface`: retire `FaceBadge` and the
+  `interactive()` special-case it existed for; simplify what falls
+  out. `picker` must not lose anything it uses.
+- [ ] Delete the chip package's anchor and badge tests, benchmarks
+  and goldens (`chip_test.go` anchor/badge cases,
+  `chip_bench_test.go` badge case, `testdata` anchor-*/badge tiles).
+  The anchor's behaviour is already covered by `components/picker`'s
+  own tests; verify that before deleting, and move any assertion that
+  exists ONLY on the chip side into picker's tests rather than losing
+  it.
+- [ ] In `components/gallery`: remove the badge specimen from
+  `main.go` and the chip-anchor + badge cells from
+  `inventory/inventory.go` (the picker section already shows the
+  anchor); regenerate gallery goldens, and run
+  `workbench/sitedocs`' goldens by name since it renders the
+  inventory.
+- [ ] `go build ./... && go test ./...` green in components, plus
+  gallery and sitedocs golden runs; `check-layers.sh` from `.github`
+  (an import edge is removed); push.
+
+### G-BL2: The release
+
+#### BL2.1: Cut the minor and point the workbench at it
+
+- [ ] ADR-006 seam order: push masters, tag `components` v1.3.0 and
+  mirror `components/gallery/v1.3.0` (contract change: public API
+  removed → minor, per the standing tag rule), bump workbench pins,
+  `GOWORK=off` verify, second self-referencing pass.
+- [ ] `scripts/sync-versions.sh` before the workbench commit; the
+  llms.txt roster line that says `input.Dropdown` forwards to picker
+  stays true and stays; any sentence describing the chip's anchor or
+  badge face goes.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+  every repo touched pushed.
+
 ## Phase BJ: The dark ramp regains its middle
 
 Open-rulings items 144/145, measured by BF1.1's review: every dark
