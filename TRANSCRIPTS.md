@@ -94,6 +94,11 @@ iconlike not textlike.
 Badge -> textual badge
 Chip -> [icon] text [x] where [] means optional ^0002-mark-badge-chip
 
+Rene: Are icon buttons something that is available as a component,
+perhaps as part of the normal button behavior? These are normally
+round and exhibit different behavior to other button controls.
+^0002-icon-button-question
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
