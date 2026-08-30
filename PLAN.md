@@ -17696,3 +17696,97 @@ in doubt, an item stays.
   named with its reason in the commit body.
 - [x] Exit: the file still lints as the plan's companion (no plan
   semantics touched); commit and push in `.github`.
+
+## Phase BH: The palette story becomes one library
+
+Owner request (2026-08-30): with sitedocs and the themer showing the
+same page, dry the duplication out. The audit found it is not a few
+helpers: `workbench/sitedocs/theme_palette.go` is a near line-for-line
+copy of the themer's palette-story engine — the band vocabulary
+(`paletteHeading`/`paletteBody`, `Palette`/`Type`), the honesty
+tooling (`fitLine`, `fitHint`, `lineHeads`, `longestHead`), the ramp
+grid and its claims (`RampGrid`, `rampRows`, `rampClaims`, the mark
+helpers), the picks board (`PickBoard`, `paletteGroups`, the whole
+`pickCell`/`pickPart` machinery, the packing), and the drawing
+primitives (`fillRRect`, `strokeRRect`, `at`, `natural`) — with the
+type-ladder adapter duplicated word for word and the seed row now
+copied in the other direction (open-rulings item 149). The copies have
+already begun to drift: the two `paletteHeading` bodies differ. The
+engine moves into one shared package under `components/gallery`,
+beside the inventory it annotates; each app keeps only what is
+genuinely its own window's.
+
+Reconciliation rule for every divergence the diff finds: pick one
+behaviour for both apps deliberately, with the reason recorded in the
+moved code's comment, or prove the divergence is app-specific and
+leave it behind a parameter — never silently keep two behaviours in
+one function.
+
+### G-BH1: The engine moves
+
+#### BH1.1: The shared package lands and the themer adopts it
+
+Diff the two copies function by function first; the reconciliation of
+each divergence is the task's real work, the move is mechanical after
+it. The shared package lands under `components/gallery` (a sibling
+package of the inventory, named for what it renders — the palette
+story), consuming theme/tokens and textdraw only. The themer adopts
+it wholesale and deletes what moved.
+
+- [ ] The function-by-function diff of the two copies, with each
+  divergence reconciled or parameterised, recorded in the moved
+  code's comments.
+- [ ] The shared package builds with the engine; exported surface no
+  larger than what the two apps call.
+- [ ] The themer adopts it; its palette.go keeps only the themer's
+  own window furniture; behaviour identical — its computed-capture
+  tests hold without loosening.
+- [ ] Exit: green in `components`, `components/gallery` and
+  `workbench/themer` (workspace build; pins wait for the release);
+  commit and push in `components`, `workbench` and `.github`.
+
+#### BH1.2: sitedocs adopts the shared engine
+
+sitedocs drops theme_palette.go's copied engine for the shared
+package, keeping only its own window furniture (PaletteFrom/TypeFrom
+stay if the shared package does not subsume them; the Theme tab's own
+composition stays).
+
+- [ ] theme_palette.go shrinks to sitedocs' own; every engine call
+  goes through the shared package.
+- [ ] Tab goldens hold byte-for-byte, or every shifted tile is the
+  reconciliation of a recorded divergence, named with its cause.
+- [ ] Exit: green in `workbench/sitedocs` and the `workbench` root;
+  commit and push in `workbench` and `.github`.
+
+### G-BH2: The seed row joins it
+
+#### BH2.1: One seed row serves both apps
+
+The seed row's constants, two-cell rule and cell drawing move into
+the shared package, parameterised over each app's geometry, closing
+open-rulings item 149. The themer keeps its first-hand pick states;
+sitedocs keeps its inference cases; neither keeps a copy of the
+shared halves.
+
+- [ ] The shared seed row lands; both apps adopt; the honesty tests
+  (no unmarked seam, claims checked against the palette) move with
+  it and pass from the shared package.
+- [ ] Item 149 retires from open-rulings with the landing named.
+- [ ] Exit: green in `components/gallery`, `workbench/themer`,
+  `workbench/sitedocs`; commit and push in `components`, `workbench`
+  and `.github`.
+
+### G-BH3: The seam ships it
+
+#### BH3.1: The palette-story release
+
+The ceremony, latest derived at execution: the gallery module gains a
+package; both apps consume it. Bump size reasoned against the round's
+precedent; workbench pins bump; matrix green off-workspace; sync
+clean.
+
+- [ ] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
+  sync clean.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+  every repo touched pushed.
