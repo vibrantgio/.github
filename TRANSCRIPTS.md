@@ -99,6 +99,9 @@ perhaps as part of the normal button behavior? These are normally
 round and exhibit different behavior to other button controls.
 ^0002-icon-button-question
 
+Rene: I think we may be making a mistake by swithing the meaning of
+badge and mark ^0002-badge-mark-doubt
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
