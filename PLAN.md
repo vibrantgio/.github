@@ -17437,3 +17437,46 @@ matrix green; sync clean.
   sync clean.
 - [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
+
+## Phase BE: The themer's embedded page adopts the sitedocs tabs
+
+Owner request (2026-08-30): the themer shows the whole inventory as one
+column several screens tall; sitedocs shows the same inventory cut into
+tabs — Theme, Components, Patterns, Markdown — and that is the shape
+the themer should have too. Sitedocs already made the judgment calls to
+copy: one inventory group per tab looked up by name (never index), the
+group's own banner dropped because the strip cell already labels it,
+and Foundations on no group tab — its colour story and type ladder are
+the Theme tab's telling (workbench/sitedocs/inventory_tabs.go and
+theme_tab.go).
+
+### G-BE1: The embedded page splits into the four tabs
+
+#### BE1.1: Theme, Components, Patterns and Markdown tabs replace the single column
+
+The themer's embed (workbench/themer/gallery.go) gains the sitedocs
+tab strip: Theme first, then Components, Patterns, Markdown. The Theme
+tab keeps what the single column's swap logic already asserted — the
+window's own palette story with the provenance, standing where the
+inventory's foundations-roles/ramps sections were — plus the type
+ladder; the three group tabs are cut from the inventory's Groups() by
+name, banner dropped, one scrolling column of specimens each. The
+code-specimen addressing (codeRow/codeColumnRow, the base selector
+beside the specimen) moves with the code section to the Markdown tab.
+Selected tab survives a palette pick; each tab keeps its own scroll
+position, exactly the economy the inventory is built around.
+
+- [ ] The tab strip renders in the embedded palette (it is furniture
+  of the page, not of the window), Theme selected on open.
+- [ ] Theme tab: the window's palette rows and the type ladder; the
+  swap logic retires with the single column.
+- [ ] Components, Patterns and Markdown tabs cut from Groups() by
+  name; a group renamed upstream fails a test, not silently.
+- [ ] The syntax-base selector and the gallery hint still address the
+  code specimen on the Markdown tab.
+- [ ] Goldens land; stale themer captures regenerated with the cause
+  named.
+- [ ] Fresh-eyes review of the whole themer window at a realistic
+  size, both schemes; reply relayed verbatim, findings pooled.
+- [ ] Exit: green in `workbench/themer` (and `workbench` root); commit
+  and push in `workbench` and `.github`.
