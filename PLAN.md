@@ -17355,13 +17355,13 @@ the ceremony bottom-up; nested modules mirror where they exist
 (ivg/raster/gio above all). The tagged consumers verify against the
 new graph.
 
-- [ ] Every drifted repo carries a patch tag at master, pushed, with
+- [x] Every drifted repo carries a patch tag at master, pushed, with
   the drift's content named per repo in the report; anything
   non-plumbing reported instead of swept.
 - [ ] `GOWORK=off` and workspace builds green in `components`,
   `patterns` and the workbench root and nested apps by name;
   `sync-versions.sh` clean.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from
   `.github`; every repo pushed with tags; no repo's master ahead of
   its newest tag except by a nested pin-bump commit its nested tag
   covers.
