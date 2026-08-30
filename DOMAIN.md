@@ -33,7 +33,10 @@ Ghost.
 **Chip** — a small, subtle control that content sprouts, defined by
 its intent (one of the four), never by looks or platform provenance.
 Not a quiet button: buttons are persistent verbs; chips appear from
-content and context.
+content and context. Anatomy: optional leading icon, the text,
+optional trailing close — [icon] text [x]. The line against the
+badge is read/use: if you read it, it is a badge; if you use it, it
+is a chip.
 
 **Picker** — the pick-one-from-many control: one shared **Menu**
 (the surface) behind two register triggers (**Field**, form;
@@ -66,13 +69,23 @@ and one-of-many. Distinct from selection: selected is the thing you
 chose, active is the place you are; both are persistent and speak
 through the accent.
 
-**Tag** — the status label, drawn in a role's own hue: the system's
-word about content. A tag may carry a close mark (ruled 2026-08-30:
-tag keeps dismissible); what separates a dismissible tag from an
-Input chip is voice, not the mark — a tag is applied by the system
-or author *about* the thing, an Input chip is a token the user
-entered themselves. Dismissing a tag removes a label; dismissing an
-Input chip removes the user's own entry.
+**Badge** — the textual status label, drawn in a role's own hue: the
+system's word about content — read, not used. Formerly "tag" (renamed
+2026-08-30; "tag" leaves the language). A badge may carry a close
+affordance (ruled 2026-08-30: the badge keeps dismissible); what
+separates a dismissible badge from an Input chip is voice, not the
+close — a badge is applied by the system or author *about* the
+thing, an Input chip is a token the user entered themselves.
+Dismissing a badge removes a label; dismissing an Input chip removes
+the user's own entry. The eyebrow is a badge at its quietest: pure
+text, no pill. A component, not a pattern.
+
+**Mark** — the icon-like signal a control or region wears: a glyph
+or a count, never a word — the moment it speaks a word it is a
+badge. Meaning is carried by shape and hue, read at a glance: a
+key-check verdict, an unread count. Mark claims what M3 and iOS call
+a "badge", freeing that word for the statement. A component, not a
+pattern.
 
 **Chrome** — the window's furniture: every region that frames the
 document rather than being it — toolbar, header, sidebar, rail,
@@ -117,6 +130,23 @@ concepts bleeding into each other is the failure this exists to
 prevent. DOMAIN.md is the canon; llms.txt carries the consumer-facing
 distillation. Sources: [[TRANSCRIPTS#^0001-language-first]],
 [[TRANSCRIPTS#^0001-domain-home]]
+
+### 0004 — mark-and-badge
+
+2026-08-30 · strategic. The statement label renames tag → badge, and
+the icon-like signal becomes its own component, mark. The boundary
+is text: a mark is icon-like (a glyph or a count), a badge is
+textual, a chip is [icon] text [x] with the brackets optional.
+Naming the platform's count-dot sense "mark" claims the word
+deliberately — arrivals from M3/iOS find their badge under mark,
+freeing badge for the statement. Both are components, not patterns.
+Downstream: the tag pattern becomes the badge component; hand-rolled
+verdict glyphs (mindchat's key check) hoist into mark; the chip's
+old badge face lands in badge territory. Sources:
+[[TRANSCRIPTS#^0002-badge-word]],
+[[TRANSCRIPTS#^0002-mindchat-marker]],
+[[TRANSCRIPTS#^0002-mark-and-badge]],
+[[TRANSCRIPTS#^0002-mark-badge-chip]]
 
 ## Example dialogue
 

@@ -78,6 +78,22 @@ or another thing borrowing tag clothes. Perhaps that is something for
 the ontology the way tags are inrtoduced and then used everywhere in
 the patterns module ^0002-tag-clothes
 
+Rene: I think the word I keep coming back to when talking about what
+is currently known as a tag is the word "badge". ^0002-badge-word
+
+Rene: So let's sequence this properly. In mindchat there is something
+iOS/M3 would call a badge, the marker that says that the API key was
+correct. ^0002-mindchat-marker
+
+Rene: So I think we should create components, mark and badge because
+they are actually more component like than pattern like. Concur?
+^0002-mark-and-badge
+
+Rene: Mark -> icon only (or a count) idea is it is meant to be
+iconlike not textlike.
+Badge -> textual badge
+Chip -> [icon] text [x] where [] means optional ^0002-mark-badge-chip
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
