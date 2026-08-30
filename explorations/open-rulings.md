@@ -311,6 +311,23 @@ consumer ships, then layout and copy.
     tile.
     *(§F, copy and identity)*
 
+144. **[bug]** The dark ramp's middle is a measured 35 L* canyon
+     between steps 400 and 500: no dark step lands anywhere between
+     1.9:1 and 6.6:1 against the page, so a 3:1 non-text tone or a
+     4.5:1 text tone cannot be picked from the dark ramp at all, where
+     light covers the same territory smoothly (2.65/3.99/6.16). The
+     curve is not the light curve reflected — a dark-end shape spliced
+     onto a light-end shape, the seam at 400→500. Names and sharpens
+     item 132 with exact numbers a test in theme could pin.
+     *(§Q, BF1.1's Palette Seed review)*
+
+145. **[bug]** Four of nine dark ramp steps read as one colour:
+     100→400 adjacent contrasts are 1.12/1.18/1.44, and step 200 is
+     the same luminance as the section panel it is drawn on. Light
+     crowds the same way at 100–300 but recovers by 400. The same
+     ramp-curve fact as item 144, seen from the near end; names item
+     132. *(§Q, BF1.1's Palette Seed review)*
+
 ## Tier 1 — Token and palette derivation
 
 Rulings that live above every control, because each one is inherited by
@@ -491,6 +508,25 @@ durably while these are open.
      row's whole point — but whether a pinned fill owes a per-scheme
      ink gate is a standing question, not a gallery one.
      *(§N, BD1.1's fresh-eyes review of the gallery window)*
+
+146. **[decide]** Light accents inherit the seed's own lightness while
+     dark pins every accent to L*82: five seeds land at a guaranteed
+     11.07–11.11:1 in dark but range 4.62–9.15:1 in light, with the
+     on-accent label flipping polarity mid-row (white on one card,
+     black on four). Everything passes AA, but the default scheme is
+     the lottery and the red seed has no headroom. The seed row now
+     shows this on screen, which is arguably the row doing its job —
+     the ruling is whether light should take a floor like dark's.
+     *(§Q, BF1.1's Palette Seed review)*
+
+147. **[decide]** The dark accent pin collapses red's identity (C87 →
+     C27 at L*82 — fire-engine red becomes blush pink) while boosting
+     green and khaki at the same lightness, and five consecutive dark
+     Error steps clip R at 255 so hue and chroma drift up the ramp
+     (light Error clips four steps, Warning three). The chroma dial is
+     disclosed by the app's own caption; the gamut clipping and the
+     red-specific collapse are not the dial. *(§Q, BF1.1's Palette
+     Seed review)*
 
 ## Tier 2 — Component and pattern contracts
 
@@ -950,6 +986,16 @@ consumer ships the answer whether or not it asked the question.
      about any control's ring — and the answer is presently nothing.
      *(§L, BA2.1's fresh-eyes review of the rebuilt MindChat window)*
 
+149. **[decide]** The seed row now lives twice — sitedocs'
+     theme_seed.go and the themer's seed.go — sharing the honesty
+     constants, the two-cell rule and the cell drawing, while each app
+     keeps what is genuinely its own (the themer knows the pick
+     first-hand and has an unpicked state; sitedocs infers through
+     four token sets). A hoist would carry the constants, the two-cell
+     rule and drawSeedCell, parameterised over each app's geometry
+     (swatch sizes, radius, line fitting). Until it lands the two rows
+     can drift. *(§Q, BF1.1's Palette Seed review)*
+
 ## Tier 3 — Window and page composition
 
 Rulings scoped to one window, page or app surface. Visible, but the
@@ -1218,6 +1264,14 @@ blast radius stops at the surface that raised them.
     the derived fill. Reconcile or label?
     *(§D, themer)*
 
+148. **[decide]** The palette heading's caption is set in the title's
+     full-strength ink while every other hint in the themer is muted —
+     a 70-character helper line competing with the heading beside it.
+     Deliberate today: the caption is the grid dot's only legend, and
+     muted ink reads faint in one scheme; if the hint-ink ladder
+     changes it should change for all three heading bands at once, not
+     per band. *(§Q, BF1.1's Palette Seed review)*
+
 ## Tier 4 — Copy, documentation, release and process
 
 Wording, guide prose, gates and the release ledger — real work, but
@@ -1455,3 +1509,12 @@ specimen, every claim pixel-probed by the reviewer; the verbatim reply
 is in `reviews/be2.1-themer-fresh-eyes.md`. Only the first item is
 about the layout this round built; the rest are what the tabs made
 easier to see.
+
+### Q. From BF1.1's fresh-eyes review of the Palette Seed row
+
+Added 2026-08-30. The themer's Theme tab at its real 1040×820 in both
+schemes, every claim probed with PIL/numpy; the verbatim reply and
+triage are in `reviews/bf1.1-themer-seed-fresh-eyes.md`. One copy
+regression was fixed in the task; the panel-clipping claim was a
+misread of the window margin; the two-swatch size channel was
+confirmed working untold. Items 144–149.
