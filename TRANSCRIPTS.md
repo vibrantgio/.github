@@ -44,3 +44,11 @@ migration. ^0001-tag-keeps-dismissible
 
 Rene: what do you use the concept Chrome for in your ontology?
 ^0001-chrome-question
+
+Rene (running the app, 2026-08-30): Oh my god, we want backward
+again... The picker in the main window points both up and down, the
+list appears down like a drop down. The picker in the settings window
+points down but only shows items above. All selections in the popup
+are BLACK. There is now scrollbar so the list in the settings is cut
+off. This is really a very big step back in functionality.
+^0001-picker-regressions
