@@ -17211,7 +17211,7 @@ recorded here rather than invented at a release.
 - [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
 
-## Phase BB: The chip quiets to the platform's step
+## Phase BB: The chip's fill matches macOS toolbar buttons
 
 Ruled by the owner 2026-08-30, from the picker design review: the
 36 dp height stands — it is the platform's measured toolbar-control
@@ -17245,9 +17245,9 @@ badge-differentiation question is untouched. Goldens regenerate in
 chip, the gallery and sitedocs downstream with the cause named; the
 contrast sweep still pins every ink and rim floor.
 
-- [ ] The fill step is measured, documented and derived — no
+- [x] The fill step is measured, documented and derived — no
   hand-mixed color; both faces follow.
-- [ ] Goldens regenerated in `components/chip`, `components/gallery`
+- [x] Goldens regenerated in `components/chip`, `components/gallery`
   and `workbench/sitedocs`, cause named; contrast sweep green.
 - [ ] Exit: green in `components` and downstream by name; commit and
   push in `components`, `workbench`, `.github`.
