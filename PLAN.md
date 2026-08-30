@@ -17810,35 +17810,22 @@ clean.
 still sits on `v1.1.0` and `theme` on `v1.3.0` — so no support pin
 budges.
 
-- **`components/gallery v1.2.4`** — a **patch**, and the first time
-  this round the question was genuinely close: the whole delta since
-  v1.2.3 is a *new package*. BH1.1 through BH2.2 added
-  `gallery/palette` — the story's rules read off the colours, the
-  packing that deals the families into columns, the honesty tooling,
-  the shared seed row, and the package's first tests. It is a patch
-  because the rationed-minor rule keeps the minor for a change to an
-  *existing* contract and names "new components" in its patch column,
-  and nothing published in v1.2.3 moved, was removed or was
-  re-signatured. `SeedCells` is the apparent exception and is not one:
-  it was born unreleased in this same round (BH2.1) and re-signatured
-  before any tag carried it (BH2.2), so from v1.2.3 the change is
-  invisible.
-
-  **The counter-precedent is real and was distinguished, not ignored.**
-  `patterns v1.1.0` (BA3.1) took the minor for `patterns/pane`, a whole
-  new package, and it was cut on 2026-08-29 — *after* the
-  rationed-minor rule landed on the 28th, so it is live precedent
-  rather than one the rule superseded. Two things separate it.
-  `patterns` is a vocabulary library whose product *is* the contracts
-  it publishes, and `pane` was its round's headline with the minor slot
-  free at 1.0. Here the mirror rule binds this tag to its root, so the
-  minor is not gallery's to spend alone: it would force `components
-  v1.3.0`, a minor announcing a changed contract on a module whose
-  bytes are identical to v1.2.3's. Spending a rationed minor to say
-  something false about the root is the opposite of what the rationing
-  is for, and that settles the tie. A consumer needing the new package
-  names the exact version — which is what the rule already says it
-  should do, and exactly what the two workbench pins below do.
+- **`components/gallery v1.2.4`** — a **patch**. **Owner-ruled:
+  additive, churn minimized.** A new package in an existing module is
+  additive, so the patch is the bump and the minor is not weighed. The
+  ruling supersedes this task's instruction to reason the call out, and
+  it settles the shape for good: a later round meeting a new package
+  does not re-litigate it. BH1.1 through BH2.2 added `gallery/palette`
+  — the story's rules read off the colours, the packing that deals the
+  families into columns, the honesty tooling, the shared seed row, and
+  the package's first tests. The ruling and the rationed-minor rule
+  agree here: nothing published in v1.2.3 moved, was removed or was
+  re-signatured, and "new components" sits in that rule's patch column.
+  `SeedCells` is the apparent exception and is not one — it was born
+  unreleased in this same round (BH2.1) and re-signatured before any
+  tag carried it (BH2.2), so from v1.2.3 the change is invisible.
+  `patterns v1.1.0` (BA3.1), which took the minor for a whole new
+  package, is answered by the ruling rather than by argument here.
 
 - **`components v1.2.4`** — the root carries **no change of its own**
   since v1.2.3: all three commits landed under `gallery/`, a separate
@@ -17847,9 +17834,10 @@ budges.
   the round has ruled this shape (`components v1.1.1`, `mvu v1.0.1`,
   `components v1.2.2`, `components v1.2.3`).
 
-**`textdraw` stays at v0.0.4, and that was measured rather than
-assumed.** BH1.1 made it a direct require in `gallery/go.mod` while
-textdraw's head tag is `v0.0.5`. The diff between the two carries no Go
+**`textdraw` stays at v0.0.4 — owner-ruled: churn minimized — and the
+measurement agrees.** BH1.1 made it a direct require in
+`gallery/go.mod` while textdraw's head tag is `v0.0.5`. The diff
+between the two carries no Go
 source at all — a README, an agent note, and a Gio bump that MVS
 already satisfies from gallery's own `gioui.org v0.10.2` — and `go mod
 tidy` under `GOWORK=off` does not ask for it. So BD2.1's rule applies
@@ -17862,9 +17850,11 @@ that import `gallery/palette`, and until this tag they were green under
 the workspace and red without it: `check-no-workspace.sh` read **38/40**
 at the start of this task with exactly those two named, which is the
 seam this release existed to close. It now reads **40/40**. The other
-seven workbench modules stay on `components v1.2.2`, the same judgment
-BD2.1 and BE3.1 made and for the same reason — the root tag is a mirror
-with no change of its own.
+seven workbench modules stay on `components v1.2.2` — owner-ruled:
+churn minimized, re-pin nothing that nothing forces — which is also the
+judgment BD2.1 and BE3.1 made, for the same reason: the root tag is a
+mirror with no change of its own. For the same reason no tag was cut
+beyond the two the mirror rule requires.
 
 **The matrix is 24/24** — twelve modules each built and tested under the
 workspace and again under `GOWORK=off`: `patterns`, `components`,
@@ -17888,6 +17878,23 @@ line of the go.mod skeleton an assistant copies — and read clean on the
 second run, so no amend-and-force-push was needed. `check-layers.sh`,
 `check-versions.sh` and `check-subjects.sh` all read OK. No fresh-eyes
 review is owed: this task moves version tokens and not one pixel.
+
+**The ruling arrived after the ceremony had pushed, and changed no
+outcome.** Both calls had already been made the way it rules: the
+gallery tag went out as a patch, `textdraw` stayed at v0.0.4, only the
+two modules that import the new package re-pinned, and no tag was cut
+beyond the mirror rule's two. So nothing was undone and nothing
+re-cut — which is the ruling's own priority. It is recorded here, in
+the plan note, because here is the only place it *can* be recorded:
+`gallery/v1.2.4` points at `daeca8c`, the components commit itself, so
+rewording that commit body would move the published tag off master —
+the moved-tag fork ADR-006 spends four paragraphs forbidding. The tag
+annotation and the two library commit bodies therefore carry the
+derivation that reached this answer independently, and this paragraph
+carries the ruling that governs it. Rewriting them to agree would cost
+a force-push over public history to change wording that already lands
+on the ruled conclusion, which is the churn the ruling exists to
+prevent.
 
 **Phase BH closes here, and so does the plan.** These were the last two
 unchecked boxes in this document; every task above reads done.
