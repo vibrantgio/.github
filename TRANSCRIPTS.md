@@ -65,3 +65,15 @@ glossary ^0001-checked-active-glossary
 
 Rene: ontology work has been moved to session ontology
 ^0001-handover-to-ontology
+
+## 0002 — the ontology session (2026-08-30)
+
+Rene: I will be using the chips session investigate the differences
+between tags and chips and when to use either one or the other.
+^0002-tag-chip-boundary
+
+Rene: I was also trying to get it to tell me when the other places
+the tags are used say as eyebrow in hero pattern was actually a tag
+or another thing borrowing tag clothes. Perhaps that is something for
+the ontology the way tags are inrtoduced and then used everywhere in
+the patterns module ^0002-tag-clothes
