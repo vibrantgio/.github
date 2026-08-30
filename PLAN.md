@@ -17276,9 +17276,15 @@ the default-ness said quietly or not at all; the menu still carries
 the full story. Both schemes looked at; the width the label frees is
 recorded.
 
-- [ ] The label is short; the pill's width follows its content; both
+Recorded from the 1024x768 headless window render, identical in both
+schemes: the pill was 219 px wide (x 793..1011) saying "Default ·
+OpenAI · gpt-5.5" and is 162 px wide (x 850..1011) saying "OpenAI ·
+gpt-5.5" — 57 px, a quarter of the control, given back to the header.
+The trailing edge and the 36 dp height are unmoved.
+
+- [x] The label is short; the pill's width follows its content; both
   schemes looked at.
-- [ ] Exit: green in `workbench/mindchat` and the workbench root;
+- [x] Exit: green in `workbench/mindchat` and the workbench root;
   commit and push in `workbench`, `.github`.
 
 ### G-BB3: The picker takes the native pop-up shape
