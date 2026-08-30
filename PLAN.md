@@ -17805,7 +17805,94 @@ package; both apps consume it. Bump size reasoned against the round's
 precedent; workbench pins bump; matrix green off-workspace; sync
 clean.
 
-- [ ] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
+**What shipped.** Two tags, bottom-up: `components v1.2.4` and
+`components/gallery v1.2.4`. Nothing below them moved — `patterns`
+still sits on `v1.1.0` and `theme` on `v1.3.0` — so no support pin
+budges.
+
+- **`components/gallery v1.2.4`** — a **patch**, and the first time
+  this round the question was genuinely close: the whole delta since
+  v1.2.3 is a *new package*. BH1.1 through BH2.2 added
+  `gallery/palette` — the story's rules read off the colours, the
+  packing that deals the families into columns, the honesty tooling,
+  the shared seed row, and the package's first tests. It is a patch
+  because the rationed-minor rule keeps the minor for a change to an
+  *existing* contract and names "new components" in its patch column,
+  and nothing published in v1.2.3 moved, was removed or was
+  re-signatured. `SeedCells` is the apparent exception and is not one:
+  it was born unreleased in this same round (BH2.1) and re-signatured
+  before any tag carried it (BH2.2), so from v1.2.3 the change is
+  invisible.
+
+  **The counter-precedent is real and was distinguished, not ignored.**
+  `patterns v1.1.0` (BA3.1) took the minor for `patterns/pane`, a whole
+  new package, and it was cut on 2026-08-29 — *after* the
+  rationed-minor rule landed on the 28th, so it is live precedent
+  rather than one the rule superseded. Two things separate it.
+  `patterns` is a vocabulary library whose product *is* the contracts
+  it publishes, and `pane` was its round's headline with the minor slot
+  free at 1.0. Here the mirror rule binds this tag to its root, so the
+  minor is not gallery's to spend alone: it would force `components
+  v1.3.0`, a minor announcing a changed contract on a module whose
+  bytes are identical to v1.2.3's. Spending a rationed minor to say
+  something false about the root is the opposite of what the rationing
+  is for, and that settles the tie. A consumer needing the new package
+  names the exact version — which is what the rule already says it
+  should do, and exactly what the two workbench pins below do.
+
+- **`components v1.2.4`** — the root carries **no change of its own**
+  since v1.2.3: all three commits landed under `gallery/`, a separate
+  module. Cut anyway by the mirror rule — `gallery/v1.2.3` was spent
+  and a nested tag requires its root at the same number. The fifth time
+  the round has ruled this shape (`components v1.1.1`, `mvu v1.0.1`,
+  `components v1.2.2`, `components v1.2.3`).
+
+**`textdraw` stays at v0.0.4, and that was measured rather than
+assumed.** BH1.1 made it a direct require in `gallery/go.mod` while
+textdraw's head tag is `v0.0.5`. The diff between the two carries no Go
+source at all — a README, an agent note, and a Gio bump that MVS
+already satisfies from gallery's own `gioui.org v0.10.2` — and `go mod
+tidy` under `GOWORK=off` does not ask for it. So BD2.1's rule applies
+unchanged: a pin bump no consumer asked for is a commit the round did
+not earn.
+
+**Only the two consumers re-pin.** `sitedocs` and `themer` move to
+`components/gallery v1.2.4` and `components v1.2.4`. They are the two
+that import `gallery/palette`, and until this tag they were green under
+the workspace and red without it: `check-no-workspace.sh` read **38/40**
+at the start of this task with exactly those two named, which is the
+seam this release existed to close. It now reads **40/40**. The other
+seven workbench modules stay on `components v1.2.2`, the same judgment
+BD2.1 and BE3.1 made and for the same reason — the root tag is a mirror
+with no change of its own.
+
+**The matrix is 24/24** — twelve modules each built and tested under the
+workspace and again under `GOWORK=off`: `patterns`, `components`,
+`components/gallery`, and the nine workbench modules (root plus `feeds`,
+`iconbrowser`, `marketing`, `mindchat`, `sitedocs`, `themer`, `todos`,
+`vaultview`). **No golden moved.** sitedocs' tab captures, including the
+`theme-tab-dark.png` BH2.2 regenerated, and themer's computed captures
+all hold byte-for-byte resolving from the published tags — which is the
+point of running them off-workspace rather than trusting the pins. After
+the whole matrix the working trees held nothing but `go.mod` and
+`go.sum` edits.
+
+**The second self-referencing pass cost nothing, for the seventh round
+running** — and again it was not a second pass at all: the root tag went
+out before the nested `go.mod` was written, so `gallery/v1.2.4`
+published already naming `components v1.2.4`, read back out of the tag
+rather than assumed. `sync-versions.sh` ran *before* the workbench
+commit, rewriting three version tokens in `workbench/llms.txt` — the
+components roster line, the nested gallery entry, and the components
+line of the go.mod skeleton an assistant copies — and read clean on the
+second run, so no amend-and-force-push was needed. `check-layers.sh`,
+`check-versions.sh` and `check-subjects.sh` all read OK. No fresh-eyes
+review is owed: this task moves version tokens and not one pixel.
+
+**Phase BH closes here, and so does the plan.** These were the last two
+unchecked boxes in this document; every task above reads done.
+
+- [x] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
   sync clean.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
