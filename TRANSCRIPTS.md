@@ -56,3 +56,12 @@ off. This is really a very big step back in functionality.
 Rene: Well selection behavior is pretty standard across a platform,
 so why have a sudden BLACK/WHITE selection going on. That doesn't
 even make sense in our color design language ^0001-selection-not-state
+
+Rene: What you mean to say is that selection is not a TRANSIENT
+state ^0001-selection-not-transient
+
+Rene: Also add checked and active as persistent states to the
+glossary ^0001-checked-active-glossary
+
+Rene: ontology work has been moved to session ontology
+^0001-handover-to-ontology
