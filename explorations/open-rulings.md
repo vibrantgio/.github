@@ -1502,14 +1502,6 @@ sixth recorded misread. Items 150–159.
      above it. The Pin/popover seam wants one contract.
      *(§R, BI2.1's review)*
 
-152. **[decide]** Menu selection never uses the accent and is drawn
-     three ways: sidebar/provider selection is accent-tinted, the
-     picker menu's is the measured inverse pair — the brightest
-     object in a dark frame — and the platform convention is accent
-     highlight. A challenge to optionRowColors' derivation, not a
-     defect; it has a written derivation to answer.
-     *(§R, BI2.1's review)*
-
 153. **[bug]** mindchat's settings footer draws Cancel and Save
      pixel-identical — two filled primary buttons, no register
      separating the dismissing action from the committing one and no

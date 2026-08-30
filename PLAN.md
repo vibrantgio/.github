@@ -18032,6 +18032,23 @@ follows the behaviour the control actually has.
   `workbench` root; commit and push in `components`, `workbench`
   and `.github`.
 
+#### BI2.4: A capped menu shows its scrollbar
+
+The cap made the menu scroll but nothing says so: a list that scrolls
+with no bar is invisible scrollability, and the cut-off complaint was
+about the affordance as much as the reach. The capped menu wears the
+overlay scrollbar the rest of the system already draws
+(scrollbar.FromTokens over list's overlay mode); an uncapped menu
+draws none.
+
+- [ ] The capped menu draws the overlay scrollbar from the same
+  tokens as its rows; uncapped stays bare.
+- [ ] Goldens/captures the bar shifts regenerated with the cause
+  named.
+- [ ] Exit: green in `components`, `components/gallery`,
+  `workbench/mindchat`, `workbench` root; commit and push in
+  `components`, `workbench` (if touched) and `.github`.
+
 ### G-BI3: The seam ships it
 
 #### BI3.1: The picker release
