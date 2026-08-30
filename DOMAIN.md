@@ -69,31 +69,28 @@ and one-of-many. Distinct from selection: selected is the thing you
 chose, active is the place you are; both are persistent and speak
 through the accent.
 
-**Badge** — the textual status label, drawn in a role's own hue: the
-system's word about content — read, not used. Formerly "tag" (renamed
-2026-08-30; "tag" leaves the language). Not a control: sized to its
-text like an inline annotation, off the control ladder entirely,
-visibly lighter than any control (ruled 2026-08-30). It speaks only
-in the roles' own hues — Success, Warning, Error, Info — plus
-Neutral for plain category labels; Filled/Tonal emphasis does not
-exist on a badge, emphasis lives where interaction lives (ruled
-2026-08-30). A badge may carry a close affordance (ruled 2026-08-30:
-the badge keeps dismissible; the close mark keeps an invisible
-control-sized hit area); what separates a dismissible badge from an
-Input chip is voice, not the close — a badge is applied by the
-system or author *about* the thing, an Input chip is a token the
-user entered themselves. Dismissing a badge removes only the label,
-never behaviour (ruled 2026-08-30): a system-generated summary of
-view state — "filtered by X" — is plain text or a close-less badge,
-removed where it was set, while the user's own filter token is an
-Input chip. The eyebrow is a badge at its quietest: pure text, no
-pill. A component, not a pattern.
-
-**Mark** — the icon-like signal a control or region wears: a glyph
-or a count, never a word — the moment it speaks a word it is a
-badge. Meaning is carried by shape and hue, read at a glance: a
-key-check verdict, an unread count. Mark claims what M3 and iOS call
-a "badge", freeing that word for the statement. A component, not a
+**Badge** — the small status signal: the system's word or sign
+about content — read, not used. Formerly "tag" (renamed 2026-08-30);
+briefly split into badge and "mark", folded back 2026-08-30: one
+intent, three utterances — a badge speaks as a word ("Popular", the
+eyebrow), a count (the unread 9), or a glyph (the key-check
+verdict); it covers what M3 and iOS call a badge too. Not a control:
+sized to its content like an inline annotation, off the control
+ladder entirely, visibly lighter than any control (ruled
+2026-08-30). It speaks only in the roles' own hues — Success,
+Warning, Error, Info — plus Neutral for plain category labels;
+Filled/Tonal emphasis does not exist on a badge, emphasis lives
+where interaction lives (ruled 2026-08-30). A badge may carry a
+close affordance (ruled 2026-08-30: the badge keeps dismissible; the
+close mark keeps an invisible control-sized hit area); what
+separates a dismissible badge from an Input chip is voice, not the
+close — a badge is applied by the system or author *about* the
+thing, an Input chip is a token the user entered themselves.
+Dismissing a badge removes only the label, never behaviour (ruled
+2026-08-30): a system-generated summary of view state — "filtered by
+X" — is plain text or a close-less badge, removed where it was set,
+while the user's own filter token is an Input chip. The eyebrow is a
+badge at its quietest: pure text, no pill. A component, not a
 pattern.
 
 **Chrome** — the window's furniture: every region that frames the
@@ -142,6 +139,8 @@ distillation. Sources: [[TRANSCRIPTS#^0001-language-first]],
 
 ### 0004 — mark-and-badge
 
+Superseded by 0005.
+
 2026-08-30 · strategic. The statement label renames tag → badge, and
 the icon-like signal becomes its own component, mark. The boundary
 is text: a mark is icon-like (a glyph or a count), a badge is
@@ -158,6 +157,22 @@ to mark, worded statuses to badge. Sources:
 [[TRANSCRIPTS#^0002-mindchat-marker]],
 [[TRANSCRIPTS#^0002-mark-and-badge]],
 [[TRANSCRIPTS#^0002-mark-badge-chip]]
+
+### 0005 — one-badge
+
+2026-08-30 · strategic. Supersedes 0004. The rename tag → badge
+stands; the mark/badge split does not. Splitting by looks (glyph vs
+word) violated the system's own axis — the two had one intent, the
+system's signal about content — and Bootstrap's badge shows the fold
+holds in practice: the "Profile 9" count and the role-hued word live
+in one component on one palette. Badge absorbs mark; "mark" leaves
+the language. Downstream: one components/badge; mindchat's key-check
+verdict is a glyph badge; the chip's old badge face was badges all
+along; every 0004 badge ruling (sized to content, role-hued plus
+Neutral, dismissible, label-never-behaviour) covers the glyph and
+count utterances too. Sources:
+[[TRANSCRIPTS#^0002-badge-mark-doubt]],
+[[TRANSCRIPTS#^0002-fold-mark-into-badge]]
 
 ## Example dialogue
 

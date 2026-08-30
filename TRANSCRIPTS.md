@@ -102,6 +102,12 @@ round and exhibit different behavior to other button controls.
 Rene: I think we may be making a mistake by swithing the meaning of
 badge and mark ^0002-badge-mark-doubt
 
+Rene: So I'm wondering if we now should fold mark into badge and
+retain the badge as name. Bootstrap does have the Profile 9 count in
+a badge and it does have succes/danger/warning/info primary and
+secondary. That is also part of the mark right success/danger etc...
+^0002-fold-mark-into-badge
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
