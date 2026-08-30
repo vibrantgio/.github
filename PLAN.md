@@ -17260,9 +17260,9 @@ the smallest thing that closes it — designed in the package's voice,
 not guessed here. mindchat then aligns the picker's trailing edge
 with the content column it sits above.
 
-- [ ] The seam exists with a test; mindchat's picker lands on the
+- [x] The seam exists with a test; mindchat's picker lands on the
   column's edge, measured in the render.
-- [ ] Exit: green in `components`, `workbench/mindchat` and the
+- [x] Exit: green in `components`, `workbench/mindchat` and the
   workbench root; commit and push in `components`, `workbench`,
   `.github`.
 

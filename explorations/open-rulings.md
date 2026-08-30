@@ -615,7 +615,10 @@ visible.
     5 px). Nothing here is a workaround and the app draws correctly
     either way, but a container that wants an anchor at an edge has
     no way to ask for one. — Ruled 2026-08-30 in conversation: build
-    the seam; planned as BB1.2.
+    the seam; planned as BB1.2. — **Closed by BB1.2**: `chip.Props.Pin`
+    (PinLeading/PinTrailing) draws the same pill at a named edge of the
+    box it was offered and reports that box; the picker's trailing edge
+    moved 1005 → 1011 px in the 1024 px render, both schemes.
 
 99. **[decide]** Added 2026-08-29, from AZ2.1: the live `chip.Chip`
     reads density and label role from the theme alone, so an app
