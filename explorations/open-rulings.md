@@ -1541,3 +1541,27 @@ sixth recorded misread. Items 150–159.
      state; the DEFAULT MODEL label is styled as a section header
      and its control aligns with nothing; scrim alpha differs 27%
      light / 42% dark. *(§R, BI2.1's review)*
+
+## S. From BI2.5's placement work
+
+Added 2026-08-30. Three engineering smells surfaced while fixing the
+popover clamp and tail; recorded by the worker, none blocking.
+
+160. **[decide]** `chipface.Pin` (and its chip/picker re-exports) has
+     no production caller since the popover grew Align — public,
+     documented, tested, dead. Whether dead public API retires (a
+     contract change, minor) or waits for the chip re-anatomy's
+     collapse of the two Pin types is a release-shape ruling.
+     *(§S, BI2.5)*
+
+161. **[decide]** `patterns/popover` measures its Content at half the
+     canvas in both axes; now that the canvas means "the room", both
+     real consumers override their incoming constraints to escape the
+     rule and say so in comments. The measuring rule wants restating
+     against the new canvas contract. *(§S, BI2.5)*
+
+162. **[bug]** `patterns/tooltip` draws its own tail and was not
+     remeasured: whether it shares the floating-tip and
+     border-through-base seams the popover just fixed is unknown —
+     measure once, fix if found, one tail grammar for both patterns.
+     *(§S, BI2.5)*
