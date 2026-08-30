@@ -18073,16 +18073,107 @@ placement layer's to absorb.
 ### G-BI3: The seam ships it
 
 #### BI3.1: The picker release
-
 The ceremony, latest derived at execution: components gains a package
 additively (owner-ruled: patch, churn minimized); workbench pins
 bump; matrix green off-workspace; sync before the workbench commit.
 
-- [ ] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
-  sync clean.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
-  every repo touched pushed.
+**What shipped.** Three tags, bottom-up: `components v1.2.5`,
+`patterns v1.1.1`, then `components/gallery v1.2.5` in the last round
+with the apps. Nothing below them moved — `theme` still sits on
+`v1.3.0`, `effects` on `v0.2.4`, `markdown` on `v0.7.1`, `mvu` on
+`v1.0.1` — so no support pin budges. The two roots each carry real
+content, so this round is not the mirror shape the last four were.
 
+- **`components v1.2.5`** — a **patch**. The whole picker round:
+  `components/picker` as a new package (`Field`, `Menu`, `Anchor` and
+  the tokens all three read), `internal/chipface` and
+  `internal/control` carrying the drawing chip and picker now share,
+  deprecated forwarders left in `input`, and chip's `Face` and `Pin`
+  constants re-expressed over `chipface`. BH3.1's owner ruling settles
+  the bump without re-litigation — a new package in an existing module
+  is additive, so the patch is the bump and the minor is not weighed —
+  and it has more to answer here than it did there, because this time
+  the **root itself moved** rather than a nested module. It survives
+  the check: every exported name published in v1.2.4 still resolves at
+  the same path, `Render`, `RenderAnchor` and `RenderBadge` keep their
+  signatures unchanged, and `DropdownProps` and `DropdownRenderState`
+  became **aliases** of `picker.FieldProps` and `picker.FieldState`,
+  which adds fields (`Drop`, `MaxHeight`, `Placeholder`, `NoOptions`)
+  and takes none away. Nothing moved, was removed or was
+  re-signatured. `Pin` lost its production caller and stays public;
+  item 160 defers its retirement. Twelve goldens moved — chip's ten
+  anchor captures, input's two open-dropdown captures — and a
+  contract-free repaint is a patch.
+
+- **`patterns v1.1.1`** — a **patch**. `popover` gains `Alignment`
+  with `AlignCenter`, `AlignLeading` and `AlignTrailing`, and
+  `Props.Align` to carry it; `AlignCenter` is the zero value and is
+  what v1.1.0 always did, so props written against the previous
+  release mean what they meant before. The rest is the clamp inside
+  the window and the tail redrawn on the anchor — four goldens, no
+  contract behind them. `v1.1.0` took the minor for a whole new
+  package and is not this shape.
+
+- **`components/gallery v1.2.5`** — a **patch**, mirroring its root's
+  number as the nested rule asks. The inventory shows the picker and
+  the section captures were regenerated for it; the patterns captures
+  moved with popover's clamp. Pins to `components v1.2.5` and
+  `patterns v1.1.1` — the two tags it could not build without.
+
+**Three consumers re-pin, six do not.** `mindchat` is the only app
+that imports `components/picker` directly and the only one that names
+`popover.AlignTrailing`, so both its pins were compulsory: it moves
+from `components v1.2.2` and `patterns v1.1.0` to v1.2.5 and v1.1.1.
+`sitedocs` and `themer` move to `components/gallery v1.2.5` and
+`components v1.2.5`, and resolution carries `patterns v1.1.1` in with
+them because gallery v1.2.5 requires it. sitedocs was forced twice
+over — its components-tab captures were regenerated against the
+inventory that shows the picker, and at gallery v1.2.4 they failed
+off-workspace by **476 and 590 pixels**. themer has no captures, so
+nothing red named it; it re-pins because it embeds the same
+`gallery/inventory` sitedocs does, and a version behind would have
+shown one app a components inventory with the picker in it and the
+other one without. `feeds` imports `popover` and stays on `patterns
+v1.1.0`: it never names `Align`, and none of its six goldens render a
+popover surface. The workbench root, `iconbrowser`, `marketing`,
+`todos` and `vaultview` are untouched — BD2.1's rule unchanged, a pin
+bump no consumer asked for is a commit the round did not earn. No
+workbench tag was cut: the root module has no change
+of its own since it was tagged, and `marketing/v0.1.0` is the only tag
+the repo carries.
+
+**The matrix is 80/80** — every one of the forty modules built and
+tested under the workspace and again under `GOWORK=off`.
+`check-no-workspace.sh` read **37/40** at the start of this task,
+naming `components/gallery`, `workbench/mindchat` and
+`workbench/sitedocs`, which is exactly the seam this release existed
+to close; it reads **40/40** now. **No golden moved off-workspace.**
+sitedocs' ten tab captures — including the two BI2.5 regenerated —
+hold byte-for-byte resolving from the published tags rather than from
+the working tree, which is the point of running them there instead of
+trusting the pins. mindchat and themer commit no captures; their
+renders are computed and compared inside the test, and those pass off
+the tags too. No `.actual.png` was written anywhere in the tree by
+either sweep.
+
+**`llms.txt` gained one hand-written line beside its generated
+numbers.** `sync-versions.sh` rendered v1.2.5, v1.1.1 and gallery
+v1.2.5 into the four places it owns; the components package roster,
+which is prose and which the script deliberately does not touch, now
+names `picker` and says `input.Dropdown` forwards to it. A guide that
+ships the tag while its roster omits the package the tag is named for
+is wrong on the one fact the release adds.
+
+**Found and left alone:** `patterns` has seven `*.actual.png` files
+committed under `testdata/golden/`, added by AY3.1 and present in
+v1.1.0 and v1.1.1 alike. They are golden-failure artifacts, not
+goldens, and nothing reads them. Recorded here rather than fixed —
+removing them is not this ceremony's business.
+
+- [x] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
+  sync clean.
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+  every repo touched pushed.
 ## Phase BJ: The dark ramp regains its middle
 
 Open-rulings items 144/145, measured by BF1.1's review: every dark
