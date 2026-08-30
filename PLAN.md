@@ -17655,17 +17655,17 @@ two are two cells per sitedocs' honesty rules. This round stays inside
 seed-row code line for line, record the hoist as a candidate for a
 later round rather than growing a shared seam here.
 
-- [ ] The Palette Seed row opens the Theme tab: picked and realized
+- [x] The Palette Seed row opens the Theme tab: picked and realized
   colours as two cells, named, with their swatches.
-- [ ] The row's claims survive the scheme: what it names is checked
+- [x] The row's claims survive the scheme: what it names is checked
   against the palette on screen, dark included.
-- [ ] While no seed is picked, the row says so rather than showing a
+- [x] While no seed is picked, the row says so rather than showing a
   seed that is not there.
-- [ ] Tests land beside the themer's existing tab tests; any capture
+- [x] Tests land beside the themer's existing tab tests; any capture
   the row shifts is regenerated with the cause named.
-- [ ] Fresh-eyes review of the Theme tab at a realistic size, both
+- [x] Fresh-eyes review of the Theme tab at a realistic size, both
   schemes; reply relayed verbatim, findings pooled.
-- [ ] Exit: green in `workbench/themer` and the `workbench` root;
+- [x] Exit: green in `workbench/themer` and the `workbench` root;
   commit and push in `workbench` and `.github`.
 
 ## Phase BG: The open rulings read in ruling order
