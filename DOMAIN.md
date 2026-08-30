@@ -54,6 +54,18 @@ inverse surface: a dead end reached by walking the neutral ramp on a
 mid-grey ground — the transient grammar applied to a persistent
 state).
 
+**Checked** — the persistent state of a binary control: the user's
+recorded yes on a checkbox, switch or radio. It survives hover and
+focus; a transient state may ring a checked control, never repaint
+its mark (the focus treatment that redraws a checked box as unchecked
+is the transient grammar overwriting a persistent state).
+
+**Active** — the persistent state marking where the user is: the
+current tab, the current sidebar entry, the open document. Positional
+and one-of-many. Distinct from selection: selected is the thing you
+chose, active is the place you are; both are persistent and speak
+through the accent.
+
 **Tag** — the status label, drawn in a role's own hue: the system's
 word about content. A tag may carry a close mark (ruled 2026-08-30:
 tag keeps dismissible); what separates a dismissible tag from an
