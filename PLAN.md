@@ -17331,6 +17331,41 @@ clean.
 - [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
 
+## Phase BC: The drifted support repos release as patches
+
+Ruled by the owner 2026-08-30 in conversation: a repo's master is
+published or it is nothing — external consumers see only tags, and
+thirteen support repos carry weeks of commits no tag delivers (the
+2026-08-22 Gio bump, the O1.2 gofmt sweep, the G0D renames, the CI
+removal). The drift releases as PATCHES: the content is build
+plumbing, no API and no pixels, which is the version rule's default
+bump. Consumers of these repos are NOT re-tagged to restate pins —
+the protocol's rationing rule stands and MVS resolves upward.
+
+### G-BC1: The sweep
+
+#### BC1.1: Every drifted repo tags its master
+
+At authoring the drifted set is backdrop, circle, csg, font,
+gradient, ivg, kiwi, noise, seen, style, svg, textdraw, traer —
+derived at execution from `git log <last-tag>..HEAD` per repo, never
+remembered. Per repo: read the drift; anything that moved API or
+pixels is REPORTED for its own ruling, not swept into a patch. Then
+the ceremony bottom-up; nested modules mirror where they exist
+(ivg/raster/gio above all). The tagged consumers verify against the
+new graph.
+
+- [ ] Every drifted repo carries a patch tag at master, pushed, with
+  the drift's content named per repo in the report; anything
+  non-plumbing reported instead of swept.
+- [ ] `GOWORK=off` and workspace builds green in `components`,
+  `patterns` and the workbench root and nested apps by name;
+  `sync-versions.sh` clean.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from
+  `.github`; every repo pushed with tags; no repo's master ahead of
+  its newest tag except by a nested pin-bump commit its nested tag
+  covers.
+
 ## Phase BC: The gallery inventory shows every published family
 
 An audit of the inventory against the published repos (2026-08-30)
