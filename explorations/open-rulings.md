@@ -15,6 +15,12 @@ numbering is therefore not sequential, which is correct. Each item
 carries the section it arrived under; the sections' own preambles
 are kept verbatim under "Review provenance" at the foot.
 
+Grooming rule (owner-ruled 2026-08-30): when a sharper later item
+restates an older one, the older item retires even if the later one
+does not cite it by number — verify the restatement is complete before
+deleting, and name every removal in the commit body. Item numbers are
+identities and are never reused or renumbered.
+
 ## Bugs
 
 Fixes needing no design ruling, worst consequence first: a crash, then
@@ -51,9 +57,6 @@ consumer ships, then layout and copy.
     choice.
     *(§I, AH1.1's five-tab review — contrast and state)*
 
-14. **[bug]** Disabled labels measure ~1.2:1 — invisible, not dimmed.
-    *(§B, plain bugs, no design choice needed)*
-
 63. **[bug]** Dark: the disabled dropdown and text field (#555555,
     2.38:1) are twice as visible as their enabled counterparts
     (#222222 on #181818, 1.12:1). The eye lands on the control that
@@ -65,10 +68,6 @@ consumer ships, then layout and copy.
     rule drawn in it — the Palette Picks column groups, the Docs
     sidebar seam — is imperceptible at 1x.
     *(§I, AH1.1's five-tab review — contrast and state)*
-
-2. **[bug]** The light muted-text grey fails WCAG AA: 4.03:1 on the
-   page, 3.55:1 on grey bands. Dark's equivalent is ~8:1.
-   *(§A, colour generation)*
 
 94. **[bug]** Added 2026-08-29, from AZ1.2's fresh-eyes review: the
     gallery's own caption convention — neutral step 600 at 11 sp —
@@ -113,13 +112,6 @@ consumer ships, then layout and copy.
    palette grid shows it plainly — dark Primary 700 #b0cdff vs
    Secondary 700 #b2cdfd, steps 800/900 byte-identical, Info close
    behind.)
-   *(§A, colour generation)*
-
-5. **[bug]** Dark ramps: steps 1–4 are four near-blacks, then a jump.
-   The middle of the ramp is missing. (2026-08-21: the top end
-   compresses too — dark Neutral 700/800/900 span 34 grey levels
-   where light's span 73, so "one step apart" separates far less
-   in dark; measured while fixing the properties panel.)
    *(§A, colour generation)*
 
 67. **[bug]** All four alert levels draw the identical glyph, a small
@@ -380,16 +372,6 @@ durably while these are open.
      122's schemes-derived-to-a-floor-not-a-ladder finding.
      *(§O, BD1.2's fresh-eyes review of the gallery window)*
 
-132. **[decide]** Every dark ramp skips its middle: Neutral runs
-     24/34/46/71 then jumps 87 levels to 158/182/204/221/238 — 41% of
-     the ramp's range unsampled — and Primary, Info and Success jump
-     the same way, where light's worst Neutral gap is 47. Consequence
-     with teeth: dark has no mid-tone step for a disabled label, a
-     hairline on a raised surface, or a secondary border — 71 is
-     near-invisible on 24 and 158 is near-full-strength. A ramp
-     derivation question in theme.
-     *(§O, BD1.2's fresh-eyes review of the gallery window)*
-
 6. **[decide]** Status colours: all four share one lightness, so in
    greyscale they're identical; and the seed's influence on them is
    now too small to see but still changes goldens on every seed
@@ -470,16 +452,6 @@ durably while these are open.
     controls borrow the Divider token for fills (e.g. the switch
     track). Add the two roles?
     *(§A, colour generation)*
-
-125. **[decide]** Dark-scheme elevation is near-flat where the
-     specimens advertise it. The floating pane's floor-vs-paper step
-     is invisible in dark — page ground, card and pane read as the
-     same near-black with only the hairline doing the work — so the
-     pane section demonstrates the gap faithfully rather than the
-     step. The modal scrim mirrors it: barely-there in dark, an
-     opaque slab that hides its backdrop entirely in light. May
-     sharpen earlier elevation items rather than stand alone.
-     *(§N, BD1.1's fresh-eyes review of the gallery window)*
 
 130. **[decide]** The dark rail-to-content seam carries no edge at
      all: floor #151515 against background #181818 is 1.028:1 and the
@@ -569,11 +541,6 @@ consumer ships the answer whether or not it asked the question.
     cursor become indistinguishable. Add a checkmark, or reserve
     inversion for the cursor and quiet the selection?
     *(§G, from the dropdown review, 2026-08-21)*
-
-32. **[decide]** Alerts carry severity by colour alone (no per-level
-    icon, no worded level; toasts have the wording). In greyscale all
-    four alerts are identical — see item 6.
-    *(§E, components and patterns)*
 
 142. **[decide]** Dark mode shows two contradictory error looks one
      scroll apart: alerts as dark tinted plates with white ink, the
