@@ -5,6 +5,13 @@ our chips look like ass because we derived their appearance from
 toolbar buttons on macOS. Investigate m3.material.io/components/chips
 and propose how we can adopt this as our chips."
 
+Owner ruling (2026-08-30, follow-up): the current chip is condemned
+outright — grossly oversized, to be moved away from entirely; nothing
+of its appearance is preserved or defended. Chips must be subtle. A
+rounded rect is acceptable; the pill is not a requirement. This
+confirms the §3c direction (outline-resting body, corner-small,
+smaller-than-button height) as the destination, not an option.
+
 Sources: the M3 chips overview/guidelines (taxonomy), and the
 canonical Compose Material3 token files (AssistChipTokens,
 FilterChipTokens, InputChipTokens — exact values quoted below were
