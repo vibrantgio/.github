@@ -17330,3 +17330,52 @@ clean.
   sync clean.
 - [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
+
+## Phase BC: The gallery inventory shows every published family
+
+An audit of the inventory against the published repos (2026-08-30)
+found three gaps: the floating pane pattern has no section, the
+button's emphasis registers (Tonal, Ghost) have no specimen of their
+own, and the icon button face is not drawn anywhere. Everything else —
+the chip's three faces, the four input faces, the other nineteen
+patterns — is represented. The inventory is what the themer's embedded
+page renders, so a family it omits is a family no theme is ever judged
+on.
+
+### G-BC1: The inventory gains the missing specimens
+
+#### BC1.1: The pane, the emphasis row and the icon button join the inventory
+
+Three additions to components/gallery/inventory, each drawn from
+static state in a bounded slot like every existing section. The pane
+section draws the floating pane beside content — the inset, the corner
+radius and the internal hairline visible with ground on every side,
+which is what the pane package's own goldens show. The button family
+gains an emphasis row — Filled, Tonal and Ghost at rest, side by side,
+captioned — and an icon-button specimen via `button.RenderIcon`.
+
+- [ ] `patterns-pane` section: the floating pane beside content, edge
+  and surrounding ground both visible; slot sized to the specimen.
+- [ ] Button emphasis row: Filled, Tonal and Ghost at rest in one row,
+  each captioned like the state row above it.
+- [ ] Icon button specimen drawn with `button.RenderIcon`, placed in
+  whichever button row reads best.
+- [ ] Goldens land for the new sections; any existing capture the new
+  rows shift is regenerated and eyeballed.
+- [ ] Exit: green in `components` and `components/gallery`; the themer
+  builds against the inventory; commit and push in `components` and
+  `.github`.
+
+### G-BC2: The seam ships it
+
+#### BC2.1: The inventory-completion release
+
+The ceremony, latest derived at execution: the gallery module carries
+additive sections and a new import of the pane pattern. Bump size
+reasoned against the round's own precedent; workbench pins bump;
+matrix green; sync clean.
+
+- [ ] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
+  sync clean.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+  every repo touched pushed.
