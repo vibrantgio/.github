@@ -12,19 +12,21 @@ rounded rect is acceptable; the pill is not a requirement. This
 confirms the §3c direction (outline-resting body, corner-small,
 smaller-than-button height) as the destination, not an option.
 
-Vocabulary update (2026-08-30, DOMAIN decision 0004, mark-and-badge):
-"tag" has left the language. The textual status label is the
-**badge**, a ruled component (voice and dismissibility rulings carry
-over intact — badge keeps dismissible, the boundary is voice, so
-§3d's dismissible migration stays overruled; the hero eyebrow is a
-badge at its quietest). The **mark** enters as the icon-like signal
-component — glyph or count, never a word (what M3/iOS call a badge).
-The chip's old badge face leaves the chip family in the re-anatomy
-(anchor-face precedent); its uses sort by the text boundary — counts
-and glyphs become marks, worded statuses become badges. Chip anatomy
-ruled: [icon] text [x], brackets optional. Read every "patterns/tag"
-below as the coming components/badge; renames execute when a round
-touches them, per the picker.Toolbar precedent.
+Vocabulary update (2026-08-30, DOMAIN decisions 0004 and 0005 —
+one-badge, 0005 superseding 0004's mark/badge split): "tag" has left
+the language. The status signal is the **badge**, one ruled
+component that speaks as a word, a count, or a glyph — the
+glyph-vs-word split into a separate "mark" was repealed as defining
+components by looks (Bootstrap precedent: counts and role-hued
+labels in one badge). Voice and dismissibility rulings carry over
+intact — badge keeps dismissible, the boundary is voice, so §3d's
+dismissible migration stays overruled; the hero eyebrow is a badge
+at its quietest. The chip's old badge face leaves the chip family in
+the re-anatomy (anchor-face precedent) — it was badges all along, no
+sorting needed. Chip anatomy ruled: [icon] text [x], brackets
+optional. Read every "patterns/tag" below as the coming
+components/badge; renames execute when a round touches them, per the
+picker.Toolbar precedent.
 
 Owner rulings (2026-08-30, closing the chip/badge open set):
 - **Badge height: sized to its text.** The badge leaves the control
