@@ -18216,6 +18216,9 @@ workbench/themer's computed captures, other workbench apps' goldens.
 Only dark-scheme tiles should shift; a light tile moving is a
 stop-and-report.
 
+- [ ] patterns' seven committed *.actual.png failure artifacts
+  (accordion, navbar, shell x3, sidebar, toast) deleted first — they
+  are not goldens and would confuse the sweep.
 - [ ] All downstream goldens regenerated, dark-only shifts verified,
   causes named per commit.
 - [ ] Fresh-eyes review of one dark gallery window and one dark app
