@@ -17733,15 +17733,15 @@ package of the inventory, named for what it renders — the palette
 story), consuming theme/tokens and textdraw only. The themer adopts
 it wholesale and deletes what moved.
 
-- [ ] The function-by-function diff of the two copies, with each
+- [x] The function-by-function diff of the two copies, with each
   divergence reconciled or parameterised, recorded in the moved
   code's comments.
-- [ ] The shared package builds with the engine; exported surface no
+- [x] The shared package builds with the engine; exported surface no
   larger than what the two apps call.
-- [ ] The themer adopts it; its palette.go keeps only the themer's
+- [x] The themer adopts it; its palette.go keeps only the themer's
   own window furniture; behaviour identical — its computed-capture
   tests hold without loosening.
-- [ ] Exit: green in `components`, `components/gallery` and
+- [x] Exit: green in `components`, `components/gallery` and
   `workbench/themer` (workspace build; pins wait for the release);
   commit and push in `components`, `workbench` and `.github`.
 
