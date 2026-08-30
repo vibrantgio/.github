@@ -17983,6 +17983,32 @@ The hand-rolled dropChip and both popover assemblies retire.
 - [x] Exit: green in `workbench/mindchat` and the `workbench` root;
   commit and push in `workbench` and `.github`.
 
+#### BI2.2: The picker's menu learns its transient-surface manners
+
+BI2.1's review caught what the retired popover assembly had been
+providing for free (open-rulings item 150): an inline open field
+menu draws no plane edge (a 1.03:1 seam over a dialog reads as
+corrupted text — a shipped regression), no height cap or scroll, no
+hover mark, no dismissal of its own (Escape closes the whole
+dialog), and no empty-state wording. Per the extend-the-component
+ruling, the picker absorbs all five.
+
+- [ ] The inline open menu draws its plane's edge the way the
+  popover surface draws its own; the one-surface composition test
+  updates deliberately to assert trigger + menu + edge.
+- [ ] MaxHeight on Menu and Field (zero keeps today's behaviour);
+  above it the menu scrolls via components/list; mindchat caps both
+  its menus.
+- [ ] Menu rows mark hover; Field's open menu dismisses on outside
+  press and on Escape without closing the dialog around it.
+- [ ] Field gains placeholder wording for the empty and unpicked
+  states; mindchat supplies its copy where dropChip's used to be.
+- [ ] Goldens/captures regenerated with causes named; green in
+  `components`, `components/gallery`, `workbench/mindchat`,
+  `workbench/sitedocs`, `workbench/themer`, `workbench` root.
+- [ ] Exit: commit and push in `components`, `workbench` and
+  `.github`.
+
 ### G-BI3: The seam ships it
 
 #### BI3.1: The picker release
