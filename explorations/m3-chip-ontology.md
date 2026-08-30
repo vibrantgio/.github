@@ -139,11 +139,10 @@ Replace the platform-derived appearance:
   outline off, leading checkmark (Filter) — drawn via the existing
   state walk rather than M3's opacity state-layers (our walk is the
   system's own feedback grammar; only the resting targets change).
-- **Height**: M3's 32 dp against our Density (Comfortable control =
-  36, Compact = 28). Recommendation: a `ChipHeight` row on Density at
-  `ControlHeight − 4` — Comfortable lands on M3's exact 32, Compact
-  on 24, and the "chips are smaller than buttons" relation is stated
-  once instead of per-density. (Alternative: pin 32/26; owner picks.)
+- **Height** (ruled 2026-08-30): a `ChipHeight` row on Density at
+  `ControlHeight − 4` — the relation, not a pin. Comfortable lands on
+  M3's exact 32, Compact on 24, and "chips are smaller than buttons"
+  is stated once instead of per-density.
 - **Icons**: 18 dp leading/trailing, 24 dp avatar slot for Input.
 
 ### 3d. Fold the neighbours in
