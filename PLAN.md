@@ -17752,11 +17752,11 @@ package, keeping only its own window furniture (PaletteFrom/TypeFrom
 stay if the shared package does not subsume them; the Theme tab's own
 composition stays).
 
-- [ ] theme_palette.go shrinks to sitedocs' own; every engine call
+- [x] theme_palette.go shrinks to sitedocs' own; every engine call
   goes through the shared package.
-- [ ] Tab goldens hold byte-for-byte, or every shifted tile is the
+- [x] Tab goldens hold byte-for-byte, or every shifted tile is the
   reconciliation of a recorded divergence, named with its cause.
-- [ ] Exit: green in `workbench/sitedocs` and the `workbench` root;
+- [x] Exit: green in `workbench/sitedocs` and the `workbench` root;
   commit and push in `workbench` and `.github`.
 
 ### G-BH2: The seed row joins it
