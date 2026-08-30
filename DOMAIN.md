@@ -142,7 +142,9 @@ deliberately — arrivals from M3/iOS find their badge under mark,
 freeing badge for the statement. Both are components, not patterns.
 Downstream: the tag pattern becomes the badge component; hand-rolled
 verdict glyphs (mindchat's key check) hoist into mark; the chip's
-old badge face lands in badge territory. Sources:
+old badge face leaves the chip family the way the anchor face left
+for picker, its uses sorted by the text boundary — counts and glyphs
+to mark, worded statuses to badge. Sources:
 [[TRANSCRIPTS#^0002-badge-word]],
 [[TRANSCRIPTS#^0002-mindchat-marker]],
 [[TRANSCRIPTS#^0002-mark-and-badge]],
