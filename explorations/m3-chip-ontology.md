@@ -26,6 +26,21 @@ ruled: [icon] text [x], brackets optional. Read every "patterns/tag"
 below as the coming components/badge; renames execute when a round
 touches them, per the picker.Toolbar precedent.
 
+Owner rulings (2026-08-30, closing the chip/badge open set):
+- **Badge height: sized to its text.** The badge leaves the control
+  ladder entirely — height follows its type size like an inline
+  annotation, visibly lighter than any control. The dismissible
+  badge's close mark keeps an invisible extended hit area.
+- **Badge variants: role-hued only, plus Neutral.** Success/Warning/
+  Error/Info plus a Neutral for plain category labels. Filled/Tonal
+  emphasis retires from the badge — emphasis lives where interaction
+  lives. Existing Filled/Tonal call sites map to Neutral or a role.
+- **The applied-filter display: voice wins.** User-entered filter
+  tokens are Input chips. A system-generated summary of view state is
+  plain text or a close-less badge — the user removes the filter
+  where they set it. Statements never change behaviour when
+  dismissed.
+
 Sources: the M3 chips overview/guidelines (taxonomy), and the
 canonical Compose Material3 token files (AssistChipTokens,
 FilterChipTokens, InputChipTokens — exact values quoted below were
