@@ -17846,8 +17846,8 @@ budges.
 **`textdraw` stays at v0.0.4 — owner-ruled: churn minimized — and the
 measurement agrees.** BH1.1 made it a direct require in
 `gallery/go.mod` while textdraw's head tag is `v0.0.5`. The diff
-between the two carries no Go
-source at all — a README, an agent note, and a Gio bump that MVS
+between the two carries no Go source at all — a README, an agent note,
+and a Gio bump that MVS
 already satisfies from gallery's own `gioui.org v0.10.2` — and `go mod
 tidy` under `GOWORK=off` does not ask for it. So BD2.1's rule applies
 unchanged: a pin bump no consumer asked for is a commit the round did
