@@ -17627,3 +17627,72 @@ review is owed: this task moves version tokens and not one pixel.
   sync clean.
 - [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
+
+## Phase BF: The themer's Theme tab shows the palette seed
+
+Owner request (2026-08-30): the Palette Seed row that opens sitedocs'
+Theme tab should be in the themer too. Sitedocs solved the hard part
+already — `workbench/sitedocs/theme_seed.go` — and its rules carry
+over: the picked colour and the realized colour it grew into are two
+cells with their own swatches and names (the derivation lifts chroma,
+so one sentence relating them gets cut into a lie by a narrow window);
+lines never carry a clause seam a cut can invert; and a dark palette
+does not carry its seed, so what the row claims is checked against the
+palette on screen before it is named. The themer has the stronger
+claim to the row: it is the app whose whole purpose is picking seeds.
+
+### G-BF1: The seed opens the palette story
+
+#### BF1.1: The Theme tab opens with the Palette Seed row
+
+The themer's Theme tab gains the Palette Seed section, first in the
+palette story, in the tab's own vocabulary — the same heading band and
+body ground its palette rows use. The seed is the candidate the user
+picked (the themer knows it directly — it is the swatch that was
+clicked); the realized colour is read off the derived palette, and the
+two are two cells per sitedocs' honesty rules. This round stays inside
+`workbench/themer`: if the build finds itself copying sitedocs'
+seed-row code line for line, record the hoist as a candidate for a
+later round rather than growing a shared seam here.
+
+- [ ] The Palette Seed row opens the Theme tab: picked and realized
+  colours as two cells, named, with their swatches.
+- [ ] The row's claims survive the scheme: what it names is checked
+  against the palette on screen, dark included.
+- [ ] While no seed is picked, the row says so rather than showing a
+  seed that is not there.
+- [ ] Tests land beside the themer's existing tab tests; any capture
+  the row shifts is regenerated with the cause named.
+- [ ] Fresh-eyes review of the Theme tab at a realistic size, both
+  schemes; reply relayed verbatim, findings pooled.
+- [ ] Exit: green in `workbench/themer` and the `workbench` root;
+  commit and push in `workbench` and `.github`.
+
+## Phase BG: The open rulings read in ruling order
+
+Owner request (2026-08-30): `explorations/open-rulings.md` has grown
+past a hundred items in review-arrival order; reorder it for ruling —
+bugs first, then descending importance — and remove what is no longer
+relevant.
+
+### G-BG1: The pool is groomed
+
+#### BG1.1: Bugs lead, importance orders the rest, the resolved leave
+
+Restructure `explorations/open-rulings.md`: every [bug] item first,
+then the remaining items in descending importance, judged by user
+consequence and how much hangs on the ruling. Item numbers are
+identities — reviews/, memory and past commits cite them — so items
+move whole and are NEVER renumbered. An item leaves only when it is
+demonstrably resolved or superseded: fixed by a landed task, ruled by
+a landed ADR, or restated by a sharper later item that names it —
+verify against PLAN.md and the code before deleting, and enumerate
+every deleted item with its one-line reason in the commit body. When
+in doubt, an item stays.
+
+- [ ] Bugs first, then descending importance; numbers untouched;
+  section-provenance notes preserved where their items survive.
+- [ ] Resolved and superseded items removed, each verified and each
+  named with its reason in the commit body.
+- [ ] Exit: the file still lints as the plan's companion (no plan
+  semantics touched); commit and push in `.github`.
