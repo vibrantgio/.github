@@ -14,21 +14,15 @@ smaller-than-button height) as the destination, not an option.
 
 Vocabulary update (2026-08-30, DOMAIN decision 0004, mark-and-badge):
 "tag" has left the language. The textual status label is the
-**badge** (the voice and dismissibility rulings carry over intact;
-the hero eyebrow is a badge at its quietest), and the **mark** enters
-as the icon-like signal — glyph or count, never a word (what M3/iOS
-call a badge). Both are ruled components, not patterns. Read every
-"patterns/tag" below as the coming components/badge; the chip's old
-badge face reads as mark territory. Chip anatomy ruled:
-[icon] text [x], brackets optional.
-
-Vocabulary update (2026-08-30, DOMAIN decision 0004): "tag" is now
-**Badge** (textual status label, a component), **Mark** enters as the
-icon-like signal component, and the chip's anatomy is ruled
-[icon] text [x]. §3d's tag-dismissible migration was already
-overruled (badge keeps dismissible; the boundary is voice); read
-"patterns/tag" below as the badge component. Renames execute when a
-round touches them, per the picker.Toolbar precedent.
+**badge**, a ruled component (voice and dismissibility rulings carry
+over intact — badge keeps dismissible, the boundary is voice, so
+§3d's dismissible migration stays overruled; the hero eyebrow is a
+badge at its quietest). The **mark** enters as the icon-like signal
+component — glyph or count, never a word (what M3/iOS call a badge);
+the chip's old badge face reads as mark territory. Chip anatomy
+ruled: [icon] text [x], brackets optional. Read every "patterns/tag"
+below as the coming components/badge; renames execute when a round
+touches them, per the picker.Toolbar precedent.
 
 Sources: the M3 chips overview/guidelines (taxonomy), and the
 canonical Compose Material3 token files (AssistChipTokens,
