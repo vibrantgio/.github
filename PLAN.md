@@ -17974,13 +17974,13 @@ picker.Anchor + picker.Menu; the settings default-model row moves
 from the hand-rolled chip + popover to picker.Field + picker.Menu.
 The hand-rolled dropChip and both popover assemblies retire.
 
-- [ ] Header picker on picker.Anchor/Menu; behaviour and menu
+- [x] Header picker on picker.Anchor/Menu; behaviour and menu
   content unchanged.
-- [ ] Settings default-model row on picker.Field/Menu; dropChip and
+- [x] Settings default-model row on picker.Field/Menu; dropChip and
   its palette pins retire.
-- [ ] Fresh-eyes review of both surfaces, both schemes; reply
+- [x] Fresh-eyes review of both surfaces, both schemes; reply
   relayed verbatim, findings pooled.
-- [ ] Exit: green in `workbench/mindchat` and the `workbench` root;
+- [x] Exit: green in `workbench/mindchat` and the `workbench` root;
   commit and push in `workbench` and `.github`.
 
 ### G-BI3: The seam ships it
