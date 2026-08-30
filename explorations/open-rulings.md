@@ -576,7 +576,15 @@ visible.
     AZ1.1 (the S2 gap is patterns/tag's, the box is the line's), so
     the question is whether a mark should be reserved its ink extent
     rather than its line box — which would move every control that
-    sets a glyph beside text.
+    sets a glyph beside text. ONE DATA POINT, from BB3.1: the chip's
+    new anchor face reserves its mark's INK EXTENT — the platform's
+    own ratio of the control height, 9/29, about 11 dp against the
+    20 dp line box — because the pair is the component's own mark and
+    its width is therefore known. A fresh reviewer handed that window
+    did not raise the detachment at all. That is one face answered by
+    construction and says nothing about the general case, where the
+    mark is a caller's Glyph whose ink extent the component cannot
+    see.
 
 96. **[decide]** Added 2026-08-29, from AZ2.1's fit check — the first
     real anchor use of `components/chip`. The live `chip.Chip` takes
@@ -834,7 +842,16 @@ than recorded again under a new number.
      trailing it — a scroller floating that far inboard of the view's
      own edge is not something this platform does at all. Contrast to
      ground measured 3.03 light / 4.94 dark, so it is LOUDER in the dark
-     scheme, and it never goes away.
+     scheme, and it never goes away. SHARPENED again by BB3.1's
+     review, which measured it against the stored reference rather
+     than against a remembered platform: the thumb is 6 px where
+     `textedit-scrollbar.png` reads 11, the gutter 10 px where the
+     reference reads 16, and there is no groove behind the thumb where
+     the platform fills a capsule. The shape is right — both are
+     rounded capsules — and every size is wrong. It also reserves its
+     gutter rather than overlaying it, which is what puts the bite in
+     the user band's trailing edge (item 103) and what leaves 35 px of
+     bare page under a thumb that has run out of travel.
 
 102. **[decide]** The user's turn is a full-bleed banner rather than a
      message: square corners, no avatar, running from the sidebar
@@ -855,7 +872,10 @@ than recorded again under a new number.
      different trailing margins (10, 8, 12, 22, 18). The band is flush
      against the pane on its leading side and stops 10 px short on its
      trailing side to clear the scrollbar, so the user's slab is visibly
-     off-centre inside its own column.
+     off-centre inside its own column. One more edge from BB3.1's
+     review: the composer's separator hairline is inset 12 px on each
+     side where the field it separates is inset 8 px, so the line is
+     visibly narrower than the box 9 px beneath it.
 
 104. **[decide]** The model menu reads as pasted on rather than
      floating: a flat 2 px `#C6C6C6` border with the underlying content
@@ -1079,3 +1099,49 @@ triage are in `reviews/ba2.1-mindchat-fresh-eyes.md`.
      settled by BB1.1; this is shape only.
      — Ruled 2026-08-30 in conversation: the picker takes the native
      shape; planned as BB3.1, the chip's anchor face.
+     — CLOSED 2026-08-30 by BB3.1. `components/chip` grew the ANCHOR
+     face and the picker wears it; the fresh-eyes review of the same
+     window at the same size, asked the same question, does not raise
+     the picker's shape at all. See
+     `reviews/bb3.1-mindchat-fresh-eyes.md`.
+
+## M. From BB3.1's fresh-eyes review of the picker in its anchor face
+
+Added 2026-08-30. The reviewer was handed the whole window at its opening
+size in both schemes, briefed with three recorded misreads, and sampled
+every claim. Four of its six findings were already pooled and are
+sharpened above rather than repeated; the two below are new. The verbatim
+reply and the full triage are in `reviews/bb3.1-mindchat-fresh-eyes.md`.
+
+122. **[decide]** The two schemes do not measure the same. For one
+     semantic role the dark scheme lands at roughly double the light
+     scheme's contrast — secondary text 5.46:1 light against 11.37:1
+     dark, the user band 5.94 against 11.01, the control hairline 4.04
+     against 5.94, the scrollbar thumb 3.03 against 4.94 — while
+     primary text is the one pair that agrees (17.05 against 15.04).
+     So the primary-to-secondary STEP is a 3.1× drop in light and a
+     1.3× drop in dark, and the consequence is legible rather than
+     academic: the composer's placeholder sits at 9.91:1 on its own
+     fill in dark, close enough to body copy that "Send a message"
+     reads as a message already typed, where the same placeholder at
+     6.30:1 in light correctly reads as empty. This is not item 89
+     (ink bloom is how much ink one label lays) and not item 107 (one
+     ink spent on three roles inside one scheme): it is the two
+     schemes having been derived to a floor rather than to a shared
+     ladder of steps. The answer lives in the token derivation, above
+     every control that inherits it.
+
+123. **[decide]** The window's head ends at two different heights, and
+     two accent blocks stair-step across the seam. The sidebar's
+     toolbar bottoms out at y 43 and the content pane's at y 51,
+     although both hold the same-size controls (the window buttons at
+     y 19–32, the picker at y 8–43). The first thing in the window is
+     therefore two purple blocks one pixel apart across the divider at
+     x 247 — the sidebar's selected row at y 44–85 and the first
+     message band at y 52–99 — whose tops disagree by 8 px and whose
+     bottoms disagree by 14 px. Item 108 has the transcript welded to
+     the chrome and item 115 has the window's FOOT answering itself at
+     two heights; neither has the head doing it, which is the
+     measurement under this one. Likely a `patterns/pane` question
+     rather than this window's, since the strip's depth on the leading
+     side is the pane's and on the trailing side is the frame's.

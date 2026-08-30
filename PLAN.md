@@ -17305,14 +17305,14 @@ chevron-flip logic retires with its last caller — which also settles
 this app's half of the open-state question the first adoption
 recorded: on the platform the anchor's glyph does not say open.
 
-- [ ] `components/chip` gains the anchor face: rounded-rect radius
+- [x] `components/chip` gains the anchor face: rounded-rect radius
   derived the way the button derives its own, paired chevrons drawn
   by the component, everything else the chip's; goldens and the
   contrast sweep extend to it.
-- [ ] mindchat's picker wears the anchor face; the flip logic and
+- [x] mindchat's picker wears the anchor face; the flip logic and
   its glyphs delete with their last caller; both schemes looked at
   in the render.
-- [ ] Exit: green in `components`, `components/gallery`,
+- [x] Exit: green in `components`, `components/gallery`,
   `workbench/sitedocs`, `workbench/mindchat` and the workbench root;
   commit and push in `components`, `workbench`, `.github`.
 
