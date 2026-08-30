@@ -18,8 +18,10 @@ Vocabulary update (2026-08-30, DOMAIN decision 0004, mark-and-badge):
 over intact — badge keeps dismissible, the boundary is voice, so
 §3d's dismissible migration stays overruled; the hero eyebrow is a
 badge at its quietest). The **mark** enters as the icon-like signal
-component — glyph or count, never a word (what M3/iOS call a badge);
-the chip's old badge face reads as mark territory. Chip anatomy
+component — glyph or count, never a word (what M3/iOS call a badge).
+The chip's old badge face leaves the chip family in the re-anatomy
+(anchor-face precedent); its uses sort by the text boundary — counts
+and glyphs become marks, worded statuses become badges. Chip anatomy
 ruled: [icon] text [x], brackets optional. Read every "patterns/tag"
 below as the coming components/badge; renames execute when a round
 touches them, per the picker.Toolbar precedent.
