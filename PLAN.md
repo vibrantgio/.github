@@ -17389,15 +17389,15 @@ which is what the pane package's own goldens show. The button family
 gains an emphasis row — Filled, Tonal and Ghost at rest, side by side,
 captioned — and an icon-button specimen via `button.RenderIcon`.
 
-- [ ] `patterns-pane` section: the floating pane beside content, edge
+- [x] `patterns-pane` section: the floating pane beside content, edge
   and surrounding ground both visible; slot sized to the specimen.
-- [ ] Button emphasis row: Filled, Tonal and Ghost at rest in one row,
+- [x] Button emphasis row: Filled, Tonal and Ghost at rest in one row,
   each captioned like the state row above it.
-- [ ] Icon button specimen drawn with `button.RenderIcon`, placed in
+- [x] Icon button specimen drawn with `button.RenderIcon`, placed in
   whichever button row reads best.
-- [ ] Goldens land for the new sections; any existing capture the new
+- [x] Goldens land for the new sections; any existing capture the new
   rows shift is regenerated and eyeballed.
-- [ ] Exit: green in `components` and `components/gallery`; the themer
+- [x] Exit: green in `components` and `components/gallery`; the themer
   builds against the inventory; commit and push in `components` and
   `.github`.
 
