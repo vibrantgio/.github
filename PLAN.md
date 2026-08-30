@@ -17912,3 +17912,86 @@ unchecked boxes in this document; every task above reads done.
   sync clean.
 - [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
+
+## Phase BI: One picker component
+
+Owner-picked from the chip-ontology exploration (2026-08-30): the
+pick-one-from-many affordance exists three times — input.Dropdown
+(complete but consumed by no app), chip's anchor face + popover
+assembly (mindchat's header), and a hand-rolled chip + popover
+(mindchat's settings). It becomes ONE component: `components/picker`
+("select" is a Go keyword) — `picker.Field`, the form-register
+trigger; `picker.Anchor`, the chrome-register trigger; `picker.Menu`,
+the one shared open surface, based on input.Dropdown's measured menu
+(level-3 rows, inverse-pair selection). Single-choice by contract:
+the trigger shows the value. Multiselect is not picker's — few-of-few
+is the chip's coming Filter intent, and a summarizing `picker.Multi`
+waits for a consumer to outgrow that.
+
+Churn rule applied: input.RenderDropdown and chip.RenderAnchor stay
+as thin deprecated forwarders, so this round stays additive (patch);
+the removals wait for a minor some later contract change earns.
+
+### G-BI1: The component lands
+
+#### BI1.1: components/picker unifies the three
+
+`picker.Menu` from input.Dropdown's option menu; `picker.Field` from
+its trigger; `picker.Anchor` from chip's anchor face (chevron pair,
+Md corner, pin — moved, not redrawn). Pure and live paths on the
+package contract; input and chip keep forwarders.
+
+- [ ] The package lands: Field, Anchor, Menu, pure + live paths,
+  keyboard reach preserved from both sources.
+- [ ] input.RenderDropdown and chip.RenderAnchor forward, marked
+  deprecated; no caller breaks.
+- [ ] Package tests cover trigger/menu contracts; existing dropdown
+  and chip tests stay green.
+- [ ] Exit: green in `components` and `components/gallery`; commit
+  and push in `components` and `.github`.
+
+#### BI1.2: The shared inventory shows the picker
+
+The inventory's dropdown section becomes the picker section — Field
+and Anchor triggers, the Menu open — drawn from the new package; the
+chip block keeps its three faces via the forwarder until the chip
+re-anatomy. One edit in the shared gallery; both apps inherit.
+
+- [ ] Picker section in components/gallery/inventory; section names
+  and goldens updated with the cause named.
+- [ ] workbench/sitedocs tab goldens and workbench/themer captures
+  regenerated where the section moved them, byte-identical elsewhere.
+- [ ] Exit: green in `components/gallery`, `workbench/sitedocs`,
+  `workbench/themer`; commit and push in `components`, `workbench`
+  and `.github`.
+
+### G-BI2: mindchat adopts
+
+#### BI2.1: Both pickers go through components/picker
+
+The header picker moves from chip anchor + popover assembly to
+picker.Anchor + picker.Menu; the settings default-model row moves
+from the hand-rolled chip + popover to picker.Field + picker.Menu.
+The hand-rolled dropChip and both popover assemblies retire.
+
+- [ ] Header picker on picker.Anchor/Menu; behaviour and menu
+  content unchanged.
+- [ ] Settings default-model row on picker.Field/Menu; dropChip and
+  its palette pins retire.
+- [ ] Fresh-eyes review of both surfaces, both schemes; reply
+  relayed verbatim, findings pooled.
+- [ ] Exit: green in `workbench/mindchat` and the `workbench` root;
+  commit and push in `workbench` and `.github`.
+
+### G-BI3: The seam ships it
+
+#### BI3.1: The picker release
+
+The ceremony, latest derived at execution: components gains a package
+additively (owner-ruled: patch, churn minimized); workbench pins
+bump; matrix green off-workspace; sync before the workbench commit.
+
+- [ ] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
+  sync clean.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+  every repo touched pushed.
