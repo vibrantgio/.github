@@ -18236,6 +18236,78 @@ BJ by owner instruction; BJ's hold stands.)
 - [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
 
+## Phase BM: The tag pattern becomes the badge component
+
+DOMAIN decisions 0004–0006 (2026-08-30): "tag" has left the language;
+its successor is ONE `components/badge`, and the migration is ruled
+an ABRUPT transformation — no compatibility affordances, no
+deprecated aliases, no stepwise churn; out-of-org consumers convert
+cold turkey once the library is ready. The ruled anatomy: the badge
+is off the control ladder, sized to its text like an inline
+annotation; it speaks as a word, a count, or a glyph; variants are
+role-hued only — Success, Warning, Error, Info, plus Neutral for
+plain category labels (Filled/Tonal emphasis retires; existing call
+sites map to Neutral or a role); dismissing a badge removes only the
+label, never behaviour, and only the close mark keeps an invisible
+extended hit area. The voice boundary stands: a badge is the
+system's word about a thing; a user-entered token is an Input chip.
+
+This phase sits BEFORE the held Phase BJ by owner instruction so
+BJ's downstream golden sweep is cut once, against the settled badge
+anatomy. In-org call sites censused at authoring: `patterns/hero`
+(the eyebrow — a Neutral badge at its quietest), `patterns/pricing`,
+`components/gallery/inventory/patterns.go` (specimens; the
+tag-as-anchor/trigger cells are Phase BK's, leave them to it), doc
+prose in `components/chip` and `components/internal/chipface`, and
+`theme/export/css.go`; mindchat's hand-rolled key-check verdict
+glyph is ruled a glyph badge and hoists in.
+
+### G-BM1: The transformation
+
+#### BM1.1: components/badge is born with the ruled anatomy
+
+- [ ] New package `components/badge`: text-sized (no control-ladder
+  height; the type size at the density sets it), utterances word,
+  count, or glyph; variants Success/Warning/Error/Info/Neutral
+  derived through the role palette against the ground, floors
+  respected; optional dismiss with the close mark's invisible
+  extended hit area; pure/live twins per house architecture.
+- [ ] Package goldens on the standard grounds, both schemes; a
+  gallery specimen block showing the five variants and the three
+  utterances.
+- [ ] Green, layers checked from `.github`, pushed. No release here.
+
+#### BM1.2: The abrupt cut — every call site converts, the tag dies
+
+- [ ] Convert every in-org `patterns/tag` call site to
+  `components/badge` (hero eyebrow → Neutral; pricing and gallery
+  specimens map Filled/Tonal → Neutral, status variants → their
+  role); hoist mindchat's key-check verdict glyph into a glyph
+  badge; rewrite tag mentions in chip/chipface/css-export prose to
+  the badge vocabulary.
+- [ ] Delete `patterns/tag` outright — no forwarders, no aliases,
+  per the abrupt-cut ruling.
+- [ ] Regenerate every moved golden: patterns, components/gallery,
+  and the nested app modules by name (sitedocs renders the
+  inventory; mindchat's key-check moves). Fresh-eyes review of one
+  affected window.
+- [ ] Green everywhere touched, `check-layers.sh` from `.github`
+  (patterns loses a package, components gains an import surface),
+  pushed.
+
+### G-BM2: The release
+
+#### BM2.1: Tag the badge round
+
+- [ ] ADR-006 seam order. Per the standing tag rule: the new package
+  on `components` is additive → patch; deleting `patterns/tag` is a
+  contract change → minor on `patterns`; gallery mirrors components.
+  Bump workbench pins, `GOWORK=off` verify, second self-referencing
+  pass, `sync-versions.sh` before the workbench commit; llms.txt's
+  roster speaks badge, not tag.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from
+  `.github`; every repo touched pushed.
+
 ## Phase BJ: The dark ramp regains its middle
 
 Open-rulings items 144/145, measured by BF1.1's review: every dark
