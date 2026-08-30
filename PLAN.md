@@ -17210,3 +17210,88 @@ recorded here rather than invented at a release.
 - [x] Tags pushed bottom-up; pins bumped; matrix green.
 - [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
+
+## Phase BB: The chip quiets to the platform's step
+
+Ruled by the owner 2026-08-30, from the picker design review: the
+36 dp height stands — it is the platform's measured toolbar-control
+height — but the chip is too loud for a mac window. The evidence: the
+chip's resting fill stands +10.0 luminance over its band in the dark
+scheme where Mail's toolbar capsules stand +2.65; the platform draws
+toolbar controls as near-hairline outlines, not filled blocks. The fix
+is a measured step, per scheme, documented the way the floor's step
+is: the fill quiets toward the band and the hairline rim carries the
+edge. Hover and press walk from the resting fill, so they follow
+without their own ruling; the dark walk's stride is a separate open
+question and stays one.
+
+Alongside, two smaller rulings from the same review: the picker's
+label shortens (a data-bearing label at a search field's width is the
+other half of "oversized"), and the chip gains the edge-pinning seam
+its first adoption measured the lack of — a container could not align
+the picker's trailing edge with the content column and missed by 6 px.
+
+### G-BB1: The component quiets
+
+#### BB1.1: The chip's fill steps down to a measured value
+
+In components/chip: the resting fill's step over the local ground
+becomes a measured, per-scheme constant derived from the platform
+evidence (+2.65 luminance in dark against the current +10.0; the
+light scheme measured the same way from the stored reference),
+documented in doc.go with the captures cited, the rim unchanged as
+the edge's carrier. The badge face follows — same fill; the pending
+badge-differentiation question is untouched. Goldens regenerate in
+chip, the gallery and sitedocs downstream with the cause named; the
+contrast sweep still pins every ink and rim floor.
+
+- [ ] The fill step is measured, documented and derived — no
+  hand-mixed color; both faces follow.
+- [ ] Goldens regenerated in `components/chip`, `components/gallery`
+  and `workbench/sitedocs`, cause named; contrast sweep green.
+- [ ] Exit: green in `components` and downstream by name; commit and
+  push in `components`, `workbench`, `.github`.
+
+#### BB1.2: The chip pins to an edge, and the picker aligns
+
+The seam the first adoption measured the lack of: a caller can align
+the chip's trailing edge with an edge of its container. The seam is
+the smallest thing that closes it — designed in the package's voice,
+not guessed here. mindchat then aligns the picker's trailing edge
+with the content column it sits above.
+
+- [ ] The seam exists with a test; mindchat's picker lands on the
+  column's edge, measured in the render.
+- [ ] Exit: green in `components`, `workbench/mindchat` and the
+  workbench root; commit and push in `components`, `workbench`,
+  `.github`.
+
+### G-BB2: The picker says less
+
+#### BB2.1: The picker's label shortens
+
+mindchat's picker stops saying "Default (OpenAI · gpt-5.5)" — the
+label becomes the model the chat is using (provider · model), with
+the default-ness said quietly or not at all; the menu still carries
+the full story. Both schemes looked at; the width the label frees is
+recorded.
+
+- [ ] The label is short; the pill's width follows its content; both
+  schemes looked at.
+- [ ] Exit: green in `workbench/mindchat` and the workbench root;
+  commit and push in `workbench`, `.github`.
+
+### G-BB3: The seam ships it
+
+#### BB3.1: The quiet-chip release
+
+The ceremony, latest derived at execution: components carries a pixel
+change and one additive seam — the bump size is reasoned against the
+round's own precedent (additive API in an existing package took a
+patch at mvu/desktop v1.0.1). Workbench pins bump; matrix green; sync
+clean.
+
+- [ ] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
+  sync clean.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+  every repo touched pushed.

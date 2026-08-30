@@ -614,7 +614,8 @@ visible.
     (measured 219 px drawn in a 230 px cap: the trailing edge moved
     5 px). Nothing here is a workaround and the app draws correctly
     either way, but a container that wants an anchor at an edge has
-    no way to ask for one.
+    no way to ask for one. — Ruled 2026-08-30 in conversation: build
+    the seam; planned as BB1.2.
 
 99. **[decide]** Added 2026-08-29, from AZ2.1: the live `chip.Chip`
     reads density and label role from the theme alone, so an app
@@ -782,6 +783,14 @@ visible.
     trailing edge) and the new chip's 16 dp padding fixes it; and the
     chip's trailing edge misses the content column below it by about
     6 px, which is 98's right-alignment seam seen from the outside.
+
+    **Ruled 2026-08-30 in conversation, on this evidence.** The
+    36 dp height stands ("keep 36px but it is too loud, in mac apps
+    it is more subdued" — the owner, verbatim). The loudness finding
+    is ruled in: the fill quiets to a measured per-scheme step
+    (BB1.1), the picker's label shortens (BB2.1), and the trailing
+    edge aligns through 98's seam (BB1.2). Planned as Phase BB; the
+    density half of this item stays closed as working-as-intended.
 
 ## J. From AZ2.1's fresh-eyes review of the MindChat window
 
