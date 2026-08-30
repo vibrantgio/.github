@@ -71,14 +71,23 @@ through the accent.
 
 **Badge** — the textual status label, drawn in a role's own hue: the
 system's word about content — read, not used. Formerly "tag" (renamed
-2026-08-30; "tag" leaves the language). A badge may carry a close
-affordance (ruled 2026-08-30: the badge keeps dismissible); what
-separates a dismissible badge from an Input chip is voice, not the
-close — a badge is applied by the system or author *about* the
-thing, an Input chip is a token the user entered themselves.
-Dismissing a badge removes a label; dismissing an Input chip removes
-the user's own entry. The eyebrow is a badge at its quietest: pure
-text, no pill. A component, not a pattern.
+2026-08-30; "tag" leaves the language). Not a control: sized to its
+text like an inline annotation, off the control ladder entirely,
+visibly lighter than any control (ruled 2026-08-30). It speaks only
+in the roles' own hues — Success, Warning, Error, Info — plus
+Neutral for plain category labels; Filled/Tonal emphasis does not
+exist on a badge, emphasis lives where interaction lives (ruled
+2026-08-30). A badge may carry a close affordance (ruled 2026-08-30:
+the badge keeps dismissible; the close mark keeps an invisible
+control-sized hit area); what separates a dismissible badge from an
+Input chip is voice, not the close — a badge is applied by the
+system or author *about* the thing, an Input chip is a token the
+user entered themselves. Dismissing a badge removes only the label,
+never behaviour (ruled 2026-08-30): a system-generated summary of
+view state — "filtered by X" — is plain text or a close-less badge,
+removed where it was set, while the user's own filter token is an
+Input chip. The eyebrow is a badge at its quietest: pure text, no
+pill. A component, not a pattern.
 
 **Mark** — the icon-like signal a control or region wears: a glyph
 or a count, never a word — the moment it speaks a word it is a

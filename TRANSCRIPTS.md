@@ -147,3 +147,20 @@ Rene: What do you suggest would be the most appropriate to show here
 something that will be there 90% of the time ^0003-gallery-specimen
 
 Rene: check if button can render icon-only ^0003-icon-only-button
+
+Rene (crunch selection, via the chips session's choice prompt; exact
+option texts in the chip exploration's owner-rulings block): the
+badge is sized to its text — off the control ladder entirely, an
+inline annotation visibly lighter than any control; only the close
+mark keeps an invisible extended hit area. ^0003-badge-sized-to-text
+
+Rene (crunch selection, same prompt): badge variants are role-hued
+only — Success, Warning, Error, Info — plus Neutral for plain
+category labels; Filled/Tonal emphasis retires from the badge,
+emphasis lives where interaction lives. ^0003-badge-role-hued
+
+Rene (crunch selection, same prompt): voice wins on the
+applied-filter display — user-entered tokens are Input chips; a
+system-generated summary of view state is plain text or a close-less
+badge, removed where it was set. Statements never change behaviour
+when dismissed. ^0003-voice-wins
