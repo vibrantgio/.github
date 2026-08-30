@@ -17995,3 +17995,68 @@ bump; matrix green off-workspace; sync before the workbench commit.
   sync clean.
 - [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
+
+## Phase BJ: The dark ramp regains its middle
+
+Open-rulings items 144/145, measured by BF1.1's review: every dark
+ramp jumps 35 L* between steps 400 and 500 — no dark step lands
+between 1.9:1 and 6.6:1 against the page, so no 3:1 boundary tone or
+4.5:1 text tone exists in dark — and steps 100–400 crowd within
+1.44:1 of each other. The dark curve is not the light curve's
+counterpart; it is a dark-end shape spliced onto a light-end shape.
+This is the foundation the chip re-anatomy stands on (the ontology
+exploration's ruling): outlines and containers live exactly in the
+missing middle.
+
+### G-BJ1: The curve is re-derived
+
+#### BJ1.1: The dark tone curve covers its range
+
+In theme's ramp derivation: the dark nine-step curve becomes a
+deliberate progression covering its range the way light's does
+(light's worst gap is 22 L* at the extreme, dark's must be
+comparable), with adjacent steps distinguishable (no pair under
+~1.1:1 against each other) and at least one step in each of the 3:1
+and 4.5:1 bands against the dark Background. Derivation, not a table:
+the curve is stated once and both schemes read from the same rule
+where possible. Tests pin the gap ceiling, the adjacency floor and
+the two bands.
+
+- [ ] The dark curve re-derived; theme tests pin gap ceiling,
+  adjacency floor, and the 3:1 and 4.5:1 bands per ramp.
+- [ ] `theme/export` regenerated and `design/` regenerated against
+  the committed generator, clean diff.
+- [ ] Exit: green in `theme` and `design`; commit and push in
+  `theme`, `design` and `.github`.
+
+#### BJ1.2: Downstream goldens take the new dark steps
+
+Every stored image that draws a dark ramp step moves. Regenerate and
+eyeball per module with the cause named — components (chip, input,
+golden fixtures), patterns, components/gallery, workbench/sitedocs,
+workbench/themer's computed captures, other workbench apps' goldens.
+Only dark-scheme tiles should shift; a light tile moving is a
+stop-and-report.
+
+- [ ] All downstream goldens regenerated, dark-only shifts verified,
+  causes named per commit.
+- [ ] Fresh-eyes review of one dark gallery window and one dark app
+  window against the old captures; reply relayed verbatim, findings
+  pooled.
+- [ ] Exit: green in every touched module from the workspace root;
+  commit and push in every touched repo and `.github`.
+
+### G-BJ2: The seam ships it
+
+#### BJ2.1: The dark-ramp release
+
+The ceremony, latest derived at execution: theme carries a repaint
+(patch per the rationed rule — no contract moved), downstream pins
+bump only where a consumer needs the new tones; churn minimized per
+the owner's standing ruling; matrix green off-workspace; sync before
+the workbench commit.
+
+- [ ] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
+  sync clean.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+  every repo touched pushed.
