@@ -118,6 +118,12 @@ again. We are going to be transforming the library once again,
 perhaps we need to schedule the golden snapshots phase after we do
 our work to prevent a lot of duplicated work. ^0002-cold-turkey
 
+Rene: I want you to review the ontology work we have done until now
+to find things that have been under defined. Also
+https://getbootstrap.com/docs/4.0/components is perhaps something to
+consider to see if we are lacking obvious components in our stable.
+^0002-underdefined-review
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
