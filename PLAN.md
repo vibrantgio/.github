@@ -17326,7 +17326,7 @@ round's own precedent (additive API in an existing package took a
 patch at mvu/desktop v1.0.1). Workbench pins bump; matrix green; sync
 clean.
 
-- [ ] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
+- [x] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
   sync clean.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
