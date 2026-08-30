@@ -17411,11 +17411,11 @@ chrome's extent depends on what the content column beside it measures.
 A [bug]: the sidebar paints its ground to its content's height instead
 of the window's.
 
-- [ ] The sidebar's ground fills the window height on every page,
+- [x] The sidebar's ground fills the window height on every page,
   regardless of the content column beside it.
-- [ ] Any gallery goldens the fill shifts are regenerated with the
+- [x] Any gallery goldens the fill shifts are regenerated with the
   cause named.
-- [ ] Exit: green in `components/gallery` and `workbench/sitedocs`;
+- [x] Exit: green in `components/gallery` and `workbench/sitedocs`;
   commit and push in `components` and `.github`.
 
 ### G-BD2: The seam ships it
