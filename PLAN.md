@@ -7749,6 +7749,77 @@ and floating surface; the dark scheme pays for its furniture and keeps its
 floaters, which were already lighter. That asymmetry is why this is a
 re-founding and not a repaint.
 
+### ADR-023: The chip re-anatomy — intents over provenance
+
+**Status.** Accepted 2026-08-30, ruled by René across the chips and
+ontology sessions; executed by Phases BL, BM, BN (with BJ as the
+colour foundation). Folds in the chip-ontology exploration. The
+vocabulary itself (chip, badge, intent, the read/use line) is
+DOMAIN.md's; this ADR carries the design and token record.
+
+**The diagnosis.** The condemned chip was a platform artifact: fill a
+measured 1.28 L\* step read off Mail's toolbar pop-up capsules (Phase
+BB), silhouette the platform's capsule, documentation defining it
+only negatively. The system organized small pills by provenance —
+which control was measured — where M3 organizes them by intent. The
+same intent vocabulary was scattered across three homes: the chip's
+faces, the tag's dismissible pill, and the button's "Tonal when
+picked, Ghost when not" doctrine. The owner's ruling: the appearance
+is condemned outright; chips must be subtle; a rounded rect is
+acceptable; nothing of the old look is preserved. The Phase BB
+measurement is hereby history — a derivation input once, a
+definition never again.
+
+**What M3 specifies (verified against the androidx Compose Material3
+token files, not memory).** Four intents, one anatomy: Assist (a
+contextual smart action; clickable, never selected), Filter (refine
+content from a set; toggles, checkmark when selected), Input (a token
+the user entered; dismissible, avatar-capable), Suggestion (a
+generated prompt). Container 32 dp; shape corner-small 8 dp — a
+rounded rect, not a pill; label LabelLarge; icons 18 dp, input avatar
+24 dp corner-full; flat unselected carries a 1 dp OutlineVariant
+outline and no fill; selected drops the outline and fills
+SecondaryContainer with OnSecondaryContainer ink; unselected label
+OnSurfaceVariant (assist: OnSurface); disabled 38%/12%. The
+load-bearing idea adopted: the resting chip is an outline, not a
+fill — colour arrives with meaning.
+
+**What is kept, being ours and scheme-proof.** The ground-relative
+colour model (a chip derives against the storey it stands on — better
+than M3's absolute tones), the contrast floors
+(MarkOn/TextFloor/GraphicFloor), the pure/live twin architecture, the
+44 dp pointer target, density plumbing, and the state walk as the
+feedback grammar — M3's opacity state-layers are not adopted; only
+the resting targets change.
+
+**The token derivation (not M3's fixed tones).** Every M3 role the
+chip consumes is re-derived through the floors: `Container(role)` /
+`OnContainer(role)` generalize the status-container derivation to the
+accent trio, so SecondaryContainer falls out as
+`Container(Secondary)`; `OutlineVariant` is a derived neutral rung
+clearing the boundary floor against Surface AND Background in both
+schemes — floored by construction where M3's fixed outline vanishes
+on some grounds; `OnSurfaceVariant` is the muted-ink rung floored at
+TextFloor; SurfaceContainerLow needs no token, `SurfaceAt(Level1)`
+being its analogue. Hard dependency honoured: the dark ramp's
+restored middle (Phase BJ, open-rulings 144/145) is exactly where
+outlines and containers live in dark.
+
+**Height.** Ruled as a relation, not a pin: `ChipHeight =
+ControlHeight − 4` on Density — Comfortable lands on M3's exact 32,
+Compact on 24, and "chips are smaller than buttons" is stated once.
+The badge, by contrast, left the control ladder entirely (text-sized;
+its record is Phase BM's).
+
+**The neighbours.** Selection-on-button-emphasis is repealed:
+selection is the Filter chip's intent, and the button doc says so —
+narrowing what the Ghost register must carry. The anchor face went to
+`components/picker` (Phase BI), whose chrome trigger renames to
+`picker.Toolbar` in the re-anatomy round per DOMAIN's Role entry. The
+badge face was badges all along and retired with Phase BL; the tag
+pattern died into `components/badge` (Phase BM). Migrations in this
+family are abrupt by ruling — no compatibility faces, no aliases.
+
 ## Phase A: Front door — make the org legible to a coding assistant
 
 Nothing here changes a line of library code. It fixes the reason an assistant
@@ -18407,3 +18478,110 @@ unlabeled control: the visible tooltip and the screen-reader label.
   regenerated, cause named in the commit.
 - [ ] Exit: green in `components` and `components/gallery`; commit
   and push in `components` and `.github`.
+
+## Phase BN: The chip re-anatomy
+
+The end of the road the ontology work opened (DOMAIN decisions
+0001–0006; ADR-023 carries the design record): the chip becomes what
+the language says it is — a small, subtle control content sprouts,
+defined by one of four intents (Assist, Filter, Input, Suggestion),
+anatomy `[icon] text [x]` with both brackets optional, quiet at rest
+and coloured only when meaning arrives. The measured-capsule
+appearance the owner condemned is replaced wholesale; nothing of it
+survives. By this point the chip has one face (Phase BL shed anchor
+and badge), the badge component exists and tag is dead (Phase BM),
+and the dark ramp has a middle (Phase BJ) — this phase MUST NOT start
+before BJ lands, because its outline and container tones live
+exactly in the range BJ restores. Positioned after Phase BK, which
+also edits the gallery inventory.
+
+### G-BN1: The theme learns the chip's colours
+
+#### BN1.1: Container roles, the two variant rungs, and ChipHeight
+
+The re-anatomy's token vocabulary, every colour derived against
+floors rather than copied from M3's fixed tones (ADR-023):
+
+- [ ] `Container(role)` / `OnContainer(role)`: the status-container
+  derivation (`StatusContainer`/`OnStatusContainer`) generalized to
+  the accent trio; `Container(Secondary)` is the chip's selected
+  fill.
+- [ ] `OutlineVariant`: a derived neutral rung clearing the boundary
+  floor against Surface AND Background in both schemes — floored by
+  construction where M3's fixed outline famously vanishes.
+- [ ] `OnSurfaceVariant`: the muted-ink rung, floored at TextFloor.
+  (SurfaceContainerLow needs no token — `SurfaceAt(Level1)` is its
+  analogue.)
+- [ ] `Density` gains `ChipHeight = ControlHeight − 4` (owner-ruled:
+  the relation, not a pin — Comfortable 32, Compact 24; "chips are
+  smaller than buttons" stated once). Tests pin the relation and the
+  floors; `theme/export` and `design/` regenerated, clean diff.
+- [ ] Exit: green in `theme` and `design`; commit and push in both
+  and `.github`. No release here; BN4 tags the round.
+
+### G-BN2: The chip becomes the ruled anatomy
+
+#### BN2.1: Four intents, outline rest, container selection
+
+The re-anatomy proper, an abrupt contract change on `components`
+(minor, per the badge precedent — no compatibility faces, no
+aliases). Keeps what is ours and scheme-proof: the ground-relative
+derivation, the contrast floors, the pure/live twins, the 44 dp
+pointer target, density plumbing.
+
+- [ ] The chip API speaks intent: Assist (clickable, never
+  selected), Filter (toggles; leading checkmark when selected),
+  Input (trailing ✕; 24 dp avatar slot, corner-full), Suggestion
+  (clickable, usually label-only). Anatomy `[icon] text [x]`;
+  icons 18 dp; height `ChipHeight`.
+- [ ] Appearance: silhouette `Radius.Lg` (8) — the pill retires;
+  resting body a 1 dp `OutlineVariant` outline with NO fill; resting
+  ink `OnSurfaceVariant` (Assist: full-strength ink); selected fills
+  `Container(Secondary)` with `OnContainer` ink, outline off —
+  reached through the existing state walk, which stays the feedback
+  grammar; only the resting targets change. The measured 1.28 L\*
+  toolbar fill retires to ADR-023's history paragraph.
+- [ ] Package tests and goldens rebuilt around the intents, both
+  schemes, the three storeys.
+- [ ] Exit: green in `components`; commit and push in `components`
+  and `.github`.
+
+#### BN2.2: The gallery redraws chips around intents
+
+- [ ] The inventory's chip block becomes the intent grid: Assist,
+  Filter unselected + selected, Input with ✕, Suggestion — across
+  the three storeys, both schemes; `sitedocs` goldens rerun by name
+  since it renders the inventory.
+- [ ] Fresh-eyes review of the chip block, one light and one dark
+  window; reviewer's verbatim reply relayed, findings pooled.
+- [ ] Exit: green in `components/gallery` and sitedocs' golden run;
+  commit and push in `components` and `.github`.
+
+### G-BN3: The neighbours align
+
+#### BN3.1: The button doc repeal and the picker.Toolbar rename
+
+- [ ] `components/button` docs drop the "selection = Tonal when
+  picked, Ghost when not" doctrine; selection lives on the Filter
+  chip (DOMAIN: Button entry). Narrows what Ghost must carry —
+  note the effect on open-rulings item 139 when closing.
+- [ ] `picker.Anchor` renames to `picker.Toolbar` per DOMAIN's Role
+  entry — the re-anatomy round is the ruled trigger; abrupt, no
+  alias (folds into this round's minor). Call sites across
+  components, gallery and workbench apps convert; llms.txt speaks
+  Toolbar and the four intents.
+- [ ] Exit: green in `components`, `components/gallery`, and every
+  touched app module; commit and push in every touched repo and
+  `.github`.
+
+### G-BN4: The release
+
+#### BN4.1: Tag the chip round
+
+- [ ] ADR-006 seam order: `theme` patch (additive tokens),
+  `components` minor (chip contract replaced, picker rename),
+  gallery mirrors components; workbench pins bumped, `GOWORK=off`
+  verify, second self-referencing pass, `sync-versions.sh` before
+  the workbench commit.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from
+  `.github`; every repo touched pushed.
