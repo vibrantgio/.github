@@ -18041,11 +18041,11 @@ overlay scrollbar the rest of the system already draws
 (scrollbar.FromTokens over list's overlay mode); an uncapped menu
 draws none.
 
-- [ ] The capped menu draws the overlay scrollbar from the same
+- [x] The capped menu draws the overlay scrollbar from the same
   tokens as its rows; uncapped stays bare.
-- [ ] Goldens/captures the bar shifts regenerated with the cause
+- [x] Goldens/captures the bar shifts regenerated with the cause
   named.
-- [ ] Exit: green in `components`, `components/gallery`,
+- [x] Exit: green in `components`, `components/gallery`,
   `workbench/mindchat`, `workbench` root; commit and push in
   `components`, `workbench` (if touched) and `.github`.
 
