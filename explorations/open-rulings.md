@@ -1475,3 +1475,77 @@ triage are in `reviews/bf1.1-themer-seed-fresh-eyes.md`. One copy
 regression was fixed in the task; the panel-clipping claim was a
 misread of the window margin; the two-swatch size channel was
 confirmed working untold. Items 144–148.
+
+## R. From BI2.1's fresh-eyes review of mindchat on the picker
+
+Added 2026-08-30. Verbatim reply and triage summarized in
+`reviews/bi2.1-mindchat-fresh-eyes.md`; every claim was re-measured
+by the worker. Finding 8 (traffic lights) was the harness — now the
+sixth recorded misread. Items 150–159.
+
+150. **[bug]** The inline field menu lost the transient-surface
+     manners the popover assembly provided: no plane edge (1.03:1
+     seam over the dialog — reads as corrupted text), no height cap
+     or scroll (a real provider catalogue is ~40–60 rows into a
+     768 dp window), no hover mark, no outside-press/Escape
+     dismissal scoped to the menu (Escape closes the whole dialog),
+     and no empty-state label where the retired trigger said "No
+     models". A shipped regression of BI2.1; the component absorbs
+     it per the extend-the-component ruling. Tasked as BI2.2.
+     *(§R, BI2.1's review)*
+
+151. **[decide]** patterns/popover: the surface clips at the window
+     edge (documented no-reflow — the header menu loses a whole side
+     of chrome at 1040 wide), and its tail centres on the anchor's
+     REPORTED box, which under PinTrailing is the full offered width
+     — the arrow aims 38 px off the drawn control and floats 2 px
+     above it. The Pin/popover seam wants one contract.
+     *(§R, BI2.1's review)*
+
+152. **[decide]** Menu selection never uses the accent and is drawn
+     three ways: sidebar/provider selection is accent-tinted, the
+     picker menu's is the measured inverse pair — the brightest
+     object in a dark frame — and the platform convention is accent
+     highlight. A challenge to optionRowColors' derivation, not a
+     defect; it has a written derivation to answer.
+     *(§R, BI2.1's review)*
+
+153. **[bug]** mindchat's settings footer draws Cancel and Save
+     pixel-identical — two filled primary buttons, no register
+     separating the dismissing action from the committing one and no
+     default-button indication. The button's Tonal register exists
+     for exactly this. *(§R, BI2.1's review)*
+
+154. **[decide]** The header anchor shows the resolved model while
+     the menu highlights the Default row that resolves to it, and
+     the flat list lost the caption that separated Default from the
+     concrete models — the same id now appears to be listed twice.
+     anchorKeyOf's split is documented; the caption loss is BI2.1's.
+     *(§R, BI2.1's review)*
+
+155. **[bug]** mindchat's toolbar has no seam: its fill is exactly
+     the content fill with no hairline, while the sidebar gets a
+     proper one — content slides under the title with no boundary.
+     *(§R, BI2.1's review)*
+
+156. **[decide]** The user-message band is the one element ignoring
+     the 8 px gutter — flush against the sidebar seam, ~10 px on the
+     trailing side — reading as full-bleed section headings rather
+     than messages. *(§R, BI2.1's review)*
+
+157. **[decide]** The focus ring's purple is not the accent's
+     (#8C59F4 vs #723AD4 side by side in one dialog) and the accent
+     hue drifts 252°→268° across the ramp. Same derivation
+     neighbourhood as items 146/147. *(§R, BI2.1's review)*
+
+158. **[bug]** The scrollbar barely re-themes: thumb #8E8E8E light /
+     #878787 dark while the ground swings 222 values — effectively
+     one hardcoded grey, weakest exactly in light. components/
+     scrollbar derivation. *(§R, BI2.1's review)*
+
+159. **[decide]** Minors bundle from the same review: placeholder
+     ink identical to secondary-label ink (an empty URL field reads
+     filled); the provider-name row has no affordance or selected
+     state; the DEFAULT MODEL label is styled as a section header
+     and its control aligns with nothing; scrim alpha differs 27%
+     light / 42% dark. *(§R, BI2.1's review)*
