@@ -17690,9 +17690,9 @@ verify against PLAN.md and the code before deleting, and enumerate
 every deleted item with its one-line reason in the commit body. When
 in doubt, an item stays.
 
-- [ ] Bugs first, then descending importance; numbers untouched;
+- [x] Bugs first, then descending importance; numbers untouched;
   section-provenance notes preserved where their items survive.
-- [ ] Resolved and superseded items removed, each verified and each
+- [x] Resolved and superseded items removed, each verified and each
   named with its reason in the commit body.
-- [ ] Exit: the file still lints as the plan's companion (no plan
+- [x] Exit: the file still lints as the plan's companion (no plan
   semantics touched); commit and push in `.github`.
