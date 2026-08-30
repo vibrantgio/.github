@@ -871,6 +871,12 @@ than recorded again under a new number.
      rows down under the OpenAI caption resolve to one model, and only
      one of them carries the active dot.
 
+     (Sharpened 2026-08-30 by BB2.1: the anchor now reads
+     "provider · model", matching neither menu row verbatim, so the
+     duplication lost the anchor's leading-word hint. Likely fixes:
+     the Default row says "Default" alone with the dot doubling onto
+     the real model row, or the standalone Default row goes.)
+
 106. **[decide]** Inline code is drawn as a hollow outlined box — a
      1 px rounded outline with the page's own fill inside it — so a
      code span in a sentence reads as a tiny text field or button, and
