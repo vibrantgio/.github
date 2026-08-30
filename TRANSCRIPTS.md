@@ -77,3 +77,52 @@ the tags are used say as eyebrow in hero pattern was actually a tag
 or another thing borrowing tag clothes. Perhaps that is something for
 the ontology the way tags are inrtoduced and then used everywhere in
 the patterns module ^0002-tag-clothes
+
+## 0003 — the chips session (2026-08-30)
+
+Relayed verbatim by the chips session at the ontology session's
+request, chronological.
+
+Rene: The current chips are extremely ugly and grosly oversized. A
+chip needs to be subtle and does not HAVE to look like a pill, a
+rounded rect would be ok also. We need to move AWAY from what is
+currently is because I am disgusted by it. So you keep falling back
+to some design decision you picked up somewhere and that has driven
+this ugly piece of crap into existence. ^0003-chip-condemned-verbatim
+
+Rene: Go with the relation, ChipHeight = ControlHeight − 4
+^0003-chip-height
+
+Rene: Let's talk avout chip vs tag ^0003-tag-chip-thread
+
+Rene: So this is way to technical, what the hell man. Rail it in a
+little. What concept does a tag represent and what concept does a
+chip represent. ^0003-rail-it-in
+
+Rene: a speaker is a chip, is a speaker something you can do?
+^0003-speaker-probe
+
+Rene: The component/pattern modules have other tag like entities,
+like:
+1. the v1 badge show in the Shell pattern
+2. the popular badge in the pricing pattern
+3. the eyebrow in teh hero pattern
+4. trigger in the Tooltip pattern
+5. anchor in the Popover pattern
+6. the v1 badge in the navbar pattern
+7. footer in the card pattern
+8. as the actual tag in the tag pattern.
+Explain what I am seeing here in all these roles and how that
+relates to the chip. ^0003-tag-look-inventory
+
+Rene: What pattern was the tooltip and popover was that a tag that
+functioned as trigger/anchor? ^0003-gallery-tag-anchor
+
+Rene: So was the use of a tag as an achor and trigger not in stark
+contrast to what they are supposed to be used for?
+^0003-tag-as-anchor-contrast
+
+Rene: What do you suggest would be the most appropriate to show here
+something that will be there 90% of the time ^0003-gallery-specimen
+
+Rene: check if button can render icon-only ^0003-icon-only-button
