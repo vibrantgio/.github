@@ -17492,6 +17492,7 @@ the box is ticked here on that session's explicit request.
   sync clean.
 - [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
+
 ## Phase BE: The themer's embedded page adopts the sitedocs tabs
 
 Owner request (2026-08-30): the themer shows the whole inventory as one
@@ -17504,28 +17505,58 @@ and Foundations on no group tab — its colour story and type ladder are
 the Theme tab's telling (workbench/sitedocs/inventory_tabs.go and
 theme_tab.go).
 
-### G-BE1: The embedded page splits into the four tabs
+The owner also asked whether the adoption should move code into the
+gallery both apps share, and the audit says yes, one piece: the strip
+itself is already the tabs pattern, and each app's Theme tab is
+genuinely its own (sitedocs tells the seed's provenance, the themer the
+candidate's), but sitedocs' `groupRows` — the group cut by name, banner
+dropped, `PageEnd` closing the column, nil meaning a wiring fault — is
+exactly what the themer would otherwise copy line for line. That cut
+moves into the inventory package first, so the themer never grows the
+duplicate.
 
-#### BE1.1: Theme, Components, Patterns and Markdown tabs replace the single column
+### G-BE1: The shared cut moves into the inventory
+
+#### BE1.1: The inventory owns the tab cut and sitedocs adopts it
+
+components/gallery/inventory gains the group-cut accessor: the sections
+of one named group as a tab's rows — banner dropped, the closing line
+appended — returning nil for a name no group carries, so a rename
+upstream fails a caller's test rather than showing a blank column.
+Sitedocs' `groupRows` retires in favour of it; `scrollingColumn` and
+the tabs strip stay app-side (the strip is already patterns/tabs, and
+the column glue is three lines neither app needs to share).
+
+- [ ] The inventory exports the tab cut; doc comment carries the
+  banner-drop reasoning that lives in sitedocs' file header today.
+- [ ] sitedocs adopts it and deletes `groupRows`; its tab goldens hold
+  byte-for-byte, since the rows are the same rows.
+- [ ] Exit: green in `components/gallery` and `workbench/sitedocs`
+  (workspace build; the pin bump waits for the release task); commit
+  and push in `components`, `workbench` and `.github`.
+
+### G-BE2: The themer splits into the four tabs
+
+#### BE2.1: Theme, Components, Patterns and Markdown tabs replace the single column
 
 The themer's embed (workbench/themer/gallery.go) gains the sitedocs
 tab strip: Theme first, then Components, Patterns, Markdown. The Theme
 tab keeps what the single column's swap logic already asserted — the
 window's own palette story with the provenance, standing where the
 inventory's foundations-roles/ramps sections were — plus the type
-ladder; the three group tabs are cut from the inventory's Groups() by
-name, banner dropped, one scrolling column of specimens each. The
-code-specimen addressing (codeRow/codeColumnRow, the base selector
-beside the specimen) moves with the code section to the Markdown tab.
-Selected tab survives a palette pick; each tab keeps its own scroll
-position, exactly the economy the inventory is built around.
+ladder; the three group tabs come from the inventory's new tab cut,
+one scrolling column of specimens each. The code-specimen addressing
+(codeRow/codeColumnRow, the base selector beside the specimen) moves
+with the code section to the Markdown tab. Selected tab survives a
+palette pick; each tab keeps its own scroll position, exactly the
+economy the inventory is built around.
 
 - [ ] The tab strip renders in the embedded palette (it is furniture
   of the page, not of the window), Theme selected on open.
 - [ ] Theme tab: the window's palette rows and the type ladder; the
   swap logic retires with the single column.
-- [ ] Components, Patterns and Markdown tabs cut from Groups() by
-  name; a group renamed upstream fails a test, not silently.
+- [ ] Components, Patterns and Markdown tabs use the inventory's tab
+  cut; a group renamed upstream fails a test, not silently.
 - [ ] The syntax-base selector and the gallery hint still address the
   code specimen on the Markdown tab.
 - [ ] Goldens land; stale themer captures regenerated with the cause
@@ -17534,3 +17565,17 @@ position, exactly the economy the inventory is built around.
   size, both schemes; reply relayed verbatim, findings pooled.
 - [ ] Exit: green in `workbench/themer` (and `workbench` root); commit
   and push in `workbench` and `.github`.
+
+### G-BE3: The seam ships it
+
+#### BE3.1: The tab-cut release
+
+The ceremony, latest derived at execution: the gallery module carries
+an additive accessor, and sitedocs and the themer consume it. Bump
+size reasoned against the round's own precedent; workbench pins bump;
+matrix green off-workspace; sync clean.
+
+- [ ] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
+  sync clean.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+  every repo touched pushed.
