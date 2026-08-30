@@ -17787,12 +17787,12 @@ scheme" exists and ships in the themer and as the shared
 `palette.SeedLiftedNameDark`. A [bug]: the old wording is a recorded
 defect, and the pixel shift its adoption causes is the fix landing.
 
-- [ ] sitedocs passes `palette.SeedLiftedNameDark` and deletes its own
+- [x] sitedocs passes `palette.SeedLiftedNameDark` and deletes its own
   constant; the `liftedDark` parameter retires from
   `palette.SeedCells` and the themer's call follows.
-- [ ] `theme-tab-dark.png` regenerated with the cause named; no other
+- [x] `theme-tab-dark.png` regenerated with the cause named; no other
   golden moves.
-- [ ] Exit: green in `components/gallery`, `workbench/sitedocs`,
+- [x] Exit: green in `components/gallery`, `workbench/sitedocs`,
   `workbench/themer`, `workbench` root; commit and push in
   `components`, `workbench` and `.github`.
 
