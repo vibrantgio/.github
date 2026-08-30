@@ -22,6 +22,15 @@ in each repo you touched with the task heading in the subject line and a
 model that actually did the work (currently Fable 5; earlier phases were
 Opus 5).
 
+**Comments carry constraints, not history.** A code comment states a
+constraint the code cannot show, an invariant, or the provenance of a
+measured number — and stops. Decision history, review anecdotes,
+killed drafts, and change-justification go to the ADR, the review
+file, or the commit body (owner-ruled 2026-08-30). Do not write
+narrative comments; trim them opportunistically in files a task
+already touches, moving anything load-bearing to its proper home in
+the same commit.
+
 **Green before commit.** In every module you touched: `go build ./... && go
 test ./...` must pass. Golden-image tests are part of that — when a change
 legitimately moves pixels, regenerate the goldens *within the same task* and
