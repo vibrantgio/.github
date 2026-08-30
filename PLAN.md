@@ -18049,6 +18049,27 @@ draws none.
   `workbench/mindchat`, `workbench` root; commit and push in
   `components`, `workbench` (if touched) and `.github`.
 
+#### BI2.5: The popover stays inside the window and its tail on the anchor
+
+Open-rulings item 151, re-confirmed live by BI2.3's captures: the
+header menu's plane runs past the window's trailing edge and its rows
+are cut mid-air (the pattern documents no reflow — indefensible in a
+running app), and the tail centres on the anchor's REPORTED box,
+which under a trailing pin is the full offered width, so the arrow
+aims well off the drawn control and floats above it. Both are the
+placement layer's to absorb.
+
+- [ ] The popover nudges its surface back inside the window's bounds
+  (clamped, tail still pointing at the anchor) rather than clipping.
+- [ ] The tail centres on the drawn anchor, not the reported box —
+  the Pin seam gives placement the drawn rect it needs.
+- [ ] The tail meets the anchor and the surface edge cleanly (no
+  floating gap, no border row through its base).
+- [ ] Goldens/captures regenerated with causes named; green in
+  `patterns`, `components`, `workbench/mindchat`, `workbench` root
+  and the other workbench apps by name where popover moves them.
+- [ ] Exit: commit and push in every repo touched and `.github`.
+
 ### G-BI3: The seam ships it
 
 #### BI3.1: The picker release
