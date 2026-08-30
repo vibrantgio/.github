@@ -1285,3 +1285,64 @@ identically to the components page.
      sun/moon switch with no Auto/System position, where macOS apps
      are expected to follow the system appearance and its scheduled
      flip.
+
+## P. From BE2.1's fresh-eyes review of the tabbed themer window
+
+Added 2026-08-30. Six captures, one per tab per scheme plus the code
+specimen, every claim pixel-probed by the reviewer; the verbatim reply
+is in `reviews/be2.1-themer-fresh-eyes.md`. Only the first item is
+about the layout this round built; the rest are what the tabs made
+easier to see.
+
+137. **[decide]** The themer spends 400 of 820 px on the step that is
+     already finished: title, drop card, seed row and strip never
+     scroll and never change, leaving a 425 px viewport on content the
+     reviewer sized at ~1260–5600 px per tab (Patterns is thirteen
+     screenfuls through a slot half the window tall). The proposed
+     collapse of the seed row after a pick roughly doubles the preview
+     but is a new behaviour with its own question — how the other
+     candidates come back — not a tidy-up.
+
+138. **[bug]** The button's interaction ramp never re-picks its ink:
+     the face darkens Rest→Hover→Press (#72A500→#5A8300→#436300)
+     while the label stays #000000, so Press lands at 3.02:1 — an AA
+     failure nearly as quiet as the disabled chip — where Rest is
+     7.10:1. The system demonstrably can re-pick (the pinned red takes
+     white ink; dark flips the seed card's Aa bar), so on-primary is
+     resolved once against the base and reused down the ramp. Belongs
+     to components/button. The focus ring rides along: drawn 2 px
+     inside the face at 3.41:1, it passes but is nearly
+     indistinguishable from rest at 1x.
+
+139. **[decide]** The ghost register drops the brand entirely: a
+     neutral #5C5C5C label with no fill, border or accent, beside its
+     filled and tonal siblings, reads as a caption or a disabled item
+     rather than the quiet register. Whether ghost's ink is the
+     brand's or the neutral ladder's is a components/button register
+     ruling.
+
+140. **[bug]** The inline code chip's fill is a no-op in light:
+     #F8F8F8 on a #F6F6F6 page, 1.02:1 — the hairline and the mono
+     face do all the work. The surface token feeding it resolves to
+     the page, and will do nothing on every other component bound to
+     the same token. Markdown module.
+
+141. **[decide]** The syntax-base selector is a 205 px pane with its
+     own scrollbar inside the page's scroller — two nested 6 px bars
+     800 px apart, wheel position deciding which moves — showing 8 of
+     42 bases with no filter field. Predates the tabs; the Markdown
+     tab is merely where it now lives.
+
+142. **[decide]** Dark mode shows two contradictory error looks one
+     scroll apart: alerts as dark tinted plates with white ink, the
+     toast as a near-white inverted slab with a red bar. Either
+     convention is defensible; both on one screen make "what does an
+     error look like" unanswerable. An alert/toast convention ruling
+     in patterns.
+
+143. **[decide]** The candidate card's clickable swatch is not the
+     colour the theme derives (#829F5E clicked → #72A500 produced;
+     #88B2C1 → #00BAE5). The Aa bar under it does show the derived
+     colour, so it is disclosed — but the element that dominates the
+     card is the one that does not survive the pick. Themer card
+     design.
