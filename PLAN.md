@@ -17993,20 +17993,20 @@ hover mark, no dismissal of its own (Escape closes the whole
 dialog), and no empty-state wording. Per the extend-the-component
 ruling, the picker absorbs all five.
 
-- [ ] The inline open menu draws its plane's edge the way the
+- [x] The inline open menu draws its plane's edge the way the
   popover surface draws its own; the one-surface composition test
   updates deliberately to assert trigger + menu + edge.
-- [ ] MaxHeight on Menu and Field (zero keeps today's behaviour);
+- [x] MaxHeight on Menu and Field (zero keeps today's behaviour);
   above it the menu scrolls via components/list; mindchat caps both
   its menus.
-- [ ] Menu rows mark hover; Field's open menu dismisses on outside
+- [x] Menu rows mark hover; Field's open menu dismisses on outside
   press and on Escape without closing the dialog around it.
-- [ ] Field gains placeholder wording for the empty and unpicked
+- [x] Field gains placeholder wording for the empty and unpicked
   states; mindchat supplies its copy where dropChip's used to be.
-- [ ] Goldens/captures regenerated with causes named; green in
+- [x] Goldens/captures regenerated with causes named; green in
   `components`, `components/gallery`, `workbench/mindchat`,
   `workbench/sitedocs`, `workbench/themer`, `workbench` root.
-- [ ] Exit: commit and push in `components`, `workbench` and
+- [x] Exit: commit and push in `components`, `workbench` and
   `.github`.
 
 #### BI2.3: The picker's marks tell the truth about direction
