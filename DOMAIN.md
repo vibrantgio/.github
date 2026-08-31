@@ -18,8 +18,8 @@ draws is derived against its ground, never absolute. The elevation
 ladder orders grounds; the floor is the window's darkest region in
 both schemes.
 
-**Intent** — why a small control exists; the axis chips are defined
-on. The four chip intents: **Assist** (a contextual smart action),
+**Intent** — why a small control exists; what chips are defined by.
+The four chip intents: **Assist** (a contextual smart action),
 **Filter** (refine content from a set; toggles, marked when
 selected), **Input** (a token the user entered; dismissible),
 **Suggestion** (a generated prompt the user may take).
@@ -97,10 +97,9 @@ separates a dismissible badge from an Input chip is voice, not the
 close — a badge is applied by the system or author *about* the
 thing, an Input chip is a token the user entered themselves.
 Dismissing a badge removes only the label, never behaviour (ruled
-2026-08-30): a system-generated summary of view state — "filtered by
-X" — is plain text or a close-less badge, removed where it was set,
-while the user's own filter token is an Input chip. A component, not
-a pattern.
+2026-08-30) — so a system-generated summary of view state, "filtered
+by X", is plain text or a close-less badge, removed where it was
+set. A component, not a pattern.
 
 **Eyebrow** — the hero's kicker: a short overline in the type stack
 that introduces the headline. Pure typography — a typographic role,
