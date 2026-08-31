@@ -18540,9 +18540,9 @@ bump only where a consumer needs the new tones; churn minimized per
 the owner's standing ruling; matrix green off-workspace; sync before
 the workbench commit.
 
-- [ ] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
+- [x] Tags reasoned and pushed bottom-up; pins bumped; matrix green;
   sync clean.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
 
 ## Phase BK: The gallery's tooltip and popover specimens become icon buttons
