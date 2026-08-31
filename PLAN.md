@@ -18630,10 +18630,10 @@ the same round it opened.
 
 #### BO2.1: Ship the ring
 
-- [ ] ADR-006 seam order; components patch (internal derivation +
+- [x] ADR-006 seam order; components patch (internal derivation +
   goldens; no contract moves), gallery mirror; pins bumped only
   where forced; `sync-versions.sh` before the workbench commit.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from
   `.github`; every repo touched pushed.
 
 ## Phase BN: The chip re-anatomy
