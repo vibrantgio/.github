@@ -120,6 +120,20 @@ registers; that is the Filter chip's intent.
 restates: density (control heights), radius (corner stops), scheme
 (light/dark), typography roles.
 
+**Fill** — the field a component paints behind its content, always
+derived against its ground, never a stored swatch. Its volume comes
+from the grammar: a wash for statements and persistent states, a
+shout for Filled emphasis, nothing at all for bare renditions (the
+ghost button at rest, the glyph badge). Transient states walk the
+fill — hover and press step it from the ground.
+
+**Foreground** — what draws the content on the fill: text, glyph,
+stroke. In wash-plus-ink it is the same hue as the fill at reading
+strength — never an independent "on colour" token; only on a shout
+does the foreground leave the hue, knocked out to a neutral for
+contrast. Fill and foreground are two renditions of one identity,
+not a stored pair.
+
 **Hue voices** — the three volumes a colour speaks at, always from
 one hue. **Wash**: the hue diluted toward the ground, a tinted field
 behind content — atmosphere, not ink. **Ink**: the hue at reading

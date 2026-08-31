@@ -151,6 +151,9 @@ to be in DOMAIN.md and explained succintly ^0002-hue-voices
 Rene: So the hue always refers to the fill color of color of the
 component not the On Color ? ^0002-hue-vs-oncolor
 
+Rene: OK component fill and foreground are concepts that need to be
+in DOMAIN.md ^0002-fill-foreground
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
