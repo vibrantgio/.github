@@ -1759,20 +1759,14 @@ glyph inversion it missed is gone. Items 167, 168 and 169 all moved in
 the right direction and stay open at their new values, recorded in the
 review.
 
-188. **[bug]** The dark focus ring has no headroom over the 3:1 floor:
-     `#804BE5` measures 3.43:1 on the paper ground and **3.07:1 on a
-     card** — a 2.4% margin — where light's `#8C59F4` measures
-     4.01–4.26:1 against every ground it touches. Dark is ~25% below
-     light on the one contrast the platform will not forgive. The ring
-     is a token, not a walk. *(§Z, BJ1.2's review)*
-
 189. **[bug]** Two focus-ring colours in one page: `#804BE5` (3234 px —
      button, text field, picker, link, and the chip on the paper
      storey) and `#A787FF` (704 px — the chip focus cells on the card
      and dialog storeys only), 19 L\* apart. Same component, same
      state, two tokens; chip focus reads 4.88–5.72:1 while every other
      focused control reads 3.07–3.43:1. Light uses one ring value
-     everywhere. *(§Z, BJ1.2's review)*
+     everywhere. Owner-ruled 2026-08-31: fix — one ring colour per
+     scheme. Tasked as BN1.1. *(§Z, BJ1.2's review)*
 
 190. **[decide]** The chip's rest rim is storey-dependent, so the
      pointer changes the outline on one storey and not on the others:
