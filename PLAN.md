@@ -18522,12 +18522,12 @@ stop-and-report.
 - [x] patterns' seven committed *.actual.png failure artifacts
   (accordion, navbar, shell x3, sidebar, toast) deleted first — they
   are not goldens and would confuse the sweep.
-- [ ] All downstream goldens regenerated, dark-only shifts verified,
+- [x] All downstream goldens regenerated, dark-only shifts verified,
   causes named per commit.
-- [ ] Fresh-eyes review of one dark gallery window and one dark app
+- [x] Fresh-eyes review of one dark gallery window and one dark app
   window against the old captures; reply relayed verbatim, findings
   pooled.
-- [ ] Exit: green in every touched module from the workspace root;
+- [x] Exit: green in every touched module from the workspace root;
   commit and push in every touched repo and `.github`.
 
 ### G-BJ2: The seam ships it

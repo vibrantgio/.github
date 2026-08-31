@@ -1684,11 +1684,17 @@ governs, a still frame cannot show it).
      matters most. A palette/ramp property in theme's territory,
      adjacent to items 146/147 and Phase BJ. *(§W, BM1.1's review)*
 
-179. **[bug]** The close mark's press ramp is compressed in dark
+179. ~~**[bug]** The close mark's press ramp is compressed in dark
      (L* steps 9 and 8, vs light's 11 and 21) — press is barely
      separable from hover on an 8px glyph. Same root as items
      144/145; re-measure after the dark-ramp phase lands before
-     touching it. *(§W, BM1.1's review)*
+     touching it.~~ RETIRED re-measured by BJ1.2's review: the
+     premise does not reproduce. The old dark ramp was 11.8 then
+     34.3 — press out-shouted the badge it sat in rather than
+     hiding in hover — and the glyph inverted to 1.46:1 against its
+     own plate at the click. The new curve gives 11.4 then 15.7
+     with a monotone glyph. What survives is the glyph-against-plate
+     floor, filed fresh as item 192. *(§W, BM1.1's review)*
 
 ## X. From BM1.2's fresh-eyes review of the converted surfaces
 
@@ -1737,3 +1743,75 @@ per storey.
      floor (4.50–4.56:1) while dark sits at 8.40–8.48:1 — no
      headroom for a contrast preference, and the same
      floor-sitting shape as item 168. *(§Y, BM1.3's review)*
+
+## Z. From BJ1.2's fresh-eyes review of the re-derived dark curve
+
+Added 2026-08-31; full verbatim reply in
+`reviews/bj1.2-dark-fresh-eyes.md`. The reviewer confirmed the new dark
+reads better and named the old curve's two worst consequences without
+being told what the phase was for — a pressed chip on a dialog that
+inverted to dark ink on a fill its own rim could not be told apart from
+(1.00:1), and a close mark whose glyph darkened while its plate leapt
+34 L\*. Both are fixed. Item 179 retires re-measured: its premise (L\*
+steps 9 and 8, press barely separable from hover) does not reproduce —
+the old dark ramp was 11.8 then 34.3, the opposite defect — and the
+glyph inversion it missed is gone. Items 167, 168 and 169 all moved in
+the right direction and stay open at their new values, recorded in the
+review.
+
+188. **[bug]** The dark focus ring has no headroom over the 3:1 floor:
+     `#804BE5` measures 3.43:1 on the paper ground and **3.07:1 on a
+     card** — a 2.4% margin — where light's `#8C59F4` measures
+     4.01–4.26:1 against every ground it touches. Dark is ~25% below
+     light on the one contrast the platform will not forgive. The ring
+     is a token, not a walk. *(§Z, BJ1.2's review)*
+
+189. **[bug]** Two focus-ring colours in one page: `#804BE5` (3234 px —
+     button, text field, picker, link, and the chip on the paper
+     storey) and `#A787FF` (704 px — the chip focus cells on the card
+     and dialog storeys only), 19 L\* apart. Same component, same
+     state, two tokens; chip focus reads 4.88–5.72:1 while every other
+     focused control reads 3.07–3.43:1. Light uses one ring value
+     everywhere. *(§Z, BJ1.2's review)*
+
+190. **[decide]** The chip's rest rim is storey-dependent, so the
+     pointer changes the outline on one storey and not on the others:
+     paper walks 109 → 155 → 155 (steps at hover, then stops), card and
+     dialog walk 155 → 155 → 204 (nothing at hover, steps at press).
+     Light never moves the rim on hover, on any storey. A moved
+     inconsistency rather than a new one, and probably the same rung
+     lookup as item 189. *(§Z, BJ1.2's review)*
+
+191. **[bug]** Dark's chip label contrast collapses across storeys where
+     light's is flat: 14.85:1 down to **4.51:1** (pressed on a dialog,
+     a 0.2% pass) against light's 12.53–18.27:1 band. Light holds the
+     pressed fill at an absolute value and the ink with it; dark drives
+     the pressed fill off the ground, so each storey eats ~11 L\* of the
+     ink's headroom. A fourth storey — a menu over a dialog, a nested
+     popover — puts the label under the floor. *(§Z, BJ1.2's review)*
+
+192. **[bug]** The badge close mark's glyph fails 3:1 against its own
+     plate in two of three states: rest 3.86:1, hover **2.83:1**, press
+     **2.32:1**. The glyph is pinned at `#7292B6` for rest and hover
+     while the plate rises 11 L\* underneath it. Better than the old
+     curve (which inverted to 1.46:1 at press) but still under the
+     non-text floor. This is the mark, not its cap — distinct from
+     items 184 and 186. *(§Z, BJ1.2's review, replacing 179)*
+
+193. **[decide]** The disabled checkbox's outline is now 1.40:1 against
+     its own fill (rim `#676767` → `#474747`, 1.83:1 → 1.40:1; against
+     the page 3.14:1 → 1.91:1). Disabled is contrast-exempt and the
+     quieting was the point — the disabled field landed correctly at
+     1.61:1 fill with a 3.24:1 placeholder — but a 1px rim at 1.40:1
+     against what it encloses is where quiet stops reading as a
+     control. The one place the darkening overshot. *(§Z, BJ1.2's
+     review)*
+
+194. **[decide]** The dark solid button's state walk is 39% of light's:
+     a click moves 12.2 L\* in dark against 31.7 in light (rest:press
+     1.391:1 vs 2.755:1), and hover alone is 1.127:1 — below the
+     threshold at which the fill is an affordance at all. The new curve
+     fixed the walk's *shape* (two steps now 1:1.85 against light's
+     1:1.89) without enlarging it, because dark's primary is a light
+     fill with ~18 L\* of headroom above it. Not a tone-scale fix.
+     *(§Z, BJ1.2's review)*
