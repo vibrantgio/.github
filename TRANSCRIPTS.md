@@ -168,6 +168,11 @@ issue I have is that the DOMAIN.md has grown some warts already as
 your analysis uncovered. What are we going to be doing about that?
 ^0004-no-invented-language
 
+Rene (on "pressed dark"): You made up words again, a human would say
+darkened or made darker. The same hue is implied if I darken
+something the hue stays the same that is implicit.
+^0004-say-darkened
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
