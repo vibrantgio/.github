@@ -121,28 +121,24 @@ restates: density (control heights), radius (corner stops), scheme
 (light/dark), typography roles.
 
 **Fill** — the field a component paints behind its content, always
-derived against its ground, never a stored swatch. Its volume comes
-from the grammar: a wash for statements and persistent states, a
-shout for Filled emphasis, nothing at all for bare renditions (the
-ghost button at rest, the glyph badge). Transient states walk the
-fill — hover and press step it from the ground.
+derived against its ground, never a stored swatch. Statements and
+persistent states fill with their role's hue diluted toward the
+ground — a pale tinted field (the badge's container, the selected
+row, the active entry); Filled emphasis fills with the hue at full
+saturation; bare renditions (the ghost button at rest, the glyph
+badge) have no fill at all. A saturated fill is reserved for where
+interaction lives — a statement's fill is never saturated (ruled
+2026-08-31). Transient states walk the fill — hover and press step
+it from the ground.
 
 **Foreground** — what draws the content on the fill: text, glyph,
-stroke. In wash-plus-ink it is the same hue as the fill at reading
-strength — never an independent "on colour" token; only on a shout
-does the foreground leave the hue, knocked out to a neutral for
-contrast. Fill and foreground are two renditions of one identity,
-not a stored pair.
-
-**Hue voices** — the three volumes a colour speaks at, always from
-one hue. **Wash**: the hue diluted toward the ground, a tinted field
-behind content — atmosphere, not ink. **Ink**: the hue at reading
-strength, drawing the content itself. **Shout**: the hue at full
-saturation with knocked-out content on top. Statements and
-persistent states speak wash-plus-ink — the badge's tinted
-container, the selected row, the active entry. Shout is reserved for
-where interaction lives: the Filled button's emphasis. A statement
-never shouts (ruled 2026-08-31).
+stroke. On a tinted or absent fill the foreground is the same hue at
+reading strength — never an independent "on colour" token; only on
+Filled emphasis' saturated fill does the foreground leave the hue,
+knocked out to a neutral for contrast. Fill and foreground are two
+renditions of one identity, not a stored pair. Fill and foreground
+are the spec vocabulary (ruled 2026-08-31; the interim
+wash/ink/shout naming is retired).
 
 ## Decisions
 

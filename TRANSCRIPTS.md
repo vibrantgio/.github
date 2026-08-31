@@ -154,6 +154,13 @@ component not the On Color ? ^0002-hue-vs-oncolor
 Rene: OK component fill and foreground are concepts that need to be
 in DOMAIN.md ^0002-fill-foreground
 
+## 0004 — the pipeline session (2026-08-31)
+
+Rene (reacting to the hue-voices vocabulary, relayed verbatim by the
+pipeline session): This is just completely and utterly insane. Who
+comes up with this shit. Then use fill and foreground in the specs,
+not wash and ink. ^0004-fill-foreground-not-wash-ink
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
