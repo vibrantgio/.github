@@ -198,6 +198,11 @@ us talking past eachother because I don't understand why some color
 is not also changing. Turns out it would be some other color scheme
 it adheres to. ^0002-tonal-same-tint
 
+Rene: First tell me the meaning of selected, checekd etc as you know
+it now. For both transient and persistent states. Now review the
+ontology work again for under defined things.
+^0002-second-review
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
