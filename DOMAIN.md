@@ -47,11 +47,14 @@ a summarizing multi-picker does not exist until a consumer outgrows
 that.
 
 **Selection** — a persistent state, not a transient one. States
-divide in two: transient states (hover, press, focus) accompany an
+divide in two: transient states (hover, press) accompany an
 interaction in progress and walk their fill from the ground;
-persistent states (selected, checked, active) outlive the pointer and
-mark meaning, so they speak through the accent — a role-tinted
-container with floored ink — the same in a menu, a sidebar or a list
+persistent states (selected, checked, active, focused) outlive the
+pointer and mark meaning, so they speak through the accent — a
+role-tinted fill with the role colour, darkened, as foreground
+(ruled 2026-09-01) — the same in a menu, a sidebar or a list.
+Focused joined the persistent states 2026-09-01: it stays where it
+is until it moves, and its accent is the ring around the control
 (ruled 2026-08-30, after a menu marked selection by escaping to the
 inverse surface: a dead end reached by walking the neutral ramp on a
 mid-grey ground — the transient grammar applied to a persistent
@@ -59,9 +62,9 @@ state).
 
 **Checked** — the persistent state of a binary control: the user's
 recorded yes on a checkbox, switch or radio. It survives hover and
-focus; a transient state may ring a checked control, never repaint
-its mark (the focus treatment that redraws a checked box as unchecked
-is the transient grammar overwriting a persistent state).
+focus; focus may ring a checked control, never repaint its mark (the
+focus treatment that redraws a checked box as unchecked is one
+state's grammar overwriting another's).
 
 **Active** — the persistent state marking where the user is: the
 current tab, the current sidebar entry, the open document. Positional
@@ -121,15 +124,16 @@ restates: density (control heights), radius (corner stops), scheme
 (light/dark), typography roles.
 
 **Fill** — the field a component paints behind its content, always
-derived against its ground, never a stored swatch. Statements and
-persistent states fill with their role's hue diluted toward the
-ground — a pale tinted field (the badge's container, the selected
-row, the active entry); Filled emphasis fills with the hue at full
-saturation; bare renditions (the ghost button at rest, the glyph
-badge) have no fill at all. A saturated fill is reserved for where
-interaction lives — a statement's fill is never saturated (ruled
-2026-08-31). Transient states walk the fill — hover and press step
-it from the ground.
+derived against its ground, never a stored swatch. Badges,
+persistent states and the Tonal button all fill with one recipe: the
+role's hue diluted toward the ground, a pale tinted field — the
+badge's container, the selected row, the active entry and the Tonal
+button share the same tint, and behaviour tells them apart (ruled
+2026-09-01). Filled emphasis fills with the hue at full saturation;
+the ghost button at rest and the glyph badge have no fill at all. A
+saturated fill is reserved for where interaction lives — a badge's
+fill is never saturated (ruled 2026-08-31). Transient states walk
+the fill — hover and press step it from the ground.
 
 **Foreground** — what draws the content on the fill: text, glyph,
 stroke. On a tinted or absent fill the foreground is the same hue at
@@ -218,6 +222,18 @@ destination that may itself be re-ruled; the transformation must
 arrive quickly. Sequencing: the golden-snapshots phase moves to
 after this transformation, so snapshots are cut once against the
 settled anatomy. Sources: [[TRANSCRIPTS#^0002-cold-turkey]]
+
+### 0007 — shared-recipes
+
+2026-09-01 · strategic. Colour recipes do not proliferate: when two
+things would differ by almost no practical visual difference, they
+share one recipe, and behaviour — not colour — tells them apart.
+Applied first to the Tonal button and the badge: the same tint.
+Rationale: parallel near-identical recipes make the system
+unreadable — a colour that fails to change reads as a defect until
+it turns out to obey some other recipe, and the owners end up
+talking past each other. Sources:
+[[TRANSCRIPTS#^0002-tonal-same-tint]]
 
 ## Example dialogue
 

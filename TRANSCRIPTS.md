@@ -180,6 +180,24 @@ the Pinned confused me. So I assume a Pinned color will also have
 all the darkening (is that called tinting?) applied to it.
 ^0002-pinned-darkening
 
+Rene (crunch selection, 2026-09-01, via the warts prompt): the
+selected row's text is the role colour, darkened — "floored ink"
+rewords to fill/foreground terms. ^0002-accent-ink-darkened
+
+Rene (crunch selection, same prompt): focus is a persistent state —
+grouped with selected/checked/active, speaking through the accent.
+^0002-focus-persistent
+
+Rene (crunch selection, same prompt): the Fill entry says "badges",
+not the undefined "statements". ^0002-say-badges
+
+Rene (2026-09-01): Tonal and badge use the same tint, behaviour
+tells them apart. Also we need to stop proliferating schemes when
+there is almost no practical visual difference. That only leads to
+us talking past eachother because I don't understand why some color
+is not also changing. Turns out it would be some other color scheme
+it adheres to. ^0002-tonal-same-tint
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
