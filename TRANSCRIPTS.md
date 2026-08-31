@@ -148,6 +148,9 @@ mean. Can you describe that succint and clearly.
 Rene: hue-as-wash / hue-as-ink / hue-as-shout is somthing that needs
 to be in DOMAIN.md and explained succintly ^0002-hue-voices
 
+Rene: So the hue always refers to the fill color of color of the
+component not the On Color ? ^0002-hue-vs-oncolor
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
