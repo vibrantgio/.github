@@ -18381,11 +18381,11 @@ badge wears its role hue as a TINTED CONTAINER, never bare hued ink
 alone; the container was always the expectation. The container also
 hands the dismissible close a visible hit region and the close-mark
 states a fill to walk (answers the thrust of items 176 and 180; the
-dark-ramp items stand). Note: whether the hero eyebrow keeps a
-pure-text form is under re-examination with the owner via the
-ontology session — leave the eyebrow a Neutral badge as BM1.2
-converted it and do not build anything on "a badge can be bare
-text".
+dark-ramp items stand). The hero eyebrow is resolved (owner-ruled
+2026-08-31): it is pure typography — a kicker/overline role, not a
+badge — and BM1.2 was steered mid-task to convert it to plain
+styled text in the type stack; no badge form of it exists to
+restyle here.
 
 - [ ] `components/badge` gains the container: a role-tinted fill
   derived against the ground (the existing status-container
