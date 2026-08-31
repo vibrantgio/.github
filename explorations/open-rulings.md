@@ -1588,3 +1588,64 @@ sweep, out of its scope by definition; parked here for ruling.
 166. **[decide]** sitedocs test fixtures carry task/ADR IDs as
      strings (`guide_test.go:328` "AF1.1", `shell_test.go:80`
      "ADR-021 R2") — same reach question as 165. *(§T)*
+
+## U. From BL1.1's fresh-eyes review of the gallery window
+
+Added 2026-08-31; full verbatim reply in
+`reviews/bl1.1-gallery-fresh-eyes.md`. Two of its findings — the
+dark press walk blowing out on raised storeys and light mode showing
+no elevation at all — are the strongest independent confirmation yet
+of items 144/145 (Phase BJ's premise) and are recorded there, not
+renumbered here. The anchor cell's 36px/chevron geometry was
+rebutted as the picker's documented two-register split.
+
+167. **[bug]** The light scheme's secondary/caption ink fails the
+     4.5:1 text floor window-wide: every field caption peaks at
+     #7A7A7A–#7F7F7F on #F6F6F6 — 3.97:1 at best — while the same
+     token in dark measures 8.66:1. One token in theme/tokens, every
+     caption in every app. *(§U, BL1.1's review)*
+
+168. **[bug]** The picker menu's selected row is the least legible
+     row in the menu: 4.58:1 (dark, #474747 on #BDAAFF) and 4.53:1
+     (light) sitting AT the floor while unselected neighbours read
+     8.01:1 / 18.58:1 — the current selection visibly recedes. The
+     persistent-state accent voice needs headroom above the floor,
+     not exactly the floor. *(§U, BL1.1's review)*
+
+169. **[decide]** Disabled controls out-shout enabled ones and stop
+     reading as the same component: light disabled field is a
+     borderless #E1E1E1 slab — the loudest box in its row — with
+     1.44:1 placeholder ink (dark: 2.38:1 fill, 2.40:1 text).
+     Disabled is contrast-exempt, but the platform keeps disabled
+     controls readable; how quiet is quiet is an owner call. *(§U,
+     BL1.1's review)*
+
+170. **[decide]** The picker's open menu is a square-cornered,
+     shadowless rectangle that reserves layout space below a rounded
+     field; native menus are rounded, shadowed overlays. Whether the
+     inline menu adopts the overlay grammar (or the popover's
+     surface) is a component-contract ruling. *(§U, BL1.1's review)*
+
+171. **[decide]** Two focus geometries in one system: chips, fields
+     and pickers swap their 1px border for a 2px accent ring in
+     place; checkbox and radio grow 20→28px with the ring outside.
+     The in-place swap is the documented rule; the toggles don't
+     follow it. *(§U, BL1.1's review)*
+
+172. **[bug]** The gallery sidebar's right edge vanishes wherever a
+     section band lines up with it — the bands are exactly the
+     sidebar colour on both sides of the seam in both schemes, and
+     the band's 1px bottom rule stops dead at the sidebar edge.
+     *(§U, BL1.1's review)*
+
+173. **[bug]** The gallery sidebar truncates its own title
+     ("Components Galle…") in a 1400px window — the measurement is a
+     few pixels short. *(§U, BL1.1's review)*
+
+174. **[decide]** After the chip cut, the gallery's only anchor
+     specimen sits in the picker row whose four siblings share one
+     height and one disclosure glyph, inviting a comparison the
+     two-register split loses by presentation; whether the row
+     re-presents the registers (caption, grouping, or a dedicated
+     chrome-register row) is a gallery-composition call. *(§U,
+     BL1.1's review)*
