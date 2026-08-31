@@ -1908,3 +1908,12 @@ as BO1.2, not pooled.
      separation, or a different derivation depth is the worker's measured design
      work. Owner-ruled 2026-08-31: fix. Tasked as BP1.2. *(§AB,
      owner observation)*
+
+205. **[decide]** The gallery's button section shows a Filled
+     specimen immediately before the Pinned one, and Pinned reads as
+     a fourth emphasis rather than "Filled with a caller-supplied
+     colour pair" (owner-observed 2026-09-01, relayed by the
+     ontology session). Candidates: group the two under one Filled
+     heading, or caption the Pinned specimen so the register/pin
+     distinction is visible in the layout. Gallery-composition call.
+     *(§AB, owner observation)*
