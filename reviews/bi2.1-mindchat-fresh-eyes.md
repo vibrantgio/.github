@@ -1,3 +1,12 @@
+---
+date: 2026-08-30
+task: BI2.1
+phase: BI
+reviewer-model: opus-5
+reviewer-effort: unrecorded
+retrofitted: true
+---
+
 # BI2.1 — fresh-eyes review of mindchat after the picker adoption
 
 2026-08-30. Four captures (header menu open, settings modal open, both

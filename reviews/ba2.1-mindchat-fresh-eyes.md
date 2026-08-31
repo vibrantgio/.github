@@ -1,3 +1,12 @@
+---
+date: 2026-08-29
+task: BA2.1
+phase: BA
+reviewer-model: opus-5
+reviewer-effort: unrecorded
+retrofitted: true
+---
+
 # BA2.1 — fresh eyes on the MindChat window, both pane states
 
 Captured by `TestWholeWindowRender` at the window's own opening size,

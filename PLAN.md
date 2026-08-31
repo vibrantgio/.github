@@ -70,7 +70,12 @@ its checklist and is blind to everything absent from it. So capture the whole
 window at a realistic size and hand that image to a *fresh* subagent that has
 not seen the packet, with no checklist and one question — what would a
 developer on this platform complain about? Report what comes back, fix what
-is cheap and in scope, and record the rest rather than discarding it. Goldens
+is cheap and in scope, and record the rest rather than discarding it. The
+review record lands in `reviews/<task>-<window>-fresh-eyes.md`, opening with
+YAML frontmatter: `date`, `task`, `phase`, `reviewer-model`,
+`reviewer-effort` — filled with what is actually known, `unrecorded` when it
+is not (owner-asked 2026-08-31; earlier records carry `retrofitted: true`
+where values were inferred after the fact). Goldens
 cannot replace this: they render pieces in isolation, so no golden can see a
 composition. Every visual defect in this plan's history was found by a pair
 of eyes that had not read the task.

@@ -1,3 +1,12 @@
+---
+date: 2026-08-30
+task: BF1.1
+phase: BF
+reviewer-model: opus-5
+reviewer-effort: unrecorded
+retrofitted: true
+---
+
 # BF1.1 — fresh-eyes review of the Theme tab with the Palette Seed row
 
 2026-08-30. The reviewer was handed the themer's Theme tab at the

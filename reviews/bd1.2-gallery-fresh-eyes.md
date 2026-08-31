@@ -1,3 +1,12 @@
+---
+date: 2026-08-30
+task: BD1.2
+phase: BD
+reviewer-model: opus-5
+reviewer-effort: unrecorded
+retrofitted: true
+---
+
 # BD1.2 — fresh-eyes review of the gallery window after the rail fix
 
 2026-08-30. The reviewer was handed the gallery window at 1280×800 in

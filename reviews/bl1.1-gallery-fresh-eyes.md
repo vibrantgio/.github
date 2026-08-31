@@ -1,3 +1,12 @@
+---
+date: 2026-08-31
+task: BL1.1
+phase: BL
+reviewer-model: opus-5
+reviewer-effort: high
+retrofitted: true
+---
+
 # BL1.1 fresh-eyes review — the gallery window after the chip cut
 
 2026-08-31. Whole gallery window at 1400×900, both schemes, headless

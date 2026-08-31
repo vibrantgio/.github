@@ -1,3 +1,12 @@
+---
+date: 2026-08-30
+task: BB3.1
+phase: BB
+reviewer-model: opus-5
+reviewer-effort: unrecorded
+retrofitted: true
+---
+
 # BB3.1 — fresh eyes on the MindChat window after the picker took the anchor face
 
 Captured by `TestWholeWindowRender` at the window's own opening size,

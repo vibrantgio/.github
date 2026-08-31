@@ -1,3 +1,12 @@
+---
+date: 2026-08-28
+task: AY2.1
+phase: AY
+reviewer-model: opus-5
+reviewer-effort: unrecorded
+retrofitted: true
+---
+
 # AY2.1 fresh-eyes review — the vaultview window, both schemes
 
 Headless whole-window renders at 1100×800, both appearances, taken from

@@ -1,3 +1,12 @@
+---
+date: 2026-08-28
+task: AU2.2
+phase: AU
+reviewer-model: opus-5
+reviewer-effort: unrecorded
+retrofitted: true
+---
+
 # AU2.2 fresh-eyes review — the feeds window, both schemes
 
 Captured live with `screencapture -l` off the real decorated window

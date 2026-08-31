@@ -1,3 +1,12 @@
+---
+date: 2026-08-30
+task: BD1.1
+phase: BD
+reviewer-model: opus-5
+reviewer-effort: unrecorded
+retrofitted: true
+---
+
 # BD1.1 — fresh-eyes review of the gallery window
 
 2026-08-30. The reviewer was handed four 1280×800 gallery-window

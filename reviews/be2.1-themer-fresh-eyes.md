@@ -1,3 +1,12 @@
+---
+date: 2026-08-30
+task: BE2.1
+phase: BE
+reviewer-model: opus-5
+reviewer-effort: unrecorded
+retrofitted: true
+---
+
 # BE2.1 — fresh-eyes review of the tabbed themer window
 
 2026-08-30. The reviewer was handed six 1x captures (one per tab per

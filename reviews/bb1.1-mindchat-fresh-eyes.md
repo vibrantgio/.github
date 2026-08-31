@@ -1,3 +1,12 @@
+---
+date: 2026-08-30
+task: BB1.1
+phase: BB
+reviewer-model: opus-5
+reviewer-effort: unrecorded
+retrofitted: true
+---
+
 # BB1.1 — fresh eyes on the MindChat window after the chip's fill stepped down
 
 Captured by `TestWholeWindowRender` at the window's own opening size,
