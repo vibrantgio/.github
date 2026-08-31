@@ -120,6 +120,16 @@ registers; that is the Filter chip's intent.
 restates: density (control heights), radius (corner stops), scheme
 (light/dark), typography roles.
 
+**Hue voices** — the three volumes a colour speaks at, always from
+one hue. **Wash**: the hue diluted toward the ground, a tinted field
+behind content — atmosphere, not ink. **Ink**: the hue at reading
+strength, drawing the content itself. **Shout**: the hue at full
+saturation with knocked-out content on top. Statements and
+persistent states speak wash-plus-ink — the badge's tinted
+container, the selected row, the active entry. Shout is reserved for
+where interaction lives: the Filled button's emphasis. A statement
+never shouts (ruled 2026-08-31).
+
 ## Decisions
 
 ### 0001 — intent-over-provenance
