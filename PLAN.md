@@ -18481,15 +18481,15 @@ everything at once; the populated middle now hands a walk a rung
 that satisfies the ground it asked about and fails the neighbour it
 never checked. All five are bugs on the new curve, not rulings.
 
-- [ ] `components/internal/focus` — `focus.Ring`'s one-sided walk
+- [x] `components/internal/focus` — `focus.Ring`'s one-sided walk
   clears the storey but not the control's own fill (2.62:1 at dark
   level-1). Adopt the two-candidate both-neighbours walk
   (`chipface.Rim` is the working precedent); correct the
   `focus.Ground` doc claim that one walk satisfies both.
-- [ ] `components/internal/control` — `control.Border`, same shape:
+- [x] `components/internal/control` — `control.Border`, same shape:
   one-sided `MarkOn` fails the raised interior on every sweep seed.
   Same both-neighbours fix.
-- [ ] `components/chip` — the dark state walk now lands pressed and
+- [x] `components/chip` — the dark state walk now lands pressed and
   hovered fills in the curve's mid rungs where no ink in any
   palette clears 4.5:1 (measured: pure white 4.88:1, pure black
   4.30:1 on the level-3 hovered fill). The walk must land fills
@@ -18497,12 +18497,12 @@ never checked. All five are bugs on the new curve, not rulings.
   walk, a kept rim, or both. This is a state-walk correction, NOT
   the chip re-anatomy (that stays owner-sequenced); change no
   resting appearance.
-- [ ] `workbench/themer` — `palette.RungTolerance` re-judged for the
+- [x] `workbench/themer` — `palette.RungTolerance` re-judged for the
   denser dark rungs (the test's window is 0.0158 < T ≤ 0.0165);
   comment carries the two measurements.
-- [ ] `workbench/vaultview` — the columns' quiet ink reads 3.53:1 in
+- [x] `workbench/vaultview` — the columns' quiet ink reads 3.53:1 in
   dark, under its own 4.5:1 body floor; re-derive.
-- [ ] Green in `components`, `workbench/themer`,
+- [x] Green in `components`, `workbench/themer`,
   `workbench/vaultview` (components commits once, when both border
   and chip fixes land — the module cannot go green piecewise);
   goldens that legitimately move regenerate here dark-only; push.
