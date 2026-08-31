@@ -18388,7 +18388,7 @@ badge — and BM1.2 was steered mid-task to convert it to plain
 styled text in the type stack; no badge form of it exists to
 restyle here.
 
-- [ ] `components/badge` gains the container: a role-tinted fill
+- [x] `components/badge` gains the container: a role-tinted fill
   derived against the ground (the existing status-container
   derivation family — container fill with floored on-container ink;
   Neutral derives a neutral container the same way), rounded and
@@ -18409,21 +18409,21 @@ restyle here.
   reserved for interactive emphasis (the Filled button). Specs and
   prose say fill and foreground, not invented colour vocabulary.
   The worker was steered mid-task with all refinements.
-- [ ] The badge reports its text baseline (`badge.draw` currently
+- [x] The badge reports its text baseline (`badge.draw` currently
   discards the baseline typeset hands it, so `layout.Baseline` has
   nothing to align on and pricing's "Popular" sits 3px off its
   row); pricing aligns on it in the same round.
-- [ ] Contrast tests extend to the container seam (fill vs ground,
+- [x] Contrast tests extend to the container seam (fill vs ground,
   ink vs fill, both schemes, the seed sweep); package goldens
   regenerate.
-- [ ] The design mirror re-calibrates: BM1.2 recorded that the
+- [x] The design mirror re-calibrates: BM1.2 recorded that the
   cross-pair column no longer separates without a fill — with the
   container back on worded badges, verify separation returns and
   restore the stronger verdict if it does.
-- [ ] Downstream goldens regenerate wherever the badge now renders:
+- [x] Downstream goldens regenerate wherever the badge now renders:
   `components/gallery`, `patterns` (hero, pricing), and the nested
   app modules by name (`workbench/sitedocs`, `workbench/mindchat`).
-- [ ] Fresh-eyes review of the gallery badge section; green
+- [x] Fresh-eyes review of the gallery badge section; green
   everywhere touched; push.
 
 ### G-BM2: The release
