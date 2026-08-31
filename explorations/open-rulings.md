@@ -1815,3 +1815,14 @@ review.
      1:1.89) without enlarging it, because dark's primary is a light
      fill with ~18 L\* of headroom above it. Not a tone-scale fix.
      *(§Z, BJ1.2's review)*
+
+195. **[decide]** Library floors vs correctness: effects v0.2.5 and
+     markdown v0.7.2 floor components at v1.1.1, patterns v1.2.1 at
+     v1.3.1, while all three floor theme at v1.3.2 — so a consumer
+     resolving through one library alone pairs the new dark curve
+     with a components whose focus ring and border still walk
+     one-sided (the 2.62:1 failure the curve round fixed). Churn
+     minimization left them (nothing forces the bumps, measured);
+     whether library floors should track components tag-for-tag on
+     correctness grounds is a policy ruling — a published tag cannot
+     be re-cut. *(§Z, BJ2.1)*
