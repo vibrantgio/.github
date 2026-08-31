@@ -1667,21 +1667,6 @@ utterance-count findings were fixed in the task; the invisible close
 target was part-rebutted (24 dp exists by ruling, WCAG 2.5.8 AA
 governs, a still frame cannot show it).
 
-176. **[decide]** The badge's variant is encoded in hue and nothing
-     else: no fill, no boundary, and all five inks contrast-matched
-     to one lightness (L* 39.0 ±0.1 in light), so luminance carries
-     zero variant information by construction. Under Machado
-     severity-1.0 simulations the status pairs collapse
-     (deuteranopia Warning↔Error ΔE 8.9; dark protanopia washes
-     Error to ΔE 16.8 from Neutral — the error badge becomes the
-     neutral badge). The reviewer files it as WCAG 1.4.1 Level A and
-     would block adoption on it. Counter-argument: the badge's WORD
-     is the information and hue is reinforcement — 1.4.1 holds
-     unless a caller distinguishes two identical words by hue alone.
-     Whether the anatomy gains a non-hue channel (per-role leading
-     sign, weight, a shape) is a ruling on the ruled anatomy itself.
-     *(§W, BM1.1's review)*
-
 177. **[decide]** Dark's Neutral badge sits at 6.63:1 while the four
      statuses sit at 11.01–11.10:1 — a 40% deficit that makes
      Neutral read as the disabled member of its own set (light holds
@@ -1705,14 +1690,6 @@ governs, a still frame cannot show it).
      144/145; re-measure after the dark-ramp phase lands before
      touching it. *(§W, BM1.1's review)*
 
-180. **[decide]** Nothing on screen tells you the badge's close mark
-     is clickable or where its 24 dp target lies — the invisible
-     target is the ruling's own trade; recorded so the acceptance is
-     a decision, not an accident. Bundled: the leading sign fills
-     its line box (45 px² of ink) while the close mark is half of it
-     (21 px²) — the asymmetry is ruled but reads as inconsistency.
-     *(§W, BM1.1's review)*
-
 ## X. From BM1.2's fresh-eyes review of the converted surfaces
 
 Added 2026-08-31; full verbatim reply in
@@ -1721,17 +1698,42 @@ design-mirror separation loss went straight into BM1.3's spec; the
 "v1" navbar badge conversion went unreviewed (out of frame) and rides
 the next gallery review.
 
-181. **[bug]** The light-scheme Neutral badge has no identity: its
-     ink walks onto #5C5C5C, byte-identical to the secondary prose
-     around it (hero subtitle, pricing body), while dark separates
-     them (#9E9E9E vs #CCCCCC) — the visual contract differs by
-     scheme. Distinct from item 177 (dark deficit); the tinted
-     container of BM1.3 should resolve it for worded and counted
-     badges — re-verify there, and note bare GLYPH badges keep
-     walking this derivation. *(§X, BM1.2's review)*
-
 182. **[decide]** mindchat's settings key row now shows the verdict
      glyph and the refresh control as two bare strokes at one size —
      they rhyme as a two-icon toolbar whose first icon is dead. The
      hoist is right; the row composition wants a re-think (spacing,
      size, or a worded verdict). *(§X, BM1.2's review)*
+
+## Y. From BM1.3's fresh-eyes review of the container anatomy
+
+Added 2026-08-31; full verbatim reply in
+`reviews/bm1.3-gallery-fresh-eyes.md`. Items 176, 180 and 181
+retired resolved by the container (records in the commit body); the
+reviewer's dark-collapse headline was a misread of a one-storey
+specimen block, fixed in-task by drawing the badge vocabulary once
+per storey.
+
+183. **[decide]** The badge's close cap sits 3px off-centre in its
+     fill cap and cannot be centred without overlapping the label —
+     the geometry needs a ruling (wider cap, tighter mark, or the
+     asymmetry accepted). *(§Y, BM1.3's review)*
+
+184. **[decide]** A dismissible badge at rest shows no boundary
+     around its close mark — the walked cap only appears under the
+     pointer. Whether rest hints the region is the same trade item
+     180 recorded, now at the fill level. *(§Y, BM1.3's review)*
+
+185. **[bug]** The badge's close mark has no focus or disabled
+     state: a keyboard user cannot reach or dismiss it. The no-focus
+     ruling deserves re-opening — dismissal is an action and actions
+     are reachable. *(§Y, BM1.3's review)*
+
+186. **[decide]** The badge's state walk is a different magnitude
+     from the chip's and is not scheme-symmetric where the chip's is
+     (light 1.36/1.93 vs 1.15/1.40) — one feedback grammar or two is
+     a system call. *(§Y, BM1.3's review)*
+
+187. **[decide]** The light badge foreground sits ON the 4.5:1 AA
+     floor (4.50–4.56:1) while dark sits at 8.40–8.48:1 — no
+     headroom for a contrast preference, and the same
+     floor-sitting shape as item 168. *(§Y, BM1.3's review)*
