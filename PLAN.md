@@ -18608,6 +18608,24 @@ scheme.
   named; fresh-eyes review of the focused-specimens capture; green
   everywhere touched; push.
 
+#### BO1.2: The CSS export mirrors the one-ring rule
+
+BO1.1 left the web side divergent: `theme/export/css.go` still emits
+four per-ground ring variables (`--color-focus-ring`,
+`--color-dialog-focus-ring`, `--color-popover-focus-ring`,
+`--color-focus-ring-on-accent`), each derived per storey the way the
+Gio side no longer is. Both sides are green because they derive
+independently — the divergence is silent, which is why it closes in
+the same round it opened.
+
+- [ ] `theme/export` emits one ring variable per scheme (plus the
+  on-accent exception, mirroring `focus.RingOn`'s rule); the
+  storey-varying variables go; `roundtrip_test.go`'s pins move with
+  it.
+- [ ] `design/` regenerated against the committed generator, clean
+  diff; the mirror fixtures re-run.
+- [ ] Green in `theme` and `design`; push both and `.github`.
+
 ### G-BO2: The release
 
 #### BO2.1: Ship the ring
