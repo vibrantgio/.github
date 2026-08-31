@@ -1858,3 +1858,38 @@ dark-rung and meta-prose complaints rebutted from package contracts.
      ground while the modal above paints its own desktop ground;
      two different anchor gaps (4px above the tooltip, 8px below
      the popover). *(§AA, BK1.1's review)*
+
+## AB. From BO1.1's fresh-eyes review of the unified ring
+
+Added 2026-08-31; full verbatim reply in
+`reviews/bo1.1-focus-fresh-eyes.md`. The single-colour property
+holds for twelve of fifteen specimens; the button's second tint is
+forced (the scheme's ring lands at 1.48:1/1.72:1 on the button's own
+accent fill — invisible), and the reviewer accepts the colour while
+rejecting the geometry. The export divergence it exposed is tasked
+as BO1.2, not pooled.
+
+201. **[decide]** The button draws its focus band inset on its own
+     fill — "reads as a bevel or a gloss highlight, not as focus" —
+     so one control row shows three ring constructions: outside
+     (checkbox), on the silhouette (field, chip, trigger), inside
+     (button). Reaching literally one ring per scheme means taking
+     the band off the fill. Measured candidates: (a) ship as is and
+     document the primary-fill ground; (b) ring outside with the
+     fill inset; (c) two-tone ring with an OnFill separator hairline
+     (white 4.32:1 against the light ring, dark 5.3:1). Neighbours
+     item 171. *(§AB, BO1.1's review)*
+
+202. **[bug]** The light focus ring carries zero luminance signal:
+     ring #8C59F4 vs the neutral resting border #797979 = 1.01:1 in
+     luminance at the same 2px width — light focus is 100% hue and
+     vanishes under Differentiate Without Color. Dark separates at
+     1.86:1. *(§AB, BO1.1's review)*
+
+203. **[decide]** Minors bundle: two type sizes and two baselines
+     across one control row (LabelLarge button/chip vs BodyLarge
+     field/trigger, heights 36/40/20); the focused text-field
+     specimen shows no insertion point; the checkbox is the only
+     control whose ring grows its footprint (first to clip in a
+     dense list — item 171's geometry, remeasured). *(§AB, BO1.1's
+     review)*
