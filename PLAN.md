@@ -18571,10 +18571,10 @@ with empty `Label`), each with `Description` carrying the accessible
 name — the tooltip demo then models both halves of naming an
 unlabeled control: the visible tooltip and the screen-reader label.
 
-- [ ] Tooltip Trigger and popover Anchor specimens swapped to Ghost
+- [x] Tooltip Trigger and popover Anchor specimens swapped to Ghost
   icon-only buttons; `Description` set on both; gallery goldens
   regenerated, cause named in the commit.
-- [ ] Exit: green in `components` and `components/gallery`; commit
+- [x] Exit: green in `components` and `components/gallery`; commit
   and push in `components` and `.github`.
 
 ## Phase BO: One focus-ring colour per scheme
