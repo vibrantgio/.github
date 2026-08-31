@@ -18590,21 +18590,21 @@ scheme.
 
 #### BO1.1: Every control draws the same ring on the same ground
 
-- [ ] One derivation answers every control: the ring colour depends
+- [x] One derivation answers every control: the ring colour depends
   on scheme and ground only, never on which control asks (the
   both-neighbours walk from the curve round stays — it just must
   yield one answer per ground; how the walk reconciles "both
   neighbours" across controls with different fills is the design
   work here, measured not guessed).
-- [ ] A focused-controls golden joins the gallery (or components)
+- [x] A focused-controls golden joins the gallery (or components)
   test set: focused specimens on the paper, card and dialog storeys
   in both schemes — the reason 189 was invisible to every stored
   image is that no golden captures focus at review scale on raised
   storeys; that blindness closes here.
-- [ ] Contrast tests pin the single-colour property (same ring hex
+- [x] Contrast tests pin the single-colour property (same ring hex
   for every control on a given ground, per scheme, over the seed
   sweep) and the 3:1 floor on both neighbours.
-- [ ] Goldens that legitimately move regenerate with the cause
+- [x] Goldens that legitimately move regenerate with the cause
   named; fresh-eyes review of the focused-specimens capture; green
   everywhere touched; push.
 
