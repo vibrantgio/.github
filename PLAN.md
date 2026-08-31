@@ -18265,30 +18265,30 @@ BJ by owner instruction; BJ's hold stands.)
 
 #### BL1.1: Remove the deprecated anchor forwarders and the badge face
 
-- [ ] In `components/chip`: delete `FaceAnchor`, `RenderAnchor`, and
+- [x] In `components/chip`: delete `FaceAnchor`, `RenderAnchor`, and
   `RenderBadge`; drop the `import` of `components/picker` if it
   becomes unused; rewrite the `Face` doc and `chip.go` prose so the
   chip has one face again (the pill) — the "The anchor face has
   moved" doc section reduces to one pointer sentence naming
   `picker.Anchor`, or goes entirely if the package doc already says
   it.
-- [ ] In `components/internal/chipface`: retire `FaceBadge` and the
+- [x] In `components/internal/chipface`: retire `FaceBadge` and the
   `interactive()` special-case it existed for; simplify what falls
   out. `picker` must not lose anything it uses.
-- [ ] Delete the chip package's anchor and badge tests, benchmarks
+- [x] Delete the chip package's anchor and badge tests, benchmarks
   and goldens (`chip_test.go` anchor/badge cases,
   `chip_bench_test.go` badge case, `testdata` anchor-*/badge tiles).
   The anchor's behaviour is already covered by `components/picker`'s
   own tests; verify that before deleting, and move any assertion that
   exists ONLY on the chip side into picker's tests rather than losing
   it.
-- [ ] In `components/gallery`: remove the badge specimen from
+- [x] In `components/gallery`: remove the badge specimen from
   `main.go` and the chip-anchor + badge cells from
   `inventory/inventory.go` (the picker section already shows the
   anchor); regenerate gallery goldens, and run
   `workbench/sitedocs`' goldens by name since it renders the
   inventory.
-- [ ] `go build ./... && go test ./...` green in components, plus
+- [x] `go build ./... && go test ./...` green in components, plus
   gallery and sitedocs golden runs; `check-layers.sh` from `.github`
   (an import edge is removed); push.
 
