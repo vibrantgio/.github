@@ -198,3 +198,17 @@ register triggers, and the anchor face leaves the chip family it was
 never ontologically part of.
 
 Sources: [[TRANSCRIPTS#^0001-anchor-not-chip]]
+
+Rene: tell me how the badge and chip differ in visual language and
+why the badge doesn't have a dilineation around it.
+
+Orchestrator: delineation is the grammar of interaction. A chip is
+an offer, so it draws a boundary — the outline marks the hit area,
+promises a press, and its fill walks the transient states. A badge
+is speech: the role hue *is* the message, nothing responds to the
+pointer, so there is no edge to promise — an outlined badge would
+dress as a control and invite a click it cannot honour. The costume
+sorts the family: quiet outline, you may act; tinted fill or bare
+hued text, you are being told.
+
+Sources: [[TRANSCRIPTS#^0002-badge-chip-visual]]

@@ -124,6 +124,10 @@ https://getbootstrap.com/docs/4.0/components is perhaps something to
 consider to see if we are lacking obvious components in our stable.
 ^0002-underdefined-review
 
+Rene: I will circle back to this, but first tell me how the badge
+and chip differ in visual language and why the badge doesn't have a
+dilineation around it. ^0002-badge-chip-visual
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
