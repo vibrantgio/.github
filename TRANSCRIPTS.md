@@ -161,6 +161,13 @@ pipeline session): This is just completely and utterly insane. Who
 comes up with this shit. Then use fill and foreground in the specs,
 not wash and ink. ^0004-fill-foreground-not-wash-ink
 
+Rene (in the ontology session): The issue is that you invent
+language without consulting me. This gets out of hand quickly
+because I don't gave a clue what you are talking about. Another
+issue I have is that the DOMAIN.md has grown some warts already as
+your analysis uncovered. What are we going to be doing about that?
+^0004-no-invented-language
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
