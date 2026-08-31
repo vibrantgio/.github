@@ -136,6 +136,11 @@ Rene: Think about an eyebrow and what it should look like in a hero
 and when you decide it is pure typography then don't burden the
 badge with it. ^0002-eyebrow-typography
 
+Rene: I'm worried that the badge with text is not going to be to my
+liking. Are we still able to do the mindchat badge for "connection
+was authenticated" the green checkmark icon?
+^0002-green-check-stays
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
