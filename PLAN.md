@@ -18333,7 +18333,9 @@ BJ's downstream golden sweep is cut once, against the settled badge
 anatomy. In-org call sites censused at authoring: `patterns/hero`
 (the eyebrow — a Neutral badge at its quietest), `patterns/pricing`,
 `components/gallery/inventory/patterns.go` (specimens; the
-tag-as-anchor/trigger cells are Phase BK's, leave them to it), doc
+tag-as-anchor/trigger cells convert minimally to Neutral badges
+wearing the same words so the package deletion compiles — Phase BK
+still replaces those specimens with icon buttons), doc
 prose in `components/chip` and `components/internal/chipface`, and
 `theme/export/css.go`; mindchat's hand-rolled key-check verdict
 glyph is ruled a glyph badge and hoists in.
