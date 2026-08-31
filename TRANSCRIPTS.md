@@ -173,6 +173,13 @@ darkened or made darker. The same hue is implied if I darken
 something the hue stays the same that is implicit.
 ^0004-say-darkened
 
+Rene (2026-09-01): So there is an axis that allows the Rest color to
+be determined based on emphasis derived from theme seed and a single
+pinned (explicit override). Showing the Filled button again before
+the Pinned confused me. So I assume a Pinned color will also have
+all the darkening (is that called tinting?) applied to it.
+^0002-pinned-darkening
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
