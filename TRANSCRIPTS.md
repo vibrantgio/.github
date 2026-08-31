@@ -141,6 +141,10 @@ liking. Are we still able to do the mindchat badge for "connection
 was authenticated" the green checkmark icon?
 ^0002-green-check-stays
 
+Rene: so what does "it wears its hue as a tinted container" actually
+mean. Can you describe that succint and clearly.
+^0002-tinted-container-meaning
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
