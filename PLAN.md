@@ -18742,3 +18742,75 @@ pointer target, density plumbing.
   the workbench commit.
 - [ ] Exit: `check-layers.sh` and `check-versions.sh` from
   `.github`; every repo touched pushed.
+
+## Phase BP: Dark quiet surfaces become visible
+
+Owner-ordered 2026-08-31, sequenced after the chip re-anatomy: three
+pooled findings share one disease — a signal drawn so quietly it
+stops signalling, each confirmed by measurement and two of them by
+the owner's own eyes on the live apps. Open-rulings 197 (the ghost
+hover wash at 1.13:1 in dark — the register's own floor, reaching
+every ghost affordance including the modal's close mark), 204 (dark
+status washes: all four alert fills at L* 19 where chroma dies,
+Error and Warning two barely-different browns, while light's pale
+washes keep their hues apart), and 202 (the light focus ring at
+1.01:1 luminance against the resting border — pure hue, invisible
+under Differentiate Without Color; dark separates at 1.86:1). The
+common cure is the house's own: floors, not rungs — a quiet signal
+still owes a measured minimum of visibility, and the derivation
+carries the floor so every seed self-corrects.
+
+### G-BP1: The floors
+
+#### BP1.1: The ghost wash clears a perceptibility floor
+
+- [ ] The ghost register's hover and press washes derive with a
+  fill-vs-ground floor (the ContainerFloor precedent: measure the
+  separation bands over the seed sweep, put the threshold in the
+  empty stretch) instead of a fixed step walk; dark stops landing at
+  1.13:1. Light moves only if its own wash fails the same floor.
+- [ ] Sweep tests pin the floor for every ghost affordance —
+  buttons, icon buttons, the modal close mark — on every storey,
+  both schemes; goldens that legitimately move regenerate with the
+  cause named (the gallery's tooltip/popover specimens are drawn
+  hovered and will move in dark).
+
+#### BP1.2: Dark status washes keep their hues apart
+
+- [ ] The status-container wash derivation gains a separation
+  invariant in dark: the four role washes must part from each other
+  by a measured colour distance comparable to light's own
+  separation (measure light's worst pair first; that number is the
+  target), while each stays a wash — the role's hue diluted toward
+  the ground, never a loud fill. More lightness, more chroma, or a
+  different depth is the worker's design work, measured not
+  guessed; the ADR-022 ladder and the alert/badge/toast consumers
+  bound it.
+- [ ] Sweep tests pin the pairwise separation floor and the
+  existing fill-vs-ground and foreground-vs-fill floors together;
+  downstream goldens (alert, toast, badge, gallery, sitedocs)
+  regenerate dark-only unless light legitimately moves, cause
+  named.
+
+#### BP1.3: The light focus ring gains a second channel
+
+- [ ] The one-ring rule stands (scheme-only, both-neighbours); the
+  light ring's rung pick adds a luminance-separation floor against
+  the neutral resting border so focus survives Differentiate
+  Without Color — dark already separates at 1.86:1 and is the
+  reference; light's pick moves to the rung that clears both the
+  storey floor and the luminance floor.
+- [ ] The focused-controls golden and the CSS export follow in the
+  same task (the export mirrors the same rule since the ring
+  round); fresh-eyes review of the focused-specimens capture in
+  both schemes.
+
+### G-BP2: The release
+
+#### BP2.1: Ship the quiet floors
+
+- [ ] ADR-006 seam order; expect patches (derivations and goldens,
+  no contracts); gallery mirrors components; pins bumped only where
+  forced; `sync-versions.sh` before the workbench commit.
+- [ ] Exit: `check-layers.sh` and `check-versions.sh` from
+  `.github`; every repo touched pushed.
