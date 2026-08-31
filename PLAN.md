@@ -18400,7 +18400,12 @@ restyle here.
   WORDED and COUNTED badges wear the container (their content is
   arbitrary); a GLYPH badge may stand bare because the glyph's
   shape carries the meaning. mindchat's key-check verdict therefore
-  stays bare, exactly as it renders.
+  stays bare, exactly as it renders. Voice (owner-ruled same day):
+  the container speaks WASH-plus-INK — the role's hue diluted
+  toward the ground carrying same-hue ink at reading strength;
+  never a saturated fill with knocked-out text (shout is reserved
+  for interaction). The worker was steered mid-task with both
+  refinements.
 - [ ] The badge reports its text baseline (`badge.draw` currently
   discards the baseline typeset hands it, so `layout.Baseline` has
   nothing to align on and pricing's "Popular" sits 3px off its
