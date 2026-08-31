@@ -18373,6 +18373,36 @@ glyph is ruled a glyph badge and hoists in.
   (patterns loses a package, components gains an import surface),
   pushed.
 
+#### BM1.3: The badge wears its tinted container
+
+Owner-ruled 2026-08-31, on reading BM1.1's fresh-eyes headline (the
+variant encoded in hue and nothing else — open-rulings 176): the
+badge wears its role hue as a TINTED CONTAINER, never bare hued ink
+alone; the container was always the expectation. The container also
+hands the dismissible close a visible hit region and the close-mark
+states a fill to walk (answers the thrust of items 176 and 180; the
+dark-ramp items stand). Note: whether the hero eyebrow keeps a
+pure-text form is under re-examination with the owner via the
+ontology session — leave the eyebrow a Neutral badge as BM1.2
+converted it and do not build anything on "a badge can be bare
+text".
+
+- [ ] `components/badge` gains the container: a role-tinted fill
+  derived against the ground (the existing status-container
+  derivation family — container fill with floored on-container ink;
+  Neutral derives a neutral container the same way), rounded and
+  padded to stay text-sized in feel — the badge remains off the
+  control ladder, visibly lighter than any control. The close
+  mark's states walk on the container fill instead of ink-only.
+- [ ] Contrast tests extend to the container seam (fill vs ground,
+  ink vs fill, both schemes, the seed sweep); package goldens
+  regenerate.
+- [ ] Downstream goldens regenerate wherever the badge now renders:
+  `components/gallery`, `patterns` (hero, pricing), and the nested
+  app modules by name (`workbench/sitedocs`, `workbench/mindchat`).
+- [ ] Fresh-eyes review of the gallery badge section; green
+  everywhere touched; push.
+
 ### G-BM2: The release
 
 #### BM2.1: Tag the badge round
