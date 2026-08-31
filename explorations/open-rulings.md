@@ -1662,3 +1662,57 @@ the chip's stale anchor prose from llms.txt.
      rule lives in components/picker's package doc; whether the
      llms.txt guide should also teach it is an owner call. *(§V,
      BL2.1)*
+
+## W. From BM1.1's fresh-eyes review of the badge section
+
+Added 2026-08-31; full verbatim reply in
+`reviews/bm1.1-gallery-fresh-eyes.md`. The specimen-matrix and
+utterance-count findings were fixed in the task; the invisible close
+target was part-rebutted (24 dp exists by ruling, WCAG 2.5.8 AA
+governs, a still frame cannot show it).
+
+176. **[decide]** The badge's variant is encoded in hue and nothing
+     else: no fill, no boundary, and all five inks contrast-matched
+     to one lightness (L* 39.0 ±0.1 in light), so luminance carries
+     zero variant information by construction. Under Machado
+     severity-1.0 simulations the status pairs collapse
+     (deuteranopia Warning↔Error ΔE 8.9; dark protanopia washes
+     Error to ΔE 16.8 from Neutral — the error badge becomes the
+     neutral badge). The reviewer files it as WCAG 1.4.1 Level A and
+     would block adoption on it. Counter-argument: the badge's WORD
+     is the information and hue is reinforcement — 1.4.1 holds
+     unless a caller distinguishes two identical words by hue alone.
+     Whether the anatomy gains a non-hue channel (per-role leading
+     sign, weight, a shape) is a ruling on the ruled anatomy itself.
+     *(§W, BM1.1's review)*
+
+177. **[decide]** Dark's Neutral badge sits at 6.63:1 while the four
+     statuses sit at 11.01–11.10:1 — a 40% deficit that makes
+     Neutral read as the disabled member of its own set (light holds
+     all five co-equal at 6.19–6.22:1). Structural: statuses realize
+     pins at fixed depths, Neutral walks from the ground;
+     harmonizing needs a new rule. The dark row labels (8.28–8.66:1)
+     also outrank the Neutral specimens they label — probably the
+     same neighbourhood as item 167. *(§W, BM1.1's review)*
+
+178. **[decide]** Chroma and hue invert across schemes on the status
+     roles: Error is the loudest variant in light (C* 65.9) and the
+     quietest in dark (C* 27.0, pale pink); Warning swings 22.5° of
+     hue between schemes and lands as brown in light — at one
+     lightness and only 27° from Error, the pair whose confusion
+     matters most. A palette/ramp property in theme's territory,
+     adjacent to items 146/147 and Phase BJ. *(§W, BM1.1's review)*
+
+179. **[bug]** The close mark's press ramp is compressed in dark
+     (L* steps 9 and 8, vs light's 11 and 21) — press is barely
+     separable from hover on an 8px glyph. Same root as items
+     144/145; re-measure after the dark-ramp phase lands before
+     touching it. *(§W, BM1.1's review)*
+
+180. **[decide]** Nothing on screen tells you the badge's close mark
+     is clickable or where its 24 dp target lies — the invisible
+     target is the ruling's own trade; recorded so the acceptance is
+     a decision, not an accident. Bundled: the leading sign fills
+     its line box (45 px² of ink) while the close mark is half of it
+     (21 px²) — the asymmetry is ruled but reads as inconsistency.
+     *(§W, BM1.1's review)*
