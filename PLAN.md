@@ -18357,19 +18357,19 @@ glyph is ruled a glyph badge and hoists in.
 
 #### BM1.2: The abrupt cut — every call site converts, the tag dies
 
-- [ ] Convert every in-org `patterns/tag` call site to
+- [x] Convert every in-org `patterns/tag` call site to
   `components/badge` (hero eyebrow → Neutral; pricing and gallery
   specimens map Filled/Tonal → Neutral, status variants → their
   role); hoist mindchat's key-check verdict glyph into a glyph
   badge; rewrite tag mentions in chip/chipface/css-export prose to
   the badge vocabulary.
-- [ ] Delete `patterns/tag` outright — no forwarders, no aliases,
+- [x] Delete `patterns/tag` outright — no forwarders, no aliases,
   per the abrupt-cut ruling.
-- [ ] Regenerate every moved golden: patterns, components/gallery,
+- [x] Regenerate every moved golden: patterns, components/gallery,
   and the nested app modules by name (sitedocs renders the
   inventory; mindchat's key-check moves). Fresh-eyes review of one
   affected window.
-- [ ] Green everywhere touched, `check-layers.sh` from `.github`
+- [x] Green everywhere touched, `check-layers.sh` from `.github`
   (patterns loses a package, components gains an import surface),
   pushed.
 
