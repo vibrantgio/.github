@@ -18394,6 +18394,12 @@ restyle here.
   padded to stay text-sized in feel — the badge remains off the
   control ladder, visibly lighter than any control. The close
   mark's states walk on the container fill instead of ink-only.
+  Refined (owner-ruled 2026-08-31): the invariant is "hue is never
+  the badge's only channel", not "every badge gets a container" —
+  WORDED and COUNTED badges wear the container (their content is
+  arbitrary); a GLYPH badge may stand bare because the glyph's
+  shape carries the meaning. mindchat's key-check verdict therefore
+  stays bare, exactly as it renders.
 - [ ] Contrast tests extend to the container seam (fill vs ground,
   ink vs fill, both schemes, the seed sweep); package goldens
   regenerate.
