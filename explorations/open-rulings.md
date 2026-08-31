@@ -1649,3 +1649,16 @@ rebutted as the picker's documented two-register split.
      re-presents the registers (caption, grouping, or a dedicated
      chrome-register row) is a gallery-composition call. *(§U,
      BL1.1's review)*
+
+## V. From BL2.1's release
+
+Added 2026-08-31. One doc-coverage question surfaced while removing
+the chip's stale anchor prose from llms.txt.
+
+175. **[decide]** llms.txt no longer carries any prose about the
+     picker anchor's mark (the deleted chip paragraph was the only
+     carrier, and it was wrong — it claimed paired chevrons where
+     the shipped mark is a single down chevron). The single-chevron
+     rule lives in components/picker's package doc; whether the
+     llms.txt guide should also teach it is an owner call. *(§V,
+     BL2.1)*
