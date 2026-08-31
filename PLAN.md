@@ -18430,13 +18430,13 @@ restyle here.
 
 #### BM2.1: Tag the badge round
 
-- [ ] ADR-006 seam order. Per the standing tag rule: the new package
+- [x] ADR-006 seam order. Per the standing tag rule: the new package
   on `components` is additive → patch; deleting `patterns/tag` is a
   contract change → minor on `patterns`; gallery mirrors components.
   Bump workbench pins, `GOWORK=off` verify, second self-referencing
   pass, `sync-versions.sh` before the workbench commit; llms.txt's
   roster speaks badge, not tag.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from
   `.github`; every repo touched pushed.
 
 ## Phase BJ: The dark ramp regains its middle
