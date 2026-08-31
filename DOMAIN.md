@@ -78,7 +78,11 @@ verdict); it covers what M3 and iOS call a badge too. Not a control:
 sized to its content like an inline annotation, off the control
 ladder entirely, visibly lighter than any control (ruled
 2026-08-30). It speaks only in the roles' own hues — Success,
-Warning, Error, Info — plus Neutral for plain category labels;
+Warning, Error, Info — plus Neutral for plain category labels, and
+it wears its hue as a tinted container, not as bare hued ink alone
+(ruled 2026-08-31; the fresh-eyes measurement agreed — with no fill,
+hue is the only channel carrying the variant, and the variants
+collapse for colour-blind readers);
 Filled/Tonal emphasis does not exist on a badge, emphasis lives
 where interaction lives (ruled 2026-08-30). A badge may carry a
 close affordance (ruled 2026-08-30: the badge keeps dismissible; the

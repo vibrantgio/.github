@@ -128,6 +128,10 @@ Rene: I will circle back to this, but first tell me how the badge
 and chip differ in visual language and why the badge doesn't have a
 dilineation around it. ^0002-badge-chip-visual
 
+Rene: I would expect the badge to have a background hue, I just
+could not imagine that not being the case. Did the reviewer noticed
+this too? ^0002-badge-background-hue
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
