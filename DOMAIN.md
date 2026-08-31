@@ -72,8 +72,8 @@ through the accent.
 **Badge** — the small status signal: the system's word or sign
 about content — read, not used. Formerly "tag" (renamed 2026-08-30);
 briefly split into badge and "mark", folded back 2026-08-30: one
-intent, three utterances — a badge speaks as a word ("Popular", the
-eyebrow), a count (the unread 9), or a glyph (the key-check
+intent, three utterances — a badge speaks as a word ("Popular"), a
+count (the unread 9), or a glyph (the key-check
 verdict); it covers what M3 and iOS call a badge too. Not a control:
 sized to its content like an inline annotation, off the control
 ladder entirely, visibly lighter than any control (ruled
@@ -85,7 +85,7 @@ readers): a worded or counted badge wears its hue as a tinted
 container, because words and counts are arbitrary content; a glyph
 badge may stand bare, because the glyph's shape carries the meaning
 — the green check and the red cross differ by form before they
-differ by hue (ruled 2026-08-31);
+differ by hue (ruled 2026-08-31).
 Filled/Tonal emphasis does not exist on a badge, emphasis lives
 where interaction lives (ruled 2026-08-30). A badge may carry a
 close affordance (ruled 2026-08-30: the badge keeps dismissible; the
@@ -245,7 +245,8 @@ promises a press, and its fill walks the transient states. A badge
 is speech: the role hue *is* the message, nothing responds to the
 pointer, so there is no edge to promise — an outlined badge would
 dress as a control and invite a click it cannot honour. The costume
-sorts the family: quiet outline, you may act; tinted fill or bare
-hued text, you are being told.
+sorts the family: quiet outline, you may act; tinted fill or a bare
+glyph, you are being told. (The "bare hued text" this reply
+originally allowed was closed by the later container ruling.)
 
 Sources: [[TRANSCRIPTS#^0002-badge-chip-visual]]
