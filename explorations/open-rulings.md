@@ -1571,10 +1571,6 @@ popover clamp and tail; recorded by the worker, none blocking.
 Added 2026-08-30. String literals surfaced during the comments-only
 sweep, out of its scope by definition; parked here for ruling.
 
-163. **[bug]** `theme/export/css.go` emits five ADR-022 citations
-     into the generated CSS — emitted text never cites ADR/task IDs
-     (standing rule). Fixing moves the export goldens. *(§T)*
-
 164. **[bug]** a residue of in-org consumer naming survives in
      support-library prose across effects, components and patterns —
      the no-consumer-mentions rule extended to all support-library
@@ -1716,3 +1712,26 @@ governs, a still frame cannot show it).
      its line box (45 px² of ink) while the close mark is half of it
      (21 px²) — the asymmetry is ruled but reads as inconsistency.
      *(§W, BM1.1's review)*
+
+## X. From BM1.2's fresh-eyes review of the converted surfaces
+
+Added 2026-08-31; full verbatim reply in
+`reviews/bm1.2-gallery-fresh-eyes.md`. The baseline defect and the
+design-mirror separation loss went straight into BM1.3's spec; the
+"v1" navbar badge conversion went unreviewed (out of frame) and rides
+the next gallery review.
+
+181. **[bug]** The light-scheme Neutral badge has no identity: its
+     ink walks onto #5C5C5C, byte-identical to the secondary prose
+     around it (hero subtitle, pricing body), while dark separates
+     them (#9E9E9E vs #CCCCCC) — the visual contract differs by
+     scheme. Distinct from item 177 (dark deficit); the tinted
+     container of BM1.3 should resolve it for worded and counted
+     badges — re-verify there, and note bare GLYPH badges keep
+     walking this derivation. *(§X, BM1.2's review)*
+
+182. **[decide]** mindchat's settings key row now shows the verdict
+     glyph and the refresh control as two bare strokes at one size —
+     they rhyme as a two-icon toolbar whose first icon is dead. The
+     hoist is right; the row composition wants a re-think (spacing,
+     size, or a worded verdict). *(§X, BM1.2's review)*

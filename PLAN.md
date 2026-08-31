@@ -18358,7 +18358,8 @@ glyph is ruled a glyph badge and hoists in.
 #### BM1.2: The abrupt cut — every call site converts, the tag dies
 
 - [x] Convert every in-org `patterns/tag` call site to
-  `components/badge` (hero eyebrow → Neutral; pricing and gallery
+  `components/badge` (hero eyebrow → plain styled text, ruled pure
+  typography mid-task; pricing and gallery
   specimens map Filled/Tonal → Neutral, status variants → their
   role); hoist mindchat's key-check verdict glyph into a glyph
   badge; rewrite tag mentions in chip/chipface/css-export prose to
@@ -18400,9 +18401,17 @@ restyle here.
   arbitrary); a GLYPH badge may stand bare because the glyph's
   shape carries the meaning. mindchat's key-check verdict therefore
   stays bare, exactly as it renders.
+- [ ] The badge reports its text baseline (`badge.draw` currently
+  discards the baseline typeset hands it, so `layout.Baseline` has
+  nothing to align on and pricing's "Popular" sits 3px off its
+  row); pricing aligns on it in the same round.
 - [ ] Contrast tests extend to the container seam (fill vs ground,
   ink vs fill, both schemes, the seed sweep); package goldens
   regenerate.
+- [ ] The design mirror re-calibrates: BM1.2 recorded that the
+  cross-pair column no longer separates without a fill — with the
+  container back on worded badges, verify separation returns and
+  restore the stronger verdict if it does.
 - [ ] Downstream goldens regenerate wherever the badge now renders:
   `components/gallery`, `patterns` (hero, pricing), and the nested
   app modules by name (`workbench/sitedocs`, `workbench/mindchat`).
