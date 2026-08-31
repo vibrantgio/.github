@@ -1820,3 +1820,41 @@ review.
      whether library floors should track components tag-for-tag on
      correctness grounds is a policy ruling — a published tag cannot
      be re-cut. *(§Z, BJ2.1)*
+
+## AA. From BK1.1's fresh-eyes review of the recomposed specimens
+
+Added 2026-08-31; full verbatim reply in
+`reviews/bk1.1-gallery-fresh-eyes.md`. The beak-seating acceptance
+passed with pixel evidence; the "beside/below" prose slip was fixed
+in-task; sentence-case tooltip text kept as house voice; shadow,
+dark-rung and meta-prose complaints rebutted from package contracts.
+
+196. **[decide]** The two specimen cells are the emptiest on the
+     page and their content rags left (97px dead air, 33px rag) —
+     the placement contract centres a 320px canvas in a 900px band;
+     pre-existing ratio, not introduced. *(§AA, BK1.1's review)*
+
+197. **[decide]** The hovered Ghost ground is 1.13:1 (232 on 246
+     light, 34 on 24 dark) — the register's own floor, reaching
+     every ghost affordance including the modal's close mark. How
+     quiet the ghost hover wash may be is an owner call. *(§AA,
+     BK1.1's review)*
+
+198. **[bug]** The sidebar mark does not survive 1x: horizontal
+     rules render at alpha 19, verticals split 171/125, the rail
+     ticks smear. The glyph needs pixel-snapping or a heavier
+     stroke at small sizes. *(§AA, BK1.1's review)*
+
+199. **[decide]** The popover anchor is drawn hovered because no
+     open state exists: `RenderState` has rest/hover/focus/press/
+     disabled and nothing for "the surface I opened is still up" —
+     under the language that is a persistent state (active), and
+     adding it is a contract change. *(§AA, BK1.1's review)*
+
+200. **[decide]** Minors bundle from the same review: three radii in
+     two stacked cells (tooltip ~2, button ~5-6, panel ~7-8); the
+     beak's diagonals read heavier than its own panel border
+     (133-168 vs 197); the specimen cells float on bare gallery
+     ground while the modal above paints its own desktop ground;
+     two different anchor gaps (4px above the tooltip, 8px below
+     the popover). *(§AA, BK1.1's review)*
