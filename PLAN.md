@@ -18465,11 +18465,11 @@ the curve is stated once and both schemes read from the same rule
 where possible. Tests pin the gap ceiling, the adjacency floor and
 the two bands.
 
-- [ ] The dark curve re-derived; theme tests pin gap ceiling,
+- [x] The dark curve re-derived; theme tests pin gap ceiling,
   adjacency floor, and the 3:1 and 4.5:1 bands per ramp.
-- [ ] `theme/export` regenerated and `design/` regenerated against
+- [x] `theme/export` regenerated and `design/` regenerated against
   the committed generator, clean diff.
-- [ ] Exit: green in `theme` and `design`; commit and push in
+- [x] Exit: green in `theme` and `design`; commit and push in
   `theme`, `design` and `.github`.
 
 #### BJ1.2: Downstream goldens take the new dark steps
