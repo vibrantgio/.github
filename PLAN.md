@@ -18296,15 +18296,15 @@ BJ by owner instruction; BJ's hold stands.)
 
 #### BL2.1: Cut the minor and point the workbench at it
 
-- [ ] ADR-006 seam order: push masters, tag `components` v1.3.0 and
+- [x] ADR-006 seam order: push masters, tag `components` v1.3.0 and
   mirror `components/gallery/v1.3.0` (contract change: public API
   removed → minor, per the standing tag rule), bump workbench pins,
   `GOWORK=off` verify, second self-referencing pass.
-- [ ] `scripts/sync-versions.sh` before the workbench commit; the
+- [x] `scripts/sync-versions.sh` before the workbench commit; the
   llms.txt roster line that says `input.Dropdown` forwards to picker
   stays true and stays; any sentence describing the chip's anchor or
   badge face goes.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
+- [x] Exit: `check-layers.sh` and `check-versions.sh` from `.github`;
   every repo touched pushed.
 
 ## Phase BM: The tag pattern becomes the badge component
