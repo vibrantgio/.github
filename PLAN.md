@@ -18342,16 +18342,16 @@ glyph is ruled a glyph badge and hoists in.
 
 #### BM1.1: components/badge is born with the ruled anatomy
 
-- [ ] New package `components/badge`: text-sized (no control-ladder
+- [x] New package `components/badge`: text-sized (no control-ladder
   height; the type size at the density sets it), utterances word,
   count, or glyph; variants Success/Warning/Error/Info/Neutral
   derived through the role palette against the ground, floors
   respected; optional dismiss with the close mark's invisible
   extended hit area; pure/live twins per house architecture.
-- [ ] Package goldens on the standard grounds, both schemes; a
+- [x] Package goldens on the standard grounds, both schemes; a
   gallery specimen block showing the five variants and the three
   utterances.
-- [ ] Green, layers checked from `.github`, pushed. No release here.
+- [x] Green, layers checked from `.github`, pushed. No release here.
 
 #### BM1.2: The abrupt cut — every call site converts, the tag dies
 
