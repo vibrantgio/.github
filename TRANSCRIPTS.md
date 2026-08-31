@@ -132,6 +132,10 @@ Rene: I would expect the badge to have a background hue, I just
 could not imagine that not being the case. Did the reviewer noticed
 this too? ^0002-badge-background-hue
 
+Rene: Think about an eyebrow and what it should look like in a hero
+and when you decide it is pure typography then don't burden the
+badge with it. ^0002-eyebrow-typography
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's

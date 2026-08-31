@@ -93,9 +93,15 @@ thing, an Input chip is a token the user entered themselves.
 Dismissing a badge removes only the label, never behaviour (ruled
 2026-08-30): a system-generated summary of view state — "filtered by
 X" — is plain text or a close-less badge, removed where it was set,
-while the user's own filter token is an Input chip. The eyebrow is a
-badge at its quietest: pure text, no pill. A component, not a
-pattern.
+while the user's own filter token is an Input chip. A component, not
+a pattern.
+
+**Eyebrow** — the hero's kicker: a short overline in the type stack
+that introduces the headline. Pure typography — a typographic role,
+not a badge (ruled 2026-08-31): it carries no variant, no container,
+no voice about content; it is the composition speaking, not the
+system. Wears type styling (size, tracking, a hue if the theme says
+so), never the badge's tinted container.
 
 **Chrome** — the window's furniture: every region that frames the
 document rather than being it — toolbar, header, sidebar, rail,
