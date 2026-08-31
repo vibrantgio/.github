@@ -1893,3 +1893,15 @@ as BO1.2, not pooled.
      control whose ring grows its footprint (first to clip in a
      dense list — item 171's geometry, remeasured). *(§AB, BO1.1's
      review)*
+
+204. **[decide]** Dark status washes are muddled (owner-observed live,
+     2026-08-31, measured confirmed): all four alert container fills
+     sit at L* 19.0-19.2 where chroma compresses — Error #482421 and
+     Warning #452713 read as two barely-different browns, Success and
+     Info as near-black tints — while light's pale washes keep their
+     hues apart. Unchanged by the dark-ramp round (byte-identical
+     fills before/after; the washes derive from ramp steps 100-400,
+     which did not move). Same family as item 178, at the fill level:
+     whether dark status washes get more chroma, more lightness
+     separation, or a different derivation depth is a palette ruling.
+     *(§AB, owner observation)*
