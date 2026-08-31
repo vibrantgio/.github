@@ -1836,8 +1836,9 @@ dark-rung and meta-prose complaints rebutted from package contracts.
 
 197. **[decide]** The hovered Ghost ground is 1.13:1 (232 on 246
      light, 34 on 24 dark) — the register's own floor, reaching
-     every ghost affordance including the modal's close mark. How
-     quiet the ghost hover wash may be is an owner call. *(§AA,
+     every ghost affordance including the modal's close mark.
+     Owner-ruled 2026-08-31: fix with a perceptibility floor.
+     Tasked as BP1.1. *(§AA,
      BK1.1's review)*
 
 198. **[bug]** The sidebar mark does not survive 1x: horizontal
@@ -1884,7 +1885,8 @@ as BO1.2, not pooled.
      ring #8C59F4 vs the neutral resting border #797979 = 1.01:1 in
      luminance at the same 2px width — light focus is 100% hue and
      vanishes under Differentiate Without Color. Dark separates at
-     1.86:1. *(§AB, BO1.1's review)*
+     1.86:1. Owner-ruled 2026-08-31: fix. Tasked as BP1.3. *(§AB,
+     BO1.1's review)*
 
 203. **[decide]** Minors bundle: two type sizes and two baselines
      across one control row (LabelLarge button/chip vs BodyLarge
@@ -1903,5 +1905,6 @@ as BO1.2, not pooled.
      fills before/after; the washes derive from ramp steps 100-400,
      which did not move). Same family as item 178, at the fill level:
      whether dark status washes get more chroma, more lightness
-     separation, or a different derivation depth is a palette ruling.
-     *(§AB, owner observation)*
+     separation, or a different derivation depth is the worker's measured design
+     work. Owner-ruled 2026-08-31: fix. Tasked as BP1.2. *(§AB,
+     owner observation)*
