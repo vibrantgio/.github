@@ -18785,7 +18785,11 @@ carries the floor so every seed self-corrects.
   the ground, never a loud fill. More lightness, more chroma, or a
   different depth is the worker's design work, measured not
   guessed; the ADR-022 ladder and the alert/badge/toast consumers
-  bound it.
+  bound it. Per DOMAIN decision 0007 (shared-recipes) the badge and
+  the Tonal button speak ONE tint recipe — by the time this task
+  runs the collapse (open-rulings 206) should have landed with the
+  chip re-anatomy; whatever this task does to the wash recipe moves
+  the Tonal button with it, goldens accordingly.
 - [ ] Sweep tests pin the pairwise separation floor and the
   existing fill-vs-ground and foreground-vs-fill floors together;
   downstream goldens (alert, toast, badge, gallery, sitedocs)

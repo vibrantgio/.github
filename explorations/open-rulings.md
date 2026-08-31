@@ -1917,3 +1917,17 @@ as BO1.2, not pooled.
      heading, or caption the Pinned specimen so the register/pin
      distinction is visible in the layout. Gallery-composition call.
      *(§AB, owner observation)*
+
+206. **[bug]** DOMAIN decision 0007 (shared-recipes, 2026-09-01)
+     rules the Tonal button and the badge share ONE tint recipe —
+     and today they do not: Tonal pins fixed ramp steps
+     (tonalGround 200, tonalText 900, button.go:596-602) while the
+     badge derives ground-aware with the separation floor
+     (StatusContainerOn, ContainerFloor). The collapse to the shared
+     recipe (the floored ground-aware family, being the one that
+     survives every storey) is execution of the ruling; it moves
+     Tonal goldens and intersects the chip re-anatomy's emphasis
+     work — sequence it with or into Phase BN. Also per the same
+     commit: the accent's foreground is the role colour darkened
+     (not neutral), and focus is a persistent state — spec prose
+     follows DOMAIN, not the old wording. *(ruling relay, 0007)*
