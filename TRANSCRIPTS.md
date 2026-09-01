@@ -270,6 +270,8 @@ to be used in CPU ops ^0002-variant-not-register
 Rene (on the heading-per-entry proposal, four groups): SGTM
 ^0002-headings-sgtm
 
+Rene: Voice could use a table ^0002-voice-table
+
 
 ## 0003 — the chips session (2026-08-30)
 

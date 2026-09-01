@@ -38,9 +38,14 @@ control itself.
 
 #### Voice
 
-Who a widget speaks for: the user (their own entries and
-tokens) or the system or author (words about the content). A signal
-always speaks in the system's voice.
+Who a widget speaks for.
+
+| Voice | Speaks | Example |
+|---|---|---|
+| **the user** | their own entries and tokens | the filter token they typed |
+| **the system or author** | words about the content | the "Popular" label, the key-check verdict |
+
+A signal always speaks in the system's voice.
 
 #### Affordance
 
