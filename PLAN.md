@@ -18659,21 +18659,21 @@ also edits the gallery inventory.
 The re-anatomy's token vocabulary, every colour derived against
 floors rather than copied from M3's fixed tones (ADR-023):
 
-- [ ] `Container(role)` / `OnContainer(role)`: the status-container
+- [x] `Container(role)` / `OnContainer(role)`: the status-container
   derivation (`StatusContainer`/`OnStatusContainer`) generalized to
   the accent trio; `Container(Secondary)` is the chip's selected
   fill.
-- [ ] `OutlineVariant`: a derived neutral rung clearing the boundary
+- [x] `OutlineVariant`: a derived neutral rung clearing the boundary
   floor against Surface AND Background in both schemes — floored by
   construction where M3's fixed outline famously vanishes.
-- [ ] `OnSurfaceVariant`: the muted-ink rung, floored at TextFloor.
+- [x] `OnSurfaceVariant`: the muted-ink rung, floored at TextFloor.
   (SurfaceContainerLow needs no token — `SurfaceAt(Level1)` is its
   analogue.)
-- [ ] `Density` gains `ChipHeight = ControlHeight − 4` (owner-ruled:
+- [x] `Density` gains `ChipHeight = ControlHeight − 4` (owner-ruled:
   the relation, not a pin — Comfortable 32, Compact 24; "chips are
   smaller than buttons" stated once). Tests pin the relation and the
   floors; `theme/export` and `design/` regenerated, clean diff.
-- [ ] Exit: green in `theme` and `design`; commit and push in both
+- [x] Exit: green in `theme` and `design`; commit and push in both
   and `.github`. No release here; BN4 tags the round.
 
 ### G-BN2: The chip becomes the ruled anatomy
