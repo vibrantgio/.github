@@ -207,6 +207,13 @@ Rene: Let's talk about role, as I noticed there is now a container
 role and omncontainer role, explore everything role
 ^0002-explore-role
 
+Rene: Role is too generic. And you then load it up with all it's
+several meanings. Let's find a name for attachment roles. So I think
+attachment is a concept that can be used as a hanger to introduce a
+number of related concepts like anchor trigger, etc. So you are not
+talking about role related but attachment related concepts.
+^0002-attachment-not-role
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's

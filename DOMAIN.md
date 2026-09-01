@@ -2,16 +2,27 @@
 
 ## Language
 
-**Role** — a part any widget can play in a relationship; not a
-component. The attachment roles: **Anchor** (the element a floating
-surface is positioned against), **Trigger** (the interaction that
-opens or closes it), **Surface** (the floating thing itself),
-**Placement** (which side, and who arbitrates). Anchor and trigger
-usually coincide; they are still two roles. "Anchor" is reserved for
-the role alone (ruled 2026-08-30): no component may carry it as a
-name. The picker's chrome-register trigger, shipped as
-picker.Anchor, renames to picker.Toolbar when the chip re-anatomy
-round touches it (deprecated alias until then).
+**Attachment** — the relationship between a floating surface and
+what it floats from (ruled 2026-09-01; formerly filed under the too-
+generic "role"). Its parts, which any widget can play: **Anchor**
+(the element the floating surface is positioned against), **Trigger**
+(the interaction that opens or closes it), **Surface** (the floating
+thing itself), **Placement** (which side, and who arbitrates). Anchor
+and trigger usually coincide; they are still two parts, and none is a
+component. "Anchor" is reserved for the attachment part alone (ruled
+2026-08-30): no component may carry it as a name. The picker's
+chrome-register trigger, shipped as picker.Anchor, renames to
+picker.Toolbar when the chip re-anatomy round touches it (deprecated
+alias until then).
+
+**Role** — a colour identity of the theme: Neutral, Primary,
+Secondary, Tertiary (the accent trio) and Error, Success, Warning,
+Info (the status four). Each role owns a ramp — its hue run from
+light to dark — and answers derived from it: its tinted container,
+its ink, its mark. Wherever a ruling says "role-tinted" or "the
+role's own hue", this is the role it means. Typography roles are a
+different thing entirely — the type stack's named styles, under
+Axis, always spoken with the qualifier.
 
 **Ground** — the plane a control stands on; every colour a control
 draws is derived against its ground, never absolute. The elevation
@@ -41,7 +52,7 @@ is a chip.
 **Picker** — the pick-one-from-many control: one shared **Menu**
 (the surface) behind two register triggers (**Field**, form;
 **Toolbar**, chrome — shipped as picker.Anchor, renaming per the
-Role entry). Single-choice by contract — the trigger shows
+Attachment entry). Single-choice by contract — the trigger shows
 the value. Multiselect of a few visible options is the Filter chip's;
 a summarizing multi-picker does not exist until a consumer outgrows
 that.
