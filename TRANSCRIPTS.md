@@ -267,6 +267,9 @@ Rene: Variant is better, because register in computation a register
 is one of a small fixed number of locations where you can store data
 to be used in CPU ops ^0002-variant-not-register
 
+Rene (on the heading-per-entry proposal, four groups): SGTM
+^0002-headings-sgtm
+
 
 ## 0003 — the chips session (2026-08-30)
 
