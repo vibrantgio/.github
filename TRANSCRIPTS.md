@@ -248,6 +248,9 @@ through and using the pattern we established just now find out where
 more definitional holes are and let's address them
 ^0002-holes-sweep
 
+Rene: I would rephrase -> it informs and offers nothing -> its only
+purpose is to inform ^0002-signal-rephrase
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's

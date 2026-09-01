@@ -8,7 +8,7 @@ every visible piece of a window is a widget. Widgets divide in two:
 | Kind | The user |
 |---|---|
 | **control** | operates it — to act or to choose |
-| **signal** | reads it — it informs and offers nothing |
+| **signal** | reads it — its only purpose is to inform |
 
 **Control** — a widget the user operates to act or to choose.
 
