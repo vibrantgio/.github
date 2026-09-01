@@ -18,6 +18,10 @@ every visible piece of a window is a widget. Widgets divide in two:
 | **chip** | acting on something the content sprouted — filter by it, take it, remove it |
 | **picker** | choosing one from many — the trigger shows the choice |
 | **checkbox** | recording a yes or no |
+| **radio** | recording which one, of a visible few that exclude each other |
+| **switch** | turning something on or off, taking effect at once |
+| **text field** | entering and editing text |
+| **scrollbar** | moving the view through content larger than its surface |
 
 **Signal** — a widget that is read, never operated: it tells a
 status or a fact. The badge is the archetype. A signal may carry one

@@ -251,6 +251,12 @@ more definitional holes are and let's address them
 Rene: I would rephrase -> it informs and offers nothing -> its only
 purpose is to inform ^0002-signal-rephrase
 
+Rene: I can't rule on the "confirm the text floor line for the chip
+label" just yet. I do want switch added to the control table an
+while you are at it add other obvious missing controls to the table,
+I don't expect you to invent new ones but to just enumerate what we
+know to be controls ^0002-enumerate-controls
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
