@@ -353,7 +353,7 @@ does chip:anchor relate to Dropdown in components?
 Orchestrator: they are the same affordance built twice — the form
 variant's trigger owns its menu, the chrome variant's trigger is
 placed by a popover — so it becomes one picker: one Menu, two
-register triggers, and the anchor face leaves the chip family it was
+variant triggers, and the anchor face leaves the chip family it was
 never ontologically part of.
 
 Sources: [[TRANSCRIPTS#^0001-anchor-not-chip]]
