@@ -2,9 +2,15 @@
 
 ## Language
 
-**Control** — a widget the user operates to act or to choose. What
-is only read and never operated — a badge, plain text — is not a
-control.
+**Widget** — anything the system draws as one self-contained unit;
+every visible piece of a window is a widget. Widgets divide in two:
+
+| Kind | The user |
+|---|---|
+| **control** | operates it — to act or to choose |
+| **signal** | reads it — it informs and offers nothing |
+
+**Control** — a widget the user operates to act or to choose.
 
 | Control | Offers |
 |---|---|
@@ -12,6 +18,11 @@ control.
 | **chip** | acting on something the content sprouted — filter by it, take it, remove it |
 | **picker** | choosing one from many — the trigger shows the choice |
 | **checkbox** | recording a yes or no |
+
+**Signal** — a widget that is read, never operated: it tells a
+status or a fact. The badge is the archetype. A signal may carry one
+control on it — the dismissible badge's close — without becoming a
+control itself.
 
 **Affordance** — an action a control offers and shows it offers:
 pressing a button, picking from a menu, dismissing a token. The

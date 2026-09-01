@@ -238,6 +238,11 @@ Rene: define control before affordance ^0002-define-control
 Rene: inside control make a table with button,chip,picker,checkbox
 and define what they offer. ^0002-control-table
 
+Rene: So control references widget and therefore we need widget
+defined before hand plus it hints at something other than control.
+Both widget and the other thing need to be defined
+^0002-define-widget-signal
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
