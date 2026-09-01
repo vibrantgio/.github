@@ -253,6 +253,12 @@ know to be controls ^0002-enumerate-controls
 Rene: I agree with the wording for the diff in switch vs checkbox
 ^0002-switch-checkbox-diff
 
+Rene (2026-09-01): The wording of Button is insufficiently clear, it
+is now the last entry in the language section and defined as
+"persisten verb" (wtf?). Secondly, is it wise to introduce a heading
+per language entry, we now have one big section with not structure
+^0002-button-wording-headings
+
 
 ## 0003 — the chips session (2026-08-30)
 

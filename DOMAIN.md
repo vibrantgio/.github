@@ -14,7 +14,7 @@ every visible piece of a window is a widget. Widgets divide in two:
 
 | Control | Offers |
 |---|---|
-| **button** | performing an action — a persistent verb, always there |
+| **button** | performing an action — always visible, always the same action |
 | **chip** | acting on something the content sprouted — filter by it, take it, remove it |
 | **picker** | choosing one from many — the trigger shows the choice |
 | **checkbox** | recording a yes or no |
@@ -195,9 +195,16 @@ through the accent.
 tokens) or the system or author (words about the content). A signal
 always speaks in the system's voice.
 
+**Button** — the control that performs an action when pressed. It
+is a fixture: placed by the author, always visible, always offering
+the same action — it does not appear from content the way a chip
+does, and it does not record a state. Marking a choice is never a
+button's job, whatever its emphasis register; that is the Filter
+chip's intent.
+
 **Chip** — a small, subtle control that content sprouts, defined by
 its intent (one of the four), never by looks or platform provenance.
-Not a quiet button: buttons are persistent verbs; chips appear from
+Not a quiet button: a button is a fixture; chips appear from
 content and context. Anatomy: [icon] text [x]. The line against the
 badge is read/use: if you read it, it is a badge; if you use it, it
 is a chip.
@@ -246,9 +253,6 @@ not a badge: it carries no variant, no container,
 no voice about content; it is the composition speaking, not the
 system. Wears type styling (size, tracking, a hue if the theme says
 so), never the badge's tinted container.
-
-**Button** — a persistent verb. Selection does not ride its emphasis
-registers; that is the Filter chip's intent.
 
 ## Decisions
 
