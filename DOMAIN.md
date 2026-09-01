@@ -3,8 +3,7 @@
 ## Language
 
 **Attachment** — the relationship between a floating surface and
-what it floats from (ruled 2026-09-01; formerly filed under the too-
-generic "role"). Its parts, which any widget can play:
+what it floats from. Its parts, which any widget can play:
 
 | Part | Meaning |
 |---|---|
@@ -15,7 +14,7 @@ generic "role"). Its parts, which any widget can play:
 
 Anchor and trigger usually coincide; they are still two parts, and
 none is a component. "Anchor" is reserved for the attachment part
-alone (ruled 2026-08-30): no component may carry it as a name. The
+alone: no component may carry it as a name. The
 picker's chrome-register trigger, shipped as picker.Anchor, renames
 to picker.Toolbar when the chip re-anatomy round touches it
 (deprecated alias until then).
@@ -67,14 +66,11 @@ divide in two: transient states (hover, press) accompany an
 interaction in progress and walk their fill from the ground;
 persistent states (selected, checked, active, focused) outlive the
 pointer and mark meaning, so they speak through the accent — a
-role-tinted fill with the role colour, darkened, as foreground
-(ruled 2026-09-01) — the same in a menu, a sidebar or a list.
-Focused joined the persistent states 2026-09-01: it stays where it
-is until it moves, and its accent is the ring around the control
-(ruled 2026-08-30, after a menu marked selection by escaping to the
-inverse surface: a dead end reached by walking the neutral ramp on a
-mid-grey ground — the transient grammar applied to a persistent
-state).
+role-tinted fill with the role colour, darkened, as foreground — the
+same in a menu, a sidebar or a list. Focused stays where it is until
+it moves, and its accent is the ring around the control. Walking the
+neutral ramp for a persistent state is the transient grammar applied
+to the wrong kind: it dead-ends in inverse-surface escapes.
 
 **Checked** — the persistent state of a binary control: the user's
 recorded yes on a checkbox, switch or radio. It survives hover and
@@ -89,37 +85,32 @@ chose, active is the place you are; both are persistent and speak
 through the accent.
 
 **Badge** — the small status signal: the system's word or sign
-about content — read, not used. Formerly "tag" (renamed 2026-08-30);
-briefly split into badge and "mark", folded back 2026-08-30: one
-intent, three utterances — a badge speaks as a word ("Popular"), a
-count (the unread 9), or a glyph (the key-check
-verdict); it covers what M3 and iOS call a badge too. Not a control:
-sized to its content like an inline annotation, off the control
-ladder entirely, visibly lighter than any control (ruled
-2026-08-30). It speaks only in the roles' own hues — Success,
+about content — read, not used. One intent, three utterances: a
+badge speaks as a word ("Popular"), a count (the unread 9), or a
+glyph (the key-check verdict); it covers what M3 and iOS call a
+badge too. Not a control: sized to its content like an inline
+annotation, off the control ladder entirely, visibly lighter than
+any control. It speaks only in the roles' own hues — Success,
 Warning, Error, Info — plus Neutral for plain category labels, and
-hue is never its only channel (ruled 2026-08-31; the fresh-eyes
-measurement agreed — hue-only variants collapse for colour-blind
-readers): a worded or counted badge wears its hue as a tinted
-container, because words and counts are arbitrary content; a glyph
-badge may stand bare, because the glyph's shape carries the meaning
-— the green check and the red cross differ by form before they
-differ by hue (ruled 2026-08-31).
-Filled/Tonal emphasis does not exist on a badge, emphasis lives
-where interaction lives (ruled 2026-08-30). A badge may carry a
-close affordance (ruled 2026-08-30: the badge keeps dismissible; the
-close mark keeps an invisible control-sized hit area); what
+hue is never its only channel (hue-only variants collapse for
+colour-blind readers): a worded or counted badge wears its hue as a
+tinted container, because words and counts are arbitrary content; a
+glyph badge may stand bare, because the glyph's shape carries the
+meaning — the green check and the red cross differ by form before
+they differ by hue. Filled/Tonal emphasis does not exist on a badge;
+emphasis lives where interaction lives. A badge may be dismissible
+(the close mark keeps an invisible control-sized hit area); what
 separates a dismissible badge from an Input chip is voice, not the
 close — a badge is applied by the system or author *about* the
 thing, an Input chip is a token the user entered themselves.
-Dismissing a badge removes only the label, never behaviour (ruled
-2026-08-30) — so a system-generated summary of view state, "filtered
-by X", is plain text or a close-less badge, removed where it was
-set. A component, not a pattern.
+Dismissing a badge removes only the label, never behaviour — so a
+system-generated summary of view state, "filtered by X", is plain
+text or a close-less badge, removed where it was set. A component,
+not a pattern.
 
 **Eyebrow** — the hero's kicker: a short overline in the type stack
 that introduces the headline. Pure typography — a typographic role,
-not a badge (ruled 2026-08-31): it carries no variant, no container,
+not a badge: it carries no variant, no container,
 no voice about content; it is the composition speaking, not the
 system. Wears type styling (size, tracking, a hue if the theme says
 so), never the badge's tinted container.
@@ -143,21 +134,20 @@ derived against its ground, never a stored swatch. Badges,
 persistent states and the Tonal button all fill with one recipe: the
 role's hue diluted toward the ground, a pale tinted field — the
 badge's container, the selected row, the active entry and the Tonal
-button share the same tint, and behaviour tells them apart (ruled
-2026-09-01). Filled emphasis fills with the hue at full saturation;
-the ghost button at rest and the glyph badge have no fill at all. A
-saturated fill is reserved for where interaction lives — a badge's
-fill is never saturated (ruled 2026-08-31). Transient states walk
-the fill — hover and press step it from the ground.
+button share the same tint, and behaviour tells them apart. Filled
+emphasis fills with the hue at full saturation; the ghost button at
+rest and the glyph badge have no fill at all. A saturated fill is
+reserved for where interaction lives — a badge's fill is never
+saturated. Transient states walk the fill — hover and press step it
+from the ground.
 
 **Foreground** — what draws the content on the fill: text, glyph,
 stroke. On a tinted or absent fill the foreground is the same hue at
 reading strength — never an independent "on colour" token; only on
 Filled emphasis' saturated fill does the foreground leave the hue,
 knocked out to a neutral for contrast. Fill and foreground are two
-renditions of one identity, not a stored pair. Fill and foreground
-are the spec vocabulary (ruled 2026-08-31; the interim
-wash/ink/shout naming is retired).
+renditions of one identity, not a stored pair, and they are the spec
+vocabulary.
 
 ## Decisions
 

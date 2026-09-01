@@ -214,6 +214,11 @@ number of related concepts like anchor trigger, etc. So you are not
 talking about role related but attachment related concepts.
 ^0002-attachment-not-role
 
+Rene: So we are defining things in DOMAIN.md and what I see is
+precious information space being dedicated to outdated information.
+"formerly filed under the too generic 'role'"
+^0002-no-history-in-language
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
