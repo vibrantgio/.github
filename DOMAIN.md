@@ -2,17 +2,32 @@
 
 ## Language
 
+**Affordance** — an action a control offers and shows it offers:
+pressing a button, picking from a menu, dismissing a token. The
+affordance is the action, not the widget — the same affordance can
+be built in more than one place or register and remains one
+affordance.
+
 **Intent** — why a small control exists; what chips are defined by.
-The four chip intents: **Assist** (a contextual smart action),
-**Filter** (refine content from a set; toggles, marked when
-selected), **Input** (a token the user entered; dismissible),
-**Suggestion** (a generated prompt the user may take).
+The four chip intents:
+
+| Intent | Meaning |
+|---|---|
+| **Assist** | a contextual smart action |
+| **Filter** | refine content from a set; toggles, marked when selected |
+| **Input** | a token the user entered; dismissible |
+| **Suggestion** | a generated prompt the user may take |
 
 **Register** — the same affordance at a different volume or in a
-different setting, never a different behaviour. The picker's
-registers: **form** (a field among fields) and **chrome** (in a
-toolbar or header). The button's emphasis registers: Filled, Tonal,
-Ghost.
+different setting, never a different behaviour.
+
+| Register | Of | Meaning |
+|---|---|---|
+| **form** | picker | a field among fields |
+| **chrome** | picker | in a toolbar or header |
+| **Filled** | button emphasis | the one action a surface is about |
+| **Tonal** | button emphasis | a secondary action |
+| **Ghost** | button emphasis | an incidental action; claims no colour of its own |
 
 **Component** — a control or signal the system ships as one named
 unit — button, chip, picker, badge — defined by its intent, anatomy
@@ -52,14 +67,20 @@ picker's chrome-register trigger, shipped as picker.Anchor, renames
 to picker.Toolbar when the chip re-anatomy round touches it
 (deprecated alias until then).
 
-**Role** — a colour identity of the theme: Neutral, Primary,
-Secondary, Tertiary (the accent trio) and Error, Success, Warning,
-Info (the status four). Each role owns a ramp — its hue run from
-light to dark — and answers derived from it: its tinted container,
-its ink, its mark. Wherever a ruling says "role-tinted" or "the
-role's own hue", this is the role it means. Typography roles are a
-different thing entirely — the type stack's named styles, under
-Axis, always spoken with the qualifier.
+**Role** — a colour identity of the theme. Each role owns a ramp —
+its hue run from light to dark — and answers derived from it: its
+tinted container, its ink, its mark.
+
+| Roles | Family |
+|---|---|
+| **Neutral** | no hue of its own; the greys |
+| **Primary, Secondary, Tertiary** | the accent trio |
+| **Error, Success, Warning, Info** | the status four |
+
+Wherever a ruling says "role-tinted" or "the role's own hue", this
+is the role it means. Typography roles are a different thing
+entirely — the type stack's named styles, under Axis, always spoken
+with the qualifier.
 
 **Ground** — the surface a control stands on, as that control sees
 it; every colour a control draws is derived against its ground,
@@ -74,23 +95,31 @@ badge is read/use: if you read it, it is a badge; if you use it, it
 is a chip.
 
 **Picker** — the pick-one-from-many control: one shared **Menu**
-(the surface) behind two register triggers (**Field**, form;
-**Toolbar**, chrome — shipped as picker.Anchor, renaming per the
-Attachment entry). Single-choice by contract — the trigger shows
+(the surface) behind two register triggers:
+
+| Trigger | Register |
+|---|---|
+| **Field** | form |
+| **Toolbar** | chrome — shipped as picker.Anchor, renaming per the Attachment entry |
+
+Single-choice by contract — the trigger shows
 the value. Multiselect of a few visible options is the Filter chip's;
 a summarizing multi-picker does not exist until a consumer outgrows
 that.
 
 **Selection** — a persistent state, not a transient one. States
-divide in two: transient states (hover, press) accompany an
-interaction in progress and walk their fill from the ground;
-persistent states (selected, checked, active, focused) outlive the
-pointer and mark meaning, so they speak through the accent — a
-role-tinted fill with the role colour, darkened, as foreground — the
-same in a menu, a sidebar or a list. Focused stays where it is until
-it moves, and its accent is the ring around the control. Walking the
-neutral ramp for a persistent state is the transient grammar applied
-to the wrong kind: it dead-ends in inverse-surface escapes.
+divide in two:
+
+| Kind | States | Behaviour |
+|---|---|---|
+| transient | hover, press | accompany an interaction in progress; walk their fill from the ground |
+| persistent | selected, checked, active, focused | outlive the pointer and mark meaning; speak through the accent — a role-tinted fill with the role colour, darkened, as foreground |
+
+The accent is the same in a menu, a sidebar or a list. Focused stays
+where it is until it moves, and its accent is the ring around the
+control. Walking the neutral ramp for a persistent state is the
+transient grammar applied to the wrong kind: it dead-ends in
+inverse-surface escapes.
 
 **Checked** — the persistent state of a binary control: the user's
 recorded yes on a checkbox, switch or radio. It survives hover and
@@ -105,19 +134,20 @@ chose, active is the place you are; both are persistent and speak
 through the accent.
 
 **Badge** — the small status signal: the system's word or sign
-about content — read, not used. One intent, three utterances: a
-badge speaks as a word ("Popular"), a count (the unread 9), or a
-glyph (the key-check verdict); it covers what M3 and iOS call a
-badge too. Not a control: sized to its content like an inline
-annotation, off the control ladder entirely, visibly lighter than
-any control. It speaks only in the roles' own hues — Success,
-Warning, Error, Info — plus Neutral for plain category labels, and
+about content — read, not used. One intent, three utterances:
+
+| Utterance | Example | Fill |
+|---|---|---|
+| a word | "Popular" | tinted container — words are arbitrary content, so hue alone cannot carry the variant |
+| a count | the unread 9 | tinted container, for the same reason |
+| a glyph | the key-check verdict | may stand bare — the glyph's shape carries the meaning; the green check and the red cross differ by form before they differ by hue |
+
+It covers what M3 and iOS call a badge too. Not a control: sized to
+its content like an inline annotation, off the control ladder
+entirely, visibly lighter than any control. It speaks only in the
+status roles' own hues plus Neutral for plain category labels, and
 hue is never its only channel (hue-only variants collapse for
-colour-blind readers): a worded or counted badge wears its hue as a
-tinted container, because words and counts are arbitrary content; a
-glyph badge may stand bare, because the glyph's shape carries the
-meaning — the green check and the red cross differ by form before
-they differ by hue. Filled/Tonal emphasis does not exist on a badge;
+colour-blind readers). Filled/Tonal emphasis does not exist on a badge;
 emphasis lives where interaction lives. A badge may be dismissible
 (the close mark keeps an invisible control-sized hit area); what
 separates a dismissible badge from an Input chip is voice, not the
@@ -146,19 +176,25 @@ names the colours the furniture draws.
 registers; that is the Filter chip's intent.
 
 **Axis** — an independent dial every component reads rather than
-restates: density (control heights), radius (corner stops), scheme
-(light/dark), typography roles.
+restates.
+
+| Axis | Governs |
+|---|---|
+| density | control heights |
+| radius | corner stops |
+| scheme | light and dark |
+| typography roles | the type stack's named styles |
 
 **Fill** — the field a component paints behind its content, always
-derived against its ground, never a stored swatch. Badges,
-persistent states and the Tonal button all fill with one recipe: the
-role's hue diluted toward the ground, a pale tinted field — the
-badge's container, the selected row, the active entry and the Tonal
-button share the same tint, and behaviour tells them apart. Filled
-emphasis fills with the hue at full saturation; the ghost button at
-rest and the glyph badge have no fill at all. A saturated fill is
-reserved for where interaction lives — a badge's fill is never
-saturated. Transient states walk the fill — hover and press step it
+derived against its ground, never a stored swatch.
+
+| Fill | Who wears it |
+|---|---|
+| the role's hue diluted toward the ground — a pale tinted field | badges, persistent states and the Tonal button, all in one shared tint; behaviour tells them apart |
+| the role's hue at full saturation | Filled emphasis only — reserved for where interaction lives; a badge's fill is never saturated |
+| none | the ghost button at rest, the glyph badge |
+
+Transient states walk the fill — hover and press step it
 from the ground.
 
 **Foreground** — what draws the content on the fill: text, glyph,

@@ -227,6 +227,12 @@ Because to float one needs to differentiate between levels.
 Rene: what are registers named in the definition of component
 ^0002-registers-in-component
 
+Rene: If there is a list in a definition use a table
+^0002-lists-become-tables
+
+Rene: affordance is not defined before its use
+^0002-define-affordance
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
