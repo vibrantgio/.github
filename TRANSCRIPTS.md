@@ -257,6 +257,9 @@ while you are at it add other obvious missing controls to the table,
 I don't expect you to invent new ones but to just enumerate what we
 know to be controls ^0002-enumerate-controls
 
+Rene: I agree with the wording for the diff in switch vs checkbox
+^0002-switch-checkbox-diff
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
