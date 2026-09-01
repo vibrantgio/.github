@@ -272,6 +272,14 @@ Rene (on the heading-per-entry proposal, four groups): SGTM
 
 Rene: Voice could use a table ^0002-voice-table
 
+Rene: Floor needs it own definition and any specific elevations
+perhaps too. Just noticed the use of elevation and levels. Floor
+sounds more like a level than an elevation. WDYT
+^0002-floor-level-elevation
+
+Rene: I don't like floor as the word for the windows own lowest
+level. I lean towards backdrop ^0002-backdrop-not-floor
+
 
 ## 0003 — the chips session (2026-08-30)
 

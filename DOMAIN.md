@@ -124,23 +124,32 @@ restates.
 #### Surface
 
 A plane that content and controls stand on. Every
-surface stands at a level of the elevation ladder; the window itself
-is the lowest. A floating surface stands at a higher level than the
+surface stands at a level; the window's own — the backdrop — is the
+lowest. A floating surface stands at a higher level than the
 surface it floats from — that difference in level is what floating
 is. In an attachment, Surface names the floating one.
 
-#### Elevation ladder
+#### Elevation
 
-The ordered levels surfaces stand at. The
-floor is the window's own level, the darkest region in both schemes;
-each step up is one level, and a surface's colours are derived
-against the level it stands at.
+The dimension of how high a surface stands. It is
+spoken in levels, never in its own units.
+
+#### Level
+
+A position on the elevation, numbered from the backdrop
+up. A surface's colours are derived against the level it stands at.
+
+#### Backdrop
+
+The lowest level: the window's own plane, the darkest
+region in both schemes. It is what the backdrop module paints first
+in every application.
 
 #### Chrome
 
 The window's furniture: every region that frames the
 document rather than being it — toolbar, header, sidebar, rail,
-status bar. Chrome fills at the window's floor in both schemes; the
+status bar. Chrome fills at the backdrop's level in both schemes; the
 shell pattern is the composition of chrome regions; a variant is
 "chrome" when the control lives in that furniture. palette.Chrome
 names the colours the furniture draws.
