@@ -104,8 +104,33 @@ app-side.
 #### Pattern
 
 A composition: components and regions arranged into a
-larger recurring shape — hero, navbar, modal, the shell. Patterns
-place components; they do not redraw them.
+larger recurring shape. Patterns place components; they do not
+redraw them.
+
+| Pattern | Composes |
+|---|---|
+| **accordion** | a vertical stack of collapsible sections, a chevron per open state |
+| **alert** | a tinted rounded banner — variant icon, title, body — in Info, Success, Warning or Error |
+| **breadcrumb** | a row of labels with chevrons marking hierarchical location; the last is where you are |
+| **card** | a rounded surface container with header, body and footer slots; outlined or elevated |
+| **feature** | an icon-title-body grid for a marketing "features" section |
+| **hero** | the marketing landing block: eyebrow, display title, subtitle, visual, a call-to-action pair |
+| **modal** | a centred elevated dialog over a full-window scrim — header, body, footer actions |
+| **navbar** | the horizontal bar of brand, links and actions; the active link marked |
+| **pagination** | numbered page buttons flanked by previous/next chevrons |
+| **pane** | a chrome column floating just inside the window's edges rather than being one of them |
+| **popover** | an anchored elevated surface beside its anchor, a tail pointing at it |
+| **pricing** | a row of tier cards, one optionally emphasised |
+| **shell** | the top-level application layout: the composition of the chrome regions |
+| **sidebar** | a collapsible vertical column — expanded with labels or collapsed to icons; the active entry marked |
+| **table** | a sortable, filterable, virtualised data table |
+| **tabs** | a horizontal tab strip, the active tab underlined, its content panel below |
+| **testimonial** | quote cards naming their author — social proof |
+| **toast** | a position-anchored column of transient notifications, raised by message |
+| **tooltip** | a small hover or focus annotation beside its trigger, shown after a delay |
+
+The tag pattern still ships but is ruled to migrate to the badge
+component, so it is not of the family.
 
 #### Axis
 

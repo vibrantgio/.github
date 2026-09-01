@@ -288,6 +288,9 @@ against reality; the surface lands fully visible, flips when the
 preferred side lacks room, scrolls inside itself when too tall;
 content is never cut off. ^0002-placement-preference-fit
 
+Rene: You can also add the standard patterns to the DOMAIN.md with
+definitions, right? ^0002-pattern-table
+
 
 ## 0003 — the chips session (2026-08-30)
 
