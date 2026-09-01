@@ -154,6 +154,18 @@ component not the On Color ? ^0002-hue-vs-oncolor
 Rene: OK component fill and foreground are concepts that need to be
 in DOMAIN.md ^0002-fill-foreground
 
+Rene (2026-08-31): The issue is that you invent
+language without consulting me. This gets out of hand quickly
+because I don't gave a clue what you are talking about. Another
+issue I have is that the DOMAIN.md has grown some warts already as
+your analysis uncovered. What are we going to be doing about that?
+^0002-no-invented-language
+
+Rene (on "pressed dark"): You made up words again, a human would say
+darkened or made darker. The same hue is implied if I darken
+something the hue stays the same that is implicit.
+^0002-say-darkened
+
 Rene (2026-09-01): So there is an axis that allows the Rest color to
 be determined based on emphasis derived from theme seed and a single
 pinned (explicit override). Showing the Filled button again before
@@ -315,14 +327,3 @@ pipeline session): This is just completely and utterly insane. Who
 comes up with this shit. Then use fill and foreground in the specs,
 not wash and ink. ^0004-fill-foreground-not-wash-ink
 
-Rene (in the ontology session): The issue is that you invent
-language without consulting me. This gets out of hand quickly
-because I don't gave a clue what you are talking about. Another
-issue I have is that the DOMAIN.md has grown some warts already as
-your analysis uncovered. What are we going to be doing about that?
-^0004-no-invented-language
-
-Rene (on "pressed dark"): You made up words again, a human would say
-darkened or made darker. The same hue is implied if I darken
-something the hue stays the same that is implicit.
-^0004-say-darkened
