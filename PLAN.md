@@ -7772,8 +7772,17 @@ faces, the tag's dismissible pill, and the button's "Tonal when
 picked, Ghost when not" doctrine. The owner's ruling: the appearance
 is condemned outright; chips must be subtle; a rounded rect is
 acceptable; nothing of the old look is preserved. The Phase BB
-measurement is hereby history — a derivation input once, a
-definition never again.
+measurement is hereby history for the chip — a derivation input
+once, a definition never again. It is recorded here so it stops
+being a definition anywhere the chip can reach: Mail's unified
+toolbar band #232A2E (L\* 16.555) under its pop-up capsules #242D32
+(L\* 17.837), a step of 1.28 L\*, with 0.70 L\* as the light half's
+derivation for want of a light capture. The pair survives in
+`components/internal/chipface`, which is the pull-down anchor's own
+geometry and the one control the platform really does draw that way;
+`components/chip` no longer references it, and the chip's package doc
+that once quoted the capture is gone with the appearance it
+justified.
 
 **What M3 specifies (verified against the androidx Compose Material3
 token files, not memory).** Four intents, one anatomy: Assist (a
@@ -7815,6 +7824,56 @@ ControlHeight − 4` on Density — Comfortable lands on M3's exact 32,
 Compact on 24, and "chips are smaller than buttons" is stated once.
 The badge, by contrast, left the control ladder entirely (text-sized;
 its record is Phase BM's).
+
+**What execution settled (BN2.1).** Four points where the record
+above needed a decision the token layer could only answer once the
+chip was drawn:
+
+- SELECTED FILL. `Container(Secondary)` names the colour; the chip
+  realizes it against the storey it stands on — `ContainerOn`, the
+  ground-relative member — because the fixed step collides with the
+  ladder it is placed on: dark Level2's surface and the fixed
+  secondary container measure 1.00:1, an invisible selected chip on
+  a dialog. `ContainerOn` is added to `theme/tokens` in this task as
+  the general name `StatusContainerOn` was already the status
+  family's alias for, completing BN1.1's generalization; no value
+  moves and no exported variable is added, so `theme/export` and
+  `design/` are untouched.
+- SELECTED INK. The label is `InkOn(Secondary, fill, TextFloor)` and
+  the marks are `OnContainer`'s own derivation — `MarkOn` against the
+  container at the graphic floor — re-run against the container
+  actually worn. Owner-ruled 2026-09-01: words owe the text floor,
+  `OnContainer` is mark-floored. Re-running rather than reading the
+  fixed token is the badge's `ForegroundOver` precedent: a colour
+  derived against a surface the walk has since moved is a floor met
+  once.
+- THE OUTLINE IS A PIN, NOT AN ANSWER. `OutlineVariant` is floored
+  against Surface and Background, which is the pair a neutral
+  boundary is drawn over when nobody names a storey. A chip names
+  one, and the ladder reaches past that pair — the token measures
+  1.80:1 on dark Level3. So the chip uses it while it clears the
+  graphic floor on both sides of the edge and walks to a floored
+  neutral rung when it cannot, which is the pin-then-walk idiom every
+  other derived colour in the system takes. Where no rung can clear
+  both sides, the OUTER side keeps the colour: what the outline
+  separates the chip from is the page.
+- THE WALK STOPS. Both rests walk with `PinnedStateColor` and both
+  stop. A ramp writes with its ends, so a body walked far enough is
+  one no rung can set a label on — measured at 4.46:1 against the
+  4.5:1 floor on dark Level2 pressed before the stop existed. The
+  selected walk stops for a second reason too: a filled chip carries
+  no outline, so a walk that took its fill through the ground's own
+  depth would erase the chip at the crossing (dark Level3 hovered,
+  1.00:1). Over the seed sweep the floors then land exactly: boundary
+  1.25:1, label 4.50:1, mark 3.00:1.
+
+**Height, as drawn.** `ChipHeight` is the height outright and not a
+floor under the control padding rule — 32 dp Comfortable, 24 dp
+Compact. Under the padding rule a LabelLarge chip would draw 36 and
+the relation would buy nothing. The marks are capped at the body's
+inner height so none lies on its own outline, which binds only at
+Compact, where the chip height and the avatar slot are the same
+number.
 
 **The neighbours.** Selection-on-button-emphasis is repealed:
 selection is the Filter chip's intent, and the button doc says so —
@@ -18686,12 +18745,12 @@ aliases). Keeps what is ours and scheme-proof: the ground-relative
 derivation, the contrast floors, the pure/live twins, the 44 dp
 pointer target, density plumbing.
 
-- [ ] The chip API speaks intent: Assist (clickable, never
+- [x] The chip API speaks intent: Assist (clickable, never
   selected), Filter (toggles; leading checkmark when selected),
   Input (trailing ✕; 24 dp avatar slot, corner-full), Suggestion
   (clickable, usually label-only). Anatomy `[icon] text [x]`;
   icons 18 dp; height `ChipHeight`.
-- [ ] Appearance: silhouette `Radius.Lg` (8) — the pill retires;
+- [x] Appearance: silhouette `Radius.Lg` (8) — the pill retires;
   resting body a 1 dp `OutlineVariant` outline with NO fill; resting
   ink `OnSurfaceVariant` (Assist: full-strength ink); selected fills
   `Container(Secondary)`, outline off — label ink `InkOn(Secondary,
@@ -18701,9 +18760,9 @@ pointer target, density plumbing.
   reached through the existing state walk, which stays the feedback
   grammar; only the resting targets change. The measured 1.28 L\*
   toolbar fill retires to ADR-023's history paragraph.
-- [ ] Package tests and goldens rebuilt around the intents, both
+- [x] Package tests and goldens rebuilt around the intents, both
   schemes, the three storeys.
-- [ ] Exit: green in `components`; commit and push in `components`
+- [x] Exit: green in `components`; commit and push in `components`
   and `.github`.
 
 #### BN2.2: The gallery redraws chips around intents
