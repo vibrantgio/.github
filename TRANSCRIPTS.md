@@ -280,6 +280,14 @@ sounds more like a level than an elevation. WDYT
 Rene: I don't like floor as the word for the windows own lowest
 level. I lean towards backdrop ^0002-backdrop-not-floor
 
+Rene: Let's rule the placement arbiter next ^0002-rule-placement
+
+Rene (crunch selection, via the placement prompt): preference plus
+fit — the author states a preferred side; the attachment arbitrates
+against reality; the surface lands fully visible, flips when the
+preferred side lacks room, scrolls inside itself when too tall;
+content is never cut off. ^0002-placement-preference-fit
+
 
 ## 0003 — the chips session (2026-08-30)
 

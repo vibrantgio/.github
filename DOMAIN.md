@@ -164,7 +164,13 @@ what it floats from. Its parts, which any widget can play:
 | **Anchor** | the element the floating surface is positioned against |
 | **Trigger** | the interaction that opens or closes it |
 | **Surface** | the floating thing itself |
-| **Placement** | which side it opens on, and who arbitrates |
+| **Placement** | which side it opens on — the author's preference, arbitrated by the attachment against fit |
+
+Placement is preference plus fit: the author states the preferred
+side, and the attachment arbitrates against reality — the surface
+must land fully visible inside the window. No room on the preferred
+side flips it to the side that has room; a surface taller than the
+room it wins scrolls inside itself. Content is never cut off.
 
 Anchor and trigger usually coincide; they are still two parts, and
 none is a component. "Anchor" is reserved for the attachment part
