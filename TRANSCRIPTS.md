@@ -243,6 +243,11 @@ defined before hand plus it hints at something other than control.
 Both widget and the other thing need to be defined
 ^0002-define-widget-signal
 
+Rene: move fill and foreground up next to ground, and in general go
+through and using the pattern we established just now find out where
+more definitional holes are and let's address them
+^0002-holes-sweep
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's

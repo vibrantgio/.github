@@ -47,9 +47,18 @@ different setting, never a different behaviour.
 |---|---|---|
 | **form** | picker | a field among fields |
 | **chrome** | picker | in a toolbar or header |
-| **Filled** | button emphasis | the one action a surface is about |
-| **Tonal** | button emphasis | a secondary action |
-| **Ghost** | button emphasis | an incidental action; claims no colour of its own |
+| **Filled** | button | the one action a surface is about |
+| **Tonal** | button | a secondary action |
+| **Ghost** | button | an incidental action; claims no colour of its own |
+
+**Emphasis** — how important an action is on the surface it sits
+on. The button's registers Filled, Tonal and Ghost speak it, loudest
+to quietest. Emphasis lives where interaction lives: signals have
+none.
+
+**Anatomy** — the ordered parts a component is drawn from, each
+required or optional. Notation: brackets mark the optional parts, as
+in [icon] text [x].
 
 **Component** — a control or signal the system ships as one named
 unit — button, chip, picker, badge — defined by its intent, anatomy
@@ -61,6 +70,16 @@ app-side.
 larger recurring shape — hero, navbar, modal, the shell. Patterns
 place components; they do not redraw them.
 
+**Axis** — an independent dial every component reads rather than
+restates.
+
+| Axis | Governs |
+|---|---|
+| density | control heights — the control ladder |
+| radius | corner stops |
+| scheme | light and dark |
+| typography roles | the type stack's named styles |
+
 **Surface** — a plane that content and controls stand on. Every
 surface stands at a level of the elevation ladder; the window itself
 is the lowest. A floating surface stands at a higher level than the
@@ -71,6 +90,13 @@ is. In an attachment, Surface names the floating one.
 floor is the window's own level, the darkest region in both schemes;
 each step up is one level, and a surface's colours are derived
 against the level it stands at.
+
+**Chrome** — the window's furniture: every region that frames the
+document rather than being it — toolbar, header, sidebar, rail,
+status bar. Chrome fills at the window's floor in both schemes; the
+shell pattern is the composition of chrome regions; a register is
+"chrome" when the control lives in that furniture. palette.Chrome
+names the colours the furniture draws.
 
 **Attachment** — the relationship between a floating surface and
 what it floats from. Its parts, which any widget can play:
@@ -108,11 +134,67 @@ with the qualifier.
 it; every colour a control draws is derived against its ground,
 never absolute.
 
+**State** — what is happening to a control right now.
+
+| Kind | States | Meaning |
+|---|---|---|
+| transient | hover, press | accompany an interaction in progress and pass with it |
+| persistent | selected, checked, active, focused | outlive the pointer and mark meaning |
+
+**Rest** is the absence of every state. **Disabled** is not a state
+the user causes: the system has withdrawn the control; it is drawn
+faded and no state applies until it returns.
+
+**Fill** — the field a component paints behind its content, always
+derived against its ground, never a stored swatch.
+
+| Fill | Who wears it |
+|---|---|
+| the role's hue diluted toward the ground — a pale tinted field | badges, persistent states and the Tonal button, all in one shared tint; behaviour tells them apart |
+| the role's hue at full saturation | Filled emphasis only — reserved for where interaction lives; a badge's fill is never saturated |
+| none | the ghost button at rest, the glyph badge |
+
+Transient states walk the fill — hover and press step it
+from the ground.
+
+**Foreground** — what draws the content on the fill: text, glyph,
+stroke. On a tinted or absent fill the foreground is the same hue at
+reading strength — never an independent "on colour" token; only on
+Filled emphasis' saturated fill does the foreground leave the hue,
+knocked out to a neutral for contrast. Fill and foreground are two
+renditions of one identity, not a stored pair, and they are the spec
+vocabulary.
+
+**Accent** — how a persistent state speaks: a role-tinted fill with
+the role colour, darkened, as foreground — the same in a menu, a
+sidebar or a list. On a focused control the accent is the ring
+around it.
+
+**Selection** — the persistent state marking the thing you chose:
+the picked menu row, the marked Filter chip. Walking the neutral
+ramp for a persistent state is the transient grammar applied to the
+wrong kind of state.
+
+**Checked** — the persistent state of a binary control: the user's
+recorded yes on a checkbox, switch or radio. It survives hover and
+focus; focus may ring a checked control, never repaint its mark (the
+focus treatment that redraws a checked box as unchecked is one
+state's grammar overwriting another's).
+
+**Active** — the persistent state marking where the user is: the
+current tab, the current sidebar entry, the open document. Positional
+and one-of-many. Distinct from selection: selected is the thing you
+chose, active is the place you are; both are persistent and speak
+through the accent.
+
+**Voice** — who a widget speaks for: the user (their own entries and
+tokens) or the system or author (words about the content). A signal
+always speaks in the system's voice.
+
 **Chip** — a small, subtle control that content sprouts, defined by
 its intent (one of the four), never by looks or platform provenance.
 Not a quiet button: buttons are persistent verbs; chips appear from
-content and context. Anatomy: optional leading icon, the text,
-optional trailing close — [icon] text [x]. The line against the
+content and context. Anatomy: [icon] text [x]. The line against the
 badge is read/use: if you read it, it is a badge; if you use it, it
 is a chip.
 
@@ -128,32 +210,6 @@ Single-choice by contract — the trigger shows
 the value. Multiselect of a few visible options is the Filter chip's;
 a summarizing multi-picker does not exist until a consumer outgrows
 that.
-
-**Selection** — a persistent state, not a transient one. States
-divide in two:
-
-| Kind | States | Behaviour |
-|---|---|---|
-| transient | hover, press | accompany an interaction in progress; walk their fill from the ground |
-| persistent | selected, checked, active, focused | outlive the pointer and mark meaning; speak through the accent — a role-tinted fill with the role colour, darkened, as foreground |
-
-The accent is the same in a menu, a sidebar or a list. Focused stays
-where it is until it moves, and its accent is the ring around the
-control. Walking the neutral ramp for a persistent state is the
-transient grammar applied to the wrong kind: it dead-ends in
-inverse-surface escapes.
-
-**Checked** — the persistent state of a binary control: the user's
-recorded yes on a checkbox, switch or radio. It survives hover and
-focus; focus may ring a checked control, never repaint its mark (the
-focus treatment that redraws a checked box as unchecked is one
-state's grammar overwriting another's).
-
-**Active** — the persistent state marking where the user is: the
-current tab, the current sidebar entry, the open document. Positional
-and one-of-many. Distinct from selection: selected is the thing you
-chose, active is the place you are; both are persistent and speak
-through the accent.
 
 **Badge** — the small status signal: the system's word or sign
 about content — read, not used. One intent, three utterances:
@@ -187,45 +243,8 @@ no voice about content; it is the composition speaking, not the
 system. Wears type styling (size, tracking, a hue if the theme says
 so), never the badge's tinted container.
 
-**Chrome** — the window's furniture: every region that frames the
-document rather than being it — toolbar, header, sidebar, rail,
-status bar. Chrome fills at the window's floor in both schemes; the
-shell pattern is the composition of chrome regions; a register is
-"chrome" when the control lives in that furniture. palette.Chrome
-names the colours the furniture draws.
-
 **Button** — a persistent verb. Selection does not ride its emphasis
 registers; that is the Filter chip's intent.
-
-**Axis** — an independent dial every component reads rather than
-restates.
-
-| Axis | Governs |
-|---|---|
-| density | control heights |
-| radius | corner stops |
-| scheme | light and dark |
-| typography roles | the type stack's named styles |
-
-**Fill** — the field a component paints behind its content, always
-derived against its ground, never a stored swatch.
-
-| Fill | Who wears it |
-|---|---|
-| the role's hue diluted toward the ground — a pale tinted field | badges, persistent states and the Tonal button, all in one shared tint; behaviour tells them apart |
-| the role's hue at full saturation | Filled emphasis only — reserved for where interaction lives; a badge's fill is never saturated |
-| none | the ghost button at rest, the glyph badge |
-
-Transient states walk the fill — hover and press step it
-from the ground.
-
-**Foreground** — what draws the content on the fill: text, glyph,
-stroke. On a tinted or absent fill the foreground is the same hue at
-reading strength — never an independent "on colour" token; only on
-Filled emphasis' saturated fill does the foreground leave the hue,
-knocked out to a neutral for contrast. Fill and foreground are two
-renditions of one identity, not a stored pair, and they are the spec
-vocabulary.
 
 ## Decisions
 
