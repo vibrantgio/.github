@@ -224,6 +224,9 @@ beforehand. Also elevation ladder and level need introduction.
 Because to float one needs to differentiate between levels.
 ^0002-define-before-use
 
+Rene: what are registers named in the definition of component
+^0002-registers-in-component
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's

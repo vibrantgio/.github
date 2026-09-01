@@ -2,6 +2,18 @@
 
 ## Language
 
+**Intent** — why a small control exists; what chips are defined by.
+The four chip intents: **Assist** (a contextual smart action),
+**Filter** (refine content from a set; toggles, marked when
+selected), **Input** (a token the user entered; dismissible),
+**Suggestion** (a generated prompt the user may take).
+
+**Register** — the same affordance at a different volume or in a
+different setting, never a different behaviour. The picker's
+registers: **form** (a field among fields) and **chrome** (in a
+toolbar or header). The button's emphasis registers: Filled, Tonal,
+Ghost.
+
 **Component** — a control or signal the system ships as one named
 unit — button, chip, picker, badge — defined by its intent, anatomy
 and registers. When a component's contract does not fit a consumer,
@@ -52,18 +64,6 @@ Axis, always spoken with the qualifier.
 **Ground** — the surface a control stands on, as that control sees
 it; every colour a control draws is derived against its ground,
 never absolute.
-
-**Intent** — why a small control exists; what chips are defined by.
-The four chip intents: **Assist** (a contextual smart action),
-**Filter** (refine content from a set; toggles, marked when
-selected), **Input** (a token the user entered; dismissible),
-**Suggestion** (a generated prompt the user may take).
-
-**Register** — the same affordance at a different volume or in a
-different setting, never a different behaviour. The picker's
-registers: **form** (a field among fields) and **chrome** (in a
-toolbar or header). The button's emphasis registers: Filled, Tonal,
-Ghost.
 
 **Chip** — a small, subtle control that content sprouts, defined by
 its intent (one of the four), never by looks or platform provenance.
