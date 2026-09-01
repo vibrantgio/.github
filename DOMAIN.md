@@ -2,6 +2,27 @@
 
 ## Language
 
+**Component** — a control or signal the system ships as one named
+unit — button, chip, picker, badge — defined by its intent, anatomy
+and registers. When a component's contract does not fit a consumer,
+the component is extended; the affordance is never re-assembled
+app-side.
+
+**Pattern** — a composition: components and regions arranged into a
+larger recurring shape — hero, navbar, modal, the shell. Patterns
+place components; they do not redraw them.
+
+**Surface** — a plane that content and controls stand on. Every
+surface stands at a level of the elevation ladder; the window itself
+is the lowest. A floating surface stands at a higher level than the
+surface it floats from — that difference in level is what floating
+is. In an attachment, Surface names the floating one.
+
+**Elevation ladder** — the ordered levels surfaces stand at. The
+floor is the window's own level, the darkest region in both schemes;
+each step up is one level, and a surface's colours are derived
+against the level it stands at.
+
 **Attachment** — the relationship between a floating surface and
 what it floats from. Its parts, which any widget can play:
 
@@ -28,10 +49,9 @@ role's own hue", this is the role it means. Typography roles are a
 different thing entirely — the type stack's named styles, under
 Axis, always spoken with the qualifier.
 
-**Ground** — the plane a control stands on; every colour a control
-draws is derived against its ground, never absolute. The elevation
-ladder orders grounds; the floor is the window's darkest region in
-both schemes.
+**Ground** — the surface a control stands on, as that control sees
+it; every colour a control draws is derived against its ground,
+never absolute.
 
 **Intent** — why a small control exists; what chips are defined by.
 The four chip intents: **Assist** (a contextual smart action),

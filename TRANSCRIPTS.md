@@ -219,6 +219,11 @@ precious information space being dedicated to outdated information.
 "formerly filed under the too generic 'role'"
 ^0002-no-history-in-language
 
+Rene: Surface and Component are used in Attachment but not defined
+beforehand. Also elevation ladder and level need introduction.
+Because to float one needs to differentiate between levels.
+^0002-define-before-use
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
