@@ -154,25 +154,6 @@ component not the On Color ? ^0002-hue-vs-oncolor
 Rene: OK component fill and foreground are concepts that need to be
 in DOMAIN.md ^0002-fill-foreground
 
-## 0004 — the pipeline session (2026-08-31)
-
-Rene (reacting to the hue-voices vocabulary, relayed verbatim by the
-pipeline session): This is just completely and utterly insane. Who
-comes up with this shit. Then use fill and foreground in the specs,
-not wash and ink. ^0004-fill-foreground-not-wash-ink
-
-Rene (in the ontology session): The issue is that you invent
-language without consulting me. This gets out of hand quickly
-because I don't gave a clue what you are talking about. Another
-issue I have is that the DOMAIN.md has grown some warts already as
-your analysis uncovered. What are we going to be doing about that?
-^0004-no-invented-language
-
-Rene (on "pressed dark"): You made up words again, a human would say
-darkened or made darker. The same hue is implied if I darken
-something the hue stays the same that is implicit.
-^0004-say-darkened
-
 Rene (2026-09-01): So there is an axis that allows the Rest color to
 be determined based on emphasis derived from theme seed and a single
 pinned (explicit override). Showing the Filled button again before
@@ -260,6 +241,7 @@ know to be controls ^0002-enumerate-controls
 Rene: I agree with the wording for the diff in switch vs checkbox
 ^0002-switch-checkbox-diff
 
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
@@ -325,3 +307,22 @@ applied-filter display — user-entered tokens are Input chips; a
 system-generated summary of view state is plain text or a close-less
 badge, removed where it was set. Statements never change behaviour
 when dismissed. ^0003-voice-wins
+
+## 0004 — the pipeline session (2026-08-31)
+
+Rene (reacting to the hue-voices vocabulary, relayed verbatim by the
+pipeline session): This is just completely and utterly insane. Who
+comes up with this shit. Then use fill and foreground in the specs,
+not wash and ink. ^0004-fill-foreground-not-wash-ink
+
+Rene (in the ontology session): The issue is that you invent
+language without consulting me. This gets out of hand quickly
+because I don't gave a clue what you are talking about. Another
+issue I have is that the DOMAIN.md has grown some warts already as
+your analysis uncovered. What are we going to be doing about that?
+^0004-no-invented-language
+
+Rene (on "pressed dark"): You made up words again, a human would say
+darkened or made darker. The same hue is implied if I darken
+something the hue stays the same that is implicit.
+^0004-say-darkened
