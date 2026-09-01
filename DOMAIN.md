@@ -2,6 +2,10 @@
 
 ## Language
 
+**Control** — a widget the user operates to act or to choose: a
+button, a chip, a picker, a checkbox. What is only read and never
+operated — a badge, plain text — is not a control.
+
 **Affordance** — an action a control offers and shows it offers:
 pressing a button, picking from a menu, dismissing a token. The
 affordance is the action, not the widget — the same affordance can

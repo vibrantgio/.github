@@ -233,6 +233,8 @@ Rene: If there is a list in a definition use a table
 Rene: affordance is not defined before its use
 ^0002-define-affordance
 
+Rene: define control before affordance ^0002-define-control
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
