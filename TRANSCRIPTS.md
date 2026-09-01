@@ -259,6 +259,10 @@ is now the last entry in the language section and defined as
 per language entry, we now have one big section with not structure
 ^0002-button-wording-headings
 
+Rene: "emphasis register" concept sounds alien to me, we need to
+define it or rename it. What is the meaning of the word register in
+this context? ^0002-register-alien
+
 
 ## 0003 — the chips session (2026-08-30)
 
