@@ -2,9 +2,16 @@
 
 ## Language
 
-**Control** — a widget the user operates to act or to choose: a
-button, a chip, a picker, a checkbox. What is only read and never
-operated — a badge, plain text — is not a control.
+**Control** — a widget the user operates to act or to choose. What
+is only read and never operated — a badge, plain text — is not a
+control.
+
+| Control | Offers |
+|---|---|
+| **button** | performing an action — a persistent verb, always there |
+| **chip** | acting on something the content sprouted — filter by it, take it, remove it |
+| **picker** | choosing one from many — the trigger shows the choice |
+| **checkbox** | recording a yes or no |
 
 **Affordance** — an action a control offers and shows it offers:
 pressing a button, picking from a menu, dismissing a token. The

@@ -235,6 +235,9 @@ Rene: affordance is not defined before its use
 
 Rene: define control before affordance ^0002-define-control
 
+Rene: inside control make a table with button,chip,picker,checkbox
+and define what they offer. ^0002-control-table
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
