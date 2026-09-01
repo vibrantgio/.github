@@ -203,6 +203,10 @@ it now. For both transient and persistent states. Now review the
 ontology work again for under defined things.
 ^0002-second-review
 
+Rene: Let's talk about role, as I noticed there is now a container
+role and omncontainer role, explore everything role
+^0002-explore-role
+
 ## 0003 — the chips session (2026-08-30)
 
 Relayed verbatim by the chips session at the ontology session's
