@@ -31,7 +31,7 @@ control itself.
 **Affordance** — an action a control offers and shows it offers:
 pressing a button, picking from a menu, dismissing a token. The
 affordance is the action, not the widget — the same affordance can
-be built in more than one place or register and remains one
+be built in more than one place or variant and remains one
 affordance.
 
 **Intent** — why a small control exists; what chips are defined by.
@@ -44,10 +44,10 @@ The four chip intents:
 | **Input** | a token the user entered; dismissible |
 | **Suggestion** | a generated prompt the user may take |
 
-**Register** — the same affordance at a different volume or in a
+**Variant** — the same affordance at a different volume or in a
 different setting, never a different behaviour.
 
-| Register | Of | Meaning |
+| Variant | Of | Meaning |
 |---|---|---|
 | **form** | picker | a field among fields |
 | **chrome** | picker | in a toolbar or header |
@@ -56,7 +56,7 @@ different setting, never a different behaviour.
 | **Ghost** | button | an incidental action; claims no colour of its own |
 
 **Emphasis** — how important an action is on the surface it sits
-on. The button's registers Filled, Tonal and Ghost speak it, loudest
+on. The button's variants Filled, Tonal and Ghost speak it, loudest
 to quietest. Emphasis lives where interaction lives: signals have
 none.
 
@@ -66,7 +66,7 @@ in [icon] text [x].
 
 **Component** — a control or signal the system ships as one named
 unit — button, chip, picker, badge — defined by its intent, anatomy
-and registers. When a component's contract does not fit a consumer,
+and variants. When a component's contract does not fit a consumer,
 the component is extended; the affordance is never re-assembled
 app-side.
 
@@ -98,7 +98,7 @@ against the level it stands at.
 **Chrome** — the window's furniture: every region that frames the
 document rather than being it — toolbar, header, sidebar, rail,
 status bar. Chrome fills at the window's floor in both schemes; the
-shell pattern is the composition of chrome regions; a register is
+shell pattern is the composition of chrome regions; a variant is
 "chrome" when the control lives in that furniture. palette.Chrome
 names the colours the furniture draws.
 
@@ -115,7 +115,7 @@ what it floats from. Its parts, which any widget can play:
 Anchor and trigger usually coincide; they are still two parts, and
 none is a component. "Anchor" is reserved for the attachment part
 alone: no component may carry it as a name. The
-picker's chrome-register trigger, shipped as picker.Anchor, renames
+picker's chrome-variant trigger, shipped as picker.Anchor, renames
 to picker.Toolbar when the chip re-anatomy round touches it
 (deprecated alias until then).
 
@@ -199,7 +199,7 @@ always speaks in the system's voice.
 is a fixture: placed by the author, always visible, always offering
 the same action — it does not appear from content the way a chip
 does, and it does not record a state. Marking a choice is never a
-button's job, whatever its emphasis register; that is the Filter
+button's job, whatever its emphasis; that is the Filter
 chip's intent.
 
 **Chip** — a small, subtle control that content sprouts, defined by
@@ -210,9 +210,9 @@ badge is read/use: if you read it, it is a badge; if you use it, it
 is a chip.
 
 **Picker** — the pick-one-from-many control: one shared **Menu**
-(the surface) behind two register triggers:
+(the surface) behind two triggers:
 
-| Trigger | Register |
+| Trigger | Variant |
 |---|---|
 | **Field** | form |
 | **Toolbar** | chrome — shipped as picker.Anchor, renaming per the Attachment entry |
@@ -351,7 +351,7 @@ Rene: anchor doesn't even look like a chip where it stands. So how
 does chip:anchor relate to Dropdown in components?
 
 Orchestrator: they are the same affordance built twice — the form
-register's trigger owns its menu, the chrome register's trigger is
+variant's trigger owns its menu, the chrome variant's trigger is
 placed by a popover — so it becomes one picker: one Menu, two
 register triggers, and the anchor face leaves the chip family it was
 never ontologically part of.

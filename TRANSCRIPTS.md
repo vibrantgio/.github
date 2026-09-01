@@ -263,6 +263,10 @@ Rene: "emphasis register" concept sounds alien to me, we need to
 define it or rename it. What is the meaning of the word register in
 this context? ^0002-register-alien
 
+Rene: Variant is better, because register in computation a register
+is one of a small fixed number of locations where you can store data
+to be used in CPU ops ^0002-variant-not-register
+
 
 ## 0003 — the chips session (2026-08-30)
 
