@@ -4,16 +4,21 @@
 
 **Attachment** — the relationship between a floating surface and
 what it floats from (ruled 2026-09-01; formerly filed under the too-
-generic "role"). Its parts, which any widget can play: **Anchor**
-(the element the floating surface is positioned against), **Trigger**
-(the interaction that opens or closes it), **Surface** (the floating
-thing itself), **Placement** (which side, and who arbitrates). Anchor
-and trigger usually coincide; they are still two parts, and none is a
-component. "Anchor" is reserved for the attachment part alone (ruled
-2026-08-30): no component may carry it as a name. The picker's
-chrome-register trigger, shipped as picker.Anchor, renames to
-picker.Toolbar when the chip re-anatomy round touches it (deprecated
-alias until then).
+generic "role"). Its parts, which any widget can play:
+
+| Part | Meaning |
+|---|---|
+| **Anchor** | the element the floating surface is positioned against |
+| **Trigger** | the interaction that opens or closes it |
+| **Surface** | the floating thing itself |
+| **Placement** | which side it opens on, and who arbitrates |
+
+Anchor and trigger usually coincide; they are still two parts, and
+none is a component. "Anchor" is reserved for the attachment part
+alone (ruled 2026-08-30): no component may carry it as a name. The
+picker's chrome-register trigger, shipped as picker.Anchor, renames
+to picker.Toolbar when the chip re-anatomy round touches it
+(deprecated alias until then).
 
 **Role** — a colour identity of the theme: Neutral, Primary,
 Secondary, Tertiary (the accent trio) and Error, Success, Warning,
