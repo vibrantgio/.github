@@ -57,8 +57,7 @@ affordance.
 
 #### Purpose
 
-Why a widget exists — what it is there to do; a property of the
-widget, where intent would belong to the user. Chips are defined by
+Why a widget exists — what it is there to do. Chips are defined by
 their purpose. The four chip purposes:
 
 | Purpose | Meaning |

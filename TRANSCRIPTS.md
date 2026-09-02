@@ -304,6 +304,11 @@ what someone is trying to accomplish with their actions. Intent as
 used here more feels like the prupose of the Chip, because this is
 solely related to chips right? ^0002-purpose-not-intent
 
+Rene: Should you even still mention intent even when talking about
+Purpose. This refers to a previous no longer present situation that
+a fresh reader of the spec will not be able to connect to anything
+^0002-no-intent-mention
+
 
 ## 0003 — the chips session (2026-08-30)
 
