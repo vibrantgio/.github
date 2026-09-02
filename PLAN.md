@@ -18951,13 +18951,13 @@ before BN4 tags the round because the chip contract is already a
 minor on `components` this round — after the tag each would cost
 another. Abrupt, no aliases, no deprecation shims.
 
-- [ ] `chip.Intent` renames to `chip.Purpose`: the type, its
+- [x] `chip.Intent` renames to `chip.Purpose`: the type, its
   `Selectable`/`Dismissible` methods, and `Props.Intent` →
   `Props.Purpose`. The four constants Assist, Filter, Input,
   Suggestion keep their names. Doc comments say a chip is defined by
   its purpose; the word "intent" leaves `components/chip` and every
   file the rename touches (gallery inventory, tests, `llms.txt`).
-- [ ] The `Ground tokens.ElevationLevel` field on every Props and
+- [x] The `Ground tokens.ElevationLevel` field on every Props and
   State in `components` renames to `Level` — chip, button, badge,
   picker (Field and Toolbar), input (radio, checkbox, textfield),
   `internal/toolbarface` — with the doc comment stating it is the
@@ -18966,13 +18966,13 @@ another. Abrupt, no aliases, no deprecation shims.
   converts: gallery, and each workbench app that sets the field.
   App-local identifiers that merely share the word (a colour field
   in an app's own theme) are out of scope.
-- [ ] Prose in touched files migrates to the language as the edit
+- [x] Prose in touched files migrates to the language as the edit
   passes: "ground" → the surface it stands on, "storey"/"ladder" →
   level(s), "quiet at rest" → prominence terms, "intent" → purpose.
   No sweep beyond the files the renames already open. Goldens must
   not move: a pixel delta means the rename changed behaviour and is
   a defect, not a regeneration.
-- [ ] Exit: green in `components` (nested gallery by name), every
+- [x] Exit: green in `components` (nested gallery by name), every
   touched workbench app module by name, and `workbench/sitedocs`;
   `check-layers.sh` from `.github`; commit and push in every touched
   repo and `.github`.
