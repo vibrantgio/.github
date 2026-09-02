@@ -560,16 +560,27 @@ durably while these are open.
      schemes-measure-differently finding.
      *(§N, BD1.1's fresh-eyes review of the gallery window)*
 
-45. **[decide]** Dark warning container vs dark error container
-    measure ΔE00 8.8 apart (light pair: 18.8; every other dark
-    pair: 26–36). Still distinguishable side by side, and the
-    marks carry the signal — but thin if a warning container ever
-    ships bare. Fixing it means the container stops taking its
-    hue at the depth it stands at (a special case the one-rule
-    derivation deliberately forbids) or the bend shrinks (deep
-    warning goes back toward brown). Accept 8.8, or make the
-    exception?
-    *(§C, from the warning-orange review, 2026-08-21)*
+244. **[decide]** Error and warning are the palette's least separated
+     pair, in both schemes and in both channels. BQ1.4 took the wash's
+     hue off the depth it is realized at, which carried the dark pair
+     from ΔE00 8.8 to 18.1, level with light's 18.8, so the two schemes
+     no longer disagree about it. What is left is that this one pair
+     separates about half as far as every other: measured off the alert
+     and badge specimens, error/warning is 18.1 dark and 18.8 light,
+     warning/success 20.0 and 18.6, and the remaining four pairs run
+     25.9–35.7. The marks repeat the weakness instead of covering it —
+     #fd6d65 beside #f07b1e in dark is ΔE00 19.8, #b12226 beside
+     #944600 in light 17.8 — so an alert that reports an error and one
+     that reports a warning are told apart by the system's weakest
+     distinction twice over, and item 67's identical glyph leaves
+     nothing else carrying it. Decide whether this pair owes a
+     separation floor above the set's, and where the room comes from:
+     warning's bend already stops at 30° for exactly this reason and
+     error's anchor is fixed, so the answer is a lightness or a chroma
+     and not a hue. Replaces item 45, which asked whether to accept
+     ΔE00 8.8 or make the exception; the exception is made and the
+     number it quoted is stale.
+     *(§AG, BQ1.4's review)*
 
 46. **[decide]** Dark Tertiary and dark Error can converge on
     near-identical pale pinks (ΔE00 11.9 with a green seed —
@@ -702,6 +713,18 @@ durably while these are open.
      already measures, which is exactly why it cannot be seen.
      *(§AG, BQ1.1's review)*
 
+246. **[decide]** One chroma dial does not make four equally present
+     washes. Every status container is held at OKLCh chroma 0.055, which
+     realizes at CIELAB C* 18.3–24.4 in dark and 19.2–21.6 in light:
+     warning is the most chromatic wash of the four and info the least,
+     so a row that is isoluminant by construction and evenly spaced in
+     hue is not even in colourfulness, and warning reads slightly more
+     present than its siblings. Measured off the badge and alert
+     specimens. Decide whether the dial is the right quantity to hold
+     across the set, or whether the washes owe a constant colourfulness
+     and the dial should vary with the hue's own gamut.
+     *(§AG, BQ1.4's review)*
+
 ## Tier 2 — Component and pattern contracts
 
 Rulings that change a published library's shape or grammar, so a
@@ -721,6 +744,21 @@ consumer ships the answer whether or not it asked the question.
      explicitly. Decide whether the ring owes a measured separation
      from the foreground it circles, the way it already owes one from
      the fill. *(§AG, BQ1.3)*
+
+245. **[decide]** An alert carries its bounds and its status in one
+     background wash and nothing else. `drawAlert` fills a rounded rect
+     and strokes nothing — no border, no outline, no leading rule — and
+     by item 67 the glyph is the same in all four. The wash measures
+     correctly for a wash, 1.31:1 against the dark page and 1.37:1
+     against the light one, but it is everything the alert has, so any
+     environment that overrides background colours takes the bound and
+     the status with it: Windows forced-colors, macOS Increase Contrast
+     and the Linux high-contrast themes all do. A badge survives the
+     same override because its label says the status in words; an
+     alert's title does not ("Could not save", "Unsaved changes").
+     Decide what an alert owes underneath the wash; a hairline in the
+     status hue is the cheap answer.
+     *(§AG, BQ1.4's review)*
 
 96. **[decide]** Added 2026-08-29, from AZ2.1's fit check — the first
     real anchor use of `components/chip`. The live `chip.Chip` takes

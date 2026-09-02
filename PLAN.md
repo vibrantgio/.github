@@ -19114,7 +19114,7 @@ moves the shared wash recipe, so it lands here first.
 
 #### BQ1.4: Dark status washes keep their hues apart
 
-- [ ] The status-container wash derivation gains a separation
+- [x] The status-container wash derivation gains a separation
   invariant in dark: the four role washes must part from each other
   by a measured colour distance comparable to light's own
   separation (measure light's worst pair first; that number is the
@@ -19126,7 +19126,7 @@ moves the shared wash recipe, so it lands here first.
   the Tonal button speak ONE tint recipe (BQ1.3), so whatever this
   task does to the wash recipe moves the Tonal button with it,
   goldens accordingly.
-- [ ] Sweep tests pin the pairwise separation floor and the
+- [x] Sweep tests pin the pairwise separation floor and the
   existing fill-vs-ground and foreground-vs-fill floors together;
   downstream goldens (alert, toast, badge, gallery, sitedocs)
   regenerate dark-only unless light legitimately moves, cause
