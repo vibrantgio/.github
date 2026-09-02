@@ -1962,6 +1962,17 @@ and the task was fenced to drawing specimens with the existing API.
      go. (The token itself and the followed-link arrival adoption are
      in the plan; the Language entry is DOMAIN's.) *(§AG)*
 
+230. **[bug]** `theme/export/css.go`'s toast block (around lines
+     1699–1714) calls the toast's status — info, success, warning,
+     error — its "level": "the level's own mark on the inverse
+     surface", "each level takes its own status ramp". The wording
+     dates from T2.1, before LEVEL became the elevation word, and
+     is emitted verbatim into `design/styles.css`. Found by BN3.4's
+     worker, which left it: pre-existing, and not an elevation
+     level. Fix: say status, the established family word, in the
+     export and regenerate `design/` with the clean-diff check.
+     *(§AG, BN3.4's worker)*
+
 229. **[decide]** At Compact density the input chip's avatar, capped
      to the body's inner height (22 in a 24 chip), now sits in a
      uniform 1 px well on all four sides, its round edge abutting the
