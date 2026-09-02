@@ -372,6 +372,15 @@ admit this is something that is part of anything we describe and
 describe the purpose if not obvious for every thing we are
 describing. ^0002-purpose-folds-into-chip
 
+Rene: Let's rule the standalone menu next ^0002-rule-menu
+
+Rene (crunch selection, via the menu prompt): the menu is a
+component in its own right — a floating surface listing items at
+level 3, placed by the attachment rules; an item either performs an
+action or records a choice; the picker keeps its contract and opens
+this menu, a context menu or menu bar opens the same menu from other
+triggers. One menu, many openers. ^0002-menu-own-component
+
 
 ## 0003 — the chips session (2026-08-30)
 

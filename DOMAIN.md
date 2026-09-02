@@ -32,6 +32,7 @@ A component the user operates to act or to choose.
 | **text field** | entering and editing text |
 | **scrollbar** | moving the view through content larger than its surface |
 | **link** | following a reference — text that names its destination |
+| **menu** | a floating list of items, each performing an action or recording a choice |
 
 ### Signal
 
@@ -337,10 +338,18 @@ does, and it does not record a state. Marking a choice is never a
 button's job, whatever its emphasis; that is the Filter
 chip's purpose.
 
+### Menu
+
+The floating list component: items stacked on a surface at level 3,
+opened by a trigger and placed by the attachment rules. Each item
+either performs an action — a context menu's Copy — or records a
+choice — the picker's option. One menu, many openers: the picker's
+triggers, a secondary click on content, a menu bar.
+
 ### Picker
 
-The pick-one-from-many control: one shared **Menu**
-(the surface) behind two triggers:
+The pick-one-from-many control: one menu as its surface, behind two
+triggers:
 
 | Trigger | Variant |
 |---|---|
