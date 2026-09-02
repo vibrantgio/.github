@@ -381,6 +381,20 @@ action or records a choice; the picker keeps its contract and opens
 this menu, a context menu or menu bar opens the same menu from other
 triggers. One menu, many openers. ^0002-menu-own-component
 
+Rene: Let's first do two open: the status-family boundaries
+(alert/toast/badge) and "rung". ^0002-rule-status-and-rung
+
+Rene (crunch selection, via the status prompt): the family divides
+by subject and lifetime — the badge speaks about a thing, inline,
+as long as it is true; the alert about a situation, in the page
+flow, until it resolves; the toast about an event, floating, leaving
+by itself. The tooltip is not of the family. None changes behaviour
+when dismissed. ^0002-status-family
+
+Rene (crunch selection, same prompt): the ramp is walked in STEPS —
+the Ramp.Step API's own word; "rung" retires, comments migrate as
+rounds touch them. ^0002-step-not-rung
+
 
 ## 0003 — the chips session (2026-08-30)
 

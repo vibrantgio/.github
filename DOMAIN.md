@@ -235,9 +235,9 @@ faded and no state applies until it returns.
 
 ### Role
 
-A colour identity of the theme. Each role owns a ramp —
-its hue run from light to dark — and answers derived from it: its
-tinted container, its ink, its mark.
+A colour identity of the theme. Each role owns a ramp — its hue run
+from light to dark, walked in numbered steps — and answers derived
+from it: its tinted container, its ink, its mark.
 
 | Roles | Family |
 |---|---|
@@ -388,6 +388,22 @@ Dismissing a badge removes only the label, never behaviour — so a
 system-generated summary of view state, "filtered by X", is plain
 text or a close-less badge, removed where it was set. A component,
 not a pattern.
+
+### Status
+
+What the system reports in the status roles' hues. Three components
+share the job, divided by what each speaks about and how long it
+stays:
+
+| Component | Speaks about | Where | Until |
+|---|---|---|---|
+| **badge** | a thing | inline with it | it stops being true |
+| **alert** | a situation | in the page flow | the situation resolves |
+| **toast** | an event | floating at level 2 | it leaves by itself |
+
+The tooltip is not of the family: it names a control on demand and
+reports no status. None of the three changes behaviour when
+dismissed.
 
 ### Eyebrow
 
