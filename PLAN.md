@@ -18943,12 +18943,72 @@ cap height — and the dismiss ✕ is the heaviest ink on the chip.
   `workbench/sitedocs`; commit and push in every touched repo and
   `.github`.
 
+#### BN3.3: Chip Intent becomes Purpose and every Ground field becomes Level
+
+Two identifier renames the language rulings of 2026-09-02 call for
+(DOMAIN: Purpose entry; Ground retired from the language), landed
+before BN4 tags the round because the chip contract is already a
+minor on `components` this round — after the tag each would cost
+another. Abrupt, no aliases, no deprecation shims.
+
+- [ ] `chip.Intent` renames to `chip.Purpose`: the type, its
+  `Selectable`/`Dismissible` methods, and `Props.Intent` →
+  `Props.Purpose`. The four constants Assist, Filter, Input,
+  Suggestion keep their names. Doc comments say a chip is defined by
+  its purpose; the word "intent" leaves `components/chip` and every
+  file the rename touches (gallery inventory, tests, `llms.txt`).
+- [ ] The `Ground tokens.ElevationLevel` field on every Props and
+  State in `components` renames to `Level` — chip, button, badge,
+  picker (Field and Toolbar), input (radio, checkbox, textfield),
+  `internal/toolbarface` — with the doc comment stating it is the
+  level of the surface the component stands on. Locals and helpers
+  named for the ground follow in the same files. Every call site
+  converts: gallery, and each workbench app that sets the field.
+  App-local identifiers that merely share the word (a colour field
+  in an app's own theme) are out of scope.
+- [ ] Prose in touched files migrates to the language as the edit
+  passes: "ground" → the surface it stands on, "storey"/"ladder" →
+  level(s), "quiet at rest" → prominence terms, "intent" → purpose.
+  No sweep beyond the files the renames already open. Goldens must
+  not move: a pixel delta means the rename changed behaviour and is
+  a defect, not a regeneration.
+- [ ] Exit: green in `components` (nested gallery by name), every
+  touched workbench app module by name, and `workbench/sitedocs`;
+  `check-layers.sh` from `.github`; commit and push in every touched
+  repo and `.github`.
+
+#### BN3.4: LevelFloor becomes LevelBackdrop
+
+Executes the elevation ruling (DOMAIN: Backdrop entry): "floor" in
+identifiers now means contrast floors only (ContainerFloor,
+TextFloor, GraphicFloor), and the window's lowest level is the
+backdrop. Owner-confirmed 2026-09-02. This makes `theme`'s next tag a
+minor — BN4.1 carries that.
+
+- [ ] `tokens.LevelFloor` renames to `tokens.LevelBackdrop`; every
+  reference across the org converts (theme, components and its
+  gallery, workbench apps, sitedocs). The elevation doc block in
+  `theme/tokens/elevation.go` speaks levels numbered from the
+  backdrop up; "storey" and "ladder" leave that file.
+- [ ] The CSS export follows the identifier: the elevation key
+  `floor` becomes `backdrop` (`--elevation-backdrop-*`), the export
+  readme's prose with it; `design/` regenerated in the same task
+  with the clean-diff check against the committed generator.
+- [ ] Golden tiles keep their file names; no golden moves pixels.
+  Prose in touched files migrates as in BN3.3 — no sweep beyond
+  them.
+- [ ] Exit: green in `theme`, `design`, `components` (nested gallery
+  by name), every touched workbench app module by name, and
+  `workbench/sitedocs`; `check-layers.sh` from `.github`; commit and
+  push in every touched repo and `.github`.
+
 ### G-BN4: The release
 
 #### BN4.1: Tag the chip round
 
-- [ ] ADR-006 seam order: `theme` patch (additive tokens),
-  `components` minor (chip contract replaced, picker rename),
+- [ ] ADR-006 seam order: `theme` minor (additive tokens plus the
+  LevelBackdrop rename), `components` minor (chip contract replaced,
+  picker rename, Purpose and Level renames),
   gallery mirrors components; workbench pins bumped, `GOWORK=off`
   verify, second self-referencing pass, `sync-versions.sh` before
   the workbench commit.
