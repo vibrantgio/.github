@@ -1852,7 +1852,7 @@ dark-rung and meta-prose complaints rebutted from package contracts.
      light, 34 on 24 dark) — the register's own floor, reaching
      every ghost affordance including the modal's close mark.
      Owner-ruled 2026-08-31: fix with a perceptibility floor.
-     Tasked as BP1.1. *(§AA,
+     Tasked as BQ1.1. *(§AA,
      BK1.1's review)*
 
 198. **[bug]** The sidebar mark does not survive 1x: horizontal
@@ -1899,7 +1899,7 @@ as BO1.2, not pooled.
      ring #8C59F4 vs the neutral resting border #797979 = 1.01:1 in
      luminance at the same 2px width — light focus is 100% hue and
      vanishes under Differentiate Without Color. Dark separates at
-     1.86:1. Owner-ruled 2026-08-31: fix. Tasked as BP1.3. *(§AB,
+     1.86:1. Owner-ruled 2026-08-31: fix. Tasked as BQ1.3. *(§AB,
      BO1.1's review)*
 
 203. **[decide]** Minors bundle: two type sizes and two baselines
@@ -1920,7 +1920,7 @@ as BO1.2, not pooled.
      which did not move). Same family as item 178, at the fill level:
      whether dark status washes get more chroma, more lightness
      separation, or a different derivation depth is the worker's measured design
-     work. Owner-ruled 2026-08-31: fix. Tasked as BP1.2. *(§AB,
+     work. Owner-ruled 2026-08-31: fix. Tasked as BQ1.2. *(§AB,
      owner observation)*
 
 205. **[decide]** The gallery's button section shows a Filled
@@ -2247,7 +2247,7 @@ and the task was fenced to drawing specimens with the existing API.
      not of the status family; its colour reserved outside the
      roles, so no status hue may serve as highlighter. The token and
      the followed-link arrival adoption moved into the plan as Phase
-     BQ (owner's go, 2026-09-02). What remains seeded here: SEARCH
+     BP (owner's go, 2026-09-02). What remains seeded here: SEARCH
      adoption — every match marked, the current one stronger, dying
      with the query, scrollbar tick marks the companion convention —
      wherever find-in-content exists; awaits its own go. *(§AG)*
