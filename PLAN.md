@@ -101,13 +101,15 @@ clone are invisible work, and finding them costs him a manual audit. Do not
 leave a repo ahead of its origin at the end of a task, and do not leave the
 root's `llms.txt` describing a version the org has not published.
 
-**Releases stay deliberate.** The cross-repo tag seams in ADR-006 prescribe the
-order — push masters, tag bottom-up, bump pins, `GOWORK=off` verify, second
-self-referencing pass — and that order still holds in full. It is a sequencing
-rule, not a permission gate: follow it end to end rather than stopping to ask
-between its steps. In the same task that cuts a tag, run
-`scripts/sync-versions.sh` so this file's guide (`workbench/llms.txt`) names
-the tags you just published.
+**No tags until the system is finished** (owner-ruled 2026-09-02). Nothing
+here is finished, so no repo cuts a tag and no task is a release: the plan
+carries no "tag the round" tasks, and a phase ends when its last code task
+is green and pushed. A consumer that must build outside `go.work` pins a
+commit (a Go pseudo-version) — that is cheap and exact, and it is what the
+workbench apps do when they need it. `scripts/sync-versions.sh` stays idle.
+The cross-repo seam order in ADR-006 — push masters, tag bottom-up, bump
+pins, `GOWORK=off` verify, second self-referencing pass — is the procedure
+for the day the system is declared finished, and only then.
 
 **Discover through the graph, not by reading files.** The whole checkout is
 indexed by codebase-memory-mcp as project `vibrantgio`, auto-refreshing in the
@@ -18844,7 +18846,7 @@ floors rather than copied from M3's fixed tones (ADR-023):
   smaller than buttons" stated once). Tests pin the relation and the
   floors; `theme/export` and `design/` regenerated, clean diff.
 - [x] Exit: green in `theme` and `design`; commit and push in both
-  and `.github`. No release here; BN4 tags the round.
+  and `.github`.
 
 ### G-BN2: The chip becomes the ruled anatomy
 
@@ -18946,10 +18948,8 @@ cap height — and the dismiss ✕ is the heaviest ink on the chip.
 #### BN3.3: Chip Intent becomes Purpose and every Ground field becomes Level
 
 Two identifier renames the language rulings of 2026-09-02 call for
-(DOMAIN: Purpose entry; Ground retired from the language), landed
-before BN4 tags the round because the chip contract is already a
-minor on `components` this round — after the tag each would cost
-another. Abrupt, no aliases, no deprecation shims.
+(DOMAIN: Purpose entry; Ground retired from the language). Abrupt,
+no aliases, no deprecation shims.
 
 - [x] `chip.Intent` renames to `chip.Purpose`: the type, its
   `Selectable`/`Dismissible` methods, and `Props.Intent` →
@@ -18982,8 +18982,7 @@ another. Abrupt, no aliases, no deprecation shims.
 Executes the elevation ruling (DOMAIN: Backdrop entry): "floor" in
 identifiers now means contrast floors only (ContainerFloor,
 TextFloor, GraphicFloor), and the window's lowest level is the
-backdrop. Owner-confirmed 2026-09-02. This makes `theme`'s next tag a
-minor — BN4.1 carries that.
+backdrop. Owner-confirmed 2026-09-02.
 
 - [ ] `tokens.LevelFloor` renames to `tokens.LevelBackdrop`; every
   reference across the org converts (theme, components and its
@@ -19001,19 +19000,6 @@ minor — BN4.1 carries that.
   by name), every touched workbench app module by name, and
   `workbench/sitedocs`; `check-layers.sh` from `.github`; commit and
   push in every touched repo and `.github`.
-
-### G-BN4: The release
-
-#### BN4.1: Tag the chip round
-
-- [ ] ADR-006 seam order: `theme` minor (additive tokens plus the
-  LevelBackdrop rename), `components` minor (chip contract replaced,
-  picker rename, Purpose and Level renames),
-  gallery mirrors components; workbench pins bumped, `GOWORK=off`
-  verify, second self-referencing pass, `sync-versions.sh` before
-  the workbench commit.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from
-  `.github`; every repo touched pushed.
 
 ## Phase BP: Dark quiet surfaces become visible
 
@@ -19081,16 +19067,6 @@ carries the floor so every seed self-corrects.
   round); fresh-eyes review of the focused-specimens capture in
   both schemes.
 
-### G-BP2: The release
-
-#### BP2.1: Ship the quiet floors
-
-- [ ] ADR-006 seam order; expect patches (derivations and goldens,
-  no contracts); gallery mirrors components; pins bumped only where
-  forced; `sync-versions.sh` before the workbench commit.
-- [ ] Exit: `check-layers.sh` and `check-versions.sh` from
-  `.github`; every repo touched pushed.
-
 ## Phase BQ: The highlight token and its first adoption
 
 Executes the ruled Highlight entry (DOMAIN, 2026-09-02): the marking
@@ -19117,7 +19093,7 @@ stays in the pool until its own go.
   regenerated with a clean diff against the committed generator
   either way.
 - [ ] Exit: green in `theme` and `design`; commit and push in both
-  and `.github`. No tag; the phase's release rides a later round.
+  and `.github`.
 
 ### G-BQ2: Vaultview arrives at the highlight
 
