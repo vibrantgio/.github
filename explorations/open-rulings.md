@@ -2237,7 +2237,7 @@ and the task was fenced to drawing specimens with the existing API.
      a 36 dp one is the sort of thing a developer reads as a mistake.
      *(§AF, BN3.2's review)*
 
-## AF. Language seeds awaiting a plan slot
+## AG. Language seeds awaiting a plan slot
 
 228. **[task]** HIGHLIGHT entered the Language: the marking of
      content the user was brought to, lifetime following cause —
@@ -2247,7 +2247,7 @@ and the task was fenced to drawing specimens with the existing API.
      not of the status family; its colour reserved outside the
      roles, so no status hue may serve as highlighter. The implied
      work when a slot opens: a highlight token in `theme` and
-     adoption where finding and arriving exist. *(§AF)*
+     adoption where finding and arriving exist. *(§AG)*
 
 229. **[decide]** At Compact density the input chip's avatar, capped
      to the body's inner height (22 in a 24 chip), now sits in a
@@ -2256,4 +2256,4 @@ and the task was fenced to drawing specimens with the existing API.
      the cap-band round made it uniform. Whether Compact wants a
      smaller avatar or accepts the abutment is a number to rule; the
      gallery renders Comfortable only, so no reviewer has seen it.
-     *(§AF, BN3.2)*
+     *(§AG, BN3.2)*
