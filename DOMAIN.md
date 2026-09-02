@@ -2,9 +2,7 @@
 
 ## Language
 
-### Components
-
-#### Component
+### Component
 
 What the system ships as one named unit — button, chip, picker,
 badge — defined by its purpose, anatomy and variants. When a
@@ -19,7 +17,7 @@ anything that can be laid out). Every component is one of two kinds
 | **control** | operates it — to act or to choose |
 | **signal** | reads it — its only purpose is to inform |
 
-#### Control
+### Control
 
 A component the user operates to act or to choose.
 
@@ -34,14 +32,23 @@ A component the user operates to act or to choose.
 | **text field** | entering and editing text |
 | **scrollbar** | moving the view through content larger than its surface |
 
-#### Signal
+### Signal
 
-A component that is read, never operated: it tells a
-status or a fact. The badge is the archetype. A signal may carry one
-control on it — the dismissible badge's close — without becoming a
-control itself.
+A component that is read, never operated: its only purpose is to
+inform.
 
-#### Voice
+| Signal | Tells |
+|---|---|
+| **badge** | the system's word, count or glyph about content |
+| **icon** | a concept as a glyph — names an action or a thing at a glance |
+| **text label** | a name or caption, set in a typography role |
+| **image** | a picture placed as content |
+| **markdown document** | rendered prose — headings, lists, code snippets, images |
+
+A signal may carry a control without becoming one — the dismissible
+badge's close, the links inside a markdown document.
+
+### Voice
 
 Who a component speaks for.
 
@@ -52,7 +59,7 @@ Who a component speaks for.
 
 A signal always speaks in the system's voice.
 
-#### Action
+### Action
 
 Something the application does because the user asked for it:
 sending the message, keeping the colour, opening a menu. Performing
@@ -60,7 +67,7 @@ an action changes more than the control that offered it — a control
 that only records a choice, like a checkbox taking a yes, has not
 performed an action.
 
-#### Affordance
+### Affordance
 
 An action a control offers and shows it offers:
 pressing a button, picking from a menu, dismissing a token. The
@@ -68,7 +75,7 @@ affordance is the action, not the component — the same affordance can
 be built in more than one place or variant and remains one
 affordance.
 
-#### Purpose
+### Purpose
 
 Why a component exists — what it is there to do. Chips are defined by
 their purpose. The four chip purposes:
@@ -80,7 +87,7 @@ their purpose. The four chip purposes:
 | **Input** | a token the user entered; dismissible |
 | **Suggestion** | a generated prompt the user may take |
 
-#### Variant
+### Variant
 
 The same affordance at a different prominence or in a
 different setting, never a different behaviour.
@@ -93,20 +100,20 @@ different setting, never a different behaviour.
 | **Tonal** | button | a secondary action |
 | **Ghost** | button | an incidental action; claims no colour of its own |
 
-#### Emphasis
+### Emphasis
 
 How important an action is on the surface it sits
 on. The button's variants Filled, Tonal and Ghost speak it, most
 pronounced to least. Emphasis lives where interaction lives: signals
 have none.
 
-#### Anatomy
+### Anatomy
 
 The ordered parts a component is drawn from, each
 required or optional. Notation: brackets mark the optional parts, as
 in [icon] text [x].
 
-#### Pattern
+### Pattern
 
 A composition: components and regions arranged into a
 larger recurring shape. Patterns place components; they do not
@@ -137,7 +144,7 @@ redraw them.
 The tag pattern still ships but is ruled to migrate to the badge
 component, so it is not of the family.
 
-#### Axis
+### Axis
 
 An independent dial every component reads rather than
 restates.
@@ -149,9 +156,7 @@ restates.
 | scheme | light and dark |
 | typography roles | the type stack's named styles |
 
-### Surfaces
-
-#### Surface
+### Surface
 
 A plane that content and controls stand on. Every
 surface stands at a level; the window's own — the backdrop — is the
@@ -159,23 +164,23 @@ lowest. A floating surface stands at a higher level than the
 surface it floats from — that difference in level is what floating
 is. In an attachment, Surface names the floating one.
 
-#### Elevation
+### Elevation
 
 The dimension of how high a surface stands. It is
 spoken in levels, never in its own units.
 
-#### Level
+### Level
 
 A position on the elevation, numbered from the backdrop
 up. A surface's colours are derived against the level it stands at.
 
-#### Backdrop
+### Backdrop
 
 The lowest level: the window's own plane, the darkest
 region in both schemes. It is what the backdrop module paints first
 in every application.
 
-#### Chrome
+### Chrome
 
 The window's furniture: every region that frames the
 document rather than being it — toolbar, header, sidebar, rail,
@@ -184,7 +189,7 @@ shell pattern is the composition of chrome regions; a variant is
 "chrome" when the control lives in that furniture. palette.Chrome
 names the colours the furniture draws.
 
-#### Attachment
+### Attachment
 
 The relationship between a floating surface and
 what it floats from. Its parts, which any component can play:
@@ -209,9 +214,7 @@ picker's chrome-variant trigger, shipped as picker.Anchor, renames
 to picker.Toolbar when the chip re-anatomy round touches it
 (deprecated alias until then).
 
-### States and colour
-
-#### State
+### State
 
 What is happening to a control right now.
 
@@ -224,7 +227,7 @@ What is happening to a control right now.
 the user causes: the system has withdrawn the control; it is drawn
 faded and no state applies until it returns.
 
-#### Role
+### Role
 
 A colour identity of the theme. Each role owns a ramp —
 its hue run from light to dark — and answers derived from it: its
@@ -241,7 +244,7 @@ is the role it means. Typography roles are a different thing
 entirely — the type stack's named styles, under Axis, always spoken
 with the qualifier.
 
-#### Fill
+### Fill
 
 The field a component paints behind its content, always
 derived against the surface it stands on, never a stored swatch —
@@ -256,7 +259,7 @@ never absolute.
 Transient states walk the fill — hover and press step it away
 from the surface beneath.
 
-#### Foreground
+### Foreground
 
 What draws the content on the fill: text, glyph,
 stroke. On a tinted or absent fill the foreground is the same hue at
@@ -266,21 +269,21 @@ knocked out to a neutral for contrast. Fill and foreground are two
 renditions of one identity, not a stored pair, and they are the spec
 vocabulary.
 
-#### Accent
+### Accent
 
 How a persistent state speaks: a role-tinted fill with
 the role colour, darkened, as foreground — the same in a menu, a
 sidebar or a list. On a focused control the accent is the ring
 around it.
 
-#### Selection
+### Selection
 
 The persistent state marking the thing you chose:
 the picked menu row, the marked Filter chip. Walking the neutral
 ramp for a persistent state is the transient grammar applied to the
 wrong kind of state.
 
-#### Checked
+### Checked
 
 The persistent state of a binary control: the user's
 recorded yes on a checkbox, switch or radio. It survives hover and
@@ -288,7 +291,7 @@ focus; focus may ring a checked control, never repaint its mark (the
 focus treatment that redraws a checked box as unchecked is one
 state's grammar overwriting another's).
 
-#### Active
+### Active
 
 The persistent state marking where the user is: the
 current tab, the current sidebar entry, the open document. Positional
@@ -296,9 +299,7 @@ and one-of-many. Distinct from selection: selected is the thing you
 chose, active is the place you are; both are persistent and speak
 through the accent.
 
-### The components
-
-#### Button
+### Button
 
 The control that performs an action when pressed. It
 is a fixture: placed by the author, always visible, always offering
@@ -307,7 +308,7 @@ does, and it does not record a state. Marking a choice is never a
 button's job, whatever its emphasis; that is the Filter
 chip's purpose.
 
-#### Chip
+### Chip
 
 A small, subtle control that content sprouts, defined by
 its purpose (one of the four), never by looks or platform
@@ -317,7 +318,7 @@ from content and context. Anatomy: [icon] text [x]. The line against the
 badge is read/use: if you read it, it is a badge; if you use it, it
 is a chip.
 
-#### Picker
+### Picker
 
 The pick-one-from-many control: one shared **Menu**
 (the surface) behind two triggers:
@@ -332,7 +333,7 @@ the value. Multiselect of a few visible options is the Filter chip's;
 a summarizing multi-picker does not exist until a consumer outgrows
 that.
 
-#### Badge
+### Badge
 
 The small status signal: the system's word or sign
 about content — read, not used. One purpose, three utterances:
@@ -359,7 +360,7 @@ system-generated summary of view state, "filtered by X", is plain
 text or a close-less badge, removed where it was set. A component,
 not a pattern.
 
-#### Eyebrow
+### Eyebrow
 
 The hero's kicker: a short overline in the type stack
 that introduces the headline. Pure typography — a typographic role,

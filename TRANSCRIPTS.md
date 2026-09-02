@@ -329,6 +329,13 @@ Rene: I'm building an audio specifc app with it named diarizer, so I
 am a bit of two minds if we should keep it ["volume" in Variant].
 Yes, prominence works for me ^0002-prominence-not-volume
 
+Rene: The additonal level Components, States and colors, The
+components doesn't work for me. It's confusing me. I'd like the
+definitions before the place where they are used preferably. But I
+do like the table of Pattern and Control. I see that Signal is
+underdefined? We only have badge there? What about markdown code
+snippets, text labels, icons, images ^0002-flatten-and-signals
+
 
 ## 0003 — the chips session (2026-08-30)
 
