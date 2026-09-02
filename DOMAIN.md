@@ -82,7 +82,7 @@ their purpose. The four chip purposes:
 
 #### Variant
 
-The same affordance at a different volume or in a
+The same affordance at a different prominence or in a
 different setting, never a different behaviour.
 
 | Variant | Of | Meaning |
@@ -96,9 +96,9 @@ different setting, never a different behaviour.
 #### Emphasis
 
 How important an action is on the surface it sits
-on. The button's variants Filled, Tonal and Ghost speak it, loudest
-to quietest. Emphasis lives where interaction lives: signals have
-none.
+on. The button's variants Filled, Tonal and Ghost speak it, most
+pronounced to least. Emphasis lives where interaction lives: signals
+have none.
 
 #### Anatomy
 

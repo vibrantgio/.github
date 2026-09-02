@@ -325,6 +325,10 @@ and a Control is a Component. We reserve widget for the gioui.org
 concept of a widget. And allow for not having an abstract term that
 we can hang components and patterns under. ^0002-widget-is-gios
 
+Rene: I'm building an audio specifc app with it named diarizer, so I
+am a bit of two minds if we should keep it ["volume" in Variant].
+Yes, prominence works for me ^0002-prominence-not-volume
+
 
 ## 0003 — the chips session (2026-08-30)
 
