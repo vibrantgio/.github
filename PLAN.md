@@ -7778,8 +7778,9 @@ being a definition anywhere the chip can reach: Mail's unified
 toolbar band #232A2E (L\* 16.555) under its pop-up capsules #242D32
 (L\* 17.837), a step of 1.28 L\*, with 0.70 L\* as the light half's
 derivation for want of a light capture. The pair survives in
-`components/internal/chipface`, which is the pull-down anchor's own
-geometry and the one control the platform really does draw that way;
+`components/internal/toolbarface`, which is the picker toolbar
+trigger's own geometry and the one control the platform really does
+draw that way;
 `components/chip` no longer references it, and the chip's package doc
 that once quoted the capture is gone with the appearance it
 justified.
@@ -7878,8 +7879,9 @@ number.
 **The neighbours.** Selection-on-button-emphasis is repealed:
 selection is the Filter chip's intent, and the button doc says so —
 narrowing what the Ghost register must carry. The anchor face went to
-`components/picker` (Phase BI), whose chrome trigger renames to
-`picker.Toolbar` in the re-anatomy round per DOMAIN's Role entry. The
+`components/picker` (Phase BI), whose chrome trigger became
+`picker.Toolbar` in the re-anatomy round per DOMAIN's Attachment
+entry. The
 badge face was badges all along and retired with Phase BL; the tag
 pattern died into `components/badge` (Phase BM). Migrations in this
 family are abrupt by ruling — no compatibility faces, no aliases.
@@ -18783,16 +18785,16 @@ pointer target, density plumbing.
 
 #### BN3.1: The button doc repeal and the picker.Toolbar rename
 
-- [ ] `components/button` docs drop the "selection = Tonal when
+- [x] `components/button` docs drop the "selection = Tonal when
   picked, Ghost when not" doctrine; selection lives on the Filter
   chip (DOMAIN: Button entry). Narrows what Ghost must carry —
   note the effect on open-rulings item 139 when closing.
-- [ ] `picker.Anchor` renames to `picker.Toolbar` per DOMAIN's Role
+- [x] `picker.Anchor` renames to `picker.Toolbar` per DOMAIN's Role
   entry — the re-anatomy round is the ruled trigger; abrupt, no
   alias (folds into this round's minor). Call sites across
   components, gallery and workbench apps convert; llms.txt speaks
   Toolbar and the four intents.
-- [ ] Exit: green in `components`, `components/gallery`, and every
+- [x] Exit: green in `components`, `components/gallery`, and every
   touched app module; commit and push in every touched repo and
   `.github`.
 

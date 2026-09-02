@@ -556,6 +556,18 @@ consumer ships the answer whether or not it asked the question.
      rather than the quiet register. Whether ghost's ink is the
      brand's or the neutral ladder's is a components/button register
      ruling.
+
+     NARROWED by BN3.1's button doc repeal (2026-09-02), not closed.
+     Selection has left the emphasis axis for the Filter chip, so
+     Ghost no longer has to read as the unpicked half of a
+     picked/unpicked pair standing beside a Tonal sibling — a reading
+     that needed Ghost to be legible AS A STATE and not only as an
+     action. What remains to rule is the narrower question the second
+     sentence already asks: whether an incidental action's ink is the
+     brand's or the neutral ladder's, with the state duty gone from
+     both sides of the comparison. Vocabulary note for whoever closes
+     it: the variants are Filled, Tonal and Ghost, and "register" is
+     no longer the word.
      *(§P, BE2.1's fresh-eyes review of the tabbed themer window)*
 
 29. **[decide]** One pill shape serves four jobs (tag, card chip, hero

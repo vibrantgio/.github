@@ -228,10 +228,8 @@ room it wins scrolls inside itself. Content is never cut off.
 
 Anchor and trigger usually coincide; they are still two parts, and
 none is a component. "Anchor" is reserved for the attachment part
-alone: no component may carry it as a name. The
-picker's chrome-variant trigger, shipped as picker.Anchor, renames
-to picker.Toolbar when the chip re-anatomy round touches it
-(deprecated alias until then).
+alone: no component may carry it as a name — the picker's
+chrome-variant trigger is Toolbar.
 
 ### State
 
@@ -345,7 +343,7 @@ The pick-one-from-many control: one shared **Menu**
 | Trigger | Variant |
 |---|---|
 | **Field** | form |
-| **Toolbar** | chrome — shipped as picker.Anchor, renaming per the Attachment entry |
+| **Toolbar** | chrome |
 
 Single-choice by contract — the trigger shows
 the value. Multiselect of a few visible options is the Filter chip's;
