@@ -656,182 +656,6 @@ consumer ships the answer whether or not it asked the question.
     owner's call rather than a control's.
     *(§I, from AZ2.1's fit check — the first real anchor use of components/chip)*
 
-99. **[decide]** Added 2026-08-29, from AZ2.1: the live `chip.Chip`
-    reads density and label role from the theme alone, so an app
-    cannot ask for the compact pill. The chip's own table names
-    Compact × LabelMedium as the geometry that reproduces mindchat's
-    hand-rolled 28 dp picker; mindchat's theme is Comfortable, so
-    adopting the component honestly grew the picker to the 32 dp
-    control height in LabelLarge. Only the pure `Render` path takes a
-    density. This may well be right — density is a theme axis, not a
-    call site's — but it is the reason a documented one-for-one
-    replacement is not pixel-identical, and it is worth saying so
-    once.
-
-    **Evidence, 2026-08-29 — the size is right; close the mindchat
-    half.** The owner reported the picker "looks a bit oversized". A
-    design review rendered the window headlessly at both revisions
-    and measured the platform out of the stored reference. Nothing
-    was launched.
-
-    *First, a correction to the paragraph above.* The picker did not
-    grow to 32 dp. `chip.Chip` hard-codes `typ.LabelLarge` and takes
-    the theme's density, and mindchat is Comfortable, so the row that
-    applies is Comfortable × LabelLarge — 36 dp, the fourth row of
-    `components/chip/doc.go`'s table, not the 32 of Compact ×
-    LabelLarge. The drawn pill measures 36 px. The growth was
-    28 → 36 dp, a 29% step, not 28 → 32.
-
-    *The A/B.* `workbench` at `cc655e8^` (f9fbf4f) was checked out
-    into a scratch worktree and its `TestWholeWindowRender` run at
-    the same 1024×768, both schemes, against that revision's own
-    pinned dependencies; the worktree was removed afterwards.
-
-    | measure | old (f9fbf4f) | new (HEAD) | macOS reference |
-    | --- | --- | --- | --- |
-    | band depth | 52 dp (`HeaderRowHeight`) | 52 dp (`ChromeRowHeight` = 2 × button centre) | 52 px unified toolbar |
-    | pill box, window rows | y 12–39 | y 8–43 | y 8–43 |
-    | pill height | 28 dp | 36 dp | 36 px |
-    | air above / below in the band | 12 dp | 8 dp | 8 px |
-    | height ÷ band | 0.538 | 0.692 | 0.692 |
-    | height ÷ window-button diameter | 2.00 | 2.57 | 2.57 |
-    | label role | LabelMedium (12 sp) | LabelLarge (14 sp) | — |
-    | label cap height | 9 px | 10 px | 10 px |
-    | cap ÷ box | 0.32 | 0.278 | 0.278 |
-    | pill width | 230 dp, fixed | 219 dp, content-sized in a 230 cap | 215 px (Mail's search field) |
-    | leading side padding | none — label centred in a fixed box | 16 dp (`PaddingX`) | — |
-    | fill step over the band, dark | +10.0 luminance | +10.0 luminance | +2.65 luminance |
-
-    The reference column is measured, today, off `reference/macos`
-    per ADR-019 — one pixel is one dp on that display. Every toolbar
-    control capsule in `mail-window.png` occupies exactly rows 8–43:
-    the reply group, the archive/trash group, the **folder pop-up
-    button with its chevron**, the **flag pop-up button with its
-    chevron**, and the search field. `notes-toolbar.png` and
-    `notes-window.png` put the compose button, the format group, the
-    share/more group and the search field on the same rows 8–43;
-    `finder-window.png` does too. Three applications, five control
-    kinds, one number: **36 px, centred on the window buttons' line,
-    8 px of air top and bottom in a 52 px band.** The new chip is
-    that geometry to the pixel, including the label — Notes' "Search"
-    placeholder has a 10 px cap in a 36 px capsule, the same 0.278 the
-    chip draws.
-
-    **The gap ADR-019 has.** The record holds window buttons, band
-    depths, the floating pane, scrollbars and reading surfaces, but
-    no row for *toolbar control height* or for pop-up buttons as
-    such. The numbers above were readable from captures already
-    stored, so no gap blocked this review — but a task needing the
-    platform's control height today has to re-derive it. ADR-019
-    should gain the row, cited to those three files.
-
-    **Fresh eyes disagreed, and its numbers are the folklore ADR-019
-    already corrected once.** A reviewer that had not seen this
-    packet was handed the A/B and asked only whether either pill is
-    the wrong size for a menu anchor on this platform. Verbatim:
-
-    > Version B's pill is the wrong size. Measured at 1x it is 36 pt
-    > tall with roughly 15 pt label text; Version A's is 28 pt tall
-    > with roughly 13 pt label text. On macOS, a pop-up/pull-down
-    > menu anchor is an AppKit `NSPopUpButton` (or a SwiftUI
-    > `Menu`/`Picker(.menu)`), and a developer on this platform
-    > expects it at the regular control size: 22 pt tall standing
-    > alone in a window body, stretching to about 24–28 pt when it
-    > lives in a unified toolbar row, with a 13 pt system-font label.
-    > Version A's 28 pt sits at the top of that range and reads as a
-    > native toolbar control. Version B's 36 pt is larger than even
-    > AppKit's large control size and carries a 15 pt label with it;
-    > next to the 52 pt title row it reads as a web or iOS button
-    > that has been dropped into a Mac window, and it will look wrong
-    > beside any real system menu the app ever shows.
-    >
-    > I would ship Version A: it is the only one of the two whose
-    > height and type size a Mac user would recognise as a menu
-    > button rather than a call-to-action.
-    >
-    > Two smaller things about that pill, though, and Version B
-    > actually wins on the first. Version A's interior padding is
-    > lopsided — the label sits about 42 pt from the leading edge
-    > while the chevron ends only about 6 pt from the trailing edge,
-    > so the control looks like it is leaning to the right and the
-    > chevron is nearly touching the border. Version B's padding is
-    > balanced at roughly 17 pt leading and 19 pt trailing. Take A's
-    > height and B's padding: about 12–16 pt of inset on each side,
-    > with the chevron 8–10 pt clear of the trailing edge. Second,
-    > Version A's pill ends at x≈995 while the message column and the
-    > composer below it both end at x≈1011, so the pill hangs about
-    > 16 pt short of the column it sits above; B misses the same edge
-    > by about 6 pt. Align the pill's trailing edge with the content
-    > column in whichever version ships.
-    >
-    > One thing in that row unrelated to the pill: Version A puts the
-    > application's own name, "MindChat", in the title position, while
-    > Version B puts the current conversation, "Reactive layouts",
-    > there. The macOS convention is the document or current item, not
-    > the app name — the app name already lives in the menu bar. B has
-    > that right, and A should adopt it.
-
-    The reviewer's 22 pt and 24–28 pt are recalled AppKit metrics,
-    not read off anything; its own measurement of the two pills (36
-    and 28) agrees with ours exactly, and only the expectation it
-    judged them against is remembered. The platform on this machine
-    puts every one of its toolbar controls at 36. This is the same
-    failure ADR-019 already caught once — "the folklore 12 px and
-    20 px values match neither band on this OS" — and it is why the
-    reference exists. The label reading is off in the same direction:
-    LabelLarge is 14 sp, not 15 pt, and LabelMedium is 12, not 13.
-    A reviewer measuring pixels and comparing them to memory will
-    reproduce the owner's impression rather than test it.
-
-    **Recommendation: (c).** 36 dp is the platform's control height
-    in a 52 dp band; the hand-rolled 28 dp pill was the anomaly, and
-    it was anomalous in the direction of looking *small*, which is
-    why it never drew a complaint. Do NOT add a per-instance
-    density or size override to `chip.Chip` for this — shape (a)
-    would spend a new public seam to move a control off the number
-    the platform measures at. Nor is the Comfortable derivation
-    wrong for the anchor role — shape (b) — since the anchor role is
-    exactly where the platform's own 36 was measured, on two real
-    chevron pop-up buttons. **The mindchat half of this item closes
-    as working-as-intended.** What remains of 99 is the narrow,
-    honest note it already makes: the live path takes no density, so
-    the doc's "reproduces the old pill exactly" claim is reachable
-    only through `Render`. That sentence in `doc.go` should say so.
-
-    **What the eye is actually seeing, and it is not the height.**
-    Two independent impressions called the chip heavy, so something
-    is there. The measurements point at the fill, not the box. In
-    the dark scheme the chip's fill stands +10.0 luminance over the
-    band it sits in; Mail's toolbar capsules stand +2.65 over theirs
-    — the platform's toolbar controls are hairline outlines over the
-    band, and this one is a filled block roughly four times that
-    step. That step is IDENTICAL in the old pill and the new one, so
-    it is not the regression; it is a constant that 29% more area
-    made 29% more visible. The width compounds it: 219 dp is Mail's
-    *search field* width, spent on a three-part label
-    ("Default · OpenAI · gpt-5.5") in an otherwise empty row. If the
-    picker is to read lighter, the cheap moves are the fill step and
-    the label's verbosity, not the control height. That is a
-    colour-and-content finding rather than a density one and wants
-    its own number if the owner rules it in; it is recorded here
-    rather than numbered unilaterally.
-
-    Two of the reviewer's side notes survive its size error and are
-    worth keeping: the old pill's centred label in a fixed box was
-    genuinely lopsided (42 px leading against a chevron 6 px off the
-    trailing edge) and the new chip's 16 dp padding fixes it; and the
-    chip's trailing edge misses the content column below it by about
-    6 px, which is 98's right-alignment seam seen from the outside.
-
-    **Ruled 2026-08-30 in conversation, on this evidence.** The
-    36 dp height stands ("keep 36px but it is too loud, in mac apps
-    it is more subdued" — the owner, verbatim). The loudness finding
-    is ruled in: the fill quiets to a measured per-scheme step
-    (BB1.1), the picker's label shortens (BB2.1), and the trailing
-    edge aligns through 98's seam (BB1.2). Planned as Phase BB; the
-    density half of this item stays closed as working-as-intended.
-    *(§I, from AZ2.1's fit check — the first real anchor use of components/chip)*
-
 93. **[decide]** Added 2026-08-29, from AZ1.2's fresh-eyes review: the
     badge does not read as a badge. Same pill, same radius, same
     hairline, same fill and same height as a resting chip — the only
@@ -1495,17 +1319,6 @@ Added 2026-08-30. Verbatim reply and triage summarized in
 by the worker. Finding 8 (traffic lights) was the harness — now the
 sixth recorded misread. Items 150–159.
 
-150. **[bug]** The inline field menu lost the transient-surface
-     manners the popover assembly provided: no plane edge (1.03:1
-     seam over the dialog — reads as corrupted text), no height cap
-     or scroll (a real provider catalogue is ~40–60 rows into a
-     768 dp window), no hover mark, no outside-press/Escape
-     dismissal scoped to the menu (Escape closes the whole dialog),
-     and no empty-state label where the retired trigger said "No
-     models". A shipped regression of BI2.1; the component absorbs
-     it per the extend-the-component ruling. Tasked as BI2.2.
-     *(§R, BI2.1's review)*
-
 151. **[decide]** patterns/popover: the surface clips at the window
      edge (documented no-reflow — the header menu loses a whole side
      of chrome at 1040 wide), and its tail centres on the anchor's
@@ -1773,15 +1586,6 @@ glyph inversion it missed is gone. Items 167, 168 and 169 all moved in
 the right direction and stay open at their new values, recorded in the
 review.
 
-189. **[bug]** Two focus-ring colours in one page: `#804BE5` (3234 px —
-     button, text field, picker, link, and the chip on the paper
-     storey) and `#A787FF` (704 px — the chip focus cells on the card
-     and dialog storeys only), 19 L\* apart. Same component, same
-     state, two tokens; chip focus reads 4.88–5.72:1 while every other
-     focused control reads 3.07–3.43:1. Light uses one ring value
-     everywhere. Owner-ruled 2026-08-31: fix — one ring colour per
-     scheme. Tasked as BN1.1. *(§Z, BJ1.2's review)*
-
 190. **[decide]** The chip's rest rim is storey-dependent, so the
      pointer changes the outline on one storey and not on the others:
      paper walks 109 → 155 → 155 (steps at hover, then stops), card and
@@ -1848,13 +1652,6 @@ dark-rung and meta-prose complaints rebutted from package contracts.
      the placement contract centres a 320px canvas in a 900px band;
      pre-existing ratio, not introduced. *(§AA, BK1.1's review)*
 
-197. **[decide]** The hovered Ghost ground is 1.13:1 (232 on 246
-     light, 34 on 24 dark) — the register's own floor, reaching
-     every ghost affordance including the modal's close mark.
-     Owner-ruled 2026-08-31: fix with a perceptibility floor.
-     Tasked as BQ1.1. *(§AA,
-     BK1.1's review)*
-
 198. **[bug]** The sidebar mark does not survive 1x: horizontal
      rules render at alpha 19, verticals split 171/125, the rail
      ticks smear. The glyph needs pixel-snapping or a heavier
@@ -1895,13 +1692,6 @@ as BO1.2, not pooled.
      (white 4.32:1 against the light ring, dark 5.3:1). Neighbours
      item 171. *(§AB, BO1.1's review)*
 
-202. **[bug]** The light focus ring carries zero luminance signal:
-     ring #8C59F4 vs the neutral resting border #797979 = 1.01:1 in
-     luminance at the same 2px width — light focus is 100% hue and
-     vanishes under Differentiate Without Color. Dark separates at
-     1.86:1. Owner-ruled 2026-08-31: fix. Tasked as BQ1.3. *(§AB,
-     BO1.1's review)*
-
 203. **[decide]** Minors bundle: two type sizes and two baselines
      across one control row (LabelLarge button/chip vs BodyLarge
      field/trigger, heights 36/40/20); the focused text-field
@@ -1909,19 +1699,6 @@ as BO1.2, not pooled.
      control whose ring grows its footprint (first to clip in a
      dense list — item 171's geometry, remeasured). *(§AB, BO1.1's
      review)*
-
-204. **[decide]** Dark status washes are muddled (owner-observed live,
-     2026-08-31, measured confirmed): all four alert container fills
-     sit at L* 19.0-19.2 where chroma compresses — Error #482421 and
-     Warning #452713 read as two barely-different browns, Success and
-     Info as near-black tints — while light's pale washes keep their
-     hues apart. Unchanged by the dark-ramp round (byte-identical
-     fills before/after; the washes derive from ramp steps 100-400,
-     which did not move). Same family as item 178, at the fill level:
-     whether dark status washes get more chroma, more lightness
-     separation, or a different derivation depth is the worker's measured design
-     work. Owner-ruled 2026-08-31: fix. Tasked as BQ1.2. *(§AB,
-     owner observation)*
 
 205. **[decide]** The gallery's button section shows a Filled
      specimen immediately before the Pinned one, and Pinned reads as
@@ -2028,67 +1805,6 @@ and the task was fenced to drawing specimens with the existing API.
      nothing else — so the inventory cannot show one and a caller
      cannot draw one. Every other control on the ladder has it.
      *(§AC, BN2.2's review)*
-
-213. **[decide]** The marks are not one family, measured in a single
-     row: the assist sign 14×14 at a 2 px stroke, the selection check
-     18×18 at a 1.5 px hairline, the dismiss ✕ 18×18 measuring 3 px
-     of ink, the avatar 24×24 filled, against a label with a 10 px
-     cap height and 2 px stems. Both package marks fill their whole
-     18 dp slot, overshooting the label's cap height by 7 px and
-     hanging 5 px below its baseline; the ✕, two full diagonals
-     across the slot, is the heaviest ink on the chip — heavier than
-     the words beside it, and in the same colour, so a destructive
-     affordance is styled as text but louder. Same item: the input
-     chip keeps the text chip's 16 dp leading inset in front of a
-     24 dp avatar that has 4 px of clearance above and below, a 4:1
-     imbalance that leaves a visible hole at the leading end. Both
-     halves are a number — glyph inset, mark weight, avatar
-     padding — and want one ruling. *(§AC, BN2.2's review)*
-
-     Owner-ruled 2026-09-02 (relayed): the chip's icon must not stick
-     out above the label's cap height or below its baseline. Proposed
-     refinement, to verify rather than take on faith: inside a chip
-     the icon and label read as one line of text, so nominal icon
-     size = the label's cap height, centred on the cap band, with
-     only optical overshoot beyond it — the same few-percent license
-     a round letter takes at the baseline, the way SF Symbols
-     harmonize with type. Measure against the stored Mail reference
-     captures (its token/capsule icons; `reference/macos/`, ADR-019)
-     before fixing the numbers. What remains open is the measured
-     outcome: the resolved nominal size, the ✕'s stroke weight, and
-     the avatar/inset halves under the same principle.
-
-     **Closed 2026-09-02 by BN3.2, and the refinement held.** The
-     reference carried no mark-against-type number, so the gap was
-     closed both ways: the stored Mail capture's search field was read
-     (its magnifier inks 13 px against a 10 px cap band, 1 px above the
-     cap line and 2 px below the baseline), and an offscreen sweep was
-     run and stored with its program so it can be re-run. Measured
-     against a system-font label at three sizes, the platform's plain
-     signs — plus, check, cross — ink out at 1.11 to 1.21 times the
-     label's cap band, half a point to seven eighths above the cap line
-     and half a point to a point below the baseline, at a stroke band
-     of 0.82 to 1.02 of the label's stem. That is precisely what a path
-     running the cap band with a stroke straddling it produces
-     unaided, so the refinement is adopted as measured: the mark box IS
-     the cap band and the overshoot is the stroke's own.
-
-     The four numbers, before and after, at the role a chip's label is
-     set in: mark box 18 dp → the cap band, 10 px at 1x; mark stroke
-     1.5 dp → the label's stem, 1.72 dp; the dismiss cross 18×18 with
-     3 px of ink → 10×10 at the label's own weight, 44% less stroke
-     length and no heavier than the words; the leading inset in front
-     of an avatar 16 dp → the avatar's own vertical clearance, 4 dp at
-     the comfortable density, so the picture sits in a square well.
-     The mark is placed on the band rather than centred in the chip,
-     which is a pixel lower — the capitals are not centred on the line
-     box that holds them. `DismissHitDp` is untouched at 24 dp.
-
-     One divergence worth carrying: not every platform symbol lives in
-     the cap band. The magnifier — a picture rather than a sign — runs
-     1.37 to 1.40 times the band. It is the reason the avatar keeps its
-     own larger slot and its own centring rather than joining the
-     marks.
 
 214. **[decide]** "Tonal" names two different colours: in dark the
      tonal button is #2F0066, fully saturated violet, while the
@@ -2239,18 +1955,12 @@ and the task was fenced to drawing specimens with the existing API.
 
 ## AG. Language seeds awaiting a plan slot
 
-228. **[task]** HIGHLIGHT entered the Language: the marking of
-     content the user was brought to, lifetime following cause —
-     search marks die with the query (current match stronger,
-     scrollbar tick marks the companion convention); followed-link
-     arrival fades by itself. Applied to content, not a component;
-     not of the status family; its colour reserved outside the
-     roles, so no status hue may serve as highlighter. The token and
-     the followed-link arrival adoption moved into the plan as Phase
-     BP (owner's go, 2026-09-02). What remains seeded here: SEARCH
-     adoption — every match marked, the current one stronger, dying
-     with the query, scrollbar tick marks the companion convention —
-     wherever find-in-content exists; awaits its own go. *(§AG)*
+228. **[task]** HIGHLIGHT, the search adoption: every match marked
+     with the highlight token, the current one stronger, the marks
+     dying with the query; scrollbar tick marks are the companion
+     convention — wherever find-in-content exists. Awaits its own
+     go. (The token itself and the followed-link arrival adoption are
+     in the plan; the Language entry is DOMAIN's.) *(§AG)*
 
 229. **[decide]** At Compact density the input chip's avatar, capped
      to the body's inner height (22 in a 24 chip), now sits in a
