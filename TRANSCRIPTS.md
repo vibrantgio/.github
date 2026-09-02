@@ -339,6 +339,10 @@ snippets, text labels, icons, images ^0002-flatten-and-signals
 Rene: The rich text is a concundrum because it may actually show
 affordance for interaction. ^0002-richtext-conundrum
 
+Rene: Voice is another problematic concept that collides with the
+Voice Audio app I'm developing. Originator is also worth
+considering? Yes, originator it is ^0002-originator-not-voice
+
 
 ## 0003 — the chips session (2026-08-30)
 

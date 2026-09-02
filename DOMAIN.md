@@ -51,16 +51,16 @@ badge's close, the links inside a markdown document. The affordance
 always belongs to the carried control, never to the signal: the link
 is underlined, the prose around it is not.
 
-### Voice
+### Originator
 
 Who a component speaks for.
 
-| Voice | Speaks | Example |
+| Originator | Says | Example |
 |---|---|---|
 | **the user** | their own entries and tokens | the filter token they typed |
 | **the system or author** | words about the content | the "Popular" label, the key-check verdict |
 
-A signal always speaks in the system's voice.
+A signal's originator is always the system.
 
 ### Action
 
@@ -355,7 +355,8 @@ hue is never its only channel (hue-only variants collapse for
 colour-blind readers). Filled/Tonal emphasis does not exist on a badge;
 emphasis lives where interaction lives. A badge may be dismissible
 (the close mark keeps an invisible control-sized hit area); what
-separates a dismissible badge from an Input chip is voice, not the
+separates a dismissible badge from an Input chip is the
+originator, not the
 close — a badge is applied by the system or author *about* the
 thing, an Input chip is a token the user entered themselves.
 Dismissing a badge removes only the label, never behaviour — so a
@@ -368,7 +369,7 @@ not a pattern.
 The hero's kicker: a short overline in the type stack
 that introduces the headline. Pure typography — a typographic role,
 not a badge: it carries no variant, no container,
-no voice about content; it is the composition speaking, not the
+says nothing about content; it is the composition speaking, not the
 system. Wears type styling (size, tracking, a hue if the theme says
 so), never the badge's tinted container.
 
