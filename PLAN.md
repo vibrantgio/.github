@@ -19017,16 +19017,16 @@ stays in the pool until its own go.
 
 #### BP1.1: The highlight token
 
-- [ ] `Highlight`: the reserved highlighter colour, derived against
+- [x] `Highlight`: the reserved highlighter colour, derived against
   the surface it marks — floored for visibility against that
   surface, measurably distinct from every status hue in both
   schemes, and content ink over it stays at TextFloor. The
   derivation and its distances are pinned by tests, numbers with
   provenance.
-- [ ] `theme/export` and `design/` follow if the token is emitted;
+- [x] `theme/export` and `design/` follow if the token is emitted;
   regenerated with a clean diff against the committed generator
   either way.
-- [ ] Exit: green in `theme` and `design`; commit and push in both
+- [x] Exit: green in `theme` and `design`; commit and push in both
   and `.github`.
 
 ### G-BP2: Vaultview arrives at the highlight
