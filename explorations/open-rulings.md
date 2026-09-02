@@ -1981,3 +1981,29 @@ and the task was fenced to drawing specimens with the existing API.
      smaller avatar or accepts the abutment is a number to rule; the
      gallery renders Comfortable only, so no reviewer has seen it.
      *(§AG, BN3.2)*
+
+231. **[decide]** The highlight wash and the accent's selection fill are
+     the same hue family. Sampled off BP2.1's window captures: the wash
+     is #E6CBEE light / #3B2641 dark, the sidebar's active row and the
+     outline's active row #D8CEFF light / #3F0085 dark — violet beside
+     violet, one saying "here is what you sought" and the other "this is
+     where you are". The fresh reviewer read the pair as coherent rather
+     than confusing (three violet marks, one destination) and named no
+     defect. But the reservation the highlighter carries is measured
+     against the four status hues and against nothing else, so its
+     distance from the accent — which rotates with the seed, where the
+     highlighter does not — is unmeasured and unruled. Decide whether the
+     reservation owes the accent a distance too, or whether a marking and
+     a selection sharing a hue is the right answer.
+     *(§AG, BP2.1's review)*
+
+232. **[bug]** The arrival highlight's fade reads `tokens.Motion.DurSlow`
+     off the package default scale rather than the theme's own, so a
+     window running under the OS reduce-motion preference — which is what
+     `MotionScale.Reduced` exists to serve — still tweens the wash out
+     over 400 ms instead of dropping it. The note column's `themeTokens`
+     snapshot carries colour, typography, spacing and density and no
+     motion, and threading a fifth stream through it was out of BP2.1's
+     scope. Fix: carry the motion scale in the snapshot the way the other
+     four are carried, and read the stop from there.
+     *(§AG, BP2.1)*

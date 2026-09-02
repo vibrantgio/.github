@@ -19033,13 +19033,13 @@ stays in the pool until its own go.
 
 #### BP2.1: The followed-link arrival highlight
 
-- [ ] Following a link inside vaultview marks the arrived-at content
+- [x] Following a link inside vaultview marks the arrived-at content
   with the highlight token and fades it by itself moments later —
   lifetime follows cause; no dismissal, no persistence, no reuse of
   any status colour.
-- [ ] Fresh-eyes review of the arrival moment, one light and one
+- [x] Fresh-eyes review of the arrival moment, one light and one
   dark capture, per the standing protocol; findings pooled.
-- [ ] Exit: green in vaultview's module (run by name if nested);
+- [x] Exit: green in vaultview's module (run by name if nested);
   commit and push in every touched repo and `.github`.
 
 ## Phase BQ: Dark quiet surfaces become visible
