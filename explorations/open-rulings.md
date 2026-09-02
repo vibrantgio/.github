@@ -2098,3 +2098,15 @@ and the task was fenced to drawing specimens with the existing API.
      is the Filter chip's purpose now. Converting the selector to
      Filter chips is a behavioural change in an app, a natural
      first consumer of the re-anatomied chip. *(§AD, BN3.1)*
+
+## AE. From the menu ruling
+
+218. **[task]** The MENU is ruled a component in its own right: a
+     floating list of items at level 3, placed by the attachment
+     rules; each item either performs an action or records a choice.
+     One menu, many openers — the picker keeps its single-choice
+     contract and opens this menu; a context menu or menu bar opens
+     the same menu from other triggers. The implied task: extract
+     `components/menu` out of `components/picker`'s menu.go, additive,
+     with picker becoming its first consumer. Concept ruled in
+     DOMAIN's Menu entry; awaiting a plan slot. *(§AE)*
