@@ -19159,7 +19159,7 @@ of its own. Every move is abrupt: no compatibility aliases, no
 deprecated forwarders — consumers convert in the same task. No tags
 in this phase; a tagging round follows once the changes have landed.
 
-### G-BR1: The elevation follows the Language
+### G-BR1: The theme follows the Language
 
 #### BR1.1: The chrome level and the darker backdrop
 
