@@ -2078,3 +2078,23 @@ and the task was fenced to drawing specimens with the existing API.
      mid-task. Minor from the same review, recorded so it is not
      rediscovered: chip labels are optically centred one pixel above
      the glyph centres. *(§AC, BN2.2's review)*
+
+## AD. From BN3.1's doctrine repeal
+
+216. **[decide]** The repealed selection doctrine survives as a CSS
+     export contract: `theme/export/css.go` emits
+     `.btn.tonal.selected { background: var(--color-primary-400); }`
+     and its neighbour comment asserts a ghost carries no selected
+     treatment, both pinned by `roundtrip_test.go`. The Go button has
+     no selected state at all, so the class exists solely because of
+     the repealed doctrine; `design/.design-sync/conventions.md`
+     repeats it. Removing them is a CSS export contract change in
+     `theme` — wants a deliberate task, and the round's release seam
+     already includes `theme`. *(§AD, BN3.1)*
+
+217. **[decide]** The doctrine applied as app behaviour: the feeds
+     preferences page-size selector marks the selected size Tonal and
+     the rest Ghost — buttons carrying a persistent selection, which
+     is the Filter chip's purpose now. Converting the selector to
+     Filter chips is a behavioural change in an app, a natural
+     first consumer of the re-anatomied chip. *(§AD, BN3.1)*
