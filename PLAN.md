@@ -18798,6 +18798,42 @@ pointer target, density plumbing.
   touched app module; commit and push in every touched repo and
   `.github`.
 
+#### BN3.2: Chip marks sized to the label's cap band
+
+Executes open ruling 213 under the owner's principle (ruled
+2026-09-02): inside a chip the marks and label read as one line of
+text, so a mark never rises above the label's cap height nor hangs
+below its baseline. Today the package marks fill their full 18 dp
+slot — 7 px above the cap, 5 px below the baseline against a 10 px
+cap height — and the dismiss ✕ is the heaviest ink on the chip.
+
+- [ ] Measure the stored Mail reference's token/capsule icons
+  (`reference/macos/`, ADR-019) against their label's cap height:
+  nominal size, optical overshoot, stroke weight relative to the
+  label's stems. If the reference lacks the numbers, follow the
+  measurement protocol (offscreen/programmatic routes preferred) and
+  close the gap in the reference and ADR-019 in this task.
+- [ ] The chip's marks adopt the measured relation: nominal mark
+  size = the label's cap height, centred on the cap band, with only
+  the measured optical-overshoot licence; the ✕'s stroke joins the
+  label's stem weight family; the plus and ✓ redrawn to the same
+  band. The `Glyph` contract's box becomes the cap band. The
+  24 dp avatar slot and `DismissHitDp`'s 24 dp pointer target are
+  unchanged — only drawn size moves, never the hit target.
+- [ ] The input chip's leading inset resolves under the same ruling:
+  the 16 dp text inset in front of the avatar's 4 px clearance is
+  replaced by a measured, stated relation. Numbers carry their
+  provenance where they land.
+- [ ] Goldens regenerated with cause named: `chip`, gallery,
+  sitedocs. Fresh-eyes review of the chip section, one light and one
+  dark capture, per the standing protocol; findings pooled.
+- [ ] Ruling 213 closed in `explorations/open-rulings.md` with the
+  measured outcome recorded; ruling 160's stale package name fixed
+  in passing if its text is touched.
+- [ ] Exit: green in `components` (nested gallery by name) and
+  `workbench/sitedocs`; commit and push in every touched repo and
+  `.github`.
+
 ### G-BN4: The release
 
 #### BN4.1: Tag the chip round
