@@ -1931,3 +1931,125 @@ as BO1.2, not pooled.
      commit: the accent's foreground is the role colour darkened
      (not neutral), and focus is a persistent state — spec prose
      follows DOMAIN, not the old wording. *(ruling relay, 0007)*
+
+## AC. From BN2.2's fresh-eyes review of the chip section
+
+Added 2026-09-02; full verbatim reply in
+`reviews/bn2.2-gallery-fresh-eyes.md`. The geometry acceptance passed
+with pixel evidence (32 px height, 4 px radius, 16 px end insets, 12 px
+gaps, 1 px edge, every leading glyph on one scanline); the dismiss
+mark's "no pointer target" complaint was rebutted from the package
+contract, the reviewer having said outright it could not be measured
+from a still. Nothing was fixed in-task: every item below is either the
+chip's colour model, the theme's ramps, or a number needing a ruling,
+and the task was fenced to drawing specimens with the existing API.
+
+207. **[bug]** In the dark scheme the chip's state walk and the
+     elevation ladder are the same three values in the same order —
+     surfaces #181818 / #222222 / #2E2E2E, walked fills rest /
+     hover / press #181818 / #222222 / #2E2E2E. So a resting chip on
+     a card is pixel-identical to a hovered chip on the paper (fill,
+     border and label all three), a resting chip in a dialog is
+     pixel-identical to a pressed one on the paper, and — the half
+     that is an outright defect — a chip HOVERED on a card measures
+     1.00:1 against the card it stands on and a chip PRESSED in a
+     dialog measures 1.00:1 against the dialog, so the feedback is
+     not drawn at all. The selected pair collides one step over
+     (selected rest on a card #494263, selected hover on the paper
+     #4A4263). Light cannot have the fault: there elevation goes up
+     (#F6F6F6 → #F8F8F8 → #FBFBFB) while the walk goes down
+     (#F6F6F6 → #E8E8E8 → #D4D4D4). The walk stops where no rung can
+     hold a label, which is a different question from whether the
+     depth it stopped at is the ladder's own. *(§AC, BN2.2's review)*
+
+208. **[decide]** The light ladder is nearly flat where the dark one
+     is not: a card measures 1.02:1 and a dialog 1.04:1 against the
+     paper in light, against 1.12:1 and 1.31:1 in dark — the two
+     schemes disagree about what a level is worth by roughly six
+     times. In the gallery's own capture the light card and dialog
+     bands are essentially invisible. *(§AC, BN2.2's review)*
+
+209. **[decide]** Selecting a filter chip widens it by 26 px — the
+     18 dp mark plus the S2 gap, added on selection rather than
+     reserved — so every click shoves the rest of a filter bar
+     sideways and can rewrap the line under the pointer. Reserving
+     the slot or letting the fill carry selection instead is blocked
+     by the other half: the selected container measures 1.37:1
+     (light), 1.30:1 (dark paper), 1.70:1 (dark card), 1.45:1 (dark
+     dialog) against the surface it stands on, so selection is
+     load-bearing on the hairline check. Either the container earns a
+     boundary floor or the geometry reserves the slot. *(§AC,
+     BN2.2's review)*
+
+210. **[decide]** The focus ring, from the platform's side: it is a
+     fixed brand purple and ignores the accent chosen in System
+     Settings, so on a Graphite machine every other control's ring
+     turns grey and the chips stay purple; it is drawn inside the
+     control bounds rather than as a halo outside them, which is the
+     web convention and not AppKit's; it replaces the resting edge,
+     so a focused outlined chip stops reading as outlined; and it
+     measures 2.92:1 (light) against the selected fill on its inner
+     side. It is also a third purple, related to the primary in
+     opposite directions in the two schemes. Neighbours items 201 and
+     202. *(§AC, BN2.2's review)*
+
+211. **[decide]** The label strengths bundle. In one row of five
+     chips the assist label is 17.19:1 (light) / 15.30:1 (dark) and
+     the other four are 6.19:1 / 6.39:1 — nearly three times the
+     contrast on one chip, which reads as "the other four are
+     disabled", and the muted rung is already spent, so there is
+     nowhere below it to put a real disabled state. Second half: the
+     selected chip's label is WEAKEST at rest — 4.53:1 on its resting
+     container, against 4.97:1 hovered and 6.42:1 pressed — because
+     the ink is re-derived against the walked body, so the state a
+     reader spends all day looking at is the least legible one.
+     Third: the walk is not proportioned between the two rests —
+     unselected hover ~6% and press ~14%, selected hover ~14% and
+     press ~28%, so hovering a selected chip is as loud as pressing
+     an unselected one (dark: 9.5% against ~30%). *(§AC, BN2.2's
+     review)*
+
+212. **[feature]** The chip has no disabled state at all — its
+     RenderState carries rest, hover, press, focus and selection and
+     nothing else — so the inventory cannot show one and a caller
+     cannot draw one. Every other control on the ladder has it.
+     *(§AC, BN2.2's review)*
+
+213. **[decide]** The marks are not one family, measured in a single
+     row: the assist sign 14×14 at a 2 px stroke, the selection check
+     18×18 at a 1.5 px hairline, the dismiss ✕ 18×18 measuring 3 px
+     of ink, the avatar 24×24 filled, against a label with a 10 px
+     cap height and 2 px stems. Both package marks fill their whole
+     18 dp slot, overshooting the label's cap height by 7 px and
+     hanging 5 px below its baseline; the ✕, two full diagonals
+     across the slot, is the heaviest ink on the chip — heavier than
+     the words beside it, and in the same colour, so a destructive
+     affordance is styled as text but louder. Same item: the input
+     chip keeps the text chip's 16 dp leading inset in front of a
+     24 dp avatar that has 4 px of clearance above and below, a 4:1
+     imbalance that leaves a visible hole at the leading end. Both
+     halves are a number — glyph inset, mark weight, avatar
+     padding — and want one ruling. *(§AC, BN2.2's review)*
+
+214. **[decide]** "Tonal" names two different colours: in dark the
+     tonal button is #2F0066, fully saturated violet, while the
+     selected chip's container is #312948, 43% saturated and near
+     grey; in light they swap which is louder. Side by side in one
+     toolbar they read as a mistake. Neighbours item 206, which rules
+     the Tonal button and the badge onto one tint recipe — the
+     selected chip is the third member nobody has named. *(§AC,
+     BN2.2's review)*
+
+215. **[decide]** The gallery's chip section shows the four purposes
+     across three levels and the states on the paper only, and never
+     the cross — which is exactly why item 207 survived; the
+     reviewer could prove the collision only from token equality
+     because no hovered or pressed chip is drawn anywhere but the
+     paper. Adding hover, press and focus on a card and in a dialog
+     is the specimen the fix for 207 wants, along with the dismiss
+     mark's own hover and press, which is an independent control
+     inside another control and is undrawn. Roughly doubles the
+     section's height, which is why it was pooled rather than taken
+     mid-task. Minor from the same review, recorded so it is not
+     rediscovered: chip labels are optically centred one pixel above
+     the glyph centres. *(§AC, BN2.2's review)*

@@ -18770,13 +18770,13 @@ pointer target, density plumbing.
 
 #### BN2.2: The gallery redraws chips around intents
 
-- [ ] The inventory's chip block becomes the intent grid: Assist,
+- [x] The inventory's chip block becomes the intent grid: Assist,
   Filter unselected + selected, Input with ✕, Suggestion — across
   the three storeys, both schemes; `sitedocs` goldens rerun by name
   since it renders the inventory.
-- [ ] Fresh-eyes review of the chip block, one light and one dark
+- [x] Fresh-eyes review of the chip block, one light and one dark
   window; reviewer's verbatim reply relayed, findings pooled.
-- [ ] Exit: green in `components/gallery` and sitedocs' golden run;
+- [x] Exit: green in `components/gallery` and sitedocs' golden run;
   commit and push in `components` and `.github`.
 
 ### G-BN3: The neighbours align
