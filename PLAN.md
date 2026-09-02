@@ -19163,14 +19163,14 @@ in this phase; a tagging round follows once the changes have landed.
 
 #### BR1.1: The chrome level and the darker backdrop
 
-- [ ] The elevation tokens gain a chrome level between the backdrop
+- [x] The elevation tokens gain a chrome level between the backdrop
   and level 0; every chrome region — navbar, toolbar, sidebar,
   inspector, status bar, pane — derives its surface against it.
-- [ ] The backdrop derives a tint darker than the chrome level in
+- [x] The backdrop derives a tint darker than the chrome level in
   both schemes; the rule that every level is lighter than the one
   beneath stays strict and is pinned by a test.
-- [ ] `theme/export` and `design/` regenerate with a clean diff.
-- [ ] Exit: green in `theme`, `design`, `patterns` and the workbench
+- [x] `theme/export` and `design/` regenerate with a clean diff.
+- [x] Exit: green in `theme`, `design`, `patterns` and the workbench
   apps; commit and push in every touched repo and `.github`.
 
 #### BR1.2: The card's filled look is raised
