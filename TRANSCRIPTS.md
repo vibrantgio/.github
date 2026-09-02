@@ -346,6 +346,10 @@ considering? Yes, originator it is ^0002-originator-not-voice
 Rene: So are we also complete in the kinds of surfaces we have
 available? ^0002-surface-kinds
 
+Rene: I concur with LevelBackdrop. Leave
+InverseSurface/OnInverseSurface for now, we may need it when we
+expand the set of components and patterns. ^0002-levelbackdrop
+
 
 ## 0003 — the chips session (2026-08-30)
 
