@@ -19191,6 +19191,28 @@ in this phase; a tagging round follows once the changes have landed.
 - [ ] Exit: green in `patterns` and the workbench apps; commit and
   push in every touched repo and `.github`.
 
+#### BR1.4: Warning is orange and the highlighter is yellow
+
+Executes decision 0008 (DOMAIN, 2026-09-03). Warning's hue moves to
+orange; the highlighter takes the yellow that frees, the colour a
+marker is. The reservation rule is unchanged: no status hue may serve
+as the highlighter, and the distances that prove it stay measured.
+
+- [ ] The Warning anchor repins to orange in the seed derivation, in
+  both schemes and both contrast derivations; the four status
+  containers still read as four, and the distance between the two
+  closest status colours is re-measured and re-pinned.
+- [ ] The highlighter's hue is re-derived in the yellow, between
+  Warning's new orange and Success; its measured distance from every
+  status container and pin is re-pinned, in both schemes, on every
+  level, and text over the wash still clears its floor.
+- [ ] Goldens, `theme/export` and `design/` regenerate with a clean
+  diff; fresh-eyes review of the status specimens and of vaultview's
+  arrival flash, both schemes, per the standing protocol.
+- [ ] Exit: green in `theme`, `design`, `components`, `patterns` and
+  the workbench apps; commit and push in every touched repo and
+  `.github`.
+
 ### G-BR2: The status signals move to components
 
 #### BR2.1: Alert moves to components

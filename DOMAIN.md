@@ -349,7 +349,7 @@ marks.
 |---|---|
 | **Neutral** | no hue of its own; the greys |
 | **Primary, Secondary, Tertiary** | the accent trio |
-| **Error, Success, Warning, Info** | the status four |
+| **Error, Success, Warning, Info** | the status four — Warning is orange, never yellow; yellow is the highlighter's |
 
 Wherever a ruling says "role-tinted" or "the role's own hue", this
 is the role it means. Typography roles are a different thing
@@ -552,7 +552,8 @@ comes into view and fades over a moment, never cut off.
 
 Its colour is its own, reserved outside the roles — a highlight must
 never read as a status, so no status hue may serve as the
-highlighter.
+highlighter. That colour is yellow, the marker's own; Warning is
+orange so that it can be.
 
 ### Eyebrow
 
@@ -873,6 +874,25 @@ unreadable — a colour that fails to change reads as a defect until
 it turns out to obey some other recipe, and the owners end up
 talking past each other. Sources:
 [[TRANSCRIPTS#^0002-tonal-same-tint]]
+
+### 0008 — warning-orange-highlight-yellow
+
+2026-09-03 · strategic. Warning's hue is orange, and yellow is
+reserved for the highlight. Prior position: Warning sat in the
+yellow, so the highlighter — forbidden every status hue — was
+derived to the far side of the hue circle and came out lilac. New
+position: the highlighter is yellow, the colour a marker is, and
+Warning moves to orange to make room; the rule that no status hue
+may serve as the highlighter is unchanged and now satisfied by a
+yellow marker. What changed: the lilac wash looked bad and did not
+read as a marker; a yellow highlight is what every reader expects
+from find-in-page. Downstream: the Warning anchor repins in the
+seed derivation; the highlighter's hue is re-derived in the yellow
+and its measured distances from every status colour re-pinned;
+goldens, the CSS export and the design mirror regenerate; every
+consumer sees a new Warning. Sources:
+[[TRANSCRIPTS#^0005-highlight-yellow]],
+[[TRANSCRIPTS#^0005-warning-orange]]
 
 ## Example dialogue
 

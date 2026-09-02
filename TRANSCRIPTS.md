@@ -654,3 +654,13 @@ Rene: why is the module not named paragraph? ^0005-richtext-is-paragraph
 
 Rene: write all 8, add the rename to the batch
 ^0005-list-scroll-area-paragraph
+
+Rene: How is the color of the highlight flash established
+
+Rene: The highlight should ideally be more in the yellow direction.
+^0005-highlight-yellow
+
+Rene: That is all nice and dandy but it looks bad and is not
+yellowish ^0005-lilac-looks-bad
+
+Rene: warning should have been orange anyway ^0005-warning-orange
