@@ -31,6 +31,7 @@ A component the user operates to act or to choose.
 | **switch** | turning something on or off, taking effect at once |
 | **text field** | entering and editing text |
 | **scrollbar** | moving the view through content larger than its surface |
+| **link** | following a reference — text that names its destination |
 
 ### Signal
 
@@ -45,8 +46,10 @@ inform.
 | **image** | a picture placed as content |
 | **markdown document** | rendered prose — headings, lists, code snippets, images |
 
-A signal may carry a control without becoming one — the dismissible
-badge's close, the links inside a markdown document.
+A signal may carry controls without becoming one — the dismissible
+badge's close, the links inside a markdown document. The affordance
+always belongs to the carried control, never to the signal: the link
+is underlined, the prose around it is not.
 
 ### Voice
 

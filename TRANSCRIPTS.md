@@ -336,6 +336,9 @@ do like the table of Pattern and Control. I see that Signal is
 underdefined? We only have badge there? What about markdown code
 snippets, text labels, icons, images ^0002-flatten-and-signals
 
+Rene: The rich text is a concundrum because it may actually show
+affordance for interaction. ^0002-richtext-conundrum
+
 
 ## 0003 — the chips session (2026-08-30)
 
