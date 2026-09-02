@@ -78,18 +78,6 @@ affordance is the action, not the component — the same affordance can
 be built in more than one place or variant and remains one
 affordance.
 
-### Purpose
-
-Why a component exists — what it is there to do. Chips are defined by
-their purpose. The four chip purposes:
-
-| Purpose | Meaning |
-|---|---|
-| **Assist** | a contextual smart action |
-| **Filter** | refine content from a set; toggles, marked when selected |
-| **Input** | a token the user entered; dismissible |
-| **Suggestion** | a generated prompt the user may take |
-
 ### Variant
 
 The same affordance at a different prominence or in a
@@ -323,6 +311,23 @@ ring around the control, and the ring is all it may draw: focus may
 ring a checked control, never repaint its mark — redrawing a checked
 box as unchecked is one state's grammar overwriting another's.
 
+### Chip
+
+A small, subtle control that belongs to the content and comes and
+goes with it, defined by its purpose — one of four — never by looks
+or platform provenance:
+
+| Purpose | Meaning |
+|---|---|
+| **Assist** | a contextual smart action |
+| **Filter** | refine content from a set; toggles, marked when selected |
+| **Input** | a token the user entered; dismissible |
+| **Suggestion** | a generated prompt the user may take |
+
+Not a button at low prominence: a button is a fixture. Structure:
+[icon] text [x]. The line against the badge is read/use: if you read
+it, it is a badge; if you use it, it is a chip.
+
 ### Button
 
 The control that performs an action when pressed. It
@@ -331,15 +336,6 @@ the same action — it does not appear from content the way a chip
 does, and it does not record a state. Marking a choice is never a
 button's job, whatever its emphasis; that is the Filter
 chip's purpose.
-
-### Chip
-
-A small, subtle control that belongs to the content and comes and
-goes with it, defined by its purpose (one of the four), never by
-looks or platform provenance. Not a button at low prominence: a
-button is a fixture. Structure: [icon] text [x]. The line against the
-badge is read/use: if you read it, it is a badge; if you use it, it
-is a chip.
 
 ### Picker
 

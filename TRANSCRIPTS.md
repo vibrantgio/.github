@@ -364,6 +364,14 @@ definition, are we using it regularly so that it deserves its own
 word. Is internal layout something we can work with? Structure it is
 ^0002-structure-not-anatomy
 
+Rene: Purpose is something that has its own definition, but if I
+look closely at it, it should be inside the chip section. Every
+component has a "purpose" that is not unique to Chip. So we either
+need to describe the purpose of every component, or more naturally
+admit this is something that is part of anything we describe and
+describe the purpose if not obvious for every thing we are
+describing. ^0002-purpose-folds-into-chip
+
 
 ## 0003 — the chips session (2026-08-30)
 
