@@ -19074,7 +19074,30 @@ carries the floor so every seed self-corrects.
   cause named (the gallery's tooltip/popover specimens are drawn
   hovered and will move in dark).
 
-#### BQ1.2: Dark status washes keep their hues apart
+#### BQ1.2: The Tonal button adopts the badge's tint recipe
+
+Executes DOMAIN decision 0007 (shared recipes): the Tonal button and
+the badge speak ONE tint recipe. Today they do not — Tonal pins fixed
+ramp steps (fill 200, text 900) while the badge derives against the
+surface it stands on with the ContainerFloor separation. The plan
+expected this collapse to ride the chip round; it did not, and BQ1.3
+moves the shared wash recipe, so it lands here first.
+
+- [ ] The Tonal button resolves its fill and foreground through the
+  badge's recipe — the floored, surface-aware container family
+  (`StatusContainerOn`/`ContainerOn` and its foreground), the one
+  that survives every level — and the pinned steps leave
+  `components/button`. Per the same ruling the accent's foreground
+  is the role colour darkened, not neutral, and focus is a
+  persistent state; the button's spec prose follows DOMAIN.
+- [ ] Sweep tests pin Tonal to the badge's floors on every level,
+  both schemes; Tonal goldens (button, gallery, sitedocs) regenerate
+  with the cause named.
+- [ ] Exit: green in `components` (nested gallery by name) and
+  `workbench/sitedocs`; commit and push in every touched repo and
+  `.github`.
+
+#### BQ1.3: Dark status washes keep their hues apart
 
 - [ ] The status-container wash derivation gains a separation
   invariant in dark: the four role washes must part from each other
@@ -19085,17 +19108,16 @@ carries the floor so every seed self-corrects.
   different depth is the worker's design work, measured not
   guessed; the ADR-022 ladder and the alert/badge/toast consumers
   bound it. Per DOMAIN decision 0007 (shared-recipes) the badge and
-  the Tonal button speak ONE tint recipe — by the time this task
-  runs the collapse (open-rulings 206) should have landed with the
-  chip re-anatomy; whatever this task does to the wash recipe moves
-  the Tonal button with it, goldens accordingly.
+  the Tonal button speak ONE tint recipe (BQ1.2), so whatever this
+  task does to the wash recipe moves the Tonal button with it,
+  goldens accordingly.
 - [ ] Sweep tests pin the pairwise separation floor and the
   existing fill-vs-ground and foreground-vs-fill floors together;
   downstream goldens (alert, toast, badge, gallery, sitedocs)
   regenerate dark-only unless light legitimately moves, cause
   named.
 
-#### BQ1.3: The light focus ring gains a second channel
+#### BQ1.4: The light focus ring gains a second channel
 
 - [ ] The one-ring rule stands (scheme-only, both-neighbours); the
   light ring's rung pick adds a luminance-separation floor against
