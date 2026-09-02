@@ -359,6 +359,11 @@ something that is not part of but accompanies content. Yes, take 1
 [belongs to the content and comes and goes with it].
 ^0002-chip-belongs-to-content
 
+Rene: Is there a special reason we need to have Anatomy as a
+definition, are we using it regularly so that it deserves its own
+word. Is internal layout something we can work with? Structure it is
+^0002-structure-not-anatomy
+
 
 ## 0003 — the chips session (2026-08-30)
 

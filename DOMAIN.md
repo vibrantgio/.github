@@ -5,7 +5,7 @@
 ### Component
 
 What the system ships as one named unit — button, chip, picker,
-badge — defined by its purpose, anatomy and variants. When a
+badge — defined by its purpose, structure and variants. When a
 component's contract does not fit a consumer, the component is
 extended; the affordance is never re-assembled app-side. "Widget" is
 not a term of this language: it stays Gio's own word (layout.Widget,
@@ -110,7 +110,7 @@ on. The button's variants Filled, Tonal and Ghost speak it, most
 pronounced to least. Emphasis lives where interaction lives: signals
 have none.
 
-### Anatomy
+### Structure
 
 The ordered parts a component is drawn from, each
 required or optional. Notation: brackets mark the optional parts, as
@@ -337,7 +337,7 @@ chip's purpose.
 A small, subtle control that belongs to the content and comes and
 goes with it, defined by its purpose (one of the four), never by
 looks or platform provenance. Not a button at low prominence: a
-button is a fixture. Anatomy: [icon] text [x]. The line against the
+button is a fixture. Structure: [icon] text [x]. The line against the
 badge is read/use: if you read it, it is a badge; if you use it, it
 is a chip.
 
