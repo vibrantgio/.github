@@ -2,13 +2,17 @@
 
 ## Language
 
-### Widgets
+### Components
 
-#### Widget
+#### Component
 
-Anything the system draws as one self-contained unit;
-every visible piece of a window is a widget. Every widget is one of
-two kinds — a control is a widget, and a signal is a widget:
+What the system ships as one named unit — button, chip, picker,
+badge — defined by its purpose, anatomy and variants. When a
+component's contract does not fit a consumer, the component is
+extended; the affordance is never re-assembled app-side. "Widget" is
+not a term of this language: it stays Gio's own word (layout.Widget,
+anything that can be laid out). Every component is one of two kinds
+— a control is a component, and a signal is a component:
 
 | Kind | The user |
 |---|---|
@@ -17,7 +21,7 @@ two kinds — a control is a widget, and a signal is a widget:
 
 #### Control
 
-A widget the user operates to act or to choose.
+A component the user operates to act or to choose.
 
 | Control | Offers |
 |---|---|
@@ -32,14 +36,14 @@ A widget the user operates to act or to choose.
 
 #### Signal
 
-A widget that is read, never operated: it tells a
+A component that is read, never operated: it tells a
 status or a fact. The badge is the archetype. A signal may carry one
 control on it — the dismissible badge's close — without becoming a
 control itself.
 
 #### Voice
 
-Who a widget speaks for.
+Who a component speaks for.
 
 | Voice | Speaks | Example |
 |---|---|---|
@@ -60,13 +64,13 @@ performed an action.
 
 An action a control offers and shows it offers:
 pressing a button, picking from a menu, dismissing a token. The
-affordance is the action, not the widget — the same affordance can
+affordance is the action, not the component — the same affordance can
 be built in more than one place or variant and remains one
 affordance.
 
 #### Purpose
 
-Why a widget exists — what it is there to do. Chips are defined by
+Why a component exists — what it is there to do. Chips are defined by
 their purpose. The four chip purposes:
 
 | Purpose | Meaning |
@@ -101,14 +105,6 @@ none.
 The ordered parts a component is drawn from, each
 required or optional. Notation: brackets mark the optional parts, as
 in [icon] text [x].
-
-#### Component
-
-A widget the system ships as one named unit — button, chip, picker,
-badge — defined by its purpose, anatomy and variants. Being a
-widget, every component is a control or a signal. When a component's contract does not fit a consumer,
-the component is extended; the affordance is never re-assembled
-app-side.
 
 #### Pattern
 
@@ -191,7 +187,7 @@ names the colours the furniture draws.
 #### Attachment
 
 The relationship between a floating surface and
-what it floats from. Its parts, which any widget can play:
+what it floats from. Its parts, which any component can play:
 
 | Part | Meaning |
 |---|---|

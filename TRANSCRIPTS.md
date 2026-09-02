@@ -317,6 +317,14 @@ relationship. We are talking about a abstract/concrete the 'is a'
 relation ship. That leaves component the odd one out.
 ^0002-widget-is-a
 
+Rene: So I don't know how far the widget concept has escaped already
+into the code. So gioui.org defines widgets in a certain way. We now
+are rededining widget again while we have choosen to use component
+and even named a module after it. So I think a Signal is a Component
+and a Control is a Component. We reserve widget for the gioui.org
+concept of a widget. And allow for not having an abstract term that
+we can hang components and patterns under. ^0002-widget-is-gios
+
 
 ## 0003 — the chips session (2026-08-30)
 
