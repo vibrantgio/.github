@@ -353,6 +353,12 @@ expand the set of components and patterns. ^0002-levelbackdrop
 Rene: Focused isn't defined by itself only as part of state?
 ^0002-define-focused
 
+Rene: Is there a better way to say "A small, subtle control that
+content sprouts". If you say "appears with" that sounds like
+something that is not part of but accompanies content. Yes, take 1
+[belongs to the content and comes and goes with it].
+^0002-chip-belongs-to-content
+
 
 ## 0003 — the chips session (2026-08-30)
 

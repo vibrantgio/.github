@@ -24,7 +24,7 @@ A component the user operates to act or to choose.
 | Control | Offers |
 |---|---|
 | **button** | performing an action — always visible, always the same action |
-| **chip** | acting on something the content sprouted — filter by it, take it, remove it |
+| **chip** | acting on something in the content — filter by it, take it, remove it |
 | **picker** | choosing one from many — the trigger shows the choice |
 | **checkbox** | recording a yes or no |
 | **radio** | recording which one, of a visible few that exclude each other |
@@ -334,11 +334,10 @@ chip's purpose.
 
 ### Chip
 
-A small, subtle control that content sprouts, defined by
-its purpose (one of the four), never by looks or platform
-provenance.
-Not a button at low prominence: a button is a fixture; chips appear
-from content and context. Anatomy: [icon] text [x]. The line against the
+A small, subtle control that belongs to the content and comes and
+goes with it, defined by its purpose (one of the four), never by
+looks or platform provenance. Not a button at low prominence: a
+button is a fixture. Anatomy: [icon] text [x]. The line against the
 badge is read/use: if you read it, it is a badge; if you use it, it
 is a chip.
 
