@@ -312,8 +312,8 @@ chip's purpose.
 A small, subtle control that content sprouts, defined by
 its purpose (one of the four), never by looks or platform
 provenance.
-Not a quiet button: a button is a fixture; chips appear from
-content and context. Anatomy: [icon] text [x]. The line against the
+Not a button at low prominence: a button is a fixture; chips appear
+from content and context. Anatomy: [icon] text [x]. The line against the
 badge is read/use: if you read it, it is a badge; if you use it, it
 is a chip.
 
