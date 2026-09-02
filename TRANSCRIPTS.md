@@ -413,6 +413,10 @@ search; colour reserved, never a status hue].
 Rene: Add the highlight token and vaultview adoption to the plan
 queue ^0002-highlight-planned
 
+Rene: Now for every Control, Signal, Pattern add a definition to the
+DOMAIN.md without actually removing them from the tables where they
+are listed. ^0002-define-every-row
+
 
 ## 0003 — the chips session (2026-08-30)
 

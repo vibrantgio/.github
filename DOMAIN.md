@@ -430,6 +430,172 @@ says nothing about content; it is the composition speaking, not the
 system. Wears type styling (size, tracking, a hue if the theme says
 so), never the badge's tinted container.
 
+### Checkbox
+
+The binary control recording a yes or no. Its recorded yes is the
+checked state; only the user's own operation repaints the mark.
+
+### Radio
+
+The one-of-a-few control: a visible group of options that exclude
+each other, each shown, one chosen. Choosing one clears the others.
+When the options are too many to stay visible, the picker takes
+over.
+
+### Switch
+
+The binary control that takes effect at once: flipping it turns
+something on or off immediately — nothing waits to be submitted.
+The checkbox records; the switch acts.
+
+### Text field
+
+The control for entering and editing text: a bounded field the user
+types into. What it holds originates with the user.
+
+### Scrollbar
+
+The control moving the view through content larger than its
+surface: a thumb on a track whose size mirrors how much of the
+content is visible. Operating it moves the view, never the content.
+
+### Link
+
+The control following a reference: text that names its destination,
+showing its affordance in the text itself. Following it is its only
+action.
+
+### Icon
+
+The signal drawing a concept as a glyph: it names an action or a
+thing at a glance, resolved by name from one registry. Inside a
+control's structure an icon is a part, not a signal of its own.
+
+### Text label
+
+The signal naming or captioning something: a run of text set in a
+typography role. It says what a thing is.
+
+### Image
+
+The signal standing a picture in the content. It informs and offers
+nothing.
+
+### Markdown document
+
+The signal rendering prose as a readable document: headings, lists,
+code snippets, images. The links inside it are carried controls;
+everything else is read.
+
+### Accordion
+
+The pattern stacking collapsible sections: each section a title row
+with a chevron turned by its open state, and a body shown while
+open.
+
+### Alert
+
+The status pattern for a situation: a tinted rounded banner — an
+icon, a title, a body — speaking one status role, standing in the
+page flow until the situation resolves.
+
+### Breadcrumb
+
+The pattern marking hierarchical location: a row of labels
+separated by chevrons, each a link to its place. The last is where
+you are — plain text, not a link.
+
+### Card
+
+The pattern containing related content as one rounded surface, with
+header, body and footer slots — outlined on the content, or
+elevated one level above it.
+
+### Feature
+
+The marketing pattern presenting capabilities as an icon-title-body
+grid, so many features read as one set.
+
+### Hero
+
+The marketing pattern opening a page: an eyebrow, a display title,
+a subtitle, an optional visual and a call-to-action pair,
+introducing what the page is about.
+
+### Modal
+
+The pattern that interrupts for a decision: a dialog floating at
+level 2 over a scrim, with a header carrying its title and close, a
+body, and a footer of actions. The scrim isolates it — everything
+beneath is dimmed and deaf until the modal closes.
+
+### Navbar
+
+The chrome pattern spanning the window's top: a brand leading,
+links centred, actions trailing. The active link is marked.
+
+### Pagination
+
+The pattern dividing content into numbered pages: page buttons
+flanked by previous and next. The current page is active.
+
+### Pane
+
+The chrome pattern floating a column just inside the window's
+edges rather than being one of them, rounded on all corners,
+carrying its own hairline.
+
+### Popover
+
+The attachment pattern for a small floating surface beside its
+anchor, a tail pointing at what it belongs to. Placement follows
+the attachment rules.
+
+### Pricing
+
+The marketing pattern laying tiers side by side as cards, one
+optionally emphasised.
+
+### Shell
+
+The pattern composing the chrome regions into the application's
+top-level layout — sidebar, navbar and main content, in the
+arrangements its variants name.
+
+### Sidebar
+
+The chrome pattern of a collapsible vertical column: expanded with
+icons and labels, or collapsed to icons alone. The active entry is
+marked.
+
+### Table
+
+The pattern for data in rows and columns: sortable, filterable,
+and virtualised — only the visible rows are laid out, however many
+there are.
+
+### Tabs
+
+The pattern dividing content into one-of-many panels: a horizontal
+strip of titles, the active tab underlined, its panel below.
+
+### Testimonial
+
+The marketing pattern quoting named authors — one centred card or a
+row of them — as social proof.
+
+### Toast
+
+The status pattern for events: transient notifications stacking in
+a position-anchored column at level 2, each leaving by itself. A
+toast is raised by message, never drawn in place.
+
+### Tooltip
+
+The attachment pattern naming a control on demand: a small
+annotation appearing beside its trigger after a short delay on
+hover or focus, and leaving when they do.
+
 ## Decisions
 
 ### 0001 — intent-over-provenance
