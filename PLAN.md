@@ -19098,17 +19098,17 @@ surface it stands on with the ContainerFloor separation. The plan
 expected this collapse to ride the chip round; it did not, and BQ1.4
 moves the shared wash recipe, so it lands here first.
 
-- [ ] The Tonal button resolves its fill and foreground through the
+- [x] The Tonal button resolves its fill and foreground through the
   badge's recipe — the floored, surface-aware container family
   (`StatusContainerOn`/`ContainerOn` and its foreground), the one
   that survives every level — and the pinned steps leave
   `components/button`. Per the same ruling the accent's foreground
   is the role colour darkened, not neutral, and focus is a
   persistent state; the button's spec prose follows DOMAIN.
-- [ ] Sweep tests pin Tonal to the badge's floors on every level,
+- [x] Sweep tests pin Tonal to the badge's floors on every level,
   both schemes; Tonal goldens (button, gallery, sitedocs) regenerate
   with the cause named.
-- [ ] Exit: green in `components` (nested gallery by name) and
+- [x] Exit: green in `components` (nested gallery by name) and
   `workbench/sitedocs`; commit and push in every touched repo and
   `.github`.
 

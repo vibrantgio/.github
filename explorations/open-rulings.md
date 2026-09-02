@@ -378,7 +378,51 @@ durably while these are open.
      shouts. The semantics hold — this is the dark derivation working
      as derived — but the loudness ladder does not survive the flip.
      A token-derivation decision, above every control that inherits it.
+     RE-MEASURED 2026-09-02, BQ1.3 having put Tonal on the badge's tint:
+     the dark Tonal fill is no longer a saturated container but a
+     low-chroma tint (#312a48, chroma 0.054 in Oklch), so the flip is
+     milder than the item records. It is not gone — dark still hands
+     Filled the light tone and Tonal a deep one — and the ruling stands
+     as written.
      *(§N, BD1.1's fresh-eyes review of the gallery window)*
+
+241. **[decide]** The neutral role's foreground stops at the floor
+     where the four statuses overshoot it, and only in dark. Measured by
+     BQ1.3's fresh reviewer off the gallery's own goldens: on their own
+     container fills the dark badge labels sit at 8.40–8.48:1 for
+     Success, Warning, Error and Info and at 4.89:1 for Neutral, so the
+     word "Neutral" reads perceptibly dimmer than its four neighbours in
+     a row whose whole point is that the five agree; in light all five
+     land within 4.51–4.56:1 and nothing shows. The cause is in the
+     derivation rather than the component: a status answers with its
+     pinned base whenever that base clears the floor, and in dark the
+     pins overshoot, while RoleNeutral has no pin and answers with the
+     walk, which stops at the first step that clears. Since BQ1.3 the
+     tinted button reads through the same derivation, so whatever is
+     ruled here moves both. Decide whether a foreground that clears its
+     floor by a wide margin should be pulled back toward the set, or
+     whether the neutral walk should overshoot to match — the pinned
+     bases are the palette's own guarantee and moving them is the larger
+     change. *(§AG, BQ1.3's review)*
+
+242. **[decide]** The tinted state walk has a floor and no ceiling, and
+     the pressed label pays for it. BQ1.3 put the Tonal button on the
+     container family, so hover and press walk the realized fill along
+     the neutral ladder and the label is re-derived against wherever the
+     walk landed — the best a re-derivation can do, because past a
+     certain depth no step of the role's ramp reaches 4.5:1 over the
+     walked fill. Measured over the seed sweep, both derivations, both
+     schemes, all five levels: the resting pair clears its floors
+     everywhere (worst fill-vs-surface 1.303:1 against the 1.25
+     ContainerFloor, worst foreground-vs-fill 4.501:1 against the 4.5
+     TextFloor), while the walked label bottoms out at 4.208:1 — and the
+     DEFAULT seed's own pressed label sits at 4.261:1 light and 4.430:1
+     dark, under the floor its resting state clears. Pinned as a fence
+     rather than a floor in TestTonalsWalkedLabelIsTheOpenGap. Neighbours
+     233 (the wash has a floor and no ceiling) and 234 (the tinted walk
+     carries no floor); what is new is the measured cost in the shipping
+     palette, and that the cure is a ceiling on the walk rather than
+     another floor. *(§AG, BQ1.3)*
 
 122. **[decide]** The two schemes do not measure the same. For one
      semantic role the dark scheme lands at roughly double the light
@@ -569,6 +613,21 @@ durably while these are open.
 
 Rulings that change a published library's shape or grammar, so a
 consumer ships the answer whether or not it asked the question.
+
+243. **[decide]** On a light-scheme Tonal button the focus ring and
+     the label are one colour. Both are the accent step chosen against
+     the same fill — the ring by `focus.RingOn` at the graphic floor,
+     the label by the shared foreground derivation at the text floor —
+     and since BQ1.3 put the button on the container fill they land
+     byte-identical at #6f36d1 on the default seed. Nothing is
+     unreadable and the two are spatially apart (the ring rides in the
+     padding, the label is in the middle), but focus is then announced
+     in the colour the control was already speaking, and a colour test
+     can no longer tell a ring pixel from a glyph pixel — which
+     TestFocusRingIsTheSameRingInEveryRegister now has to excuse
+     explicitly. Decide whether the ring owes a measured separation
+     from the foreground it circles, the way it already owes one from
+     the fill. *(§AG, BQ1.3)*
 
 96. **[decide]** Added 2026-08-29, from AZ2.1's fit check — the first
     real anchor use of `components/chip`. The live `chip.Chip` takes
@@ -2172,4 +2231,12 @@ and the task was fenced to drawing specimens with the existing API.
      whether the least pronounced variant owes any resting affordance at
      all when it stands in a row of boxed ones, and whether its resting
      label should be the lightest of the three.
+     SHARPENED 2026-09-02 by BQ1.3's review, which sampled the same row
+     after the Tonal collapse: Ghost's label is zero chroma in both
+     schemes (light #5c5c5c, dark #cccccc) and the light one is
+     BYTE-IDENTICAL to the Neutral badge's label, while Filled and Tonal
+     now both carry the accent hue. So the question has a second half —
+     whether the third emphasis step may drop the brand hue its two
+     neighbours carry, or whether a ghost's label owes the accent at the
+     lowest strength that reads.
      *(§AG, BQ1.1's review)*
