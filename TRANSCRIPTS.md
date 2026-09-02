@@ -410,6 +410,9 @@ DOMAIN.md [lifetime follows cause; fade on arrival; query-scoped for
 search; colour reserved, never a status hue].
 ^0002-highlight-ruled
 
+Rene: Add the highlight token and vaultview adoption to the plan
+queue ^0002-highlight-planned
+
 
 ## 0003 — the chips session (2026-08-30)
 
