@@ -19144,3 +19144,94 @@ moves the shared wash recipe, so it lands here first.
   same task (the export mirrors the same rule since the ring
   round); fresh-eyes review of the focused-specimens capture in
   both schemes.
+
+## Phase BR: The ontology review's rulings land in the modules
+
+Executes the rulings of the ontology review session (DOMAIN,
+2026-09-02). Alert and toast are signals, so they live in components;
+the toast is one presentation of a notification and the column that
+queues and times notifications is the notifications pattern. Chrome
+is a level of its own directly above the backdrop, and the backdrop
+is a tint darker than it. Raised is relative and the card's filled
+look is raised, not floating. A paragraph is content, and the module
+that draws it is named after what it is. A search field is a control
+of its own. Every move is abrupt: no compatibility aliases, no
+deprecated forwarders — consumers convert in the same task. No tags
+in this phase; a tagging round follows once the changes have landed.
+
+### G-BR1: The elevation follows the Language
+
+#### BR1.1: The chrome level and the darker backdrop
+
+- [ ] The elevation tokens gain a chrome level between the backdrop
+  and level 0; every chrome region — navbar, toolbar, sidebar,
+  inspector, status bar, pane — derives its surface against it.
+- [ ] The backdrop derives a tint darker than the chrome level in
+  both schemes; the rule that every level is lighter than the one
+  beneath stays strict and is pinned by a test.
+- [ ] `theme/export` and `design/` regenerate with a clean diff.
+- [ ] Exit: green in `theme`, `design`, `patterns` and the workbench
+  apps; commit and push in every touched repo and `.github`.
+
+#### BR1.2: The card's filled look is raised
+
+- [ ] The card's second look is named filled, fills one step above
+  the surface the card stands on — level 1 on the content — with no
+  hairline; the level-2 fill goes.
+- [ ] Goldens and the gallery specimen follow; fresh-eyes review of
+  the card specimens in both schemes, per the standing protocol.
+- [ ] Exit: green in `patterns`; commit and push in every touched
+  repo and `.github`.
+
+#### BR1.3: The pane on the visible backdrop
+
+- [ ] With the backdrop now showing around it, the pane's hairline is
+  re-judged: kept only if the inset still fails to read without it
+  in either scheme, measured on a capture, not guessed.
+- [ ] Exit: green in `patterns` and the workbench apps; commit and
+  push in every touched repo and `.github`.
+
+### G-BR2: The status signals move to components
+
+#### BR2.1: Alert moves to components
+
+- [ ] `patterns/alert` becomes `components/alert`, unchanged in
+  behaviour; every consumer — the gallery inventory, the design
+  mirror, the workbench apps — re-imports in the same task.
+- [ ] Exit: green in `components`, `patterns`, `design` and the
+  workbench apps; commit and push in every touched repo and
+  `.github`.
+
+#### BR2.2: The toast signal and the notifications pattern
+
+- [ ] The single toast — icon, message, optional close, its own
+  timing — becomes `components/toast`, a signal drawn without the
+  queue.
+- [ ] `patterns/toast` becomes `patterns/notifications`: the column
+  that receives notifications, places, stacks and times them, and
+  presents each as a toast. The raise-by-message contract stays.
+- [ ] Every consumer converts in the same task; goldens and the
+  gallery inventory follow.
+- [ ] Exit: green in `components`, `patterns` and the workbench apps;
+  commit and push in every touched repo and `.github`.
+
+### G-BR3: Content and controls take their names
+
+#### BR3.1: richtext renames to paragraph
+
+- [ ] `components/richtext` becomes `components/paragraph`; the
+  `markdown` module and the workbench apps re-import in the same
+  task. Behaviour and exported surface are otherwise unchanged.
+- [ ] Exit: green in `components`, `markdown` and the workbench apps;
+  commit and push in every touched repo and `.github`.
+
+#### BR3.2: The search field control
+
+- [ ] A search field in `components/input`: structure looking glass,
+  text, optional clear mark; it looks as the user types and marks
+  matches with the highlight token; the clear mark empties it and
+  dismisses the highlight with it.
+- [ ] Vaultview's search adopts it; the gallery gains the specimen;
+  fresh-eyes review in both schemes, per the standing protocol.
+- [ ] Exit: green in `components` and vaultview's module; commit and
+  push in every touched repo and `.github`.
