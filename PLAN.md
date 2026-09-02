@@ -19082,10 +19082,10 @@ master when the token landed: the themer's colour listing
 (`TestLerpColorTokensCoversEveryField`). Neither was in the token
 task's exit; both are now.
 
-- [ ] `effects/transition` lerps `Highlight` like every other field;
+- [x] `effects/transition` lerps `Highlight` like every other field;
   `workbench/themer` lists it among the colour tokens it picks.
   Nothing else changes.
-- [ ] Exit: green in `effects` and `workbench/themer` by name;
+- [x] Exit: green in `effects` and `workbench/themer` by name;
   `check-layers.sh` from `.github`; commit and push in both repos
   and `.github`.
 
