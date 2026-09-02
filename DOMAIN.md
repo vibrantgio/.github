@@ -7,7 +7,8 @@
 #### Widget
 
 Anything the system draws as one self-contained unit;
-every visible piece of a window is a widget. Widgets divide in two:
+every visible piece of a window is a widget. Every widget is one of
+two kinds — a control is a widget, and a signal is a widget:
 
 | Kind | The user |
 |---|---|
@@ -103,9 +104,9 @@ in [icon] text [x].
 
 #### Component
 
-A control or signal the system ships as one named
-unit — button, chip, picker, badge — defined by its purpose, anatomy
-and variants. When a component's contract does not fit a consumer,
+A widget the system ships as one named unit — button, chip, picker,
+badge — defined by its purpose, anatomy and variants. Being a
+widget, every component is a control or a signal. When a component's contract does not fit a consumer,
 the component is extended; the affordance is never re-assembled
 app-side.
 

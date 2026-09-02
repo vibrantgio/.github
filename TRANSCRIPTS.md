@@ -311,6 +311,12 @@ a fresh reader of the spec will not be able to connect to anything
 
 Rene: Define action ^0002-define-action
 
+Rene: Note that widget now says a control and a signal is a widget.
+Also widgets don't divide into two that points to a whole part
+relationship. We are talking about a abstract/concrete the 'is a'
+relation ship. That leaves component the odd one out.
+^0002-widget-is-a
+
 
 ## 0003 — the chips session (2026-08-30)
 
