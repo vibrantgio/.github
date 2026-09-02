@@ -111,7 +111,17 @@ consumer ships, then layout and copy.
    controlled in dark the way it is in light. (2026-08-21: the new
    palette grid shows it plainly — dark Primary 700 #b0cdff vs
    Secondary 700 #b2cdfd, steps 800/900 byte-identical, Info close
-   behind.)
+   behind.) SHARPENED 2026-09-02 by BQ1.2's review: the dark Primary
+   and Secondary pick chips, 60 px apart in the same Accents list,
+   measure ΔE 1.17 — under the just-noticeable difference for flat
+   areas, so a primary button and a secondary button render as the
+   same pixel — and dark 800 (#c2d8ff) and 900 (#e5eeff) are
+   byte-identical between the two roles. The light scheme has the same
+   defect at its pale end, which this item said it did not: light
+   Primary and Secondary 100/200/300 are byte-identical (#f2f7ff,
+   #dce9ff, #bdd6ff) and light Info 100/200 sits within ΔE 0.70/1.76
+   of both, so three of nine steps in two accent ramps plus the
+   nearest status are one blue under several names.
    *(§A, colour generation)*
 
 67. **[bug]** All four alert levels draw the identical glyph, a small
@@ -199,8 +209,29 @@ consumer ships, then layout and copy.
     light says Primary is "the seed, lifted, just off Primary 700",
     dark says flatly "Primary 700". Toggling appearance changes what
     the documentation asserts about provenance. Bears directly on
-    AH2.1, which has to caption the seed honestly.
+    AH2.1, which has to caption the seed honestly. SHARPENED
+    2026-09-02 by BQ1.2's review: the second half of the same sentence
+    diverges too — light ends "measured over Primary" where dark ends
+    "measured over the base" for the identical relationship — so on
+    top of asserting different provenance, a diff of the two schemes'
+    output is unreadable.
     *(§I, AH1.1's five-tab review — palette presentation)*
+
+237. **[bug]** The palette board's dot points at a step whose colour
+     the chip beside it plainly is not. The caption says "a dot marks
+     where each pick lives", and for two container families that is
+     false by a wide margin: light SuccessContainer #bbddbe against
+     the marked Success 300 #7feb8f is ΔE 40.6 — a muted sage against
+     a vivid mint — and WarningContainer #e4d3ac against Warning 300
+     #ffce4b is ΔE 47.3, while ErrorContainer (3.3) and
+     InfoContainer (3.9) are visually exact. Dark: Error 28.8,
+     Success 13.3, Info 12.4, Warning 8.8. The derivation's clamp,
+     which holds a container at the container chroma, bites hard on
+     two families and not at all on two others, so one sentence is
+     true four times and false four times on the same board. The fix
+     is the claim or the dot, not the clamp. Bigger sibling of item
+     54, where the same dot overstates by 2–3/255.
+     *(§AG, BQ1.2's review)*
 
 120. **[bug]** Added 2026-08-29, from BA3.1: `llms.txt`'s vaultview
      paragraph (~line 1560) says "panes raised one rung to Surface",
@@ -318,7 +349,17 @@ consumer ships, then layout and copy.
      the same luminance as the section panel it is drawn on. Light
      crowds the same way at 100–300 but recovers by 400. The same
      ramp-curve fact as item 144, seen from the near end; names item
-     132. *(§Q, BF1.1's Palette Seed review)*
+     132. SHARPENED 2026-09-02 by BQ1.2's review, which found the far
+     end crowding too: the dark 700→800 gap is 4 L*, giving Neutral
+     #cccccc/#d7d7d7 at ΔE 3.9, Success 3.9, Primary 7.4, Secondary
+     6.4 and Info 7.1 — two more of the nine dark steps carrying
+     almost no information. Full series measured, light
+     97.0/92.0/85.0/74.0/63.0/51.0/39.0/28.0/6.0 (first gap 5, last
+     22) against dark 8.2/13.1/18.9/30.0/46.0/64.0/82.0/86.0/94.0,
+     which is item 144's splice read off the step numbers: the dark
+     set is not the light set reversed, so one step index names a
+     different lightness in each scheme.
+     *(§Q, BF1.1's Palette Seed review)*
 
 ## Tier 1 — Token and palette derivation
 
@@ -360,7 +401,15 @@ durably while these are open.
 
 1. **[decide]** Text-on-colour contrast targets differ per scheme:
    light lands ~6.4:1, dark ~10:1, everywhere. Pick one target for
-   both.
+   both. SHARPENED 2026-09-02 by BQ1.2's review, measured across all
+   seven roles on the themer's palette board: light puts white
+   foreground on the 700 fill and lands at 6.44–6.87:1, dark puts the
+   role's own 100 on the 700 fill and lands at 11.02–11.14:1 — the
+   same components at about 1.65x the contrast in dark. Light reaches
+   its number by spending one colour seven times: OnPrimary,
+   OnSecondary, OnTertiary, OnError, OnSuccess, OnWarning and OnInfo
+   are all literally #ffffff, which the board's own "Ink ends" entry
+   confirms.
    *(§A, colour generation)*
 
 131. **[decide]** Light muted text fails WCAG AA while dark doubles
@@ -378,6 +427,22 @@ durably while these are open.
    change. Either make status colours fully seed-independent, or let
    lightness vary a bit per role. Pick one.
    *(§A, colour generation)*
+
+238. **[decide]** A step index names a lightness and nothing else:
+     chroma is not matched across roles at the same step. Light step
+     200 runs Error C* 10.9 (reads white), Secondary 12.1, Warning
+     32.4 and Success 59.5 (a vivid mint); step 400 runs Secondary
+     26.5 against Warning 81.8. Secondary and Tertiary are flat in
+     chroma the whole way (26 and 41) while Primary, Error, Success,
+     Warning and Info carry a pronounced arc, so a caller reading
+     "300" gets a promise about lightness that is no promise at all
+     about intensity — two swatches one row apart at the same step
+     differ wildly (#96ffa4 against #dce9ff). Decide whether the steps
+     owe a chroma envelope across roles, or whether the index is
+     lightness only and the board should say so. This is cross-role
+     inside one scheme, where item 178 is cross-scheme inside one
+     role; adjacent to items 6 and 147.
+     *(§AG, BQ1.2's review)*
 
 100. **[decide]** The accent's meaning inverts between the schemes. In
      light the user's turn is a solid `#723AD4` with white text while
@@ -956,12 +1021,35 @@ blast radius stops at the surface that raised them.
     at the same weight and the tree's shape is unreadable.
     *(§I, AH1.1's five-tab review — docs tab)*
 
+239. **[decide]** The board whose stated job is showing where each
+     colour came from prints no measured contrast anywhere. Every
+     pick cell says "measured over X" and none gives the ratio it
+     achieved, which is the one number a developer has to sign off.
+     The highlight cell, which prints its measured hue separation, is
+     the only cell on the board that prints a number at all. The cost
+     is not theoretical: BQ1.2's reviewer measured the highlight wash
+     at 1.21:1 light and 1.17:1 dark against the theme's Surface under
+     a rule claiming a 1.25 floor, an ambiguity that task then settled
+     in the wording — and it could only be found by sampling the page.
+     Whether the cells carry their ratios, and what a cell whose pick
+     clears the floor against one surface and not another should
+     print, is a board-content ruling.
+     *(§AG, BQ1.2's review)*
+
 72. **[decide]** The ramp grid is drawn in a 2px line of the
     full-strength Text colour — the same ink weight as body copy — so
     the lattice out-shouts the colours it exists to show. It is also
     asymmetric: rows are separated by ~6px of chrome, columns by 2px.
     Swatches are 20px by ~111px letterboxes in a section with 500px of
     vertical room to spare, which makes cross-row hue comparison hard.
+    SHARPENED 2026-09-02 by BQ1.2's review, with the weights counted:
+    the rules measure 14.7:1 against the light page while every other
+    rule on the same page — the Palette Picks underlines — is the
+    Divider at 1.37:1, and one grid carries three weights (vertical
+    2px, horizontal 1px doubled with a 2px gap, outer frame 1px). The
+    ink is not an accident: this board draws its frame in the inverse
+    surface deliberately, so what is open is the weight and the count,
+    not whether the frame should have been a divider.
     *(§I, AH1.1's five-tab review — palette presentation)*
 
 73. **[decide]** The Palette Picks board is unbalanced: the left and
@@ -970,7 +1058,16 @@ blast radius stops at the surface that raised them.
     annotated "no ink here" — a section whose whole content is two
     colours it says are unused. Separately, the pick chips carry three
     different contents (an "Aa", a nested square, or nothing) with no
-    key anywhere in the UI.
+    key anywhere in the UI. SHARPENED 2026-09-02 by BQ1.2's review,
+    which met the board at 1400x1120 and priced the imbalance:
+    content bottoms out at y=950 left, y=850 middle and y=443 right,
+    leaving a 169 px blank full-width tail under the page and roughly
+    470x670 px empty under the right column — about a third of the
+    page. Three columns because three families exist, not because the
+    content balances. The dark "Ink ends" column re-verified at 3x:
+    both entries still read "no ink here", because in dark the
+    on-colours come from each role's own 100 and White and Black are
+    unused.
     *(§I, AH1.1's five-tab review — palette presentation)*
 
 43. **[decide]** In dark scheme the seed-candidate chips at the top
@@ -1003,6 +1100,21 @@ blast radius stops at the surface that raised them.
     steps a role", which repeats what the headers already show.
     The drop order is ruled and recorded; re-rule it?
     *(§G, from the palette edges review, 2026-08-21)*
+
+240. **[decide]** The ramps' base column is a copy of step 700 and its
+     legend misnames it. Measured across all seven roles: dark base
+     equals step 700 at ΔE 0.00, light at ΔE 0.00 for the four
+     statuses and 1.1–1.4 for the three accents — invisible either
+     way. The legend calls it "its role's pinned base", which reads as
+     the seed, but light Primary base is #0050d0 and dark Primary base
+     is #b0cdff, and the seed lands at no step of the dark ramp at all
+     (it would fall between dark 400 #003ea6 and dark 500 #1463ed). So
+     a tenth swatch a row carries no information and names something
+     it does not show. Either the column shows the seed, or it goes,
+     or the legend says step 700; pairs with item 48 (the base chip's
+     width) and item 49 (the caption clause that explains the
+     column).
+     *(§AG, BQ1.2's review)*
 
 54. **[decide]** Light Secondary/Tertiary say "pinned just off …
     700" while their dot sits on 700 — both true (the pins differ
@@ -2038,6 +2150,16 @@ and the task was fenced to drawing specimens with the existing API.
      the elevation ladder owes a separation floor of its own, and whether
      one number serves both schemes given the backdrop's measured step is
      a platform measurement in one and a ramp step in the other.
+     SHARPENED 2026-09-02 by BQ1.2's review, which met the same defect
+     on the themer's palette page: the "Palette Ramps" and "Palette
+     Picks" header bands measure 1.016:1 in light (#f8f8f8 on a
+     #f6f6f6 page) and 1.09:1 in dark (#222222 on #181818), and the
+     two schemes do not take the same fill for that band — light takes
+     the level-1 fill and sits LIGHTER than the page, dark takes
+     Surface and sits darker, so one element steps up in one scheme
+     and down in the other. That reviewer read the light band as "not
+     any named palette colour"; it is the level-1 fill this item
+     already measures, which is exactly why it cannot be seen.
      *(§AG, BQ1.1's review)*
 
 236. **[decide]** The Ghost variant reads as unstyled text at rest. The
