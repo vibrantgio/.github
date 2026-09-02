@@ -496,3 +496,161 @@ pipeline session): This is just completely and utterly insane. Who
 comes up with this shit. Then use fill and foreground in the specs,
 not wash and ink. ^0004-fill-foreground-not-wash-ink
 
+## 0005 — the ontology review session (2026-09-02)
+
+Rene: We are working to make DOMAIN.md authorative for all
+development work going on in session vibrantgio. Now review
+DOMAIN.md and tell me if we need to define something that is
+missing, if we need to define somethings better and whethere there
+are definitions in conflict with eachother. ^0005-review-demand
+
+Rene: So interview me about this because this is a lot!
+
+Rene (crunch selection, via the alert/toast prompt): Signals; both
+alert and toast are currently part of the patterns module though
+and need to be moved to the components module! ^0005-alert-toast-signals
+
+Rene (crunch selection, via the variant prompt): Variant = setting,
+Emphasis = prominence. Variant means where a control lives (form,
+chrome); emphasis means how important its action is (Filled, Tonal,
+Ghost) and leaves the Variant table; where the text means a colour
+role, say role. ^0005-variant-setting-emphasis-prominence
+
+Rene (on the pane question): Chrome and backdrop are closely related
+here.
+
+Rene: Well the chrome actually is the area inside the window where
+everything gets put. It is painted in the backdrop color, so how is
+it then not just the backdrop? What differentiates chrome from
+backdrop in this case. To me chrome usually means everything painted
+by the actual OS, but look up the definion of how chrome was
+normally used before google muddled the water with their browser
+^0005-chrome-vs-backdrop
+
+Rene: So the question is then when something is chrome according to
+the orginal meaning we should paint it at the same backdrop level? I
+think you can come up with examples of chrome in our code DOMAIN
+here where that does not hold and chrome has a different color. Is
+a card chrome? ^0005-is-a-card-chrome
+
+Rene (to "chrome is window furniture only"): Chrome is only for
+components/patterns directly placed on the window surface painted
+in backdrop color?
+
+Rene: So the problem I have is that you are trying to lump a lot of
+things under a common name. So the whole window when completely
+vacated from any components inside it is painted at the backdrop
+level. What you are seeing is for all intent and purposes the
+backdrop. On this you can place several patterns/components that
+you could call Chrome and these are also painted at the backdrop
+level. I find that conflicting with my sense of logic. I think they
+should be separate levels, but you can CHOOSE to keep the colors for
+those the same right. What is against doing it this way. Also if
+you just talk about things that can be placed on the window surface
+i.e. the backdrop, then this has some real logic to it.
+^0005-chrome-own-level
+
+Rene: No that is not what I said. I said that we could CHOOSE to do
+that, but actually I'd like the backdrop to be a tint darker
+^0005-backdrop-tint-darker
+
+Rene (on raised/elevated/floating): If we do 1 then cards in cards
+is not possible, right? The question is if you'd want that anyway.
+^0005-cards-in-cards
+
+Rene (crunch selection, via the levels prompt): Raised is relative,
+floating is above all raised. A raised surface stands one step
+above the surface it stands on; floating surfaces are detached and
+stand above everything raised beneath them; cards do not nest;
+"elevated" leaves the prose; the card's two looks are outlined and
+filled, both raised. ^0005-raised-relative
+
+Rene (crunch selection, via the mark prompt): Mark is the glyph a
+control draws; add an entry. Mark = the small glyph a component
+draws to show a recorded state or offer a dismissal: the checkbox's
+check, the radio's dot, the close cross. 0005 retired mark as a
+component name only; the Role entry's "its mark" is the colour a
+mark is drawn in. ^0005-mark-is-the-glyph
+
+Rene (on "control ladder"): What did control ladder actually mean
+previously?
+
+Rene: Density for me in no way say anything about control height.
+How is that word even related to that. ^0005-density-word-doubt
+
+Rene: The word isn't even defined in the DOMAIN.md
+^0005-axes-undefined
+
+Rene: Write them all into the DOMAIN.md but we will discuss density
+further
+
+Rene: No tables in the definitions to show the different values
+these can take? ^0005-axis-value-tables
+
+Rene: toolbar is not defined ^0005-toolbar-undefined
+
+Rene: Why would I care if a pattern ships for a term defined in
+DOMAIN.md? Doesn't it make it less of something worth defining?
+^0005-language-regardless-of-shipping
+
+Rene: in originator there may be 3 levels: system/developer/user
+^0005-three-originators
+
+Rene: Let's talk about density. To me it sounds that density is
+something that you configure for a whole window. It is not
+something you set per component as then size would be more
+appropriate, what do you think ^0005-density-window-wide
+
+Rene (to the density sharpening and the originator draft, including
+developer-originated badges never being dismissible): yes to both
+^0005-yes-density-and-originator
+
+Rene: Should Alert and Toast migrate to the components module?
+
+Rene: A toast is a certain visual presentation with a specific
+timing associated with it of a notification. So notifications is
+fine, as perhaps in the future we want to have notifications NOT in
+the form of toast ^0005-notifications-pattern
+
+Rene: If toast is moved to the components module perhaps it is no
+longer required to say explicitly that it is a component and not a
+pattern. The only reason you say that is because it was a pattern
+previously. For users of the library that is confusing information
+to receive ^0005-no-not-a-pattern
+
+Rene: The content flash that occurs after the link is clicked is not
+in anyway represented in the DOMAIN.md? ^0005-arrival-flash
+
+Rene: Yes add it and add it to the link definition also because
+following a link may activate it. Search is defined already? It is
+an edit currently and does not have any distinctive rendering
+although you might expect it to at least show a looking glass icon.
+^0005-search-undefined
+
+Rene: say highlight flash instead of just flash. Flash means the
+showing and subsequent fading. Yes to both your questions related to
+search ^0005-highlight-flash-and-search-field
+
+Rene: when should we use a popover and when should we use a tooltip?
+^0005-popover-vs-tooltip
+
+Rene (to adding tooltip's scope, the boundary in both entries, and
+tooltip at level 3): word
+
+Rene: "and that one which only names its anchor is a tooltip." Why
+is this sentence in reverese ^0005-boundary-not-reversed
+
+Rene: reach means interact with ? ^0005-operate-not-reach
+
+Rene: Now let's talk about list, scroll area and rich text
+
+Rene: So to mee scroll area and list look identical. How do they
+differ? ^0005-list-vs-scroll-area
+
+Rene: Paragraph sound good, tell me a succint list of other things
+that you propose because your text was not clear.
+
+Rene: why is the module not named paragraph? ^0005-richtext-is-paragraph
+
+Rene: write all 8, add the rename to the batch
+^0005-list-scroll-area-paragraph

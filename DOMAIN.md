@@ -30,7 +30,10 @@ A component the user operates to act or to choose.
 | **radio** | recording which one, of a visible few that exclude each other |
 | **switch** | turning something on or off, taking effect at once |
 | **text field** | entering and editing text |
+| **search field** | finding content — matches are highlighted as you type |
 | **scrollbar** | moving the view through content larger than its surface |
+| **list** | moving through a sequence of rows and choosing one |
+| **scroll area** | seeing the rest of one piece of content that keeps its own size |
 | **link** | following a reference — text that names its destination |
 | **menu** | a floating list of items, each performing an action or recording a choice |
 
@@ -43,6 +46,8 @@ inform. A signal tells you something; it is never the matter itself
 | Signal | Tells |
 |---|---|
 | **badge** | the system's word, count or glyph about content |
+| **alert** | a situation, standing in the page flow until it resolves |
+| **toast** | an event, floating briefly and leaving by itself |
 | **icon** | a concept as a glyph — names an action or a thing at a glance |
 | **text label** | a name or caption, set in a typography role |
 
@@ -54,8 +59,9 @@ never to the signal.
 
 The matter the application exists to show: prose, pictures, data —
 what the user came to read or edit. Content stands at level 0; its
-originator is the user or the author, never the system, which only
-speaks about it. Content is rendered by modules — the markdown
+originator is a person — the user, or the author who wrote it —
+never the developer and never the system, which only speak about
+it. Content is rendered by modules — the markdown
 document, an image — not shipped as a component: components stand
 beside content or act on it. The controls inside content — its
 links — are carried the way a signal carries its close: the
@@ -68,9 +74,13 @@ Who a component speaks for.
 | Originator | Says | Example |
 |---|---|---|
 | **the user** | their own entries and tokens | the filter token they typed |
-| **the system or author** | words about the content | the "Popular" label, the key-check verdict |
+| **the developer** | words placed when the application was built | the "Popular" label, a control's caption, the eyebrow |
+| **the system** | what the running application computes | the unread count, the key-check verdict, "filtered by X" |
 
-A signal's originator is always the system.
+A signal's originator is never the user: it speaks for the developer
+or the system. Content originates with a person — the user, or the
+author who wrote it — never with the developer's labels and never
+with the system.
 
 ### Action
 
@@ -90,29 +100,43 @@ affordance.
 
 ### Variant
 
-The same affordance at a different prominence or in a
-different setting, never a different behaviour.
+The same affordance in a different setting — where the control
+lives — never a different behaviour and never a different
+prominence; that is emphasis. A colour role is not a variant
+either: an alert in Warning is an alert speaking Warning.
 
 | Variant | Of | Meaning |
 |---|---|---|
 | **form** | picker | a field among fields |
-| **chrome** | picker | in a toolbar or header |
-| **Filled** | button | the one action a surface is about |
-| **Tonal** | button | a secondary action |
-| **Ghost** | button | an incidental action; claims no colour of its own |
+| **chrome** | picker | in the window's furniture — a toolbar, a navbar |
 
 ### Emphasis
 
-How important an action is on the surface it sits
-on. The button's variants Filled, Tonal and Ghost speak it, most
-pronounced to least. Emphasis lives where interaction lives: signals
-have none.
+How important an action is on the surface it sits on, ranked most
+pronounced to least. Emphasis lives where interaction lives:
+signals have none.
+
+| Emphasis | Of | Meaning |
+|---|---|---|
+| **Filled** | button | the one action a surface is about |
+| **Tonal** | button | a secondary action |
+| **Ghost** | button | an incidental action; claims no colour of its own |
 
 ### Structure
 
 The ordered parts a component is drawn from, each
 required or optional. Notation: brackets mark the optional parts, as
-in [icon] text [x].
+in [icon] text [x]. A component's or pattern's own trim — header,
+footer, close, seam — is structure, not chrome.
+
+### Mark
+
+The small glyph a component draws to show a recorded state or to
+offer a dismissal: the checkbox's check, the radio's dot, the close
+cross on a badge or an Input chip. A mark is a part of a structure,
+never a component; the role it is drawn in is the role's mark
+colour. Only the user's own operation repaints a state mark — focus
+rings the control and leaves the mark alone.
 
 ### Pattern
 
@@ -123,27 +147,26 @@ redraw them.
 | Pattern | Composes |
 |---|---|
 | **accordion** | a vertical stack of collapsible sections, a chevron per open state |
-| **alert** | a tinted rounded banner — variant icon, title, body — in Info, Success, Warning or Error |
 | **breadcrumb** | a row of labels with chevrons marking hierarchical location; the last is where you are |
-| **card** | a rounded surface container with header, body and footer slots; outlined or elevated |
+| **card** | a rounded surface raised on the content, with header, body and footer slots; outlined or filled |
 | **feature** | an icon-title-body grid for a marketing "features" section |
 | **hero** | the marketing landing block: eyebrow, display title, subtitle, visual, a call-to-action pair |
-| **modal** | a centred elevated dialog over a full-window scrim — header, body, footer actions |
+| **inspector** | a chrome column beside the content showing the properties of what is selected in it |
+| **modal** | a centred dialog floating over a full-window scrim — header, body, footer actions |
 | **navbar** | the horizontal bar of brand, links and actions; the active link marked |
+| **notifications** | the column that receives notifications and presents them — today as toasts — positioned, stacked and timed |
 | **pagination** | numbered page buttons flanked by previous/next chevrons |
-| **pane** | a chrome column floating just inside the window's edges rather than being one of them |
-| **popover** | an anchored elevated surface beside its anchor, a tail pointing at it |
+| **pane** | a chrome column set in from the window's edges rather than being one of them, the backdrop showing around it |
+| **popover** | a small surface floating beside its anchor, a tail pointing at it |
 | **pricing** | a row of tier cards, one optionally emphasised |
 | **shell** | the top-level application layout: the composition of the chrome regions |
-| **sidebar** | a collapsible vertical column — expanded with labels or collapsed to icons; the active entry marked |
-| **table** | a sortable, filterable, virtualised data table |
+| **sidebar** | a collapsible vertical column — expanded with labels or collapsed to a rail of icons; the active entry marked |
+| **status bar** | the chrome strip along the window's bottom, reporting on the document |
+| **table** | data in rows and columns, sortable and filterable — a list whose rows have columns |
 | **tabs** | a horizontal tab strip, the active tab underlined, its content panel below |
 | **testimonial** | quote cards naming their author — social proof |
-| **toast** | a position-anchored column of transient notifications, raised by message |
+| **toolbar** | the chrome strip along the window's top holding the controls that act on the document |
 | **tooltip** | a small hover or focus annotation beside its trigger, shown after a delay |
-
-The tag pattern still ships but is ruled to migrate to the badge
-component, so it is not of the family.
 
 ### Axis
 
@@ -152,10 +175,66 @@ restates.
 
 | Axis | Governs |
 |---|---|
-| density | control heights — the control ladder |
+| density | how tightly controls pack — the control height and inner padding |
 | radius | corner stops |
 | scheme | light and dark |
 | typography roles | the type stack's named styles |
+
+### Density
+
+How tightly controls pack, set once for the whole window and never
+per component. It governs the control height and the padding inside
+a control. There is no per-component size: a component that must be
+smaller than the control height states its offset from it, as the
+chip does; one that ignores it, like the badge, says so and is sized
+to its text.
+
+| Setting | Meaning |
+|---|---|
+| **Comfortable** | the default: room around every control |
+| **Compact** | more on screen: shorter controls, tighter padding |
+
+### Radius
+
+How rounded corners are, in named stops from square to fully
+round. A component names the stop it uses and never states a
+number.
+
+| Stop | Meaning |
+|---|---|
+| **None** | square |
+| **Sm** | barely softened |
+| **Base** | the default corner |
+| **Md**, **Lg**, **Xl**, **Xl2**, **Xl3** | rounder, in order |
+| **Full** | a pill or a full circle |
+
+### Scheme
+
+Whether the theme is light or dark. Every colour is derived per
+scheme from the same roles and levels; the backdrop is darkest and
+each level is lighter in both.
+
+| Scheme | Meaning |
+|---|---|
+| **Light** | dark foreground on light surfaces |
+| **Dark** | light foreground on dark surfaces |
+
+### Typography role
+
+A named style of the type stack. A text label or a heading is set in
+a typography role, never in a bare size. Always spoken with the
+qualifier: a bare "role" is a colour role. Each family below comes
+in Large, Medium and Small.
+
+| Family | Sets |
+|---|---|
+| **Display** | the largest text — a hero title |
+| **Headline** | section-opening text |
+| **Title** | the name of a thing — a card, a dialog |
+| **Label** | text on controls and captions |
+| **Body** | reading text |
+| **Code** | monospaced text, one size |
+| **Document headings** | the six heading steps of a prose document, derived from Body rather than borrowed from Headline and Title |
 
 ### Surface
 
@@ -175,21 +254,35 @@ spoken in levels, never in its own units.
 A position on the elevation, numbered from the backdrop
 up. A surface's colours are derived against the level it stands at,
 and in both schemes a surface nearer the viewer is lighter — the
-backdrop is darkest, whatever the scheme.
+backdrop is darkest, whatever the scheme. Standing higher comes in
+two kinds:
+
+| Kind | Meaning |
+|---|---|
+| **raised** | one step above the surface it stands on, attached to it — a card on the content, a field on that card |
+| **floating** | detached: placed by an attachment or over a scrim, above everything raised beneath it |
+
+Raised is relative — a field inside a card is raised on the card —
+so the numbers below name the usual stack, not a ceiling. Cards do
+not nest: grouping within a card is its structure.
 
 | Level | Holds |
 |---|---|
-| **backdrop** | chrome furniture — sidebars, rails, toolbars, inspectors |
+| **backdrop** | nothing: the bare window plane, showing wherever nothing stands |
+| **chrome** | the window's furniture — navbars, toolbars, sidebars, inspectors, status bars, panes |
 | **0** | the content itself: the document being read |
 | **1** | raised on the content — cards, filled insets, fields |
 | **2** | floating — dialogs and toasts |
-| **3** | floating, top of the elevation — menus and popovers |
+| **3** | floating, top of the elevation — menus, popovers and tooltips |
 
 ### Backdrop
 
-The lowest level: the window's own plane, the darkest
-region in both schemes. It is what the backdrop module paints first
-in every application.
+The lowest level: the window's own plane, what an empty window
+shows, the darkest region in both schemes. Nothing is drawn at it;
+everything else stands on it, and it shows wherever nothing stands
+— around an inset pane, between regions. It is what the backdrop
+module paints first in every application, a tint darker than the
+chrome placed on it.
 
 ### Scrim
 
@@ -199,12 +292,15 @@ above. A scrim is not a surface — nothing stands on it.
 
 ### Chrome
 
-The window's furniture: every region that frames the
-document rather than being it — toolbar, header, sidebar, rail,
-status bar. Chrome fills at the backdrop's level in both schemes; the
-shell pattern is the composition of chrome regions; a variant is
-"chrome" when the control lives in that furniture. palette.Chrome
-names the colours the furniture draws.
+The window's furniture: every region placed directly on the
+backdrop that frames the document rather than being it — navbar,
+toolbar, sidebar, inspector, status bar, pane. Chrome is a level of its
+own, the first above the backdrop and a tint lighter than it in
+both schemes; the shell pattern is the composition of chrome
+regions; a variant is "chrome" when the control lives in that
+furniture. Chrome is window-scale only: the trim inside a component
+or pattern — a card's header, a dialog's footer, a table's header
+row — is that thing's structure, never chrome.
 
 ### Attachment
 
@@ -216,9 +312,9 @@ what it floats from. Its parts, which any component can play:
 | **Anchor** | the element the floating surface is positioned against |
 | **Trigger** | the interaction that opens or closes it |
 | **Surface** | the floating thing itself |
-| **Placement** | which side it opens on — the author's preference, arbitrated by the attachment against fit |
+| **Placement** | which side it opens on — the developer's preference, arbitrated by the attachment against fit |
 
-Placement is preference plus fit: the author states the preferred
+Placement is preference plus fit: the developer states the preferred
 side, and the attachment arbitrates against reality — the surface
 must land fully visible inside the window. No room on the preferred
 side flips it to the side that has room; a surface taller than the
@@ -246,7 +342,8 @@ faded and no state applies until it returns.
 
 A colour identity of the theme. Each role owns a ramp — its hue run
 from light to dark, walked in numbered steps — and answers derived
-from it: its tinted container, its ink, its mark.
+from it: its tinted container, its foreground, the colour of its
+marks.
 
 | Roles | Family |
 |---|---|
@@ -323,8 +420,8 @@ box as unchecked is one state's grammar overwriting another's.
 
 ### Chip
 
-A small, subtle control that belongs to the content and comes and
-goes with it, defined by its purpose — one of four — never by looks
+A small, subtle control that stands beside the content and comes
+and goes with it, defined by its purpose — one of four — never by looks
 or platform provenance:
 
 | Purpose | Meaning |
@@ -341,7 +438,7 @@ it, it is a badge; if you use it, it is a chip.
 ### Button
 
 The control that performs an action when pressed. It
-is a fixture: placed by the author, always visible, always offering
+is a fixture: placed by the developer, always visible, always offering
 the same action — it does not appear from content the way a chip
 does, and it does not record a state. Marking a choice is never a
 button's job, whatever its emphasis; that is the Filter
@@ -377,30 +474,53 @@ about content — read, not used. One purpose, three utterances:
 
 | Utterance | Example | Fill |
 |---|---|---|
-| a word | "Popular" | tinted container — words are arbitrary content, so hue alone cannot carry the variant |
+| a word | "Popular" | tinted container — words are arbitrary content, so hue alone cannot carry the role |
 | a count | the unread 9 | tinted container, for the same reason |
 | a glyph | the key-check verdict | may stand bare — the glyph's shape carries the meaning; the green check and the red cross differ by form before they differ by hue |
 
 It covers what M3 and iOS call a badge too. Not a control: sized to
-its content like an inline annotation, off the control ladder
-entirely, visibly lighter than any control. It speaks only in the
+its content like an inline annotation, not sized to the control
+height, visibly lighter than any control. It speaks only in the
 status roles' own hues plus Neutral for plain category labels, and
-hue is never its only channel (hue-only variants collapse for
+hue is never its only channel (hue alone collapses for
 colour-blind readers). Filled/Tonal emphasis does not exist on a badge;
 emphasis lives where interaction lives. A badge may be dismissible
 (the close mark keeps an invisible control-sized hit area); what
 separates a dismissible badge from an Input chip is the
-originator, not the
-close — a badge is applied by the system or author *about* the
-thing, an Input chip is a token the user entered themselves.
-Dismissing a badge removes only the label, never behaviour — so a
-system-generated summary of view state, "filtered by X", is plain
-text or a close-less badge, removed where it was set. A component,
-not a pattern.
+originator, not the close — a badge is applied by the developer or
+the system *about* the thing, an Input chip is a token the user
+entered themselves. Dismissing a badge removes only the label, never
+behaviour — so a system-originated summary of view state, "filtered
+by X", is plain text or a close-less badge, removed where that state
+is set. A developer-originated badge is a fixture: nothing the user
+did made it appear, so it is never dismissible.
+
+### Alert
+
+The status signal for a situation: a tinted rounded banner — an
+icon, a title, a body — speaking one status role, standing in the
+page flow until the situation resolves.
+
+### Notification
+
+What the system tells the user about an event that happened: the
+message saved, the export finished, the connection lost. A
+notification is the message; how it is shown is a presentation —
+today the toast — and the notifications pattern is what receives
+and presents it. A notification is raised by message, never drawn
+in place.
+
+### Toast
+
+The status signal presenting a notification: a small floating
+surface at level 2 that appears when the notification is raised and
+leaves by itself after a set time. The presentation and its timing
+are what make it a toast; the notification is the message it
+carries. The column it appears in is the notifications pattern.
 
 ### Status
 
-What the system reports in the status roles' hues. Three components
+What the system reports in the status roles' hues. Three signals
 share the job, divided by what each speaks about and how long it
 stays:
 
@@ -426,6 +546,10 @@ it reports no status. It lives exactly as long as its cause:
 | a search | every match, the current one stronger | the query is dismissed |
 | a followed link | the arrived-at content | it fades by itself, moments later |
 
+The arrival highlight is a highlight flash: the showing and the
+subsequent fading together — it appears at once when the content
+comes into view and fades over a moment, never cut off.
+
 Its colour is its own, reserved outside the roles — a highlight must
 never read as a status, so no status hue may serve as the
 highlighter.
@@ -434,8 +558,8 @@ highlighter.
 
 The hero's kicker: a short overline in the type stack
 that introduces the headline. Pure typography — a typographic role,
-not a badge: it carries no variant, no container,
-says nothing about content; it is the composition speaking, not the
+not a badge: it carries no role, no container,
+says nothing about content; it is the developer speaking, not the
 system. Wears type styling (size, tracking, a hue if the theme says
 so), never the badge's tinted container.
 
@@ -462,23 +586,46 @@ The checkbox records; the switch acts.
 The control for entering and editing text: a bounded field the user
 types into. What it holds originates with the user.
 
+### Search field
+
+The control for finding content: a text field that looks as you
+type and marks what it finds with the search highlight. Structure:
+looking glass, text, [x]. The looking glass names the control at a
+glance; the clear mark empties it and dismisses the highlight with
+it. What it holds originates with the user.
+
 ### Scrollbar
 
 The control moving the view through content larger than its
 surface: a thumb on a track whose size mirrors how much of the
 content is visible. Operating it moves the view, never the content.
 
+### List
+
+The control for a sequence of rows: the user moves through them
+and may choose one, by pointer or keyboard. A chosen row is in the
+selection state. A menu is a list that floats; a table is a list
+whose rows have columns.
+
+### Scroll area
+
+The control for one piece of content that keeps its own size — a
+code block, a preformatted table, a wide diagram: it shows the part
+that fits and lets the user move the view to the rest, sideways or
+down. Nothing in it is chosen; the content is never reflowed or cut.
+
 ### Link
 
 The control following a reference: text that names its destination,
 showing its affordance in the text itself. Following it is its only
-action.
+action. Arriving may set off a highlight flash on the content the
+link pointed at, so the reader sees where they were brought.
 
 ### Icon
 
 The signal drawing a concept as a glyph: it names an action or a
-thing at a glance, resolved by name from one registry. Inside a
-control's structure an icon is a part, not a signal of its own.
+thing at a glance. Inside a control's structure an icon is a part,
+not a signal of its own.
 
 ### Text label
 
@@ -489,23 +636,22 @@ typography role. It says what a thing is.
 
 Content as a picture: it is read, never operated.
 
+### Paragraph
+
+Content as a run of styled text wrapped into lines. The links in
+it are carried controls; the rest is read.
+
 ### Markdown document
 
-Content rendered as a readable document: headings, lists, code
-snippets, images. The links inside it are carried controls;
-everything else is read.
+Content rendered as a readable document: paragraphs, headings,
+lists, code snippets, images. The links inside it are carried
+controls; everything else is read.
 
 ### Accordion
 
 The pattern stacking collapsible sections: each section a title row
 with a chevron turned by its open state, and a body shown while
 open.
-
-### Alert
-
-The status pattern for a situation: a tinted rounded banner — an
-icon, a title, a body — speaking one status role, standing in the
-page flow until the situation resolves.
 
 ### Breadcrumb
 
@@ -515,9 +661,11 @@ you are — plain text, not a link.
 
 ### Card
 
-The pattern containing related content as one rounded surface, with
-header, body and footer slots — outlined on the content, or
-elevated one level above it.
+The pattern containing related content as one rounded surface
+raised on the content, with header, body and footer slots. Two
+looks, both at the same raise: outlined, a hairline on the content's
+own fill; filled, one step lighter with no hairline. A card holds
+content, never another card.
 
 ### Feature
 
@@ -529,6 +677,13 @@ grid, so many features read as one set.
 The marketing pattern opening a page: an eyebrow, a display title,
 a subtitle, an optional visual and a call-to-action pair,
 introducing what the page is about.
+
+### Inspector
+
+The chrome pattern of a column beside the content, showing the
+properties of whatever is selected in it and offering the controls
+that change them. It follows the selection; empty selection, empty
+inspector.
 
 ### Modal
 
@@ -542,6 +697,14 @@ beneath is dimmed and deaf until the modal closes.
 The chrome pattern spanning the window's top: a brand leading,
 links centred, actions trailing. The active link is marked.
 
+### Notifications
+
+The pattern receiving the application's notifications and
+presenting them: a position-anchored column where each arrives,
+stacks against the others and leaves on its own timing. Today every
+notification is presented as a toast; the pattern owns the queue,
+the placement and the timing, not the presentation.
+
 ### Pagination
 
 The pattern dividing content into numbered pages: page buttons
@@ -549,15 +712,22 @@ flanked by previous and next. The current page is active.
 
 ### Pane
 
-The chrome pattern floating a column just inside the window's
-edges rather than being one of them, rounded on all corners,
-carrying its own hairline.
+The chrome pattern setting a column in from the window's edges
+rather than making it one of them: rounded on all corners, the
+backdrop showing around it on every side. Unlike flush chrome it is
+an object — a control can send it away, and what stood beside it
+reflows to the window's edge.
 
 ### Popover
 
-The attachment pattern for a small floating surface beside its
-anchor, a tail pointing at what it belongs to. Placement follows
-the attachment rules.
+The attachment pattern for a small surface floating at level 3
+beside its anchor, a tail pointing at what it belongs to. It is
+opened by an action on its trigger and stays until dismissed — a
+click outside, Escape, its close — and it may hold anything: controls,
+a menu, a detail of the thing under the anchor. Placement follows
+the attachment rules. Use it when the user must operate what it
+shows, or read more than a name; merely naming the anchor is the
+job for a tooltip.
 
 ### Pricing
 
@@ -573,14 +743,20 @@ arrangements its variants name.
 ### Sidebar
 
 The chrome pattern of a collapsible vertical column: expanded with
-icons and labels, or collapsed to icons alone. The active entry is
-marked.
+icons and labels, or collapsed to icons alone — collapsed, it is a
+rail. The active entry is marked.
+
+### Status bar
+
+The chrome pattern of a strip along the window's bottom: signals
+reporting on the document and the application's state — where you
+are in it, what is happening to it. It reports; it holds controls
+only incidentally.
 
 ### Table
 
-The pattern for data in rows and columns: sortable, filterable,
-and virtualised — only the visible rows are laid out, however many
-there are.
+The pattern for data in rows and columns: a list whose rows have
+columns, sortable and filterable, however many rows there are.
 
 ### Tabs
 
@@ -592,17 +768,20 @@ strip of titles, the active tab underlined, its panel below.
 The marketing pattern quoting named authors — one centred card or a
 row of them — as social proof.
 
-### Toast
+### Toolbar
 
-The status pattern for events: transient notifications stacking in
-a position-anchored column at level 2, each leaving by itself. A
-toast is raised by message, never drawn in place.
+The chrome pattern of a strip along the window's top, below the
+title, holding the controls that act on the document. Its controls
+are in the chrome variant; it holds controls, never content. The
+picker's chrome trigger is named after it.
 
 ### Tooltip
 
-The attachment pattern naming a control on demand: a small
-annotation appearing beside its trigger after a short delay on
-hover or focus, and leaving when they do.
+The attachment pattern naming a control or explaining a signal on
+demand: a small annotation floating at level 3 beside its trigger,
+appearing by itself after a short delay on hover or focus and
+leaving when they do. It holds text only, never a control; anything
+the user must operate is the job for a popover.
 
 ## Decisions
 
