@@ -37,20 +37,29 @@ A component the user operates to act or to choose.
 ### Signal
 
 A component that is read, never operated: its only purpose is to
-inform.
+inform. A signal tells you something; it is never the matter itself
+— that is content.
 
 | Signal | Tells |
 |---|---|
 | **badge** | the system's word, count or glyph about content |
 | **icon** | a concept as a glyph — names an action or a thing at a glance |
 | **text label** | a name or caption, set in a typography role |
-| **image** | a picture placed as content |
-| **markdown document** | rendered prose — headings, lists, code snippets, images |
 
-A signal may carry controls without becoming one — the dismissible
-badge's close, the links inside a markdown document. The affordance
-always belongs to the carried control, never to the signal: the link
-is underlined, the prose around it is not.
+A signal may carry a control without becoming one — the dismissible
+badge's close. The affordance always belongs to the carried control,
+never to the signal.
+
+### Content
+
+The matter the application exists to show: prose, pictures, data —
+what the user came to read or edit. Content stands at level 0; its
+originator is the user or the author, never the system, which only
+speaks about it. Content is rendered by modules — the markdown
+document, an image — not shipped as a component: components stand
+beside content or act on it. The controls inside content — its
+links — are carried the way a signal carries its close: the
+affordance belongs to the link, the prose around it stays read-only.
 
 ### Originator
 
@@ -478,13 +487,12 @@ typography role. It says what a thing is.
 
 ### Image
 
-The signal standing a picture in the content. It informs and offers
-nothing.
+Content as a picture: it is read, never operated.
 
 ### Markdown document
 
-The signal rendering prose as a readable document: headings, lists,
-code snippets, images. The links inside it are carried controls;
+Content rendered as a readable document: headings, lists, code
+snippets, images. The links inside it are carried controls;
 everything else is read.
 
 ### Accordion

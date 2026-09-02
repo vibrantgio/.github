@@ -417,6 +417,11 @@ Rene: Now for every Control, Signal, Pattern add a definition to the
 DOMAIN.md without actually removing them from the tables where they
 are listed. ^0002-define-every-row
 
+Rene: I'm having second thoughts about the Signal concept name. Is
+Markdown a Signal? Are we not talking about Content? Yes, crunch it
+[content as its own concept; signal narrows to annotations; image
+and markdown document re-parent to content]. ^0002-content-not-signal
+
 
 ## 0003 — the chips session (2026-08-30)
 
