@@ -2031,6 +2031,19 @@ and the task was fenced to drawing specimens with the existing API.
      halves are a number — glyph inset, mark weight, avatar
      padding — and want one ruling. *(§AC, BN2.2's review)*
 
+     Owner-ruled 2026-09-02 (relayed): the chip's icon must not stick
+     out above the label's cap height or below its baseline. Proposed
+     refinement, to verify rather than take on faith: inside a chip
+     the icon and label read as one line of text, so nominal icon
+     size = the label's cap height, centred on the cap band, with
+     only optical overshoot beyond it — the same few-percent license
+     a round letter takes at the baseline, the way SF Symbols
+     harmonize with type. Measure against the stored Mail reference
+     captures (its token/capsule icons; `reference/macos/`, ADR-019)
+     before fixing the numbers. What remains open is the measured
+     outcome: the resolved nominal size, the ✕'s stroke weight, and
+     the avatar/inset halves under the same principle.
+
 214. **[decide]** "Tonal" names two different colours: in dark the
      tonal button is #2F0066, fully saturated violet, while the
      selected chip's container is #312948, 43% saturated and near
