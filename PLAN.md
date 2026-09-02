@@ -18984,19 +18984,19 @@ identifiers now means contrast floors only (ContainerFloor,
 TextFloor, GraphicFloor), and the window's lowest level is the
 backdrop. Owner-confirmed 2026-09-02.
 
-- [ ] `tokens.LevelFloor` renames to `tokens.LevelBackdrop`; every
+- [x] `tokens.LevelFloor` renames to `tokens.LevelBackdrop`; every
   reference across the org converts (theme, components and its
   gallery, workbench apps, sitedocs). The elevation doc block in
   `theme/tokens/elevation.go` speaks levels numbered from the
   backdrop up; "storey" and "ladder" leave that file.
-- [ ] The CSS export follows the identifier: the elevation key
+- [x] The CSS export follows the identifier: the elevation key
   `floor` becomes `backdrop` (`--elevation-backdrop-*`), the export
   readme's prose with it; `design/` regenerated in the same task
   with the clean-diff check against the committed generator.
-- [ ] Golden tiles keep their file names; no golden moves pixels.
+- [x] Golden tiles keep their file names; no golden moves pixels.
   Prose in touched files migrates as in BN3.3 — no sweep beyond
   them.
-- [ ] Exit: green in `theme`, `design`, `components` (nested gallery
+- [x] Exit: green in `theme`, `design`, `components` (nested gallery
   by name), every touched workbench app module by name, and
   `workbench/sitedocs`; `check-layers.sh` from `.github`; commit and
   push in every touched repo and `.github`.
