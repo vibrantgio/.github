@@ -350,6 +350,9 @@ Rene: I concur with LevelBackdrop. Leave
 InverseSurface/OnInverseSurface for now, we may need it when we
 expand the set of components and patterns. ^0002-levelbackdrop
 
+Rene: Focused isn't defined by itself only as part of state?
+^0002-define-focused
+
 
 ## 0003 — the chips session (2026-08-30)
 

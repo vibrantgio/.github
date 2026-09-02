@@ -304,9 +304,7 @@ wrong kind of state.
 
 The persistent state of a binary control: the user's
 recorded yes on a checkbox, switch or radio. It survives hover and
-focus; focus may ring a checked control, never repaint its mark (the
-focus treatment that redraws a checked box as unchecked is one
-state's grammar overwriting another's).
+focus.
 
 ### Active
 
@@ -315,6 +313,15 @@ current tab, the current sidebar entry, the open document. Positional
 and one-of-many. Distinct from selection: selected is the thing you
 chose, active is the place you are; both are persistent and speak
 through the accent.
+
+### Focused
+
+The persistent state marking where keyboard input goes: the control
+that receives the typing and reacts to Enter or Space. It stays
+until focus moves elsewhere — Tab, or a click. Its accent is the
+ring around the control, and the ring is all it may draw: focus may
+ring a checked control, never repaint its mark — redrawing a checked
+box as unchecked is one state's grammar overwriting another's.
 
 ### Button
 
