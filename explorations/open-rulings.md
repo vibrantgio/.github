@@ -2236,3 +2236,24 @@ and the task was fenced to drawing specimens with the existing API.
      defect in either — but a 32 dp control being visibly rounder than
      a 36 dp one is the sort of thing a developer reads as a mistake.
      *(§AF, BN3.2's review)*
+
+## AF. Language seeds awaiting a plan slot
+
+228. **[task]** HIGHLIGHT entered the Language: the marking of
+     content the user was brought to, lifetime following cause —
+     search marks die with the query (current match stronger,
+     scrollbar tick marks the companion convention); followed-link
+     arrival fades by itself. Applied to content, not a component;
+     not of the status family; its colour reserved outside the
+     roles, so no status hue may serve as highlighter. The implied
+     work when a slot opens: a highlight token in `theme` and
+     adoption where finding and arriving exist. *(§AF)*
+
+229. **[decide]** At Compact density the input chip's avatar, capped
+     to the body's inner height (22 in a 24 chip), now sits in a
+     uniform 1 px well on all four sides, its round edge abutting the
+     outline's inner boundary. The tightness pre-existed vertically;
+     the cap-band round made it uniform. Whether Compact wants a
+     smaller avatar or accepts the abutment is a number to rule; the
+     gallery renders Comfortable only, so no reviewer has seen it.
+     *(§AF, BN3.2)*
