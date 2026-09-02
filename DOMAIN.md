@@ -236,25 +236,20 @@ is the role it means. Typography roles are a different thing
 entirely — the type stack's named styles, under Axis, always spoken
 with the qualifier.
 
-#### Ground
-
-The surface a control stands on, as that control sees
-it; every colour a control draws is derived against its ground,
-never absolute.
-
 #### Fill
 
 The field a component paints behind its content, always
-derived against its ground, never a stored swatch.
+derived against the surface it stands on, never a stored swatch —
+never absolute.
 
 | Fill | Who wears it |
 |---|---|
-| the role's hue diluted toward the ground — a pale tinted field | badges, persistent states and the Tonal button, all in one shared tint; behaviour tells them apart |
+| the role's hue diluted toward the surface beneath — a pale tinted field | badges, persistent states and the Tonal button, all in one shared tint; behaviour tells them apart |
 | the role's hue at full saturation | Filled emphasis only — reserved for where interaction lives; a badge's fill is never saturated |
 | none | the ghost button at rest, the glyph badge |
 
-Transient states walk the fill — hover and press step it
-from the ground.
+Transient states walk the fill — hover and press step it away
+from the surface beneath.
 
 #### Foreground
 

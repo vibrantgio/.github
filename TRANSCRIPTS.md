@@ -291,6 +291,14 @@ content is never cut off. ^0002-placement-preference-fit
 Rene: You can also add the standard patterns to the DOMAIN.md with
 definitions, right? ^0002-pattern-table
 
+Rene: Sorry but a newcomer will not know what the hell you are
+talking about. Ground is not a neutral word. You must understand
+that for humans, we use a single language with concepts that make
+general sense indendent of context. And yes we do use skeuomorphism
+words that mimic real world concepts, but we keep that limited
+because every skeuomorphism has to be learned.
+^0002-ground-not-neutral
+
 
 ## 0003 — the chips session (2026-08-30)
 
