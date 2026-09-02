@@ -19030,3 +19030,44 @@ carries the floor so every seed self-corrects.
   forced; `sync-versions.sh` before the workbench commit.
 - [ ] Exit: `check-layers.sh` and `check-versions.sh` from
   `.github`; every repo touched pushed.
+
+## Phase BQ: The highlight token and its first adoption
+
+Executes the ruled Highlight entry (DOMAIN, 2026-09-02): the marking
+of content the user was brought to, its lifetime following its cause.
+The highlighter's colour is reserved outside the roles — no status
+hue may serve, a yellow wash must never read as Warning — and it is
+applied to content, not a component. This phase ships the reserved
+colour as a theme token and its first adoption: the followed-link
+arrival highlight in vaultview, which fades by itself. Search
+adoption (marks dying with the query, the current match stronger)
+stays in the pool until its own go.
+
+### G-BQ1: The theme reserves the highlighter
+
+#### BQ1.1: The highlight token
+
+- [ ] `Highlight`: the reserved highlighter colour, derived against
+  the surface it marks — floored for visibility against that
+  surface, measurably distinct from every status hue in both
+  schemes, and content ink over it stays at TextFloor. The
+  derivation and its distances are pinned by tests, numbers with
+  provenance.
+- [ ] `theme/export` and `design/` follow if the token is emitted;
+  regenerated with a clean diff against the committed generator
+  either way.
+- [ ] Exit: green in `theme` and `design`; commit and push in both
+  and `.github`. No tag; the phase's release rides a later round.
+
+### G-BQ2: Vaultview arrives at the highlight
+
+#### BQ2.1: The followed-link arrival highlight
+
+- [ ] Following a link inside vaultview marks the arrived-at content
+  with the highlight token and fades it by itself moments later —
+  lifetime follows cause; no dismissal, no persistence, no reuse of
+  any status colour.
+- [ ] Fresh-eyes review of the arrival moment, one light and one
+  dark capture, per the standing protocol; findings pooled.
+- [ ] Exit: green in vaultview's module (run by name if nested);
+  commit and push in every touched repo and `.github`.

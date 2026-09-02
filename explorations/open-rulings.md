@@ -2245,9 +2245,12 @@ and the task was fenced to drawing specimens with the existing API.
      scrollbar tick marks the companion convention); followed-link
      arrival fades by itself. Applied to content, not a component;
      not of the status family; its colour reserved outside the
-     roles, so no status hue may serve as highlighter. The implied
-     work when a slot opens: a highlight token in `theme` and
-     adoption where finding and arriving exist. *(§AG)*
+     roles, so no status hue may serve as highlighter. The token and
+     the followed-link arrival adoption moved into the plan as Phase
+     BQ (owner's go, 2026-09-02). What remains seeded here: SEARCH
+     adoption — every match marked, the current one stronger, dying
+     with the query, scrollbar tick marks the companion convention —
+     wherever find-in-content exists; awaits its own go. *(§AG)*
 
 229. **[decide]** At Compact density the input chip's avatar, capped
      to the body's inner height (22 in a 24 chip), now sits in a
