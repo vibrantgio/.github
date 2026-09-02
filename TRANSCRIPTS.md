@@ -395,6 +395,16 @@ Rene (crunch selection, same prompt): the ramp is walked in STEPS —
 the Ramp.Step API's own word; "rung" retires, comments migrate as
 rounds touch them. ^0002-step-not-rung
 
+Rene: I have another potential entry for the badge/alert/toast
+category. Whenever a link is clicked or a search is executed we
+arrive at a position in the content. We should be able to highlight
+the content we just arrived at, sort of with a special highligher
+color (e.g. yellow) that color should stay there only as long as
+either the search is active or when a link is clicked it may even
+disappear after a few seconds automatically. What kind of UX are you
+aware of that is being used in the industry to cater to this
+functionality. ^0002-arrival-highlight
+
 
 ## 0003 — the chips session (2026-08-30)
 
