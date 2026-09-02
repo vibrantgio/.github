@@ -19063,12 +19063,12 @@ carries the floor so every seed self-corrects.
 
 #### BQ1.1: The ghost wash clears a perceptibility floor
 
-- [ ] The ghost register's hover and press washes derive with a
+- [x] The ghost register's hover and press washes derive with a
   fill-vs-ground floor (the ContainerFloor precedent: measure the
   separation bands over the seed sweep, put the threshold in the
   empty stretch) instead of a fixed step walk; dark stops landing at
   1.13:1. Light moves only if its own wash fails the same floor.
-- [ ] Sweep tests pin the floor for every ghost affordance —
+- [x] Sweep tests pin the floor for every ghost affordance —
   buttons, icon buttons, the modal close mark — on every storey,
   both schemes; goldens that legitimately move regenerate with the
   cause named (the gallery's tooltip/popover specimens are drawn

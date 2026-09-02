@@ -1993,3 +1993,61 @@ and the task was fenced to drawing specimens with the existing API.
      scope. Fix: carry the motion scale in the snapshot the way the other
      four are carried, and read the stop from there.
      *(§AG, BP2.1)*
+
+233. **[decide]** The wash has a floor and no ceiling. BQ1.1 gave
+     `tokens.ColorTokens.StateAt` a 1.25:1 perceptibility floor against
+     the surface it walks from, which moved every wash the eye could not
+     see; it left untouched the three that are already too loud for what
+     is written on them. In the dark scheme, level 2 pressed and level 3
+     hovered land on the neutral ramp's mid-value step and level 3
+     pressed one past it, where no neutral shade reaches the 4.5:1 text
+     floor over the wash from either side — the ghost label measures
+     4.46:1, 4.46:1 and 2.40:1 there. Nothing regressed: those three
+     predate the floor and the floor does not move them. But a wash is
+     the quietest a state is spoken at, and one that has walked past the
+     middle of the scale is no longer a wash. Decide whether the walk
+     owes a ceiling as well — the tonal container's own band is floored
+     at 1.25 and gated at 2.5, and the deep levels' press sits at 2.62
+     and 3.34 — or whether the label should derive against the wash
+     instead of riding a pinned step.
+     *(§AG, BQ1.1)*
+
+234. **[decide]** The tinted state walk carries no floor.
+     `tokens.ColorTokens.StateColor` moves a component whose resting
+     fill is a named ramp step by one index for hover and two for press,
+     and one index of the light neutral ramp measures 1.21:1 — under the
+     floor BQ1.1 placed on the surface walk, and inside the band that
+     round measured as "a shade the eye reads as the same surface". The
+     two walks answer the same question for two kinds of fill, so either
+     the floor belongs on both or the difference wants stating. Not in
+     BQ1.1's scope: that task was the ghost wash, and StateColor's
+     consumers are the tonal fills BQ1.2 is about to rewrite.
+     *(§AG, BQ1.1)*
+
+235. **[decide]** The level fills separate from each other by less than
+     the wash now separates from them. Measured by BQ1.1's fresh
+     reviewer off a live 1200x800 sitedocs window: light's paper
+     #F6F6F6, level-1 #F8F8F8 and level-2 #FBFBFB part at 1.018:1 and
+     1.026:1, so the chip specimen whose whole job is to show three
+     levels shows one; in dark the backdrop bands part from the paper at
+     1.06:1 and the gallery's section headers disappear, while the same
+     pairing measures 1.134:1 in light. BQ1.1 put a 1.25:1 floor on the
+     state walk taken FROM a level; the levels' own ladder — `SurfaceAt`,
+     not `StateAt` — carries no such floor, which is how a hover wash can
+     now be more visible than the elevation it stands on. Decide whether
+     the elevation ladder owes a separation floor of its own, and whether
+     one number serves both schemes given the backdrop's measured step is
+     a platform measurement in one and a ramp step in the other.
+     *(§AG, BQ1.1's review)*
+
+236. **[decide]** The Ghost variant reads as unstyled text at rest. The
+     same reviewer, told nothing: it fills a full 120x36 slot beside two
+     boxed siblings with no fill, no border and no outline, and its
+     label is neutral 700 — lighter than the Filled and Tonal labels
+     beside it — so it reads as a caption someone forgot to style rather
+     than as a control. Painting nothing at rest is the variant's
+     definition and BQ1.1 deliberately did not touch it; what is open is
+     whether the least pronounced variant owes any resting affordance at
+     all when it stands in a row of boxed ones, and whether its resting
+     label should be the lightest of the three.
+     *(§AG, BQ1.1's review)*
