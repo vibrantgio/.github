@@ -18753,7 +18753,10 @@ pointer target, density plumbing.
 - [x] Appearance: silhouette `Radius.Lg` (8) — the pill retires;
   resting body a 1 dp `OutlineVariant` outline with NO fill; resting
   ink `OnSurfaceVariant` (Assist: full-strength ink); selected fills
-  `Container(Secondary)`, outline off — label ink `InkOn(Secondary,
+  `ContainerOn(Secondary)`, the container derived against the surface
+  beneath (owner-ratified 2026-09-02: the fixed `Container(Secondary)`
+  measured 1.00:1 on the dark dialog level), outline off — label ink
+  `InkOn(Secondary,
   fill, TextFloor)`, marks (leading ✓, dismiss ✕) `OnContainer`
   (owner-ruled 2026-09-01: words owe the text floor; `OnContainer`
   is mark-floored, per its own doc and the badge precedent) —
