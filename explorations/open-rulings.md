@@ -361,6 +361,28 @@ consumer ships, then layout and copy.
      different lightness in each scheme.
      *(§Q, BF1.1's Palette Seed review)*
 
+230. **[bug]** `theme/export/css.go`'s toast block (around lines
+     1699–1714) calls the toast's status — info, success, warning,
+     error — its "level": "the level's own mark on the inverse
+     surface", "each level takes its own status ramp". The wording
+     dates from T2.1, before LEVEL became the elevation word, and
+     is emitted verbatim into `design/styles.css`. Found by BN3.4's
+     worker, which left it: pre-existing, and not an elevation
+     level. Fix: say status, the established family word, in the
+     export and regenerate `design/` with the clean-diff check.
+     *(§AG, BN3.4's worker)*
+
+232. **[bug]** The arrival highlight's fade reads `tokens.Motion.DurSlow`
+     off the package default scale rather than the theme's own, so a
+     window running under the OS reduce-motion preference — which is what
+     `MotionScale.Reduced` exists to serve — still tweens the wash out
+     over 400 ms instead of dropping it. The note column's `themeTokens`
+     snapshot carries colour, typography, spacing and density and no
+     motion, and threading a fifth stream through it was out of BP2.1's
+     scope. Fix: carry the motion scale in the snapshot the way the other
+     four are carried, and read the stop from there.
+     *(§AG, BP2.1)*
+
 ## Tier 1 — Token and palette derivation
 
 Rulings that live above every control, because each one is inherited by
@@ -608,6 +630,77 @@ durably while these are open.
      disclosed by the app's own caption; the gamut clipping and the
      red-specific collapse are not the dial. *(§Q, BF1.1's Palette
      Seed review)*
+
+231. **[decide]** The highlight wash and the accent's selection fill are
+     the same hue family. Sampled off BP2.1's window captures: the wash
+     is #E6CBEE light / #3B2641 dark, the sidebar's active row and the
+     outline's active row #D8CEFF light / #3F0085 dark — violet beside
+     violet, one saying "here is what you sought" and the other "this is
+     where you are". The fresh reviewer read the pair as coherent rather
+     than confusing (three violet marks, one destination) and named no
+     defect. But the reservation the highlighter carries is measured
+     against the four status hues and against nothing else, so its
+     distance from the accent — which rotates with the seed, where the
+     highlighter does not — is unmeasured and unruled. Decide whether the
+     reservation owes the accent a distance too, or whether a marking and
+     a selection sharing a hue is the right answer.
+     *(§AG, BP2.1's review)*
+
+233. **[decide]** The wash has a floor and no ceiling. BQ1.1 gave
+     `tokens.ColorTokens.StateAt` a 1.25:1 perceptibility floor against
+     the surface it walks from, which moved every wash the eye could not
+     see; it left untouched the three that are already too loud for what
+     is written on them. In the dark scheme, level 2 pressed and level 3
+     hovered land on the neutral ramp's mid-value step and level 3
+     pressed one past it, where no neutral shade reaches the 4.5:1 text
+     floor over the wash from either side — the ghost label measures
+     4.46:1, 4.46:1 and 2.40:1 there. Nothing regressed: those three
+     predate the floor and the floor does not move them. But a wash is
+     the quietest a state is spoken at, and one that has walked past the
+     middle of the scale is no longer a wash. Decide whether the walk
+     owes a ceiling as well — the tonal container's own band is floored
+     at 1.25 and gated at 2.5, and the deep levels' press sits at 2.62
+     and 3.34 — or whether the label should derive against the wash
+     instead of riding a pinned step.
+     *(§AG, BQ1.1)*
+
+234. **[decide]** The tinted state walk carries no floor.
+     `tokens.ColorTokens.StateColor` moves a component whose resting
+     fill is a named ramp step by one index for hover and two for press,
+     and one index of the light neutral ramp measures 1.21:1 — under the
+     floor BQ1.1 placed on the surface walk, and inside the band that
+     round measured as "a shade the eye reads as the same surface". The
+     two walks answer the same question for two kinds of fill, so either
+     the floor belongs on both or the difference wants stating. Not in
+     BQ1.1's scope: that task was the ghost wash, and StateColor's
+     consumers are the tonal fills BQ1.2 is about to rewrite.
+     *(§AG, BQ1.1)*
+
+235. **[decide]** The level fills separate from each other by less than
+     the wash now separates from them. Measured by BQ1.1's fresh
+     reviewer off a live 1200x800 sitedocs window: light's paper
+     #F6F6F6, level-1 #F8F8F8 and level-2 #FBFBFB part at 1.018:1 and
+     1.026:1, so the chip specimen whose whole job is to show three
+     levels shows one; in dark the backdrop bands part from the paper at
+     1.06:1 and the gallery's section headers disappear, while the same
+     pairing measures 1.134:1 in light. BQ1.1 put a 1.25:1 floor on the
+     state walk taken FROM a level; the levels' own ladder — `SurfaceAt`,
+     not `StateAt` — carries no such floor, which is how a hover wash can
+     now be more visible than the elevation it stands on. Decide whether
+     the elevation ladder owes a separation floor of its own, and whether
+     one number serves both schemes given the backdrop's measured step is
+     a platform measurement in one and a ramp step in the other.
+     SHARPENED 2026-09-02 by BQ1.2's review, which met the same defect
+     on the themer's palette page: the "Palette Ramps" and "Palette
+     Picks" header bands measure 1.016:1 in light (#f8f8f8 on a
+     #f6f6f6 page) and 1.09:1 in dark (#222222 on #181818), and the
+     two schemes do not take the same fill for that band — light takes
+     the level-1 fill and sits LIGHTER than the page, dark takes
+     Surface and sits darker, so one element steps up in one scheme
+     and down in the other. That reviewer read the light band as "not
+     any named palette colour"; it is the level-1 fill this item
+     already measures, which is exactly why it cannot be seen.
+     *(§AG, BQ1.1's review)*
 
 ## Tier 2 — Component and pattern contracts
 
@@ -912,6 +1005,35 @@ consumer ships the answer whether or not it asked the question.
      so this is about what the window focuses when it opens rather than
      about any control's ring — and the answer is presently nothing.
      *(§L, BA2.1's fresh-eyes review of the rebuilt MindChat window)*
+
+229. **[decide]** At Compact density the input chip's avatar, capped
+     to the body's inner height (22 in a 24 chip), now sits in a
+     uniform 1 px well on all four sides, its round edge abutting the
+     outline's inner boundary. The tightness pre-existed vertically;
+     the cap-band round made it uniform. Whether Compact wants a
+     smaller avatar or accepts the abutment is a number to rule; the
+     gallery renders Comfortable only, so no reviewer has seen it.
+     *(§AG, BN3.2)*
+
+236. **[decide]** The Ghost variant reads as unstyled text at rest. The
+     same reviewer, told nothing: it fills a full 120x36 slot beside two
+     boxed siblings with no fill, no border and no outline, and its
+     label is neutral 700 — lighter than the Filled and Tonal labels
+     beside it — so it reads as a caption someone forgot to style rather
+     than as a control. Painting nothing at rest is the variant's
+     definition and BQ1.1 deliberately did not touch it; what is open is
+     whether the least pronounced variant owes any resting affordance at
+     all when it stands in a row of boxed ones, and whether its resting
+     label should be the lightest of the three.
+     SHARPENED 2026-09-02 by BQ1.3's review, which sampled the same row
+     after the Tonal collapse: Ghost's label is zero chroma in both
+     schemes (light #5c5c5c, dark #cccccc) and the light one is
+     BYTE-IDENTICAL to the Neutral badge's label, while Filled and Tonal
+     now both carry the accent hue. So the question has a second half —
+     whether the third emphasis step may drop the brand hue its two
+     neighbours carry, or whether a ghost's label owes the accent at the
+     lowest strength that reads.
+     *(§AG, BQ1.1's review)*
 
 ## Tier 3 — Window and page composition
 
@@ -2118,125 +2240,3 @@ and the task was fenced to drawing specimens with the existing API.
      convention — wherever find-in-content exists. Awaits its own
      go. (The token itself and the followed-link arrival adoption are
      in the plan; the Language entry is DOMAIN's.) *(§AG)*
-
-230. **[bug]** `theme/export/css.go`'s toast block (around lines
-     1699–1714) calls the toast's status — info, success, warning,
-     error — its "level": "the level's own mark on the inverse
-     surface", "each level takes its own status ramp". The wording
-     dates from T2.1, before LEVEL became the elevation word, and
-     is emitted verbatim into `design/styles.css`. Found by BN3.4's
-     worker, which left it: pre-existing, and not an elevation
-     level. Fix: say status, the established family word, in the
-     export and regenerate `design/` with the clean-diff check.
-     *(§AG, BN3.4's worker)*
-
-229. **[decide]** At Compact density the input chip's avatar, capped
-     to the body's inner height (22 in a 24 chip), now sits in a
-     uniform 1 px well on all four sides, its round edge abutting the
-     outline's inner boundary. The tightness pre-existed vertically;
-     the cap-band round made it uniform. Whether Compact wants a
-     smaller avatar or accepts the abutment is a number to rule; the
-     gallery renders Comfortable only, so no reviewer has seen it.
-     *(§AG, BN3.2)*
-
-231. **[decide]** The highlight wash and the accent's selection fill are
-     the same hue family. Sampled off BP2.1's window captures: the wash
-     is #E6CBEE light / #3B2641 dark, the sidebar's active row and the
-     outline's active row #D8CEFF light / #3F0085 dark — violet beside
-     violet, one saying "here is what you sought" and the other "this is
-     where you are". The fresh reviewer read the pair as coherent rather
-     than confusing (three violet marks, one destination) and named no
-     defect. But the reservation the highlighter carries is measured
-     against the four status hues and against nothing else, so its
-     distance from the accent — which rotates with the seed, where the
-     highlighter does not — is unmeasured and unruled. Decide whether the
-     reservation owes the accent a distance too, or whether a marking and
-     a selection sharing a hue is the right answer.
-     *(§AG, BP2.1's review)*
-
-232. **[bug]** The arrival highlight's fade reads `tokens.Motion.DurSlow`
-     off the package default scale rather than the theme's own, so a
-     window running under the OS reduce-motion preference — which is what
-     `MotionScale.Reduced` exists to serve — still tweens the wash out
-     over 400 ms instead of dropping it. The note column's `themeTokens`
-     snapshot carries colour, typography, spacing and density and no
-     motion, and threading a fifth stream through it was out of BP2.1's
-     scope. Fix: carry the motion scale in the snapshot the way the other
-     four are carried, and read the stop from there.
-     *(§AG, BP2.1)*
-
-233. **[decide]** The wash has a floor and no ceiling. BQ1.1 gave
-     `tokens.ColorTokens.StateAt` a 1.25:1 perceptibility floor against
-     the surface it walks from, which moved every wash the eye could not
-     see; it left untouched the three that are already too loud for what
-     is written on them. In the dark scheme, level 2 pressed and level 3
-     hovered land on the neutral ramp's mid-value step and level 3
-     pressed one past it, where no neutral shade reaches the 4.5:1 text
-     floor over the wash from either side — the ghost label measures
-     4.46:1, 4.46:1 and 2.40:1 there. Nothing regressed: those three
-     predate the floor and the floor does not move them. But a wash is
-     the quietest a state is spoken at, and one that has walked past the
-     middle of the scale is no longer a wash. Decide whether the walk
-     owes a ceiling as well — the tonal container's own band is floored
-     at 1.25 and gated at 2.5, and the deep levels' press sits at 2.62
-     and 3.34 — or whether the label should derive against the wash
-     instead of riding a pinned step.
-     *(§AG, BQ1.1)*
-
-234. **[decide]** The tinted state walk carries no floor.
-     `tokens.ColorTokens.StateColor` moves a component whose resting
-     fill is a named ramp step by one index for hover and two for press,
-     and one index of the light neutral ramp measures 1.21:1 — under the
-     floor BQ1.1 placed on the surface walk, and inside the band that
-     round measured as "a shade the eye reads as the same surface". The
-     two walks answer the same question for two kinds of fill, so either
-     the floor belongs on both or the difference wants stating. Not in
-     BQ1.1's scope: that task was the ghost wash, and StateColor's
-     consumers are the tonal fills BQ1.2 is about to rewrite.
-     *(§AG, BQ1.1)*
-
-235. **[decide]** The level fills separate from each other by less than
-     the wash now separates from them. Measured by BQ1.1's fresh
-     reviewer off a live 1200x800 sitedocs window: light's paper
-     #F6F6F6, level-1 #F8F8F8 and level-2 #FBFBFB part at 1.018:1 and
-     1.026:1, so the chip specimen whose whole job is to show three
-     levels shows one; in dark the backdrop bands part from the paper at
-     1.06:1 and the gallery's section headers disappear, while the same
-     pairing measures 1.134:1 in light. BQ1.1 put a 1.25:1 floor on the
-     state walk taken FROM a level; the levels' own ladder — `SurfaceAt`,
-     not `StateAt` — carries no such floor, which is how a hover wash can
-     now be more visible than the elevation it stands on. Decide whether
-     the elevation ladder owes a separation floor of its own, and whether
-     one number serves both schemes given the backdrop's measured step is
-     a platform measurement in one and a ramp step in the other.
-     SHARPENED 2026-09-02 by BQ1.2's review, which met the same defect
-     on the themer's palette page: the "Palette Ramps" and "Palette
-     Picks" header bands measure 1.016:1 in light (#f8f8f8 on a
-     #f6f6f6 page) and 1.09:1 in dark (#222222 on #181818), and the
-     two schemes do not take the same fill for that band — light takes
-     the level-1 fill and sits LIGHTER than the page, dark takes
-     Surface and sits darker, so one element steps up in one scheme
-     and down in the other. That reviewer read the light band as "not
-     any named palette colour"; it is the level-1 fill this item
-     already measures, which is exactly why it cannot be seen.
-     *(§AG, BQ1.1's review)*
-
-236. **[decide]** The Ghost variant reads as unstyled text at rest. The
-     same reviewer, told nothing: it fills a full 120x36 slot beside two
-     boxed siblings with no fill, no border and no outline, and its
-     label is neutral 700 — lighter than the Filled and Tonal labels
-     beside it — so it reads as a caption someone forgot to style rather
-     than as a control. Painting nothing at rest is the variant's
-     definition and BQ1.1 deliberately did not touch it; what is open is
-     whether the least pronounced variant owes any resting affordance at
-     all when it stands in a row of boxed ones, and whether its resting
-     label should be the lightest of the three.
-     SHARPENED 2026-09-02 by BQ1.3's review, which sampled the same row
-     after the Tonal collapse: Ghost's label is zero chroma in both
-     schemes (light #5c5c5c, dark #cccccc) and the light one is
-     BYTE-IDENTICAL to the Neutral badge's label, while Filled and Tonal
-     now both carry the accent hue. So the question has a second half —
-     whether the third emphasis step may drop the brand hue its two
-     neighbours carry, or whether a ghost's label owes the accent at the
-     lowest strength that reads.
-     *(§AG, BQ1.1's review)*
