@@ -299,6 +299,11 @@ words that mimic real world concepts, but we keep that limited
 because every skeuomorphism has to be learned.
 ^0002-ground-not-neutral
 
+Rene: The intent definition reads weird. Intent in my opinion is
+what someone is trying to accomplish with their actions. Intent as
+used here more feels like the prupose of the Chip, because this is
+solely related to chips right? ^0002-purpose-not-intent
+
 
 ## 0003 — the chips session (2026-08-30)
 

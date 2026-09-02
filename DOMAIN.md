@@ -55,12 +55,13 @@ affordance is the action, not the widget — the same affordance can
 be built in more than one place or variant and remains one
 affordance.
 
-#### Intent
+#### Purpose
 
-Why a small control exists; what chips are defined by.
-The four chip intents:
+Why a widget exists — what it is there to do; a property of the
+widget, where intent would belong to the user. Chips are defined by
+their purpose. The four chip purposes:
 
-| Intent | Meaning |
+| Purpose | Meaning |
 |---|---|
 | **Assist** | a contextual smart action |
 | **Filter** | refine content from a set; toggles, marked when selected |
@@ -96,7 +97,7 @@ in [icon] text [x].
 #### Component
 
 A control or signal the system ships as one named
-unit — button, chip, picker, badge — defined by its intent, anatomy
+unit — button, chip, picker, badge — defined by its purpose, anatomy
 and variants. When a component's contract does not fit a consumer,
 the component is extended; the affordance is never re-assembled
 app-side.
@@ -300,12 +301,13 @@ is a fixture: placed by the author, always visible, always offering
 the same action — it does not appear from content the way a chip
 does, and it does not record a state. Marking a choice is never a
 button's job, whatever its emphasis; that is the Filter
-chip's intent.
+chip's purpose.
 
 #### Chip
 
 A small, subtle control that content sprouts, defined by
-its intent (one of the four), never by looks or platform provenance.
+its purpose (one of the four), never by looks or platform
+provenance.
 Not a quiet button: a button is a fixture; chips appear from
 content and context. Anatomy: [icon] text [x]. The line against the
 badge is read/use: if you read it, it is a badge; if you use it, it
@@ -329,7 +331,7 @@ that.
 #### Badge
 
 The small status signal: the system's word or sign
-about content — read, not used. One intent, three utterances:
+about content — read, not used. One purpose, three utterances:
 
 | Utterance | Example | Fill |
 |---|---|---|
