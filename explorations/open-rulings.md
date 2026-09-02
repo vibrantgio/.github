@@ -730,6 +730,39 @@ durably while these are open.
 Rulings that change a published library's shape or grammar, so a
 consumer ships the answer whether or not it asked the question.
 
+247. **[decide]** A filled button is the only family whose focus is an
+     inset detail rather than an outline, and with the colour removed it
+     is the hardest to find. Its ring is inset in its own background, so
+     the button's outer 2 px is the fill itself and its silhouette does
+     not change when it takes focus; the whole signal is one 2 px band
+     two pixels in, measuring 3.15:1 against the fill in light and
+     3.22:1 in dark. Every other focusable family answers with an
+     outline the surface reads at 6.19:1 (light) to 12.34:1 (dark), so
+     the button is between two and four times quieter than its
+     neighbours on the same page. The placement is deliberate — a band
+     flush with a boundary reads as that boundary — but the consequence
+     was never measured against the other placement. Decide whether the
+     inset band owes more than the graphic floor, given it is the only
+     ink focus has there, or whether a filled button should ring outside
+     its own edge like everything else.
+     *(§AG, BQ1.5's review)*
+
+248. **[decide]** The focus ring and the ink a control paints when it is
+     ON are the same grey: 1.05:1 in light (ring #6f36d1 against the
+     checked checkbox's #723ad4 fill) and 1.12:1 in dark (#dad2ff
+     against #d0c4ff). Both come off the primary ramp by construction,
+     and BQ1.5 moved the light ring one step nearer that fill — 1.48:1
+     before, 1.05:1 after — buying the separation from the neutral
+     resting border that focus needs more. What tells focus from checked
+     today is geometry alone: focus is an unfilled outline standing
+     clear of the control, on is a fill. That holds in the specimens and
+     it has no margin. Decide whether the ring owes the accent fill a
+     measured separation as well, and if it does, which of the two the
+     ramp should yield to when a scheme cannot give both — BQ1.5's
+     derivation excludes only the byte-identical case, which is the
+     least it could do.
+     *(§AG, BQ1.5's review)*
+
 243. **[decide]** On a light-scheme Tonal button the focus ring and
      the label are one colour. Both are the accent step chosen against
      the same fill — the ring by `focus.RingOn` at the graphic floor,
@@ -743,7 +776,14 @@ consumer ships the answer whether or not it asked the question.
      TestFocusRingIsTheSameRingInEveryRegister now has to excuse
      explicitly. Decide whether the ring owes a measured separation
      from the foreground it circles, the way it already owes one from
-     the fill. *(§AG, BQ1.3)*
+     the fill. RE-MEASURED 2026-09-02 after BQ1.5 moved the light ring:
+     the collision stands at #6f36d1 on levels 0 through 3, and its
+     mechanism has changed. It was the walked band `focus.RingOn` takes
+     when the scheme's ring cannot read on the tonal fill; the scheme's
+     ring is now #6f36d1 itself, so the ring and the label meet as two
+     derivations landing on one step rather than as a walk arriving
+     where the label already was. Dark does not collide (ring #dad2ff,
+     label #d0c4ff). *(§AG, BQ1.3)*
 
 245. **[decide]** An alert carries its bounds and its status in one
      background wash and nothing else. `drawAlert` fills a rounded rect
@@ -759,6 +799,18 @@ consumer ships the answer whether or not it asked the question.
      Decide what an alert owes underneath the wash; a hairline in the
      status hue is the cheap answer.
      *(§AG, BQ1.4's review)*
+
+249. **[decide]** A focused link's fill wash contributes nothing once
+     the colour is removed: #f2f2f2 over the light scheme's #f6f6f6
+     paper is 1.04:1, so in greyscale the wash is not there and the 2 px
+     box around the words carries the state alone. The box does carry
+     it, so nothing is lost, but the wash is then ornament that only
+     some readers get — and by the house's own perceptibility floor
+     (1.25:1, the number ContainerFloor and StateFloor both landed on) a
+     fill at 1.04:1 is not a fill. Decide whether the link's focus wash
+     should clear that floor like every other wash in the system, or be
+     dropped so the box is the whole of the treatment.
+     *(§AG, BQ1.5's review)*
 
 96. **[decide]** Added 2026-08-29, from AZ2.1's fit check — the first
     real anchor use of `components/chip`. The live `chip.Chip` takes

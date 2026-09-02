@@ -19134,13 +19134,13 @@ moves the shared wash recipe, so it lands here first.
 
 #### BQ1.5: The light focus ring gains a second channel
 
-- [ ] The one-ring rule stands (scheme-only, both-neighbours); the
+- [x] The one-ring rule stands (scheme-only, both-neighbours); the
   light ring's rung pick adds a luminance-separation floor against
   the neutral resting border so focus survives Differentiate
   Without Color — dark already separates at 1.86:1 and is the
   reference; light's pick moves to the rung that clears both the
   storey floor and the luminance floor.
-- [ ] The focused-controls golden and the CSS export follow in the
+- [x] The focused-controls golden and the CSS export follow in the
   same task (the export mirrors the same rule since the ring
   round); fresh-eyes review of the focused-specimens capture in
   both schemes.
