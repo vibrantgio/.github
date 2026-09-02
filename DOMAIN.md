@@ -47,6 +47,14 @@ Who a widget speaks for.
 
 A signal always speaks in the system's voice.
 
+#### Action
+
+Something the application does because the user asked for it:
+sending the message, keeping the colour, opening a menu. Performing
+an action changes more than the control that offered it — a control
+that only records a choice, like a checkbox taking a yes, has not
+performed an action.
+
 #### Affordance
 
 An action a control offers and shows it offers:

@@ -309,6 +309,8 @@ Purpose. This refers to a previous no longer present situation that
 a fresh reader of the spec will not be able to connect to anything
 ^0002-no-intent-mention
 
+Rene: Define action ^0002-define-action
+
 
 ## 0003 — the chips session (2026-08-30)
 
