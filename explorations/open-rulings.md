@@ -1559,12 +1559,14 @@ sixth recorded misread. Items 150–159.
 Added 2026-08-30. Three engineering smells surfaced while fixing the
 popover clamp and tail; recorded by the worker, none blocking.
 
-160. **[decide]** `chipface.Pin` (and its chip/picker re-exports) has
-     no production caller since the popover grew Align — public,
+160. **[decide]** `Pin` — now `chip.Pin` and `picker.Pin`, the package
+     it was named for having gone with the chip re-anatomy — has no
+     production caller since the popover grew Align: public,
      documented, tested, dead. Whether dead public API retires (a
-     contract change, minor) or waits for the chip re-anatomy's
-     collapse of the two Pin types is a release-shape ruling.
-     *(§S, BI2.5)*
+     contract change, minor) is a release-shape ruling; the
+     re-anatomy has since collapsed the two Pin types down to these
+     two packages, so nothing waits on it any more.
+     *(§S, BI2.5; package name corrected 2026-09-02)*
 
 161. **[decide]** `patterns/popover` measures its Content at half the
      canvas in both axes; now that the canvas means "the room", both
@@ -2056,6 +2058,38 @@ and the task was fenced to drawing specimens with the existing API.
      outcome: the resolved nominal size, the ✕'s stroke weight, and
      the avatar/inset halves under the same principle.
 
+     **Closed 2026-09-02 by BN3.2, and the refinement held.** The
+     reference carried no mark-against-type number, so the gap was
+     closed both ways: the stored Mail capture's search field was read
+     (its magnifier inks 13 px against a 10 px cap band, 1 px above the
+     cap line and 2 px below the baseline), and an offscreen sweep was
+     run and stored with its program so it can be re-run. Measured
+     against a system-font label at three sizes, the platform's plain
+     signs — plus, check, cross — ink out at 1.11 to 1.21 times the
+     label's cap band, half a point to seven eighths above the cap line
+     and half a point to a point below the baseline, at a stroke band
+     of 0.82 to 1.02 of the label's stem. That is precisely what a path
+     running the cap band with a stroke straddling it produces
+     unaided, so the refinement is adopted as measured: the mark box IS
+     the cap band and the overshoot is the stroke's own.
+
+     The four numbers, before and after, at the role a chip's label is
+     set in: mark box 18 dp → the cap band, 10 px at 1x; mark stroke
+     1.5 dp → the label's stem, 1.72 dp; the dismiss cross 18×18 with
+     3 px of ink → 10×10 at the label's own weight, 44% less stroke
+     length and no heavier than the words; the leading inset in front
+     of an avatar 16 dp → the avatar's own vertical clearance, 4 dp at
+     the comfortable density, so the picture sits in a square well.
+     The mark is placed on the band rather than centred in the chip,
+     which is a pixel lower — the capitals are not centred on the line
+     box that holds them. `DismissHitDp` is untouched at 24 dp.
+
+     One divergence worth carrying: not every platform symbol lives in
+     the cap band. The magnifier — a picture rather than a sign — runs
+     1.37 to 1.40 times the band. It is the reason the avatar keeps its
+     own larger slot and its own centring rather than joining the
+     marks.
+
 214. **[decide]** "Tonal" names two different colours: in dark the
      tonal button is #2F0066, fully saturated violet, while the
      selected chip's container is #312948, 43% saturated and near
@@ -2110,3 +2144,95 @@ and the task was fenced to drawing specimens with the existing API.
      `components/menu` out of `components/picker`'s menu.go, additive,
      with picker becoming its first consumer. Concept ruled in
      DOMAIN's Menu entry; awaiting a plan slot. *(§AE)*
+
+## AF. From BN3.2's fresh-eyes review of the resized chip marks
+
+219. **[decide]** In dark the chip's two parts climb the elevation on
+     different steps: the selected fill moves once, between the paper
+     and a card, then stops (49,41,72 → 73,66,99 → 73,66,99), while
+     the outline moves once, between a card and a dialog, having done
+     nothing before (109 → 109 → 155). One component, two ramps, two
+     boundaries. The outline's single step reads as a spot fix rather
+     than a system: 109 on a card measures 3.07:1, the non-text floor
+     to two decimals, and would have measured 2.35:1 in a dialog, so
+     155 was substituted at that one level. The consequence on the
+     selected chip is that its label contrast falls as it climbs —
+     8.47:1 on the paper, 5.82:1 above it — because the label does not
+     move when the fill does. *(§AF, BN3.2's review)*
+
+220. **[decide]** Three separate cases sit ON the 4.50:1 label floor
+     with 0.01 to 0.04 of headroom, not near it: light selected at
+     rest 4.53, light unselected pressed 4.51, dark selected pressed
+     4.54. The worst of the three is the resting appearance of a
+     selected filter chip in light, which is the state a filter chip
+     spends most of its life in. The two schemes also disagree about
+     the direction: selecting drops the light label from 6.19:1 to
+     4.53:1 and lifts the dark one from 6.39:1 to 8.47:1. A floor met
+     exactly is a floor that fails the next time anything moves.
+     *(§AF, BN3.2's review)*
+
+221. **[bug]** The light focus ring fails 3:1 against the surface it
+     is actually drawn on. The ring replaces the outline rather than
+     standing off it, so on a selected chip its inner edge abuts the
+     chip's own fill: 140,89,244 against 215,207,247 is 2.92:1, under
+     the 3:1 a focus indicator owes its adjacent colours. Against the
+     page outside it the same ring measures 4.01:1 and passes, which
+     is why it survived. Dark is fine at 4.90:1. Neighbours 210.
+     *(§AF, BN3.2's review)*
+
+222. **[decide]** Three of the four purposes are pixel-identical at
+     rest — Filter unselected and Suggestion agree on border, fill,
+     label, height and corner profile in every sampled property, and
+     Input differs only by the two things hung on it. The purposes are
+     distinguished by their attachments alone. That may be the right
+     answer for a family whose whole point is one silhouette, but the
+     section's own heading promises four purposes and the render
+     delivers one appearance with three affixes, so the promise or the
+     drawing wants deciding. *(§AF, BN3.2's review)*
+
+223. **[decide]** Selecting a chip makes its boundary harder to see. A
+     selected chip carries no outline at all, so the only thing
+     separating it from what it stands on is the fill step: 1.37:1 on
+     the light paper, 1.43:1 in a light dialog, 1.30:1 and 1.45:1 in
+     dark — against the 4.03:1 edge the unselected chip has. The
+     outline is dropped on selection by the M3 anatomy this family
+     adopted; whether a filled chip owes its own boundary a floor is
+     the ruling. *(§AF, BN3.2's review)*
+
+224. **[decide]** A diagonal in this library reads lighter than an
+     axis-aligned stroke of the same width, and lighter than the type
+     it is set beside. BN3.2 put the chip's marks on the label's own
+     stem width — the measured platform relation — and the marks still
+     read thinner than the label's stems, because Gio composites in
+     linear light where the platform composites in encoded sRGB, worth
+     about 30 points of apparent ink at hairline scale (the measured
+     macOS reference records the difference). Every derived diagonal
+     in the library is affected: the chip's check and cross, the
+     picker's chevron, the disclosure marks. Either the compositing
+     difference is compensated once, somewhere central, or diagonals
+     carry a stated weight premium over axis-aligned strokes. Not the
+     chip's to answer alone. *(§AF, BN3.2's review)*
+
+225. **[decide]** The gallery's level surfaces shrink-wrap their
+     content while the section headers are full-bleed, so the page has
+     a ragged right edge: the chip section's card runs to x=813 in a
+     900 px window and the badge section's to x=503, both under
+     headers that run the full width. Each surface stops wherever its
+     longest row happens to end plus its padding, which reads as an
+     accident rather than a composition. *(§AF, BN3.2's review)*
+
+226. **[decide]** The gallery's row captions collapse onto the content
+     tier in dark. They reach 155,155,155 at their darkest, which is
+     exactly the chip label colour; in light they stop at 121,121,121
+     against a label at 92,92,92 and stay a tier below. So the
+     caption/content distinction exists in one scheme and not the
+     other, with only the size difference left to carry it in dark.
+     *(§AF, BN3.2's review)*
+
+227. **[decide]** The chip is rounder than the button it is shorter
+     than: a chip's corner measures about 6 px against a button's
+     about 4. Both take their radius from the scale, so this is a
+     question about which rung each component names rather than a
+     defect in either — but a 32 dp control being visibly rounder than
+     a 36 dp one is the sort of thing a developer reads as a mistake.
+     *(§AF, BN3.2's review)*

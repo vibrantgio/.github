@@ -5932,6 +5932,64 @@ numbers live in one place.
 | platform sidebar mark, divider position | 0.355 across | offscreen, prior task |
 | platform sidebar mark, list-line length | 0.55 of the leading column | offscreen, prior task |
 
+#### Marks against their label's cap band
+
+Added 2026-09-02 by BN3.2, which needed to know how big a mark set beside a
+label is on this platform. The reference held no such number: its symbol row
+above gives stroke bands and one mark's proportions and never relates a mark to
+the type beside it. The gap is closed here in both directions — a reading off a
+stored capture, and a fresh offscreen sweep whose program and output are stored
+so it can be re-run rather than re-invented.
+
+**From the stored capture.** `mail-window.png`'s search field is the one place
+in this whole sweep where the platform sets a mark and a label on one line. Read
+as ink runs down the columns of each, at the same threshold:
+
+| measure | value |
+| --- | --- |
+| label ink, "Search" — ascender top to baseline | rows 21–30, so a 10 px band |
+| the round 'S', at the baseline | one row of overshoot, row 31 |
+| the magnifier's ink | rows 20–32, 13 px tall and 13 px wide |
+| the magnifier against the label's cap band | 1 px above the cap line, 2 px below the baseline, 1.30× the band |
+
+**From an offscreen sweep.** `sf-symbols-vs-cap-band.swift` draws SF Symbols as
+text attachments beside a system-font capital, at a matched point size, into an
+8× supersampled bitmap, and measures the ink out of the pixels; its output is
+`sf-symbols-vs-cap-band.txt`. No window is created and no application is
+launched, which is why this could be swept rather than attested. macOS 26.5.2
+(build 25F84), regular weight, values in points.
+
+| mark | ink / cap band | above the cap line | below the baseline | stroke band / label stem |
+| --- | --- | --- | --- | --- |
+| plus | 1.135–1.143 | 0.50–0.75 | 0.50–1.00 | 0.92–1.00 |
+| checkmark | 1.176–1.206 | 0.63–0.88 | 1.00 | 0.83–0.86 |
+| xmark | 1.106–1.143 | 0.63 | 0.50 | 0.88–1.02 |
+| magnifyingglass | 1.365–1.397 | 1.63–2.13 | 1.50–2.00 | 0.89–1.00 |
+
+Three things fall out, and the third is the one that decides a design.
+
+The plain signs — plus, check, cross — ink out at 1.11 to 1.21 times the label's
+cap band, and the excess is split around it: half a point to seven eighths of a
+point above the cap line, half a point to a point below the baseline. That is
+the width of one stroke, straddled. A mark whose PATH runs the cap band exactly
+and whose stroke sits on that path produces these numbers on its own; no larger
+box is needed to get them and none was used.
+
+The stroke band is the label's stem, to within the resolution the measurement
+has: 0.82 to 1.02 across three sizes and four marks. Diagonals are read
+perpendicular here — a 45° line's horizontal run is wider than its band by the
+angle, and reading the run is how a diagonal comes to look heavier than it is.
+This slightly contradicts the row above, which has the platform drawing
+diagonals heavier than axis-aligned strokes (1.44 against 1.26 at 16 pt); on
+these marks at these sizes the two are the same weight. Both readings stand,
+measured differently, on different figures.
+
+Not every symbol lives in the cap band. The magnifier — a picture of a thing
+rather than a sign — runs 1.37 to 1.40 times the band and hangs a point and a
+half to two points below the baseline, which is what the stored Mail capture
+shows at 1.30 after pixel quantization. The relation above is the plain sign's,
+and a figure is allowed to be a figure.
+
 #### Reading rhythm carried forward
 
 Measured by an earlier task as blank-pixel runs in the owner's own
@@ -7885,6 +7943,57 @@ entry. The
 badge face was badges all along and retired with Phase BL; the tag
 pattern died into `components/badge` (Phase BM). Migrations in this
 family are abrupt by ruling — no compatibility faces, no aliases.
+
+**Amendment, 2026-09-02: the marks are the label's cap band (BN3.2).**
+The 18 dp mark slot this record inherited from M3 was measured against
+the label it stands beside and found to be a different figure
+altogether: 18 against a 10 px cap band, 7 px above the capitals and
+5 px below the baseline, with the dismiss cross — two full diagonals
+across that slot — the heaviest ink on a chip whose whole point is
+subtlety. Owner-ruled: a chip's mark must not rise above the label's
+cap height nor hang below its baseline.
+
+The refinement offered with that ruling — nominal size equals the cap
+height, with only optical overshoot beyond it — was to verify rather
+than take, and the measurement bears it out. Against the platform's
+own marks (ADR-019's cap-band section, measured for this task) a plain
+sign inks out at 1.11 to 1.21 times its label's cap band, split evenly
+around it, which is exactly what a path running the band and a stroke
+straddling that path produces on its own. So the chip's mark box IS
+the cap band, and the overshoot is spent by the shape rather than
+granted as a bigger box.
+
+What that fixes, and what it leaves alone:
+
+- THE MARK SIZE IS A RELATION, NOT A NUMBER. The fixed 18 dp slot
+  becomes the cap height of the face the label is set in, read off
+  that face's own metrics. `theme/tokens` grows `FaceMetrics` for it —
+  a role's cap height and stem width, resolved against the collection
+  the theme carries — because that is where the faces live and because
+  the cap band is not the chip's question alone. Rounded to whole
+  pixels it lands on 10 at the role a chip's label is set in, against
+  the 18 it replaces.
+- THE STROKE IS THE LABEL'S STEM. The 1.5 dp constant becomes the same
+  face's upright stem, measured at 0.82 to 1.02 of the label's stem on
+  the platform's marks. The dismiss cross stops being the heaviest
+  thing on the chip because it is 44% shorter and no heavier than the
+  words beside it.
+- THE MARK SITS ON THE BAND, NOT IN THE MIDDLE. Centring a mark in the
+  chip's height lands it a pixel low: the band the capitals occupy is
+  not centred on the line box that holds them. The chip takes the
+  baseline `theme/typeset` already reports and subtracts the cap
+  height, which is the only place that position is knowable.
+- THE HIT TARGET DOES NOT MOVE. `DismissHitDp` is still 24 dp and
+  still centred on the mark; only the drawn size changed. A mark small
+  enough to read as type is exactly the case a separate target exists
+  for.
+- THE AVATAR IS NOT A MARK. It stays at `AvatarDp`, stays centred on
+  the chip rather than on the band, and is a picture of a thing —
+  which the platform backs: its own figurative symbol runs 1.37 times
+  the cap band where its plain signs run 1.14. What did move is the
+  padding in front of it: the text inset is replaced by the avatar's
+  own vertical clearance, so a round picture sits in a square well
+  instead of at the far end of a 16 dp hole.
 
 ## Phase A: Front door — make the org legible to a coding assistant
 
@@ -18807,30 +18916,30 @@ below its baseline. Today the package marks fill their full 18 dp
 slot — 7 px above the cap, 5 px below the baseline against a 10 px
 cap height — and the dismiss ✕ is the heaviest ink on the chip.
 
-- [ ] Measure the stored Mail reference's token/capsule icons
+- [x] Measure the stored Mail reference's token/capsule icons
   (`reference/macos/`, ADR-019) against their label's cap height:
   nominal size, optical overshoot, stroke weight relative to the
   label's stems. If the reference lacks the numbers, follow the
   measurement protocol (offscreen/programmatic routes preferred) and
   close the gap in the reference and ADR-019 in this task.
-- [ ] The chip's marks adopt the measured relation: nominal mark
+- [x] The chip's marks adopt the measured relation: nominal mark
   size = the label's cap height, centred on the cap band, with only
   the measured optical-overshoot licence; the ✕'s stroke joins the
   label's stem weight family; the plus and ✓ redrawn to the same
   band. The `Glyph` contract's box becomes the cap band. The
   24 dp avatar slot and `DismissHitDp`'s 24 dp pointer target are
   unchanged — only drawn size moves, never the hit target.
-- [ ] The input chip's leading inset resolves under the same ruling:
+- [x] The input chip's leading inset resolves under the same ruling:
   the 16 dp text inset in front of the avatar's 4 px clearance is
   replaced by a measured, stated relation. Numbers carry their
   provenance where they land.
-- [ ] Goldens regenerated with cause named: `chip`, gallery,
+- [x] Goldens regenerated with cause named: `chip`, gallery,
   sitedocs. Fresh-eyes review of the chip section, one light and one
   dark capture, per the standing protocol; findings pooled.
-- [ ] Ruling 213 closed in `explorations/open-rulings.md` with the
+- [x] Ruling 213 closed in `explorations/open-rulings.md` with the
   measured outcome recorded; ruling 160's stale package name fixed
   in passing if its text is touched.
-- [ ] Exit: green in `components` (nested gallery by name) and
+- [x] Exit: green in `components` (nested gallery by name) and
   `workbench/sitedocs`; commit and push in every touched repo and
   `.github`.
 

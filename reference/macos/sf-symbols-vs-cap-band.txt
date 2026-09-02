@@ -1,0 +1,21 @@
+macOS Version 26.5.2 (Build 25F84)
+SF Pro (NSFont.systemFont), SF Symbols at a matched point size, regular weight unless noted.
+All values in points, measured from an 8x supersampled offscreen bitmap.
+
+=== 11 pt: declared capHeight 7.750, measured cap ink 7.875, stem ink 1.125 ===
+  plus ink 9.000 (1.143 x cap), +0.625 above the cap line, +0.500 below the baseline, run 1.125, band 1.125 (1.000 x stem)
+  checkmark ink 9.500 (1.206 x cap), +0.625 above the cap line, +1.000 below the baseline, run 1.375, band 0.972 (0.864 x stem)
+  xmark ink 9.000 (1.143 x cap), +0.625 above the cap line, +0.500 below the baseline, run 1.625, band 1.149 (1.021 x stem)
+  magnifyingglass ink 11.000 (1.397 x cap), +1.625 above the cap line, +1.500 below the baseline, run 1.000, band 1.000 (0.889 x stem)
+
+=== 13 pt: declared capHeight 9.160, measured cap ink 9.250, stem ink 1.250 ===
+  plus ink 10.500 (1.135 x cap), +0.750 above the cap line, +0.500 below the baseline, run 1.250, band 1.250 (1.000 x stem)
+  checkmark ink 11.000 (1.189 x cap), +0.750 above the cap line, +1.000 below the baseline, run 1.500, band 1.061 (0.849 x stem)
+  xmark ink 10.375 (1.122 x cap), +0.625 above the cap line, +0.500 below the baseline, run 1.750, band 1.237 (0.990 x stem)
+  magnifyingglass ink 12.875 (1.392 x cap), +2.125 above the cap line, +1.500 below the baseline, run 1.250, band 1.250 (1.000 x stem)
+
+=== 15 pt: declared capHeight 10.569, measured cap ink 10.625, stem ink 1.500 ===
+  plus ink 12.125 (1.141 x cap), +0.500 above the cap line, +1.000 below the baseline, run 1.375, band 1.375 (0.917 x stem)
+  checkmark ink 12.500 (1.176 x cap), +0.875 above the cap line, +1.000 below the baseline, run 1.750, band 1.237 (0.825 x stem)
+  xmark ink 11.750 (1.106 x cap), +0.625 above the cap line, +0.500 below the baseline, run 1.875, band 1.326 (0.884 x stem)
+  magnifyingglass ink 14.500 (1.365 x cap), +1.875 above the cap line, +2.000 below the baseline, run 1.375, band 1.375 (0.917 x stem)
