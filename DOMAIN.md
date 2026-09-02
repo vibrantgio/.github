@@ -175,13 +175,29 @@ spoken in levels, never in its own units.
 ### Level
 
 A position on the elevation, numbered from the backdrop
-up. A surface's colours are derived against the level it stands at.
+up. A surface's colours are derived against the level it stands at,
+and in both schemes a surface nearer the viewer is lighter — the
+backdrop is darkest, whatever the scheme.
+
+| Level | Holds |
+|---|---|
+| **backdrop** | chrome furniture — sidebars, rails, toolbars, inspectors |
+| **0** | the content itself: the document being read |
+| **1** | raised on the content — cards, filled insets, fields |
+| **2** | floating — dialogs and toasts |
+| **3** | floating, top of the elevation — menus and popovers |
 
 ### Backdrop
 
 The lowest level: the window's own plane, the darkest
 region in both schemes. It is what the backdrop module paints first
 in every application.
+
+### Scrim
+
+The translucent veil a modal draws over everything beneath it: it
+dims what it covers and blocks input to it, isolating the dialog
+above. A scrim is not a surface — nothing stands on it.
 
 ### Chrome
 
