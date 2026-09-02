@@ -405,6 +405,22 @@ The tooltip is not of the family: it names a control on demand and
 reports no status. None of the three changes behaviour when
 dismissed.
 
+### Highlight
+
+The marking of the content the user was brought to — the system's
+answer to "here is what you sought". A highlight is applied to
+content, it is not a component, and it is not of the status family:
+it reports no status. It lives exactly as long as its cause:
+
+| Cause | Marks | Until |
+|---|---|---|
+| a search | every match, the current one stronger | the query is dismissed |
+| a followed link | the arrived-at content | it fades by itself, moments later |
+
+Its colour is its own, reserved outside the roles — a highlight must
+never read as a status, so no status hue may serve as the
+highlighter.
+
 ### Eyebrow
 
 The hero's kicker: a short overline in the type stack

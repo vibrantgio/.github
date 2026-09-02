@@ -405,6 +405,11 @@ disappear after a few seconds automatically. What kind of UX are you
 aware of that is being used in the industry to cater to this
 functionality. ^0002-arrival-highlight
 
+Rene: I concur with your recommendation, crunch highlight into
+DOMAIN.md [lifetime follows cause; fade on arrival; query-scoped for
+search; colour reserved, never a status hue].
+^0002-highlight-ruled
+
 
 ## 0003 — the chips session (2026-08-30)
 
