@@ -19185,9 +19185,14 @@ in this phase; a tagging round follows once the changes have landed.
 
 #### BR1.3: The pane on the visible backdrop
 
-- [ ] With the backdrop now showing around it, the pane's hairline is
-  re-judged: kept only if the inset still fails to read without it
-  in either scheme, measured on a capture, not guessed.
+- [ ] The window's plane is the backdrop and nothing else is drawn at
+  it: every chrome region — vaultview's aside, its picker screen, the
+  pane itself — paints its own surface at the chrome level, and the
+  gallery's pane specimen stands on the backdrop, not on level 0.
+- [ ] Only then, with the backdrop actually showing in the gap around
+  the pane, the pane's hairline is re-judged: kept only if the inset
+  still fails to read without it in either scheme, measured on a
+  capture, not guessed.
 - [ ] Exit: green in `patterns` and the workbench apps; commit and
   push in every touched repo and `.github`.
 
@@ -19205,12 +19210,24 @@ as the highlighter, and the distances that prove it stay measured.
 - [ ] The highlighter's hue is re-derived in the yellow, between
   Warning's new orange and Success; its measured distance from every
   status container and pin is re-pinned, in both schemes, on every
-  level, and text over the wash still clears its floor.
+  level, and text over the fill still clears its floor.
 - [ ] Goldens, `theme/export` and `design/` regenerate with a clean
   diff; fresh-eyes review of the status specimens and of vaultview's
   arrival flash, both schemes, per the standing protocol.
 - [ ] Exit: green in `theme`, `design`, `components`, `patterns` and
   the workbench apps; commit and push in every touched repo and
+  `.github`.
+
+#### BR1.5: The design bundle's elevation prose follows the Language
+
+- [ ] `design/DESIGN.md`'s elevation section is rewritten in the
+  Language's terms: backdrop, chrome, then levels 0 to 3, each level
+  lighter than the one beneath in both schemes, the backdrop derived
+  and the chrome level measured. It is hand-written, so `vg-tokens`
+  does not touch it; the text is checked against `theme/tokens`'s
+  package comment and against DOMAIN's Elevation, Level, Backdrop,
+  Chrome and Seam entries.
+- [ ] Exit: green in `design`; commit and push `design` and
   `.github`.
 
 ### G-BR2: The status signals move to components
