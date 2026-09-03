@@ -280,9 +280,20 @@ not nest: grouping within a card is its structure.
 The lowest level: the window's own plane, what an empty window
 shows, the darkest region in both schemes. Nothing is drawn at it;
 everything else stands on it, and it shows wherever nothing stands
-— around an inset pane, between regions. It is what the backdrop
-module paints first in every application, a tint darker than the
-chrome placed on it.
+— around an inset pane. It is what the backdrop module paints first
+in every application, a tint darker than the chrome placed on it.
+Nothing has the backdrop behind it, so no foreground — no text, no
+ring, no mark — is ever derived against it: the backdrop is only
+ever what shows around.
+
+### Seam
+
+The hairline where two flush regions meet — the sidebar against the
+content, the navbar's foot, the status bar's top. Regions that share
+one fill depend on it to say where one ends and the next begins, so
+it is derived to be findable against both in either scheme, and
+drawn once, by the region above or leading. An inset object needs
+no seam: the backdrop showing around it does that work.
 
 ### Scrim
 

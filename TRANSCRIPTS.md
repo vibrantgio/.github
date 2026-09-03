@@ -664,3 +664,17 @@ Rene: That is all nice and dandy but it looks bad and is not
 yellowish ^0005-lilac-looks-bad
 
 Rene: warning should have been orange anyway ^0005-warning-orange
+
+Rene (on the peer session's BR1.1 findings): where does this canvas
+concept come from suddenly. ^0005-no-canvas
+
+Rene: So the issue is that we have a backdrop level and we have
+chrome level backdrop is painted a certain way, but that means that
+the pane should paint its own area in the chrome color. Because look
+at the levels in DOMAIN.md ^0005-pane-paints-its-own-chrome
+
+Rene: Will this be much slower?
+
+Rene (to the Backdrop derivation sentence, the Seam entry and the
+BR1.3 amendment): ok write both and send the peer the amendment
+^0005-seam-and-backdrop-derivation
