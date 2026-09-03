@@ -895,7 +895,7 @@ derived to the far side of the hue circle and came out lilac. New
 position: the highlighter is yellow, the colour a marker is, and
 Warning moves to orange to make room; the rule that no status hue
 may serve as the highlighter is unchanged and now satisfied by a
-yellow marker. What changed: the lilac wash looked bad and did not
+yellow marker. What changed: the lilac fill looked bad and did not
 read as a marker; a yellow highlight is what every reader expects
 from find-in-page. Downstream: the Warning anchor repins in the
 seed derivation; the highlighter's hue is re-derived in the yellow
