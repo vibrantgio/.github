@@ -19175,12 +19175,12 @@ in this phase; a tagging round follows once the changes have landed.
 
 #### BR1.2: The card's filled look is raised
 
-- [ ] The card's second look is named filled, fills one step above
+- [x] The card's second look is named filled, fills one step above
   the surface the card stands on — level 1 on the content — with no
   hairline; the level-2 fill goes.
-- [ ] Goldens and the gallery specimen follow; fresh-eyes review of
+- [x] Goldens and the gallery specimen follow; fresh-eyes review of
   the card specimens in both schemes, per the standing protocol.
-- [ ] Exit: green in `patterns`; commit and push in every touched
+- [x] Exit: green in `patterns`; commit and push in every touched
   repo and `.github`.
 
 #### BR1.3: The pane on the visible backdrop
