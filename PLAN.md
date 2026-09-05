@@ -19403,9 +19403,9 @@ any new hit.
 
 #### BR2.6: Comments and docs — patterns and effects
 
-- [ ] As BR2.3, for `patterns` (417 comments, 56 strings) and `effects`
+- [x] As BR2.3, for `patterns` (417 comments, 56 strings) and `effects`
   (37 comments).
-- [ ] Exit: green; `check` clean for comments, strings and docs in both;
+- [x] Exit: green; `check` clean for comments, strings and docs in both;
   commit and push.
 
 #### BR2.7: Comments and docs — markdown
