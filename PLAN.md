@@ -19237,7 +19237,7 @@ is walked one step from the surface a thing stands on, never read
 off a table of levels, and where the scheme has no lighter step left
 the raise is told by a seam at its edge; a raise never vanishes.
 
-- [ ] `theme/tokens` gains the walk: given the surface a thing stands
+- [x] `theme/tokens` gains the walk: given the surface a thing stands
   on, the surface one step up, in the shape `ContainerOn` and
   `HighlightOn` already have, plus whether the step cleared the
   perceptibility floor against the surface beneath or the caller must
@@ -19246,7 +19246,7 @@ the raise is told by a seam at its edge; a raise never vanishes.
   keeps only the named stack — backdrop, chrome, level 0 and the two
   floating levels, which stay absolute above everything raised
   beneath them.
-- [ ] The card, the field and the filled insets adopt the walk: a
+- [x] The card, the field and the filled insets adopt the walk: a
   card on a modal is one step above the modal, a field in that card
   one step above the card; where the step is not there, the surface
   shows its seam. The content plane keeps headroom above it: in
@@ -19256,11 +19256,11 @@ the raise is told by a seam at its edge; a raise never vanishes.
   raise up; chrome and backdrop keep their measured relation to the
   new pin, and the light text floors and every "on content"
   derivation re-pin with it.
-- [ ] `theme/export` and `design/` follow with a clean diff;
+- [x] `theme/export` and `design/` follow with a clean diff;
   `design/mirror` agrees; goldens regenerate wherever a raise gains a
   seam, cause named; fresh-eyes review of the card and field
   specimens in both schemes, per the standing protocol.
-- [ ] Exit: green in `theme`, `design`, `components`, `patterns`,
+- [x] Exit: green in `theme`, `design`, `components`, `patterns`,
   `markdown` and the workbench apps; commit and push in every touched
   repo and `.github`.
 
