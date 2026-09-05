@@ -406,6 +406,10 @@ consumer ships, then layout and copy.
      band is the gallery's furniture and was not in that pass.
      *(§AI, BR1.2's review)*
 
+262. **[bug]** Vaultview's code-comment foreground measures 2.30:1
+     in light, under even the 3:1 non-text floor; the one contrast
+     defect the review found. *(§AJ, BR1.3's review)*
+
 ## Tier 1 — Token and palette derivation
 
 Rulings that live above every control, because each one is inherited by
@@ -747,6 +751,12 @@ durably while these are open.
      across the set, or whether the washes owe a constant colourfulness
      and the dial should vary with the hue's own gamut.
      *(§AG, BQ1.4's review)*
+
+263. **[decide]** Vaultview's secondary-text foreground is
+     byte-identical for two groups in light and 49 levels apart in
+     dark, and one column stacks two bordered boxes at twice the edge
+     weight of everything else. A derivation question: which of the
+     two groups is right, in which scheme. *(§AJ, BR1.3's review)*
 
 ## Tier 2 — Component and pattern contracts
 
@@ -1186,6 +1196,19 @@ consumer ships the answer whether or not it asked the question.
      content — with at most one quote a card. BR1.7 leaves them as
      they are. *(owner, 2026-09-05, from the card ruling)*
 
+264. **[decide]** A pane's fourth side. The pane is set in from three
+     window edges and flush with the fourth, where its two rounded
+     corners now show the backdrop against the document; BR1.3 fills
+     those corners with the abutting region's fill. Decide whether a
+     pane is set in on all four sides or squares its flush corners; a
+     change to the pattern's geometry. *(§AJ, BR1.3's review)*
+
+265. **[decide]** Vaultview's selection speaks two models: a pale
+     1.21:1 tint in light and a fully saturated fill with inverted
+     text in dark, and the tree and the outline both show a live
+     selection at once. One model, one live selection.
+     *(§AJ, BR1.3's review)*
+
 ## Tier 3 — Window and page composition
 
 Rulings scoped to one window, page or app surface. Visible, but the
@@ -1516,6 +1539,13 @@ blast radius stops at the surface that raised them.
      platform; whether the frame should imply a window's rounded
      corners at all, and what inset and radius the selection takes,
      are one ruling. *(§AH, BR1.1's review)*
+
+266. **[decide]** Vaultview's three columns follow three padding
+     schemes and three footer treatments (18, 53 and 7 px, one with no
+     seam), the outline's indent step is 7 px, and at the default
+     window size the document gets less width than the two columns
+     beside it. One composition ruling for the window.
+     *(§AJ, BR1.3's review)*
 
 ## Tier 4 — Copy, documentation, release and process
 
@@ -2410,6 +2440,14 @@ ruling on the card entry, held with the orchestrator, not a pool item.
 Recorded misreads: the card draws no text and no divider by
 construction, and the specimen's hard-wrapped prose is deliberate.
 Items 257–259.
+
+## AJ. From BR1.3's fresh-eyes review of the vaultview window
+
+Added 2026-09-05. Both stored window goldens, one reviewer, no
+checklist; the verbatim reply and triage are in
+`reviews/br1.3-vaultview-fresh-eyes.md`. The trailing-corner nick was
+fixed in the task; the Roboto finding, the scrollbar findings and the
+outline indent already sit in the pool. Items 262–266.
 
 ## AG. Language seeds awaiting a plan slot
 
