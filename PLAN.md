@@ -19355,7 +19355,7 @@ any new hit.
 
 #### BR2.2: The inventory and the guard
 
-- [ ] `.github/scripts/check-retired-words.sh`: walks every module in
+- [x] `.github/scripts/check-retired-words.sh`: walks every module in
   the flat checkout, matches each retired word on word boundaries,
   case-insensitive, and files every hit by module and by kind —
   identifier, comment, doc (`*.md`, `llms.txt`), string literal.
@@ -19364,14 +19364,14 @@ any new hit.
   module's canvas element, "register" as what a handler does, "mark"
   as the glyph, "floor" as a contrast floor, "author" as who wrote
   content, "container" as the tinted field.
-- [ ] Two modes: `inventory` prints the classified work list per
+- [x] Two modes: `inventory` prints the classified work list per
   module; `check` exits non-zero on any hit outside the exclusions.
   From this task on, `check` is part of every task's exit in this
   phase and the next.
-- [ ] The inventory's identifier count per module splits BR2.7 into
+- [x] The inventory's identifier count per module splits BR2.7 into
   one task per module that has any; the split is committed with this
   task.
-- [ ] Exit: `check` runs clean on `.github` itself; commit and push.
+- [x] Exit: `check` runs clean on `.github` itself; commit and push.
 
 #### BR2.3: Comments and docs — theme
 
@@ -19404,15 +19404,75 @@ any new hit.
 - [ ] Exit: `check` clean for docs org-wide; commit and push in every
   touched repo.
 
-#### BR2.7: Identifiers — one task per module, split by BR2.2
+#### BR2.7: Identifiers — theme
 
-- [ ] Placeholder until BR2.2 splits it: each resulting task renames
-  the module's retired identifiers abruptly — no alias, no deprecated
-  forwarder — and converts every consumer in the same task; the
-  exported-surface change is named in the commit body.
-- [ ] Exit per split task: green in the module and every consumer;
-  `check` clean for identifiers in the module; commit and push in
-  every touched repo.
+- [ ] `theme`'s retired identifiers — 44 of them, 346 hits in
+  BR2.2's inventory — are renamed abruptly: no alias, no deprecated
+  forwarder, every consumer converted in the same task, and the
+  exported-surface change named in the commit body.
+- [ ] Exit: green in `theme` and in every consumer;
+  `check-retired-words.sh check theme --kind=identifier` clean; commit
+  and push in every touched repo.
+
+#### BR2.8: Identifiers — components
+
+- [ ] `components`'s retired identifiers — 67 of them, 357 hits in
+  BR2.2's inventory — are renamed abruptly: no alias, no deprecated
+  forwarder, every consumer converted in the same task, and the
+  exported-surface change named in the commit body.
+- [ ] Exit: green in `components` and in every consumer;
+  `check-retired-words.sh check components --kind=identifier` clean; commit
+  and push in every touched repo.
+
+#### BR2.9: Identifiers — effects
+
+- [ ] `effects`'s retired identifiers — 4 of them, 61 hits in
+  BR2.2's inventory — are renamed abruptly: no alias, no deprecated
+  forwarder, every consumer converted in the same task, and the
+  exported-surface change named in the commit body.
+- [ ] Exit: green in `effects` and in every consumer;
+  `check-retired-words.sh check effects --kind=identifier` clean; commit
+  and push in every touched repo.
+
+#### BR2.10: Identifiers — patterns
+
+- [ ] `patterns`'s retired identifiers — 66 of them, 685 hits in
+  BR2.2's inventory — are renamed abruptly: no alias, no deprecated
+  forwarder, every consumer converted in the same task, and the
+  exported-surface change named in the commit body.
+- [ ] Exit: green in `patterns` and in every consumer;
+  `check-retired-words.sh check patterns --kind=identifier` clean; commit
+  and push in every touched repo.
+
+#### BR2.11: Identifiers — markdown
+
+- [ ] `markdown`'s retired identifiers — 39 of them, 218 hits in
+  BR2.2's inventory — are renamed abruptly: no alias, no deprecated
+  forwarder, every consumer converted in the same task, and the
+  exported-surface change named in the commit body.
+- [ ] Exit: green in `markdown` and in every consumer;
+  `check-retired-words.sh check markdown --kind=identifier` clean; commit
+  and push in every touched repo.
+
+#### BR2.12: Identifiers — workbench
+
+- [ ] `workbench`'s retired identifiers — 112 of them, 811 hits in
+  BR2.2's inventory — are renamed abruptly: no alias, no deprecated
+  forwarder, every consumer converted in the same task, and the
+  exported-surface change named in the commit body.
+- [ ] Exit: green in `workbench` and in every consumer;
+  `check-retired-words.sh check workbench --kind=identifier` clean; commit
+  and push in every touched repo.
+
+#### BR2.13: Identifiers — design
+
+- [ ] `design`'s retired identifiers — 2 of them, 4 hits in
+  BR2.2's inventory — are renamed abruptly: no alias, no deprecated
+  forwarder, every consumer converted in the same task, and the
+  exported-surface change named in the commit body.
+- [ ] Exit: green in `design` and in every consumer;
+  `check-retired-words.sh check design --kind=identifier` clean; commit
+  and push in every touched repo.
 
 ### G-BR3: The status signals move to components
 

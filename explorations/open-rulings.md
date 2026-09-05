@@ -24,7 +24,7 @@ identities and are never reused or renumbered.
 ## Bugs
 
 Fixes needing no design ruling, worst consequence first: a crash, then
-the states and inks a reader cannot see, then the library defects a
+the states and foregrounds a reader cannot see, then the library defects a
 consumer ships, then layout and copy.
 
 117. **[bug]** Added 2026-08-29, from BA2.2's live verification: with
@@ -78,12 +78,12 @@ consumer ships, then layout and copy.
     place, and it moves every stored group image.
     *(§I, from AZ1.2's fresh-eyes review of the gallery's chip section)*
 
-138. **[bug]** The button's interaction ramp never re-picks its ink:
+138. **[bug]** The button's interaction ramp never re-picks its foreground:
      the face darkens Rest→Hover→Press (#72A500→#5A8300→#436300)
      while the label stays #000000, so Press lands at 3.02:1 — an AA
-     failure nearly as quiet as the disabled chip — where Rest is
+     failure nearly as faint as the disabled chip — where Rest is
      7.10:1. The system demonstrably can re-pick (the pinned red takes
-     white ink; dark flips the seed card's Aa bar), so on-primary is
+     white foreground; dark flips the seed card's Aa bar), so on-primary is
      resolved once against the base and reused down the ramp. Belongs
      to components/button. The focus ring rides along: drawn 2 px
      inside the face at 3.41:1, it passes but is nearly
@@ -160,10 +160,10 @@ consumer ships, then layout and copy.
      both schemes is also not what this platform's overlay scrollbars
      look like. SHARPENED by BA2.1's review, which met it again in the
      new composition: with the pane away and the transcript centred in
-     the window, the bar now stands at x 901 with 117 px of empty ground
+     the window, the bar now stands at x 901 with 117 px of empty surface
      trailing it — a scroller floating that far inboard of the view's
      own edge is not something this platform does at all. Contrast to
-     ground measured 3.03 light / 4.94 dark, so it is LOUDER in the dark
+     surface measured 3.03 light / 4.94 dark, so it is MORE PRONOUNCED in the dark
      scheme, and it never goes away. SHARPENED again by BB3.1's
      review, which measured it against the stored reference rather
      than against a remembered platform: the thumb is 6 px where
@@ -235,7 +235,7 @@ consumer ships, then layout and copy.
 
 120. **[bug]** Added 2026-08-29, from BA3.1: `llms.txt`'s vaultview
      paragraph (~line 1560) says "panes raised one rung to Surface",
-     which contradicts the anatomy bullet and `patterns/pane`'s own
+     which contradicts the structure bullet and `patterns/pane`'s own
      doc — a floating pane stays at the floor and never takes a
      lighter fill. Stale pre-linchpin prose; the fix is one sentence
      told the current truth.
@@ -254,7 +254,7 @@ consumer ships, then layout and copy.
      the same token. Markdown module.
      *(§P, BE2.1's fresh-eyes review of the tabbed themer window)*
 
-71. **[bug]** The heading ladder collapses at the bottom: cap heights
+71. **[bug]** The heading ramp collapses at the bottom: cap heights
     are H1 18px, H2 16px, H3 14px, H4 13px, body 11px, all at the same
     weight and colour. H3 and H4 differ by one pixel.
     *(§I, AH1.1's five-tab review — markdown)*
@@ -273,11 +273,11 @@ consumer ships, then layout and copy.
     *(§I, AH1.1's five-tab review — elevation and marks)*
 
 133. **[bug]** The Background swatch and the Neutral ramp's first
-     step are painted exactly the page ground (246 on 246 light, 24
+     step are painted exactly the page surface (246 on 246 light, 24
      on 24 dark) with only a 1.3–1.9:1 hairline saying where they
      are. A gallery-page issue: a swatch whose job is showing a
      colour needs a boundary that survives 1x — likely a stronger
-     border or a checker/contrast backing for ground-coloured cells.
+     border or a checker/contrast backing for surface-coloured cells.
      *(§O, BD1.2's fresh-eyes review of the gallery window)*
 
 134. **[bug]** The role-swatch row breaks its grid at one cell: 64px
@@ -362,7 +362,7 @@ consumer ships, then layout and copy.
 232. **[bug]** The arrival highlight's fade reads `tokens.Motion.DurSlow`
      off the package default scale rather than the theme's own, so a
      window running under the OS reduce-motion preference — which is what
-     `MotionScale.Reduced` exists to serve — still tweens the wash out
+     `MotionScale.Reduced` exists to serve — still tweens the fill out
      over 400 ms instead of dropping it. The note column's `themeTokens`
      snapshot carries colour, typography, spacing and density and no
      motion, and threading a fifth stream through it was out of BP2.1's
@@ -401,16 +401,16 @@ Rulings that live above every control, because each one is inherited by
 everything the theme dresses. Nothing below this tier can be settled
 durably while these are open.
 
-124. **[decide]** The Filled and Tonal registers trade perceived
+124. **[decide]** The Filled and Tonal variants trade perceived
      loudness between schemes. Light: Filled is the saturated fill
-     with on-colour ink, Tonal the pale wash — a clear ladder. Dark:
+     with on-colour foreground, Tonal the pale fill — a clear ramp. Dark:
      the derivation hands Filled the light tone and Tonal the deep
      saturated container, so the same two call sites produce opposite
      visual hierarchies per appearance. The consequence with teeth is
      the modal footer: light makes Discard the unmistakable solid
      primary beside a pale Cancel; dark reverses which of the pair
-     shouts. The semantics hold — this is the dark derivation working
-     as derived — but the loudness ladder does not survive the flip.
+     is the more pronounced. The semantics hold — this is the dark derivation working
+     as derived — but the prominence ramp does not survive the flip.
      A token-derivation decision, above every control that inherits it.
      RE-MEASURED 2026-09-02, BQ1.3 having put Tonal on the badge's tint:
      the dark Tonal fill is no longer a saturated container but a
@@ -442,7 +442,7 @@ durably while these are open.
 242. **[decide]** The tinted state walk has a floor and no ceiling, and
      the pressed label pays for it. BQ1.3 put the Tonal button on the
      container family, so hover and press walk the realized fill along
-     the neutral ladder and the label is re-derived against wherever the
+     the neutral ramp and the label is re-derived against wherever the
      walk landed — the best a re-derivation can do, because past a
      certain depth no step of the role's ramp reaches 4.5:1 over the
      walked fill. Measured over the seed sweep, both derivations, both
@@ -453,7 +453,7 @@ durably while these are open.
      DEFAULT seed's own pressed label sits at 4.261:1 light and 4.430:1
      dark, under the floor its resting state clears. Pinned as a fence
      rather than a floor in TestTonalsWalkedLabelIsTheOpenGap. Neighbours
-     233 (the wash has a floor and no ceiling) and 234 (the tinted walk
+     233 (the fill has a floor and no ceiling) and 234 (the tinted walk
      carries no floor); what is new is the measured cost in the shipping
      palette, and that the cure is a ceiling on the walk rather than
      another floor. *(§AG, BQ1.3)*
@@ -470,10 +470,10 @@ durably while these are open.
      fill in dark, close enough to body copy that "Send a message"
      reads as a message already typed, where the same placeholder at
      6.30:1 in light correctly reads as empty. This is not item 89
-     (ink bloom is how much ink one label lays) and not item 107 (one
-     ink spent on three roles inside one scheme): it is the two
+     (foreground bloom is how much foreground one label lays) and not item 107 (one
+     foreground spent on three roles inside one scheme): it is the two
      schemes having been derived to a floor rather than to a shared
-     ladder of steps. The answer lives in the token derivation, above
+     ramp of steps. The answer lives in the token derivation, above
      every control that inherits it.
      *(§M, BB3.1's fresh-eyes review of the picker in its anchor face)*
 
@@ -496,7 +496,7 @@ durably while these are open.
      same roles in dark; the inactive toggle glyph and swatch "Aa"
      pairs show the same ~2x split. Four independent measurements —
      the default scheme is the failing one. New evidence under item
-     122's schemes-derived-to-a-floor-not-a-ladder finding.
+     122's schemes-derived-to-a-floor-not-a-ramp finding.
      *(§O, BD1.2's fresh-eyes review of the gallery window)*
 
 6. **[decide]** Status colours: all four share one lightness, so in
@@ -530,23 +530,23 @@ durably while these are open.
      means "saturated fill" in one component and "faint tint" in the
      other, and which is which flips with the scheme. The dark row's
      purple is also DARKER than the light one's, which is backwards for
-     a ladder that climbs toward the viewer, and on the floor it reads
+     a ramp that climbs toward the viewer, and on the floor it reads
      as a muddy smear under a bright lavender rail.
      *(§J, AZ2.1's fresh-eyes review of the MindChat window)*
 
 89. **[decide]** Added 2026-08-29, from AZ1.1's fresh-eyes review: the
-    dark scheme lays ~57% more ink than light for the same label at
+    dark scheme lays ~57% more foreground than light for the same label at
     the same size (glyph coverage 409 vs 261, half-alpha pixels 438
     vs 252) — the classic light-on-dark bloom, well past subtle, and
     a token-set property (`c.Text` both schemes), not any control's.
     Side by side the dark label reads semibold against a regular.
-    Compensate in the ink (a lighter grade or a dimmed dark ink) or
+    Compensate in the foreground (a lighter grade or a dimmed dark foreground) or
     accept and record; every text control inherits the answer.
     *(§I, from AZ1.1's fresh-eyes review)*
 
-91. **[decide]** Added 2026-08-29, from AZ1.1: the dark state ladder
-    is quiet and relative — `StateAt` hover in dark is a Δ12/255 step
-    on a flat fill (about the floor of what registers), dark pressed
+91. **[decide]** Added 2026-08-29, from AZ1.1: the dark state ramp
+    is faint and relative — `StateAt` hover in dark is a Δ12/255 step
+    on a flat fill (about the floor of what is perceptible), dark pressed
     at level 1 lands on the same mid grey other surfaces rest on, so
     no absolute colour means "pressed", and a light press moves a
     derived rim while a dark press cannot. Pre-existing system
@@ -567,13 +567,13 @@ durably while these are open.
 127. **[decide]** Two dark-scheme legibility soft spots in the
      component states: the disabled text field's placeholder is
      grey-on-grey to the point of illegibility, and the pressed chip
-     carries near-white ink on a mid-grey fill far weaker than its
+     carries near-white foreground on a mid-grey fill far weaker than its
      light counterpart. Possibly the same root as item 122's
      schemes-measure-differently finding.
      *(§N, BD1.1's fresh-eyes review of the gallery window)*
 
 244. **[decide]** Error and warning are the palette's least separated
-     pair, in both schemes and in both channels. BQ1.4 took the wash's
+     pair, in both schemes and in both channels. BQ1.4 took the fill's
      hue off the depth it is realized at, which carried the dark pair
      from ΔE00 8.8 to 18.1, level with light's 18.8, so the two schemes
      no longer disagree about it. What is left is that this one pair
@@ -611,28 +611,28 @@ durably while these are open.
      all: floor #151515 against background #181818 is 1.028:1 and the
      scan across the boundary finds no divider hairline — the bare
      21→24 step is the whole seam (light manages 1.134:1 plus the
-     same absence). The storey relation is ADR-022's own; the open
+     same absence). The level relation is ADR-022's own; the open
      question is whether a floor-to-paper seam owes a hairline where
      the measured step is imperceptible. Sharpens item 125.
      *(§O, BD1.2's fresh-eyes review of the gallery window)*
 
 92. **[decide]** Added 2026-08-29, from AZ1.2's fresh-eyes review of
-    the gallery's chip section: in the LIGHT scheme the three storeys
+    the gallery's chip section: in the LIGHT scheme the three levels
     are visually one. Paper, card and dialog sit within a couple of
-    percent of each other, so a chip filled one rung over any of them
+    percent of each other, so a chip filled one step over any of them
     is white on white and only its rim says a pill is there — the
     reviewer's words were that the light capture demonstrates nothing
     the first row alone would not. The chip documents this as the
     reason it carries a rim at all; the open question is whether the
-    light ladder should have more headroom above its paper, which is
+    light ramp should have more headroom above its paper, which is
     an ADR-022 answer and not a control's.
     *(§I, from AZ1.2's fresh-eyes review of the gallery's chip section)*
 
 129. **[decide]** The pinned specimen's fixed red delivers two
      legibility outcomes: markedly weaker contrast against the dark
-     ground than the light one. The pin is deliberate — that is the
+     surface than the light one. The pin is deliberate — that is the
      row's whole point — but whether a pinned fill owes a per-scheme
-     ink gate is a standing question, not a gallery one.
+     foreground gate is a standing question, not a gallery one.
      *(§N, BD1.1's fresh-eyes review of the gallery window)*
 
 146. **[decide]** Light accents inherit the seed's own lightness while
@@ -654,8 +654,8 @@ durably while these are open.
      red-specific collapse are not the dial. *(§Q, BF1.1's Palette
      Seed review)*
 
-231. **[decide]** The highlight wash and the accent's selection fill are
-     the same hue family. Sampled off BP2.1's window captures: the wash
+231. **[decide]** The highlight fill and the accent's selection fill are
+     the same hue family. Sampled off BP2.1's window captures: the fill
      is #E6CBEE light / #3B2641 dark, the sidebar's active row and the
      outline's active row #D8CEFF light / #3F0085 dark — violet beside
      violet, one saying "here is what you sought" and the other "this is
@@ -669,21 +669,21 @@ durably while these are open.
      a selection sharing a hue is the right answer.
      *(§AG, BP2.1's review)*
 
-233. **[decide]** The wash has a floor and no ceiling. BQ1.1 gave
+233. **[decide]** The fill has a floor and no ceiling. BQ1.1 gave
      `tokens.ColorTokens.StateAt` a 1.25:1 perceptibility floor against
-     the surface it walks from, which moved every wash the eye could not
-     see; it left untouched the three that are already too loud for what
+     the surface it walks from, which moved every fill the eye could not
+     see; it left untouched the three that are already too pronounced for what
      is written on them. In the dark scheme, level 2 pressed and level 3
      hovered land on the neutral ramp's mid-value step and level 3
      pressed one past it, where no neutral shade reaches the 4.5:1 text
-     floor over the wash from either side — the ghost label measures
+     floor over the fill from either side — the ghost label measures
      4.46:1, 4.46:1 and 2.40:1 there. Nothing regressed: those three
-     predate the floor and the floor does not move them. But a wash is
+     predate the floor and the floor does not move them. But a fill is
      the quietest a state is spoken at, and one that has walked past the
-     middle of the scale is no longer a wash. Decide whether the walk
+     middle of the scale is no longer a fill. Decide whether the walk
      owes a ceiling as well — the tonal container's own band is floored
      at 1.25 and gated at 2.5, and the deep levels' press sits at 2.62
-     and 3.34 — or whether the label should derive against the wash
+     and 3.34 — or whether the label should derive against the fill
      instead of riding a pinned step.
      *(§AG, BQ1.1)*
 
@@ -695,22 +695,22 @@ durably while these are open.
      round measured as "a shade the eye reads as the same surface". The
      two walks answer the same question for two kinds of fill, so either
      the floor belongs on both or the difference wants stating. Not in
-     BQ1.1's scope: that task was the ghost wash, and StateColor's
+     BQ1.1's scope: that task was the ghost fill, and StateColor's
      consumers are the tonal fills BQ1.2 is about to rewrite.
      *(§AG, BQ1.1)*
 
 235. **[decide]** The level fills separate from each other by less than
-     the wash now separates from them. Measured by BQ1.1's fresh
+     the fill now separates from them. Measured by BQ1.1's fresh
      reviewer off a live 1200x800 sitedocs window: light's paper
      #F6F6F6, level-1 #F8F8F8 and level-2 #FBFBFB part at 1.018:1 and
      1.026:1, so the chip specimen whose whole job is to show three
      levels shows one; in dark the backdrop bands part from the paper at
      1.06:1 and the gallery's section headers disappear, while the same
      pairing measures 1.134:1 in light. BQ1.1 put a 1.25:1 floor on the
-     state walk taken FROM a level; the levels' own ladder — `SurfaceAt`,
-     not `StateAt` — carries no such floor, which is how a hover wash can
+     state walk taken FROM a level; the levels' own ramp — `SurfaceAt`,
+     not `StateAt` — carries no such floor, which is how a hover fill can
      now be more visible than the elevation it stands on. Decide whether
-     the elevation ladder owes a separation floor of its own, and whether
+     the elevation levels owe a separation minimum of their own, and whether
      one number serves both schemes given the backdrop's measured step is
      a platform measurement in one and a ramp step in the other.
      SHARPENED 2026-09-02 by BQ1.2's review, which met the same defect
@@ -726,14 +726,14 @@ durably while these are open.
      *(§AG, BQ1.1's review)*
 
 246. **[decide]** One chroma dial does not make four equally present
-     washes. Every status container is held at OKLCh chroma 0.055, which
+     fills. Every status container is held at OKLCh chroma 0.055, which
      realizes at CIELAB C* 18.3–24.4 in dark and 19.2–21.6 in light:
-     warning is the most chromatic wash of the four and info the least,
+     warning is the most chromatic fill of the four and info the least,
      so a row that is isoluminant by construction and evenly spaced in
      hue is not even in colourfulness, and warning reads slightly more
      present than its siblings. Measured off the badge and alert
      specimens. Decide whether the dial is the right quantity to hold
-     across the set, or whether the washes owe a constant colourfulness
+     across the set, or whether the fills owe a constant colourfulness
      and the dial should vary with the hue's own gamut.
      *(§AG, BQ1.4's review)*
 
@@ -794,11 +794,11 @@ consumer ships the answer whether or not it asked the question.
      flush with a boundary reads as that boundary — but the consequence
      was never measured against the other placement. Decide whether the
      inset band owes more than the graphic floor, given it is the only
-     ink focus has there, or whether a filled button should ring outside
+     foreground focus has there, or whether a filled button should ring outside
      its own edge like everything else.
      *(§AG, BQ1.5's review)*
 
-248. **[decide]** The focus ring and the ink a control paints when it is
+248. **[decide]** The focus ring and the foreground a control paints when it is
      ON are the same grey: 1.05:1 in light (ring #6f36d1 against the
      checked checkbox's #723ad4 fill) and 1.12:1 in dark (#dad2ff
      against #d0c4ff). Both come off the primary ramp by construction,
@@ -837,29 +837,29 @@ consumer ships the answer whether or not it asked the question.
      label #d0c4ff). *(§AG, BQ1.3)*
 
 245. **[decide]** An alert carries its bounds and its status in one
-     background wash and nothing else. `drawAlert` fills a rounded rect
+     background fill and nothing else. `drawAlert` fills a rounded rect
      and strokes nothing — no border, no outline, no leading rule — and
-     by item 67 the glyph is the same in all four. The wash measures
-     correctly for a wash, 1.31:1 against the dark page and 1.37:1
+     by item 67 the glyph is the same in all four. The fill measures
+     correctly for a fill, 1.31:1 against the dark page and 1.37:1
      against the light one, but it is everything the alert has, so any
      environment that overrides background colours takes the bound and
      the status with it: Windows forced-colors, macOS Increase Contrast
      and the Linux high-contrast themes all do. A badge survives the
      same override because its label says the status in words; an
      alert's title does not ("Could not save", "Unsaved changes").
-     Decide what an alert owes underneath the wash; a hairline in the
+     Decide what an alert owes underneath the fill; a hairline in the
      status hue is the cheap answer.
      *(§AG, BQ1.4's review)*
 
-249. **[decide]** A focused link's fill wash contributes nothing once
+249. **[decide]** A focused link's focus fill contributes nothing once
      the colour is removed: #f2f2f2 over the light scheme's #f6f6f6
-     paper is 1.04:1, so in greyscale the wash is not there and the 2 px
+     paper is 1.04:1, so in greyscale the fill is not there and the 2 px
      box around the words carries the state alone. The box does carry
-     it, so nothing is lost, but the wash is then ornament that only
+     it, so nothing is lost, but the fill is then ornament that only
      some readers get — and by the house's own perceptibility floor
      (1.25:1, the number ContainerFloor and StateFloor both landed on) a
-     fill at 1.04:1 is not a fill. Decide whether the link's focus wash
-     should clear that floor like every other wash in the system, or be
+     fill at 1.04:1 is not a fill. Decide whether the link's focus fill
+     should clear that floor like every other fill in the system, or be
      dropped so the box is the whole of the treatment.
      *(§AG, BQ1.5's review)*
 
@@ -879,7 +879,7 @@ consumer ships the answer whether or not it asked the question.
     data-bearing component the system grows will meet it.
 
     (Confirmed 2026-08-30 by a second consumer: it chose the static
-    render register over the live chip.Chip specifically because
+    render variant over the live chip.Chip specifically because
     by-value Props resubscribe on model-driven labels. Two of two
     adopters have now worked around the same seam.)
     *(§I, from AZ2.1's fit check — the first real anchor use of components/chip)*
@@ -889,7 +889,7 @@ consumer ships the answer whether or not it asked the question.
     *(§E, components and patterns)*
 
 30. **[decide]** Ghost controls (the dialog's close X, dismissible tag
-    marks) show no resting ground — a reader can't see they're
+    marks) show no resting surface — a reader can't see they're
     clickable or where the target is. Give them hover/resting states?
     *(§E, components and patterns)*
 
@@ -897,22 +897,22 @@ consumer ships the answer whether or not it asked the question.
     a full-width inverted row is also the standard hover/cursor
     rendering, so the moment menus gain hover, selection and
     cursor become indistinguishable. Add a checkmark, or reserve
-    inversion for the cursor and quiet the selection?
+    inversion for the cursor and make the selection less pronounced?
     *(§G, from the dropdown review, 2026-08-21)*
 
 142. **[decide]** Dark mode shows two contradictory error looks one
-     scroll apart: alerts as dark tinted plates with white ink, the
+     scroll apart: alerts as dark tinted plates with white foreground, the
      toast as a near-white inverted slab with a red bar. Either
      convention is defensible; both on one screen make "what does an
      error look like" unanswerable. An alert/toast convention ruling
      in patterns.
      *(§P, BE2.1's fresh-eyes review of the tabbed themer window)*
 
-139. **[decide]** The ghost register drops the brand entirely: a
+139. **[decide]** The ghost variant drops the brand entirely: a
      neutral #5C5C5C label with no fill, border or accent, beside its
      filled and tonal siblings, reads as a caption or a disabled item
-     rather than the quiet register. Whether ghost's ink is the
-     brand's or the neutral ladder's is a components/button register
+     rather than the less pronounced variant. Whether ghost's foreground is the
+     brand's or the neutral ramp's is a components/button variant
      ruling.
 
      NARROWED by BN3.1's button doc repeal (2026-09-02), not closed.
@@ -921,8 +921,8 @@ consumer ships the answer whether or not it asked the question.
      picked/unpicked pair standing beside a Tonal sibling — a reading
      that needed Ghost to be legible AS A STATE and not only as an
      action. What remains to rule is the narrower question the second
-     sentence already asks: whether an incidental action's ink is the
-     brand's or the neutral ladder's, with the state duty gone from
+     sentence already asks: whether an incidental action's foreground is the
+     brand's or the neutral ramp's, with the state duty gone from
      both sides of the comparison. Vocabulary note for whoever closes
      it: the variants are Filled, Tonal and Ghost, and "register" is
      no longer the word.
@@ -933,17 +933,17 @@ consumer ships the answer whether or not it asked the question.
     clickable. Split them visually, or accept it?
     *(§E, components and patterns)*
 
-47. **[decide]** The scrollbar speaks at two volumes: the light
-    thumb measures 1.47:1 against its ground (a whisper), the dark
-    one 4.49:1 — loud enough that in dark it out-shouts the
-    selection pill (whose own step from ground is ΔL* 5.8) right
+47. **[decide]** The scrollbar reads at two prominences: the light
+    thumb measures 1.47:1 against its surface (a whisper), the dark
+    one 4.49:1 — pronounced enough that in dark it overpowers the
+    selection pill (whose own step from surface is ΔL* 5.8) right
     at the window's edge. Match dark down to light's whisper,
     lift light up, or meet in the middle? One thumb serves every
     app, so this is a components-wide call.
     *(§G, from the aside-edges review, 2026-08-21)*
 
 55. **[feature]** Added 2026-08-24: extract a disclosure-tree pattern.
-    Three apps hand-roll the same widget shape — `vaultview/tree.go`
+    Three apps hand-roll the same component shape — `vaultview/tree.go`
     (634 lines, the vault file tree), `vaultview/outline.go` (the
     aside's heading outline), and `sitedocs/docs_outline.go` (344
     lines, new in AF2.1) — with no shared code; a fourth
@@ -975,7 +975,7 @@ consumer ships the answer whether or not it asked the question.
     *(§H, patterns)*
 
 58. **[decide]** Active and inactive tab labels are pixel-identical
-    ink — no weight, tint, or ground change; cover the underline and
+    foreground — no weight, tint, or surface change; cover the underline and
     the strip carries no state. A `patterns/tabs` question, paired
     with 57.
     *(§H, patterns)*
@@ -1035,19 +1035,19 @@ consumer ships the answer whether or not it asked the question.
 95. **[decide]** Added 2026-08-29, from AZ1.2's fresh-eyes review: the
     chip's trailing mark reads as detached — the gap before it looks
     wider than the pill's own leading padding, because the glyph is
-    reserved the label's whole line box while a chevron's ink fills
+    reserved the label's whole line box while a chevron's foreground fills
     perhaps two thirds of it. Both numbers are derived and ruled in
     AZ1.1 (the S2 gap is patterns/tag's, the box is the line's), so
-    the question is whether a mark should be reserved its ink extent
+    the question is whether a mark should be reserved its foreground extent
     rather than its line box — which would move every control that
     sets a glyph beside text. ONE DATA POINT, from BB3.1: the chip's
-    new anchor face reserves its mark's INK EXTENT — the platform's
+    new anchor face reserves its mark's FOREGROUND EXTENT — the platform's
     own ratio of the control height, 9/29, about 11 dp against the
     20 dp line box — because the pair is the component's own mark and
     its width is therefore known. A fresh reviewer handed that window
     did not raise the detachment at all. That is one face answered by
     construction and says nothing about the general case, where the
-    mark is a caller's Glyph whose ink extent the component cannot
+    mark is a caller's Glyph whose foreground extent the component cannot
     see.
     *(§I, from AZ1.2's fresh-eyes review of the gallery's chip section)*
 
@@ -1056,7 +1056,7 @@ consumer ships the answer whether or not it asked the question.
      code span in a sentence reads as a tiny text field or button, and
      the outline crowds the baseline. The convention everywhere else is
      a filled tint with no border; this is the inverse. SHARPENED by
-     BA2.1's review, which sampled the border ink at four places and got
+     BA2.1's review, which sampled the border foreground at four places and got
      ONE colour — `#797979` light, `#9E9E9E` dark — under the composer's
      text field, the model picker, an inline code chip and a fenced
      block alike, at 4.10:1 / 5.94:1 against their fill. So the window's
@@ -1080,7 +1080,7 @@ consumer ships the answer whether or not it asked the question.
 
 111. **[decide]** The floor fill is named twice. The pattern's
      `Surface` is the pane's fill; vaultview's `chromeSurface` is the
-     same resolution — the floor storey — spent on three regions the
+     same resolution — the chrome level — spent on three regions the
      pane knows nothing about (the pane, the flush trailing column, and
      the backdrop the two float on). They agree byte-for-byte because
      both are the floor, so nothing moved; but "the window's furniture
@@ -1093,7 +1093,7 @@ consumer ships the answer whether or not it asked the question.
 112. **[decide]** When the strip is DRAWN stayed app-side, and it is
      not obvious it should have. vaultview reserves the strip's depth
      in the pane's vertical flex and draws the band last, so that Tab
-     out of the find field reaches the rows rather than the pane's own
+     out of the find field moves to the rows rather than the pane's own
      dismiss control — a focus-order fact about the pane's CONTENTS,
      which is why the pattern lays out a band and says nothing about
      when. But every pane wearing this pattern has a strip whose one
@@ -1114,7 +1114,7 @@ consumer ships the answer whether or not it asked the question.
      left, with the new-chat mark moving the same 89 and the title moving
      94. Vertically nothing moves at all, which is what the phase ruled
      and what BA2.1 measured: both marks occupy y 18–33 in both states
-     and both schemes. So the rung defect is gone and a horizontal one is
+     and both schemes. So the step defect is gone and a horizontal one is
      what a reviewer sees instead — click the toggle twice in one place
      and the second click lands on nothing. This is not mindchat's
      arrangement to change: it is the vocabulary's, vaultview wears it
@@ -1127,7 +1127,7 @@ consumer ships the answer whether or not it asked the question.
 114. **[decide]** The pane's outline cuts the window's top strip in two.
      The card's own hairline runs at y 8 from x 8 to x 247 — across the
      strip, eleven pixels above the control buttons — and then simply
-     stops, with the rest of the strip bare window ground. The reviewer
+     stops, with the rest of the strip bare window surface. The reviewer
      called the title bar "visually split into two different surfaces",
      and it is: on the leading side the strip is the top of an object,
      on the trailing side it is the window itself. That is what a
@@ -1284,13 +1284,13 @@ blast radius stops at the surface that raised them.
 
 107. **[decide]** PARTLY FIXED in BA2.1 — the CONVERSATIONS label was
      one of the four roles and it retired with the header it stood in,
-     so the ink now covers three. The rest stands. The sidebar spends
-     one ink on four roles: the
+     so the foreground now covers three. The rest stands. The sidebar spends
+     one foreground on four roles: the
      "CONVERSATIONS" group label, the unselected conversation titles,
      the "Settings" footer and the composer's placeholder are all the
      same grey (`#5C5C5C` on paper, `#CCCCCC` on slate). The clickable
      list items are therefore set at exactly the weight of the label
-     above them and the placeholder below them; nothing in the ink says
+     above them and the placeholder below them; nothing in the foreground says
      which of the four is content.
      *(§J, AZ2.1's fresh-eyes review of the MindChat window)*
 
@@ -1387,7 +1387,7 @@ blast radius stops at the surface that raised them.
      *(§P, BE2.1's fresh-eyes review of the tabbed themer window)*
 
 136. **[decide]** Two platform-fit complaints a Mac developer files
-     first: the type ladder's visible labels say "57sp/45sp/…" —
+     first: the type ramp's visible labels say "57sp/45sp/…" —
      Android's unit, Material 3's exact scale — where this platform
      specifies points; and the theme control is a hard two-position
      sun/moon switch with no Auto/System position, where macOS apps
@@ -1398,7 +1398,7 @@ blast radius stops at the surface that raised them.
 75. **[decide]** No search, no anchors, and dead cross-references: the
     tab strip is empty from x≈400 to 1200 while the guide runs to ~20
     sections and many screens, and the body's "(§Nested modules)"
-    style references render in plain body ink — not links, not
+    style references render in plain body foreground — not links, not
     coloured, not underlined — while the Markdown tab proves the app
     can draw real links.
     *(§I, AH1.1's five-tab review — docs tab)*
@@ -1410,7 +1410,7 @@ blast radius stops at the surface that raised them.
     *(§I, AH1.1's five-tab review — docs tab)*
 
 78. **[decide]** The outline tree signals depth with a 13px indent and
-    one pixel of cap height at identical ink, and childless top-level
+    one pixel of cap height at identical foreground, and childless top-level
     rows carry no chevron — so parents, children and leaves all read
     at the same weight and the tree's shape is unreadable.
     *(§I, AH1.1's five-tab review — docs tab)*
@@ -1421,7 +1421,7 @@ blast radius stops at the surface that raised them.
      achieved, which is the one number a developer has to sign off.
      The highlight cell, which prints its measured hue separation, is
      the only cell on the board that prints a number at all. The cost
-     is not theoretical: BQ1.2's reviewer measured the highlight wash
+     is not theoretical: BQ1.2's reviewer measured the highlight fill
      at 1.21:1 light and 1.17:1 dark against the theme's Surface under
      a rule claiming a 1.25 floor, an ambiguity that task then settled
      in the wording — and it could only be found by sampling the page.
@@ -1431,8 +1431,8 @@ blast radius stops at the surface that raised them.
      *(§AG, BQ1.2's review)*
 
 72. **[decide]** The ramp grid is drawn in a 2px line of the
-    full-strength Text colour — the same ink weight as body copy — so
-    the lattice out-shouts the colours it exists to show. It is also
+    full-strength Text colour — the same foreground weight as body copy — so
+    the lattice overpowers the colours it exists to show. It is also
     asymmetric: rows are separated by ~6px of chrome, columns by 2px.
     Swatches are 20px by ~111px letterboxes in a section with 500px of
     vertical room to spare, which makes cross-row hue comparison hard.
@@ -1441,7 +1441,7 @@ blast radius stops at the surface that raised them.
     rule on the same page — the Palette Picks underlines — is the
     Divider at 1.37:1, and one grid carries three weights (vertical
     2px, horizontal 1px doubled with a 2px gap, outer frame 1px). The
-    ink is not an accident: this board draws its frame in the inverse
+    foreground is not an accident: this board draws its frame in the inverse
     surface deliberately, so what is open is the weight and the count,
     not whether the frame should have been a divider.
     *(§I, AH1.1's five-tab review — palette presentation)*
@@ -1527,9 +1527,9 @@ blast radius stops at the surface that raised them.
     *(§I, the Theme tab's seed row, from AH2.2)*
 
 87. **[decide]** The seed cells borrow the paired-cell grammar and
-    misuse it: the ink slot every other paired cell paints stays
+    misuse it: the foreground slot every other paired cell paints stays
     empty, and a hex value sits in a rule line (the only hex on the
-    tab). Separately the seed body is ~97% ground and costs 196px
+    tab). Separately the seed body is ~97% surface and costs 196px
     before the ramps band, pushing the picks body to y=510. A
     purpose-built seed cell shape would settle both; the size channel
     (the smaller pick swatch, 4dp handed inset) should survive any
@@ -1564,10 +1564,10 @@ blast radius stops at the surface that raised them.
     *(§D, themer)*
 
 148. **[decide]** The palette heading's caption is set in the title's
-     full-strength ink while every other hint in the themer is muted —
+     full-strength foreground while every other hint in the themer is muted —
      a 70-character helper line competing with the heading beside it.
      Deliberate today: the caption is the grid dot's only legend, and
-     muted ink reads faint in one scheme; if the hint-ink ladder
+     muted foreground reads faint in one scheme; if the hint-foreground ramp
      changes it should change for all three heading bands at once, not
      per band. *(§Q, BF1.1's Palette Seed review)*
 
@@ -1646,7 +1646,7 @@ nothing downstream waits on the ruling.
 83. **[decide]** Two leftovers of the group-per-tab cut. The Markdown
     tab's strip cell reads "Markdown" and its single section band
     reads "Markdown — headings, links, chips…", separated by the
-    shell's 16 dp of blank ground: dropping the group banner removed
+    shell's 16 dp of blank surface: dropping the group banner removed
     one repetition and left a quieter one at section level. And each
     group tab still closes with the inventory's own PageEnd row,
     which says "End of the inventory — N sections in the current
