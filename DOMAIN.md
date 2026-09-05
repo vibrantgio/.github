@@ -683,6 +683,16 @@ holds stands on the card — its content as foreground, and anything
 raised in it, a field say, one step above the card. A card holds
 content, never another card.
 
+Which look a developer chooses answers one question: am I dividing
+the page, or singling something out? Outlined divides: a page full
+of related items the reader cannot parse — a form in sections, a
+list of articles, a row of tiers — gets boundaries so the eye chunks
+it, and nothing is more important than its neighbours. Filled
+singles out: one thing that must stand apart from the page around
+it — a selected item, a summary, the recommended tier, a preview —
+is lifted, still attached, so it is neither a dialog nor merely
+grouped.
+
 ### Feature
 
 The marketing pattern presenting capabilities as an icon-title-body
