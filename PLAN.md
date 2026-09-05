@@ -19274,22 +19274,22 @@ related components at the level of the surface it is in, taking its
 fill, optionally labelled, raising nothing. A conversion, not a
 rework; abrupt, no aliases, consumers convert in the same task.
 
-- [ ] `patterns/card` loses its second look: one card, raised, no
+- [x] `patterns/card` loses its second look: one card, raised, no
   hairline; `Props.Filled` goes.
-- [ ] `patterns/group` is new: the hairline at the surface's own
+- [x] `patterns/group` is new: the hairline at the surface's own
   level, derived per the Seam entry, an optional label, slots for
   what it holds; it has no fill of its own. A group may hold a card,
   never another group.
-- [ ] Every outlined card converts to a group — the gallery inventory,
+- [x] Every outlined card converts to a group — the gallery inventory,
   the launcher's app cards in `workbench`, feeds, the mirror fixtures
   and the published sheet's card rules. Pricing becomes a row of tier
   groups with the recommended tier a card wearing a badge in its
   header; the tier's Primary outline retires. Testimonial keeps its
   cards as they are.
-- [ ] Goldens follow, the gallery gains the group specimen, sitedocs'
+- [x] Goldens follow, the gallery gains the group specimen, sitedocs'
   tab follows by name; fresh-eyes review of the card, group and
   pricing specimens in both schemes, per the standing protocol.
-- [ ] Exit: green in `patterns`, `theme`, `design`, `components` and
+- [x] Exit: green in `patterns`, `theme`, `design`, `components` and
   the workbench apps; `check-retired-words.sh check` clean; commit
   and push in every touched repo and `.github`.
 
