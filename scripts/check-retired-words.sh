@@ -112,6 +112,11 @@ voice::*::ctx::voice memos::Voice Memos is a macOS application, measured in the 
 *::identifier::token::^(action|alert|av|communication|content|device|editor|file|hardware|image|maps|navigation|notification|places|social|toggle)[a-z]::Material Symbols icon names — AVVolumeUp, MapsLocalCarWash, ContentMarkUnread — are a third party's identifiers, mirrored here.
 widget::identifier::token::widget(s)?$::A value or the type of Gio's layout.Widget, which the row keeps as Gio's.
 widget::*::line::(^|[^a-z])(layout\.widget|widget\.[a-z])::layout.Widget and Gio's widget package on the line: Gio's own API.
+author::comment,doc::line::(the go authors|copyright)::A third party's copyright notice, inherited verbatim.
+widget::doc,comment::line::[a-z]+\.widget\(::A call to a real exported function named Widget in a code fence or a doc comment; renaming it is the identifier round's.
+widget::doc::line::ui-widget::jQuery UI's own CSS class name in a third-party example page.
+*::doc::path::^seen/plan\.md$::A repo-local plan awaiting the owner's ruling on its future.
+
 mark::*::!ctx::(mark component|component mark|/mark/|mark package)::The glyph a control draws and the verb are kept; only the former component's name was retired, and a line that means the component says so.
 floor::identifier::!token::(floor(level|storey|surface|tint)|(level|storey|chrome|backdrop|surface)floor)::A floor in an identifier is a lower bound — a contrast floor, a perceptibility floor, math.Floor; the retired sense would join it to an elevation word.
 floor::comment,doc,string::!line::(elevation|storey|ladder|ground floor|floor level|floor of the)::A contrast floor or another lower bound; the retired sense is an elevation level and says so with the elevation words.
