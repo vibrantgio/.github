@@ -686,3 +686,36 @@ thing stands on, but the theme reads a fixed table ending at level
 has no tint at all; in light every raise above the pin is a whisper
 regardless. Rene called it a bug and asked the ontology session to
 rule. ^0005-elevation-scale-closed
+
+Rene: Of everything currently mentioned in DOMAIN.md, what "is a"
+surface ^0005-what-is-a-surface
+
+Rene: Say a text field is contained by a card, is it raised against
+the card?
+
+Rene: I think there are two things here there is a card and there is
+a group and we have mixed them toghether. The group creates an
+outline to group the controls it contains where a card has a fill
+that separates it from the surface it sits on. Ideas?
+^0005-group-and-card
+
+Rene: I feel that the component vs pattern distinction runs along
+other lines. A pattern is a combination of components that is useful
+and multi-purpose so made available to be reused. A component is a
+specific piece of functionality that not made up of other parts but
+defined by itself. DOn't you think this makes more sense?
+^0005-component-closed-pattern-open
+
+Rene: What about alert and toast?
+
+Rene: Pricing becomes a collection of groups? ^0005-pricing-groups
+
+Rene: So wait that would mean a group with an outline, and then
+inside the group that you want to stand out a card (without outline)
+
+Rene: So that would mean the pricing has groups for the non
+highlighted choice and no outline for the standaout one? Currently
+that is handled by a different color outline
+^0005-no-accent-outline-on-tiers
+
+Rene: ok write it all and send the peer the ruling

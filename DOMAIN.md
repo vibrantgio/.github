@@ -9,8 +9,11 @@ badge — defined by its purpose, structure and variants. When a
 component's contract does not fit a consumer, the component is
 extended; the affordance is never re-assembled app-side. "Widget" is
 not a term of this language: it stays Gio's own word (layout.Widget,
-anything that can be laid out). Every component is one of two kinds
-— a control is a component, and a signal is a component:
+anything that can be laid out). A component is defined by itself,
+never assembled from other components: where it carries one — the
+badge's close, the picker's menu — that is a fixed part of its
+structure, not a slot. Every component is one of two kinds — a
+control is a component, and a signal is a component:
 
 | Kind | The user |
 |---|---|
@@ -36,6 +39,8 @@ A component the user operates to act or to choose.
 | **scroll area** | seeing the rest of one piece of content that keeps its own size |
 | **link** | following a reference — text that names its destination |
 | **menu** | a floating list of items, each performing an action or recording a choice |
+| **breadcrumb** | going back up the hierarchy — each step a link, the last where you are |
+| **pagination** | moving between numbered pages of content |
 
 ### Signal
 
@@ -49,6 +54,7 @@ inform. A signal tells you something; it is never the matter itself
 | **alert** | a situation, standing in the page flow until it resolves |
 | **toast** | an event, floating briefly and leaving by itself |
 | **icon** | a concept as a glyph — names an action or a thing at a glance |
+| **tooltip** | the name of a control or the meaning of a signal, on demand |
 | **text label** | a name or caption, set in a typography role |
 
 A signal may carry a control without becoming one — the dismissible
@@ -141,24 +147,25 @@ rings the control and leaves the mark alone.
 ### Pattern
 
 A composition: components and regions arranged into a
-larger recurring shape. Patterns place components; they do not
-redraw them.
+larger recurring shape, reusable across purposes. Patterns place
+components; they do not redraw them. What makes it a pattern is
+that its parts are slots the developer fills; a thing with no slot
+is a component, however large.
 
 | Pattern | Composes |
 |---|---|
 | **accordion** | a vertical stack of collapsible sections, a chevron per open state |
-| **breadcrumb** | a row of labels with chevrons marking hierarchical location; the last is where you are |
-| **card** | a rounded surface grouping content, with header, body and footer slots; outlined in place, or filled and raised |
+| **card** | a rounded surface raised one step on what it is in, with header, body and footer slots — singles something out |
 | **feature** | an icon-title-body grid for a marketing "features" section |
+| **group** | a hairline around related components at the surface's own level, optionally labelled — divides the page |
 | **hero** | the marketing landing block: eyebrow, display title, subtitle, visual, a call-to-action pair |
 | **inspector** | a chrome column beside the content showing the properties of what is selected in it |
 | **modal** | a centred dialog floating over a full-window scrim — header, body, footer actions |
 | **navbar** | the horizontal bar of brand, links and actions; the active link marked |
 | **notifications** | the column that receives notifications and presents them — today as toasts — positioned, stacked and timed |
-| **pagination** | numbered page buttons flanked by previous/next chevrons |
 | **pane** | a chrome column set in from the window's edges rather than being one of them, the backdrop showing around it |
 | **popover** | a small surface floating beside its anchor, a tail pointing at it |
-| **pricing** | a row of tier cards, one optionally emphasised |
+| **pricing** | a row of tier groups, the recommended tier a card wearing a badge |
 | **shell** | the top-level application layout: the composition of the chrome regions |
 | **sidebar** | a collapsible vertical column — expanded with labels or collapsed to a rail of icons; the active entry marked |
 | **status bar** | the chrome strip along the window's bottom, reporting on the document |
@@ -166,7 +173,6 @@ redraw them.
 | **tabs** | a horizontal tab strip, the active tab underlined, its content panel below |
 | **testimonial** | quote cards naming their author — social proof |
 | **toolbar** | the chrome strip along the window's top holding the controls that act on the document |
-| **tooltip** | a small hover or focus annotation beside its trigger, shown after a delay |
 
 ### Axis
 
@@ -259,7 +265,7 @@ two kinds:
 
 | Kind | Meaning |
 |---|---|
-| **raised** | one step above the surface it stands on, attached to it — a filled card on the content, a field on that card |
+| **raised** | one step above the surface it stands on, attached to it — a card on the content, a field on that card |
 | **floating** | detached: placed by an attachment or over a scrim, above everything raised beneath it |
 
 Raised is relative — a field inside a card is raised on the card —
@@ -277,7 +283,7 @@ structure.
 | **backdrop** | nothing: the bare window plane, showing wherever nothing stands |
 | **chrome** | the window's furniture — navbars, toolbars, sidebars, inspectors, status bars, panes |
 | **0** | the content itself: the document being read |
-| **1** | raised on the content — filled cards, filled insets, fields |
+| **1** | raised on the content — cards, filled insets, fields |
 | **2** | floating — dialogs and toasts |
 | **3** | floating, top of the elevation — menus, popovers and tooltips |
 
@@ -461,6 +467,19 @@ does, and it does not record a state. Marking a choice is never a
 button's job, whatever its emphasis; that is the Filter
 chip's purpose.
 
+### Breadcrumb
+
+The control going back up the hierarchy: a row of labels separated
+by chevrons, each a link to its place. The last is where you are —
+plain text, not a link. It is generated from the path; nothing is
+filled into it.
+
+### Pagination
+
+The control moving between numbered pages of content: page buttons
+flanked by previous and next, generated from the page count. The
+current page is active.
+
 ### Menu
 
 The floating list component: items stacked on a surface at level 3,
@@ -516,7 +535,9 @@ did made it appear, so it is never dismissible.
 
 The status signal for a situation: a tinted rounded banner — an
 icon, a title, a body — speaking one status role, standing in the
-page flow until the situation resolves.
+page flow until the situation resolves. It holds words about the
+situation, never a control: an action on the situation stands beside
+the alert, or the situation is a modal's job.
 
 ### Notification
 
@@ -533,7 +554,10 @@ The status signal presenting a notification: a small floating
 surface at level 2 that appears when the notification is raised and
 leaves by itself after a set time. The presentation and its timing
 are what make it a toast; the notification is the message it
-carries. The column it appears in is the notifications pattern.
+carries. Its close is a fixed part; it holds no other control — a
+toast with an Undo would be a small dialog on a timer, and is not
+of this Language. The column it appears in is the notifications
+pattern.
 
 ### Status
 
@@ -645,6 +669,14 @@ The signal drawing a concept as a glyph: it names an action or a
 thing at a glance. Inside a control's structure an icon is a part,
 not a signal of its own.
 
+### Tooltip
+
+The signal naming a control or explaining another signal on demand:
+a small annotation floating at level 3 beside its trigger, appearing
+by itself after a short delay on hover or focus and leaving when they
+do. It holds text only, never a control; anything the user must
+operate is the job for a popover.
+
 ### Text label
 
 The signal naming or captioning something: a run of text set in a
@@ -671,34 +703,35 @@ The pattern stacking collapsible sections: each section a title row
 with a chevron turned by its open state, and a body shown while
 open.
 
-### Breadcrumb
-
-The pattern marking hierarchical location: a row of labels
-separated by chevrons, each a link to its place. The last is where
-you are — plain text, not a link.
-
 ### Card
 
-The pattern containing related content as one rounded surface with
-header, body and footer slots. Its two looks stand at different
-levels. Outlined groups in place: it stands at the level of the
-surface it is in, takes that surface's own fill, and a hairline says
-where the group ends. Filled is raised: one step above the surface it
-stands on, with no hairline, the raise doing the work. What a card
-holds stands on the card — its content as foreground, and anything
-raised in it, a field say, one step above the card. A card holds
-content, never another card.
+The pattern singling something out: one rounded surface raised one
+step above the surface it is in, no hairline, the raise doing the
+work, with header, body and footer slots. It holds content that must
+stand apart from the page around it — a summary, a preview, the
+recommended tier. What a card holds stands on the card: its content
+as foreground, anything raised in it, a field say, one step above
+the card. A card holds content, never another card. A card is never
+outlined, and it never wears a role: the developer's word about it
+is a badge in its header, and singling out is the raise's work
+alone.
 
-Which look a developer chooses answers one question: am I dividing
-the page, or singling something out? Outlined divides: a page full
-of related items the reader cannot parse — a form in sections, a
-list of articles, a row of tiers — gets boundaries so the eye chunks
-it, and nothing is more important than its neighbours. Filled
-singles out: one thing that must stand apart from the page around
-it — a selected item, a summary, the recommended tier, a preview —
-is lifted, still attached, so it is neither a dialog nor merely
-grouped.
+### Group
 
+The pattern dividing the page: a hairline drawn around related
+components so the eye chunks them, at the level of the surface it is
+in and taking that surface's own fill, optionally labelled. It
+raises nothing and singles nothing out; nothing is derived against
+it, because it has no fill of its own — what it holds stands on the
+surface the group is in. A group may hold a card; it never holds
+another group. It wears no role: a group is not operated, so it has
+no emphasis to speak with, and a role-coloured hairline would borrow
+the accent's grammar for something the user never chose.
+
+Which of the two a developer reaches for answers one question: am I
+dividing the page, or singling something out? A form in sections, a
+list of articles, a row of tiers — groups. The one thing that must
+stand apart — a card.
 ### Feature
 
 The marketing pattern presenting capabilities as an icon-title-body
@@ -736,11 +769,6 @@ presenting them: a position-anchored column where each arrives,
 stacks against the others and leaves on its own timing. Today every
 notification is presented as a toast; the pattern owns the queue,
 the placement and the timing, not the presentation.
-
-### Pagination
-
-The pattern dividing content into numbered pages: page buttons
-flanked by previous and next. The current page is active.
 
 ### Pane
 
@@ -806,14 +834,6 @@ The chrome pattern of a strip along the window's top, below the
 title, holding the controls that act on the document. Its controls
 are in the chrome variant; it holds controls, never content. The
 picker's chrome trigger is named after it.
-
-### Tooltip
-
-The attachment pattern naming a control or explaining a signal on
-demand: a small annotation floating at level 3 beside its trigger,
-appearing by itself after a short delay on hover or focus and
-leaving when they do. It holds text only, never a control; anything
-the user must operate is the job for a popover.
 
 ## Decisions
 
