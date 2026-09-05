@@ -127,6 +127,7 @@ highlighted,featured,emphasised,emphasized::*::!ctx::(pricing|tier)::Syntax high
 author::*::path::^markdown/::In the markdown module the author is the one who wrote the document.
 author::*::ctx::(wrote|writes|written|article|testimonial|front ?matter|commit|content|document|feed|post|avatar|name|role|drew|drawn|authored|icon|glyph|path)::"author" as who wrote the content — an article, a testimonial, markdown front matter, a commit — which the row keeps.
 quiet::*::match::^quietly$::The ordinary adverb — a check that fails quietly — not a variant's prominence.
+loud::*::match::^loudly$::The ordinary adverb — a check that fails quietly — not a variant's prominence.
 volume::*::path::^(seen|csg)/::A volume is a solid in the geometry these renderers work in.
 RULES
 #
