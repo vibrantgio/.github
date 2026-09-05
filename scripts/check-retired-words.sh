@@ -120,7 +120,7 @@ reach::*::!ctx::(reachable|out of reach|within reach|can(not)? reach (it|them|th
 register::identifier::token::^register::The verb: registering a handler, a target or a collector.
 register::identifier::path::^(mvu|seen)/::The runtime's own registration API — what a handler does.
 register::*::path::^ivg/::CREG and NREG are machine registers in the IconVG format's own specification.
-register::comment,doc,string::ctx::(handler|listener|callback|event|registry|modbus|holding|device|sk150|driver|hook|collector|subscrib|registering|registered|filter|area|shortcut|register adds|in register and|register (a|an|the|each|every|it|its)([^a-z]|$)|registers (a|an|the|each|every|it|its)([^a-z]|$))::"register" as what a handler or a Modbus device does, which the row keeps.
+register::comment,doc,string::ctx::(handler|listener|callback|event|registry|modbus|holding|device|sk150|driver|hook|collector|subscrib|registering|registered|filter|area|shortcut|register adds|in register and|to register\.|register(s|ed|ing)? (a|an|the|each|every|it|its|no|its own|themselves|tags?|hover|focus|pointer|key|absorb|region|hit)([^a-z]|$)|registers (a|an|the|each|every|it|its)([^a-z]|$))::"register" as what a handler or a Modbus device does, which the row keeps.
 container::*::!ctx::card::The tinted field — ContainerOn, StatusContainer, containerChroma — and Go's own container/list, which the row keeps; only a card's surface was retired.
 filled,outlined::*::!ctx::((filled|outlined) (card|group|tier)|card--(filled|outlined)|props\.filled)::The button's Filled variant, an outlined icon, a filled path and a filled inset keep their words; only a card called filled or outlined was retired.
 highlighted,featured,emphasised,emphasized::*::!ctx::(pricing|tier)::Syntax highlighting, the highlighter, a feature block and Material's Emphasized easing keep their words; only a pricing tier's was retired.
@@ -237,8 +237,18 @@ function inlist(what, list,   m, a, i) {
   # A word inside quotes or backticks on the line is named, or quoted from
   # something that says it, rather than used: an odd number of either mark
   # before it means the word sits inside a quoted span.
+  # The occurrence judged is the first one that stands as a whole word:
+  # a test named TestGroundPicks must not decide for the Props.Ground
+  # cited in backticks later on the same line.
   quoted = "no"
-  qpos = index(text, match_)
+  qpos = 0; qfrom = 1
+  while ((qp = index(substr(text, qfrom), match_)) > 0) {
+    qp += qfrom - 1
+    qpre = (qp > 1) ? substr(text, qp - 1, 1) : " "
+    qpost = substr(text, qp + length(match_), 1)
+    if (qpre !~ /[A-Za-z]/ && qpost !~ /[A-Za-z]/) { qpos = qp; break }
+    qfrom = qp + 1
+  }
   if (qpos > 0) {
     before = substr(text, 1, qpos - 1)
     nq = gsub(/"/, "\"", before); nb = gsub(/`/, "`", before)
