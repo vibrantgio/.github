@@ -19326,7 +19326,7 @@ any new hit.
 
 #### BR2.1: The retired-word list is a standing rule
 
-- [ ] AGENTS.md gains a section "Retired words", the table below with
+- [x] AGENTS.md gains a section "Retired words", the table below with
   three columns — retired, in the sense of, say instead — and the rule
   that packets, reviews, comments, docs and identifiers use the
   right-hand column. Present tense; the Language itself keeps no
@@ -19351,7 +19351,7 @@ any new hit.
   | author | who built the application | developer (author stays for who wrote content) |
   | container | a card's surface | surface (container stays for the tinted field) |
 
-- [ ] Exit: commit and push `.github`.
+- [x] Exit: commit and push `.github`.
 
 #### BR2.2: The inventory and the guard
 

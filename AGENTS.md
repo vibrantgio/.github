@@ -27,3 +27,31 @@ task in `PLAN.md` says so.
 
 `workbench/llms.txt` is the guide for writing an *application* against the
 libraries. It is not how you work this plan.
+
+## Retired words
+
+| Retired | In the sense of | Say instead |
+|---|---|---|
+| wash, ink, shout | a component's colours | fill, foreground |
+| ground | what a thing stands on | the surface it stands on |
+| floor | an elevation level | backdrop (floor stays for contrast floors) |
+| storey, ladder, rung | elevation, a ramp, density | level; step; control height |
+| register | a component's setting | variant |
+| intent | a component's purpose | purpose |
+| anatomy | a component's parts | structure |
+| voice | who a component speaks for | originator |
+| volume, loud, quiet | how pronounced a variant is | prominence |
+| widget | a component (layout.Widget stays Gio's) | component |
+| mark | the former component | badge (mark stays for the glyph a control draws) |
+| elevated | standing higher | raised, or floating |
+| reach | operating a control | operate |
+| canvas | the area the window paints | the window's plane, the backdrop |
+| author | who built the application | developer (author stays for who wrote content) |
+| container | a card's surface | surface (container stays for the tinted field) |
+| outlined, filled | a card's looks | a card (raised, singles out) or a group (a hairline, divides) |
+| highlighted, featured, emphasised | a pricing tier | the recommended tier |
+
+The Language in DOMAIN.md retires words. A retired word in a packet, a
+review, a comment, a doc or an identifier is a defect; say the
+right-hand column. The senses in the middle column are the retired
+ones; a word keeps its other senses where the row says so.
