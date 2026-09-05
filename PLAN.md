@@ -19295,19 +19295,19 @@ rework; abrupt, no aliases, consumers convert in the same task.
 
 #### BR1.8: The highlighter takes a marker's chroma
 
-- [ ] The highlighter stops borrowing the status container's chroma
+- [x] The highlighter stops borrowing the status container's chroma
   dial: it takes its own, as high as each scheme holds at the depth
   the highlight fill is realized, so the fill is the yellow a marker
   is and not a khaki. Its hue stays where BR1.4 derived it; its
   measured distance from every status container and pin is re-pinned,
   and text over the highlight fill still clears its floor, both
   schemes, every level.
-- [ ] `theme/export` and `design/` regenerate with a clean diff;
+- [x] `theme/export` and `design/` regenerate with a clean diff;
   goldens follow in `components/gallery` (the palette's Reserved
   cell), `markdown` and `workbench/vaultview` (the arrival flash);
   fresh-eyes review of the highlight in vaultview, both schemes, per
   the standing protocol.
-- [ ] Exit: green in `theme`, `design`, `components`, `markdown`,
+- [x] Exit: green in `theme`, `design`, `components`, `markdown`,
   `effects` and the workbench apps; commit and push in every touched
   repo and `.github`.
 
