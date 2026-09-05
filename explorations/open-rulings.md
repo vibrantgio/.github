@@ -384,21 +384,6 @@ consumer ships, then layout and copy.
      a derivation one — the swatches are the specimen's own choice.
      *(§AH, BR1.1's review)*
 
-257. **[bug]** The outlined card's stroke is centred on the fill's own
-     rounded rectangle instead of being a shape of its own, and one
-     cause makes four measured defects: the outlined card's footprint
-     is 262×152 against the filled card's 260×150, so the two looks'
-     top and bottom edges sit a pixel apart and their content insets
-     differ (17 against 16); each edge is two partly covered columns
-     that read as a two-device-pixel line at 1x where a hairline is
-     one; the corners overdraw by about a quarter (arc peak 105
-     against 82 on the straights); and a one-pixel seam of the surface
-     beneath shows between arc and fill at every corner, harmless only
-     while the two fills are 0.7 L* apart. The dark outline is derived
-     to clear 3:1 (nominal 3.23:1) and rasterizes at 2.27:1. Replaces
-     item 68, which carried the one-pixel offset alone.
-     *(§AI, BR1.2's review)*
-
 258. **[bug]** The gallery's own section band stands darker than the
      backdrop in the dark scheme — (21,21,21) under a (24,24,24)
      content, separated only by its divider row — the day after BR1.1
@@ -783,6 +768,13 @@ durably while these are open.
      the same seam derivation with a different pair of fills, in which
      case the pane calls the token walk and its constant goes.
      *(from BR1.6's execution)*
+
+271. **[decide]** Light and dark disagree about contrast by about
+     two to one through the muted foreground, the accent on the page,
+     the filled button's label and the badge's label, with the primary
+     foreground exempt. Measured off the card, group and pricing
+     specimens. Decide whether the two schemes owe the same floors or
+     whether dark may run hotter by design. *(§AM, BR1.7's review)*
 
 ## Tier 2 — Component and pattern contracts
 
@@ -1234,6 +1226,19 @@ consumer ships the answer whether or not it asked the question.
      text in dark, and the tree and the outline both show a live
      selection at once. One model, one live selection.
      *(§AJ, BR1.3's review)*
+
+272. **[decide]** A group's label colour. BR1.7 set it in neutral 700
+     as the section header over a bordered container; the reviewer
+     asked whether a label that names the group owes the primary
+     foreground instead. No shipped group uses the label yet.
+     *(§AM, BR1.7's review)*
+
+273. **[decide]** In a pricing row the two group tiers can read as
+     dimmed or unavailable beside the recommended tier's lit card,
+     because the card is the only raised surface in the row. Decide
+     whether the row owes the groups something — a fill, a weight —
+     or whether the reading is the ruling working.
+     *(§AM, BR1.7's review)*
 
 ## Tier 3 — Window and page composition
 
@@ -2465,7 +2470,7 @@ the two looks to be one fill plus an optional hairline; that is a
 ruling on the card entry, held with the orchestrator, not a pool item.
 Recorded misreads: the card draws no text and no divider by
 construction, and the specimen's hard-wrapped prose is deliberate.
-Items 257–259.
+Items 258–259; 257 retired with the outlined branch (BR1.7).
 
 ## AJ. From BR1.3's fresh-eyes review of the vaultview window
 
@@ -2491,6 +2496,13 @@ The light "no ramp" reading measured the ruling (white is the first
 raise); the seam's one-pixel overhang was fixed in the task; the
 outlined branch's overhang and double composite belong to BR1.7, which
 deletes that branch. Item 270 is from the execution, not the review.
+
+## AM. From BR1.7's fresh-eyes review of the card, group and pricing
+
+Added 2026-09-05. Six images across both schemes, one reviewer;
+verbatim reply and triage in `reviews/br1.7-card-group-fresh-eyes.md`.
+The group specimen's slack was fixed in the task; the launcher's seam
+at 1.51:1 is the Seam entry working. Items 271–273.
 
 ## AG. Language seeds awaiting a plan slot
 
