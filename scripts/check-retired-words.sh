@@ -114,7 +114,7 @@ widget::identifier::token::widget(s)?$::A value or the type of Gio's layout.Widg
 widget::*::line::(^|[^a-z])(layout\.widget|widget\.[a-z])::layout.Widget and Gio's widget package on the line: Gio's own API.
 mark::*::!ctx::(mark component|component mark|/mark/|mark package)::The glyph a control draws and the verb are kept; only the former component's name was retired, and a line that means the component says so.
 floor::identifier::!token::(floor(level|storey|surface|tint)|(level|storey|chrome|backdrop|surface)floor)::A floor in an identifier is a lower bound — a contrast floor, a perceptibility floor, math.Floor; the retired sense would join it to an elevation word.
-floor::comment,doc,string::!ctx::(elevation|storey|ladder|ground floor|floor level|floor of the)::A contrast floor or another lower bound; the retired sense is an elevation level and says so with the elevation words.
+floor::comment,doc,string::!line::(elevation|storey|ladder|ground floor|floor level|floor of the)::A contrast floor or another lower bound; the retired sense is an elevation level and says so with the elevation words.
 canvas::*::path::^(svg|ivg|seen|kiwi)/::The SVG specification's canvas — the drawing area a graphics library exposes — spoken by the SVG and IconVG renderers and the scene libraries they drive.
 reach::*::!ctx::(reachable|out of reach|within reach|can(not)? reach (it|them|the)|reach(es)? the (control|button|target|item|row|link))::"reach" is retired for operating a control only — reachable, out of reach, cannot reach the control. A value reaching a limit, and reaching for an API, are ordinary English.
 register::identifier::token::^register::The verb: registering a handler, a target or a collector.

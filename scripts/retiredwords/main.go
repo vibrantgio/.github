@@ -18,7 +18,7 @@
 // trimmed and truncated, for the reader and for the shell's exclusion rules.
 //
 // Matching is case-insensitive on word boundaries, with the inflections a
-// retired word takes in English prose (s, es, ed, ing, ly) — "washes" and
+// retired word takes in English prose (s, es, ed, ing, ly, er, est, ness) — "washes" and
 // "registered" are the same word as "wash" and "register". Identifiers are
 // split on underscores and camel-case humps first (`ghostWash` -> ghost,
 // Wash; `HTMLCanvas` -> HTML, Canvas), so a compound identifier is a hit on
@@ -51,7 +51,7 @@ func main() {
 	// is pure ASCII letters.
 	pats := make([]*regexp.Regexp, len(list))
 	for i, w := range list {
-		pats[i] = regexp.MustCompile(`(?i)\b` + regexp.QuoteMeta(w) + `(s|es|ed|ing|ly)?\b`)
+		pats[i] = regexp.MustCompile(`(?i)\b` + regexp.QuoteMeta(w) + `(s|es|ed|ing|ly|er|est|ness)?\b`)
 	}
 
 	out := bufio.NewWriter(os.Stdout)

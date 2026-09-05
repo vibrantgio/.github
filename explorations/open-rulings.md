@@ -402,7 +402,7 @@ everything the theme dresses. Nothing below this tier can be settled
 durably while these are open.
 
 124. **[decide]** The Filled and Tonal variants trade perceived
-     loudness between schemes. Light: Filled is the saturated fill
+     prominence between schemes. Light: Filled is the saturated fill
      with on-colour foreground, Tonal the pale fill — a clear ramp. Dark:
      the derivation hands Filled the light tone and Tonal the deep
      saturated container, so the same two call sites produce opposite
@@ -679,7 +679,7 @@ durably while these are open.
      floor over the fill from either side — the ghost label measures
      4.46:1, 4.46:1 and 2.40:1 there. Nothing regressed: those three
      predate the floor and the floor does not move them. But a fill is
-     the quietest a state is spoken at, and one that has walked past the
+     the least pronounced a state is spoken at, and one that has walked past the
      middle of the scale is no longer a fill. Decide whether the walk
      owes a ceiling as well — the tonal container's own band is floored
      at 1.25 and gated at 2.5, and the deep levels' press sits at 2.62
@@ -789,7 +789,7 @@ consumer ships the answer whether or not it asked the question.
      two pixels in, measuring 3.15:1 against the fill in light and
      3.22:1 in dark. Every other focusable family answers with an
      outline the surface reads at 6.19:1 (light) to 12.34:1 (dark), so
-     the button is between two and four times quieter than its
+     the button is between two and four times less pronounced than its
      neighbours on the same page. The placement is deliberate — a band
      flush with a boundary reads as that boundary — but the consequence
      was never measured against the other placement. Decide whether the
@@ -1065,7 +1065,7 @@ consumer ships the answer whether or not it asked the question.
      which means the fill does nothing and the block exists entirely by
      that heavy border — while the pane's structural outline whispers at
      1.52:1 as the platform draws it. The chrome that defines the window
-     is the quietest line in it and a code snippet is the loudest.
+     is the least pronounced line in it and a code snippet the most.
      *(§J, AZ2.1's fresh-eyes review of the MindChat window)*
 
 110. **[decide]** The strip takes its controls but not the air between
@@ -1245,7 +1245,7 @@ consumer ships the answer whether or not it asked the question.
      padding and square corners, pinned by markdown's own test; a
      marker on paper overshoots the text a little and rounds. Decide
      whether the mark owes an inset and a radius. In dark the fill is
-     deliberately louder than in light (1.90:1 against 1.32:1) because
+     deliberately more pronounced than in light (1.90:1 against 1.32:1) because
      the shallower step reads olive. *(§AN, BR1.8's review)*
 
 ## Tier 3 — Window and page composition
@@ -1647,7 +1647,7 @@ nothing downstream waits on the ruling.
     tab's strip cell reads "Markdown" and its single section band
     reads "Markdown — headings, links, chips…", separated by the
     shell's 16 dp of blank surface: dropping the group banner removed
-    one repetition and left a quieter one at section level. And each
+    one repetition and left a less pronounced one at section level. And each
     group tab still closes with the inventory's own PageEnd row,
     which says "End of the inventory — N sections in the current
     theme" on a tab showing one group of four. Both are the
@@ -1674,7 +1674,7 @@ nothing downstream waits on the ruling.
     convention (the stored captures) is the document/content name.
     *(§F, copy and identity)*
 
-39. **[decide]** The "Vibrant Gio" wordmark is the quietest text in
+39. **[decide]** The "Vibrant Gio" wordmark is the least pronounced text in
     its own bar, and the launcher's VIBRANTGIO badge is set too small
     to rasterize cleanly at 9px.
     *(§F, copy and identity)*
