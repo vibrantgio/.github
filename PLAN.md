@@ -19375,13 +19375,13 @@ any new hit.
 
 #### BR2.3: Comments and docs — theme
 
-- [ ] Every comment, string and doc hit in `theme` (427 comments, 186
+- [x] Every comment, string and doc hit in `theme` (427 comments, 186
   strings, 3 docs) rewritten in the Language's words; token-stream
   diff proves no code token changed (the August cleanup's proof,
   reused); a string that is user-facing prose is rewritten too and
   its golden or export regenerated with the cause named. The
   highlight and container files first: they were the carrier.
-- [ ] Exit: green; `check-retired-words.sh check theme --kind=comment,string,doc`
+- [x] Exit: green; `check-retired-words.sh check theme --kind=comment,string,doc`
   clean; commit and push.
 
 #### BR2.4: Comments and docs — components, the library
