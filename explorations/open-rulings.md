@@ -272,11 +272,6 @@ consumer ships, then layout and copy.
     capsule mid-window.
     *(§I, AH1.1's five-tab review — elevation and marks)*
 
-68. **[bug]** Patterns, light: the Flat and Elevated cards sit 1px out
-    of vertical alignment — the bordered card draws its 2px border
-    outside its box, the unbordered one does not.
-    *(§I, AH1.1's five-tab review — elevation and marks)*
-
 133. **[bug]** The Background swatch and the Neutral ramp's first
      step are painted exactly the page ground (246 on 246 light, 24
      on 24 dark) with only a 1.3–1.9:1 hairline saying where they
@@ -388,6 +383,28 @@ consumer ships, then layout and copy.
      adjacent rows stop being tellable apart. A specimen defect, not
      a derivation one — the swatches are the specimen's own choice.
      *(§AH, BR1.1's review)*
+
+257. **[bug]** The outlined card's stroke is centred on the fill's own
+     rounded rectangle instead of being a shape of its own, and one
+     cause makes four measured defects: the outlined card's footprint
+     is 262×152 against the filled card's 260×150, so the two looks'
+     top and bottom edges sit a pixel apart and their content insets
+     differ (17 against 16); each edge is two partly covered columns
+     that read as a two-device-pixel line at 1x where a hairline is
+     one; the corners overdraw by about a quarter (arc peak 105
+     against 82 on the straights); and a one-pixel seam of the surface
+     beneath shows between arc and fill at every corner, harmless only
+     while the two fills are 0.7 L* apart. The dark outline is derived
+     to clear 3:1 (nominal 3.23:1) and rasterizes at 2.27:1. Replaces
+     item 68, which carried the one-pixel offset alone.
+     *(§AI, BR1.2's review)*
+
+258. **[bug]** The gallery's own section band stands darker than the
+     backdrop in the dark scheme — (21,21,21) under a (24,24,24)
+     content, separated only by its divider row — the day after BR1.1
+     settled that chrome stands a tint lighter than the backdrop. The
+     band is the gallery's furniture and was not in that pass.
+     *(§AI, BR1.2's review)*
 
 ## Tier 1 — Token and palette derivation
 
@@ -1153,6 +1170,13 @@ consumer ships the answer whether or not it asked the question.
      scheme's derived hairlines are what carry that edge everywhere
      else. A Seam finding under the Language.
      *(§AH, BR1.1's review)*
+
+259. **[decide]** The card specimen's footer badge measures 4.51:1 in
+     light, on the small-text floor, and in dark reads as the disabled
+     idiom (204 on 71, against 238 for every other label). A badge and
+     gallery question: whether a badge on a raised surface owes a
+     stronger foreground than the same badge on the content.
+     *(§AI, BR1.2's review)*
 
 ## Tier 3 — Window and page composition
 
@@ -2367,6 +2391,17 @@ offscreen at 1x; the verbatim reply and triage are in
 strength. Recorded misreads: the frame's own divider read as a
 permanent scrollbar, and the chrome-filled aside and footer read as
 dead space because chrome is one fill. Items 251–255.
+
+## AI. From BR1.2's fresh-eyes review of the card specimens
+
+Added 2026-09-05. The gallery's card specimens at 900×222, one reviewer
+per scheme, offscreen at 1x; the verbatim replies and triage are in
+`reviews/br1.2-card-fresh-eyes.md`. Both reviewers independently found
+the two looks to be one fill plus an optional hairline; that is a
+ruling on the card entry, held with the orchestrator, not a pool item.
+Recorded misreads: the card draws no text and no divider by
+construction, and the specimen's hard-wrapped prose is deliberate.
+Items 257–259.
 
 ## AG. Language seeds awaiting a plan slot
 
