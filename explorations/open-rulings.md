@@ -1178,6 +1178,14 @@ consumer ships the answer whether or not it asked the question.
      stronger foreground than the same badge on the content.
      *(§AI, BR1.2's review)*
 
+261. **[decide]** Testimonial's quote cards. The card ruling
+     (DOMAIN, 2026-09-05) makes a card the thing that singles
+     something out; testimonial draws a row of them, so every quote is
+     singled out and none is. Decide whether the weight of a quotation
+     alone justifies a card, or whether the row is groups — or bare
+     content — with at most one quote a card. BR1.7 leaves them as
+     they are. *(owner, 2026-09-05, from the card ruling)*
+
 ## Tier 3 — Window and page composition
 
 Rulings scoped to one window, page or app surface. Visible, but the

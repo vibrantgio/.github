@@ -19249,7 +19249,7 @@ the raise is told by a seam at its edge; a raise never vanishes.
 - [ ] The card, the field and the filled insets adopt the walk: a
   card on a modal is one step above the modal, a field in that card
   one step above the card; where the step is not there, the surface
-  shows its seam. The light filled card is settled by the same rule
+  shows its seam. The light card is settled by the same rule
   without moving the pin.
 - [ ] `theme/export` and `design/` follow with a clean diff;
   `design/mirror` agrees; goldens regenerate wherever a raise gains a
@@ -19259,25 +19259,34 @@ the raise is told by a seam at its edge; a raise never vanishes.
   `markdown` and the workbench apps; commit and push in every touched
   repo and `.github`.
 
-#### BR1.7: The outlined card groups in place
+#### BR1.7: The card singles out and the group divides
 
-Executes the card ruling (DOMAIN, 2026-09-05): the two looks stand at
-different levels. Outlined stands at the level of the surface it is
-in and takes its fill, with a hairline; filled is raised one step
-with no hairline.
+Executes the card ruling (DOMAIN, 2026-09-05): the two looks were two
+things. A card singles something out — one rounded surface raised
+one step above the surface it is in, no hairline, never outlined,
+never wearing a role. A group divides the page — a hairline around
+related components at the level of the surface it is in, taking its
+fill, optionally labelled, raising nothing. A conversion, not a
+rework; abrupt, no aliases, consumers convert in the same task.
 
-- [ ] `patterns/card`'s outlined look fills at the level of the
-  surface the card is in — level 0 on the content — and keeps its
-  hairline, derived against that fill; the filled look stays raised
-  at level 1 with no hairline. The card border derivation in
-  `theme/export`, the published sheet and both mirror fixtures
-  follow.
-- [ ] Goldens follow: the card's own, the gallery's patterns tiles and
-  sitedocs' tab, run by name; fresh-eyes review of the card specimens
-  in both schemes, per the standing protocol.
-- [ ] Exit: green in `patterns`, `theme`, `design` and the workbench
-  apps; `check-retired-words.sh check` clean; commit and push in
-  every touched repo and `.github`.
+- [ ] `patterns/card` loses its second look: one card, raised, no
+  hairline; `Props.Filled` goes.
+- [ ] `patterns/group` is new: the hairline at the surface's own
+  level, derived per the Seam entry, an optional label, slots for
+  what it holds; it has no fill of its own. A group may hold a card,
+  never another group.
+- [ ] Every outlined card converts to a group — the gallery inventory,
+  the launcher's app cards in `workbench`, feeds, the mirror fixtures
+  and the published sheet's card rules. Pricing becomes a row of tier
+  groups with the recommended tier a card wearing a badge in its
+  header; the tier's Primary outline retires. Testimonial keeps its
+  cards as they are.
+- [ ] Goldens follow, the gallery gains the group specimen, sitedocs'
+  tab follows by name; fresh-eyes review of the card, group and
+  pricing specimens in both schemes, per the standing protocol.
+- [ ] Exit: green in `patterns`, `theme`, `design`, `components` and
+  the workbench apps; `check-retired-words.sh check` clean; commit
+  and push in every touched repo and `.github`.
 
 ### G-BR2: The old vocabulary leaves the org
 
@@ -19405,6 +19414,25 @@ any new hit.
   gallery inventory follow.
 - [ ] Exit: green in `components`, `patterns` and the workbench apps;
   commit and push in every touched repo and `.github`.
+
+#### BR3.3: Tooltip moves to components
+
+- [ ] `patterns/tooltip` becomes `components/tooltip`, a signal: the
+  name of a control or the meaning of a signal, on demand. Unchanged
+  in behaviour; every consumer re-imports in the same task.
+- [ ] Exit: green in `components`, `patterns` and the workbench apps;
+  commit and push in every touched repo and `.github`.
+
+#### BR3.4: Breadcrumb and pagination move to components
+
+- [ ] `patterns/breadcrumb` and `patterns/pagination` become
+  `components/breadcrumb` and `components/pagination`, controls:
+  going back up the hierarchy, and moving between numbered pages.
+  Unchanged in behaviour; every consumer — the gallery inventory, the
+  design mirror, the workbench apps — re-imports in the same task.
+- [ ] Exit: green in `components`, `patterns`, `design` and the
+  workbench apps; `scripts/check-layers.sh` from `.github`; commit
+  and push in every touched repo and `.github`.
 
 ### G-BR4: Content and controls take their names
 
