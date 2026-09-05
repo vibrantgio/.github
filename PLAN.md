@@ -19220,14 +19220,14 @@ as the highlighter, and the distances that prove it stay measured.
 
 #### BR1.5: The design bundle's elevation prose follows the Language
 
-- [ ] `design/DESIGN.md`'s elevation section is rewritten in the
+- [x] `design/DESIGN.md`'s elevation section is rewritten in the
   Language's terms: backdrop, chrome, then levels 0 to 3, each level
   lighter than the one beneath in both schemes, the backdrop derived
   and the chrome level measured. It is hand-written, so `vg-tokens`
   does not touch it; the text is checked against `theme/tokens`'s
   package comment and against DOMAIN's Elevation, Level, Backdrop,
   Chrome and Seam entries.
-- [ ] Exit: green in `design`; commit and push `design` and
+- [x] Exit: green in `design`; commit and push `design` and
   `.github`.
 
 #### BR1.6: A raise is walked from the surface beneath
