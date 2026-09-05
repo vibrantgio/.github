@@ -19230,7 +19230,36 @@ as the highlighter, and the distances that prove it stay measured.
 - [ ] Exit: green in `design`; commit and push `design` and
   `.github`.
 
-#### BR1.6: The outlined card groups in place
+#### BR1.6: A raise is walked from the surface beneath
+
+Executes the ruling on the Level entry (DOMAIN, 2026-09-05): a raise
+is walked one step from the surface a thing stands on, never read
+off a table of levels, and where the scheme has no lighter step left
+the raise is told by a seam at its edge; a raise never vanishes.
+
+- [ ] `theme/tokens` gains the walk: given the surface a thing stands
+  on, the surface one step up, in the shape `ContainerOn` and
+  `HighlightOn` already have, plus whether the step cleared the
+  perceptibility floor against the surface beneath or the caller must
+  draw a seam. The seam is derived per the Seam entry: findable
+  against both fills in either scheme, drawn once. The fixed table
+  keeps only the named stack — backdrop, chrome, level 0 and the two
+  floating levels, which stay absolute above everything raised
+  beneath them.
+- [ ] The card, the field and the filled insets adopt the walk: a
+  card on a modal is one step above the modal, a field in that card
+  one step above the card; where the step is not there, the surface
+  shows its seam. The light filled card is settled by the same rule
+  without moving the pin.
+- [ ] `theme/export` and `design/` follow with a clean diff;
+  `design/mirror` agrees; goldens regenerate wherever a raise gains a
+  seam, cause named; fresh-eyes review of the card and field
+  specimens in both schemes, per the standing protocol.
+- [ ] Exit: green in `theme`, `design`, `components`, `patterns`,
+  `markdown` and the workbench apps; commit and push in every touched
+  repo and `.github`.
+
+#### BR1.7: The outlined card groups in place
 
 Executes the card ruling (DOMAIN, 2026-09-05): the two looks stand at
 different levels. Outlined stands at the level of the surface it is

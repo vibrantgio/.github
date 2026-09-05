@@ -748,18 +748,6 @@ durably while these are open.
      and the dial should vary with the hue's own gamut.
      *(§AG, BQ1.4's review)*
 
-260. **[bug]** The elevation scale is closed, so raised-on-raised runs
-     out of room. Raised is relative — one step above the surface a
-     thing stands on — but `SurfaceAt` reads a fixed table that ends at
-     level 3, so a card on a modal takes the top tint and a field in
-     that card has no tint at all; in light the raise above the pin
-     is a whisper at every level anyway. Owner-ruled a bug 2026-09-05.
-     The fix is in the derivation: a raise is a step walked from the
-     surface beneath, not a table lookup, and where the scheme has no
-     room to walk — the light pin's headroom, dark's band top — the
-     raise finds its edge through a derived seam instead of vanishing.
-     *(owner, 2026-09-05, from the card discussion)*
-
 ## Tier 2 — Component and pattern contracts
 
 Rulings that change a published library's shape or grammar, so a
