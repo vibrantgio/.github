@@ -19386,9 +19386,9 @@ any new hit.
 
 #### BR2.4: Comments and docs — components, the library
 
-- [ ] As BR2.3, for `components` outside `components/gallery` (the
+- [x] As BR2.3, for `components` outside `components/gallery` (the
   library packages carry most of the 712 comment hits).
-- [ ] Exit: green; `check` clean for comments, strings and docs in the
+- [x] Exit: green; `check` clean for comments, strings and docs in the
   library packages; commit and push.
 
 #### BR2.5: Comments and docs — the gallery
