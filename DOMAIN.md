@@ -148,7 +148,7 @@ redraw them.
 |---|---|
 | **accordion** | a vertical stack of collapsible sections, a chevron per open state |
 | **breadcrumb** | a row of labels with chevrons marking hierarchical location; the last is where you are |
-| **card** | a rounded surface raised on the content, with header, body and footer slots; outlined or filled |
+| **card** | a rounded surface grouping content, with header, body and footer slots; outlined in place, or filled and raised |
 | **feature** | an icon-title-body grid for a marketing "features" section |
 | **hero** | the marketing landing block: eyebrow, display title, subtitle, visual, a call-to-action pair |
 | **inspector** | a chrome column beside the content showing the properties of what is selected in it |
@@ -259,7 +259,7 @@ two kinds:
 
 | Kind | Meaning |
 |---|---|
-| **raised** | one step above the surface it stands on, attached to it — a card on the content, a field on that card |
+| **raised** | one step above the surface it stands on, attached to it — a filled card on the content, a field on that card |
 | **floating** | detached: placed by an attachment or over a scrim, above everything raised beneath it |
 
 Raised is relative — a field inside a card is raised on the card —
@@ -271,7 +271,7 @@ not nest: grouping within a card is its structure.
 | **backdrop** | nothing: the bare window plane, showing wherever nothing stands |
 | **chrome** | the window's furniture — navbars, toolbars, sidebars, inspectors, status bars, panes |
 | **0** | the content itself: the document being read |
-| **1** | raised on the content — cards, filled insets, fields |
+| **1** | raised on the content — filled cards, filled insets, fields |
 | **2** | floating — dialogs and toasts |
 | **3** | floating, top of the elevation — menus, popovers and tooltips |
 
@@ -673,10 +673,14 @@ you are — plain text, not a link.
 
 ### Card
 
-The pattern containing related content as one rounded surface
-raised on the content, with header, body and footer slots. Two
-looks, both at the same raise: outlined, a hairline on the content's
-own fill; filled, one step lighter with no hairline. A card holds
+The pattern containing related content as one rounded surface with
+header, body and footer slots. Its two looks stand at different
+levels. Outlined groups in place: it stands at the level of the
+surface it is in, takes that surface's own fill, and a hairline says
+where the group ends. Filled is raised: one step above the surface it
+stands on, with no hairline, the raise doing the work. What a card
+holds stands on the card — its content as foreground, and anything
+raised in it, a field say, one step above the card. A card holds
 content, never another card.
 
 ### Feature

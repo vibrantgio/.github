@@ -19230,6 +19230,26 @@ as the highlighter, and the distances that prove it stay measured.
 - [ ] Exit: green in `design`; commit and push `design` and
   `.github`.
 
+#### BR1.6: The outlined card groups in place
+
+Executes the card ruling (DOMAIN, 2026-09-05): the two looks stand at
+different levels. Outlined stands at the level of the surface it is
+in and takes its fill, with a hairline; filled is raised one step
+with no hairline.
+
+- [ ] `patterns/card`'s outlined look fills at the level of the
+  surface the card is in — level 0 on the content — and keeps its
+  hairline, derived against that fill; the filled look stays raised
+  at level 1 with no hairline. The card border derivation in
+  `theme/export`, the published sheet and both mirror fixtures
+  follow.
+- [ ] Goldens follow: the card's own, the gallery's patterns tiles and
+  sitedocs' tab, run by name; fresh-eyes review of the card specimens
+  in both schemes, per the standing protocol.
+- [ ] Exit: green in `patterns`, `theme`, `design` and the workbench
+  apps; `check-retired-words.sh check` clean; commit and push in
+  every touched repo and `.github`.
+
 ### G-BR2: The old vocabulary leaves the org
 
 The Language has retired a set of words, and the sources still carry
