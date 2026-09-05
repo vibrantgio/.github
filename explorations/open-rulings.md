@@ -775,6 +775,15 @@ durably while these are open.
      shape, a weight — before the hue set is tuned further.
      *(§AK, BR1.4's review)*
 
+270. **[decide]** One seam measurement, two constants. `theme/tokens`'s
+     `SeamRatio` and `patterns/pane`'s `SeamRatio` both carry the
+     platform's 1.51:1 panel edge (Voice Memos #3A3A3A on #1B1B1B) for
+     two pairings: a raised surface on the one it stands on, and a
+     chrome pane on the backdrop. Decide whether the pane's edge is
+     the same seam derivation with a different pair of fills, in which
+     case the pane calls the token walk and its constant goes.
+     *(from BR1.6's execution)*
+
 ## Tier 2 — Component and pattern contracts
 
 Rulings that change a published library's shape or grammar, so a
@@ -2473,6 +2482,15 @@ schemes, two reviewers; verbatim replies and triage are in
 `reviews/br1.4-status-fresh-eyes.md`. Neither reviewer read warning
 and error as one family. Fifteen further findings older than the task
 are recorded in the file and not refiled. Items 268–269.
+
+## AL. From BR1.6's fresh-eyes review of the raise
+
+Added 2026-09-05. The card and field specimens in both schemes, one
+reviewer; verbatim reply and triage in `reviews/br1.6-raise-fresh-eyes.md`.
+The light "no ramp" reading measured the ruling (white is the first
+raise); the seam's one-pixel overhang was fixed in the task; the
+outlined branch's overhang and double composite belong to BR1.7, which
+deletes that branch. Item 270 is from the execution, not the review.
 
 ## AG. Language seeds awaiting a plan slot
 
