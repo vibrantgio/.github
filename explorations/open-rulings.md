@@ -1240,6 +1240,14 @@ consumer ships the answer whether or not it asked the question.
      or whether the reading is the ruling working.
      *(§AM, BR1.7's review)*
 
+274. **[decide]** The highlight mark's shape. The arrival highlight is
+     a block-level fill that opens on the block's edge with no side
+     padding and square corners, pinned by markdown's own test; a
+     marker on paper overshoots the text a little and rounds. Decide
+     whether the mark owes an inset and a radius. In dark the fill is
+     deliberately louder than in light (1.90:1 against 1.32:1) because
+     the shallower step reads olive. *(§AN, BR1.8's review)*
+
 ## Tier 3 — Window and page composition
 
 Rulings scoped to one window, page or app surface. Visible, but the
@@ -2503,6 +2511,13 @@ Added 2026-09-05. Six images across both schemes, one reviewer;
 verbatim reply and triage in `reviews/br1.7-card-group-fresh-eyes.md`.
 The group specimen's slack was fixed in the task; the launcher's seam
 at 1.51:1 is the Seam entry working. Items 271–273.
+
+## AN. From BR1.8's fresh-eyes review of the highlight in vaultview
+
+Added 2026-09-05. Both arrival goldens, one reviewer; verbatim reply
+and triage in `reviews/br1.8-highlight-fresh-eyes.md`. Nine of ten
+findings are the vaultview window around the mark and already sit in
+the pool (262–266, the Roboto and scrollbar items). Item 274.
 
 ## AG. Language seeds awaiting a plan slot
 
