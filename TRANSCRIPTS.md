@@ -719,3 +719,7 @@ that is handled by a different color outline
 ^0005-no-accent-outline-on-tiers
 
 Rene: ok write it all and send the peer the ruling
+
+Rene (to the peer's two questions, card-versus-seam in light and the
+tooltip's fill): 1. give light scheme some headroom 2. i concur with
+your reasoning ^0005-light-headroom ^0005-tooltip-inverse

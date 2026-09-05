@@ -275,8 +275,12 @@ of levels: whatever a thing stands on, raised means one step
 lighter than that. Where the scheme has no lighter step left — the
 light scheme under white, the top of the dark band — the raise is
 still told, by a seam at its edge instead of by its fill; a raise
-never vanishes. Cards do not nest: grouping within a card is its
-structure.
+never vanishes. The content plane keeps headroom above it for that
+reason: in the light scheme it stands one step below white, and
+white is the first raise on it, so a card on the content is told by
+its fill in both schemes and the seam is kept for the raise above
+that — a field on a card. Cards do not nest: grouping within a card
+is its structure.
 
 | Level | Holds |
 |---|---|
@@ -675,7 +679,11 @@ The signal naming a control or explaining another signal on demand:
 a small annotation floating at level 3 beside its trigger, appearing
 by itself after a short delay on hover or focus and leaving when they
 do. It holds text only, never a control; anything the user must
-operate is the job for a popover.
+operate is the job for a popover. Level 3 is where it is placed, not
+what it is filled with: nothing stands on a tooltip, so it takes no
+surface's fill and is filled inverse — the other scheme's surface
+and foreground — so it reads as speech about the thing, not as a
+panel. It is the one adoption of the inverse pair.
 
 ### Text label
 
