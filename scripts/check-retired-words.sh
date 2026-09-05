@@ -120,7 +120,7 @@ reach::*::!ctx::(reachable|out of reach|within reach|can(not)? reach (it|them|th
 register::identifier::token::^register::The verb: registering a handler, a target or a collector.
 register::identifier::path::^(mvu|seen)/::The runtime's own registration API — what a handler does.
 register::*::path::^ivg/::CREG and NREG are machine registers in the IconVG format's own specification.
-register::comment,doc,string::ctx::(handler|listener|callback|event|registry|modbus|holding|device|sk150|driver|hook|collector|subscrib|registering|registered|filter|area|shortcut|register (a|an|the|each|every|it|its)|registers (a|an|the|each|every|it|its))::"register" as what a handler or a Modbus device does, which the row keeps.
+register::comment,doc,string::ctx::(handler|listener|callback|event|registry|modbus|holding|device|sk150|driver|hook|collector|subscrib|registering|registered|filter|area|shortcut|register adds|in register and|register (a|an|the|each|every|it|its)([^a-z]|$)|registers (a|an|the|each|every|it|its)([^a-z]|$))::"register" as what a handler or a Modbus device does, which the row keeps.
 container::*::!ctx::card::The tinted field — ContainerOn, StatusContainer, containerChroma — and Go's own container/list, which the row keeps; only a card's surface was retired.
 filled,outlined::*::!ctx::((filled|outlined) (card|group|tier)|card--(filled|outlined)|props\.filled)::The button's Filled variant, an outlined icon, a filled path and a filled inset keep their words; only a card called filled or outlined was retired.
 highlighted,featured,emphasised,emphasized::*::!ctx::(pricing|tier)::Syntax highlighting, the highlighter, a feature block and Material's Emphasized easing keep their words; only a pricing tier's was retired.
