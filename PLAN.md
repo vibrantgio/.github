@@ -19410,9 +19410,9 @@ any new hit.
 
 #### BR2.7: Comments and docs — markdown
 
-- [ ] As BR2.3, for `markdown` (257 comments, 80 strings, 53 docs), its
+- [x] As BR2.3, for `markdown` (257 comments, 80 strings, 53 docs), its
   nested `highlight` and `svgimage` included.
-- [ ] Exit: green; `check` clean for comments, strings and docs in
+- [x] Exit: green; `check` clean for comments, strings and docs in
   `markdown`; commit and push.
 
 #### BR2.8: Comments and docs — the small modules
