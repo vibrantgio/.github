@@ -263,8 +263,14 @@ two kinds:
 | **floating** | detached: placed by an attachment or over a scrim, above everything raised beneath it |
 
 Raised is relative — a field inside a card is raised on the card —
-so the numbers below name the usual stack, not a ceiling. Cards do
-not nest: grouping within a card is its structure.
+so the numbers below name the usual stack, not a ceiling. A raise
+is walked one step from the surface beneath, never read off a table
+of levels: whatever a thing stands on, raised means one step
+lighter than that. Where the scheme has no lighter step left — the
+light scheme under white, the top of the dark band — the raise is
+still told, by a seam at its edge instead of by its fill; a raise
+never vanishes. Cards do not nest: grouping within a card is its
+structure.
 
 | Level | Holds |
 |---|---|

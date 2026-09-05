@@ -678,3 +678,11 @@ Rene: Will this be much slower?
 Rene (to the Backdrop derivation sentence, the Seam entry and the
 BR1.3 amendment): ok write both and send the peer the amendment
 ^0005-seam-and-backdrop-derivation
+
+Rene (relayed by the vibrantgio session, pool item 260): the
+elevation scale is closed — raised is one step above the surface a
+thing stands on, but the theme reads a fixed table ending at level
+3, so a card on a modal takes the top tint and a field in that card
+has no tint at all; in light every raise above the pin is a whisper
+regardless. Rene called it a bug and asked the ontology session to
+rule. ^0005-elevation-scale-closed
