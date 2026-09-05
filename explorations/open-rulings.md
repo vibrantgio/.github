@@ -395,6 +395,13 @@ consumer ships, then layout and copy.
      in light, under even the 3:1 non-text floor; the one contrast
      defect the review found. *(§AJ, BR1.3's review)*
 
+275. **[bug]** `theme/tokens/containers.go`'s file header says the
+     mark colour is the most chromatic step of the role's ramp that
+     still clears the floor; `MarkOn`'s own doc two hundred lines down
+     says the step nearest the ramp's mid-value step and rejects the
+     most-chromatic rule, and the code does the second. One line in
+     the header to correct. *(from BR2.3's execution)*
+
 ## Tier 1 — Token and palette derivation
 
 Rulings that live above every control, because each one is inherited by
