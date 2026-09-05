@@ -19249,8 +19249,13 @@ the raise is told by a seam at its edge; a raise never vanishes.
 - [ ] The card, the field and the filled insets adopt the walk: a
   card on a modal is one step above the modal, a field in that card
   one step above the card; where the step is not there, the surface
-  shows its seam. The light card is settled by the same rule
-  without moving the pin.
+  shows its seam. The content plane keeps headroom above it: in
+  the light scheme the content pin stands one step below white and
+  white is the first raise on it, so a card on the content is told by
+  its fill in both schemes and the seam takes over from the second
+  raise up; chrome and backdrop keep their measured relation to the
+  new pin, and the light text floors and every "on content"
+  derivation re-pin with it.
 - [ ] `theme/export` and `design/` follow with a clean diff;
   `design/mirror` agrees; goldens regenerate wherever a raise gains a
   seam, cause named; fresh-eyes review of the card and field
@@ -19287,6 +19292,24 @@ rework; abrupt, no aliases, consumers convert in the same task.
 - [ ] Exit: green in `patterns`, `theme`, `design`, `components` and
   the workbench apps; `check-retired-words.sh check` clean; commit
   and push in every touched repo and `.github`.
+
+#### BR1.8: The highlighter takes a marker's chroma
+
+- [ ] The highlighter stops borrowing the status container's chroma
+  dial: it takes its own, as high as each scheme holds at the depth
+  the highlight fill is realized, so the fill is the yellow a marker
+  is and not a khaki. Its hue stays where BR1.4 derived it; its
+  measured distance from every status container and pin is re-pinned,
+  and text over the highlight fill still clears its floor, both
+  schemes, every level.
+- [ ] `theme/export` and `design/` regenerate with a clean diff;
+  goldens follow in `components/gallery` (the palette's Reserved
+  cell), `markdown` and `workbench/vaultview` (the arrival flash);
+  fresh-eyes review of the highlight in vaultview, both schemes, per
+  the standing protocol.
+- [ ] Exit: green in `theme`, `design`, `components`, `markdown`,
+  `effects` and the workbench apps; commit and push in every touched
+  repo and `.github`.
 
 ### G-BR2: The old vocabulary leaves the org
 

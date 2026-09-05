@@ -758,16 +758,6 @@ durably while these are open.
      weight of everything else. A derivation question: which of the
      two groups is right, in which scheme. *(§AJ, BR1.3's review)*
 
-267. **[decide]** The highlighter is yellow in hue and khaki in fact.
-     BR1.4 derived it at the status container dial, chroma 0.055, and
-     that realizes #d9d6ad in light and #322f09 in dark: a marker with
-     the colourfulness of a status fill is dirt, not a marker. A
-     highlighter is the one fill the Language wants to shout — the
-     colour a marker is — so it owes its own chroma, as high as both
-     schemes can hold at their depths, not the dial that keeps status
-     fills quiet. The reviewer's "dirt" finding is this item.
-     *(§AK, BR1.4's review)*
-
 268. **[decide]** Warning's orange loses its chroma at depth: the
      light pin realizes #894d00 at C 0.092 against error's 0.170, so
      the deep warning is a brown beside a red. No hue rotation fixes
@@ -2482,7 +2472,7 @@ Added 2026-09-05. The gallery's badge, alert and toast tiles in both
 schemes, two reviewers; verbatim replies and triage are in
 `reviews/br1.4-status-fresh-eyes.md`. Neither reviewer read warning
 and error as one family. Fifteen further findings older than the task
-are recorded in the file and not refiled. Items 267–269.
+are recorded in the file and not refiled. Items 268–269.
 
 ## AG. Language seeds awaiting a plan slot
 
