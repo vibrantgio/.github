@@ -19157,7 +19157,7 @@ look is raised, not floating. A paragraph is content, and the module
 that draws it is named after what it is. A search field is a control
 of its own. Every move is abrupt: no compatibility aliases, no
 deprecated forwarders — consumers convert in the same task. No tags
-in this phase; a tagging round follows once the changes have landed.
+in this phase.
 
 ### G-BR1: The theme follows the Language
 
@@ -19230,9 +19230,112 @@ as the highlighter, and the distances that prove it stay measured.
 - [ ] Exit: green in `design`; commit and push `design` and
   `.github`.
 
-### G-BR2: The status signals move to components
+### G-BR2: The old vocabulary leaves the org
 
-#### BR2.1: Alert moves to components
+The Language has retired a set of words, and the sources still carry
+them: the token comments alone say "wash" two dozen times, and reading
+them re-infected a decision record and a plan task on 2026-09-03. A
+retired word in a comment is a carrier; in an identifier it is the
+contract. This goal makes the list a document, builds the inventory
+that finds every hit by sense and kind, sweeps comments and docs
+module by module proven comment-only, and renames identifiers
+abruptly with every consumer converted in the same task. From the
+inventory task on, the guard runs at every task's exit and fails on
+any new hit.
+
+#### BR2.1: The retired-word list is a standing rule
+
+- [ ] AGENTS.md gains a section "Retired words", the table below with
+  three columns — retired, in the sense of, say instead — and the rule
+  that packets, reviews, comments, docs and identifiers use the
+  right-hand column. Present tense; the Language itself keeps no
+  history.
+
+  | Retired | In the sense of | Say instead |
+  |---|---|---|
+  | wash, ink, shout | a component's colours | fill, foreground |
+  | ground | what a thing stands on | the surface it stands on |
+  | floor | an elevation level | backdrop (floor stays for contrast floors) |
+  | storey, ladder, rung | elevation, a ramp, density | level; step; control height |
+  | register | a component's setting | variant |
+  | intent | a component's purpose | purpose |
+  | anatomy | a component's parts | structure |
+  | voice | who a component speaks for | originator |
+  | volume, loud, quiet | how pronounced a variant is | prominence |
+  | widget | a component (layout.Widget stays Gio's) | component |
+  | mark | the former component | badge (mark stays for the glyph a control draws) |
+  | elevated | standing higher | raised, or floating |
+  | reach | operating a control | operate |
+  | canvas | the area the window paints | the window's plane, the backdrop |
+  | author | who built the application | developer (author stays for who wrote content) |
+  | container | a card's surface | surface (container stays for the tinted field) |
+
+- [ ] Exit: commit and push `.github`.
+
+#### BR2.2: The inventory and the guard
+
+- [ ] `.github/scripts/check-retired-words.sh`: walks every module in
+  the flat checkout, matches each retired word on word boundaries,
+  case-insensitive, and files every hit by module and by kind —
+  identifier, comment, doc (`*.md`, `llms.txt`), string literal.
+  Legitimate senses are excluded by explicit rule in the script, each
+  with a one-line reason: `layout.Widget` and Gio's own API, the SVG
+  module's canvas element, "register" as what a handler does, "mark"
+  as the glyph, "floor" as a contrast floor, "author" as who wrote
+  content, "container" as the tinted field.
+- [ ] Two modes: `inventory` prints the classified work list per
+  module; `check` exits non-zero on any hit outside the exclusions.
+  From this task on, `check` is part of every task's exit in this
+  phase and the next.
+- [ ] The inventory's identifier count per module splits BR2.7 into
+  one task per module that has any; the split is committed with this
+  task.
+- [ ] Exit: `check` runs clean on `.github` itself; commit and push.
+
+#### BR2.3: Comments and docs — theme
+
+- [ ] Every comment and doc hit in `theme` rewritten in the Language's
+  words; token-stream diff proves no code token changed (the August
+  cleanup's proof, reused). The highlight and container files first:
+  they were the carrier.
+- [ ] Exit: green; `check` clean for comments and docs in `theme`;
+  commit and push.
+
+#### BR2.4: Comments and docs — components
+
+- [ ] As BR2.3, for `components`.
+- [ ] Exit: green; `check` clean for comments and docs in
+  `components`; commit and push.
+
+#### BR2.5: Comments and docs — patterns and effects
+
+- [ ] As BR2.3, for `patterns` and `effects`.
+- [ ] Exit: green; `check` clean for comments and docs in both; commit
+  and push.
+
+#### BR2.6: Docs — the design bundle, the workbench, the guide
+
+- [ ] `design/DESIGN.md` and the design bundle's prose, every
+  `README.md` and `AGENTS.md` across the org, the workbench apps'
+  comments, and `workbench/llms.txt`, rewritten in the Language's
+  words; DESIGN.md's elevation section is BR1.5's and is only
+  re-checked here.
+- [ ] Exit: `check` clean for docs org-wide; commit and push in every
+  touched repo.
+
+#### BR2.7: Identifiers — one task per module, split by BR2.2
+
+- [ ] Placeholder until BR2.2 splits it: each resulting task renames
+  the module's retired identifiers abruptly — no alias, no deprecated
+  forwarder — and converts every consumer in the same task; the
+  exported-surface change is named in the commit body.
+- [ ] Exit per split task: green in the module and every consumer;
+  `check` clean for identifiers in the module; commit and push in
+  every touched repo.
+
+### G-BR3: The status signals move to components
+
+#### BR3.1: Alert moves to components
 
 - [ ] `patterns/alert` becomes `components/alert`, unchanged in
   behaviour; every consumer — the gallery inventory, the design
@@ -19241,7 +19344,7 @@ as the highlighter, and the distances that prove it stay measured.
   workbench apps; commit and push in every touched repo and
   `.github`.
 
-#### BR2.2: The toast signal and the notifications pattern
+#### BR3.2: The toast signal and the notifications pattern
 
 - [ ] The single toast — icon, message, optional close, its own
   timing — becomes `components/toast`, a signal drawn without the
@@ -19254,9 +19357,9 @@ as the highlighter, and the distances that prove it stay measured.
 - [ ] Exit: green in `components`, `patterns` and the workbench apps;
   commit and push in every touched repo and `.github`.
 
-### G-BR3: Content and controls take their names
+### G-BR4: Content and controls take their names
 
-#### BR3.1: richtext renames to paragraph
+#### BR4.1: richtext renames to paragraph
 
 - [ ] `components/richtext` becomes `components/paragraph`; the
   `markdown` module and the workbench apps re-import in the same
@@ -19264,7 +19367,7 @@ as the highlighter, and the distances that prove it stay measured.
 - [ ] Exit: green in `components`, `markdown` and the workbench apps;
   commit and push in every touched repo and `.github`.
 
-#### BR3.2: The search field control
+#### BR4.2: The search field control
 
 - [ ] A search field in `components/input`: structure looking glass,
   text, optional clear mark; it looks as the user types and marks
