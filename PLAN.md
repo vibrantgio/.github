@@ -19417,10 +19417,10 @@ any new hit.
 
 #### BR2.8: Comments and docs — the small modules
 
-- [ ] As BR2.3, for `mvu`, `ivg`, `seen`, `gradient`, `backdrop`,
+- [x] As BR2.3, for `mvu`, `ivg`, `seen`, `gradient`, `backdrop`,
   `textdraw`, `circle`, `font`, `svg`, `kiwi` and `noise` (105 hits
   between them, comments and READMEs).
-- [ ] Exit: green in each; `check` clean for comments, strings and docs in
+- [x] Exit: green in each; `check` clean for comments, strings and docs in
   each; commit and push in every touched repo.
 
 #### BR2.9: Docs — the design bundle, the READMEs, the guide
