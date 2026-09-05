@@ -19393,11 +19393,11 @@ any new hit.
 
 #### BR2.5: Comments and docs — the gallery
 
-- [ ] As BR2.3, for `components/gallery` (run by name), its specimen
+- [x] As BR2.3, for `components/gallery` (run by name), its specimen
   titles and captions included; goldens that carry a rewritten string
   regenerate with the cause named, and `workbench/sitedocs` follows by
   name.
-- [ ] Exit: green in `components/gallery` and `workbench/sitedocs`; `check`
+- [x] Exit: green in `components/gallery` and `workbench/sitedocs`; `check`
   clean for comments, strings and docs in the gallery; commit and
   push.
 
