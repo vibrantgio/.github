@@ -19185,15 +19185,15 @@ in this phase.
 
 #### BR1.3: The pane on the visible backdrop
 
-- [ ] The window's plane is the backdrop and nothing else is drawn at
+- [x] The window's plane is the backdrop and nothing else is drawn at
   it: every chrome region — vaultview's aside, its picker screen, the
   pane itself — paints its own surface at the chrome level, and the
   gallery's pane specimen stands on the backdrop, not on level 0.
-- [ ] Only then, with the backdrop actually showing in the gap around
+- [x] Only then, with the backdrop actually showing in the gap around
   the pane, the pane's hairline is re-judged: kept only if the inset
   still fails to read without it in either scheme, measured on a
   capture, not guessed.
-- [ ] Exit: green in `patterns` and the workbench apps; commit and
+- [x] Exit: green in `patterns` and the workbench apps; commit and
   push in every touched repo and `.github`.
 
 #### BR1.4: Warning is orange and the highlighter is yellow
