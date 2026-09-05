@@ -19203,18 +19203,18 @@ orange; the highlighter takes the yellow that frees, the colour a
 marker is. The reservation rule is unchanged: no status hue may serve
 as the highlighter, and the distances that prove it stay measured.
 
-- [ ] The Warning anchor repins to orange in the seed derivation, in
+- [x] The Warning anchor repins to orange in the seed derivation, in
   both schemes and both contrast derivations; the four status
   containers still read as four, and the distance between the two
   closest status colours is re-measured and re-pinned.
-- [ ] The highlighter's hue is re-derived in the yellow, between
+- [x] The highlighter's hue is re-derived in the yellow, between
   Warning's new orange and Success; its measured distance from every
   status container and pin is re-pinned, in both schemes, on every
   level, and text over the fill still clears its floor.
-- [ ] Goldens, `theme/export` and `design/` regenerate with a clean
+- [x] Goldens, `theme/export` and `design/` regenerate with a clean
   diff; fresh-eyes review of the status specimens and of vaultview's
   arrival flash, both schemes, per the standing protocol.
-- [ ] Exit: green in `theme`, `design`, `components`, `patterns` and
+- [x] Exit: green in `theme`, `design`, `components`, `patterns` and
   the workbench apps; commit and push in every touched repo and
   `.github`.
 
