@@ -758,6 +758,33 @@ durably while these are open.
      weight of everything else. A derivation question: which of the
      two groups is right, in which scheme. *(§AJ, BR1.3's review)*
 
+267. **[decide]** The highlighter is yellow in hue and khaki in fact.
+     BR1.4 derived it at the status container dial, chroma 0.055, and
+     that realizes #d9d6ad in light and #322f09 in dark: a marker with
+     the colourfulness of a status fill is dirt, not a marker. A
+     highlighter is the one fill the Language wants to shout — the
+     colour a marker is — so it owes its own chroma, as high as both
+     schemes can hold at their depths, not the dial that keeps status
+     fills quiet. The reviewer's "dirt" finding is this item.
+     *(§AK, BR1.4's review)*
+
+268. **[decide]** Warning's orange loses its chroma at depth: the
+     light pin realizes #894d00 at C 0.092 against error's 0.170, so
+     the deep warning is a brown beside a red. No hue rotation fixes
+     that inside sRGB; decide whether the warning pin may sit
+     shallower than the other status pins, or whether the brown is
+     accepted. Neighbours 244 (error and warning are the least
+     separated pair; BR1.4 moved the default seed's ΔE00 from 18.8 to
+     11.75 light and 18.1 to 10.89 dark, the sweep floor now 30.18°
+     of hue). *(§AK, BR1.4's review)*
+
+269. **[decide]** The status set signals in one channel, hue, and
+     BR1.4 narrowed its deuteranopia margin by moving warning toward
+     error. Decide whether the family owes a second channel — the
+     glyph (item 67's identical glyph is the other half of this), a
+     shape, a weight — before the hue set is tuned further.
+     *(§AK, BR1.4's review)*
+
 ## Tier 2 — Component and pattern contracts
 
 Rulings that change a published library's shape or grammar, so a
@@ -2448,6 +2475,14 @@ checklist; the verbatim reply and triage are in
 `reviews/br1.3-vaultview-fresh-eyes.md`. The trailing-corner nick was
 fixed in the task; the Roboto finding, the scrollbar findings and the
 outline indent already sit in the pool. Items 262–266.
+
+## AK. From BR1.4's fresh-eyes review of the status specimens
+
+Added 2026-09-05. The gallery's badge, alert and toast tiles in both
+schemes, two reviewers; verbatim replies and triage are in
+`reviews/br1.4-status-fresh-eyes.md`. Neither reviewer read warning
+and error as one family. Fifteen further findings older than the task
+are recorded in the file and not refiled. Items 267–269.
 
 ## AG. Language seeds awaiting a plan slot
 
