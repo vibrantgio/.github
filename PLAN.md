@@ -46,7 +46,7 @@ flight. No tags.
 
 #### BT1.2: Vaultview remembers its window and its rail
 
-- [ ] Vaultview adopts BT1.1 at its window construction; its default
+- [x] Vaultview adopts BT1.1 at its window construction; its default
   size is what it is today. The rail pane's width and the aside's width
   join the same file as application state, restored before the first
   frame — the rail's width becomes meaningful when BT3.2 makes the rail
