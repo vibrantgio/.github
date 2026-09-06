@@ -19599,15 +19599,15 @@ regions are chrome. The guard knows both words from this task on.
 
 #### BR3.2: The toast signal and the notifications pattern
 
-- [ ] The single toast — icon, message, optional close, its own
+- [x] The single toast — icon, message, optional close, its own
   timing — becomes `components/toast`, a signal drawn without the
   queue.
-- [ ] `patterns/toast` becomes `patterns/notifications`: the column
+- [x] `patterns/toast` becomes `patterns/notifications`: the column
   that receives notifications, places, stacks and times them, and
   presents each as a toast. The raise-by-message contract stays.
-- [ ] Every consumer converts in the same task; goldens and the
+- [x] Every consumer converts in the same task; goldens and the
   gallery inventory follow.
-- [ ] Exit: green in `components`, `patterns` and the workbench apps;
+- [x] Exit: green in `components`, `patterns` and the workbench apps;
   commit and push in every touched repo and `.github`.
 
 #### BR3.3: Tooltip moves to components
