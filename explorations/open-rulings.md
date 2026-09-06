@@ -1255,6 +1255,21 @@ consumer ships the answer whether or not it asked the question.
      deliberately more pronounced than in light (1.90:1 against 1.32:1) because
      the shallower step reads olive. *(§AN, BR1.8's review)*
 
+276. **[task]** The toast is short of its own Language: DOMAIN says
+     its close is a fixed part and its status speaks through an icon
+     and a mark, and today's toast has a leading edge and a message
+     only. BR3.2 moved it to components without moving a pixel; the
+     icon and the close are a task of their own, with goldens and a
+     fresh-eyes look at the notifications column.
+     *(from BR3.2's execution)*
+
+277. **[decide]** The status signals name their role three ways:
+     `toast.Role`, `badge.Variant`, `alert.Variant`. DOMAIN says a
+     colour role is not a variant; an alert in Warning is an alert
+     speaking Warning. Decide the one name (Role) and rename badge
+     and alert to it; `theme/export`'s emitted prose still says
+     "level" for the toast's status. *(from BR3.2's execution)*
+
 ## Tier 3 — Window and page composition
 
 Rulings scoped to one window, page or app surface. Visible, but the
