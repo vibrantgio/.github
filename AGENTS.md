@@ -50,6 +50,8 @@ libraries. It is not how you work this plan.
 | container | a card's surface | surface (container stays for the tinted field) |
 | outlined, filled | a card's looks | a card (raised, singles out) or a group (a hairline, divides) |
 | highlighted, featured, emphasised | a pricing tier | the recommended tier |
+| paper | the content level | the content, level 0 |
+| furniture | the chrome regions | chrome |
 
 The Language in DOMAIN.md retires words. A retired word in a packet, a
 review, a comment, a doc or an identifier is a defect; say the

@@ -73,7 +73,7 @@ set -u
 
 # The retired words, from AGENTS.md's table. Both spellings of emphasised
 # are matched: the word is the same word.
-WORDS="wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized"
+WORDS="wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture"
 
 MODULES="backdrop circle components csg design effects font gradient ivg kiwi markdown mvu noise patterns seen style svg textdraw theme traer workbench .github"
 
@@ -119,6 +119,7 @@ widget::doc,comment::line::[a-z]+\.widget\(::A call to a real exported function 
 widget::doc::line::ui-widget::jQuery UI's own CSS class name in a third-party example page.
 *::doc::path::^seen/plan\.md$::A repo-local plan awaiting the owner's ruling on its future.
 *::doc::path::^design/design-v1\.md$::A superseded document kept for history, frozen like the other records.
+furniture::doc::ctx::^\.github/domain\.md .*the window's furniture: every region::DOMAIN's Chrome entry keeps the phrase as its own definition; nowhere else.
 
 mark::*::!ctx::(mark component|component mark|/mark/|mark package)::The glyph a control draws and the verb are kept; only the former component's name was retired, and a line that means the component says so.
 floor::identifier::!token::(floor(level|storey|surface|tint)|(level|storey|chrome|backdrop|surface)floor)::A floor in an identifier is a lower bound — a contrast floor, a perceptibility floor, math.Floor; the retired sense would join it to an elevation word.

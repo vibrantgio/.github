@@ -388,7 +388,7 @@ consumer ships, then layout and copy.
      backdrop in the dark scheme — (21,21,21) under a (24,24,24)
      content, separated only by its divider row — the day after BR1.1
      settled that chrome stands a tint lighter than the backdrop. The
-     band is the gallery's furniture and was not in that pass.
+     band is the gallery's chrome and was not in that pass.
      *(§AI, BR1.2's review)*
 
 262. **[bug]** Vaultview's code-comment foreground measures 2.30:1
@@ -619,19 +619,19 @@ durably while these are open.
      scan across the boundary finds no divider hairline — the bare
      21→24 step is the whole seam (light manages 1.134:1 plus the
      same absence). The level relation is ADR-022's own; the open
-     question is whether a floor-to-paper seam owes a hairline where
+     question is whether a backdrop-to-content seam owes a hairline where
      the measured step is imperceptible. Sharpens item 125.
      *(§O, BD1.2's fresh-eyes review of the gallery window)*
 
 92. **[decide]** Added 2026-08-29, from AZ1.2's fresh-eyes review of
     the gallery's chip section: in the LIGHT scheme the three levels
-    are visually one. Paper, card and dialog sit within a couple of
+    are visually one. Content, card and dialog sit within a couple of
     percent of each other, so a chip filled one step over any of them
     is white on white and only its rim says a pill is there — the
     reviewer's words were that the light capture demonstrates nothing
     the first row alone would not. The chip documents this as the
     reason it carries a rim at all; the open question is whether the
-    light ramp should have more headroom above its paper, which is
+    light ramp should have more headroom above its content level, which is
     an ADR-022 answer and not a control's.
     *(§I, from AZ1.2's fresh-eyes review of the gallery's chip section)*
 
@@ -708,10 +708,10 @@ durably while these are open.
 
 235. **[decide]** The level fills separate from each other by less than
      the fill now separates from them. Measured by BQ1.1's fresh
-     reviewer off a live 1200x800 sitedocs window: light's paper
+     reviewer off a live 1200x800 sitedocs window: light's content
      #F6F6F6, level-1 #F8F8F8 and level-2 #FBFBFB part at 1.018:1 and
      1.026:1, so the chip specimen whose whole job is to show three
-     levels shows one; in dark the backdrop bands part from the paper at
+     levels shows one; in dark the backdrop bands part from the content at
      1.06:1 and the gallery's section headers disappear, while the same
      pairing measures 1.134:1 in light. BQ1.1 put a 1.25:1 floor on the
      state walk taken FROM a level; the levels' own ramp — `SurfaceAt`,
@@ -860,7 +860,7 @@ consumer ships the answer whether or not it asked the question.
 
 249. **[decide]** A focused link's focus fill contributes nothing once
      the colour is removed: #f2f2f2 over the light scheme's #f6f6f6
-     paper is 1.04:1, so in greyscale the fill is not there and the 2 px
+     content is 1.04:1, so in greyscale the fill is not there and the 2 px
      box around the words carries the state alone. The box does carry
      it, so nothing is lost, but the fill is then ornament that only
      some readers get — and by the house's own perceptibility floor
@@ -1250,7 +1250,7 @@ consumer ships the answer whether or not it asked the question.
 274. **[decide]** The highlight mark's shape. The arrival highlight is
      a block-level fill that opens on the block's edge with no side
      padding and square corners, pinned by markdown's own test; a
-     marker on paper overshoots the text a little and rounds. Decide
+     marker on a page overshoots the text a little and rounds. Decide
      whether the mark owes an inset and a radius. In dark the fill is
      deliberately more pronounced than in light (1.90:1 against 1.32:1) because
      the shallower step reads olive. *(§AN, BR1.8's review)*
@@ -1295,7 +1295,7 @@ blast radius stops at the surface that raised them.
      one foreground on four roles: the
      "CONVERSATIONS" group label, the unselected conversation titles,
      the "Settings" footer and the composer's placeholder are all the
-     same grey (`#5C5C5C` on paper, `#CCCCCC` on slate). The clickable
+     same grey (`#5C5C5C` in light, `#CCCCCC` in dark). The clickable
      list items are therefore set at exactly the weight of the label
      above them and the placeholder below them; nothing in the foreground says
      which of the four is content.
