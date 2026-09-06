@@ -59,16 +59,16 @@ flight. No tags.
 
 #### BT2.1: The markdown style gains a measure
 
-- [ ] `markdown.Style` gains a measure — the width a block may reach,
+- [x] `markdown.Style` gains a measure — the width a block may reach,
   zero meaning the full width as today. When the viewport is wider,
   every top-level block lays out at the measure and is centred in the
   viewport; the gutter is still reserved for the scrollbar at the
   viewport's edge, not the measure's. A scroll area for wide content —
   a code block, a table — is no wider than the measure and scrolls
   inside it.
-- [ ] Goldens follow: one wide-viewport capture per scheme shows a
+- [x] Goldens follow: one wide-viewport capture per scheme shows a
   centred column with a code block that scrolls inside the measure.
-- [ ] Exit: green in `markdown`; commit and push on `bt-vaultview`.
+- [x] Exit: green in `markdown`; commit and push on `bt-vaultview`.
 
 #### BT2.2: Vaultview reads at the measured measure
 
