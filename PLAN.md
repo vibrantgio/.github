@@ -19771,3 +19771,47 @@ first.
   schemes; findings pooled.
 - [x] Exit: green in vaultview's module; commit and push on
   `bt-vaultview`.
+
+## Phase BV: Floating surfaces paint above everything
+
+Rene found the defect in feeds (2026-09-06): the Share popover opens
+underneath the detail column's "Select an article" surface. The cause
+is in the pattern, not the app: the popover, the tooltip and the
+picker's field-dropped menu each draw their floating surface inline,
+in the paint order of the anchor's own slot, so anything the window
+lays out after that slot paints over it. The Language says a floating
+surface stands above everything raised beneath it and must land fully
+visible; drawing order has to say the same. The fix is one idiom, the
+surface's ops deferred to the end of the frame, applied once per
+floating pattern; input registered in the deferred ops lands on top as
+well, so the hit order follows the paint order. No tags.
+
+### G-BV1: The floating surface defers to the end of the frame
+
+#### BV1.1: The popover paints last
+
+- [ ] `patterns/popover` defers its surface and tail (and their input
+  handlers) with `op.Defer`, so a popover anchored in a slot laid out
+  early in the frame paints above every sibling laid out after it;
+  placement arithmetic is unchanged. A regression test lays a popover
+  out from an early slot with a later sibling covering the anchor's
+  neighbourhood and asserts, off captured pixels, that the surface is
+  whole; a second asserts a press on the surface reaches the surface
+  and not the sibling.
+- [ ] Feeds' Share popover is the live reproduction: the gallery's
+  popover specimen and feeds' window goldens compared, fresh-eyes
+  review of Share open over the empty detail column and over an
+  article, both schemes, per the standing protocol.
+- [ ] Exit: green in `patterns` and feeds by name; commit and push in
+  every touched repo and `.github`.
+
+#### BV1.2: The tooltip and the field-dropped menu paint last
+
+- [ ] `components/tooltip` and the picker's Field trigger (the menu it
+  drops itself, `components/picker/field.go`) take the same deferral;
+  the Toolbar trigger's menu is placed by the popover and inherits
+  BV1.1. Regression tests as BV1.1, one per surface. The pattern doc of
+  each names the idiom once so the next floating surface copies it.
+- [ ] Exit: green in `components` and `patterns`; the gallery's
+  specimens compared; commit and push in every touched repo and
+  `.github`.
