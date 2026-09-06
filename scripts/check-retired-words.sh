@@ -73,7 +73,7 @@ set -u
 
 # The retired words, from AGENTS.md's table. Both spellings of emphasised
 # are matched: the word is the same word.
-WORDS="wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture"
+WORDS="wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider"
 
 MODULES="backdrop circle components csg design effects font gradient ivg kiwi markdown mvu noise patterns seen style svg textdraw theme traer workbench .github"
 
