@@ -2541,6 +2541,58 @@ and triage in `reviews/br1.8-highlight-fresh-eyes.md`. Nine of ten
 findings are the vaultview window around the mark and already sit in
 the pool (262–266, the Roboto and scrollbar items). Item 274.
 
+## AO. From BT2.2's fresh-eyes review of the note at its measure
+
+Full record in `reviews/bt2.2-measure-fresh-eyes.md`; the numbers are the reviewer's, measured off 1600×900 renders at one pixel per dp. Filed 2026-09-06 from Phase BT, built apart on the bt-vaultview worktrees.
+
+278. **[decide]** - **The note page's own rows do not know the measure — caused by BT2.2.** At a wide window the breadcrumb row, the Properties disclosure and the Properties card run the whole column, x 272–1249, while the document reads at x 498–1037: two grids stacked on each other with 22 px between the card's foot and the title's cap. The reference reading surface splits them the other way — its head row stands at the window's top-left, outside the column, and its properties table sits inside the column with the prose. Deciding which rows are the document's and which are the window's, and giving the document's rows the same lead, is a task. It also wants the arithmetic in `markdown` rather than copied into an application.
+
+279. **[bug]** - **A scroll area cuts its content mid-glyph with nothing marking the cut.** A code block wider than the measure is hard-cut at the scroll area's trailing edge — through the middle of a letter — with no fade and no other sign that the line continues. The scrolling is ruled and right; the edge treatment is `markdown`'s and is not.
+
+280. **[bug]** - **The fenced block still wears the highlighter's own palette, and the light appearance is the worse one.** Confirms S7 on the current build. Code comments measure 2.30:1 in light and 3.36:1 in dark, both under the 4.5:1 body floor; the light fill `#EFF1F5` stands at 1.005:1 against the page, so the block is defined by its border alone and reads as a text field. Its border is also the darkest in the window at `#797979`, against `#B6B6B6` for the properties card.
+
+281. **[decide]** - **The properties card is a 978×84 outlined box that is 86 % empty**, filled with exactly the page fill, carrying no row rule and no column rule, its content ending at x≈410.
+
+282. **[bug]** - **The pane's 8 px margin of backdrop stops halfway across the window.** It runs the pane's leading edge full height and its top and bottom edges to x=247, where the content area begins with no gap at all, and the pane's rounded corners bite a wedge of content-area fill out of themselves at each end of the top and bottom strips.
+
+283. **[bug]** - **A link's underline is drawn through its descenders**, 2 px below the baseline, with no descender skip.
+
+284. **[decide]** - **The document's level 1 and level 2 headings are 2 px apart** — 19 px and 17 px cap heights against a 12 px body — so a note's title reads as a third peer heading rather than as the title.
+
+285. **[decide]** - **The trailing column never gives width back.** 320 dp at every window width, 615 px of it empty between the outline's last entry and the backlinks rule; at 1163 dp that is 27 % of the window.
+
+286. **[decide]** - **Nothing in the window reads as Cocoa**: a grotesque that is not the system face; a selection fill that is pale lavender in one appearance and saturated violet in the other and follows no system accent; a scrollbar heavier and tighter to the edge than the platform's; a code palette imported whole from elsewhere.
+
+287. **[decide]** - **The rail's rows carry no marks**, so a folder and a note at the same depth read as the same kind of thing, and the rail's footer controls are bare text at the same weight and colour as those rows.
+
+288. **[bug]** - **The rail and the outline set the same string at different sizes** — a 10 px cap against an 8 px cap — in pills of the same height on rows of the same pitch.
+
+289. **[decide]** - **One note's name is on screen four times at once**: the rail's selected row, the breadcrumb's tail, the title, and the outline's first entry.
+
+290. **[decide]** Wide content and the measure. The Measure entry keeps a code block or table inside a scroll area no wider than the measure; the BT2.1 and BT2.2 reviewers both reacted as a developer would ("why does a 55-character comment need horizontal scrolling in a wide window"). Whether wide content may bleed past the measure while prose holds to it is a Language ruling, one sentence in Measure, and BT2.2 built the ruled behaviour.
+
+## AP. From BT3.2's fresh-eyes review of vaultview's two splitters
+
+Full record in `reviews/bt3.2-splitters-fresh-eyes.md`; the numbers are the reviewer's, measured off the 1100×800 renders at one pixel per dp. Filed 2026-09-06 from Phase BT, built apart on the bt-vaultview worktrees.
+
+291. **[bug]** - **The rail's thickening stops at the pane's corner arcs — caused by BT3.2.** Under a hand the pane's trailing edge paints two pixels of the firm step from y 18 to y 781, leaving a five-pixel stub of arc at each end still at the resting colour, with the colour change and the width change landing on the same row. A splitter paints a rectangle and the pane's edge turns, so an edge that lights up along its whole rounded run has to be drawn by the pane pattern rather than over it.
+
+292. **[decide]** - **The two boundaries rest at two different values.** The pane's edge is 186 light / 54 dark and the flush column's seam is 212 / 46, so the same gesture on the same kind of control steps 34 levels on one edge and 60 on the other, and the trailing one rests at 1.155:1 against the column behind it — the same value as two rules in this window that cannot be dragged at all.
+
+293. **[bug]** - **The thickening grows trailing only.** Both lines take the pixel to their trailing side, so a line's centre shifts half a pixel the moment a hand touches it. It is the splitter pattern's own arithmetic, so the shell's boundaries do it too.
+
+294. **[bug]** - **The note's scroller is drawn full length on a column with nothing to scroll**, its thumb filling its track exactly, and it stands eight pixels from the trailing boundary at 3.10:1 against the document while the boundary it crowds reads 1.31:1.
+
+295. **[decide]** - **Four hairline values are maintained, two of them four levels apart** in light: 121 for the field and code borders, 182 for the properties box, 186 for the pane's edge, 212 for the seams. In dark the same four are 109, 71, 54 and 46, and dark's 109 is both the field border and the boundary under a hand while light spends two different values there.
+
+296. **[bug]** - **The light selection fill carries no lightness**: 1.15:1 against the panel behind it, with the label ink identical to an unselected row's, so desaturating the window loses which note is open. The dark fill is the opposite — the most saturated thing on the screen.
+
+297. **[bug]** - **The document column has no footer rule** while both side columns do, so its `29 lines` floats eight pixels off the window's bottom edge with nothing parting it from the body, twenty pixels below the rail's own footer text.
+
+298. **[bug]** - **The aside's content is off-centre in its column**: fifteen pixels of leading inset against twenty-two trailing, where the rail's equivalent row is symmetric at seven.
+
+299. **[decide]** The note column's minimum. BT3.2 clamps the rail and aside so the note never drops below 479 dp — a 60-character measure plus its insets — rather than the 588 dp a 75-character measure would give, because the shipped 1100 dp window already gives the note only 526 dp: at 588 neither column could be widened at the opening size. Either 479 stands, or the default arrangement (aside 320 → 258) or the opening window width changes to afford 588.
+
 ## AG. Language seeds awaiting a plan slot
 
 228. **[task]** HIGHLIGHT beyond the search field: the scrollbar tick
