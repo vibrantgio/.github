@@ -116,6 +116,7 @@ author::comment,doc::line::(the go authors|copyright)::A third party's copyright
 widget::doc,comment::line::[a-z]+\.widget\(::A call to a real exported function named Widget in a code fence or a doc comment; renaming it is the identifier round's.
 widget::doc::line::ui-widget::jQuery UI's own CSS class name in a third-party example page.
 *::doc::path::^seen/plan\.md$::A repo-local plan awaiting the owner's ruling on its future.
+*::doc::path::^design/design-v1\.md$::A superseded document kept for history, frozen like the other records.
 
 mark::*::!ctx::(mark component|component mark|/mark/|mark package)::The glyph a control draws and the verb are kept; only the former component's name was retired, and a line that means the component says so.
 floor::identifier::!token::(floor(level|storey|surface|tint)|(level|storey|chrome|backdrop|surface)floor)::A floor in an identifier is a lower bound — a contrast floor, a perceptibility floor, math.Floor; the retired sense would join it to an elevation word.
@@ -125,7 +126,7 @@ reach::*::!ctx::(reachable|out of reach|within reach|can(not)? reach (it|them|th
 register::identifier::token::^register::The verb: registering a handler, a target or a collector.
 register::identifier::path::^(mvu|seen)/::The runtime's own registration API — what a handler does.
 register::*::path::^ivg/::CREG and NREG are machine registers in the IconVG format's own specification.
-register::comment,doc,string::ctx::(handler|listener|callback|event|registry|modbus|holding|device|sk150|driver|hook|collector|subscrib|registering|registered|filter|area|shortcut|register adds|in register and|to register\.|register(s|ed|ing)? (a|an|the|each|every|it|its|no|its own|themselves|tags?|hover|focus|pointer|key|absorb|region|hit)([^a-z]|$)|registers (a|an|the|each|every|it|its)([^a-z]|$))::"register" as what a handler or a Modbus device does, which the row keeps.
+register::comment,doc,string::ctx::(handler|listener|callback|event|registry|modbus|holding|device|sk150|driver|hook|collector|subscrib|registering|registered|filter|area|shortcut|register adds|in register and|to register\.|re-register|register(s|ed|ing)? (a|an|the|each|every|it|its|no|its own|themselves|tags?|hover|focus|pointer|key|absorb|region|hit)([^a-z]|$)|registers (a|an|the|each|every|it|its)([^a-z]|$))::"register" as what a handler or a Modbus device does, which the row keeps.
 container::*::!ctx::card::The tinted field — ContainerOn, StatusContainer, containerChroma — and Go's own container/list, which the row keeps; only a card's surface was retired.
 filled,outlined::*::!ctx::((filled|outlined) (card|group|tier)|card--(filled|outlined)|props\.filled)::The button's Filled variant, an outlined icon, a filled path and a filled inset keep their words; only a card called filled or outlined was retired.
 highlighted,featured,emphasised,emphasized::*::!ctx::(pricing|tier)::Syntax highlighting, the highlighter, a feature block and Material's Emphasized easing keep their words; only a pricing tier's was retired.

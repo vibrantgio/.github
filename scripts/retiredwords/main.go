@@ -76,8 +76,8 @@ func main() {
 			}
 			// Truncated on runes: a line cut mid-rune is invalid UTF-8, and
 			// the shell's awk rejects the byte sequence rather than the line.
-			if r := []rune(text); len(r) > 200 {
-				text = string(r[:200])
+			if r := []rune(text); len(r) > 1000 {
+				text = string(r[:1000])
 			}
 			fmt.Fprintf(out, "%s\t%d\t%s\t%s\t%s\t%s\t%s\n", path, line, kind, word, match, tok, text)
 		}

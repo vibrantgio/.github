@@ -19434,15 +19434,24 @@ any new hit.
 - [x] Exit: `check` clean for docs org-wide; commit and push in every
   touched repo.
 
-#### BR2.10: Comments — the workbench apps
+#### BR2.10: Comments — themer and vaultview
 
-- [ ] As BR2.3, for the workbench root and every app module (849
-  comments, 178 strings), each run by name; a user-facing string that
-  changes regenerates its golden with the cause named.
-- [ ] Exit: green in the root and every app module by name; `check` clean
-  for comments and strings in `workbench`; commit and push.
+- [ ] As BR2.3, for `workbench/themer` and `workbench/vaultview` (303
+  and 220 comment and string hits), each run by name; a user-facing
+  string that changes regenerates its golden with the cause named.
+- [ ] Exit: green in both modules by name; `check` clean for comments
+  and strings under both paths; commit and push.
 
-#### BR2.11: Identifiers — theme
+#### BR2.11: Comments — the root and the other apps
+
+- [ ] As BR2.3, for the workbench root and `feeds`, `mindchat`,
+  `sitedocs`, `iconbrowser`, `todos`, `sk150` and `marketing` (about
+  520 comment and string hits), each run by name; a user-facing
+  string that changes regenerates its golden with the cause named.
+- [ ] Exit: green in the root and every app module by name; `check
+  workbench --kind=comment,string` clean; commit and push.
+
+#### BR2.12: Identifiers — theme
 
 - [ ] `theme`'s retired identifiers — 44 distinct, 346 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
@@ -19452,7 +19461,7 @@ any new hit.
   `check-retired-words.sh check theme --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
-#### BR2.12: Identifiers — components
+#### BR2.13: Identifiers — components
 
 - [ ] `components`'s, the gallery included, retired identifiers — 67 distinct, 357 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
@@ -19462,7 +19471,7 @@ any new hit.
   `check-retired-words.sh check components --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
-#### BR2.13: Identifiers — effects
+#### BR2.14: Identifiers — effects
 
 - [ ] `effects`'s retired identifiers — 4 distinct, 61 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
@@ -19472,7 +19481,7 @@ any new hit.
   `check-retired-words.sh check effects --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
-#### BR2.14: Identifiers — patterns, the floating and chrome patterns
+#### BR2.15: Identifiers — patterns, the floating and chrome patterns
 
 - [ ] `patterns/modal`, `popover`, `toast`, `tooltip`, `pane`, `shell`, `sidebar` and `alert`'s retired identifiers — about 50 distinct, the bulk of 685 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
@@ -19482,7 +19491,7 @@ any new hit.
   `check-retired-words.sh check patterns --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
-#### BR2.15: Identifiers — patterns, the rest
+#### BR2.16: Identifiers — patterns, the rest
 
 - [ ] `patterns/navbar`, `tabs`, `pricing`, `card`, `group`, `hero`, `table`, `accordion`, `breadcrumb`, `pagination`, `feature`, `testimonial` and `internal`'s retired identifiers — about 50 distinct, the remainder of 685 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
@@ -19492,7 +19501,7 @@ any new hit.
   `check-retired-words.sh check patterns --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
-#### BR2.16: Identifiers — markdown
+#### BR2.17: Identifiers — markdown
 
 - [ ] `markdown`'s, `highlight` and `svgimage` included, retired identifiers — 39 distinct, 218 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
@@ -19502,7 +19511,7 @@ any new hit.
   `check-retired-words.sh check markdown --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
-#### BR2.17: Identifiers — workbench, themer
+#### BR2.18: Identifiers — workbench, themer
 
 - [ ] `workbench/themer`'s retired identifiers — 36 distinct, its share of 811 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
@@ -19512,7 +19521,7 @@ any new hit.
   `check-retired-words.sh check workbench --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
-#### BR2.18: Identifiers — workbench, vaultview
+#### BR2.19: Identifiers — workbench, vaultview
 
 - [ ] `workbench/vaultview`'s retired identifiers — 29 distinct, its share of 811 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
@@ -19522,7 +19531,7 @@ any new hit.
   `check-retired-words.sh check workbench --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
-#### BR2.19: Identifiers — workbench, feeds and sitedocs
+#### BR2.20: Identifiers — workbench, feeds and sitedocs
 
 - [ ] `workbench/feeds` and `sitedocs`'s retired identifiers — 37 distinct, their share of 811 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
@@ -19532,7 +19541,7 @@ any new hit.
   `check-retired-words.sh check workbench --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
-#### BR2.20: Identifiers — workbench, the root and the small apps
+#### BR2.21: Identifiers — workbench, the root and the small apps
 
 - [ ] the workbench root's and `mindchat`, `iconbrowser`, `marketing`, `todos` and `sk150`'s retired identifiers — 38 distinct, their share of 811 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
@@ -19542,7 +19551,7 @@ any new hit.
   `check-retired-words.sh check workbench --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
-#### BR2.21: Identifiers — design
+#### BR2.22: Identifiers — design
 
 - [ ] `design`'s retired identifiers — 2 distinct, 4 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
