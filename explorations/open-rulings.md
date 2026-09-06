@@ -63,7 +63,7 @@ consumer ships, then layout and copy.
     cannot be used.
     *(§I, AH1.1's five-tab review — contrast and state)*
 
-62. **[bug]** The Divider token cannot divide: Neutral 300 is 1.37:1
+62. **[bug]** The Seam token cannot divide: Neutral 300 is 1.37:1
     against Background, 1.21:1 against Surface, 1.31:1 in dark. Every
     rule drawn in it — the Palette Picks column groups, the Docs
     sidebar seam — is imperceptible at 1x.
@@ -386,7 +386,7 @@ consumer ships, then layout and copy.
 
 258. **[bug]** The gallery's own section band stands darker than the
      backdrop in the dark scheme — (21,21,21) under a (24,24,24)
-     content, separated only by its divider row — the day after BR1.1
+     content, separated only by its seam row — the day after BR1.1
      settled that chrome stands a tint lighter than the backdrop. The
      band is the gallery's chrome and was not in that pass.
      *(§AI, BR1.2's review)*
@@ -610,13 +610,13 @@ durably while these are open.
     *(§C, from the warning-orange review, 2026-08-21)*
 
 10. **[decide]** The palette has no container/outline roles, so
-    controls borrow the Divider token for fills (e.g. the switch
+    controls borrow the Seam token for fills (e.g. the switch
     track). Add the two roles?
     *(§A, colour generation)*
 
 130. **[decide]** The dark rail-to-content seam carries no edge at
      all: floor #151515 against background #181818 is 1.028:1 and the
-     scan across the boundary finds no divider hairline — the bare
+     scan across the boundary finds no seam hairline — the bare
      21→24 step is the whole seam (light manages 1.134:1 plus the
      same absence). The level relation is ADR-022's own; the open
      question is whether a backdrop-to-content seam owes a hairline where
@@ -1183,11 +1183,11 @@ consumer ships the answer whether or not it asked the question.
      lowest strength that reads.
      *(§AG, BQ1.1's review)*
 
-252. **[decide]** The three-column frame draws a divider only between
+252. **[decide]** The three-column frame draws a seam only between
      the content and the aside; nothing separates the sidebar from the
      content, and neither seam offers a drag affordance or a collapse.
      With chrome and content now standing at different levels the
-     missing leading divider is what a reviewer reads first. A Seam
+     missing leading seam is what a reviewer reads first. A Seam
      finding under the Language, not taste.
      *(§AH, BR1.1's review)*
 
@@ -1287,7 +1287,7 @@ blast radius stops at the surface that raised them.
 
 102. **[decide]** The user's turn is a full-bleed banner rather than a
      message: square corners, no avatar, running from the sidebar
-     divider (zero left gutter) to a 15 px right gutter, with its text
+     seam (zero left gutter) to a 15 px right gutter, with its text
      starting at the same x as the assistant's body. It reads as a
      section header or a selected row spanning the pane. The assistant's
      turn, meanwhile, gets an avatar and no surface at all. The two
@@ -1326,7 +1326,7 @@ blast radius stops at the surface that raised them.
      left column — the window's
      own title row and the "CONVERSATIONS" row under it, two header
      bars in the first 100 px — and none at all on the right: the
-     toolbar divider is at y 51 and the first message band starts at
+     toolbar seam is at y 51 and the first message band starts at
      y 52, so the transcript is welded to the chrome and its first
      message reads as part of the toolbar. Also: the assistant avatar
      is a third party's mark recoloured to this app's accent, which is
@@ -1358,7 +1358,7 @@ blast radius stops at the surface that raised them.
      toolbar bottoms out at y 43 and the content pane's at y 51,
      although both hold the same-size controls (the window buttons at
      y 19–32, the picker at y 8–43). The first thing in the window is
-     therefore two purple blocks one pixel apart across the divider at
+     therefore two purple blocks one pixel apart across the seam at
      x 247 — the sidebar's selected row at y 44–85 and the first
      message band at y 52–99 — whose tops disagree by 8 px and whose
      bottoms disagree by 14 px. Item 108 has the transcript welded to
@@ -1370,7 +1370,7 @@ blast radius stops at the surface that raised them.
      *(§M, BB3.1's fresh-eyes review of the picker in its anchor face)*
 
 20. **[decide]** Resizable sidebar: investigation says yes — ~190
-    lines mirroring the existing note/aside divider drag, plus a
+    lines mirroring the existing note/aside splitter drag, plus a
     minimum width for the note column (it currently has none). Go?
     *(§C, vaultview)*
 
@@ -1461,11 +1461,11 @@ blast radius stops at the surface that raised them.
     SHARPENED 2026-09-02 by BQ1.2's review, with the weights counted:
     the rules measure 14.7:1 against the light page while every other
     rule on the same page — the Palette Picks underlines — is the
-    Divider at 1.37:1, and one grid carries three weights (vertical
+    Seam at 1.37:1, and one grid carries three weights (vertical
     2px, horizontal 1px doubled with a 2px gap, outer frame 1px). The
     foreground is not an accident: this board draws its frame in the inverse
     surface deliberately, so what is open is the weight and the count,
-    not whether the frame should have been a divider.
+    not whether the frame should have been a seam.
     *(§I, AH1.1's five-tab review — palette presentation)*
 
 73. **[decide]** The Palette Picks board is unbalanced: the left and

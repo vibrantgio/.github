@@ -19658,7 +19658,7 @@ thing named in code and unnamed in the Language is the failure the
 Language exists to prevent, so the guard treats the word as a hard
 hit with no exclusions.
 
-- [ ] `tokens.Divider` becomes `tokens.Seam` and the CSS export's
+- [x] `tokens.Divider` becomes `tokens.Seam` and the CSS export's
   emitted names follow; every consumer converts in the same task
   (about 32 Go files across the org). Identifiers that name the
   draggable seam — `patterns/shell`'s split-pane drag,
@@ -19666,6 +19666,6 @@ hit with no exclusions.
   `frameDividerDp` — say splitter; the rest say seam. Comments,
   strings and docs follow, token-stream proofs per module, generated
   pages fixed at the generator with a clean diff.
-- [ ] Exit: green in every touched module, nested ones by name;
+- [x] Exit: green in every touched module, nested ones by name;
   `check-retired-words.sh check` clean org-wide; commit and push in
   every touched repo and `.github`.
