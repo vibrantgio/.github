@@ -19580,10 +19580,10 @@ regions are chrome. The guard knows both words from this task on.
 
 #### BR2.24: The content level and chrome take their names in the workbench
 
-- [ ] As BR2.23, for the workbench root and every app module by name
+- [x] As BR2.23, for the workbench root and every app module by name
   (about 200 hits: 137 comments, 24 strings, 18 docs, 19
   identifiers); llms.txt included.
-- [ ] Exit: green in the root and every app module by name;
+- [x] Exit: green in the root and every app module by name;
   `check workbench` clean; commit and push `workbench` and `.github`.
 
 ### G-BR3: The status signals move to components
