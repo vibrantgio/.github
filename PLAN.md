@@ -19444,11 +19444,11 @@ any new hit.
 
 #### BR2.11: Comments — the root and the other apps
 
-- [ ] As BR2.3, for the workbench root and `feeds`, `mindchat`,
+- [x] As BR2.3, for the workbench root and `feeds`, `mindchat`,
   `sitedocs`, `iconbrowser`, `todos`, `sk150` and `marketing` (about
   520 comment and string hits), each run by name; a user-facing
   string that changes regenerates its golden with the cause named.
-- [ ] Exit: green in the root and every app module by name; `check
+- [x] Exit: green in the root and every app module by name; `check
   workbench --kind=comment,string` clean; commit and push.
 
 #### BR2.12: Identifiers — theme
