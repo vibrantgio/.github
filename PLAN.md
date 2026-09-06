@@ -19590,10 +19590,10 @@ regions are chrome. The guard knows both words from this task on.
 
 #### BR3.1: Alert moves to components
 
-- [ ] `patterns/alert` becomes `components/alert`, unchanged in
+- [x] `patterns/alert` becomes `components/alert`, unchanged in
   behaviour; every consumer — the gallery inventory, the design
   mirror, the workbench apps — re-imports in the same task.
-- [ ] Exit: green in `components`, `patterns`, `design` and the
+- [x] Exit: green in `components`, `patterns`, `design` and the
   workbench apps; commit and push in every touched repo and
   `.github`.
 
