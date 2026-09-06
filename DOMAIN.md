@@ -114,7 +114,7 @@ either: an alert in Warning is an alert speaking Warning.
 | Variant | Of | Meaning |
 |---|---|---|
 | **form** | picker | a field among fields |
-| **chrome** | picker | in the window's furniture — a toolbar, a navbar |
+| **chrome** | picker | in a chrome region — a toolbar, a navbar |
 
 ### Emphasis
 
@@ -285,7 +285,7 @@ is its structure.
 | Level | Holds |
 |---|---|
 | **backdrop** | nothing: the bare window plane, showing wherever nothing stands |
-| **chrome** | the window's furniture — navbars, toolbars, sidebars, inspectors, status bars, panes |
+| **chrome** | the chrome regions — navbars, toolbars, sidebars, inspectors, status bars, panes |
 | **0** | the content itself: the document being read |
 | **1** | raised on the content — cards, filled insets, fields |
 | **2** | floating — dialogs and toasts |
@@ -324,8 +324,8 @@ backdrop that frames the document rather than being it — navbar,
 toolbar, sidebar, inspector, status bar, pane. Chrome is a level of its
 own, the first above the backdrop and a tint lighter than it in
 both schemes; the shell pattern is the composition of chrome
-regions; a variant is "chrome" when the control lives in that
-furniture. Chrome is window-scale only: the trim inside a component
+regions; a variant is "chrome" when the control lives in a chrome
+region. Chrome is window-scale only: the trim inside a component
 or pattern — a card's header, a dialog's footer, a table's header
 row — is that thing's structure, never chrome.
 
