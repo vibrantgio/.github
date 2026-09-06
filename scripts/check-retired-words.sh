@@ -84,7 +84,8 @@ MODULES="backdrop circle components csg design effects font gradient ivg kiwi ma
 #
 # word   one retired word, a comma list of them, or * for all
 # kind   identifier, comment, doc, string, a comma list, or *
-# field  path, line, match, token, quoted (whether the word sits inside
+# field  path, line, match, token, rawtoken (the token as written, case
+#        kept), quoted (whether the word sits inside
 #        quotes or backticks), or ctx (path and line together); prefixed
 #        with ! it excludes every hit whose field does NOT match, which is
 #        how a word retired in one sense only is judged in that sense alone
@@ -109,7 +110,7 @@ read -r -d '' EXCLUSIONS <<'RULES' || true
 voice::*::ctx::voice memos::Voice Memos is a macOS application, measured in the platform reference.
 *::doc::ctx::^\.github/agents\.md \|::AGENTS.md's Retired words table is the list itself: the rows name the words, they do not use them.
 *::comment,doc,string::line::gioui\.org::A line naming Gio's own import path names a third party's API, not ours.
-*::identifier::token::^(action|alert|av|communication|content|device|editor|file|hardware|image|maps|navigation|notification|places|social|toggle)[a-z]::Material Symbols icon names — AVVolumeUp, MapsLocalCarWash, ContentMarkUnread — are a third party's identifiers, mirrored here.
+*::identifier::rawtoken::^(Action|Alert|AV|Communication|Content|Device|Editor|File|Hardware|Image|Maps|Navigation|Notification|Places|Social|Toggle)[A-Z]::Material Symbols icon names — AVVolumeUp, MapsLocalCarWash, ContentMarkUnread — are a third party's identifiers, mirrored here.
 widget::identifier::token::widget(s)?$::A value or the type of Gio's layout.Widget, which the row keeps as Gio's.
 widget::*::line::(^|[^a-z])(layout\.widget|widget\.[a-z])::layout.Widget and Gio's widget package on the line: Gio's own API.
 author::comment,doc::line::(the go authors|copyright)::A third party's copyright notice, inherited verbatim.
@@ -279,7 +280,7 @@ function inlist(what, list,   m, a, i) {
     fld = rfield[i]
     v = (fld == "path") ? lc(path) : (fld == "line") ? lc(text) : \
         (fld == "match") ? lc(match_) : (fld == "token") ? lc(token) : \
-        (fld == "quoted") ? quoted : ctx
+        (fld == "rawtoken") ? token : (fld == "quoted") ? quoted : ctx
     hit = (v ~ rre[i])
     if (rneg[i]) hit = !hit
     if (hit) why = rwhy[i]
