@@ -19425,13 +19425,13 @@ any new hit.
 
 #### BR2.9: Docs — the design bundle, the READMEs, the guide
 
-- [ ] `design/DESIGN.md` and the design bundle's prose (134 doc hits,
+- [x] `design/DESIGN.md` and the design bundle's prose (134 doc hits,
   56 comments), every `README.md` and `AGENTS.md` across the org, and
   `workbench/llms.txt`, rewritten in the Language's words; DESIGN.md's
   elevation section is BR1.5's and is only re-checked here. Generated
   pages are fixed at their generator in `theme/export` and
   regenerated with a clean diff.
-- [ ] Exit: `check` clean for docs org-wide; commit and push in every
+- [x] Exit: `check` clean for docs org-wide; commit and push in every
   touched repo.
 
 #### BR2.10: Comments — the workbench apps
