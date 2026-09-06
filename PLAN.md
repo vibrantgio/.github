@@ -90,14 +90,14 @@ first.
 
 #### BT3.1: The splitter pattern
 
-- [ ] `patterns/splitter`: the Splitter entry made code — the seam
+- [x] `patterns/splitter`: the Splitter entry made code — the seam
   between two regions made operable, drawn at the seam's width in the
   seam's colour, thicker and firmer while a hand is on it, a hit area
   wider than the line, the resize pointer over it, dragging clamped to
   the bounds each region allows. Hoisted from the shell's split-pane
   drag and vaultview's aside splitter, which are the same thing twice;
   the shell adopts it in this task.
-- [ ] Exit: green in `patterns` and every consumer of the shell's split
+- [x] Exit: green in `patterns` and every consumer of the shell's split
   pane; commit and push on `bt-vaultview`.
 
 #### BT3.2: Vaultview's two splitters
