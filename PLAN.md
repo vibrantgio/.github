@@ -19620,12 +19620,12 @@ regions are chrome. The guard knows both words from this task on.
 
 #### BR3.4: Breadcrumb and pagination move to components
 
-- [ ] `patterns/breadcrumb` and `patterns/pagination` become
+- [x] `patterns/breadcrumb` and `patterns/pagination` become
   `components/breadcrumb` and `components/pagination`, controls:
   going back up the hierarchy, and moving between numbered pages.
   Unchanged in behaviour; every consumer — the gallery inventory, the
   design mirror, the workbench apps — re-imports in the same task.
-- [ ] Exit: green in `components`, `patterns`, `design` and the
+- [x] Exit: green in `components`, `patterns`, `design` and the
   workbench apps; `scripts/check-layers.sh` from `.github`; commit
   and push in every touched repo and `.github`.
 
