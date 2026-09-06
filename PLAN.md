@@ -19641,13 +19641,13 @@ regions are chrome. The guard knows both words from this task on.
 
 #### BR4.2: The search field control
 
-- [ ] A search field in `components/input`: structure looking glass,
+- [x] A search field in `components/input`: structure looking glass,
   text, optional clear mark; it looks as the user types and marks
   matches with the highlight token; the clear mark empties it and
   dismisses the highlight with it.
-- [ ] Vaultview's search adopts it; the gallery gains the specimen;
+- [x] Vaultview's search adopts it; the gallery gains the specimen;
   fresh-eyes review in both schemes, per the standing protocol.
-- [ ] Exit: green in `components` and vaultview's module; commit and
+- [x] Exit: green in `components` and vaultview's module; commit and
   push in every touched repo and `.github`.
 
 #### BR4.3: Divider becomes seam and splitter
