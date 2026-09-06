@@ -176,7 +176,8 @@ here=$(cd "$(dirname "$0")/.." && pwd)    # the .github plan root
 [ -n "$ARGS" ] && MODULES="$ARGS"
 
 # The file set: every Go file and every prose file of each module, minus the
-# generated design outputs, .git and testdata.
+# generated design outputs, .git, testdata and any session's .claude
+# worktree (another checkout of the same sources, not this tree's).
 list_files() {
   for name in $MODULES; do
     d="$root/$name"
@@ -187,7 +188,8 @@ list_files() {
     find "$d" -type f \( -name '*.go' -o -name '*.md' -o -name '*.html' -o -name 'llms.txt' \) \
       -not -path '*/.git/*' -not -path '*/testdata/*' \
       -not -path "$root/design/readme.md" -not -path "$root/design/README.md" \
-      -not -path "$root/design/foundations/*.html" 2>/dev/null
+      -not -path "$root/design/foundations/*.html" \
+      -not -path "*/.claude/*" 2>/dev/null
   done | sed "s|^$root/||" | sort
 }
 
