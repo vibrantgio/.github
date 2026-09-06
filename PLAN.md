@@ -102,13 +102,13 @@ first.
 
 #### BT3.2: Vaultview's two splitters
 
-- [ ] A splitter between the rail pane and the note column, clamped to
+- [x] A splitter between the rail pane and the note column, clamped to
   a minimum rail width and a minimum note measure; the aside's seam
   becomes the same splitter. Both widths are remembered through BT1.2's
   file.
-- [ ] Fresh-eyes review of both seams at rest and under a hand, both
+- [x] Fresh-eyes review of both seams at rest and under a hand, both
   schemes; findings pooled.
-- [ ] Exit: green in vaultview's module; commit and push on
+- [x] Exit: green in vaultview's module; commit and push on
   `bt-vaultview`.
 
 ## Pool
@@ -174,3 +174,46 @@ are the reviewer's, measured off 1600×900 renders at one pixel per dp.
 - **One note's name is on screen four times at once**: the rail's
   selected row, the breadcrumb's tail, the title, and the outline's
   first entry.
+
+### From BT3.2's fresh-eyes review (2026-09-06)
+
+Full record in `reviews/bt3.2-splitters-fresh-eyes.md`; the numbers below
+are the reviewer's, measured off the 1100×800 renders at one pixel per dp.
+
+- **The rail's thickening stops at the pane's corner arcs — caused by
+  BT3.2.** Under a hand the pane's trailing edge paints two pixels of the
+  firm step from y 18 to y 781, leaving a five-pixel stub of arc at each
+  end still at the resting colour, with the colour change and the width
+  change landing on the same row. A splitter paints a rectangle and the
+  pane's edge turns, so an edge that lights up along its whole rounded
+  run has to be drawn by the pane pattern rather than over it.
+- **The two boundaries rest at two different values.** The pane's edge is
+  186 light / 54 dark and the flush column's seam is 212 / 46, so the same
+  gesture on the same kind of control steps 34 levels on one edge and 60
+  on the other, and the trailing one rests at 1.155:1 against the column
+  behind it — the same value as two rules in this window that cannot be
+  dragged at all.
+- **The thickening grows trailing only.** Both lines take the pixel to
+  their trailing side, so a line's centre shifts half a pixel the moment a
+  hand touches it. It is the splitter pattern's own arithmetic, so the
+  shell's boundaries do it too.
+- **The note's scroller is drawn full length on a column with nothing to
+  scroll**, its thumb filling its track exactly, and it stands eight
+  pixels from the trailing boundary at 3.10:1 against the document while
+  the boundary it crowds reads 1.31:1.
+- **Four hairline values are maintained, two of them four levels apart**
+  in light: 121 for the field and code borders, 182 for the properties
+  box, 186 for the pane's edge, 212 for the seams. In dark the same four
+  are 109, 71, 54 and 46, and dark's 109 is both the field border and the
+  boundary under a hand while light spends two different values there.
+- **The light selection fill carries no lightness**: 1.15:1 against the
+  panel behind it, with the label ink identical to an unselected row's, so
+  desaturating the window loses which note is open. The dark fill is the
+  opposite — the most saturated thing on the screen.
+- **The document column has no footer rule** while both side columns do,
+  so its `29 lines` floats eight pixels off the window's bottom edge with
+  nothing parting it from the body, twenty pixels below the rail's own
+  footer text.
+- **The aside's content is off-centre in its column**: fifteen pixels of
+  leading inset against twenty-two trailing, where the rail's equivalent
+  row is symmetric at seven.
