@@ -2593,6 +2593,48 @@ Full record in `reviews/bt3.2-splitters-fresh-eyes.md`; the numbers are the revi
 
 299. **[decide]** The note column's minimum. BT3.2 clamps the rail and aside so the note never drops below 479 dp — a 60-character measure plus its insets — rather than the 588 dp a 75-character measure would give, because the shipped 1100 dp window already gives the note only 526 dp: at 588 neither column could be widened at the opening size. Either 479 stands, or the default arrangement (aside 320 → 258) or the opening window width changes to afford 588.
 
+## AQ. From BV1.1's fresh-eyes review of the Share popover over feeds
+
+Full record in `reviews/bv1.1-popover-fresh-eyes.md`; the numbers are the reviewer's, measured off the four 1200x800 renders at one pixel per dp — the Share popover open over the empty detail column and over an article, in both schemes. Filed 2026-09-06 from Phase BV. Entries 300 and 301 are the task's own findings, not the reviewer's.
+
+300. **[decide]** **A deferred floating surface leaves the clip that held its anchor.** `op.Defer` keeps the transform and drops everything else, so from BV1.1 onwards a popover opened inside a scroller draws outside the viewport rather than being cut by it — measured in `patterns/popover`: with the popover laid out inside a clip ending at y=40, the surface's fill still runs x 109..210 on row 70. In feeds this is invisible (the Share popover stands in the navigation bar, which nothing clips) but the components gallery puts a popover specimen inside a scrolling page, and BV1.2 gives the same idiom to the tooltip and the field-dropped menu, both of which live inside scrollers routinely. Either the surface is allowed out of the viewport, which is what "floating" says and what every other toolkit does, or a floating pattern has to be handed the room it may use and clip itself to it.
+
+301. **[note]** **The floating order the deferral produces already matches the Language.** Deferred ops run after every layer, so a popover now paints over a modal's scrim and over a toast. DOMAIN puts dialogs and toasts on level 2 and menus, popovers and tooltips on level 3, so this is the ordering the elevation table asks for and no ruling is needed — recorded because it is a visible consequence of BV1.1 that looks like a regression until the table is consulted.
+
+302. **[decide]** **A floating surface separates from the window by one hairline and nothing else.** The popover fill is 255 on the pane's 241, 1.13:1, and its 1 dp stroke reads 1.59:1; outside that stroke there is zero falloff. The package doc calls this deliberate — level 3, unscrimmed and shadowless, fill plus stroke as the only separation cues — but the reviewer read the article headline it covers as a text-rendering bug rather than as something covered, precisely because nothing announces the overlay. Dark measures better at 1.91:1. Either the shadowless rule stands, or floating surfaces get the separation cue the elevation cluster has so far withheld.
+
+303. **[bug]** **The tail's legs are ~50 levels darker than the border they join, and its apex is a flat 4 px cap.** At the junction row the surface's top border reads 184–203 while the tail's leg strokes read 131, leaving two dark pips at the base corners; the tip is cut square rather than pointed. `drawTail` strokes the two slanted sides in the same `edge` colour the surface's outline uses, so the doubling is the stroke of a sharp corner meeting the outline it interrupts rather than a different colour. BV1.1 was told to leave the drawing alone.
+
+304. **[decide]** **The popover is centred on its anchor and carries a tail; a macOS pull-down menu is edge-aligned to its button and has none.** The centring is what pushes feeds' Share menu inboard over the article headline in the first place. The tail is the popover's stated identity in DOMAIN ("a small surface floating beside its anchor, a tail pointing at it"), so this is a question about which pattern a toolbar menu should be, not about the popover.
+
+305. **[bug]** **A trigger whose menu is open is drawn exactly like an idle one.** Behind the "Share" label the fill is 227 light / 21 dark, pixel-identical to the resting "Add feed" beside it. This is an open state, not a hover state, so a static frame is the right place to see it and it is absent.
+
+306. **[decide]** **The popover's metrics are web-sized, not desktop-sized.** Item pitch 28 px against macOS's 22, cap height 12 px (16–17 px type) against a native menu's 9.3, 18 px of padding above the first item and 20 below the last against about 5, and an 11 px text inset that leaves no state column for checkmarks. Also no keyboard equivalents and no icons.
+
+307. **[bug]** **Feeds' sidebar outdents its children under their group header.** "Tech" starts at x=32, its three feeds at x=24–25 — the children sit 7–8 px to the leading side of the parent that owns them.
+
+308. **[bug]** **Feeds' sidebar rules part the wrong things.** Full-bleed hairlines at y=99, 243 and 291: y=99 cuts the "Tech" header off from its own first feed, the boundary that wants one (Lobste.rs ending y=174 to News starting y=214) has none, and y=291 dangles under "Personal" with some 500 px of empty pane below it.
+
+309. **[decide]** **Feeds' sidebar type hierarchy is inverted.** The non-interactive group labels are 12 px cap height at ink 19 while the feeds you can click are 10 px at ink 75, and the disclosure markers are 10x10 solid black triangles, the heaviest marks in the pane.
+
+310. **[bug]** **Feeds' unread state is a 3x4 px neutral dot and nothing else.** The row's own cells are pixel-identical to a read row's (ink sum 35631 vs 35631, dark pixel count 160 vs 160), the mark does not take the accent, and its 90 px column is headed by a literal bullet glyph rather than a word.
+
+311. **[decide]** **Feeds' table spends its width backwards.** Titles clip at x=380 with seven of ten rows ending in an ellipsis, while the Author column holds 154 px for the same "The Go Team" ten times and the unread column holds 90 px for a 3 px dot — about 170 px of 572 on redundancy and air, taken from the only column with unique content.
+
+312. **[decide]** **Feeds pages a desktop reader at ten articles a page**, with 36x36 numbered chips flanked by bare 10x20 triangles carrying no button chrome, below any reasonable click target. The disabled arrow also reads 1.56:1 in light against 6.47:1 in dark — the same control, near-invisible in one scheme and near full strength in the other.
+
+313. **[bug]** **Feeds' detail column has a ragged leading edge**: title at x=814, byline and tab strip and its divider at x=813, every line of body text at x=829 — a 16 px step running the pane's full height with nothing to justify it.
+
+314. **[bug]** **The chosen tab is a 2 px underline and nothing else.** The active "Reader" label and the inactive "Raw" beside it both bottom out at ink 19,19,19 — identical — so the whole selected state hangs on the bar.
+
+315. **[decide]** **Two of feeds' three pane boundaries carry no hairline in dark and the third does.** Sidebar-to-content and toolbar-to-content are bare fill steps of 21 against 24, 1.028:1; the list-to-detail split at x=796 gets a 46-on-24 hairline. Same window, same kind of boundary, two treatments. In light the same steps are 1.136:1.
+
+316. **[decide]** **Feeds' toolbar has no spacing discipline**: 71 px between "Add feed" and "Share" and an 80 px trailing margin, against the 16 px inset the table, the detail column and the sidebar pill all share.
+
+317. **[decide]** **Feeds' table rules and header weight run against the platform**: a full-width 212-grey rule under every row where macOS alternates fills or draws nothing, and a header band lighter (255) than the rows it heads (241). The filter field is also 40 px tall — deeper than a table row — with a 121-grey border, no magnifier, and the label "Filter articles" where a Mac says "Search".
+
+318. **[decide]** **The accent is a hardcoded purple (114, 58, 212) rather than the accent the person using the machine chose.**
+
 ## AG. Language seeds awaiting a plan slot
 
 228. **[task]** HIGHLIGHT beyond the search field: the scrollbar tick

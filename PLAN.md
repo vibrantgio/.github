@@ -19790,7 +19790,7 @@ well, so the hit order follows the paint order. No tags.
 
 #### BV1.1: The popover paints last
 
-- [ ] `patterns/popover` defers its surface and tail (and their input
+- [x] `patterns/popover` defers its surface and tail (and their input
   handlers) with `op.Defer`, so a popover anchored in a slot laid out
   early in the frame paints above every sibling laid out after it;
   placement arithmetic is unchanged. A regression test lays a popover
@@ -19798,11 +19798,11 @@ well, so the hit order follows the paint order. No tags.
   neighbourhood and asserts, off captured pixels, that the surface is
   whole; a second asserts a press on the surface reaches the surface
   and not the sibling.
-- [ ] Feeds' Share popover is the live reproduction: the gallery's
+- [x] Feeds' Share popover is the live reproduction: the gallery's
   popover specimen and feeds' window goldens compared, fresh-eyes
   review of Share open over the empty detail column and over an
   article, both schemes, per the standing protocol.
-- [ ] Exit: green in `patterns` and feeds by name; commit and push in
+- [x] Exit: green in `patterns` and feeds by name; commit and push in
   every touched repo and `.github`.
 
 #### BV1.2: The tooltip and the field-dropped menu paint last
