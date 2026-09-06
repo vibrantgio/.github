@@ -19649,3 +19649,23 @@ regions are chrome. The guard knows both words from this task on.
   fresh-eyes review in both schemes, per the standing protocol.
 - [ ] Exit: green in `components` and vaultview's module; commit and
   push in every touched repo and `.github`.
+
+#### BR4.3: Divider becomes seam and splitter
+
+Executes the ruling (DOMAIN, 2026-09-06): the line between two
+regions is a seam; the draggable one is a splitter, a control. A
+thing named in code and unnamed in the Language is the failure the
+Language exists to prevent, so the guard treats the word as a hard
+hit with no exclusions.
+
+- [ ] `tokens.Divider` becomes `tokens.Seam` and the CSS export's
+  emitted names follow; every consumer converts in the same task
+  (about 32 Go files across the org). Identifiers that name the
+  draggable seam — `patterns/shell`'s split-pane drag,
+  `workbench/vaultview/frame.go`'s `dividerTag`, `processDividerDrag`,
+  `frameDividerDp` — say splitter; the rest say seam. Comments,
+  strings and docs follow, token-stream proofs per module, generated
+  pages fixed at the generator with a clean diff.
+- [ ] Exit: green in every touched module, nested ones by name;
+  `check-retired-words.sh check` clean org-wide; commit and push in
+  every touched repo and `.github`.

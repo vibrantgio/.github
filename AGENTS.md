@@ -52,6 +52,8 @@ libraries. It is not how you work this plan.
 | highlighted, featured, emphasised | a pricing tier | the recommended tier |
 | paper | the content level | the content, level 0 |
 | furniture | the chrome regions | chrome |
+| divider | the line between two regions | seam |
+| divider | the draggable one | splitter |
 
 The Language in DOMAIN.md retires words. A retired word in a packet, a
 review, a comment, a doc or an identifier is a defect; say the
