@@ -19483,11 +19483,11 @@ any new hit.
 
 #### BR2.15: Identifiers — patterns, the floating and chrome patterns
 
-- [ ] `patterns/modal`, `popover`, `toast`, `tooltip`, `pane`, `shell`, `sidebar` and `alert`'s retired identifiers — about 50 distinct, the bulk of 685 hits in
+- [x] `patterns/modal`, `popover`, `toast`, `tooltip`, `pane`, `shell`, `sidebar` and `alert`'s retired identifiers — about 50 distinct, the bulk of 685 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
   forwarder, every consumer converted in the same task, and the
   exported-surface change named in the commit body.
-- [ ] Exit: green in the module and in every consumer;
+- [x] Exit: green in the module and in every consumer;
   `check-retired-words.sh check patterns --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
