@@ -37,6 +37,7 @@ A component the user operates to act or to choose.
 | **scrollbar** | moving the view through content larger than its surface |
 | **list** | moving through a sequence of rows and choosing one |
 | **scroll area** | seeing the rest of one piece of content that keeps its own size |
+| **splitter** | resizing two regions against each other by dragging the seam between them |
 | **link** | following a reference — text that names its destination |
 | **menu** | a floating list of items, each performing an action or recording a choice |
 | **breadcrumb** | going back up the hierarchy — each step a link, the last where you are |
@@ -242,6 +243,15 @@ in Large, Medium and Small.
 | **Code** | monospaced text, one size |
 | **Document headings** | the six heading steps of a prose document, derived from Body rather than borrowed from Headline and Title |
 
+### Measure
+
+The width a run of text is allowed to reach, from typography: long
+lines tire the reader, so a paragraph stops at its measure however
+wide the region is. Content narrower than its region is centred
+within the region; nothing widens to fill. Wide content that keeps
+its own size — a code block, a table — sits in a scroll area no
+wider than the measure.
+
 ### Surface
 
 A plane that content and controls stand on. Every
@@ -309,7 +319,8 @@ content, the navbar's foot, the status bar's top. Regions that share
 one fill depend on it to say where one ends and the next begins, so
 it is derived to be findable against both in either scheme, and
 drawn once, by the region above or leading. An inset object needs
-no seam: the backdrop showing around it does that work.
+no seam: the backdrop showing around it does that work. A seam the
+user can drag is a splitter.
 
 ### Scrim
 
@@ -665,6 +676,16 @@ code block, a preformatted table, a wide diagram: it shows the part
 that fits and lets the user move the view to the rest, sideways or
 down. Nothing in it is chosen; the content is never reflowed or cut.
 
+### Splitter
+
+The control resizing two regions against each other: the seam
+between them, made operable. It draws as the seam draws, at the
+seam's width, and thickens and firms while a hand is on it; its hit
+area is wider than the line, and the pointer shows the resize over
+it. Dragging it moves the boundary within the bounds each region
+allows, never past them. The seam is the line; the splitter is that
+line operated.
+
 ### Link
 
 The control following a reference: text that names its destination,
@@ -702,8 +723,8 @@ Content as a picture: it is read, never operated.
 
 ### Paragraph
 
-Content as a run of styled text wrapped into lines. The links in
-it are carried controls; the rest is read.
+Content as a run of styled text wrapped into lines, no wider than
+its measure. The links in it are carried controls; the rest is read.
 
 ### Markdown document
 

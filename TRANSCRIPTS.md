@@ -731,3 +731,18 @@ kept metaphors): Yes to retire paper and furniture
 Rene (to the toast keeping its inverse fill, the tooltip and the
 toast being the inverse pair's two adoptions): I concur
 ^0005-toast-inverse
+
+Rene: Ok without writing anything out, make a plan for the vaultview
+to: Have a "splitter" between the sidebar and the content. Have a
+max width for the content markdown that is centered horizontally
+between sidebar and aside. Store the window size on window close and
+init window with it on the next start. ^0005-vaultview-three-asks
+
+Rene: There is already something between the asside and the
+markdown that is a draggabl splitter/divider, what is that named?
+^0005-divider-unnamed
+
+Rene: Splitter it is, write both entries and retire divider and
+clean-up the language also, this is a prime example of not drilling
+down to isolating concepts, recording them and using them
+relentlessly. ^0005-splitter-and-measure
