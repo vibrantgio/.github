@@ -53,7 +53,7 @@ modules in a lower tier, plus anything in the support row.
 | 0 | [gradient](https://github.com/vibrantgio/gradient) | Linear gradient fill, laid out like any other component |
 | 0 | [circle](https://github.com/vibrantgio/circle) | Mathematically precise circles via Bézier approximation |
 | 1 | [theme](https://github.com/vibrantgio/theme) | The theme runtime and every design token: colour ramps and pins derived from one seed by the CIELAB/OKLCh engine, Typography, Density, Motion, Elevation; live OS dark-mode, accent-colour and accessibility tracking, preference persistence, window integration, token export |
-| 2 | [components](https://github.com/vibrantgio/components) | Component foundation: button, input, list, richtext, scrollbar, scrollarea, icon, icons, layout, keyed identity, initial values, cache, bench |
+| 2 | [components](https://github.com/vibrantgio/components) | Component foundation: button, input, list, paragraph, scrollbar, scrollarea, icon, icons, layout, keyed identity, initial values, cache, bench |
 | 3 | [effects](https://github.com/vibrantgio/effects) | Effects layer: tween, spring, springbutton, transition, glow, depth, blur, motion, and a shared animation conductor |
 | 4 | [patterns](https://github.com/vibrantgio/patterns) | Pattern library: shell, navbar, sidebar, table, pagination, tabs, modal, alert, popover, tooltip, toast, card, accordion, breadcrumb, hero, feature, pricing, testimonial |
 | 4 | [markdown](https://github.com/vibrantgio/markdown) | GFM document rendering on the components, with chroma syntax highlighting and SVG images |

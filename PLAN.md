@@ -19633,10 +19633,10 @@ regions are chrome. The guard knows both words from this task on.
 
 #### BR4.1: richtext renames to paragraph
 
-- [ ] `components/richtext` becomes `components/paragraph`; the
+- [x] `components/richtext` becomes `components/paragraph`; the
   `markdown` module and the workbench apps re-import in the same
   task. Behaviour and exported surface are otherwise unchanged.
-- [ ] Exit: green in `components`, `markdown` and the workbench apps;
+- [x] Exit: green in `components`, `markdown` and the workbench apps;
   commit and push in every touched repo and `.github`.
 
 #### BR4.2: The search field control
