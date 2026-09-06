@@ -19493,11 +19493,11 @@ any new hit.
 
 #### BR2.16: Identifiers — patterns, the rest
 
-- [ ] `patterns/navbar`, `tabs`, `pricing`, `card`, `group`, `hero`, `table`, `accordion`, `breadcrumb`, `pagination`, `feature`, `testimonial` and `internal`'s retired identifiers — about 50 distinct, the remainder of 685 hits in
+- [x] `patterns/navbar`, `tabs`, `pricing`, `card`, `group`, `hero`, `table`, `accordion`, `breadcrumb`, `pagination`, `feature`, `testimonial` and `internal`'s retired identifiers — about 50 distinct, the remainder of 685 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
   forwarder, every consumer converted in the same task, and the
   exported-surface change named in the commit body.
-- [ ] Exit: green in the module and in every consumer;
+- [x] Exit: green in the module and in every consumer;
   `check-retired-words.sh check patterns --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
