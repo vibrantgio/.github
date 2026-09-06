@@ -554,9 +554,14 @@ in place.
 
 ### Toast
 
-The status signal presenting a notification: a small floating
-surface at level 2 that appears when the notification is raised and
-leaves by itself after a set time. The presentation and its timing
+The status signal presenting a notification: a small annotation
+floating at level 2 that appears when the notification is raised
+and leaves by itself after a set time. Level 2 is where it is
+placed, not what it is filled with: nothing stands on a toast, so
+it is filled inverse — the other scheme's surface and foreground —
+to read as speech and to be found over any content in either
+scheme; its status role speaks through its icon and mark, never its
+fill. The presentation and its timing
 are what make it a toast; the notification is the message it
 carries. Its close is a fixed part; it holds no other control — a
 toast with an Undo would be a small dialog on a timer, and is not
@@ -683,7 +688,8 @@ operate is the job for a popover. Level 3 is where it is placed, not
 what it is filled with: nothing stands on a tooltip, so it takes no
 surface's fill and is filled inverse — the other scheme's surface
 and foreground — so it reads as speech about the thing, not as a
-panel. It is the one adoption of the inverse pair.
+panel. The tooltip and the toast are the inverse pair's two
+adoptions: the signals that float and speak about a thing.
 
 ### Text label
 

@@ -727,3 +727,7 @@ your reasoning ^0005-light-headroom ^0005-tooltip-inverse
 Rene (to the peer's question whether "paper" and "furniture" are
 kept metaphors): Yes to retire paper and furniture
 ^0005-retire-paper-furniture
+
+Rene (to the toast keeping its inverse fill, the tooltip and the
+toast being the inverse pair's two adoptions): I concur
+^0005-toast-inverse
