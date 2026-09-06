@@ -1930,7 +1930,7 @@ popover clamp and tail; recorded by the worker, none blocking.
      rule and say so in comments. The measuring rule wants restating
      against the new canvas contract. *(§S, BI2.5)*
 
-162. **[bug]** `patterns/tooltip` draws its own tail and was not
+162. **[bug]** `components/tooltip` draws its own tail and was not
      remeasured: whether it shares the floating-tip and
      border-through-base seams the popover just fixed is unknown —
      measure once, fix if found, one tail grammar for both patterns.
