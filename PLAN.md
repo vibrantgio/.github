@@ -25,24 +25,24 @@ flight. No tags.
 
 #### BT1.1: mvu remembers a window's size and position
 
-- [ ] An opt-in in `mvu` — one call at window construction, given the
+- [x] An opt-in in `mvu` — one call at window construction, given the
   application's name — that records the window's size and position in
   device-independent units on every configure event, debounced so a
   drag does not write on every frame, to a small JSON file in the
   OS-appropriate config directory under the application's name, the
   same directory `theme/preferences` resolves. Nothing is written until
   the first change after start.
-- [ ] On the next start the remembered size and position are applied
+- [x] On the next start the remembered size and position are applied
   before the first frame; when there is no file, the file is unreadable,
   or the remembered frame no longer fits any screen, the application's
   defaults apply and the file is replaced on the next change. Position
   uses Gio's public API where it exists and the `mvu/desktop` AppKit
   hook where it does not; if position cannot be read or set on a
   platform, size alone is remembered there and the package doc says so.
-- [ ] Tests pin: round trip through a temporary directory; a missing or
+- [x] Tests pin: round trip through a temporary directory; a missing or
   corrupt file yields defaults; a frame outside every screen yields
   defaults; the debounce writes once for a burst.
-- [ ] Exit: green in `mvu`; commit and push on `bt-vaultview`.
+- [x] Exit: green in `mvu`; commit and push on `bt-vaultview`.
 
 #### BT1.2: Vaultview remembers its window and its rail
 
