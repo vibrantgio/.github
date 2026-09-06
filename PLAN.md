@@ -19553,11 +19553,11 @@ any new hit.
 
 #### BR2.22: Identifiers — design
 
-- [ ] `design`'s retired identifiers — 2 distinct, 4 hits in
+- [x] `design`'s retired identifiers — 2 distinct, 4 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
   forwarder, every consumer converted in the same task, and the
   exported-surface change named in the commit body.
-- [ ] Exit: green in the module and in every consumer;
+- [x] Exit: green in the module and in every consumer;
   `check-retired-words.sh check design --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
