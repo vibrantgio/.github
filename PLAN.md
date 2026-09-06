@@ -72,15 +72,15 @@ flight. No tags.
 
 #### BT2.2: Vaultview reads at the measured measure
 
-- [ ] Vaultview sets the note column's measure from the stored reading
+- [x] Vaultview sets the note column's measure from the stored reading
   reference (`.github/reference` and the typeset measurements the
   document heading scale was derived from) — a number with provenance,
   not a guess — and the column centres between the rail pane and the
   aside at any window width.
-- [ ] Fresh-eyes review at a wide window and at the narrowest window
+- [x] Fresh-eyes review at a wide window and at the narrowest window
   where the measure still fits, both schemes, per the standing
   protocol; findings pooled.
-- [ ] Exit: green in vaultview's module; commit and push on
+- [x] Exit: green in vaultview's module; commit and push on
   `bt-vaultview`.
 
 ### G-BT3: One splitter
@@ -110,3 +110,67 @@ first.
   schemes; findings pooled.
 - [ ] Exit: green in vaultview's module; commit and push on
   `bt-vaultview`.
+
+## Pool
+
+Findings this phase's reviews turned up and did not fix. They append as
+the phase runs; nothing here is planned work until it is cut into a task.
+
+### From BT2.2's fresh-eyes review (2026-09-06)
+
+Full record in `reviews/bt2.2-measure-fresh-eyes.md`; the numbers below
+are the reviewer's, measured off 1600×900 renders at one pixel per dp.
+
+- **The note page's own rows do not know the measure — caused by BT2.2.**
+  At a wide window the breadcrumb row, the Properties disclosure and the
+  Properties card run the whole column, x 272–1249, while the document
+  reads at x 498–1037: two grids stacked on each other with 22 px
+  between the card's foot and the title's cap. The reference reading
+  surface splits them the other way — its head row stands at the
+  window's top-left, outside the column, and its properties table sits
+  inside the column with the prose. Deciding which rows are the
+  document's and which are the window's, and giving the document's rows
+  the same lead, is a task. It also wants the arithmetic in `markdown`
+  rather than copied into an application.
+- **A scroll area cuts its content mid-glyph with nothing marking the
+  cut.** A code block wider than the measure is hard-cut at the scroll
+  area's trailing edge — through the middle of a letter — with no fade
+  and no other sign that the line continues. The scrolling is ruled and
+  right; the edge treatment is `markdown`'s and is not.
+- **The fenced block still wears the highlighter's own palette, and the
+  light appearance is the worse one.** Confirms S7 on the current build.
+  Code comments measure 2.30:1 in light and 3.36:1 in dark, both under
+  the 4.5:1 body floor; the light fill `#EFF1F5` stands at 1.005:1
+  against the page, so the block is defined by its border alone and
+  reads as a text field. Its border is also the darkest in the window at
+  `#797979`, against `#B6B6B6` for the properties card.
+- **The properties card is a 978×84 outlined box that is 86 % empty**,
+  filled with exactly the page fill, carrying no row rule and no column
+  rule, its content ending at x≈410.
+- **The pane's 8 px margin of backdrop stops halfway across the window.**
+  It runs the pane's leading edge full height and its top and bottom
+  edges to x=247, where the content area begins with no gap at all, and
+  the pane's rounded corners bite a wedge of content-area fill out of
+  themselves at each end of the top and bottom strips.
+- **A link's underline is drawn through its descenders**, 2 px below the
+  baseline, with no descender skip.
+- **The document's level 1 and level 2 headings are 2 px apart** — 19 px
+  and 17 px cap heights against a 12 px body — so a note's title reads
+  as a third peer heading rather than as the title.
+- **The trailing column never gives width back.** 320 dp at every window
+  width, 615 px of it empty between the outline's last entry and the
+  backlinks rule; at 1163 dp that is 27 % of the window.
+- **Nothing in the window reads as Cocoa**: a grotesque that is not the
+  system face; a selection fill that is pale lavender in one appearance
+  and saturated violet in the other and follows no system accent; a
+  scrollbar heavier and tighter to the edge than the platform's; a code
+  palette imported whole from elsewhere.
+- **The rail's rows carry no marks**, so a folder and a note at the same
+  depth read as the same kind of thing, and the rail's footer controls
+  are bare text at the same weight and colour as those rows.
+- **The rail and the outline set the same string at different sizes** —
+  a 10 px cap against an 8 px cap — in pills of the same height on rows
+  of the same pitch.
+- **One note's name is on screen four times at once**: the rail's
+  selected row, the breadcrumb's tail, the title, and the outline's
+  first entry.
