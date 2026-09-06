@@ -19567,14 +19567,14 @@ Executes the ruling that paper and furniture retire (DOMAIN,
 2026-09-06): the content level is the content, level 0; the chrome
 regions are chrome. The guard knows both words from this task on.
 
-- [ ] Every comment, string, doc and identifier hit for `paper` and
+- [x] Every comment, string, doc and identifier hit for `paper` and
   `furniture` in `theme`, `components`, `patterns`, `markdown`,
   `effects`, `mvu`, `design` and `.github` rewritten or renamed
   (about 290 hits: theme 76, components 42, patterns 28, markdown 75,
   design 12); token-stream proofs for the comment sweeps, abrupt
   renames with consumers converted, generated pages fixed at their
   generator with a clean diff.
-- [ ] Exit: green in every touched module, nested ones by name;
+- [x] Exit: green in every touched module, nested ones by name;
   `check-retired-words.sh check <module>` clean in each; commit and
   push in every touched repo and `.github`.
 
