@@ -19436,10 +19436,10 @@ any new hit.
 
 #### BR2.10: Comments — themer and vaultview
 
-- [ ] As BR2.3, for `workbench/themer` and `workbench/vaultview` (303
+- [x] As BR2.3, for `workbench/themer` and `workbench/vaultview` (303
   and 220 comment and string hits), each run by name; a user-facing
   string that changes regenerates its golden with the cause named.
-- [ ] Exit: green in both modules by name; `check` clean for comments
+- [x] Exit: green in both modules by name; `check` clean for comments
   and strings under both paths; commit and push.
 
 #### BR2.11: Comments — the root and the other apps
