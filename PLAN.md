@@ -19612,10 +19612,10 @@ regions are chrome. The guard knows both words from this task on.
 
 #### BR3.3: Tooltip moves to components
 
-- [ ] `patterns/tooltip` becomes `components/tooltip`, a signal: the
+- [x] `patterns/tooltip` becomes `components/tooltip`, a signal: the
   name of a control or the meaning of a signal, on demand. Unchanged
   in behaviour; every consumer re-imports in the same task.
-- [ ] Exit: green in `components`, `patterns` and the workbench apps;
+- [x] Exit: green in `components`, `patterns` and the workbench apps;
   commit and push in every touched repo and `.github`.
 
 #### BR3.4: Breadcrumb and pagination move to components
