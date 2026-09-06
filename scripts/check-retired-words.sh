@@ -125,6 +125,7 @@ floor::comment,doc,string::!line::(elevation|storey|ladder|ground floor|floor le
 canvas::*::path::^(svg|ivg|seen|kiwi)/::The SVG specification's canvas — the drawing area a graphics library exposes — spoken by the SVG and IconVG renderers and the scene libraries they drive.
 reach::*::!ctx::(reachable|out of reach|within reach|can(not)? reach (it|them|the)|reach(es)? the (control|button|target|item|row|link))::"reach" is retired for operating a control only — reachable, out of reach, cannot reach the control. A value reaching a limit, and reaching for an API, are ordinary English.
 register::identifier::token::^register::The verb: registering a handler, a target or a collector.
+register::identifier::rawtoken::^TestRegister::A test of a function named Register, the verb.
 register::identifier::path::^(mvu|seen)/::The runtime's own registration API — what a handler does.
 register::*::path::^ivg/::CREG and NREG are machine registers in the IconVG format's own specification.
 register::comment,doc,string::ctx::(handler|listener|callback|event|registry|modbus|holding|device|sk150|driver|hook|collector|subscrib|registering|registered|filter|area|shortcut|register adds|in register and|to register\.|re-register|register(s|ed|ing)? (a|an|the|each|every|it|its|no|its own|themselves|tags?|hover|focus|pointer|key|absorb|region|hit)([^a-z]|$)|registers (a|an|the|each|every|it|its)([^a-z]|$))::"register" as what a handler or a Modbus device does, which the row keeps.
