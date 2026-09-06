@@ -112,6 +112,7 @@ voice::*::ctx::voice memos::Voice Memos is a macOS application, measured in the 
 *::comment,doc,string::line::gioui\.org::A line naming Gio's own import path names a third party's API, not ours.
 *::identifier::rawtoken::^(Action|Alert|AV|Communication|Content|Device|Editor|File|Hardware|Image|Maps|Navigation|Notification|Places|Social|Toggle)[A-Z]::Material Symbols icon names — AVVolumeUp, MapsLocalCarWash, ContentMarkUnread — are a third party's identifiers, mirrored here.
 widget::identifier::token::widget(s)?$::A value or the type of Gio's layout.Widget, which the row keeps as Gio's.
+widget::identifier::rawtoken::^(WidgetImageProvider|widgetProvider|TestWidgetImageProvider|TestImageWidgetFallthroughs)$::markdown's provider of an image as Gio's layout.Widget; the name says the type it returns.
 widget::*::line::(^|[^a-z])(layout\.widget|widget\.[a-z])::layout.Widget and Gio's widget package on the line: Gio's own API.
 author::comment,doc::line::(the go authors|copyright)::A third party's copyright notice, inherited verbatim.
 widget::doc,comment::line::[a-z]+\.widget\(::A call to a real exported function named Widget in a code fence or a doc comment; renaming it is the identifier round's.
