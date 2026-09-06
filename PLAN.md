@@ -19543,11 +19543,11 @@ any new hit.
 
 #### BR2.21: Identifiers — workbench, the root and the small apps
 
-- [ ] the workbench root's and `mindchat`, `iconbrowser`, `marketing`, `todos` and `sk150`'s retired identifiers — 38 distinct, their share of 811 hits in
+- [x] the workbench root's and `mindchat`, `iconbrowser`, `marketing`, `todos` and `sk150`'s retired identifiers — 38 distinct, their share of 811 hits in
   BR2.2's inventory — are renamed abruptly: no alias, no deprecated
   forwarder, every consumer converted in the same task, and the
   exported-surface change named in the commit body.
-- [ ] Exit: green in the module and in every consumer;
+- [x] Exit: green in the module and in every consumer;
   `check-retired-words.sh check workbench --kind=identifier` clean for the
   packages named; commit and push in every touched repo.
 
