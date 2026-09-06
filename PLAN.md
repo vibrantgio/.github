@@ -19712,7 +19712,7 @@ flight. No tags.
   join the same file as application state, restored before the first
   frame — the rail's width becomes meaningful when BT3.2 makes the rail
   draggable, and until then it is written as the fixed width.
-- [ ] Exit: green in vaultview's module; a manual check that a moved
+- [x] Exit: green in vaultview's module; a manual check that a moved
   and resized window comes back where it was; commit and push on
   `bt-vaultview`.
 

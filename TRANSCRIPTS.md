@@ -746,3 +746,7 @@ Rene: Splitter it is, write both entries and retire divider and
 clean-up the language also, this is a prime example of not drilling
 down to isolating concepts, recording them and using them
 relentlessly. ^0005-splitter-and-measure
+
+Rene (after the live check of vaultview on an unlocked screen): I
+checked the vaultview, seems everything I requested has been
+implemented to my satisfaction, great! ^0005-vaultview-accepted
