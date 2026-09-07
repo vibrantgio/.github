@@ -761,3 +761,7 @@ Rene (to pool item 300, a deferred floating surface leaving the clip
 that held its anchor): Yes, i concur that floating surfaces should be
 able to leave the viewport and ar clipped to the window only.
 ^0005-floating-leaves-viewport
+
+Rene (to the three questions BV1.2 left; the first being that the
+open field still reserves room for its menu): yes to the first
+^0005-field-reports-trigger-alone

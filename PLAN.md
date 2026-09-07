@@ -19815,3 +19815,18 @@ well, so the hit order follows the paint order. No tags.
 - [x] Exit: green in `components` and `patterns`; the gallery's
   specimens compared; commit and push in every touched repo and
   `.github`.
+
+#### BV1.3: The open field reports the trigger alone
+
+- [ ] The picker's Field trigger reports its own height to its
+  container whether its menu is open or closed: the menu floats and
+  is deferred (BV1.2), so no room is reserved below the trigger any
+  more. `Drop`'s contract and doc change accordingly; every caller
+  that reserved space for the open menu — the gallery's Open specimen
+  first — is converted in the same task, abruptly. Goldens that held
+  the reserved room regenerate with the cause named.
+- [ ] A test pins that an open and a closed field report the same
+  size, and that the open menu still paints whole below the trigger.
+- [ ] Exit: green in `components`, `components/gallery`, `patterns`
+  and the workbench apps by name; commit and push in every touched
+  repo and `.github`.
