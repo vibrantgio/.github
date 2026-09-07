@@ -357,6 +357,10 @@ side, and the attachment arbitrates against reality — the surface
 must land fully visible inside the window. No room on the preferred
 side flips it to the side that has room; a surface taller than the
 room it wins scrolls inside itself. Content is never cut off.
+Placement is against the window, not the region the anchor is in: a
+floating surface leaves that region — a scroller, a column — and is
+clipped by the window alone. It leaves with its anchor: when the
+anchor scrolls out of view, the surface is dismissed.
 
 Anchor and trigger usually coincide; they are still two parts, and
 none is a component. "Anchor" is reserved for the attachment part

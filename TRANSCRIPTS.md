@@ -750,3 +750,14 @@ relentlessly. ^0005-splitter-and-measure
 Rene (after the live check of vaultview on an unlocked screen): I
 checked the vaultview, seems everything I requested has been
 implemented to my satisfaction, great! ^0005-vaultview-accepted
+
+Rene: I noticed a rather glaring bug in workbench/feeds. The Share
+button pops up something underneatch the Select an article surface
+^0005-share-under-detail
+
+Rene (to Phase BV): go, and tell the peer
+
+Rene (to pool item 300, a deferred floating surface leaving the clip
+that held its anchor): Yes, i concur that floating surfaces should be
+able to leave the viewport and ar clipped to the window only.
+^0005-floating-leaves-viewport
