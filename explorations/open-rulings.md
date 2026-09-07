@@ -3,8 +3,10 @@
 Every distinct open issue found across the walkthrough phases, numbered
 for ruling. Tags: **[bug]** = just needs fixing, no design choice;
 **[decide]** = needs an owner ruling on direction; **[feature]** = new
-capability. Comment per item in place; the orchestrator cuts phases
-from what is ruled, in the order ruled.
+capability; **[ruled <date>]** = the owner has ruled and the entry is
+kept, because its number is an identity, saying how it was settled and
+where the ruling landed. Comment per item in place; the orchestrator
+cuts phases from what is ruled, in the order ruled.
 
 Reordered 2026-08-30 into ruling order: every **[bug]** first, then
 the rest in descending importance — judged by what a user pays for
@@ -2597,7 +2599,7 @@ Full record in `reviews/bt3.2-splitters-fresh-eyes.md`; the numbers are the revi
 
 Full record in `reviews/bv1.1-popover-fresh-eyes.md`; the numbers are the reviewer's, measured off the four 1200x800 renders at one pixel per dp — the Share popover open over the empty detail column and over an article, in both schemes. Filed 2026-09-06 from Phase BV. Entries 300 and 301 are the task's own findings, not the reviewer's.
 
-300. **[decide]** **A deferred floating surface leaves the clip that held its anchor.** `op.Defer` keeps the transform and drops everything else, so from BV1.1 onwards a popover opened inside a scroller draws outside the viewport rather than being cut by it — measured in `patterns/popover`: with the popover laid out inside a clip ending at y=40, the surface's fill still runs x 109..210 on row 70. In feeds this is invisible (the Share popover stands in the navigation bar, which nothing clips) but the components gallery puts a popover specimen inside a scrolling page, and BV1.2 gives the same idiom to the tooltip and the field-dropped menu, both of which live inside scrollers routinely. Either the surface is allowed out of the viewport, which is what "floating" says and what every other toolkit does, or a floating pattern has to be handed the room it may use and clip itself to it.
+300. **[ruled 2026-09-07]** **A deferred floating surface leaves the clip that held its anchor.** SETTLED that way: DOMAIN's Attachment entry now says placement is against the window, not the region the anchor is in — a floating surface leaves a scroller or a column and is clipped by the window alone — and that it leaves with its anchor, so a floating pattern dismisses when its anchor is no longer visible. BV1.2 carries the second half into the two patterns it touched: the tooltip stands only while its trigger holds hover or focus, which a clipped trigger cannot; the picker Field's absorber watches the wheel as well as the press and takes none of its distance. The finding as filed: `op.Defer` keeps the transform and drops everything else, so from BV1.1 onwards a popover opened inside a scroller draws outside the viewport rather than being cut by it — measured in `patterns/popover`: with the popover laid out inside a clip ending at y=40, the surface's fill still runs x 109..210 on row 70. In feeds this is invisible (the Share popover stands in the navigation bar, which nothing clips) but the components gallery puts a popover specimen inside a scrolling page, and BV1.2 gives the same idiom to the tooltip and the field-dropped menu, both of which live inside scrollers routinely. Either the surface is allowed out of the viewport, which is what "floating" says and what every other toolkit does, or a floating pattern has to be handed the room it may use and clip itself to it.
 
 301. **[note]** **The floating order the deferral produces already matches the Language.** Deferred ops run after every layer, so a popover now paints over a modal's scrim and over a toast. DOMAIN puts dialogs and toasts on level 2 and menus, popovers and tooltips on level 3, so this is the ordering the elevation table asks for and no ruling is needed — recorded because it is a visible consequence of BV1.1 that looks like a regression until the table is consulted.
 

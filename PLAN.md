@@ -19807,11 +19807,11 @@ well, so the hit order follows the paint order. No tags.
 
 #### BV1.2: The tooltip and the field-dropped menu paint last
 
-- [ ] `components/tooltip` and the picker's Field trigger (the menu it
+- [x] `components/tooltip` and the picker's Field trigger (the menu it
   drops itself, `components/picker/field.go`) take the same deferral;
   the Toolbar trigger's menu is placed by the popover and inherits
   BV1.1. Regression tests as BV1.1, one per surface. The pattern doc of
   each names the idiom once so the next floating surface copies it.
-- [ ] Exit: green in `components` and `patterns`; the gallery's
+- [x] Exit: green in `components` and `patterns`; the gallery's
   specimens compared; commit and push in every touched repo and
   `.github`.
