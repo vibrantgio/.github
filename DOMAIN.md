@@ -608,7 +608,7 @@ it reports no status. It lives exactly as long as its cause:
 
 | Cause | Marks | Until |
 |---|---|---|
-| a search | every match, the current one stronger | the query is dismissed |
+| a search | every match, the current one stronger — in the content, and where each lies on the scrollbar | the query is dismissed |
 | a followed link | the arrived-at content | it fades by itself, moments later |
 
 The arrival highlight is a highlight flash: the showing and the
@@ -658,13 +658,19 @@ The control for finding content: a text field that looks as you
 type and marks what it finds with the search highlight. Structure:
 looking glass, text, [x]. The looking glass names the control at a
 glance; the clear mark empties it and dismisses the highlight with
-it. What it holds originates with the user.
+it. Finding within a page, it also says how many matches there are
+and which is current, and steps between them — Enter to the next,
+Shift+Enter to the previous — scrolling the current one into view.
+What it holds originates with the user.
 
 ### Scrollbar
 
 The control moving the view through content larger than its
 surface: a thumb on a track whose size mirrors how much of the
 content is visible. Operating it moves the view, never the content.
+While a search is on, the track shows where the matches lie in the
+content, the current one stronger, beside the thumb and never under
+it.
 
 ### List
 
@@ -693,9 +699,14 @@ line operated.
 ### Link
 
 The control following a reference: text that names its destination,
-showing its affordance in the text itself. Following it is its only
-action. Arriving may set off a highlight flash on the content the
-link pointed at, so the reader sees where they were brought.
+showing its affordance in the text itself; under the pointer it
+shows the pointing hand, the cursor every link shares. Following it
+is its only action. Arriving may set off a highlight flash on the
+content the link pointed at, so the reader sees where they were
+brought. A heading word — a word of the prose that a heading of the
+same document equals or contains, whole word, case-insensitive — is a
+link only while the command key is held with the pointer over it;
+at rest it is prose, and operating it goes to that heading.
 
 ### Icon
 

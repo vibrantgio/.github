@@ -765,3 +765,22 @@ able to leave the viewport and ar clipped to the window only.
 Rene (to the three questions BV1.2 left; the first being that the
 open field still reserves room for its menu): yes to the first
 ^0005-field-reports-trigger-alone
+
+Rene (to whether the scrollbar's marks of the matches need a word):
+Is this not called a search hit?
+
+Rene: No leave match as the word instead of hit, I can live with
+that, don't create special names for the marks that represent search
+matches in the list or scrollbar. ^0005-match-not-hit
+
+Rene (to the four remaining Phase BW questions: the search field's
+count and stepping, "chord", "list marker", "heading word"):
+2. agreed ^0005-search-field-count-and-stepping
+3. i agree with shortcut (who calls this chord, wtf, never heard of
+this in 40 years of programming) ^0005-shortcut-not-chord
+4. call it list number and list bullet why do we need a term for
+this, are we really talking about the combo that often.
+^0005-list-number-and-bullet
+5. agree, also what is the cursor called that is shown as an
+affordance to indicate clicking, mention that in the link section
+^0005-heading-word-and-pointing-hand
