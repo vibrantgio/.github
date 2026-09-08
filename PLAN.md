@@ -19948,3 +19948,40 @@ the control in the app.
 - [ ] Exit: green in `workbench/vaultview` by name; fresh-eyes review
   of the page with a live query, both schemes; commit and push in
   every touched repo and `.github`.
+
+### G-BW3: A word that names a heading is a link under the command key
+
+Owner request 2026-09-08: with the command key held, a word under the
+pointer that a heading in the same document is, or contains, shows as
+a link with the link cursor. The word is a way into the document's
+own structure; nothing is drawn until the key is down, so the prose
+keeps its face at rest.
+
+#### BW3.1: The held command key turns heading words into links
+
+- [ ] The Language names the behaviour or rules against it before the
+  code exists: the entry says what a heading word is (a word of the
+  prose that a heading of the same document equals or contains, whole
+  word, case-insensitive), that it shows as a link only while the
+  command key is held and the pointer is over it, and that
+  operating it goes to that heading. Rene coins the word; the plan
+  root commit carries the ruling and the ontology session writes the
+  entry.
+- [ ] `markdown.Document` implements it: while the command key is
+  held, the word under the pointer is looked up against the
+  document's headings; on a hit the word paints as a link (the link
+  fill and underline the document already uses) with the link cursor,
+  and a click scrolls the document to that heading the way a
+  followed link arrives. The key released or the pointer leaving the
+  word restores the prose. When several headings match, the first in
+  reading order wins. Nothing is drawn or looked up while the key is
+  up; the lookup is per word under the pointer, not per frame over
+  the whole document.
+- [ ] Tests pin the lookup (equal, contains, whole word only, case)
+  and the paint: a golden with the key held and the pointer over a
+  matching word, set through the document's state since a synthetic
+  pointer move produces no hover repaint. Vaultview adopts nothing;
+  it comes through the library.
+- [ ] Exit: green in `markdown` and `workbench/vaultview` by name;
+  fresh-eyes review of a note with the key held over a heading word,
+  both schemes; commit and push in every touched repo and `.github`.
