@@ -2642,12 +2642,3 @@ Full record in `reviews/bv1.1-popover-fresh-eyes.md`; the numbers are the review
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
 
 320. **[bug]** **Nothing tests that a gallery section's body fits its slot.** The gallery's section `Height` numbers are the only thing keeping a floating specimen inside its tile; the Open picker specimen pads its cell by the menu's measured height, but a next floating specimen (a tooltip, a popover) can paint over its neighbour with no test going red. A test that renders every section at its slot and asserts nothing paints outside it closes the hole.
-
-## AG. Language seeds awaiting a plan slot
-
-228. **[task]** HIGHLIGHT beyond the search field: the scrollbar tick
-     marks that accompany every match, and the adoption wherever
-     find-in-content exists outside the search field control, the
-     marks dying with the query. (The token, the followed-link
-     arrival and the search field control are in the plan; the
-     Language entry is DOMAIN's.) *(§AG)*
