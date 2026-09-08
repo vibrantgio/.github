@@ -2637,6 +2637,34 @@ Full record in `reviews/bv1.1-popover-fresh-eyes.md`; the numbers are the review
 
 318. **[decide]** **The accent is a hardcoded purple (114, 58, 212) rather than the accent the person using the machine chose.**
 
+## AS. From BV1.4's fresh-eyes review of mindchat's settings modal
+
+Full record in `reviews/bv1.4-settings-fresh-eyes.md`; the numbers are the reviewer's, measured off four renders of the settings modal with the model menu open, both schemes, including a forty-model catalogue. Filed 2026-09-08 from Phase BV. The sliced row was fixed in the task; the menu inside the modal is the ruling; the window controls and the missing default are capture artefacts.
+
+321. **[bug]** **The modal's scrim is heavy in light and absent in dark.** One alpha in both schemes takes the light backdrop from 239 to 177 and the dark one from 19 to 14; the dark scheme shows no dimming at all. The scrim wants a per-scheme strength, or a strength derived from the scheme's backdrop.
+
+322. **[bug]** **In the dark scheme the picker's selected row uses the surface colour as its foreground.** Glyph cores on the selected row's pale fill measure the same grey as the unselected rows' fill, while the Save label on the identical fill measures a deep foreground. Light shows the selected row as the most prominent row, dark as the least; the emphasis inverts between schemes. A token mix-up in `components/picker`'s dark selected-row foreground.
+
+323. **[bug]** **Two selection treatments swap between schemes** across mindchat's settings: the list's selected row and the menu's selected row use different fills in light and trade them in dark. One rule for a selected row, both schemes.
+
+324. **[decide]** **Cancel and Save are the same button.** Both are filled in the primary fill; a macOS sheet makes the default action filled and the cancel one plain. Whether the pattern (a dialog's footer) or the app decides.
+
+325. **[bug]** **Mindchat's two provider lists disagree.** The Providers card lists two providers and the row above the form lists others; one source of truth.
+
+326. **[decide]** **Mindchat's settings form has no rail, no labels, and a chromeless tab row.** Fields start at one edge and the model picker at another; placeholder text stands in for labels; four bare words in equal slots make an uneven tab row; the DEFAULT MODEL caption sits under the Providers card, far from the control it names; the `+` and `−` under the list are naked glyphs with no button face or bar. One form-layout task for the app, or a settings-form pattern.
+
+327. **[bug]** **An enabled checkbox's label paints in the placeholder grey.** The label measures the prompt's colour, so the control reads disabled. Either the app picks the wrong role or the checkbox's label role is wrong in `components`.
+
+328. **[bug]** **The Providers card in the dark scheme is three values off the dialog it stands on.** The card's fill, edge and foreground disagree with the modal's; the raise walk should give them.
+
+329. **[decide]** **The picker's menu plane has square corners** where the trigger and every other surface carry the radius.
+
+330. **[decide]** **The picker's menu has no type-to-filter.** A forty-row catalogue is stepped through by scrolling alone; a macOS pop-up jumps by typed letters.
+
+331. **[decide]** **Settings is a modal that commits with Save** where macOS settings apply as they change and have no footer. Whether mindchat keeps the sheet.
+
+332. **[decide]** **A floating plane with no shadow reads as less raised than the surface under it.** The system draws a transient plane unscrimmed and shadowless with an edge instead; the reviewer read the menu as sunk into the modal. A question for the Language's floating level, not the picker.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
