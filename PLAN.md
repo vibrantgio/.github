@@ -19878,23 +19878,23 @@ with the query. No tags.
 
 #### BW1.1: The number column takes the width the list needs
 
-- [ ] Investigate `markdown`'s list item rendering: the number is set
+- [x] Investigate `markdown`'s list item rendering: the number is set
   in a column `Style.Indent` wide, and the content column starts at
   that width regardless of the number's measured width. Reproduce
   with a list starting at 291 (the case) and at 1000, in the body
   size and a heading-sized style, both schemes; name the mechanism in
   the commit body (wrap, clip, or overflow).
-- [ ] Fix it in the library, not the app: the number column of a
+- [x] Fix it in the library, not the app: the number column of a
   numbered list is at least `Style.Indent` and grows to the list's
   widest number plus the gap the bullet keeps; every item of one list
   shares the column, so the content edges line up; nested lists
   indent by their own column. Numbers and bullets still hang from
   the first line's centre. No exported name carries "marker".
-- [ ] A test pins a list starting at 291 whose number paints whole
+- [x] A test pins a list starting at 291 whose number paints whole
   and whose content starts after it, and a list starting at 1 whose
   column is unchanged. Goldens that move regenerate with the cause
   named, downstream included.
-- [ ] Exit: green in `markdown`, `components/gallery`, and the
+- [x] Exit: green in `markdown`, `components/gallery`, and the
   workbench apps by name; commit and push in every touched repo and
   `.github`.
 
