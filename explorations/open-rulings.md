@@ -2665,6 +2665,12 @@ Full record in `reviews/bv1.4-settings-fresh-eyes.md`; the numbers are the revie
 
 332. **[decide]** **A floating plane with no shadow reads as less raised than the surface under it.** The system draws a transient plane unscrimmed and shadowless with an edge instead; the reviewer read the menu as sunk into the modal. A question for the Language's floating level, not the picker.
 
+## AT. From BW1.1, the number column
+
+Filed 2026-09-08 from the task's own finding. No fresh-eyes review; no golden moved.
+
+333. **[task]** **`markdown.ListItem.MarkerOffset` carries "Marker" as an exported name.** It is the byte offset of a task item's opening `[`; the ruling of 2026-09-08 keeps "marker" for the highlighter pen and says a list has numbers and bullets. The rename crosses `markdown/obsidian` and vaultview's task handling, so it is its own task, one identifier round.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
