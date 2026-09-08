@@ -2713,6 +2713,22 @@ Full record in `reviews/bw2.3-vaultview-find-fresh-eyes.md`; measured off the wi
 
 348. **[bug]** **The rail's three left edges disagree,** with a 13 px indent between the sections' headings, the rows and the field; one rail edge. Hairline and inset disagreements across the rail go with it.
 
+## AX. From BW3.1's fresh-eyes review of a heading word under the command key
+
+Full record in `reviews/bw3.1-heading-word-fresh-eyes.md`; measured off vaultview renders with the key held over a heading word, both schemes. Filed 2026-09-08 from Phase BW. The reviewer's headline, that the command-hover shows nothing, rests on the word already being a link at rest; the at-rest pair disproves it. Nothing fixed in the task; both standing findings are wider than it.
+
+349. **[decide]** **The link's hover lightens in both schemes,** so a hovered link in light loses contrast, 5.68:1 at rest to 4.65:1 hovered, near the text floor; a heading word is only ever seen hovered, so it always wears the weaker fill. Fixing the blend to strengthen in both schemes moves link pixels org-wide; ruling wanted before any task.
+
+350. **[decide]** **Nothing distinguishes a link that stays inside the document from one that leaves it,** and nothing echoes a destination anywhere. A heading word, a wikilink and a web link wear one face. Whether the Language wants an in-document link to read differently, and whether a destination shows (a status line, a tooltip) before the click.
+
+351. **[bug]** **Vaultview's rail is a card while the right pane sits flush;** the two sides of the window disagree about how a pane stands on the backdrop. One rule for both.
+
+352. **[decide]** **A code fence reads as a text field.** The fence's fill and edge match an input at rest; the reader expects to type in it. The fence wants a face of its own, or the input's edge wants a step the fence does not share.
+
+353. **[bug]** **The outline's selection wears two treatments,** and the three columns' feet do not align; with pool 345 and 348 these are vaultview's frame rules, one pass.
+
+354. **[decide]** **The window shows no control strip** in the render and the typeface is not the system's; both are noted as reviewer expectations of a Mac window, the first a capture artefact, the second a system choice to be answered in the Language rather than changed.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
