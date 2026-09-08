@@ -2671,6 +2671,14 @@ Filed 2026-09-08 from the task's own finding. No fresh-eyes review; no golden mo
 
 333. **[task]** **`markdown.ListItem.MarkerOffset` carries "Marker" as an exported name.** It is the byte offset of a task item's opening `[`; the ruling of 2026-09-08 keeps "marker" for the highlighter pen and says a list has numbers and bullets. The rename crosses `markdown/obsidian` and vaultview's task handling, so it is its own task, one identifier round.
 
+## AU. From BW2.1, the document marking its matches
+
+Filed 2026-09-08 from the task's own findings. No fresh-eyes review; no golden moved.
+
+334. **[bug]** **The current match's text in the dark scheme sits one hundredth above the text floor.** Body text over the current match's stronger fill measures 9.15:1 in light and 4.51:1 in dark, against a floor of 4.5; any drift in the neutral ramp puts it below AA. The stronger fill is the highlight walked one hover step toward the deep end; the derivation wants a pinned contrast invariant in `theme`, or a floor-aware step, so the number cannot drift.
+
+335. **[bug]** **A fence scrolled sideways reports its matches where they are in the code, not where the viewport left them.** `markdown`'s code block records each match's rectangle before the horizontal scroll; a caller scrolling to it lands beside it. Documented in the code block; fix when a scrolling fence and find meet in an app.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
