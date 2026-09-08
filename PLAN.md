@@ -19935,7 +19935,7 @@ the control in the app.
 
 #### BW2.3: Vaultview finds in the page
 
-- [ ] Vaultview's note page gains find in the page: the platform's
+- [x] Vaultview's note page gains find in the page: the platform's
   find shortcut opens a search field control over the page (the
   tree's find-a-note keeps its own shortcut; say which shortcut each
   answers),
@@ -19944,10 +19944,10 @@ the control in the app.
   Escape clears the field and the marks, and the scrollbar shows the
   matches' places of BW2.2. The field says how many matches and which
   is current, and nothing beyond what the Search field entry names.
-- [ ] Goldens: the page with a query and three matches, the current
+- [x] Goldens: the page with a query and three matches, the current
   one mid-page, both schemes; goldens that move regenerate with the
   cause named.
-- [ ] Exit: green in `workbench/vaultview` by name; fresh-eyes review
+- [x] Exit: green in `workbench/vaultview` by name; fresh-eyes review
   of the page with a live query, both schemes; commit and push in
   every touched repo and `.github`.
 
