@@ -19906,7 +19906,7 @@ the control in the app.
 
 #### BW2.1: The markdown document marks its matches
 
-- [ ] `markdown.Document` gains a find: a query, case-insensitive,
+- [x] `markdown.Document` gains a find: a query, case-insensitive,
   yields the matches in reading order, each a span inside one block
   (prose, headings, list items, table cells and code alike); the
   document marks every match with the highlight and the current match
@@ -19915,9 +19915,9 @@ the control in the app.
   Clearing the query clears every mark. `Document.Highlight`'s
   block-level mark stays for the followed-link arrival; say in the
   package doc how the two relate.
-- [ ] A test pins the match order, the marks' fills sampled from the
+- [x] A test pins the match order, the marks' fills sampled from the
   render, and that an empty query leaves no mark.
-- [ ] Exit: green in `markdown` and `components/paragraph` by name;
+- [x] Exit: green in `markdown` and `components/paragraph` by name;
   commit and push.
 
 #### BW2.2: The scrollbar shows where the matches lie
