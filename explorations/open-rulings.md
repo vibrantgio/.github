@@ -2695,6 +2695,24 @@ Full record in `reviews/bw2.2-scrollbar-fresh-eyes.md`; four of the reviewer's c
 
 341. **[task]** **Add "a still capture cannot show the fade" to the recorded misreads** briefed into every fresh-eyes packet.
 
+## AW. From BW2.3's fresh-eyes review of vaultview finding in the page
+
+Full record in `reviews/bw2.3-vaultview-find-fresh-eyes.md`; measured off the window renders with a live query, both schemes. Filed 2026-09-08 from Phase BW. Fixed in the task: the goldens' note missing from the vault index, the count detached from its field. Answered by design: no next/previous/Done controls (the Search field entry names none); no gap above the document.
+
+342. **[bug]** **The scrollbar's thumb is one grey in both schemes, and a second grey in the same window.** Light 137, dark 135, and the window's other bar 129: the thumb does not derive from the scheme's ramp. `components/scrollbar`.
+
+343. **[bug]** **A match's mark is the raw glyph-run box.** Square corners, no horizontal padding, sitting off-centre on the line; a highlighter's stroke would clear the glyphs by a step and round its ends. `markdown` and `components/paragraph`'s span fill.
+
+344. **[decide]** **Pool 336 and 338 corroborated, made worse by the count.** With the field promising "2 of 3", a current match the eye cannot pick out on the scrollbar, and a mark across the thumb reading as a broken thumb, are now contradictions the reader notices. Rule 336 and 338 together.
+
+345. **[bug]** **Two purples in one window.** The focus ring and the outline's selection are different primaries; one accent per window.
+
+346. **[bug]** **The disabled forward chevron measures about 1.2:1.** Below any floor for a disabled mark; the disabled step for marks wants a floor of its own.
+
+347. **[decide]** **The status bar's "122 lines" reads as the note's last line.** The bar shares the page's fill and type; a chrome band or a caption style separates it.
+
+348. **[bug]** **The rail's three left edges disagree,** with a 13 px indent between the sections' headings, the rows and the field; one rail edge. Hairline and inset disagreements across the rail go with it.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
