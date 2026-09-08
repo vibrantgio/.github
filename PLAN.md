@@ -19841,24 +19841,24 @@ taller than the available room; the picker is to enforce that rather
 than leave it to a number its caller picks. Say "available room"
 throughout; it names no new thing.
 
-- [ ] The picker's Field reads the available room from its
+- [x] The picker's Field reads the available room from its
   container's constraints and the trigger's own offset inside them
   (measured from the pointer area the field already records, or
   passed by the container — say which in the commit body). `Drop`
   stays the caller's preferred side; when that side leaves no room
   for the menu and the other side has more, the menu flips.
-- [ ] The menu is capped to what the chosen side leaves above or
+- [x] The menu is capped to what the chosen side leaves above or
   below the trigger inside the container and scrolls inside it;
   `MaxHeight` becomes a preference the available room can tighten,
   never loosen. `Drop`'s and `MaxHeight`'s docs say so.
-- [ ] Mindchat's settings modal keeps its upward menu inside the
+- [x] Mindchat's settings modal keeps its upward menu inside the
   modal with no app-local number doing the work; the gallery's Open
   specimen still shows the whole menu. Goldens that move regenerate
   with the cause named.
-- [ ] A test pins a field near the top of a short container dropping
+- [x] A test pins a field near the top of a short container dropping
   upward no taller than the space above its trigger, and a field
   whose preferred side has no room flipping to the other.
-- [ ] Exit: green in `components`, `components/gallery`, `patterns`
+- [x] Exit: green in `components`, `components/gallery`, `patterns`
   and the workbench apps by name; fresh-eyes review of mindchat's
   settings modal open, both schemes; commit and push in every
   touched repo and `.github`.
