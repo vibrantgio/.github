@@ -2641,8 +2641,6 @@ Full record in `reviews/bv1.1-popover-fresh-eyes.md`; the numbers are the review
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
 
-319. **[decide]** **The picker's `Drop` is chosen by the caller, not by the available room.** The Language says a floating surface flips to the side with room and is never cut off; the field only flips when its caller says `DropUp`, and its `MaxHeight` is a number the caller picks. Mindchat's settings modal shows the cost: its upward menu is taller than the modal it stands in, and the eye expects the menu to stay within the modal. Seen 2026-09-08 by Rene. One task would cover both: the field reads the available room from its container's constraints, flips to the side with room, caps the menu to what that side leaves above or below the trigger and scrolls inside, with `MaxHeight` demoted to a preference the available room can tighten. What the field cannot know alone is the trigger's own offset inside its container; either the container passes it or the field measures it from the pointer area it already records. Say "available room" throughout; it is not a noun for a new thing.
-
 320. **[bug]** **Nothing tests that a gallery section's body fits its slot.** The gallery's section `Height` numbers are the only thing keeping a floating specimen inside its tile; the Open picker specimen pads its cell by the menu's measured height, but a next floating specimen (a tooltip, a popover) can paint over its neighbour with no test going red. A test that renders every section at its slot and asserts nothing paints outside it closes the hole.
 
 ## AG. Language seeds awaiting a plan slot
