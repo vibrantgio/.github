@@ -19866,31 +19866,31 @@ throughout; it names no new thing.
 ## Phase BW: Numbered lists and find in the page
 
 Rene found the defect in vaultview (2026-09-08): in a numbered list
-starting at 291 the marker runs into the item's text, the period
-lost, the digits over the first bold word. The marker column is
-`Style.Indent` wide whatever the number, and a three-digit marker in
+starting at 291 the number runs into the item's text, the period
+lost, the digits over the first bold word. The number column is
+`Style.Indent` wide whatever the number, and a three-digit number in
 the body size does not fit it. The second item is an owner request:
 vaultview's note page has no find in the page, while the Language
 already says a match is marked with the highlight and the marks die
 with the query. No tags.
 
-### G-BW1: The numbered list's marker fits its column
+### G-BW1: The numbered list's number fits its column
 
-#### BW1.1: The marker column takes the width the list needs
+#### BW1.1: The number column takes the width the list needs
 
-- [ ] Investigate `markdown`'s list item rendering: the marker is set
+- [ ] Investigate `markdown`'s list item rendering: the number is set
   in a column `Style.Indent` wide, and the content column starts at
-  that width regardless of the marker's measured width. Reproduce
+  that width regardless of the number's measured width. Reproduce
   with a list starting at 291 (the case) and at 1000, in the body
   size and a heading-sized style, both schemes; name the mechanism in
   the commit body (wrap, clip, or overflow).
-- [ ] Fix it in the library, not the app: the marker column of a
+- [ ] Fix it in the library, not the app: the number column of a
   numbered list is at least `Style.Indent` and grows to the list's
-  widest marker plus the gap the bullet keeps; every item of one list
+  widest number plus the gap the bullet keeps; every item of one list
   shares the column, so the content edges line up; nested lists
-  indent by their own column. Markers still hang from the first
-  line's centre.
-- [ ] A test pins a list starting at 291 whose marker paints whole
+  indent by their own column. Numbers and bullets still hang from
+  the first line's centre. No exported name carries "marker".
+- [ ] A test pins a list starting at 291 whose number paints whole
   and whose content starts after it, and a list starting at 1 whose
   column is unchanged. Goldens that move regenerate with the cause
   named, downstream included.
@@ -19910,7 +19910,7 @@ the control in the app.
   yields the matches in reading order, each a span inside one block
   (prose, headings, list items, table cells and code alike); the
   document marks every match with the highlight and the current match
-  with the highlight's strongest step, and reports each match's
+  with a stronger fill (no highlighter steps as tokens), and reports each match's
   rectangle in the document's plane so a caller can scroll to it.
   Clearing the query clears every mark. `Document.Highlight`'s
   block-level mark stays for the followed-link arrival; say in the
@@ -19920,13 +19920,14 @@ the control in the app.
 - [ ] Exit: green in `markdown` and `components/paragraph` by name;
   commit and push.
 
-#### BW2.2: The scrollbar's tick marks
+#### BW2.2: The scrollbar shows where the matches lie
 
-- [ ] `components/scrollbar` gains tick marks: a caller hands it the
-  positions of the matches as fractions of the content's height, and
-  the bar paints a mark at each in the highlight's hue, the current
-  one strongest, inside the track and beside the thumb, never under
-  it. The marks die with the query.
+- [ ] `components/scrollbar` shows where the matches lie: a caller
+  hands it the positions of the matches as fractions of the content's
+  height, and the bar paints each in the highlight's hue, the current
+  match stronger, inside the track and beside the thumb, never under
+  it. They die with the query. The marks get no name of their own: no
+  exported type, no token, no noun in prose.
 - [ ] A test pins the marks' positions and fills; a gallery specimen
   shows a bar with marks in both schemes.
 - [ ] Exit: green in `components` and `components/gallery` by name;
@@ -19935,13 +19936,14 @@ the control in the app.
 #### BW2.3: Vaultview finds in the page
 
 - [ ] Vaultview's note page gains find in the page: the platform's
-  find chord opens a search field control over the page (the tree's
-  find-a-note keeps its own chord; say which chord each answers),
+  find shortcut opens a search field control over the page (the
+  tree's find-a-note keeps its own shortcut; say which shortcut each
+  answers),
   typing marks the matches as they come, Enter and Shift+Enter step
   through them with the page scrolling the current match into view,
   Escape clears the field and the marks, and the scrollbar shows the
-  tick marks of BW2.2. The field says how many matches and which is
-  current.
+  matches' places of BW2.2. The field says how many matches and which
+  is current, and nothing beyond what the Search field entry names.
 - [ ] Goldens: the page with a query and three matches, the current
   one mid-page, both schemes; goldens that move regenerate with the
   cause named.
@@ -19953,7 +19955,7 @@ the control in the app.
 
 Owner request 2026-09-08: with the command key held, a word under the
 pointer that a heading in the same document is, or contains, shows as
-a link with the link cursor. The word is a way into the document's
+a link with the pointing hand. The word is a way into the document's
 own structure; nothing is drawn until the key is down, so the prose
 keeps its face at rest.
 
@@ -19970,7 +19972,7 @@ keeps its face at rest.
 - [ ] `markdown.Document` implements it: while the command key is
   held, the word under the pointer is looked up against the
   document's headings; on a hit the word paints as a link (the link
-  fill and underline the document already uses) with the link cursor,
+  fill and underline the document already uses) with the pointing hand,
   and a click scrolls the document to that heading the way a
   followed link arrives. The key released or the pointer leaving the
   word restores the prose. When several headings match, the first in
