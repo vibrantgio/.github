@@ -2637,6 +2637,14 @@ Full record in `reviews/bv1.1-popover-fresh-eyes.md`; the numbers are the review
 
 318. **[decide]** **The accent is a hardcoded purple (114, 58, 212) rather than the accent the person using the machine chose.**
 
+## AR. From BV1.3, the open field reporting the trigger alone
+
+Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
+
+319. **[decide]** **The picker's `Drop` is chosen by the caller, not by the room.** The Language says a floating surface flips to the side with room and is never cut off; the field only flips when its caller says `DropUp`. A field near the window's bottom edge with `DropDown` floats its menu off the window. The automatic flip, keyed on the room the window leaves below and above the trigger, would retire `Drop` or demote it to a preference the room can overrule.
+
+320. **[bug]** **Nothing tests that a gallery section's body fits its slot.** The gallery's section `Height` numbers are the only thing keeping a floating specimen inside its tile; the Open picker specimen pads its cell by the menu's measured height, but a next floating specimen (a tooltip, a popover) can paint over its neighbour with no test going red. A test that renders every section at its slot and asserts nothing paints outside it closes the hole.
+
 ## AG. Language seeds awaiting a plan slot
 
 228. **[task]** HIGHLIGHT beyond the search field: the scrollbar tick
