@@ -19922,15 +19922,15 @@ the control in the app.
 
 #### BW2.2: The scrollbar shows where the matches lie
 
-- [ ] `components/scrollbar` shows where the matches lie: a caller
+- [x] `components/scrollbar` shows where the matches lie: a caller
   hands it the positions of the matches as fractions of the content's
   height, and the bar paints each in the highlight's hue, the current
   match stronger, inside the track and beside the thumb, never under
   it. They die with the query. The marks get no name of their own: no
   exported type, no token, no noun in prose.
-- [ ] A test pins the marks' positions and fills; a gallery specimen
+- [x] A test pins the marks' positions and fills; a gallery specimen
   shows a bar with marks in both schemes.
-- [ ] Exit: green in `components` and `components/gallery` by name;
+- [x] Exit: green in `components` and `components/gallery` by name;
   fresh-eyes review of the specimen; commit and push.
 
 #### BW2.3: Vaultview finds in the page
