@@ -2679,6 +2679,22 @@ Filed 2026-09-08 from the task's own findings. No fresh-eyes review; no golden m
 
 335. **[bug]** **A fence scrolled sideways reports its matches where they are in the code, not where the viewport left them.** `markdown`'s code block records each match's rectangle before the horizontal scroll; a caller scrolling to it lands beside it. Documented in the code block; fix when a scrolling fence and find meet in an app.
 
+## AV. From BW2.2's fresh-eyes review of the scrollbar showing its matches
+
+Full record in `reviews/bw2.2-scrollbar-fresh-eyes.md`; four of the reviewer's claims measured false and are answered there. Filed 2026-09-08 from Phase BW. Rendering for the review caught and fixed the marks running into the content.
+
+336. **[decide]** **In the light scheme the current match's stronger fill reads duller, not stronger, at three by six pixels.** The hover step walks the highlight toward the deep end, which at that size reads as a dimmer yellow beside the plain matches. The same derivation reads right in prose (BW2.1). Either the scrollbar's current match takes a different step, or a size-aware rule says what "stronger" is for a mark this small.
+
+337. **[decide]** **The dark scheme's highlight is very quiet on the scrollbar.** The dark highlight, chosen for text under it, barely reads as a three-pixel mark in the track. Pool 271's light/dark asymmetry has a second case.
+
+338. **[decide]** **A match painted across the thumb's full width reads as a break in the thumb.** The ruling says beside the thumb and never under it; across it satisfies never-under but the reviewer read it as damage. Narrower than the thumb, or offset to the track's edge, are the two candidates.
+
+339. **[decide]** **Should a live query bring the overlay track out and keep it visible?** macOS shows the track while the marks exist; the bar now paints the marks at full opacity outside the fade, but the track itself still fades. Whether the query holds the bar.
+
+340. **[bug]** **The inventory's two scrollbar specimens float mid-panel with no frame of their own.** A shared framing for the scrollbar section so a bar reads as a bar in a scroller.
+
+341. **[task]** **Add "a still capture cannot show the fade" to the recorded misreads** briefed into every fresh-eyes packet.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
