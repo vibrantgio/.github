@@ -807,3 +807,9 @@ down then driven over with a big truck. ^0005-dark-highlight-burned
 
 Rene: Write the entry and the tasks, but make sure you actually make
 it similar to how obsidian does it. ^0005-highlight-like-obsidian
+
+Rene: The section for seed is confusing and can be made more clear by
+explicitly mentioning that both hue and chroma are taken from the
+selected color. You need to mention that we base this on the OKLCh
+colour space and that needs to come before it then, no?
+^0005-seed-after-oklch
