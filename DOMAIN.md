@@ -427,9 +427,11 @@ how one seed yields both schemes.
 
 ### Role
 
-A colour identity of the theme. Each role owns a ramp — its hue run
-from light to dark, walked in numbered steps — and answers derived
-from it: its tinted container, its foreground, its mark colour.
+One of the theme's named colours, from which every actual colour
+that carries its name is derived. Each role owns a ramp — its hue
+run from light to dark, walked in numbered steps — and colours
+derived from it: its tinted container, its foreground, its mark
+colour.
 
 | Roles | Family |
 |---|---|

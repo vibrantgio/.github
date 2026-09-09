@@ -836,3 +836,7 @@ Rene: "says what status it speaks" you don't speak a status you
 Rene (to the non-status signals' colour): Add it to the Signal entry
 and also add the colour info to the individual sections
 ^0005-signal-colours
+
+Rene (to "colour identity" in the Role entry): Change it to that,
+named colour is so much more clearer than identity.
+^0005-role-named-colour
