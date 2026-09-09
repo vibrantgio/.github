@@ -792,3 +792,6 @@ Role entry to say mark colour ^0005-role-mark-colour
 Rene (to the Mark entry's "the role it is drawn in" and "state
 mark"): What is a "state mark" — Write it that way
 ^0005-mark-entry-straight
+
+Rene (after the seed, chroma and saturation exchange): Perhaps you
+should add an entry ofr OKLCh to the DOMAIN.md ^0005-oklch-entry

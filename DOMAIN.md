@@ -380,6 +380,19 @@ What is happening to a control right now.
 the user causes: the system has withdrawn the control; it is drawn
 faded and no state applies until it returns.
 
+### OKLCh
+
+The colour space the theme derives in. A colour is three numbers:
+lightness, how light it is; chroma, how far it is from grey, as a
+distance, so that equal chroma looks equally colourful at any hue;
+hue, its place on the colour circle. At chroma zero the colour is a
+grey and the hue means nothing — that is the Neutral role. The
+screen cannot show every chroma at every lightness, so a derived
+colour keeps its lightness and hue and gives up chroma until it fits.
+Saturation is not chroma: saturation is a ratio to the strongest
+colour the screen can show at that hue and lightness, and the same
+saturation looks different at every hue.
+
 ### Role
 
 A colour identity of the theme. Each role owns a ramp — its hue run
