@@ -813,3 +813,5 @@ explicitly mentioning that both hue and chroma are taken from the
 selected color. You need to mention that we base this on the OKLCh
 colour space and that needs to come before it then, no?
 ^0005-seed-after-oklch
+
+Rene: You never defined Theme in DOMAIN.md ^0005-theme-entry

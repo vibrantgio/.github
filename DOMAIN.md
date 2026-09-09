@@ -175,6 +175,16 @@ is a component, however large.
 | **testimonial** | quote cards naming their author — social proof |
 | **toolbar** | the chrome strip along the window's top holding the controls that act on the document |
 
+### Theme
+
+Everything a window draws with, derived from one seed: the colours
+of every role and level in both schemes, and the axes — density,
+radius, typography roles — read by every component. A window has one
+theme at a time. It follows the platform — its scheme from the
+system's appearance, its seed from the system's accent colour unless
+the user has kept a seed of their own in the themer — and every
+application on the machine draws with the same one.
+
 ### Axis
 
 An independent dial every component reads rather than
