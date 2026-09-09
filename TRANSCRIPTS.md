@@ -854,3 +854,6 @@ from 5 distinct names is important ^0005-badge-five-choices
 
 Rene: Say the same about alert and toast in their entries
 ^0005-alert-toast-four-choices
+
+Rene: I think it is quirky to call "neutral" "none" though none
+means no colour to me not neutral. ^0005-no-status-not-none

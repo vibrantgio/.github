@@ -49,7 +49,7 @@ A component that is read, never operated: its only purpose is to
 inform. A signal tells you something; it is never the matter itself
 — that is content. There are two kinds. A status signal indicates
 one of the four statuses and is coloured in that status's role; a
-badge may also carry none, and is then Neutral:
+badge may also carry no status, and is then coloured Neutral:
 
 | Status signal | Tells |
 |---|---|
@@ -584,10 +584,10 @@ about content — read, not used. One purpose, three utterances:
 It covers what M3 and iOS call a badge too. Not a control: sized to
 its content like an inline annotation, not sized to the control
 height, visibly lighter than any control. The developer gives a
-badge one of five: Error, Success, Warning, Info, or none. The four
-colour it in that status's role; none colours it Neutral, for a plain
-category label. There is no other choice — no badge in Primary, and
-no colour without a status. Hue is never its only channel: hue
+badge one of the four statuses — Error, Success, Warning, Info — or
+no status. A status colours it in that status's role; a badge with
+no status is coloured Neutral, a plain category label. There is no
+other choice — no badge in Primary. Hue is never its only channel: hue
 alone collapses for colour-blind readers. Filled/Tonal emphasis does not exist on a badge;
 emphasis lives where interaction lives. A badge may be dismissible
 (the close mark keeps an invisible control-sized hit area); what
