@@ -840,3 +840,6 @@ and also add the colour info to the individual sections
 Rene (to "colour identity" in the Role entry): Change it to that,
 named colour is so much more clearer than identity.
 ^0005-role-named-colour
+
+Rene: Rename role section to Colour role and see if typography role
+explanation of colour role is then still needed ^0005-colour-role

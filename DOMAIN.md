@@ -247,9 +247,8 @@ each level is lighter in both.
 ### Typography role
 
 A named style of the type stack. A text label or a heading is set in
-a typography role, never in a bare size. Always spoken with the
-qualifier: a bare "role" is a colour role. Each family below comes
-in Large, Medium and Small.
+a typography role, never in a bare size. Each family below comes in
+Large, Medium and Small.
 
 | Family | Sets |
 |---|---|
@@ -425,7 +424,7 @@ theme sets lightness itself, once for each scheme — the light scheme
 starts from the seed's own, the dark scheme re-tones it — which is
 how one seed yields both schemes.
 
-### Role
+### Colour role
 
 One of the theme's named colours, from which every actual colour
 that carries its name is derived. Each role owns a ramp — its hue
@@ -439,10 +438,7 @@ colour.
 | **Primary, Secondary, Tertiary** | the accent trio |
 | **Error, Success, Warning, Info** | the status four, one per status — Warning is orange, never yellow; yellow is the highlighter's |
 
-Wherever a ruling says "role-tinted" or "the role's own hue", this
-is the role it means. Typography roles are a different thing
-entirely — the type stack's named styles, under Axis, always spoken
-with the qualifier.
+Spoken bare, "role" means a colour role.
 
 ### Fill
 
