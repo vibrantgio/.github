@@ -20102,3 +20102,38 @@ composites to about #786512, over white to about #ffec99. No tags.
   with three matches and of a light one; live check by Rene of a dark
   find in vaultview; commit and push in every touched repo and
   `.github`.
+
+## Phase BZ: The status signals take a status
+
+Owner request 2026-09-09: the Language says a badge, an alert and a
+toast carry a status — one of Error, Success, Warning, Info, or for
+the badge alone no status — and the code names that property
+`Variant` on the alert and the badge and `Role` on the toast. Variant
+means a setting in the Language and role means a colour role; neither
+is what the field is. One task renames the field and the comments
+around it. No tags; the exported-surface change is noted for the
+tagging round.
+
+### G-BZ1: One name for the status a signal carries
+
+#### BZ1.1: Variant and Role become Status on the three status signals
+
+- [ ] `components/alert`, `components/badge`, `components/toast`: the
+  props field is `Status`, its type `Status`, its constants the
+  Language's names — Error, Success, Warning, Info, and Neutral on
+  the badge alone. The zero values stay: Info on the alert and the
+  toast, Neutral on the badge, and each package doc says so in one
+  sentence: "an alert given no status is Info". Renamed abruptly, no
+  alias, no deprecated forwarder.
+- [ ] Every consumer converts in the same task: `components/button`,
+  `components/gallery/inventory`, `patterns/notifications`,
+  `patterns/pricing`, `workbench/feeds`, `workbench/mindchat`,
+  `workbench/vaultview`, and any the build finds beyond those.
+- [ ] Comments and docs in the three packages and the touched call
+  sites follow the Language: a signal indicates a status, never
+  speaks one; a status is not a variant, a role, a colour identity
+  or a semantic palette; "the status's role" for the colour it is
+  drawn in. The retired-word guard runs on every touched module.
+- [ ] Exit: green in `components`, `components/gallery`, `patterns`
+  and every workbench app by name; goldens unchanged, none moves a
+  pixel; commit and push in every touched repo and `.github`.
