@@ -848,3 +848,6 @@ Rene: Is foreground always an OnXXXX entry — Add that to the
 Foreground entry. Also the status entry names badge but that does not
 need to be coloured in one of the status four color roles, right?
 ^0005-foreground-kinds
+
+Rene: Add that to the Badge entry, because being able to select only
+from 5 distinct names is important ^0005-badge-five-choices

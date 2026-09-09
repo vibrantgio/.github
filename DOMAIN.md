@@ -583,11 +583,12 @@ about content — read, not used. One purpose, three utterances:
 
 It covers what M3 and iOS call a badge too. Not a control: sized to
 its content like an inline annotation, not sized to the control
-height, visibly lighter than any control. It indicates one status,
-in that status's role hue, or none, in Neutral, for plain category
-labels; and
-hue is never its only channel (hue alone collapses for
-colour-blind readers). Filled/Tonal emphasis does not exist on a badge;
+height, visibly lighter than any control. The developer gives a
+badge one of five: Error, Success, Warning, Info, or none. The four
+colour it in that status's role; none colours it Neutral, for a plain
+category label. There is no other choice — no badge in Primary, and
+no colour without a status. Hue is never its only channel: hue
+alone collapses for colour-blind readers. Filled/Tonal emphasis does not exist on a badge;
 emphasis lives where interaction lives. A badge may be dismissible
 (the close mark keeps an invisible control-sized hit area); what
 separates a dismissible badge from an Input chip is the
