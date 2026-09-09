@@ -20029,19 +20029,19 @@ records "follow the system". No tags.
 
 #### BX1.2: The themer offers the macOS accent colour, and keeping it follows the system
 
-- [ ] `theme/brand`: a kept brand can say "follow the system" instead
+- [x] `theme/brand`: a kept brand can say "follow the system" instead
   of pinning a seed. `Options()` for such a brand returns no seed
   option, so the live theme derives from the accent as it does with no
   brand at all; base and mono choices are kept as before. The file
   records it in the existing `Source` field or a field beside it;
   `Load` reads old files unchanged.
-- [ ] `workbench/themer`: a control offers the macOS accent colour
+- [x] `workbench/themer`: a control offers the macOS accent colour
   as a choice next to the image-derived candidates, showing the live
   colour the platform reports (Multicolour shown as blue per BX1.1),
   and choosing it renders the workbench as that seed. Keeping it
   writes a follow-the-system brand. The themer's own window follows
   the setting like every other app.
-- [ ] Tests pin the brand round-trip (kept as follow-the-system, read
+- [x] Tests pin the brand round-trip (kept as follow-the-system, read
   back, no seed option), and the themer's choice and keep.
 - [ ] Exit: green in `theme` and `workbench/themer` by name; live
   check by Rene: with the follow-the-system brand kept, changing the
