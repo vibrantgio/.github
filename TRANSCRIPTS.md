@@ -795,3 +795,8 @@ mark"): What is a "state mark" — Write it that way
 
 Rene (after the seed, chroma and saturation exchange): Perhaps you
 should add an entry ofr OKLCh to the DOMAIN.md ^0005-oklch-entry
+
+Rene: Add the seed entry too and inside that seed entry explain that
+it is not only the hue but also the chroma that is important. But
+lightness is what is modified by the theme for its 2 (light and
+dark) schemes. ^0005-seed-entry

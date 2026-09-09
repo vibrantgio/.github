@@ -380,6 +380,18 @@ What is happening to a control right now.
 the user causes: the system has withdrawn the control; it is drawn
 faded and no state applies until it returns.
 
+### Seed
+
+The one colour a theme derives from: picked by the user, taken from
+an image, or the platform's accent colour. Its hue is the theme's
+hue. Its chroma matters as much: it is lifted to a set chroma before
+anything derives, a seed already stronger keeps its own, and a
+near-grey seed makes a grey theme, so the seed decides how colourful
+the theme is, not only which colour it is. Its lightness is the
+theme's to set, once for each scheme — the light scheme starts from
+the seed's own, the dark scheme re-tones it — which is how one seed
+yields both schemes.
+
 ### OKLCh
 
 The colour space the theme derives in. A colour is three numbers:
