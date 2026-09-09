@@ -2729,6 +2729,22 @@ Full record in `reviews/bw3.1-heading-word-fresh-eyes.md`; measured off vaultvie
 
 354. **[decide]** **The window shows no control strip** in the render and the typeface is not the system's; both are noted as reviewer expectations of a Mac window, the first a capture artefact, the second a system choice to be answered in the Language rather than changed.
 
+## AY. From BX1.2's fresh-eyes review of the themer offering the macOS accent colour
+
+Full record in `reviews/bx1.2-themer-fresh-eyes.md`; measured off the themer window with the new choice visible, both schemes. Filed 2026-09-09 from Phase BX. Fixed in the task: choosing the macOS accent colour no longer replaces the picture and its name; the ring says the choice. The missing window controls are a capture artefact.
+
+355. **[bug]** **The macOS accent colour is unreachable from the themer's opening screen.** The choice lives in the candidate row, which appears only after a picture is dropped or a style card clicked; a fresh session cannot choose to follow the system without first choosing something else.
+
+356. **[bug]** **The themer's scrolling panel clips its content at the bottom;** the last row is cut where the panel ends instead of scrolling into view.
+
+357. **[decide]** **The scheme switch has no Auto and reads as on/off.** macOS offers Light, Dark and Auto; the themer offers two states in a toggle's face.
+
+358. **[decide]** **The themer's scrollbar is always visible** where the platform's overlay bar fades; the same question as pool 339 from the other side.
+
+359. **[decide]** **The section captions are verbose and grey,** reading as helper text rather than headings; the "drop another image…" line reads as a disabled button rather than an invitation.
+
+360. **[decide]** **The dark page is near black and the ramp's dot markers sit low in contrast;** both are theme derivations the themer only shows, filed with pool 271's asymmetry.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
