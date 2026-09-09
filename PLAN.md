@@ -22,6 +22,14 @@ in each repo you touched with the task heading in the subject line and a
 model that actually did the work (currently Fable 5; earlier phases were
 Opus 5).
 
+**A heading states its result.** Every goal and task heading is one
+present-tense sentence: its subject is the thing that changes, its verb
+the result a reader can check afterwards — "The open field reports the
+trigger alone", never a topic ("Find in the page") or a metaphor. Test a
+heading by prefixing "once this lands," and reading it aloud; if it does
+not say what is then true, rewrite it. Applies to new headings
+(owner-ruled 2026-09-09); checked-off history keeps its titles.
+
 **Comments carry constraints, not history.** A code comment states a
 constraint the code cannot show, an invariant, or the provenance of a
 measured number — and stops. Decision history, review anecdotes,
