@@ -815,3 +815,6 @@ colour space and that needs to come before it then, no?
 ^0005-seed-after-oklch
 
 Rene: You never defined Theme in DOMAIN.md ^0005-theme-entry
+
+Rene (to the Highlight entry): Why just not mention what it IS
+^0005-highlight-says-what-it-is

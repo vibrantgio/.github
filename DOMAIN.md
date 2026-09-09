@@ -637,28 +637,21 @@ dismissed.
 
 ### Highlight
 
-The marking of the content the user was brought to — the system's
-answer to "here is what you sought". A highlight is applied to
-content, it is not a component, and it is not of the status family:
-it reports no status. It lives exactly as long as its cause:
+A yellow fill laid behind content to show the user where the content
+they sought is. It is the same yellow in both schemes, laid over the
+surface at less than full strength so the surface shows through it,
+and the text on it keeps its colour. The system applies it to
+content, and it lasts as long as its cause:
 
 | Cause | Marks | Until |
 |---|---|---|
 | a search | every match, the current one stronger — in the content, and where each lies on the scrollbar | the query is dismissed |
 | a followed link | the arrived-at content | it fades by itself, moments later |
 
-The arrival highlight is a highlight flash: the showing and the
-subsequent fading together — it appears at once when the content
-comes into view and fades over a moment, never cut off.
-
-Its colour is its own, reserved outside the roles — a highlight must
-never read as a status, so no status hue may serve as the
-highlighter. That colour is yellow, the marker's own; Warning is
-orange so that it can be. It is one yellow in both schemes, laid over
-the surface at less than full strength so the surface shows through
-it, and the marked text keeps its colour: a highlighter changes what
-is behind the words, never the words. The current match is the same
-yellow laid on more strongly.
+The current match is the same yellow laid on more strongly. The
+arrival highlight is a highlight flash: it appears at once when the
+content comes into view and fades over a moment, never cut off. The
+yellow is the highlight's alone; Warning is orange so that it can be.
 
 ### Eyebrow
 
