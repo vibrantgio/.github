@@ -784,3 +784,7 @@ this, are we really talking about the combo that often.
 5. agree, also what is the cursor called that is shown as an
 affordance to indicate clicking, mention that in the link section
 ^0005-heading-word-and-pointing-hand
+
+Rene (to the Role entry's "the colour of its marks"): So you mean
+Mark *Colour* not colour of its *marks* — Fix that sentence in the
+Role entry to say mark colour ^0005-role-mark-colour

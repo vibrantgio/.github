@@ -384,8 +384,7 @@ faded and no state applies until it returns.
 
 A colour identity of the theme. Each role owns a ramp — its hue run
 from light to dark, walked in numbered steps — and answers derived
-from it: its tinted container, its foreground, the colour of its
-marks.
+from it: its tinted container, its foreground, its mark colour.
 
 | Roles | Family |
 |---|---|
