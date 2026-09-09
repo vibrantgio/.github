@@ -438,7 +438,8 @@ colour.
 | **Primary, Secondary, Tertiary** | the accent trio |
 | **Error, Success, Warning, Info** | the status four, one per status — Warning is orange, never yellow; yellow is the highlighter's |
 
-Spoken bare, "role" means a colour role.
+When this document says "role" without saying which kind, it means
+a colour role.
 
 ### Fill
 
