@@ -642,7 +642,11 @@ comes into view and fades over a moment, never cut off.
 Its colour is its own, reserved outside the roles — a highlight must
 never read as a status, so no status hue may serve as the
 highlighter. That colour is yellow, the marker's own; Warning is
-orange so that it can be.
+orange so that it can be. It is one yellow in both schemes, laid over
+the surface at less than full strength so the surface shows through
+it, and the marked text keeps its colour: a highlighter changes the
+paper behind the words, never the ink. The current match is the same
+yellow laid on more strongly.
 
 ### Eyebrow
 

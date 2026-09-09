@@ -20048,3 +20048,57 @@ records "follow the system". No tags.
   accent colour in System Settings re-colours the open workbench apps
   within their poll interval; commit and push in every touched repo
   and `.github`.
+
+## Phase BY: The highlight is one yellow over the page
+
+Owner finding 2026-09-09: the dark scheme's highlight is olive brown,
+not a highlight. The cause is the derivation: in dark the highlighter
+is walked down the neutral lightness curve until the scheme's light
+text still clears its floor on it, and it stops at lightness 30 with
+most of its chroma gone. The Language now says the highlight is one
+yellow in both schemes, laid over the surface at less than full
+strength, and the marked text keeps its colour. The reference is
+Obsidian's own stylesheet, read from its bundle: one colour,
+rgb(255, 208, 0), at 40% over the page in both themes, never
+overridden per theme; marked text in the page's normal colour; the
+arrival flash the same fill. Over Obsidian's dark page (#1e1e1e) that
+composites to about #786512, over white to about #ffec99. No tags.
+
+### G-BY1: The highlighter takes Obsidian's yellow at Obsidian's strength
+
+#### BY1.1: The theme lays one yellow over any surface
+
+- [ ] `theme/tokens`: `Highlight` and `HighlightOn(surface)` return
+  the marker yellow rgb(255, 208, 0) composited over the surface at
+  40% coverage, both schemes — an opaque colour, so the token
+  contract that no fill is transparent holds — and a second answer
+  for the current match at a higher coverage, the one dial that makes
+  it "the same yellow laid on more strongly". The neutral-step depth
+  walk and the text-floor walk go. The marked text is not repainted:
+  record in the commit body the measured contrast of each scheme's
+  text over the composite on the default seed, both levels 0 and
+  chrome, and say plainly where it lands against the text floor; the
+  coverage is Obsidian's, not tuned to the floor.
+- [ ] `theme/export` re-emits; the sheet's highlight variables carry
+  the composites. Tests pin both schemes' values over the content and
+  over chrome, and that the current-match answer is stronger.
+- [ ] Exit: green in `theme` and every field-walker module by name
+  (`effects/transition`, `workbench/themer`); commit and push in
+  every touched repo and `.github`.
+
+#### BY1.2: The document, the scrollbar and vaultview take the new yellow
+
+- [ ] `markdown`: find matches, the current match and the arrival
+  highlight take `HighlightOn` over the document's actual surface,
+  none over a hard-coded level; the arrival flash fades the same fill
+  out. `components/scrollbar`: the marks of the matches take the
+  composite over the track, the current one the stronger answer.
+  `workbench/vaultview`: the tree's find marks and the note's arrival
+  flash follow through the library; nothing local.
+- [ ] Goldens that move regenerate with the cause named, both
+  schemes, downstream included.
+- [ ] Exit: green in `markdown`, `components`, `components/gallery`
+  and `workbench/vaultview` by name; fresh-eyes review of a dark note
+  with three matches and of a light one; live check by Rene of a dark
+  find in vaultview; commit and push in every touched repo and
+  `.github`.

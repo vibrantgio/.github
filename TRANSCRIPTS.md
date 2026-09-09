@@ -800,3 +800,10 @@ Rene: Add the seed entry too and inside that seed entry explain that
 it is not only the hue but also the chroma that is important. But
 lightness is what is modified by the theme for its 2 (light and
 dark) schemes. ^0005-seed-entry
+
+Rene: The highlight color in for the dark scheme is too dark, doesn't
+look like a highlight, more like a highlight caught fire and burned
+down then driven over with a big truck. ^0005-dark-highlight-burned
+
+Rene: Write the entry and the tasks, but make sure you actually make
+it similar to how obsidian does it. ^0005-highlight-like-obsidian
