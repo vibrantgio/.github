@@ -857,3 +857,8 @@ Rene: Say the same about alert and toast in their entries
 
 Rene: I think it is quirky to call "neutral" "none" though none
 means no colour to me not neutral. ^0005-no-status-not-none
+
+Rene: Modernize both the DOMAIN.md entries that are relevant because
+it is good to make explicit that selecting no status means that it
+is Info by default, which is fine. Only strange that badge does not
+work like that. ^0005-no-status-is-info

@@ -605,8 +605,9 @@ did made it appear, so it is never dismissible.
 The status signal for a situation: a tinted rounded banner — an
 icon, a title, a body — standing in the page flow until the
 situation resolves. The developer gives an alert one of four: Error,
-Success, Warning or Info, and it is coloured in that status's role.
-There is no other choice — no Neutral alert, no alert in Primary. It holds words about the
+Success, Warning or Info, and it is coloured in that status's role;
+an alert given no status is Info. There is no other choice — no
+Neutral alert, no alert in Primary. It holds words about the
 situation, never a control: an action on the situation stands beside
 the alert, or the situation is a modal's job.
 
@@ -627,8 +628,9 @@ notification is raised and leaves by itself when the time is up. It
 is filled inverse — the other scheme's surface and foreground — so
 it stands out as a message over any content in either scheme. The
 developer gives a toast one of four: Error, Success, Warning or
-Info; that status is indicated by its icon and mark, and there is no
-other choice — no Neutral toast, no toast in Primary. Structure:
+Info, and a toast given no status is Info; that status is indicated
+by its icon and mark, and there is no other choice — no Neutral
+toast, no toast in Primary. Structure:
 icon, text, close mark; the close is its only control. The
 presentation and its timing are what make it a toast; the
 notification is the message it carries. It appears in the
