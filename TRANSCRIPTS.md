@@ -832,3 +832,7 @@ how did you come up with that use normal language.
 
 Rene: "says what status it speaks" you don't speak a status you
 **indicate** a status ^0005-indicate-not-speak
+
+Rene (to the non-status signals' colour): Add it to the Signal entry
+and also add the colour info to the individual sections
+^0005-signal-colours

@@ -47,13 +47,21 @@ A component the user operates to act or to choose.
 
 A component that is read, never operated: its only purpose is to
 inform. A signal tells you something; it is never the matter itself
-— that is content.
+— that is content. There are two kinds. A status signal carries one
+of the four statuses and is coloured in that status's role:
 
-| Signal | Tells |
+| Status signal | Tells |
 |---|---|
 | **badge** | the system's word, count or glyph about content |
 | **alert** | a situation, standing in the page flow until it resolves |
 | **toast** | an event, floating briefly and leaving by itself |
+
+The other signals carry no status and no role of their own; each is
+coloured in the foreground of what it sits in — the developer does
+not choose a colour for it:
+
+| Signal | Tells |
+|---|---|
 | **icon** | a concept as a glyph — names an action or a thing at a glance |
 | **tooltip** | the name of a control or the meaning of a signal, on demand |
 | **text label** | a name or caption, set in a typography role |
@@ -746,8 +754,10 @@ at rest it is prose, and operating it goes to that heading.
 ### Icon
 
 The signal drawing a concept as a glyph: it names an action or a
-thing at a glance. Inside a control's structure an icon is a part,
-not a signal of its own.
+thing at a glance. It is drawn in the foreground of what it sits in
+— a button's icon in the button's foreground, an icon on the content
+in the text colour — and carries no role of its own. Inside a
+control's structure an icon is a part, not a signal of its own.
 
 ### Tooltip
 
@@ -755,17 +765,17 @@ The signal naming a control or explaining another signal on demand:
 a small annotation floating at level 3 beside its trigger, appearing
 by itself after a short delay on hover or focus and leaving when they
 do. It holds text only, never a control; anything the user must
-operate is the job for a popover. Level 3 is where it is placed, not
-what it is filled with: nothing stands on a tooltip, so it takes no
-surface's fill and is filled inverse — the other scheme's surface
-and foreground — so it reads as a message about the thing, not as a
-panel. The tooltip and the toast are the inverse pair's two
+operate is the job for a popover. It is filled inverse — the other
+scheme's surface and foreground, the same in both schemes — so it
+reads as a message about the thing, not as a panel, and it carries
+no role. The tooltip and the toast are the inverse pair's two
 adoptions: the signals that float and tell about a thing.
 
 ### Text label
 
 The signal naming or captioning something: a run of text set in a
-typography role. It says what a thing is.
+typography role. It says what a thing is. It is drawn in the text
+colour of the surface it sits on and carries no role.
 
 ### Image
 
