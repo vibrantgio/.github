@@ -20013,7 +20013,7 @@ records "follow the system". No tags.
 
 #### BX1.1: Multicolour is the platform's blue, never the purple default
 
-- [ ] `theme/system`: on macOS the Multicolour setting derives from
+- [x] `theme/system`: on macOS the Multicolour setting derives from
   the colour macOS itself uses for applications without an accent of
   their own — systemBlue, the same seed `AccentBlue` carries — and so
   does a failed read of the setting. The purple default seed is
@@ -20021,10 +20021,10 @@ records "follow the system". No tags.
   `WithSeed`. Other platforms keep their current fallback. Say in the
   package doc which colour each platform derives from when nothing is
   chosen.
-- [ ] A test pins the Multicolour and failed-read cases on darwin and
+- [x] A test pins the Multicolour and failed-read cases on darwin and
   the unchanged fallback elsewhere; the throttled reader's tests keep
   passing.
-- [ ] Exit: green in `theme` and every workbench app by name; commit
+- [x] Exit: green in `theme` and every workbench app by name; commit
   and push in every touched repo and `.github`.
 
 #### BX1.2: The themer offers the macOS accent colour, and keeping it follows the system
