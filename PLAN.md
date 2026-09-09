@@ -20064,23 +20064,23 @@ tagging round.
 
 #### BZ1.1: Variant and Role become Status on the three status signals
 
-- [ ] `components/alert`, `components/badge`, `components/toast`: the
+- [x] `components/alert`, `components/badge`, `components/toast`: the
   props field is `Status`, its type `Status`, its constants the
   Language's names — Error, Success, Warning, Info, and Neutral on
   the badge alone. The zero values stay: Info on the alert and the
   toast, Neutral on the badge, and each package doc says so in one
   sentence: "an alert given no status is Info". Renamed abruptly, no
   alias, no deprecated forwarder.
-- [ ] Every consumer converts in the same task: `components/button`,
+- [x] Every consumer converts in the same task: `components/button`,
   `components/gallery/inventory`, `patterns/notifications`,
   `patterns/pricing`, `workbench/feeds`, `workbench/mindchat`,
   `workbench/vaultview`, and any the build finds beyond those.
-- [ ] Comments and docs in the three packages and the touched call
+- [x] Comments and docs in the three packages and the touched call
   sites follow the Language: a signal indicates a status, never
   speaks one; a status is not a variant, a role, a colour identity
   or a semantic palette; "the status's role" for the colour it is
   drawn in. The retired-word guard runs on every touched module.
-- [ ] Exit: green in `components`, `components/gallery`, `patterns`
+- [x] Exit: green in `components`, `components/gallery`, `patterns`
   and every workbench app by name; goldens unchanged, none moves a
   pixel; commit and push in every touched repo and `.github`.
 
