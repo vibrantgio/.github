@@ -138,12 +138,12 @@ footer, close, seam — is structure, not chrome.
 
 ### Mark
 
-The small glyph a component draws to show a recorded state or to
-offer a dismissal: the checkbox's check, the radio's dot, the close
-cross on a badge or an Input chip. A mark is a part of a structure,
-never a component; the role it is drawn in is the role's mark
-colour. Only the user's own operation repaints a state mark — focus
-rings the control and leaves the mark alone.
+The small glyph a component draws. A mark shows a recorded state —
+the checkbox's check, the radio's dot — or offers a dismissal — the
+close cross on a badge or an Input chip. A mark is a part of a
+structure, never a component. It is drawn in its role's mark colour.
+Only the user's own operation repaints a mark that shows a state;
+focus rings the control and leaves the mark alone.
 
 ### Pattern
 

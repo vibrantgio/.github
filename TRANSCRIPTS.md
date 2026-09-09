@@ -788,3 +788,7 @@ affordance to indicate clicking, mention that in the link section
 Rene (to the Role entry's "the colour of its marks"): So you mean
 Mark *Colour* not colour of its *marks* — Fix that sentence in the
 Role entry to say mark colour ^0005-role-mark-colour
+
+Rene (to the Mark entry's "the role it is drawn in" and "state
+mark"): What is a "state mark" — Write it that way
+^0005-mark-entry-straight
