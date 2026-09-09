@@ -20043,7 +20043,7 @@ records "follow the system". No tags.
   the setting like every other app.
 - [x] Tests pin the brand round-trip (kept as follow-the-system, read
   back, no seed option), and the themer's choice and keep.
-- [ ] Exit: green in `theme` and `workbench/themer` by name; live
+- [x] Exit: green in `theme` and `workbench/themer` by name; live
   check by Rene: with the follow-the-system brand kept, changing the
   accent colour in System Settings re-colours the open workbench apps
   within their poll interval; commit and push in every touched repo
