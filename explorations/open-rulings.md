@@ -2745,6 +2745,12 @@ Full record in `reviews/bx1.2-themer-fresh-eyes.md`; measured off the themer win
 
 360. **[decide]** **The dark page is near black and the ramp's dot markers sit low in contrast;** both are theme derivations the themer only shows, filed with pool 271's asymmetry.
 
+## AZ. From BZ1.1, the status rename
+
+Filed 2026-09-09 from the task's own finding. No golden moved.
+
+361. **[task]** **Mindchat's `Message.Role` is a code-only noun that collides with the Language twice.** Its constants are `RoleUser`, `RoleAssistant`, `RoleError`, `RolePending`, `RoleStatus`: "role" means colour role in the Language, `RoleError` is a failed chat turn and not the Error status, `RoleStatus` is a system line. The same defect class BZ1.1 fixed one repo over: isolate the concept (who a message is from is the originator; what the pending and system lines are needs its own word), write the entry, retire the word.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
