@@ -455,9 +455,9 @@ through the accent.
 The persistent state marking where keyboard input goes: the control
 that receives the typing and reacts to Enter or Space. It stays
 until focus moves elsewhere — Tab, or a click. Its accent is the
-ring around the control, and the ring is all it may draw: focus may
-ring a checked control, never repaint its mark — redrawing a checked
-box as unchecked is one state's grammar overwriting another's.
+ring around the control, and the ring is all it may draw: a checked
+control that is focused gets the ring and keeps its mark — redrawing
+a checked box as unchecked would let one state overwrite another.
 
 ### Chip
 
