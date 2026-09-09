@@ -110,7 +110,7 @@ affordance.
 The same affordance in a different setting — where the control
 lives — never a different behaviour and never a different
 prominence; that is emphasis. A colour role is not a variant
-either: an alert in Warning is an alert speaking Warning.
+either: an alert in Warning is an alert indicating Warning.
 
 | Variant | Of | Meaning |
 |---|---|---|
@@ -427,7 +427,7 @@ from it: its tinted container, its foreground, its mark colour.
 |---|---|
 | **Neutral** | no hue of its own; the greys |
 | **Primary, Secondary, Tertiary** | the accent trio |
-| **Error, Success, Warning, Info** | the status four — Warning is orange, never yellow; yellow is the highlighter's |
+| **Error, Success, Warning, Info** | the status four, one per status — Warning is orange, never yellow; yellow is the highlighter's |
 
 Wherever a ruling says "role-tinted" or "the role's own hue", this
 is the role it means. Typography roles are a different thing
@@ -461,7 +461,7 @@ vocabulary.
 
 ### Accent
 
-How a persistent state speaks: a role-tinted fill with
+How a persistent state is shown: a role-tinted fill with
 the role colour, darkened, as foreground — the same in a menu, a
 sidebar or a list. On a focused control the accent is the ring
 around it.
@@ -571,8 +571,9 @@ about content — read, not used. One purpose, three utterances:
 
 It covers what M3 and iOS call a badge too. Not a control: sized to
 its content like an inline annotation, not sized to the control
-height, visibly lighter than any control. It speaks only in the
-status roles' own hues plus Neutral for plain category labels, and
+height, visibly lighter than any control. It indicates one status,
+in that status's role hue, or none, in Neutral, for plain category
+labels; and
 hue is never its only channel (hue alone collapses for
 colour-blind readers). Filled/Tonal emphasis does not exist on a badge;
 emphasis lives where interaction lives. A badge may be dismissible
@@ -589,7 +590,7 @@ did made it appear, so it is never dismissible.
 ### Alert
 
 The status signal for a situation: a tinted rounded banner — an
-icon, a title, a body — speaking one status role, standing in the
+icon, a title, a body — indicating one status, standing in the
 page flow until the situation resolves. It holds words about the
 situation, never a control: an action on the situation stands beside
 the alert, or the situation is a modal's job.
@@ -609,8 +610,8 @@ The status signal that presents a notification for a set time: a
 small annotation floating at level 2 that appears when the
 notification is raised and leaves by itself when the time is up. It
 is filled inverse — the other scheme's surface and foreground — so
-it reads as speech and is found over any content in either scheme,
-and its status role speaks through its icon and mark. Structure:
+it stands out as a message over any content in either scheme, and
+its status is indicated by its icon and mark. Structure:
 icon, text, close mark; the close is its only control. The
 presentation and its timing are what make it a toast; the
 notification is the message it carries. It appears in the
@@ -618,18 +619,22 @@ notifications column.
 
 ### Status
 
-What the system reports in the status roles' hues. Three signals
-share the job, divided by what each speaks about and how long it
-stays:
+The system's report on the condition of something. There are four:
+Error, it failed or is wrong; Success, it completed as intended;
+Warning, it needs care before it goes wrong; Info, it is worth
+knowing, neither good nor bad. Each status has a colour role of its
+own in the theme, the status four, so that a signal's hue indicates
+which status it carries. Three signals carry a status, divided by
+what each is about and how long it stays:
 
-| Component | Speaks about | Where | Until |
+| Component | Is about | Where | Until |
 |---|---|---|---|
 | **badge** | a thing | inline with it | it stops being true |
 | **alert** | a situation | in the page flow | the situation resolves |
 | **toast** | an event | floating at level 2 | it leaves by itself |
 
 The tooltip is not of the family: it names a control on demand and
-reports no status. None of the three changes behaviour when
+indicates no status. None of the three changes behaviour when
 dismissed.
 
 ### Highlight
@@ -753,9 +758,9 @@ do. It holds text only, never a control; anything the user must
 operate is the job for a popover. Level 3 is where it is placed, not
 what it is filled with: nothing stands on a tooltip, so it takes no
 surface's fill and is filled inverse — the other scheme's surface
-and foreground — so it reads as speech about the thing, not as a
+and foreground — so it reads as a message about the thing, not as a
 panel. The tooltip and the toast are the inverse pair's two
-adoptions: the signals that float and speak about a thing.
+adoptions: the signals that float and tell about a thing.
 
 ### Text label
 

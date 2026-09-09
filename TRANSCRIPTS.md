@@ -821,3 +821,14 @@ Rene (to the Highlight entry): Why just not mention what it IS
 
 Rene: Rewrite the Toast entry the same way, say what it IS
 ^0005-toast-says-what-it-is
+
+Rene: The Status and Signal entries mention "The Status Four" family
+of colour roles of a theme. This all feels weirdly inside out. How
+can we tell that in a way that tells a story where the Status Four
+family of colour roles are used. ^0005-status-story
+
+Rene: the word choice of saying "how something stands" is not common,
+how did you come up with that use normal language.
+
+Rene: "says what status it speaks" you don't speak a status you
+**indicate** a status ^0005-indicate-not-speak
