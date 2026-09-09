@@ -818,3 +818,6 @@ Rene: You never defined Theme in DOMAIN.md ^0005-theme-entry
 
 Rene (to the Highlight entry): Why just not mention what it IS
 ^0005-highlight-says-what-it-is
+
+Rene: Rewrite the Toast entry the same way, say what it IS
+^0005-toast-says-what-it-is

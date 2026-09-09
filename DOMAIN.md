@@ -605,19 +605,16 @@ in place.
 
 ### Toast
 
-The status signal presenting a notification: a small annotation
-floating at level 2 that appears when the notification is raised
-and leaves by itself after a set time. Level 2 is where it is
-placed, not what it is filled with: nothing stands on a toast, so
-it is filled inverse — the other scheme's surface and foreground —
-to read as speech and to be found over any content in either
-scheme; its status role speaks through its icon and mark, never its
-fill. The presentation and its timing
-are what make it a toast; the notification is the message it
-carries. Its close is a fixed part; it holds no other control — a
-toast with an Undo would be a small dialog on a timer, and is not
-of this Language. The column it appears in is the notifications
-pattern.
+The status signal that presents a notification for a set time: a
+small annotation floating at level 2 that appears when the
+notification is raised and leaves by itself when the time is up. It
+is filled inverse — the other scheme's surface and foreground — so
+it reads as speech and is found over any content in either scheme,
+and its status role speaks through its icon and mark. Structure:
+icon, text, close mark; the close is its only control. The
+presentation and its timing are what make it a toast; the
+notification is the message it carries. It appears in the
+notifications column.
 
 ### Status
 
