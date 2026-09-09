@@ -603,8 +603,10 @@ did made it appear, so it is never dismissible.
 ### Alert
 
 The status signal for a situation: a tinted rounded banner — an
-icon, a title, a body — indicating one status, standing in the
-page flow until the situation resolves. It holds words about the
+icon, a title, a body — standing in the page flow until the
+situation resolves. The developer gives an alert one of four: Error,
+Success, Warning or Info, and it is coloured in that status's role.
+There is no other choice — no Neutral alert, no alert in Primary. It holds words about the
 situation, never a control: an action on the situation stands beside
 the alert, or the situation is a modal's job.
 
@@ -623,8 +625,10 @@ The status signal that presents a notification for a set time: a
 small annotation floating at level 2 that appears when the
 notification is raised and leaves by itself when the time is up. It
 is filled inverse — the other scheme's surface and foreground — so
-it stands out as a message over any content in either scheme, and
-its status is indicated by its icon and mark. Structure:
+it stands out as a message over any content in either scheme. The
+developer gives a toast one of four: Error, Success, Warning or
+Info; that status is indicated by its icon and mark, and there is no
+other choice — no Neutral toast, no toast in Primary. Structure:
 icon, text, close mark; the close is its only control. The
 presentation and its timing are what make it a toast; the
 notification is the message it carries. It appears in the

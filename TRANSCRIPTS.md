@@ -851,3 +851,6 @@ need to be coloured in one of the status four color roles, right?
 
 Rene: Add that to the Badge entry, because being able to select only
 from 5 distinct names is important ^0005-badge-five-choices
+
+Rene: Say the same about alert and toast in their entries
+^0005-alert-toast-four-choices
