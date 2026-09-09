@@ -47,8 +47,9 @@ A component the user operates to act or to choose.
 
 A component that is read, never operated: its only purpose is to
 inform. A signal tells you something; it is never the matter itself
-— that is content. There are two kinds. A status signal carries one
-of the four statuses and is coloured in that status's role:
+— that is content. There are two kinds. A status signal indicates
+one of the four statuses and is coloured in that status's role; a
+badge may also carry none, and is then Neutral:
 
 | Status signal | Tells |
 |---|---|
@@ -458,13 +459,17 @@ from the surface beneath.
 
 ### Foreground
 
-What draws the content on the fill: text, glyph,
-stroke. On a tinted or absent fill the foreground is the same hue at
-reading strength — never an independent "on colour" token; only on
-Filled emphasis' saturated fill does the foreground leave the hue,
-knocked out to a neutral for contrast. Fill and foreground are two
-renditions of one identity, not a stored pair, and they are the spec
-vocabulary.
+What draws the content on the fill: text, glyph, stroke. A
+foreground comes in three kinds:
+
+| Kind | On what | How it is got |
+|---|---|---|
+| the text colour | a surface | one stored colour, Neutral's darkest step |
+| a derived foreground | a pale fill, or the surface itself, for a role's text, link or mark | the role's own hue at reading strength, worked out from the ramp against that surface until it reads |
+| an On colour | a saturated fill, or the inverse pair | one stored colour per role, a neutral knocked out for contrast; the only place a foreground leaves the role's hue |
+
+Fill and foreground are derived from the same role and the same
+surface, never kept as a pair.
 
 ### Accent
 
@@ -636,7 +641,7 @@ what each is about and how long it stays:
 
 | Component | Is about | Where | Until |
 |---|---|---|---|
-| **badge** | a thing | inline with it | it stops being true |
+| **badge** | a thing, with a status or without one | inline with it | it stops being true |
 | **alert** | a situation | in the page flow | the situation resolves |
 | **toast** | an event | floating at level 2 | it leaves by itself |
 

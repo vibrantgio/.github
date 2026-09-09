@@ -843,3 +843,8 @@ named colour is so much more clearer than identity.
 
 Rene: Rename role section to Colour role and see if typography role
 explanation of colour role is then still needed ^0005-colour-role
+
+Rene: Is foreground always an OnXXXX entry — Add that to the
+Foreground entry. Also the status entry names badge but that does not
+need to be coloured in one of the status four color roles, right?
+^0005-foreground-kinds
