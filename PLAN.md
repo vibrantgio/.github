@@ -19995,3 +19995,56 @@ keeps its face at rest.
 - [x] Exit: green in `markdown` and `workbench/vaultview` by name;
   fresh-eyes review of a note with the key held over a heading word,
   both schemes; commit and push in every touched repo and `.github`.
+
+## Phase BX: The theme colour defaults to the platform's
+
+Owner request 2026-09-09: macOS's Appearance settings carry an accent
+colour, and when no theme colour has been chosen in the themer the
+system should derive from that colour rather than from its own
+default seed. The themer gets a way to choose the macOS colour
+explicitly. Today `theme/system` already reads the macOS accent and
+derives from it when no brand is kept — except for the setting most
+Macs are on: Multicolour reads as "no accent" and falls back to the
+purple default seed, so a fresh install never shows the platform's
+colour. And once a brand is kept, it pins a seed for good; nothing
+records "follow the system". No tags.
+
+### G-BX1: Follow the macOS accent colour
+
+#### BX1.1: Multicolour is the platform's blue, never the purple default
+
+- [ ] `theme/system`: on macOS the Multicolour setting derives from
+  the colour macOS itself uses for applications without an accent of
+  their own — systemBlue, the same seed `AccentBlue` carries — and so
+  does a failed read of the setting. The purple default seed is
+  reached on macOS only through a kept brand or an explicit
+  `WithSeed`. Other platforms keep their current fallback. Say in the
+  package doc which colour each platform derives from when nothing is
+  chosen.
+- [ ] A test pins the Multicolour and failed-read cases on darwin and
+  the unchanged fallback elsewhere; the throttled reader's tests keep
+  passing.
+- [ ] Exit: green in `theme` and every workbench app by name; commit
+  and push in every touched repo and `.github`.
+
+#### BX1.2: The themer offers the macOS accent colour, and keeping it follows the system
+
+- [ ] `theme/brand`: a kept brand can say "follow the system" instead
+  of pinning a seed. `Options()` for such a brand returns no seed
+  option, so the live theme derives from the accent as it does with no
+  brand at all; base and mono choices are kept as before. The file
+  records it in the existing `Source` field or a field beside it;
+  `Load` reads old files unchanged.
+- [ ] `workbench/themer`: a control offers the macOS accent colour
+  as a choice next to the image-derived candidates, showing the live
+  colour the platform reports (Multicolour shown as blue per BX1.1),
+  and choosing it renders the workbench as that seed. Keeping it
+  writes a follow-the-system brand. The themer's own window follows
+  the setting like every other app.
+- [ ] Tests pin the brand round-trip (kept as follow-the-system, read
+  back, no seed option), and the themer's choice and keep.
+- [ ] Exit: green in `theme` and `workbench/themer` by name; live
+  check by Rene: with the follow-the-system brand kept, changing the
+  accent colour in System Settings re-colours the open workbench apps
+  within their poll interval; commit and push in every touched repo
+  and `.github`.
