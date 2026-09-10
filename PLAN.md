@@ -20236,3 +20236,66 @@ first because the dialog's fix depends on it. No tags.
   review of the settings dialog open, both schemes.
 - [ ] Exit: green in `workbench/mindchat` by name; live check by
   Rene; commit and push in every touched repo and `.github`.
+
+## Phase CC: Contrast is judged by APCA alone
+
+Owner ruling 2026-09-10. Following the system put Save's label in
+black on the platform's blue: the WCAG 2 ratio, which every floor in
+the theme is gated on, ranks black above white on that fill (5.23:1
+against 4.0:1) where every eye and macOS itself choose white. WCAG 2
+is luminance alone and is known to get saturated mid-tones wrong.
+Rene: if WCAG 2 is wrong, it goes. The theme already carries APCA
+(`theme/color/apca.go`) and its seed derivation already speaks in
+Lc; the floors and the choices still use the ratio. This phase makes
+APCA the one measure, retires the ratio, and re-derives what the
+ratio decided. The floors take APCA's own published levels: Lc 75
+for text (Lc 90 for the increased-contrast variant), Lc 45 for a
+mark that carries meaning without being text (Lc 60 increased). Pool
+378 closes into this phase. No tags.
+
+### G-CC1: The theme's floors and choices speak Lc
+
+#### CC1.1: Every floor and every foreground choice is APCA
+
+- [ ] `theme/color`: `ContrastRatio` and `wcag.go` go; `APCA` is the
+  measure, with a helper that returns the magnitude and one that,
+  given a fill and candidate foregrounds, returns the candidate with
+  the higher |Lc|. Tests against APCA-W3's published reference pairs.
+- [ ] `theme/tokens`: `TextFloor` is Lc 75, `GraphicFloor` Lc 45,
+  the increased-contrast floors Lc 90 and Lc 60; every gate that read
+  the ratio — the on-colours in `seed.go`, `ForegroundOnAtFloor`,
+  `MarkOn`, `StateColor`, `RaisedOn`'s and the containers' and the
+  variants' floors where they are contrast floors and not lightness
+  steps — reads |Lc| instead, polarity respected. The on-colour of any
+  filled fill is whichever of its candidates scores the higher |Lc|.
+  `RaiseFloor`, `SeamRatio` and `ContainerFloor` stay if they are
+  lightness or ratio dials that do not gate legibility; say which in
+  the commit body and why.
+- [ ] Measure and record in the commit body, on the default seed and
+  on systemBlue, both schemes: every on-colour before and after, and
+  the Lc it now reaches; Save's label under systemBlue must come out
+  white. Re-pin the palette goldens in `colors_test.go` with the cause
+  named; regenerate the design bundle (`cd theme && go run
+  ./cmd/vg-tokens -out ../design`) and the sheet's contrast
+  annotations in `theme/export` report Lc; `design/mirror` by name.
+- [ ] Exit: green in `theme`, `design` and every field-walker module
+  by name (`effects/transition`, `workbench/themer`); commit and push
+  in every touched repo and `.github`.
+
+#### CC1.2: The consumers take Lc from the theme
+
+- [ ] Every module that called `ContrastRatio` reads APCA through
+  `theme/color` with the theme's floors: `components/chip`,
+  `components/internal/control`, `components/internal/focus`,
+  `components/internal/toolbarface`, `components/scrollbar`,
+  `components/gallery/palette`, `markdown/highlight`, and any the
+  build finds. Tests that asserted ratios assert Lc. No local floor
+  numbers: each imports the theme's.
+- [ ] Goldens that move regenerate with the cause named, both
+  schemes, downstream included; each moved golden is read by eye and
+  the change is a foreground or a mark, never a layout.
+- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+  `markdown`, `effects` and every workbench app by name; fresh-eyes
+  review of mindchat's settings dialog and of a vaultview note under
+  the systemBlue seed, both schemes; live check by Rene of Save's
+  label; commit and push in every touched repo and `.github`.

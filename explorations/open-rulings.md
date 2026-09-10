@@ -2791,12 +2791,6 @@ Full record in `reviews/cb2.1-settings-fresh-eyes.md`; pool AS holds the dialog'
 
 377. **[bug]** **The key field is 50 px shorter than the two fields above it,** two chevrons in the dialog disagree, the checkbox's wording and scope are unclear, and the foot of the pane breaks the rhythm. Joins pool 326's form pass.
 
-## BE. From Rene's look at the settings dialog under the macOS accent colour
-
-Filed 2026-09-10. Measured with the theme's own contrast function on the two seeds.
-
-378. **[decide]** **The filled button's label under the platform's blue is black, because the floor's formula prefers it.** Following the system (BX) puts most Macs on systemBlue; in light the theme keeps the fill and picks the foreground that clears the WCAG 2 floor: black on #007aff at 5.23:1, where white measures 4.0:1. WCAG 2's ratio is luminance alone and is known to rank black above white on mid-luminance saturated fills against every reader's eye; APCA, the WCAG 3 draft, ranks white on that blue clearly ahead. macOS draws white there. Rene saw Save not standing out against its fill. Ways out: judge the foreground on a filled fill by APCA, or by whichever of black and white scores higher, keeping the WCAG 2 floor for text on surfaces (recommended); walk the light fill one step deeper until white clears the ratio; or accept the platform's pair for the platform's colour. The default purple gives white at 6.42:1; dark is above 11:1 either way.
-
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
