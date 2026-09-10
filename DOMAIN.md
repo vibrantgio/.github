@@ -190,9 +190,20 @@ Everything a window draws with, derived from one seed: the colours
 of every role and level in both schemes, and the axes — density,
 radius, typography roles — read by every component. A window has one
 theme at a time. It follows the platform — its scheme from the
-system's appearance, its seed from the system's accent colour unless
-the user has kept a seed of their own in the themer — and every
-application on the machine draws with the same one.
+system's appearance, its colours the platform's own, its theme
+colour the system's accent colour unless the user has kept one in
+the themer — and every application on the machine draws with the
+same one.
+
+### Platform
+
+The operating system the application runs on: macOS. The application
+looks like a macOS application. Wherever the platform and Material
+differ, the platform's value is read off the platform and Material's
+is dropped: the platform's system colours for the four statuses, its
+control heights for density, its accent colour for the accent, its
+controls' shapes for the controls. What the platform does not define
+the Language defines.
 
 ### Axis
 
@@ -217,8 +228,8 @@ to its text.
 
 | Setting | Meaning |
 |---|---|
-| **Comfortable** | the default: room around every control |
-| **Compact** | more on screen: shorter controls, tighter padding |
+| **Comfortable** | the default: the platform's regular control height, room around every control |
+| **Compact** | more on screen: the platform's small control height, tighter padding |
 
 ### Radius
 
@@ -398,32 +409,14 @@ What is happening to a control right now.
 the user causes: the system has withdrawn the control; it is drawn
 faded and no state applies until it returns.
 
-### OKLCh
+### Theme colour
 
-The colour space the theme derives in. A colour is three numbers:
-lightness, how light it is; chroma, how far it is from grey, as a
-distance, so that equal chroma looks equally colourful at any hue;
-hue, its place on the colour circle. At chroma zero the colour is a
-grey and the hue means nothing — that is the Neutral role. The
-screen cannot show every chroma at every lightness, so a derived
-colour keeps its lightness and hue and gives up chroma until it fits.
-Saturation is not chroma: saturation is a ratio to the strongest
-colour the screen can show at that hue and lightness, and the same
-saturation looks different at every hue.
-
-### Seed
-
-The one colour a theme derives from: picked by the user, taken from
-an image, or the platform's accent colour. Two of its three OKLCh
-numbers are taken from the selected colour and one is not. Its hue
-is taken as it is: it is the theme's hue. Its chroma is taken too,
-then lifted to a set chroma before anything derives — a seed already
-stronger keeps its own, and a near-grey seed keeps none and makes a
-grey theme — so the selected colour decides how colourful the theme
-is as well as which colour it is. Its lightness is not taken: the
-theme sets lightness itself, once for each scheme — the light scheme
-starts from the seed's own, the dark scheme re-tones it — which is
-how one seed yields both schemes.
+The one colour a user may choose. On macOS it is the accent colour
+from the system's Appearance settings unless the user picks another
+in the themer; on other platforms the themer sets it. It stands in
+wherever the platform uses its accent colour — the default button,
+the selection, the focus ring — and nothing else derives from it: no
+ramp, no palette.
 
 ### Colour role
 
@@ -437,10 +430,20 @@ colour.
 |---|---|
 | **Neutral** | no hue of its own; the greys |
 | **Primary, Secondary, Tertiary** | the accent trio |
-| **Error, Success, Warning, Info** | the status four, one per status — Warning is orange, never yellow; yellow is the highlighter's |
+| **Error, Success, Warning, Info** | the status four, one per status — the platform's system red, green, orange and blue; Warning is orange, never yellow; yellow is the highlighter's |
 
 When this document says "role" without saying which kind, it means
 a colour role.
+
+### Contrast
+
+How well a foreground reads on a fill, measured as APCA lightness
+contrast, Lc. It is the one measure: a foreground is derived until it
+clears the floor for its kind — text, or a mark — and the On colour
+of a saturated fill is whichever of its two candidates reads better
+by it. A floor is a least Lc; a number the code keeps to size a
+step or a walk is a dial, not a floor. The floor values are the
+plan's, not the Language's.
 
 ### Fill
 
@@ -1050,6 +1053,42 @@ goldens, the CSS export and the design mirror regenerate; every
 consumer sees a new Warning. Sources:
 [[TRANSCRIPTS#^0005-highlight-yellow]],
 [[TRANSCRIPTS#^0005-warning-orange]]
+
+### 0009 — apca-contrast
+
+Context: the WCAG 2 contrast ratio ranked black above white on the
+platform's blue (5.2:1 against 4.0:1) and put a black label on the
+Save button, where white is plainly the more readable.
+
+Decision: the WCAG 2 ratio leaves the system; APCA lightness contrast
+is the one measure, for floors and for choosing an On colour.
+
+Rationale: a measure that ranks the less readable colour higher is
+not a measure of readability; keeping it because it was already in
+use is the kind of loyalty Rene refused.
+
+Sources: [[TRANSCRIPTS#^0005-wcag-is-wrong]],
+[[TRANSCRIPTS#^0005-better-metric]]
+
+### 0010 — platform-over-material
+
+Context: the Material-derived status colours read weak — the success
+green faint, the error red pink — and the buttons stood almost twice
+the height of the platform's, while the platform's own system
+colours and control heights were available all along.
+
+Decision: the application looks like a macOS application. Where the
+platform and Material differ, the platform's value is read off the
+platform: system colours for the four statuses, control heights for
+density, the accent colour for the seed.
+
+Rationale: the system exists to build macOS applications; every
+Material default that leaks in is a defect against that purpose, and
+the answer was always right there.
+
+Sources: [[TRANSCRIPTS#^0005-platform-colours]],
+[[TRANSCRIPTS#^0005-macos-app]],
+[[TRANSCRIPTS#^0005-hard-cut-to-platform]]
 
 ## Example dialogue
 

@@ -20219,29 +20219,6 @@ first because the dialog's fix depends on it. No tags.
 - [x] Exit: green in `components` and `components/gallery` by name;
   commit and push in every touched repo and `.github`.
 
-#### CB1.2: The disc wears the status's fill, not its tint
-
-Owner finding 2026-09-10: the Success disc reads weak. Measured: the
-disc takes the badge's container tint, chroma 0.055 in both schemes
-(light #bdddbd, dark #314d33), the fill a worded badge wears under
-hue-coloured text; the Success pin the old disc wore has chroma 0.140
-in light (#006b1f) and 0.162 in dark (#7ae284). A disc holds a glyph,
-not words, so it can wear the pin.
-
-- [ ] `components/badge`: a disc's fill is the status's pin (the
-  colour role's base, `c.Success` and its siblings; Neutral takes the
-  badge's Neutral fill as before) and its glyph the pin's on-colour
-  (`OnSuccess` and siblings), derived against the level it stands on
-  only where the pin needs a floor. The bare and worded badges are
-  unchanged. Package doc says the disc is the one badge form that
-  wears the pin, and why.
-- [ ] Tests re-pin the disc's fills and foregrounds per status; the
-  disc goldens and the gallery's disc specimen regenerate with the
-  cause named; mindchat's verdict follows through the library.
-- [ ] Exit: green in `components`, `components/gallery` and
-  `workbench/mindchat` by name; commit and push in every touched repo
-  and `.github`.
-
 ### G-CB2: The dialog says which action is the default
 
 #### CB2.1: Save alone is filled, and the verdict is a green disc again
@@ -20305,103 +20282,255 @@ mark that carries meaning without being text (Lc 60 increased). Pool
   by name (`effects/transition`, `workbench/themer`); commit and push
   in every touched repo and `.github`.
 
-#### CC1.2: The consumers take Lc from the theme
+#### CC1.2: The consumers compile against APCA
 
-- [ ] Every module that called `ContrastRatio` reads APCA through
-  `theme/color` with the theme's floors: `components/chip`,
-  `components/internal/control`, `components/internal/focus`,
-  `components/internal/toolbarface`, `components/scrollbar`,
-  `components/gallery/palette`, `markdown/highlight`, and any the
-  build finds. Tests that asserted ratios assert Lc. No local floor
-  numbers: each imports the theme's.
-- [ ] Goldens that move regenerate with the cause named, both
-  schemes, downstream included; each moved golden is read by eye and
-  the change is a foreground or a mark, never a layout.
-- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
-  `markdown`, `effects` and every workbench app by name; fresh-eyes
-  review of mindchat's settings dialog and of a vaultview note under
-  the systemBlue seed, both schemes; live check by Rene of Save's
-  label; commit and push in every touched repo and `.github`.
+- [ ] Mechanical: every call site that read `ContrastRatio` reads
+  `color.Magnitude` or `color.BestOn` with the theme's floors —
+  `components/internal/focus`, `components/internal/control`,
+  `components/scrollbar`, `components/chip`, `components/gallery/palette`,
+  `markdown/highlight`, and any the build finds; tests that asserted
+  ratios assert Lc. No design change, no local floor numbers. Goldens
+  that move because a foreground choice changed regenerate with the
+  cause named, each read by eye as a foreground or mark change only.
+- [ ] Exit: the org tree builds green; green in `components`,
+  `components/gallery`, `markdown`, `design/mirror` and every
+  workbench app by name; CC1.1's remaining boxes tick with it; commit
+  and push in every touched repo and `.github`.
 
-## Phase CD: The status colours and the control heights are the platform's
+## Phase CE: The platform's colours, whole
 
-Owner ruling 2026-09-10, in his words: the app looks like a macOS
-app. Where a Material convention and the platform's differ, the
-platform wins, and the answer is read off the platform rather than
-tuned toward it. Two cases came up in one look at mindchat's settings
-dialog. The four status colours are Material's anchors realized on
-the shared lightness scale: Error is a brick maroon in light and a
-salmon pink in dark, and nowhere red; macOS publishes systemRed,
-systemGreen, systemOrange and systemBlue with a light and a dark
-value each, and the theme already reads systemBlue for the accent.
-The controls stand at Material's height, 36 dp Comfortable and 28
-Compact, where a macOS regular push button is 22 pt. Pool 379 and 380
-close into this phase. No tags.
+Owner ruling 2026-09-10, verbatim: "What I don't want is a slow
+transformation of material to macos. I want a hardcore set of tokens
+named after the macos platform names. THen I want a hardcore purging
+of the code where material names are used. Then I want a chainsaw
+taken to anything that vaguely hints at material colors. This does
+not apply to the Fonts we are currently using. The fonts are FINE
+!!!!!! don't FUCK THAT UP also."
 
-### G-CD1: The four status colours are the platform's
+So: one token set, named exactly as AppKit names its semantic
+colours, with the platform's values; every consumer converted to the
+platform's names in one pass per module, each module green at its
+exit; then the Material-derived set and every derivation behind it
+deleted in one commit, not migrated; then a sweep that removes
+whatever still hints at Material colour, and a guard that keeps it
+out. The platform set stands beside the old one only for the length
+of the conversions, so that no task leaves a module red. Typography
+is not touched: `theme/typeset`, the fonts, the typography roles and
+their sizes stay exactly as they are, and no task in this phase edits
+them; Density changes only in what CE1.2 says.
 
-#### CD1.1: The status anchors are systemRed, systemGreen, systemOrange and systemBlue
+The catalogue was read off the platform on 2026-09-10 with a
+command-line AppKit program (no application launched), sRGB, light
+then dark; it is recorded in `.github/reference/macos/nscolors.tsv`
+with the reader beside it. The rows a consumer reaches for:
 
-- [ ] `theme/system` carries the platform's four status colours per
-  scheme: on darwin the published system colours, light #FF3B30,
-  #34C759, #FF9500, #007AFF and dark #FF453A, #30D158, #FF9F0A,
-  #0A84FF, verified against the running platform once and recorded
-  with their provenance (the reference folder and the ADR gain the
-  measurement); Windows and Linux pin the same values until a
-  platform reader exists. `theme/tokens` takes each anchor as a whole
-  colour in its scheme, hue, chroma and lightness, with no depth from
-  the shared scale and no tint toward the seed: a platform colour
-  does not rotate with a brand. The status ramps derive from the
-  anchor at its own lightness; the on-colour of each pin is chosen by
-  APCA (Phase CC); the status containers derive from the new anchors
-  with the container dial unchanged, to be judged in CD1.2's review.
-- [ ] Tests: the four pins equal the platform's values per scheme on
-  every seed in the sweep; the accent-versus-error gate and the
-  highlight's distance from every status re-baseline against the new
-  hues with the numbers recorded; palette goldens re-pinned with the
-  cause named; the design bundle regenerated, `design/mirror` by name.
-- [ ] Exit: green in `theme`, `design` and every field-walker module
-  by name (`effects/transition`, `workbench/themer`); commit and push
-  in every touched repo and `.github`.
+| Platform name | Light | Dark | Used for |
+|---|---|---|---|
+| windowBackgroundColor | #ffffff | #1e1e1e | the window's plane, the chrome regions |
+| controlBackgroundColor, textBackgroundColor | #ffffff | #1e1e1e | the content, lists, tables, fields |
+| underPageBackgroundColor | #969696 α.90 | #282828 | the backdrop showing around a pane |
+| separatorColor | #000000 α.10 | #ffffff α.10 | every seam, over whatever is beneath |
+| gridColor | #e6e6e6 | #1a1a1a | table grids |
+| selectedContentBackgroundColor | #0064e1 | #0059d1 | the selected row, active window |
+| unemphasizedSelectedContentBackgroundColor | #dcdcdc | #464646 | the selected row, inactive |
+| selectedTextBackgroundColor | #b3d7ff | #3f638b | text selection |
+| findHighlightColor | #ffff00 | #ffff00 | the highlight |
+| labelColor … quaternaryLabelColor | #000000 α.85/.50/.26/.10 | #ffffff α.85/.55/.25/.10 | text, four strengths |
+| placeholderTextColor | #000000 α.50 | #ffffff α.55 | a field's placeholder |
+| linkColor | #0068da | #419cff | links |
+| controlColor, controlTextColor | #ffffff / #000000 α.85 | #ffffff α.25 / #ffffff α.85 | an ordinary button's fill and label |
+| controlAccentColor, alternateSelectedControlTextColor | #007aff / #ffffff | #007aff / #ffffff | the default button, the accent |
+| disabledControlTextColor | #000000 α.25 | #ffffff α.25 | disabled |
+| keyboardFocusIndicatorColor | #0067f4 α.50 | #1aa9ff α.50 | the focus ring |
+| systemRed, systemGreen, systemOrange, systemBlue | #ff383c #34c759 #ff8d28 #0088ff | #ff4245 #30d158 #ff9230 #0091ff | Error, Success, Warning, Info |
+| systemGray and the other system colours | as recorded | as recorded | available by name |
 
-#### CD1.2: The status signals wear the platform's colours
+Alpha is part of the platform's answer: a label or a separator is
+black or white at a coverage and composites over whatever is beneath,
+which is how the platform gets one value to read right on every fill.
+The token set keeps the alpha; the rule that no token is transparent
+dies with the old set, and a test that samples pixels composites the
+alpha over what is beneath before it compares. The accent colour and
+the selection colours follow the user's accent setting; the table
+shows blue. The theme colour — the platform's accent colour on
+macOS unless the user chooses one in the themer, the themer's choice
+on Linux and Windows — stands in wherever the platform uses its
+accent: the default button, the selection, the focus ring; no ramp
+derives from it, only the platform's own few readings of its accent.
+Measured beats published: systemRed light is #ff383c here
+where older documents say #ff3b30; the catalogue records the macOS
+version it was read on.
 
-- [ ] Goldens that move regenerate with the cause named, both
-  schemes, downstream included: badges, alerts, toasts, the
-  notifications pattern, the gallery, the workbench apps. Each moved
-  golden is read by eye: a status colour changed, nothing else.
-- [ ] Exit: green in `components`, `components/gallery`, `patterns`
-  and every workbench app by name; fresh-eyes review of mindchat's
-  settings dialog with a Success and an Error verdict, of the
-  gallery's badge and alert sections, both schemes; live check by
-  Rene; commit and push in every touched repo and `.github`.
+### G-CE1: One token set, the platform's
 
-### G-CD2: Controls stand at the platform's height
+#### CE1.1: The platform's colour set exists in the theme
 
-#### CD2.1: The density scale takes the platform's control heights
+- [ ] `theme/tokens`: a new colour set whose fields are AppKit's
+  semantic names, one to one, in Go casing (`WindowBackground`,
+  `ControlBackground`, `TextBackground`, `UnderPageBackground`,
+  `Separator`, `Grid`, `SelectedContentBackground`,
+  `UnemphasizedSelectedContentBackground`, `SelectedTextBackground`,
+  `FindHighlight`, `Label`, `SecondaryLabel`, `TertiaryLabel`,
+  `QuaternaryLabel`, `Text`, `PlaceholderText`, `SelectedText`, `Link`,
+  `HeaderText`, `Control`, `ControlText`, `DisabledControlText`,
+  `SelectedControl`, `SelectedControlText`,
+  `AlternateSelectedControlText`, `ControlAccent`,
+  `KeyboardFocusIndicator`, `SystemRed` … `SystemGray`, `Shadow`,
+  `Highlight`), with `color.NRGBA` values including alpha, standing
+  beside `ColorTokens` in `theme.Theme` until CE2.7 deletes the old
+  set. This task ships the recorded light and dark sets from the
+  catalogue, with the accent and the selection colours substituted
+  from the accent `theme/system` already reads; the live AppKit
+  reader is CE1.3.
+- [ ] `.github/reference/macos/nscolors.tsv` (already in the plan
+  root with its reader) gains the macOS version it was read on, and
+  ADR-019 gains the row; a test pins that the recorded light set
+  equals the catalogue.
+- [ ] Exit: green in `theme`; commit and push in `theme` and
+  `.github`.
 
-- [ ] Measure from the stored reference first; it holds no native
-  control, so capture once, in one batched session, a regular and a
-  small push button, text field, pop-up button and checkbox from a
-  system dialog, add the captures and numbers to `reference/macos`
-  and ADR-019, and quit the app. `theme/tokens`' density scale takes
-  the platform's heights: Comfortable the regular control (22 pt),
-  Compact the small (19 pt), paddings and the text field's inner
-  padding measured with them; the type size a control's label wears
-  at each height measured too, since the regular control carries 13
-  pt on macOS.
-- [ ] Tests re-pin the scale; the design bundle regenerates,
-  `design/mirror` by name.
-- [ ] Exit: green in `theme`, `design` and the field walkers by name;
+#### CE1.2: The density scale takes the platform's control heights
+
+- [ ] `theme/tokens`: Comfortable is the platform's regular control,
+  22 pt, and Compact its small control, 19 pt, with the inner padding
+  the platform's; both measured into `.github/reference/macos` and
+  ADR-019 from the stored captures, never from a launched app. Every
+  control that states an offset from the control height keeps its
+  offset. Nothing else in Density, Spacing, Radius or Typography
+  moves.
+- [ ] Exit: green in `theme`; the field walkers run by name; commit
+  and push in `theme` and `.github`. The consumers reflow in G-CE2.
+
+#### CE1.3: The platform set is read live from AppKit on macOS
+
+- [ ] `theme/system` gains a darwin reader that asks AppKit for every
+  name in the set under the aqua and darkAqua appearances (cgo or
+  purego into NSColor; the `defaults` shim is not enough), so the
+  accent setting and future platform changes come through; other
+  platforms and tests keep the recorded sets. A test on darwin pins
+  that the live light set matches the catalogue on the version it
+  was read on.
+- [ ] Exit: green in `theme`; commit and push in `theme` and
+  `.github`.
+
+### G-CE2: Every consumer takes the platform's names
+
+The Language leads: before CE2.1 starts, the Level, Backdrop,
+Chrome, Seam, Card, Group and Highlight entries say what each is on
+the platform — a pane is windowBackground or controlBackground, the
+backdrop underPageBackground, a seam separatorColor over whatever is
+beneath, a card and a group the platform's box — so no worker invents
+a mapping; that rewrite is the ontology session's and is committed
+before the first packet. Each task converts one module: every fill,
+foreground, seam, ring and highlight reads the platform's name for
+what that element is on the platform, per the table above and those
+entries; no derivation survives in a
+consumer, no literal colour is introduced; where a component today
+walks a state (hover, press) it takes the platform's answer — the
+selection colours for selected, the accent for the default action,
+alpha over what is beneath for hover and press as the platform does
+— and records the choice in the commit body. Goldens regenerate with
+the cause named. Typography untouched.
+
+#### CE2.1: Components — the controls
+
+- [ ] `components/button`, `chip`, `input`, `picker`, `list`,
+  `scrollarea`, `scrollbar`, `pagination`, `breadcrumb`, `paragraph`,
+  and `components/internal`.
+- [ ] Exit: green in `components` by name; commit and push in
+  `components` and `.github`.
+
+#### CE2.2: Components — the signals and the gallery
+
+- [ ] `components/badge`, `alert`, `toast`, `tooltip`, `icon`,
+  `icons`, and `components/gallery` with its inventory and goldens.
+  The badge's disc wears the system colour itself — systemGreen with
+  a white check — never a tint of it.
+- [ ] Exit: green in `components` and `components/gallery` by name;
+  commit and push in `components` and `.github`.
+
+#### CE2.3: Patterns
+
+- [ ] Every package under `patterns`, including `patterns/internal`.
+- [ ] Exit: green in `patterns` by name; commit and push in
+  `patterns` and `.github`.
+
+#### CE2.4: Markdown, effects, design
+
+- [ ] `markdown` (the document, the code fence and chip, the find
+  marks and the arrival highlight on findHighlightColor per the
+  Highlight entry, heading words on linkColor, the highlighter's
+  fence backgrounds), `effects` (transition's walker moves to the
+  platform set), and `design`'s bundle and mirror suites; one commit
+  per repo.
+- [ ] Exit: green in `markdown`, `effects` and `design` by name;
   commit and push in every touched repo and `.github`.
 
-#### CD2.2: Every control reflows to the platform's height
+#### CE2.5: Workbench — vaultview, mindchat, feeds
 
-- [ ] Every component that draws at `Density.ControlHeight` reflows:
-  button, text and search field, picker, chip, checkbox, switch, the
-  dialog footer; goldens that move regenerate with the cause named,
-  both schemes, downstream included, each read by eye.
-- [ ] Exit: green in `components`, `components/gallery`, `patterns`
-  and every workbench app by name; fresh-eyes review of mindchat's
-  settings dialog and a vaultview window, both schemes; live check by
-  Rene; commit and push in every touched repo and `.github`.
+- [ ] The three apps' own paints and their goldens; an app paints
+  nothing a pattern already painted.
+- [ ] Exit: green in `workbench/vaultview`, `workbench/mindchat`,
+  `workbench/feeds` by name; commit and push in `workbench` and
+  `.github`.
+
+#### CE2.6: Workbench — themer, sitedocs, the root and the small apps
+
+- [ ] `workbench/themer` becomes the theme colour's chooser: it shows
+  the platform's accent colour as the default, lets the user pick a
+  colour (from an image as today, or directly) as the theme colour,
+  and keeping it writes the brand file; the platform set with the
+  theme colour standing in for the accent is what it previews. No
+  ramp, no seed lift, no derived palette. `workbench/sitedocs`, the
+  launcher, and every other app under `workbench`; `workbench/llms.txt`
+  and the READMEs say the platform's names.
+- [ ] Exit: green in every workbench app by name; the org tree green;
+  commit and push in `workbench` and `.github`.
+
+#### CE2.7: The Material set and its derivations are deleted
+
+- [ ] `theme/tokens`: `ColorTokens` and everything that fed it go —
+  `FromSeed`, the ramps and steps as colour sources, `Container`,
+  `ContainerOn`, `StatusContainer`, `OnContainer`, `SurfaceAt`,
+  `RaisedOn`, `SeamOn`, `StateAt`, `StateColor`, `SolidStateColor`,
+  `PinnedStateColor`, `HighlightOn`, `CurrentMatchOn`,
+  `ForegroundOn`, `MarkOn`, `TextFloor` and `GraphicFloor` as walks, the elevation levels as
+  colour sources, `InverseSurface`, high-contrast variants derived
+  from ramps; in `theme/color`, tone, oklab, gamut and lab go with
+  them, apca and composite stay. Typography, Density, Spacing and
+  Radius stay exactly as they are. `theme.Theme` carries the platform
+  set alone. `theme/system` builds it from the platform's appearance
+  and the theme colour; `theme/brand` keeps the theme colour and the
+  code font, `theme/imageseed` keeps picking a colour from an image,
+  and neither derives anything from it.
+  `theme/export` emits the platform set under its names.
+- [ ] The field walkers run by name and are green: `effects/transition`,
+  `workbench/themer`; the org tree builds green after this commit.
+- [ ] Exit: green in `theme` and the org tree; commit and push in
+  every touched repo and `.github`.
+
+### G-CE3: The chainsaw
+
+#### CE3.1: Nothing hints at Material colour, and the guard keeps it so
+
+- [ ] The retired-word guard gains the Material colour names in the
+  sense of a colour: primary, secondary, tertiary (as colour roles),
+  container (as a tinted fill), surface variant, on-colour and the
+  OnX names, seed, ramp, step and tone (as colour sources), tint (as
+  a colour), inverse surface, elevation and level (as a fill source),
+  and the words Material, MD3 and M3 themselves; typography roles by
+  name, Level where it is Gio's layout or a heading level, the
+  density words, and the Lc floor names are excluded. Inventory across the org, then the sweep: comments, docs,
+  `design/DESIGN.md`, `AGENTS.md` files, identifiers that still carry
+  a Material name for a colour. Typography names are not on the list.
+- [ ] Exit: `check` clean org-wide; green everywhere; commit and push
+  in every touched repo and `.github`.
+
+#### CE3.2: The workbench looks like a Mac
+
+- [ ] Fresh-eyes review of every workbench app in both schemes
+  against the stored macOS reference captures, filed per app; the
+  defects that are one-line platform-name fixes are fixed in this
+  task, the rest pooled.
+- [ ] Exit: live check by Rene of vaultview, mindchat and feeds in
+  both schemes; commit and push in every touched repo and `.github`.

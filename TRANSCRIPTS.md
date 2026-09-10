@@ -862,3 +862,60 @@ Rene: Modernize both the DOMAIN.md entries that are relevant because
 it is good to make explicit that selecting no status means that it
 is Info by default, which is fine. Only strange that badge does not
 work like that. ^0005-no-status-is-info
+
+Rene (to the vibrantgio session, relayed verbatim, on the Save
+label): "Save" text on the button doesn't stand out agains the fill,
+that can't clear the accesability bar, right?
+
+Rene: Wait black on the blue 5.2:1 and white on blue would be 4.0:1
+This has to be an error because white on blue is much more readable.
+
+Rene: We are following all these rules into our own demise.
+
+Rene: If WCAG 2 is wrong then we need to take it behind the barn and
+shoot it. ^0005-wcag-is-wrong
+
+Rene: I really don't give a shit about keeping crappy metrics around
+just because we have used them until now. I want a better friggging
+metric. ^0005-better-metric
+
+Rene (to the vibrantgio session, relayed verbatim, on the status
+colours): Another irritating thing is that the success green shown
+on the badge icon fill looks very weak. Why is the chroma of that so
+low.
+
+Rene: Red looks nothing like red but is just pink, so that is just
+stupid. I start to really hate m3 for its weak ass colorscheme. Also
+why are the buttons like save and cancel so big? The native macOS
+buttons are almost half as high. Is this another M3 ugly ass setting
+leaking in.
+
+Rene: Wait a frigging second did you just say platform systemRed!!!?!?!?!?!
+
+Rene (typed here as well): Yes use the platform system colours, make
+it a phase and go. This is starting to boil my blood because the
+awnser was always right there. ^0005-platform-colours
+
+Rene: I WANT THE APP TO LOOK LIKE A MACOS APP!!!!!!!!!!! (repeated
+twenty-five times without a break) ^0005-macos-app
+
+Rene: I'm so fed up with Material weak ass colorschemes that makes
+everything look like ass that I'm beyond frustrated. For three weeks
+I'm trying to get this to look like a macOS app. The whole time I'm
+fighting with a plethera of insanely convulted "rules" who's only
+effect is to make everything look drab, boring, dark and depressing.
+THIS HAS TO STOP. ^0005-this-has-to-stop
+
+Rene: What I don't want is a slow transformation of material to
+macos. I want a hardcore set of tokens named after the macos
+platform names. THen I want a hardcore purging of the code where
+material names are used. Then I want a chainsaw taken to anything
+that vaguely hints at material colors. This does not apply to the
+Fonts we are currently using. The fonts are FINE !!!!!! don't FUCK
+THAT UP also. ^0005-hard-cut-to-platform
+
+Rene (to whether the themer goes): No, the themer does not have to
+go. I want to be able to change the macOS Settings > Appearance >
+Theme > Colour derived colour. For e.g. Linux or Windows I may want
+to be able to still select that, but it becomes the Theme Colour we
+get rid of all the ramps. ^0005-theme-colour
