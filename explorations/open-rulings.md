@@ -2781,6 +2781,16 @@ Findings from the review the task ran on its gallery renders; the rim defect it 
 
 374. **[bug]** **The gallery's group tile splits at the 4000 px height boundary,** and it stood at 3995 before CB1.1; the next section added anywhere tiles again and moves goldens for no visual reason. Raise the tile height or split by section.
 
+## BD. From CB2.1's fresh-eyes review of the settings dialog
+
+Full record in `reviews/cb2.1-settings-fresh-eyes.md`; pool AS holds the dialog's standing complaints, so only what is new is filed. Filed 2026-09-10 from Phase CB. The reviewer's reading of the Ghost Cancel as a link is the least pronounced emphasis doing what it does; not filed.
+
+375. **[bug]** **The key check's failure line lands far from its disc.** A raw "HTTP 401: invalid_api_key" sits 86 px below and 315 px left of the Error disc, in the slot the model count uses; the verdict and its reason belong together, and the reason wants a sentence, not the wire's text.
+
+376. **[bug]** **In dark, a field's placeholder is indistinguishable from a value,** and the fields survive on their border alone; with pool 326 (placeholder-as-label) this is the input's dark derivation.
+
+377. **[bug]** **The key field is 50 px shorter than the two fields above it,** two chevrons in the dialog disagree, the checkbox's wording and scope are unclear, and the foot of the pane breaks the rhythm. Joins pool 326's form pass.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
