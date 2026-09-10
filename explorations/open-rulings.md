@@ -2791,6 +2791,14 @@ Full record in `reviews/cb2.1-settings-fresh-eyes.md`; pool AS holds the dialog'
 
 377. **[bug]** **The key field is 50 px shorter than the two fields above it,** two chevrons in the dialog disagree, the checkbox's wording and scope are unclear, and the foot of the pane breaks the rhythm. Joins pool 326's form pass.
 
+## BF. From Rene's look at mindchat's settings dialog in dark
+
+Filed 2026-09-10 from Rene's findings; numbers from `theme/tokens/seed.go` and `density.go`.
+
+379. **[decide]** **The dark scheme's status pins are pastel: Error reads pink, not red.** Every dark pin is realized at L* 82 (`darkPinTone`), Material 3's dark-scheme convention, chosen so a dark on-colour clears the old floor on it; at that lightness the sRGB gamut holds little red chroma and the Error pin comes out a salmon pink (Material's own dark error is #F2B8B5). The light pin sits at L* 39 and reads as red. Rene: red that is pink is stupid, and the Material scheme is weak. Ways out: dark pins at a deeper tone (about L* 55–65, where the gamut holds the chroma and, under APCA, a light on-colour still clears Lc 75 at the deeper end, which the old floor's comment says it cannot at L* 65 under Lc 60); or a per-role depth, red and blue deeper than green and orange. Rule the depth, or rule that dark pins keep the anchor's own lightness.
+
+380. **[decide]** **Controls are Material's height, not the platform's.** `ComfortableControlHeight` is 36 dp and `CompactControlHeight` 28 dp, Material 3's 40 and 32 trimmed; a macOS regular push button is 22 pt tall, small 19, mini 16 (the reference has no capture of one; ADR-019 measured 14 pt and 23 pt for text and rows). Save and Cancel in the settings dialog stand at 36. Rene: almost twice the native height. Rule a platform height for the button and the field (22 pt regular, with the dialog's footer at that), and whether the density scale keeps Material's numbers for anything.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
