@@ -2757,6 +2757,20 @@ Full record in `reviews/by1.2-highlight-fresh-eyes.md`; measured off dark and li
 
 365. **[decide]** **The find field has no previous and next controls and its count sits outside it.** The Search field entry names stepping by keys only; the reviewer expected the platform's two arrows and the count inside the field.
 
+## BB. From CA2.1's fresh-eyes review of mindchat's conversation
+
+Full record in `reviews/ca2.1-conversation-fresh-eyes.md`; measured off the conversation window in both schemes. Filed 2026-09-10 from Phase CA. Fixed in the task: the system note centred on the band rather than the column of text. The typeface and the window controls are standing system choices and capture artefacts.
+
+366. **[bug]** **Mindchat's frame is finished on one half only:** no toolbar band on the content side, two seams at two insets, radii at two pixels, and trailing margins at four values (one now the measure, deliberate). One frame pass, with pool 326's settings form.
+
+367. **[bug]** **Mindchat's sidebar selection is the code-editor idiom with a hard-coded accent,** and its light-scheme list greys read as disabled. Pool 318 and 323 seen again from mindchat's side.
+
+368. **[bug]** **The scrollbar's thumb is one mid-grey in both schemes,** seen in mindchat as in vaultview; pool 342 corroborated.
+
+369. **[decide]** **Red serves both code keywords and the Error status in one window.** The code highlighter's keyword hue and the status hue collide; either the highlighter's palette avoids the status hues or the collision is accepted.
+
+370. **[bug]** **The alert's filled chevron and mixed iconography,** with row-action hit areas smaller than their targets; the chevron waits on `components/icon`.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
