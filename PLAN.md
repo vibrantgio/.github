@@ -20322,3 +20322,86 @@ mark that carries meaning without being text (Lc 60 increased). Pool
   review of mindchat's settings dialog and of a vaultview note under
   the systemBlue seed, both schemes; live check by Rene of Save's
   label; commit and push in every touched repo and `.github`.
+
+## Phase CD: The status colours and the control heights are the platform's
+
+Owner ruling 2026-09-10, in his words: the app looks like a macOS
+app. Where a Material convention and the platform's differ, the
+platform wins, and the answer is read off the platform rather than
+tuned toward it. Two cases came up in one look at mindchat's settings
+dialog. The four status colours are Material's anchors realized on
+the shared lightness scale: Error is a brick maroon in light and a
+salmon pink in dark, and nowhere red; macOS publishes systemRed,
+systemGreen, systemOrange and systemBlue with a light and a dark
+value each, and the theme already reads systemBlue for the accent.
+The controls stand at Material's height, 36 dp Comfortable and 28
+Compact, where a macOS regular push button is 22 pt. Pool 379 and 380
+close into this phase. No tags.
+
+### G-CD1: The four status colours are the platform's
+
+#### CD1.1: The status anchors are systemRed, systemGreen, systemOrange and systemBlue
+
+- [ ] `theme/system` carries the platform's four status colours per
+  scheme: on darwin the published system colours, light #FF3B30,
+  #34C759, #FF9500, #007AFF and dark #FF453A, #30D158, #FF9F0A,
+  #0A84FF, verified against the running platform once and recorded
+  with their provenance (the reference folder and the ADR gain the
+  measurement); Windows and Linux pin the same values until a
+  platform reader exists. `theme/tokens` takes each anchor as a whole
+  colour in its scheme, hue, chroma and lightness, with no depth from
+  the shared scale and no tint toward the seed: a platform colour
+  does not rotate with a brand. The status ramps derive from the
+  anchor at its own lightness; the on-colour of each pin is chosen by
+  APCA (Phase CC); the status containers derive from the new anchors
+  with the container dial unchanged, to be judged in CD1.2's review.
+- [ ] Tests: the four pins equal the platform's values per scheme on
+  every seed in the sweep; the accent-versus-error gate and the
+  highlight's distance from every status re-baseline against the new
+  hues with the numbers recorded; palette goldens re-pinned with the
+  cause named; the design bundle regenerated, `design/mirror` by name.
+- [ ] Exit: green in `theme`, `design` and every field-walker module
+  by name (`effects/transition`, `workbench/themer`); commit and push
+  in every touched repo and `.github`.
+
+#### CD1.2: The status signals wear the platform's colours
+
+- [ ] Goldens that move regenerate with the cause named, both
+  schemes, downstream included: badges, alerts, toasts, the
+  notifications pattern, the gallery, the workbench apps. Each moved
+  golden is read by eye: a status colour changed, nothing else.
+- [ ] Exit: green in `components`, `components/gallery`, `patterns`
+  and every workbench app by name; fresh-eyes review of mindchat's
+  settings dialog with a Success and an Error verdict, of the
+  gallery's badge and alert sections, both schemes; live check by
+  Rene; commit and push in every touched repo and `.github`.
+
+### G-CD2: Controls stand at the platform's height
+
+#### CD2.1: The density scale takes the platform's control heights
+
+- [ ] Measure from the stored reference first; it holds no native
+  control, so capture once, in one batched session, a regular and a
+  small push button, text field, pop-up button and checkbox from a
+  system dialog, add the captures and numbers to `reference/macos`
+  and ADR-019, and quit the app. `theme/tokens`' density scale takes
+  the platform's heights: Comfortable the regular control (22 pt),
+  Compact the small (19 pt), paddings and the text field's inner
+  padding measured with them; the type size a control's label wears
+  at each height measured too, since the regular control carries 13
+  pt on macOS.
+- [ ] Tests re-pin the scale; the design bundle regenerates,
+  `design/mirror` by name.
+- [ ] Exit: green in `theme`, `design` and the field walkers by name;
+  commit and push in every touched repo and `.github`.
+
+#### CD2.2: Every control reflows to the platform's height
+
+- [ ] Every component that draws at `Density.ControlHeight` reflows:
+  button, text and search field, picker, chip, checkbox, switch, the
+  dialog footer; goldens that move regenerate with the cause named,
+  both schemes, downstream included, each read by eye.
+- [ ] Exit: green in `components`, `components/gallery`, `patterns`
+  and every workbench app by name; fresh-eyes review of mindchat's
+  settings dialog and a vaultview window, both schemes; live check by
+  Rene; commit and push in every touched repo and `.github`.

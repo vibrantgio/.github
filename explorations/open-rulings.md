@@ -2791,14 +2791,6 @@ Full record in `reviews/cb2.1-settings-fresh-eyes.md`; pool AS holds the dialog'
 
 377. **[bug]** **The key field is 50 px shorter than the two fields above it,** two chevrons in the dialog disagree, the checkbox's wording and scope are unclear, and the foot of the pane breaks the rhythm. Joins pool 326's form pass.
 
-## BF. From Rene's look at mindchat's settings dialog in dark
-
-Filed 2026-09-10 from Rene's findings; numbers from `theme/tokens/seed.go` and `density.go`.
-
-379. **[decide]** **The status colours are Material's, and none of them is red.** The anchors take Material 3's error base and Material's 500 shades in hue and chroma, and the shared lightness scale sets their depth: light pins at L* 39, so Error is #b1241c, a brick maroon; dark pins at L* 82 (`darkPinTone`, chosen so a dark on-colour cleared the old floor), so Error is a salmon pink, as Material's own dark error is. On a badge or an alert the fill is not even the pin but the container tint at chroma 0.055, pale pink in both schemes. Rene: red that is pink is stupid, the Material scheme is weak. The better basis is the platform's own status colours, systemRed, systemGreen, systemOrange and systemBlue, each at its own lightness in both schemes (macOS ships a light and a dark value of each), with the on-colour chosen by APCA (Phase CC) rather than the depth bent to a floor. Rule the anchors, and whether the container tint keeps any place once the pin is a colour worth showing.
-
-380. **[decide]** **Controls are Material's height, not the platform's.** `ComfortableControlHeight` is 36 dp and `CompactControlHeight` 28 dp, Material 3's 40 and 32 trimmed; a macOS regular push button is 22 pt tall, small 19, mini 16 (the reference has no capture of one; ADR-019 measured 14 pt and 23 pt for text and rows). Save and Cancel in the settings dialog stand at 36. Rene: almost twice the native height. Rule a platform height for the button and the field (22 pt regular, with the dialog's footer at that), and whether the density scale keeps Material's numbers for anything.
-
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
