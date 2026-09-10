@@ -20219,6 +20219,29 @@ first because the dialog's fix depends on it. No tags.
 - [x] Exit: green in `components` and `components/gallery` by name;
   commit and push in every touched repo and `.github`.
 
+#### CB1.2: The disc wears the status's fill, not its tint
+
+Owner finding 2026-09-10: the Success disc reads weak. Measured: the
+disc takes the badge's container tint, chroma 0.055 in both schemes
+(light #bdddbd, dark #314d33), the fill a worded badge wears under
+hue-coloured text; the Success pin the old disc wore has chroma 0.140
+in light (#006b1f) and 0.162 in dark (#7ae284). A disc holds a glyph,
+not words, so it can wear the pin.
+
+- [ ] `components/badge`: a disc's fill is the status's pin (the
+  colour role's base, `c.Success` and its siblings; Neutral takes the
+  badge's Neutral fill as before) and its glyph the pin's on-colour
+  (`OnSuccess` and siblings), derived against the level it stands on
+  only where the pin needs a floor. The bare and worded badges are
+  unchanged. Package doc says the disc is the one badge form that
+  wears the pin, and why.
+- [ ] Tests re-pin the disc's fills and foregrounds per status; the
+  disc goldens and the gallery's disc specimen regenerate with the
+  cause named; mindchat's verdict follows through the library.
+- [ ] Exit: green in `components`, `components/gallery` and
+  `workbench/mindchat` by name; commit and push in every touched repo
+  and `.github`.
+
 ### G-CB2: The dialog says which action is the default
 
 #### CB2.1: Save alone is filled, and the verdict is a green disc again
