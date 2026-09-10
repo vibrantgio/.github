@@ -20137,3 +20137,57 @@ composites to about #786512, over white to about #ffec99. No tags.
   with three matches and of a light one; live check by Rene of a dark
   find in vaultview; commit and push in every touched repo and
   `.github`.
+
+
+## Phase CA: Mindchat's conversation
+
+Owner rulings 2026-09-10. Mindchat is a chat application with a
+domain of its own, and in that domain "role" is the chat API's word
+for who a message is from — user or assistant. The word stays; the
+Language does not reach into an application's own vocabulary. What
+does not stay is the mixing: `Message.Role` also carries "pending",
+"error" and "status", which are not who a message is from but what
+kind of line it is. The first task separates them. The second gives
+the conversation the shape Rene asked for: the user's turn as a card
+on the trailing side, the assistant's reply as a markdown document
+at the measure, as it is today. Pool 361 closes into this phase. No
+tags.
+
+### G-CA1: A message says who it is from and what it is
+
+#### CA1.1: Pending, error and status leave the role
+
+- [ ] `workbench/mindchat`: `Message.Role` keeps the API's values
+  alone — user, assistant (and system where the API sends it). A
+  second field says what kind of line the message is: a turn, a turn
+  still arriving, a failed turn, a system note; name it in the app's
+  own words, one word, in the package doc. `RoleError`, `RolePending`
+  and `RoleStatus` go; every site that built or read them converts;
+  the stored transcript format reads old files unchanged and writes
+  the new shape, with a test on both directions.
+- [ ] The view branches on the kind, never on a role that is not a
+  sender; the rendering is unchanged in this task and the goldens do
+  not move.
+- [ ] Exit: green in `workbench/mindchat` by name; commit and push in
+  `workbench` and `.github`.
+
+### G-CA2: The conversation reads as a chat
+
+#### CA2.1: The user's turn is a card, the assistant's a document
+
+- [ ] `workbench/mindchat`'s conversation: a user turn is a card —
+  raised on the content, no hairline, never a saturated fill — on
+  the trailing side of the column, holding the text in the Body
+  typography role, its width its content's up to a measure the task
+  sets and records. An assistant turn is a markdown document at the
+  note measure, on the content, no card, as today. A turn still
+  arriving is the assistant's document with what has arrived so far.
+  A failed turn is an Error alert in the flow. A system note is a
+  text label in the Label role, centred, Neutral. The Primary bubble
+  goes.
+- [ ] Goldens: a conversation with two exchanges, a pending turn and
+  a failed one, both schemes; goldens that move regenerate with the
+  cause named.
+- [ ] Exit: green in `workbench/mindchat` by name; fresh-eyes review
+  of the conversation in both schemes; live check by Rene; commit and
+  push in `workbench` and `.github`.
