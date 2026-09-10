@@ -20191,3 +20191,48 @@ tags.
 - [ ] Exit: green in `workbench/mindchat` by name; fresh-eyes review
   of the conversation in both schemes; live check by Rene; commit and
   push in `workbench` and `.github`.
+
+## Phase CB: Mindchat's settings dialog keeps its marks
+
+Owner findings 2026-09-10, in the settings dialog after the rounds
+that converted it: Cancel and Save are both filled in the primary
+fill, where only Save is the dialog's default action; and the key
+check's verdict, once a small green disc with a check mark, became a
+bare mark when the verdict moved to the badge component. Rene had
+required the disc kept through that conversion. Two tasks, the badge
+first because the dialog's fix depends on it. No tags.
+
+### G-CB1: The badge can stand as a disc around its sign
+
+#### CB1.1: A glyph badge keeps its disc
+
+- [ ] `components/badge`: a badge with a glyph and no label may stand
+  as a disc: the status's fill as a circle the glyph's line box tall,
+  the glyph in the status's foreground centred in it. Today a glyph
+  badge stands bare, its sign alone; that stays the default, and the
+  disc is asked for by the props (a plain boolean or a form field,
+  named in plain words). The Neutral disc takes the badge's Neutral
+  fill. Gallery specimen for every status as a disc, both schemes.
+- [ ] Tests pin the disc's diameter against the line box, the glyph
+  centred, and the fills sampled per status; goldens that move
+  regenerate with the cause named, downstream included.
+- [ ] Exit: green in `components` and `components/gallery` by name;
+  commit and push in every touched repo and `.github`.
+
+### G-CB2: The dialog says which action is the default
+
+#### CB2.1: Save alone is filled, and the verdict is a green disc again
+
+- [ ] `workbench/mindchat`'s settings dialog: Save keeps the filled
+  emphasis as the dialog's default action; Cancel takes the less
+  pronounced emphasis the button offers beside it (Tonal or Ghost;
+  say which and why, against the dialog's level-2 surface). Return
+  and Escape keep their bindings.
+- [ ] The key check's verdict is the badge as a disc of CB1.1: a
+  Success disc with the check mark when the key is live, an Error
+  disc with the cross when it is not, at the size the row reserved
+  before the conversion.
+- [ ] Goldens that move regenerate with the cause named; fresh-eyes
+  review of the settings dialog open, both schemes.
+- [ ] Exit: green in `workbench/mindchat` by name; live check by
+  Rene; commit and push in every touched repo and `.github`.

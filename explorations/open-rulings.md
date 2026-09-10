@@ -2647,8 +2647,6 @@ Full record in `reviews/bv1.4-settings-fresh-eyes.md`; the numbers are the revie
 
 323. **[bug]** **Two selection treatments swap between schemes** across mindchat's settings: the list's selected row and the menu's selected row use different fills in light and trade them in dark. One rule for a selected row, both schemes.
 
-324. **[decide]** **Cancel and Save are the same button.** Both are filled in the primary fill; a macOS sheet makes the default action filled and the cancel one plain. Whether the pattern (a dialog's footer) or the app decides.
-
 325. **[bug]** **Mindchat's two provider lists disagree.** The Providers card lists two providers and the row above the form lists others; one source of truth.
 
 326. **[decide]** **Mindchat's settings form has no rail, no labels, and a chromeless tab row.** Fields start at one edge and the model picker at another; placeholder text stands in for labels; four bare words in equal slots make an uneven tab row; the DEFAULT MODEL caption sits under the Providers card, far from the control it names; the `+` and `−` under the list are naked glyphs with no button face or bar. One form-layout task for the app, or a settings-form pattern.
