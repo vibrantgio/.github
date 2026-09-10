@@ -20280,11 +20280,11 @@ mark that carries meaning without being text (Lc 60 increased). Pool
 
 #### CC1.1: Every floor and every foreground choice is APCA
 
-- [ ] `theme/color`: `ContrastRatio` and `wcag.go` go; `APCA` is the
+- [x] `theme/color`: `ContrastRatio` and `wcag.go` go; `APCA` is the
   measure, with a helper that returns the magnitude and one that,
   given a fill and candidate foregrounds, returns the candidate with
   the higher |Lc|. Tests against APCA-W3's published reference pairs.
-- [ ] `theme/tokens`: `TextFloor` is Lc 75, `GraphicFloor` Lc 45,
+- [x] `theme/tokens`: `TextFloor` is Lc 75, `GraphicFloor` Lc 45,
   the increased-contrast floors Lc 90 and Lc 60; every gate that read
   the ratio — the on-colours in `seed.go`, `ForegroundOnAtFloor`,
   `MarkOn`, `StateColor`, `RaisedOn`'s and the containers' and the
