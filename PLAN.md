@@ -20223,16 +20223,16 @@ first because the dialog's fix depends on it. No tags.
 
 #### CB2.1: Save alone is filled, and the verdict is a green disc again
 
-- [ ] `workbench/mindchat`'s settings dialog: Save keeps the filled
+- [x] `workbench/mindchat`'s settings dialog: Save keeps the filled
   emphasis as the dialog's default action; Cancel takes the less
   pronounced emphasis the button offers beside it (Tonal or Ghost;
   say which and why, against the dialog's level-2 surface). Return
   and Escape keep their bindings.
-- [ ] The key check's verdict is the badge as a disc of CB1.1: a
+- [x] The key check's verdict is the badge as a disc of CB1.1: a
   Success disc with the check mark when the key is live, an Error
   disc with the cross when it is not, at the size the row reserved
   before the conversion.
-- [ ] Goldens that move regenerate with the cause named; fresh-eyes
+- [x] Goldens that move regenerate with the cause named; fresh-eyes
   review of the settings dialog open, both schemes.
 - [ ] Exit: green in `workbench/mindchat` by name; live check by
   Rene; commit and push in every touched repo and `.github`.
