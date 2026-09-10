@@ -20157,7 +20157,7 @@ tags.
 
 #### CA1.1: Pending, error and status leave the role
 
-- [ ] `workbench/mindchat`: `Message.Role` keeps the API's values
+- [x] `workbench/mindchat`: `Message.Role` keeps the API's values
   alone — user, assistant (and system where the API sends it). A
   second field says what kind of line the message is: a turn, a turn
   still arriving, a failed turn, a system note; name it in the app's
@@ -20165,10 +20165,10 @@ tags.
   and `RoleStatus` go; every site that built or read them converts;
   the stored transcript format reads old files unchanged and writes
   the new shape, with a test on both directions.
-- [ ] The view branches on the kind, never on a role that is not a
+- [x] The view branches on the kind, never on a role that is not a
   sender; the rendering is unchanged in this task and the goldens do
   not move.
-- [ ] Exit: green in `workbench/mindchat` by name; commit and push in
+- [x] Exit: green in `workbench/mindchat` by name; commit and push in
   `workbench` and `.github`.
 
 ### G-CA2: The conversation reads as a chat
