@@ -2769,6 +2769,18 @@ Full record in `reviews/ca2.1-conversation-fresh-eyes.md`; measured off the conv
 
 370. **[bug]** **The alert's filled chevron and mixed iconography,** with row-action hit areas smaller than their targets; the chevron waits on `components/icon`.
 
+## BC. From CB1.1's fresh-eyes review of the badge's disc
+
+Findings from the review the task ran on its gallery renders; the rim defect it caught was fixed in the task. Filed 2026-09-10 from Phase CB.
+
+371. **[bug]** **The dismissible badge's close mark has a square hover region flush with the pill's rounded end,** with the cross off-centre in it (2 px left, 8 px right); pressed, the dark cross drops to 4.40:1 while the light one rises to 6.43:1.
+
+372. **[bug]** **Light-scheme levels 1 and 2 are both white,** so the gallery's three-level badge demo shows nothing in light while it works in dark. The raise walk's light headroom (BR1.6) meets the pin one step below white here; pool 271's asymmetry again, with a measured case.
+
+373. **[bug]** **Badge descenders sit 1 px off the pill's bottom edge** where the doc claims about 3 dp of leading; and the gallery's row captions measure 3.6–3.9:1 in light against 4.9–6.4:1 in dark.
+
+374. **[bug]** **The gallery's group tile splits at the 4000 px height boundary,** and it stood at 3995 before CB1.1; the next section added anywhere tiles again and moves goldens for no visual reason. Raise the tile height or split by section.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
