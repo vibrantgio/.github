@@ -2791,6 +2791,12 @@ Full record in `reviews/cb2.1-settings-fresh-eyes.md`; pool AS holds the dialog'
 
 377. **[bug]** **The key field is 50 px shorter than the two fields above it,** two chevrons in the dialog disagree, the checkbox's wording and scope are unclear, and the foot of the pane breaks the rhythm. Joins pool 326's form pass.
 
+## BE. From Rene's look at the settings dialog under the macOS accent colour
+
+Filed 2026-09-10. Measured with the theme's own contrast function on the two seeds.
+
+378. **[decide]** **The filled button's label under the platform's blue is black on saturated blue.** Following the system (BX) puts most Macs on systemBlue; in light the theme keeps the fill at the seed and picks the foreground that clears the floor, which is black on #007aff at 5.23:1. It passes the floor and still does not stand out: black text on a saturated fill reads as a disabled control, and macOS draws white on that blue (4.0:1, below the floor, accepted by the platform). The default purple gives white at 6.42:1; dark schemes are fine either way (11:1). Two ways out: the light scheme's filled fill walks one step toward the deep end when white would not clear the floor, so the label stays white; or the foreground rule accepts the platform's pair for the platform's colour. Rene saw it as Save not standing out against its fill.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
