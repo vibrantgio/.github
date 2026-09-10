@@ -20103,7 +20103,7 @@ composites to about #786512, over white to about #ffec99. No tags.
 
 #### BY1.1: The theme lays one yellow over any surface
 
-- [ ] `theme/tokens`: `Highlight` and `HighlightOn(surface)` return
+- [x] `theme/tokens`: `Highlight` and `HighlightOn(surface)` return
   the marker yellow rgb(255, 208, 0) composited over the surface at
   40% coverage, both schemes — an opaque colour, so the token
   contract that no fill is transparent holds — and a second answer
@@ -20114,10 +20114,10 @@ composites to about #786512, over white to about #ffec99. No tags.
   text over the composite on the default seed, both levels 0 and
   chrome, and say plainly where it lands against the text floor; the
   coverage is Obsidian's, not tuned to the floor.
-- [ ] `theme/export` re-emits; the sheet's highlight variables carry
+- [x] `theme/export` re-emits; the sheet's highlight variables carry
   the composites. Tests pin both schemes' values over the content and
   over chrome, and that the current-match answer is stronger.
-- [ ] Exit: green in `theme` and every field-walker module by name
+- [x] Exit: green in `theme` and every field-walker module by name
   (`effects/transition`, `workbench/themer`); commit and push in
   every touched repo and `.github`.
 
