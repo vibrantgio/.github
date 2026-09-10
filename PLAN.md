@@ -20123,14 +20123,14 @@ composites to about #786512, over white to about #ffec99. No tags.
 
 #### BY1.2: The document, the scrollbar and vaultview take the new yellow
 
-- [ ] `markdown`: find matches, the current match and the arrival
+- [x] `markdown`: find matches, the current match and the arrival
   highlight take `HighlightOn` over the document's actual surface,
   none over a hard-coded level; the arrival flash fades the same fill
   out. `components/scrollbar`: the marks of the matches take the
   composite over the track, the current one the stronger answer.
   `workbench/vaultview`: the tree's find marks and the note's arrival
   flash follow through the library; nothing local.
-- [ ] Goldens that move regenerate with the cause named, both
+- [x] Goldens that move regenerate with the cause named, both
   schemes, downstream included.
 - [ ] Exit: green in `markdown`, `components`, `components/gallery`
   and `workbench/vaultview` by name; fresh-eyes review of a dark note
