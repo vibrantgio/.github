@@ -20175,7 +20175,7 @@ tags.
 
 #### CA2.1: The user's turn is a card, the assistant's a document
 
-- [ ] `workbench/mindchat`'s conversation: a user turn is a card —
+- [x] `workbench/mindchat`'s conversation: a user turn is a card —
   raised on the content, no hairline, never a saturated fill — on
   the trailing side of the column, holding the text in the Body
   typography role, its width its content's up to a measure the task
@@ -20185,7 +20185,7 @@ tags.
   A failed turn is an Error alert in the flow. A system note is a
   text label in the Label role, centred, Neutral. The Primary bubble
   goes.
-- [ ] Goldens: a conversation with two exchanges, a pending turn and
+- [x] Goldens: a conversation with two exchanges, a pending turn and
   a failed one, both schemes; goldens that move regenerate with the
   cause named.
 - [ ] Exit: green in `workbench/mindchat` by name; fresh-eyes review
