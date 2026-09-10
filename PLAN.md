@@ -20206,17 +20206,17 @@ first because the dialog's fix depends on it. No tags.
 
 #### CB1.1: A glyph badge keeps its disc
 
-- [ ] `components/badge`: a badge with a glyph and no label may stand
+- [x] `components/badge`: a badge with a glyph and no label may stand
   as a disc: the status's fill as a circle the glyph's line box tall,
   the glyph in the status's foreground centred in it. Today a glyph
   badge stands bare, its sign alone; that stays the default, and the
   disc is asked for by the props (a plain boolean or a form field,
   named in plain words). The Neutral disc takes the badge's Neutral
   fill. Gallery specimen for every status as a disc, both schemes.
-- [ ] Tests pin the disc's diameter against the line box, the glyph
+- [x] Tests pin the disc's diameter against the line box, the glyph
   centred, and the fills sampled per status; goldens that move
   regenerate with the cause named, downstream included.
-- [ ] Exit: green in `components` and `components/gallery` by name;
+- [x] Exit: green in `components` and `components/gallery` by name;
   commit and push in every touched repo and `.github`.
 
 ### G-CB2: The dialog says which action is the default
