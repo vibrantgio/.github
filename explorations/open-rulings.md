@@ -2745,6 +2745,18 @@ Full record in `reviews/bx1.2-themer-fresh-eyes.md`; measured off the themer win
 
 360. **[decide]** **The dark page is near black and the ramp's dot markers sit low in contrast;** both are theme derivations the themer only shows, filed with pool 271's asymmetry.
 
+## BA. From BY1.2's fresh-eyes review of the new yellow in vaultview
+
+Full record in `reviews/by1.2-highlight-fresh-eyes.md`; measured off dark and light vaultview renders with a live query and three matches. Filed 2026-09-10 from Phase BY. Nothing fixed in the task: the one finding on its own work contradicts BY1.1's ruling and wants Rene's word.
+
+362. **[decide]** **In dark, the current match is the least readable text in the window.** Light text over the current match's 70% yellow measures about 2.4:1, found independently by the reviewer and recorded by BY1.1; the match itself at 40% clears the floor. BY1.1's ruling keeps Obsidian's coverage and never repaints the marked text; the two ways out, a dark-only coverage for the current match or a repainted foreground on it, both cross that ruling. Rule which, or accept the number.
+
+363. **[bug]** **The scrollbar's match marks share the thumb's lane,** so with the thumb over them the thumb reads as segmented; pool 338 seen again after the yellow. Rule 338, 344 and this together.
+
+364. **[bug]** **Vaultview's frame, seen once more:** three columns start at three heights, the floating-card inset sits on one panel's three sides only, the tree indents narrower than its disclosure mark, "122 lines" sits with no seam, and Rescan and Switch Vault are bare text. Joins pool 348, 351 and 353 as one frame pass.
+
+365. **[decide]** **The find field has no previous and next controls and its count sits outside it.** The Search field entry names stepping by keys only; the reviewer expected the platform's two arrows and the count inside the field.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
