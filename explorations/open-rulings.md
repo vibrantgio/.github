@@ -2869,6 +2869,14 @@ Full record in `reviews/ce2.5-workbench-fresh-eyes.md`. Filed 2026-09-11 from Ph
 
 413. **[decide]** **`patterns/accordion` fills `ControlBackground` with no way to state the surface it stands on,** so feeds' rail accordion reads as content on the chrome. A `Surface` prop was tried and reverted because feeds builds its accordion outside the colour fold, where a static colour cannot follow the appearance. The accordion wants a surface that comes from the theme's observable, or the rail's accordion wants a chrome variant; a design call.
 
+## BQ. From CE2.6, the themer, sitedocs and the small apps
+
+Filed 2026-09-11 from the task's own findings. The org tree is green by name for the first time since CE1.2.
+
+414. **[decide]** **sk150's three readouts took system colours a worker chose:** Volt `ControlAccent`, Amp `SystemTeal`, Watt `SystemPurple`, in one place (`workbench/sk150/theme.go`), since a one-accent platform has no counterpart for three tinted readouts. Two lines to overrule; Rene names the three, or rules that a readout is `Label` and only its unit carries a colour.
+
+415. **[task]** **`workbench/llms.txt`'s motion and typography sections still carry Material words** (MD3 easing families, MD3 type roles), deliberately left by CE2.6 for CE3.1's sweep; the typography section's names are the theme's own roles and stay, the "MD3" attributions go.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
