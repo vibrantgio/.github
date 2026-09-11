@@ -20610,6 +20610,29 @@ rule allows, each app quit afterwards and the appearance restored.
   the session launched is quit and verified gone; commit and push in
   `theme` and `.github`.
 
+#### CE1.6: The density scale takes the measured heights over the HIG's
+
+Owner ruling 2026-09-11: conform to the platform and supersede the
+HIG where the two differ. The save dialog captured in CE1.5 draws the
+regular push button and pop-up at 24 pt, the text field at 27, the
+checkbox at 16 and the label at 14 pt, where the HIG publishes 22 and
+13; CE1.2 shipped the published numbers.
+
+- [ ] `theme/tokens`: `ComfortableControlHeight` is 24; the text
+  field takes its own measured height, 27, as a density field beside
+  the control height (name it plainly) so a field is not a button's
+  height; `PaddingY` recomputed for the 20 dp label line box; the
+  checkbox's 16 recorded where the density scale states control
+  sizes; Compact keeps 19 until a small control is captured, with
+  the gap row in ADR-019 saying so. `controls.md` and ADR-019 say
+  measured beats published, per number. Nothing in Spacing, Radius
+  or Typography moves.
+- [ ] Tests re-pin the scale; the design bundle regenerates,
+  `design/mirror` by name.
+- [ ] Exit: green in `theme`, `design` and the field walkers by
+  name; commit and push in every touched repo and `.github`. The
+  consumers reflow in G-CE2.
+
 ### G-CE2: Every consumer takes the platform's names
 
 The Language leads: before CE2.1 starts, the Level, Backdrop,

@@ -2807,8 +2807,6 @@ Filed 2026-09-11 from the task's own findings and its review (`reviews/cc1.2-win
 
 Filed 2026-09-11 from the task's own findings; numbers in `reference/macos/controls.md`.
 
-385. **[decide]** **Measured off the save dialog on macOS 26 (CE1.5, `save-dialog-{light,dark}.png`, 1x): the regular push button is 24 pt, the pop-up 24, the text field 27, the checkbox 16; the label's cap band is 10 px, a 14 pt label, not the HIG's 13.** CE1.2 shipped the HIG's published 22 regular and 19 small; the platform draws 24 and 27. The toolbar's bordered controls stay 36. Rule: Comfortable takes the measured 24 for a button and pop-up, with the text field's 27 its own number or the same 24; Compact keeps 19 until a small control is captured; the toolbar's 36 is the chrome control's own metric. Also measured: push buttons, list rows and sidebar rows do not tint on hover; both buttons sat at the 74 px minimum width so the label inset could not be read.
-
 386. **[decide]** **At 22 and 19 no pinned stacked row reaches the 24 dp target size** (WCAG 2.5.8 AA); the old test asserted rows cleared it and now pins that they do not. Standalone pointer targets stay 44. Rule whether list and table rows keep the control height as their pin or take a row height of their own.
 
 387. **[bug]** **A Compact button draws 20 over a 19 floor:** LabelLarge's 20 dp line box does not fit the small control with any padding, so Compact PaddingY is 0 and the control overshoots by one. The small control wants the 11 pt label the platform gives it, which is a typography question Rene has closed for now; recorded, not resolved.
