@@ -662,10 +662,11 @@ dismissed.
 ### Highlight
 
 A yellow fill laid behind content to show the user where the content
-they sought is. It is the same yellow in both schemes, laid over the
-surface at less than full strength so the surface shows through it,
-and the text on it keeps its colour. The system applies it to
-content, and it lasts as long as its cause:
+they sought is. It is the platform's find highlight as Mail paints
+it, measured per scheme into the reference: a pale yellow on the
+light page, a muted yellow on the dark one, and the text on it keeps
+its colour. The system applies it to content, and it lasts as long
+as its cause:
 
 | Cause | Marks | Until |
 |---|---|---|

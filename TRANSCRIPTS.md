@@ -919,3 +919,7 @@ go. I want to be able to change the macOS Settings > Appearance >
 Theme > Colour derived colour. For e.g. Linux or Windows I may want
 to be able to still select that, but it becomes the Theme Colour we
 get rid of all the ramps. ^0005-theme-colour
+
+Rene (after capturing Mail's find highlight in both schemes): So
+yeah use the platform, but use it corectly, do I need to measure
+this for light scheme as well? ^0005-highlight-as-mail-paints-it

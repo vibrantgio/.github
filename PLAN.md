@@ -20334,7 +20334,7 @@ with the reader beside it. The rows a consumer reaches for:
 | selectedContentBackgroundColor | #0064e1 | #0059d1 | the selected row, active window |
 | unemphasizedSelectedContentBackgroundColor | #dcdcdc | #464646 | the selected row, inactive |
 | selectedTextBackgroundColor | #b3d7ff | #3f638b | text selection |
-| findHighlightColor | #ffff00 | #ffff00 | the highlight |
+| the find highlight as Mail paints it (findHighlightColor is #ffff00 in the catalogue but Mail does not paint that) | #faefbd, text #26251d unchanged | #6e6e4d, text #e8e9e3 unchanged | the highlight; reference/macos/mail-find-{light,dark}.png |
 | labelColor … quaternaryLabelColor | #000000 α.85/.50/.26/.10 | #ffffff α.85/.55/.25/.10 | text, four strengths |
 | placeholderTextColor | #000000 α.50 | #ffffff α.55 | a field's placeholder |
 | linkColor | #0068da | #419cff | links |
