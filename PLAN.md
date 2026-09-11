@@ -20465,7 +20465,7 @@ version it was read on.
 - [x] Exit: green in `theme`; commit and push in `theme` and
   `.github`.
 
-#### CE1.4: The measured materials stand beside the platform set
+#### CE1.4: Measured materials fill the gaps in the platform set
 
 - [ ] `theme/tokens`: the fills the phase's table names that have no
   NSColor and cannot come from the live reader become fields of the
