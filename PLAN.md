@@ -20542,6 +20542,35 @@ version it was read on.
 - [x] Exit: green in `theme`; commit and push in `theme` and
   `.github`.
 
+#### CE1.5: One capture session fills the reference's gaps
+
+Owner instruction 2026-09-11: the captures the phase waits for are
+taken by the system itself, in one batched session, as the reference
+rule allows, each app quit afterwards and the appearance restored.
+
+- [ ] In one session, both appearances (switching the appearance
+  through the system's own setting and restoring what was set):
+  a reference app's window in the light appearance (Finder or Mail,
+  same size as the stored dark capture); System Settings' grouped box
+  (a pane showing a bordered group on the window's background); a
+  system dialog or pane showing a push button, a text field, a pop-up
+  button and a checkbox at regular size; and a control hovered and a
+  control pressed (the pointer driven by the system's own event
+  machinery, the capture taken while the state holds). Each capture
+  lands in `.github/reference/macos` at 1x with its scale recorded,
+  and ADR-019's gap rows become measured rows.
+- [ ] `theme/tokens`: the platform set's stand-ins and published
+  values take the measured numbers: `SidebarMaterial` light,
+  `CardFill` both schemes, `HoverOverlay` and `PressOverlay` both
+  schemes; the tsv's measured-materials section and its testdata copy
+  follow, byte-identical. The control heights measured off the dialog
+  are recorded in `controls.md` beside CE1.2's published 22 and 19;
+  if they differ, the density scale is not changed here and the
+  difference is reported for a ruling.
+- [ ] Exit: green in `theme` and the field walkers by name; every app
+  the session launched is quit and verified gone; commit and push in
+  `theme` and `.github`.
+
 ### G-CE2: Every consumer takes the platform's names
 
 The Language leads: before CE2.1 starts, the Level, Backdrop,
