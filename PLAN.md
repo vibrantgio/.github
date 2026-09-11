@@ -20898,6 +20898,25 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 - [ ] Exit: green in every workbench app by name; the org tree green;
   commit and push in `workbench` and `.github`.
 
+#### CE2.6b: Overlays over mixed content composite as the platform does
+
+- [ ] Gio blends a coverage it is handed in linear light, so any
+  overlay that is not over one flat fill — the modal's scrim over a
+  page, the floating shadow's ramp over content, a hover over a row
+  that holds an image — lands lighter than the platform (#e7e7e7
+  where macOS and the browser give #cccccc); CE2.2b's flattening
+  reaches only overlays over one known fill. Investigate Gio's
+  compositing path and choose, with the measurement in the commit
+  body: a shader or an offscreen pass that composites the overlay in
+  encoded sRGB, or Gio's own compositing space if it can be set for
+  the window. Apply it to the scrim, the depth shadow and every
+  overlay the survey in `explorations/fills.md` lists as painted over
+  mixed content. A test pins the scrim over a two-colour page to the
+  platform's byte.
+- [ ] Exit: green in `effects`, `patterns` and every workbench app by
+  name; goldens that move regenerate with the cause named; commit and
+  push in every touched repo and `.github`.
+
 #### CE2.7: The Material set and its derivations are deleted
 
 - [ ] `theme/tokens`: `ColorTokens` and everything that fed it go —

@@ -2857,8 +2857,6 @@ Full record in `reviews/ce2.4b-gallery-fresh-eyes.md` (eleven findings, two reco
 
 Filed 2026-09-11 from the task's own findings; numbers in `design`'s commit d4e66bc.
 
-409. **[bug]** **A scrim handed to Gio as a coverage composites in linear light, not sRGB.** `patterns/modal` cannot flatten the scrim because it covers arbitrary content, so Gio's own compositing lands `#00000033` on `#e7e7e7` where the browser and the platform give `#cccccc`; both dialog mirror pairs sit at about 0.07 with the reason pinned. Every coverage Gio composites itself has the same drift: the scrim, any overlay over content that is not one flat fill, the shadow's ramp over content. The fix is one of: draw such coverages through a shader or an offscreen pass that composites in encoded sRGB; or pre-flatten against a captured backdrop where the content is known. Wants its own task before CE3.2's window reviews.
-
 410. **[task]** **`design/components/*.html` still carry `is-hover` specimens and `--color-*` page chrome;** hand-authored, left for CE2.6 or CE2.7's sweep.
 
 ## BP. From CE2.5, the three apps on the platform's names
