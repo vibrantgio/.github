@@ -20677,18 +20677,50 @@ the cause named. Typography untouched.
 - [x] Exit: green in `components` by name; commit and push in
   `components` and `.github`.
 
-#### CE2.2: Components — the signals and the gallery
+#### CE2.2: Components — the signals
 
-- [ ] `components/badge`, `alert`, `toast`, `tooltip`, `icon`,
-  `icons`, and `components/gallery` with its inventory and goldens.
-  The badge's disc wears the system colour itself — systemGreen with
-  a white check — never a tint of it. A measured `PushButtonFill`
-  joins the set from `save-dialog-{light,dark}.png` (#ececec light,
-  #333a3f dark; AppKit's controlColor is not what a push button
-  wears), and the Tonal and disabled button, the chip at rest and the
-  picker's trigger wear it, before the gallery's review.
-- [ ] Exit: green in `components` and `components/gallery` by name;
-  commit and push in `components` and `.github`.
+- [x] `components/badge`, `alert`, `toast`, `tooltip`, `icon`,
+  `icons`. The badge's disc wears the system colour itself —
+  systemGreen with a white check — never a tint of it. A measured
+  `PushButtonFill` joins the set from `save-dialog-{light,dark}.png`
+  (#ececec light, #333a3f dark; AppKit's controlColor is not what a
+  push button wears), and the Tonal and disabled button, the chip at
+  rest and the picker's trigger wear it. The gallery is CE2.4b: it
+  imports sixteen `patterns` packages, `markdown` and `effects`, so
+  no package of its module builds before those convert.
+- [x] Exit: green in `components` by name; commit and push in
+  `components` and `.github`.
+
+#### CE2.2b: Alpha names composite in sRGB as the platform does
+
+Found by CE2.2's review, confirmed to the byte against
+`save-dialog-{light,dark}.png` on every channel in both appearances:
+the platform composites an alpha colour over its surface in encoded
+sRGB, while Gio and `theme/color.Over` composite in linear light, so
+`labelColor` (black at 0.85) paints #6c6c6c on white here where macOS
+paints #242424. Every alpha-carrying name in the platform set is
+affected: the four labels, the placeholder, the separator, the
+control text, the disabled text, the focus ring, the overlays, the
+shadow. Owner ruling 2026-09-10 applies: conform to the platform.
+
+- [ ] `theme/color`: a helper flattens an alpha colour over an opaque
+  surface in encoded sRGB, per channel, the way the platform does
+  (BY1.1's highlight blend is the precedent); `Over` in linear light
+  keeps its name only if a consumer still needs linear compositing,
+  else it goes; say which in the commit body. A test pins
+  `labelColor` over white to #242424 and over the dark
+  `windowBackground` to the byte the capture shows, both read off
+  `save-dialog-{light,dark}.png`.
+- [ ] Every consumer converted so far (CE2.1's controls, CE2.2's
+  signals) paints an alpha name flattened over the surface it stands
+  on and reports opaque pixels; nothing hands Gio an alpha fill for a
+  platform name. Pixel gates in tests composite the same way. Goldens
+  that move regenerate with the cause named, each read by eye as a
+  foreground or overlay change only.
+- [ ] The G-CE2 preamble's compositing sentence says sRGB, and CE2.3
+  onward follow it.
+- [ ] Exit: green in `theme` and `components` by name; commit and
+  push in every touched repo and `.github`.
 
 #### CE2.3: Patterns
 
@@ -20710,6 +20742,18 @@ the cause named. Typography untouched.
   the platform set in this task, nothing emitted them before.
 - [ ] Exit: green in `markdown`, `effects` and `design` by name;
   commit and push in every touched repo and `.github`.
+
+#### CE2.4b: The gallery takes the platform's names
+
+- [ ] `components/gallery`: the inventory converts every specimen to
+  the platform-name signatures of CE2.1–CE2.4; the palette page shows
+  the platform set by name, both schemes, and nothing Material (the
+  ramp grid goes); the goldens regenerate with the cause named, tiles
+  included; `sitedocs` consumes the gallery and is CE2.6's.
+- [ ] Fresh-eyes review of the gallery's button, badge, alert, toast
+  and field sections in both schemes, read as macOS controls.
+- [ ] Exit: green in `components/gallery` by name; commit and push in
+  `components` and `.github`.
 
 #### CE2.5: Workbench — vaultview, mindchat, feeds
 
