@@ -2811,6 +2811,16 @@ Filed 2026-09-11 from the task's own findings; numbers in `reference/macos/contr
 
 387. **[bug]** **A Compact button draws 20 over a 19 floor:** LabelLarge's 20 dp line box does not fit the small control with any padding, so Compact PaddingY is 0 and the control overshoots by one. The small control wants the 11 pt label the platform gives it, which is a typography question Rene has closed for now; recorded, not resolved.
 
+## BI. From CE2.1, the controls taking the platform's names
+
+Filed 2026-09-11 from the task's own findings; numbers in `reference/macos/controls.md` and the tsv's measured-materials section.
+
+388. **[bug]** **AppKit's controlColor is not what a push button wears.** `Control` reads #ffffff light and white at 0.25 dark, while the save dialog's push button measures #ececec light and #333a3f dark; so a Tonal or disabled button and a resting chip are invisible on a white dialog but for the hairline CE2.1 added, and dark ones read far lighter than the platform's. Measured beats published: a `PushButtonFill` field with the capture's values, and button, chip and the picker's trigger wear it at rest. One short task before CE2.2's gallery review, or a line in CE2.2.
+
+389. **[decide]** **The set has no name for a hovered or dragged scrollbar knob,** and no capture holds one; `ThumbHoverColor` was deleted. The platform darkens the knob under the pointer; capture it (finder or textedit with the pointer over the knob) and add the measured overlay, or rule that the knob does not change.
+
+390. **[bug]** **`ScrollbarThumb`'s light value carries the dark capture's coverage** (labelColor at 0.337, #d5d5d5 on white, faint); no light-appearance scrollbar capture exists. One capture closes it; the gap is in ADR-019.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
