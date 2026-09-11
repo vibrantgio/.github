@@ -20794,14 +20794,14 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 
 #### CE2.4b: The gallery takes the platform's names
 
-- [ ] `components/gallery`: the inventory converts every specimen to
+- [x] `components/gallery`: the inventory converts every specimen to
   the platform-name signatures of CE2.1–CE2.4; the palette page shows
   the platform set by name, both schemes, and nothing Material (the
   ramp grid goes); the goldens regenerate with the cause named, tiles
   included; `sitedocs` consumes the gallery and is CE2.6's.
-- [ ] Fresh-eyes review of the gallery's button, badge, alert, toast
+- [x] Fresh-eyes review of the gallery's button, badge, alert, toast
   and field sections in both schemes, read as macOS controls.
-- [ ] Exit: green in `components/gallery` by name; commit and push in
+- [x] Exit: green in `components/gallery` by name; commit and push in
   `components` and `.github`.
 
 #### CE2.4c: The design bundle's class layer and its mirror take the platform's names
