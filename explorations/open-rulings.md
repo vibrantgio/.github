@@ -2861,6 +2861,16 @@ Filed 2026-09-11 from the task's own findings; numbers in `design`'s commit d4e6
 
 410. **[task]** **`design/components/*.html` still carry `is-hover` specimens and `--color-*` page chrome;** hand-authored, left for CE2.6 or CE2.7's sweep.
 
+## BP. From CE2.5, the three apps on the platform's names
+
+Full record in `reviews/ce2.5-workbench-fresh-eyes.md`. Filed 2026-09-11 from Phase CE. The chrome material's untinted re-record is CE2.7's; the pager, tab strip, plain fields, title bars and typeface are CE3.2's.
+
+411. **[decide]** **The sidebar pill's colour is not the accent, and its dark value is unmeasured.** Measured frontmost the pill is #178bfb under a white label, a lift of controlAccent's #007aff, and not selectedContentBackground; not frontmost it is #f2f2f2 light and #2a2a2a dark, neither of them unemphasizedSelectedContentBackground. The console was locked when CE2.5 ran, so the dark frontmost pill could not be captured, and offscreen AppKit draws it differently from Finder. The pattern paints `ControlAccent`, which follows the user's accent as the pill does. Rule: a `SidebarSelection` measured pair (one dark capture of Finder with a row selected, unlocked desktop), or the accent as painted, lifted by the measured ratio.
+
+412. **[task]** **No app knows whether its window is frontmost,** so the pattern's unemphasized pill is never asked for and every window paints as active. `mvu/desktop` can report key-window changes as messages; the shell passes it to the sidebar. One task in mvu and the shell.
+
+413. **[decide]** **`patterns/accordion` fills `ControlBackground` with no way to state the surface it stands on,** so feeds' rail accordion reads as content on the chrome. A `Surface` prop was tried and reverted because feeds builds its accordion outside the colour fold, where a static colour cannot follow the appearance. The accordion wants a surface that comes from the theme's observable, or the rail's accordion wants a chrome variant; a design call.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
