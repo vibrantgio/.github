@@ -20665,8 +20665,11 @@ entries; no derivation survives in a
 consumer, no literal colour is introduced; where a component today
 walks a state (hover, press) it takes the platform's answer — the
 selection colours for selected, the accent for the default action,
-alpha over what is beneath for hover and press as the platform does
-— and records the choice in the commit body. Goldens regenerate with
+alpha over what is beneath for hover and press as the platform does,
+flattened onto that surface in encoded sRGB, which is the space the
+platform composites an alpha name in and the space a pixel-sampling
+test composites in before it compares — and records the choice in the
+commit body. Goldens regenerate with
 the cause named. Typography untouched.
 
 #### CE2.1: Components — the controls
@@ -20703,7 +20706,7 @@ affected: the four labels, the placeholder, the separator, the
 control text, the disabled text, the focus ring, the overlays, the
 shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 
-- [ ] `theme/color`: a helper flattens an alpha colour over an opaque
+- [x] `theme/color`: a helper flattens an alpha colour over an opaque
   surface in encoded sRGB, per channel, the way the platform does
   (BY1.1's highlight blend is the precedent); `Over` in linear light
   keeps its name only if a consumer still needs linear compositing,
@@ -20711,15 +20714,15 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
   `labelColor` over white to #242424 and over the dark
   `windowBackground` to the byte the capture shows, both read off
   `save-dialog-{light,dark}.png`.
-- [ ] Every consumer converted so far (CE2.1's controls, CE2.2's
+- [x] Every consumer converted so far (CE2.1's controls, CE2.2's
   signals) paints an alpha name flattened over the surface it stands
   on and reports opaque pixels; nothing hands Gio an alpha fill for a
   platform name. Pixel gates in tests composite the same way. Goldens
   that move regenerate with the cause named, each read by eye as a
   foreground or overlay change only.
-- [ ] The G-CE2 preamble's compositing sentence says sRGB, and CE2.3
+- [x] The G-CE2 preamble's compositing sentence says sRGB, and CE2.3
   onward follow it.
-- [ ] Exit: green in `theme` and `components` by name; commit and
+- [x] Exit: green in `theme` and `components` by name; commit and
   push in every touched repo and `.github`.
 
 #### CE2.3: Patterns
