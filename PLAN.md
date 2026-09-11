@@ -6238,13 +6238,58 @@ than a pixel; a dark Finder window in list view closes that one.
 
 **A sidebar row is not a list row.** Finder's sidebar draws 32 px against
 its list view's 20, so the two are different rows and neither corrects the
-other. `patterns/sidebar` takes the 20 dp row, which is the number CE2.3's
-task names; a ruling that a chrome rail draws at the platform's 32 would add
-a second row number rather than move this one.
+other. `patterns/sidebar` took the 20 dp row through CE2.3, which is the
+number that task names, and takes the 32 as of CE2.5 — as that package's own
+constant rather than a second density token, because it is one region's
+geometry and not a scale a consumer chooses.
+
+#### The sidebar's own row and its selection pill
+
+Added 2026-09-11 by CE2.5, read off the three captures the owner took the
+same day with "Tint window background with wallpaper colour" switched off:
+`finder-window-untinted-light.png`, `finder-window-untinted-dark.png` and
+`voicememos-sidebar-light.png`. All three are 1x on the 2560×1440 display,
+and unlike the rest of this reference they carry the window's drop shadow, so
+the window's opaque bounds start where the alpha ramp ends; macOS 26 draws an
+8 px light rim inside those bounds and the rail's fill begins inside the rim.
+The full method for each row is in `controls.md`.
+
+| what | measured | file |
+| --- | --- | --- |
+| the sidebar's fill, untinted, a shade darker than the content in BOTH schemes | `#f7f7f7` over `#ffffff` light, `#1c1c1c` over `#1e1e1e` dark | `finder-window-untinted-{light,dark}.png` |
+| a sidebar row | 32 px in all three captures | all three |
+| the selected row's pill, frontmost | `#178bfb` under a white label | `voicememos-sidebar-light.png`, and `mail-window-light.png` again |
+| the selected row's pill, not frontmost | `#f2f2f2` light, `#2a2a2a` dark | `finder-window-untinted-{light,dark}.png` |
+| the pill's inset from each edge of the rail | 10 px | `finder-window-untinted-light.png`, `voicememos-sidebar-light.png` |
+| the pill's corner | 8 px, circular fits of 7.9 and 8.4 | the same two |
+
+**The pill is not a name the catalogue carries.** `#178bfb` is neither
+`selectedContentBackgroundColor` (`#0064e1`) nor `controlAccentColor`
+(`#007aff`): it is the accent with the lift the platform's vibrancy adds over
+a sidebar material. Nor is the unemphasized pill
+`unemphasizedSelectedContentBackgroundColor` (`#dcdcdc` / `#464646`), and no
+single coverage reproduces both appearances' readings — the light step is
+0.185 of the way to that name and the dark one 0.333.
+
+**The gap, and why it is still open.** No stored capture holds a dark sidebar
+whose window is frontmost, so the `#178bfb` pill has no dark partner. Until
+one does, `patterns/sidebar` paints the pill with `controlAccentColor` — the
+name the platform's own answer is a lift of, and the one that follows the
+user's accent as the platform's pill does — rather than recording a measured
+`SidebarSelection` with one half of its pair guessed. CE2.5 tried to take the
+capture and could not: the console session was locked
+(`CGSSessionScreenIsLocked` 1) and `screencapture -o -l` answers "could not
+create image from window" while it is. Rendering the row offscreen through
+AppKit does not substitute — an `NSTableView` at `style = .sourceList` drawn
+into a bitmap reproduces the dark unemphasized pill as `#424242` where Finder
+draws `#2a2a2a`, the platform's pill being drawn with a vibrancy that has no
+backdrop offscreen. One capture closes it: a sidebar in the dark appearance,
+its window frontmost, a row selected, window-bounded at 1x with wallpaper
+tinting off so it pairs with the light readings.
 
 #### What the captures contain
 
-Forty-three files, 2.8 MB. Whole-window captures give context and carry the
+Fifty-seven files, 3.9 MB. Whole-window captures give context and carry the
 window edges; the crops are tight on the region each number was read from.
 
 - **Window buttons**, one per app: `finder-window-buttons.png`,
@@ -6276,6 +6321,11 @@ window edges; the crops are tight on the region each number was read from.
 - **Dialog controls**: `save-dialog-light.png`, `save-dialog-dark.png`.
 - **Control states**: `control-hover-light.png`, `control-hover-dark.png`,
   `control-pressed-light.png`, `control-pressed-dark.png`.
+- **The sidebar, untinted** (the owner, 2026-09-11):
+  `finder-window-untinted-light.png`, `finder-window-untinted-dark.png`,
+  `voicememos-sidebar-light.png` — the rail's own fill, its row, and its
+  selection pill, read by CE2.5. These three carry the window's drop shadow,
+  where every capture above is window-bounded.
 
 Every CE1.5 capture is window-bounded at 1x on the 2560×1440 display: its
 pixel size equals its window's point size, 1000×700 for the Finder pair,
@@ -20822,7 +20872,7 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 
 #### CE2.5: Workbench — vaultview, mindchat, feeds
 
-- [ ] The three apps' own paints and their goldens; an app paints
+- [x] The three apps' own paints and their goldens; an app paints
   nothing a pattern already painted. Their rows — the article list,
   the transcript — take the platform's list row height CE2.3
   measured; `patterns/sidebar` gains the sidebar's own row height
@@ -20831,7 +20881,7 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
   measured off a dark Finder or Voice Memos capture into the
   reference in this task) and the vaultview tree and feeds' list of
   feeds take both through the pattern.
-- [ ] Exit: green in `workbench/vaultview`, `workbench/mindchat`,
+- [x] Exit: green in `workbench/vaultview`, `workbench/mindchat`,
   `workbench/feeds` by name; commit and push in `workbench` and
   `.github`.
 

@@ -102,9 +102,45 @@ is AppKit's array answer alone rather than a pixel.
 
 **What the sidebar row is not.** Finder's sidebar row measures 32 px against
 its list row's 20, so the two are different rows and neither corrects the
-other. `patterns/sidebar` takes the 20 dp row for now, because that is the
-number CE2.3's task names; a ruling that a chrome rail draws its rows at the
-platform's 32 px would be a second row token, not a change to this one.
+other. The section below reads the sidebar's own row, and `patterns/sidebar`
+takes it as of CE2.5: the 32 px row is that package's constant rather than a
+second density token, because it is one region's geometry and not a scale a
+consumer chooses.
+
+## What the sidebar captures measure
+
+Added 2026-09-11 by CE2.5, from the three captures the owner took the same
+day with "Tint window background with wallpaper colour" switched OFF —
+`finder-window-untinted-light.png` (1399×1063), `finder-window-untinted-dark.png`
+(1443×1107) and `voicememos-sidebar-light.png` (1088×869). All three are 1x
+captures on the 2560×1440 display where one pixel is one point; unlike the
+rest of this reference they carry the window's drop shadow, so the window's
+own opaque bounds start where the alpha ramp ends. macOS 26 draws an 8 px
+light rim inside those bounds, and the sidebar's fill begins inside the rim.
+
+| what | measured | where | method |
+| --- | --- | --- | --- |
+| the sidebar's fill, untinted | `#f7f7f7` light, `#1c1c1c` dark | `finder-window-untinted-{light,dark}.png` | flat-region samples of the rail: the light one is `#f7f7f7` over 188981 of the sampled pixels, the dark one is shaded `#1b1b1b`–`#1e1e1e` across the rail with `#1c1c1c` the mode. The content beside it reads `#ffffff` light and `#1e1e1e` dark, striped with `#f4f5f5` and `#292929` — the alternate row to the byte in both. So untinted, the chrome is a shade DARKER than the content in both schemes, where the tinted readings had it equal in light |
+| a sidebar row | 32 px | all three | the selected row's pill spans y 78–109 light and y 90–121 dark in the Finder pair, and y 363–394 in the Voice Memos capture — 32 rows in each |
+| the selected row's pill, frontmost | `#178bfb` under a white label | `voicememos-sidebar-light.png` | the pill is flat `#178bfb` over 5461 pixels, x 74–273, y 363–394. `mail-window-light.png` carries the same value. It is not `selectedContentBackgroundColor` (`#0064e1`) and not `controlAccentColor` (`#007aff`): it is the accent with the lift the platform's vibrancy adds over a sidebar material |
+| the selected row's pill, not frontmost | `#f2f2f2` light, `#2a2a2a` dark | `finder-window-untinted-{light,dark}.png` | both captures were taken with the window behind the capturing session, so both show the unemphasized pill: light `#f2f2f2` over the `#f7f7f7` rail, dark `#2a2a2a` over the `#1c1c1c` rail. Neither is `unemphasizedSelectedContentBackgroundColor`, which reports `#dcdcdc` light and `#464646` dark, and no single coverage reproduces both — the light step is 0.185 of the way to that name and the dark one 0.333 |
+| the pill's inset | 10 px from each edge of the rail | `finder-window-untinted-light.png` | the pill spans x 52–341 inside a rail whose fill spans x 42–351. The Voice Memos pill reads the same 10 against its own rail (x 74–273 in a rail spanning x 64–283) |
+| the pill's corner | 8 px | both light captures | a circular fit to the sub-pixel coverage of the pill's top-left corner: 7.9 in the Finder capture (rms 0.05 px over seven rows) and 8.4 in the Voice Memos one (rms 0.21 px over eight). The platform's own corner is a continuous curve — a superellipse of exponent 4 fits it four times better than a circle — which is why the two circular fits differ; 8 is what a circular corner draws |
+
+**What is open here.** No stored capture holds a DARK sidebar whose window is
+frontmost, so the `#178bfb` pill has no dark partner and the light reading is
+the only one. `patterns/sidebar` consequently paints the pill with
+`controlAccentColor`, which is the name the platform's own answer is a lift
+of, and follows the user's accent as the platform's does. One capture closes
+it: **a sidebar in the dark appearance, its window frontmost, with a row
+selected**, window-bounded at 1x with wallpaper tinting off so it pairs with
+the light readings above. CE2.5 tried to take it and could not: the console
+session was locked (`CGSSessionScreenIsLocked` 1) and `screencapture -o -l`
+answers "could not create image from window" while it is. Rendering the row
+offscreen through AppKit does not substitute — an `NSTableView` at
+`style = .sourceList` drawn into a bitmap reproduces the dark unemphasized
+pill as `#424242` where Finder draws `#2a2a2a`, because the platform's pill is
+drawn with a vibrancy that has no backdrop offscreen.
 
 ## Where the measured heights supersede the published ones
 
