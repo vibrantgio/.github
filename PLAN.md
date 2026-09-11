@@ -20455,14 +20455,14 @@ version it was read on.
 
 #### CE1.3: The platform set is read live from AppKit on macOS
 
-- [ ] `theme/system` gains a darwin reader that asks AppKit for every
+- [x] `theme/system` gains a darwin reader that asks AppKit for every
   name in the set under the aqua and darkAqua appearances (cgo or
   purego into NSColor; the `defaults` shim is not enough), so the
   accent setting and future platform changes come through; other
   platforms and tests keep the recorded sets. A test on darwin pins
   that the live light set matches the catalogue on the version it
   was read on.
-- [ ] Exit: green in `theme`; commit and push in `theme` and
+- [x] Exit: green in `theme`; commit and push in `theme` and
   `.github`.
 
 ### G-CE2: Every consumer takes the platform's names
