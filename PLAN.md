@@ -20465,6 +20465,29 @@ version it was read on.
 - [x] Exit: green in `theme`; commit and push in `theme` and
   `.github`.
 
+#### CE1.4: The measured materials stand beside the platform set
+
+- [ ] `theme/tokens`: the fills the phase's table names that have no
+  NSColor and cannot come from the live reader become fields of the
+  platform set with provenance in their doc comments, so every G-CE2
+  packet reads a name and never a number: the chrome material
+  (`SidebarMaterial`: #efefef light, #232a2e dark, from the reference
+  window captures), the card's fill (`CardFill`: Rene's System
+  Settings grouped-box capture, both schemes; until it lands, the
+  content's fill and a doc comment saying so), the hover and press
+  overlays (`HoverOverlay`, `PressOverlay`: black or white at an
+  alpha measured off a captured control in each state; where no
+  capture exists, the platform's published values with the gap
+  recorded in ADR-019), and the floating shadow (`FloatingShadow`:
+  colour and alpha measured off a captured floating window or the
+  stored sidebar-shadow capture). Each field's comment cites its
+  capture by file name.
+- [ ] The tsv gains a second section, "measured materials", with the
+  same columns and the capture each value came from; ADR-019 gains
+  the rows. A test pins the fields against the tsv.
+- [ ] Exit: green in `theme`; commit and push in `theme` and
+  `.github`.
+
 ### G-CE2: Every consumer takes the platform's names
 
 The Language leads: before CE2.1 starts, the Level, Backdrop,
