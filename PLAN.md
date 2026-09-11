@@ -20808,7 +20808,7 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 
 #### CE2.4c: The design bundle's class layer and its mirror take the platform's names
 
-- [ ] `design`'s hand-written class layer (`styles.css`: `.btn`,
+- [x] `design`'s hand-written class layer (`styles.css`: `.btn`,
   `.badge`, the form rules, about 142 `var(--color-*)` and
   `var(--elevation-*)` references) takes the platform's names per
   class, the same mapping the Go components took in CE2.1–CE2.2;
@@ -20817,7 +20817,7 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
   the tolerance and its calibration re-baseline against the
   installed Chromium so a deliberately wrong radius on the smaller
   button still fails; all 25 subtests scored.
-- [ ] Exit: green in `design` with `design/mirror` by name; commit
+- [x] Exit: green in `design` with `design/mirror` by name; commit
   and push in `design` and `.github`.
 
 #### CE2.5: Workbench — vaultview, mindchat, feeds
