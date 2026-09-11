@@ -923,3 +923,8 @@ get rid of all the ramps. ^0005-theme-colour
 Rene (after capturing Mail's find highlight in both schemes): So
 yeah use the platform, but use it corectly, do I need to measure
 this for light scheme as well? ^0005-highlight-as-mail-paints-it
+
+Rene (after Mail's find captures): TextEdit looks very weird indeed
+and is not something I want to emulate.
+
+Rene: Give the go for CC1.2 and Phase CE ^0005-go-cc12-ce

@@ -296,60 +296,41 @@ spoken in levels, never in its own units.
 
 ### Level
 
-A position on the elevation, numbered from the backdrop
-up. A surface's colours are derived against the level it stands at,
-and in both schemes a surface nearer the viewer is lighter — the
-backdrop is darkest, whatever the scheme. Standing higher comes in
-two kinds:
+A position in the window's depth: backdrop, chrome, content, raised,
+floating. Each level's fill is the platform's, read off the platform
+per scheme, never derived from another level's; no level is lighter
+or darker than another by rule.
 
-| Kind | Meaning |
-|---|---|
-| **raised** | one step above the surface it stands on, attached to it — a card on the content, a field on that card |
-| **floating** | detached: placed by an attachment or over a scrim, above everything raised beneath it |
+| Level | Holds | Platform fill |
+|---|---|---|
+| **backdrop** | nothing: the window's own plane, showing wherever nothing stands | the window background |
+| **chrome** | the chrome regions — sidebars, toolbars, navbars, inspectors, status bars, panes | the sidebar and toolbar material, measured into the reference |
+| **content** | the document being read, lists, tables | the text background |
+| **raised** | on the content and attached to it — cards, fields, filled insets | the platform's box, measured into the reference |
+| **floating** | detached, placed by an attachment or over a scrim — dialogs, toasts, menus, popovers, tooltips | the window background, under the platform's shadow |
 
-Raised is relative — a field inside a card is raised on the card —
-so the numbers below name the usual stack, not a ceiling. A raise
-is walked one step from the surface beneath, never read off a table
-of levels: whatever a thing stands on, raised means one step
-lighter than that. Where the scheme has no lighter step left — the
-light scheme under white, the top of the dark band — the raise is
-still told, by a seam at its edge instead of by its fill; a raise
-never vanishes. The content plane keeps headroom above it for that
-reason: in the light scheme it stands one step below white, and
-white is the first raise on it, so a card on the content is told by
-its fill in both schemes and the seam is kept for the raise above
-that — a field on a card. Cards do not nest: grouping within a card
-is its structure.
-
-| Level | Holds |
-|---|---|
-| **backdrop** | nothing: the bare window plane, showing wherever nothing stands |
-| **chrome** | the chrome regions — navbars, toolbars, sidebars, inspectors, status bars, panes |
-| **0** | the content itself: the document being read |
-| **1** | raised on the content — cards, filled insets, fields |
-| **2** | floating — dialogs and toasts |
-| **3** | floating, top of the elevation — menus, popovers and tooltips |
+Standing higher is told the way the platform tells it: a raised
+thing by its edge, a hairline of the separator colour, a floating
+thing by its shadow. A field inside a card is raised on the card the
+same way. Cards do not nest: grouping within a card is its
+structure.
 
 ### Backdrop
 
-The lowest level: the window's own plane, what an empty window
-shows, the darkest region in both schemes. Nothing is drawn at it;
-everything else stands on it, and it shows wherever nothing stands
-— around an inset pane. It is what the backdrop module paints first
-in every application, a tint darker than the chrome placed on it.
-Nothing has the backdrop behind it, so no foreground — no text, no
-ring, no mark — is ever derived against it: the backdrop is only
-ever what shows around.
+The window's own plane, filled with the platform's window
+background. It shows wherever nothing stands — around an inset pane.
+Nothing is drawn at it and no foreground is ever measured against
+it: the backdrop is only ever what shows around.
 
 ### Seam
 
 The hairline where two flush regions meet — the sidebar against the
-content, the navbar's foot, the status bar's top. Regions that share
-one fill depend on it to say where one ends and the next begins, so
-it is derived to be findable against both in either scheme, and
-drawn once, by the region above or leading. An inset object needs
-no seam: the backdrop showing around it does that work. A seam the
-user can drag is a splitter.
+content, the navbar's foot, the status bar's top — and the edge of a
+raised thing. It is the platform's separator colour: black or white
+at a tenth, laid over whatever is beneath, so it reads on any fill
+without being derived; drawn once, by the region above or leading.
+An inset object needs no seam: the backdrop showing around it does
+that work. A seam the user can drag is a splitter.
 
 ### Scrim
 
@@ -361,13 +342,15 @@ above. A scrim is not a surface — nothing stands on it.
 
 The window's furniture: every region placed directly on the
 backdrop that frames the document rather than being it — navbar,
-toolbar, sidebar, inspector, status bar, pane. Chrome is a level of its
-own, the first above the backdrop and a tint lighter than it in
-both schemes; the shell pattern is the composition of chrome
-regions; a variant is "chrome" when the control lives in a chrome
-region. Chrome is window-scale only: the trim inside a component
-or pattern — a card's header, a dialog's footer, a table's header
-row — is that thing's structure, never chrome.
+toolbar, sidebar, inspector, status bar, pane. Its fill is the
+platform's sidebar and toolbar material as measured into the
+reference for each scheme: greyer than the content in both, darker
+than it in light and lighter than it in dark. The shell pattern is
+the composition of chrome regions; a variant is "chrome" when the
+control lives in a chrome region. Chrome is window-scale only: the
+trim inside a component or pattern — a card's header, a dialog's
+footer, a table's header row — is that thing's structure, never
+chrome.
 
 ### Attachment
 
@@ -815,33 +798,29 @@ open.
 
 ### Card
 
-The pattern singling something out: one rounded surface raised one
-step above the surface it is in, no hairline, the raise doing the
-work, with header, body and footer slots. It holds content that must
-stand apart from the page around it — a summary, a preview, the
-recommended tier. What a card holds stands on the card: its content
-as foreground, anything raised in it, a field say, one step above
-the card. A card holds content, never another card. A card is never
-outlined, and it never wears a role: the developer's word about it
-is a badge in its header, and singling out is the raise's work
-alone.
+The pattern singling something out: the platform's box — one
+rounded surface with a hairline of the separator colour around it,
+its fill the platform's as measured into the reference — with
+header, body and footer slots. It holds content that must stand
+apart from the page around it — a summary, a preview, the
+recommended tier. What a card holds stands on the card; a field in
+it is a raised thing on the card. A card holds content, never
+another card. It never wears a role: the developer's word about it
+is a badge in its header.
 
 ### Group
 
-The pattern dividing the page: a hairline drawn around related
-components so the eye chunks them, at the level of the surface it is
-in and taking that surface's own fill, optionally labelled. It
-raises nothing and singles nothing out; nothing is derived against
-it, because it has no fill of its own — what it holds stands on the
-surface the group is in. A group may hold a card; it never holds
-another group. It wears no role: a group is not operated, so it has
-no emphasis to speak with, and a role-coloured hairline would borrow
-the accent's grammar for something the user never chose.
+The pattern dividing the page: a hairline of the separator colour
+drawn around related components so the eye chunks them, no fill of
+its own — what it holds stands on the surface the group is in —
+optionally labelled. It singles nothing out. A group may hold a
+card; it never holds another group. It wears no role.
 
 Which of the two a developer reaches for answers one question: am I
 dividing the page, or singling something out? A form in sections, a
 list of articles, a row of tiers — groups. The one thing that must
 stand apart — a card.
+
 ### Feature
 
 The marketing pattern presenting capabilities as an icon-title-body
