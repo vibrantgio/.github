@@ -20919,6 +20919,11 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 
 #### CE2.7: The Material set and its derivations are deleted
 
+- [ ] The sidebar pill's dark value, measured off a dark capture
+  (Finder or Voice Memos with a row selected, the desktop unlocked)
+  into the reference and the tsv as the pair with the light #178bfb;
+  `ControlAccent` stands in until then. Moved here from CE2.5, whose
+  tick did not cover it.
 - [ ] `theme/tokens`: `ColorTokens` and everything that fed it go —
   `FromSeed`, the ramps and steps as colour sources, `Container`,
   `ContainerOn`, `StatusContainer`, `OnContainer`, `SurfaceAt`,
