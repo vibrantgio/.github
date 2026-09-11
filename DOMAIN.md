@@ -238,8 +238,9 @@ to its text.
 
 A text field has a height of its own, the platform's, taller than
 the regular control; a checkbox its own, smaller; a list's rows the
-platform's row height. All are measured into the reference, not
-derived from the control height.
+platform's row height; a sidebar's rows their own, taller than a
+list's. All are measured into the reference, not derived from the
+control height.
 
 ### Radius
 
@@ -314,7 +315,7 @@ or darker than another by rule.
 | Level | Holds | Platform fill |
 |---|---|---|
 | **backdrop** | nothing: the window's own plane, showing wherever nothing stands | the window background |
-| **chrome** | the chrome regions — sidebars, toolbars, navbars, inspectors, status bars, panes | the sidebar and toolbar material, measured into the reference |
+| **chrome** | the chrome regions — sidebars, toolbars, navbars, inspectors, status bars, panes | the sidebar material with wallpaper tinting off, measured into the reference |
 | **content** | the document being read, lists, tables | the text background |
 | **raised** | on the content and attached to it — cards, fields, filled insets | the platform's grouped box: a small step from the surface beneath, darker in light and lighter in dark, measured into the reference; a field the platform's field |
 | **floating** | detached, placed by an attachment or over a scrim — dialogs, toasts, menus, popovers, tooltips | the window background, under the platform's shadow |
@@ -353,10 +354,11 @@ above. A scrim is not a surface — nothing stands on it.
 The window's furniture: every region placed directly on the
 backdrop that frames the document rather than being it — navbar,
 toolbar, sidebar, inspector, status bar, pane. Its fill is the
-platform's, measured into the reference for each scheme: in light
-the same white as the content, told from it by a seam alone; in dark
-the sidebar material, a blue-grey lighter than the content. The
-shell pattern is
+platform's sidebar material with wallpaper tinting off, measured
+into the reference for each scheme: a shade darker than the content
+in both, told from it by that shade and a seam. What the platform
+adds on top — the wallpaper showing through the glass — a window
+that cannot see the desktop does not paint. The shell pattern is
 the composition of chrome regions; a variant is "chrome" when the
 control lives in a chrome region. Chrome is window-scale only: the
 trim inside a component or pattern — a card's header, a dialog's
@@ -911,7 +913,11 @@ arrangements its variants name.
 
 The chrome pattern of a collapsible vertical column: expanded with
 icons and labels, or collapsed to icons alone — collapsed, it is a
-rail. The active entry is marked.
+rail. Its rows stand at the sidebar's own row height. The active
+entry is marked the platform's way: a pill inset from the sidebar's
+edges, rounded, in the sidebar's own selection colour with a white
+label — measured into the reference from Voice Memos and Finder,
+never edge to edge and never the list's selection colour.
 
 ### Status bar
 

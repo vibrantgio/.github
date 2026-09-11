@@ -940,3 +940,13 @@ constant as the platform has it; a user-chosen fill takes black or
 white, whichever reads better; a tie goes to the scheme's text
 colour; rows take the platform's row height): Yes to all five.
 ^0005-five-pool-rulings
+
+Rene (to pool 398, the sidebar's own row height of 32, shown in his
+Voice Memos capture): Yes, next one ^0005-sidebar-row-height
+
+Rene (to pool 399, the sidebar's selection as the platform's inset
+rounded pill): Yes, next one ^0005-sidebar-selection-pill
+
+Rene (to pool 402, the wallpaper's tint in the recorded chrome): I
+can also turn off Tint window background with wallpaper colour —
+Both are on the desktop ^0005-chrome-untinted

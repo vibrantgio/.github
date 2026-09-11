@@ -20526,7 +20526,9 @@ with the reader beside it. The rows a consumer reaches for:
 | Platform name | Light | Dark | Used for |
 |---|---|---|---|
 | windowBackgroundColor | #ffffff | #1e1e1e | the window's plane (the backdrop), floating surfaces |
-| the sidebar and toolbar material (both schemes measured off mail-window.png, finder-window.png and their light counterparts; ADR-019, "The measured materials") | #ffffff measured | #232a2e measured | the chrome regions — a flat paint of the platform's vibrant material as it measured on the reference desktop; in the light scheme that is the content's fill exactly |
+| the sidebar material with wallpaper tinting off, measured (reference/macos finder-window-untinted-{light,dark}.png; the tinted #232a2e was the reference desktop's wallpaper) | #f7f7f7 | #1c1c1c (the platform shades it #1b–#1d across; painted flat) | the chrome regions — a shade darker than the content in both schemes |
+| the sidebar's selected row, measured (voicememos-sidebar-light.png) | #178bfb pill, white label, 32 tall, inset ~10, radius ~8 | to be measured from a dark capture in CE2.5 | the sidebar's active entry; not selectedContentBackground |
+| the sidebar's row height, measured (Finder, Voice Memos) | 32 | 32 | sidebar, tree and list-of-feeds rows; the list row stays 20 |
 | the grouped box, measured (CE1.5's System Settings captures) | #f7f7f7 over #ffffff | #2a3034 over #232a2e | a card: a small step of fill, darker in light, lighter in dark, no hairline, no shadow |
 | hover and press, measured (CE1.5's Finder toolbar captures) | black at 0.051 / 0.098 | white at 0.094 / 0.098 | toolbar buttons only; push buttons, list rows and sidebar rows do not tint on hover |
 | controlBackgroundColor, textBackgroundColor | #ffffff | #1e1e1e | the content, lists, tables, fields |
@@ -20821,9 +20823,14 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 #### CE2.5: Workbench — vaultview, mindchat, feeds
 
 - [ ] The three apps' own paints and their goldens; an app paints
-  nothing a pattern already painted. Their rows — the tree, the
-  feeds list, the article list, the transcript — take the platform's
-  row height CE2.3 measured.
+  nothing a pattern already painted. Their rows — the article list,
+  the transcript — take the platform's list row height CE2.3
+  measured; `patterns/sidebar` gains the sidebar's own row height
+  (32) and the platform's selection pill (inset, rounded, the
+  measured sidebar selection colour, white label; the dark value
+  measured off a dark Finder or Voice Memos capture into the
+  reference in this task) and the vaultview tree and feeds' list of
+  feeds take both through the pattern.
 - [ ] Exit: green in `workbench/vaultview`, `workbench/mindchat`,
   `workbench/feeds` by name; commit and push in `workbench` and
   `.github`.
@@ -20858,7 +20865,10 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
   through the live reader so that `Label` flattens to the platform's
   216, not the tsv's two-decimal 217; `input`'s checkbox and radio
   drop `tokens.Disabled(ControlAccent)`, a derivation CE2.1 missed,
-  for the disabled state's platform answer. Typography, Density, Spacing and
+  for the disabled state's platform answer. `SidebarMaterial` is
+  re-recorded from the untinted Finder captures (#f7f7f7 light,
+  #1c1c1c dark) in tokens, both tsv copies and ADR-019, if CE2.5 has
+  not already done it. Typography, Density, Spacing and
   Radius stay exactly as they are. `theme.Theme` carries the platform
   set alone. `theme/system` builds it from the platform's appearance
   and the theme colour; `theme/brand` keeps the theme colour and the
