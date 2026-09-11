@@ -2803,6 +2803,16 @@ Filed 2026-09-11 from the task's own findings and its review (`reviews/cc1.2-win
 
 384. **[bug]** **Windows seen once more in CC1.2's review:** the launcher's grid 40% empty with dead space under every card; sitedocs' band text at the far right and a cut viewport; vaultview's code block chopped mid-word with no scrollbar. None moved in this round; filed for CE3.2's per-app review.
 
+## BH. From CE1.2, the platform's control heights
+
+Filed 2026-09-11 from the task's own findings; numbers in `reference/macos/controls.md`.
+
+385. **[decide]** **The reference says 36, the HIG says 22.** Every bordered toolbar control in the five stored macOS 26 window captures (search field, capsule button, segmented control, pop-up) measures 36 px tall, five windows agreeing to the pixel, and Finder's in-pane text field 33 px; no push button, checkbox or pop-up at regular size is captured. CE1.2 shipped the HIG's published 22 pt regular and 19 pt small as ruled, with the measurements recorded beside them. Rene's capture of a System Settings dialog decides: if the platform's regular push button is 22 the ruling stands; if macOS 26 draws it taller, the density takes the measured number, and the toolbar's 36 may be its own metric.
+
+386. **[decide]** **At 22 and 19 no pinned stacked row reaches the 24 dp target size** (WCAG 2.5.8 AA); the old test asserted rows cleared it and now pins that they do not. Standalone pointer targets stay 44. Rule whether list and table rows keep the control height as their pin or take a row height of their own.
+
+387. **[bug]** **A Compact button draws 20 over a 19 floor:** LabelLarge's 20 dp line box does not fit the small control with any padding, so Compact PaddingY is 0 and the control overshoots by one. The small control wants the 11 pt label the platform gives it, which is a typography question Rene has closed for now; recorded, not resolved.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
