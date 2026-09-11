@@ -2819,6 +2819,18 @@ Filed 2026-09-11 from the task's own findings; numbers in `reference/macos/contr
 
 390. **[bug]** **`ScrollbarThumb`'s light value carries the dark capture's coverage** (labelColor at 0.337, #d5d5d5 on white, faint); no light-appearance scrollbar capture exists. One capture closes it; the gap is in ADR-019.
 
+## BJ. From CE2.2's fresh-eyes review of the signals as macOS controls
+
+Full record in `reviews/ce2.2-gallery-fresh-eyes.md`. Filed 2026-09-11 from Phase CE. Fixed in the task: the alert's and tooltip's hairline landing as two half-strength rows. The alpha-compositing finding became task CE2.2b.
+
+391. **[decide]** **White on systemGreen measures 2.22:1 on a filled badge.** The platform's own count badge is white on the system colour, so the mapping is the ruled one; under APCA the pair is near Lc 40, under the mark floor. Rule that a platform pair is exempt from the floors, or that a filled badge takes the platform's darker variant of the colour.
+
+392. **[decide]** **`ControlAccent` is #007aff in both appearances while `SystemBlue` adapts** (#0088ff light, #0091ff dark in the catalogue). The platform reports controlAccentColor unchanged across appearances; whether the default button follows it as read, or the accent's per-appearance system colour.
+
+393. **[decide]** **A Ghost button reads as static text** with no fill and no edge; the platform's borderless button is the same at rest. Whether the emphasis stays, given macOS shows it only in toolbars and table footers.
+
+394. **[decide]** **The alert's chevron is a disclosure triangle, and severity now rides on hue alone** since the container tint went. Whether an in-flow alert takes the platform's icon per status (the SF symbols macOS uses) once `components/icon` can carry them.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
