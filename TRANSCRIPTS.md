@@ -928,3 +928,8 @@ Rene (after Mail's find captures): TextEdit looks very weird indeed
 and is not something I want to emulate.
 
 Rene: Give the go for CC1.2 and Phase CE ^0005-go-cc12-ce
+
+Rene (to the vibrantgio session, relayed verbatim, on the save
+dialog's 24 pt controls against the HIG's 22): Yes conform to the
+platform and supercede the HIG in these areas.
+^0005-measured-beats-published

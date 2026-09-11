@@ -2815,8 +2815,6 @@ Filed 2026-09-11 from the task's own findings; numbers in `reference/macos/contr
 
 Filed 2026-09-11 from the task's own findings; numbers in `reference/macos/controls.md` and the tsv's measured-materials section.
 
-388. **[bug]** **AppKit's controlColor is not what a push button wears.** `Control` reads #ffffff light and white at 0.25 dark, while the save dialog's push button measures #ececec light and #333a3f dark; so a Tonal or disabled button and a resting chip are invisible on a white dialog but for the hairline CE2.1 added, and dark ones read far lighter than the platform's. Measured beats published: a `PushButtonFill` field with the capture's values, and button, chip and the picker's trigger wear it at rest. One short task before CE2.2's gallery review, or a line in CE2.2.
-
 389. **[decide]** **The set has no name for a hovered or dragged scrollbar knob,** and no capture holds one; `ThumbHoverColor` was deleted. The platform darkens the knob under the pointer; capture it (finder or textedit with the pointer over the knob) and add the measured overlay, or rule that the knob does not change.
 
 390. **[bug]** **`ScrollbarThumb`'s light value carries the dark capture's coverage** (labelColor at 0.337, #d5d5d5 on white, faint); no light-appearance scrollbar capture exists. One capture closes it; the gap is in ADR-019.

@@ -202,7 +202,9 @@ looks like a macOS application. Wherever the platform and Material
 differ, the platform's value is read off the platform and Material's
 is dropped: the platform's system colours for the four statuses, its
 control heights for density, its accent colour for the accent, its
-controls' shapes for the controls. What the platform does not define
+controls' shapes for the controls. Where the platform's published
+guideline and what the platform actually draws differ, what it draws
+wins: measured beats published. What the platform does not define
 the Language defines.
 
 ### Axis
@@ -228,8 +230,12 @@ to its text.
 
 | Setting | Meaning |
 |---|---|
-| **Comfortable** | the default: the platform's regular control height, room around every control |
+| **Comfortable** | the default: the platform's regular control height as measured, room around every control |
 | **Compact** | more on screen: the platform's small control height, tighter padding |
+
+A text field has a height of its own, the platform's, taller than
+the regular control; a checkbox its own, smaller. Both are measured
+into the reference, not derived from the control height.
 
 ### Radius
 
@@ -1066,11 +1072,14 @@ density, the accent colour for the seed.
 
 Rationale: the system exists to build macOS applications; every
 Material default that leaks in is a defect against that purpose, and
-the answer was always right there.
+the answer was always right there. The platform is what it draws, not
+what its guideline says: where the two differ, the measured value
+wins.
 
 Sources: [[TRANSCRIPTS#^0005-platform-colours]],
 [[TRANSCRIPTS#^0005-macos-app]],
-[[TRANSCRIPTS#^0005-hard-cut-to-platform]]
+[[TRANSCRIPTS#^0005-hard-cut-to-platform]],
+[[TRANSCRIPTS#^0005-measured-beats-published]]
 
 ## Example dialogue
 

@@ -20682,7 +20682,11 @@ the cause named. Typography untouched.
 - [ ] `components/badge`, `alert`, `toast`, `tooltip`, `icon`,
   `icons`, and `components/gallery` with its inventory and goldens.
   The badge's disc wears the system colour itself — systemGreen with
-  a white check — never a tint of it.
+  a white check — never a tint of it. A measured `PushButtonFill`
+  joins the set from `save-dialog-{light,dark}.png` (#ececec light,
+  #333a3f dark; AppKit's controlColor is not what a push button
+  wears), and the Tonal and disabled button, the chip at rest and the
+  picker's trigger wear it, before the gallery's review.
 - [ ] Exit: green in `components` and `components/gallery` by name;
   commit and push in `components` and `.github`.
 
@@ -20695,11 +20699,15 @@ the cause named. Typography untouched.
 #### CE2.4: Markdown, effects, design
 
 - [ ] `markdown` (the document, the code fence and chip, the find
-  marks and the arrival highlight on findHighlightColor per the
-  Highlight entry, heading words on linkColor, the highlighter's
-  fence backgrounds), `effects` (transition's walker moves to the
-  platform set), and `design`'s bundle and mirror suites; one commit
-  per repo.
+  marks and the arrival highlight on the measured find highlight as
+  Mail paints it per the Highlight entry, heading words on linkColor,
+  the highlighter's fence backgrounds), `effects` (transition's
+  walker moves to the platform set), and `design`'s bundle and mirror
+  suites; one commit per repo. `design/mirror` has been red since
+  CE1.2: its harness hard-codes viewports from the old density scale
+  (six subtests, and a calibration sensitivity lost on the smaller
+  button) and is re-pinned here; the bundle emits `FieldHeight` and
+  the platform set in this task, nothing emitted them before.
 - [ ] Exit: green in `markdown`, `effects` and `design` by name;
   commit and push in every touched repo and `.github`.
 
