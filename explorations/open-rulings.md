@@ -2839,6 +2839,12 @@ Full record in `reviews/ce2.3-patterns-fresh-eyes.md` (twelve findings, six reco
 
 402. **[decide]** **The recorded platform set bakes in one desktop's wallpaper tint** (the owner's setting was on when the catalogue and captures were read); the live reader follows whatever the machine has, the recorded sets do not. Rule whether the recorded sets are re-read with the tint off, or the tint is the platform's answer.
 
+## BM. From CE2.4, markdown, effects and design
+
+Filed 2026-09-11 from the task's own findings.
+
+403. **[bug]** **The scrollbar's match marks are near-invisible on a white content fill.** `components/scrollbar.FromTokens` lays them at 0x66 and 0xb2 of `FindHighlight` and flattens them, which on white is #fdf9e5, and a different colour from the document's own marks. The marks want the document's rule: the measured fill at full coverage for the current match, half for the others.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.

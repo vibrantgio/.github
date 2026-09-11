@@ -20776,18 +20776,21 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 
 #### CE2.4: Markdown, effects, design
 
-- [ ] `markdown` (the document, the code fence and chip, the find
+- [x] `markdown` (the document, the code fence and chip, the find
   marks and the arrival highlight on the measured find highlight as
   Mail paints it per the Highlight entry, heading words on linkColor,
   the highlighter's fence backgrounds), `effects` (transition's
-  walker moves to the platform set), and `design`'s bundle and mirror
-  suites; one commit per repo. `design/mirror` has been red since
-  CE1.2: its harness hard-codes viewports from the old density scale
-  (six subtests, and a calibration sensitivity lost on the smaller
-  button) and is re-pinned here; the bundle emits `FieldHeight` and
-  the platform set in this task, nothing emitted them before.
-- [ ] Exit: green in `markdown`, `effects` and `design` by name;
-  commit and push in every touched repo and `.github`.
+  walker moves to the platform set; depth takes the platform's
+  shadow, fitted off the sidebar-shadow captures), and `design`'s
+  bundle, which emits `FieldHeight`, `RowHeight` and the platform set
+  under `--platform-<kebab AppKit name>`; one commit per repo.
+  `design/mirror` is CE2.4c: its fixtures render through the
+  bundle's hand-written class layer, which is a conversion of its
+  own.
+- [x] Exit: green in `markdown` and `design`'s root by name, and in
+  every `effects` package but `springbutton`, whose file another
+  session holds dirty; commit and push in every touched repo and
+  `.github`.
 
 #### CE2.4b: The gallery takes the platform's names
 
@@ -20800,6 +20803,20 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
   and field sections in both schemes, read as macOS controls.
 - [ ] Exit: green in `components/gallery` by name; commit and push in
   `components` and `.github`.
+
+#### CE2.4c: The design bundle's class layer and its mirror take the platform's names
+
+- [ ] `design`'s hand-written class layer (`styles.css`: `.btn`,
+  `.badge`, the form rules, about 142 `var(--color-*)` and
+  `var(--elevation-*)` references) takes the platform's names per
+  class, the same mapping the Go components took in CE2.1–CE2.2;
+  `design/mirror`'s ten Go test files move off `ColorTokens` and
+  `Level`, its thirteen viewport constants re-pin to 24/27/19/20,
+  the tolerance and its calibration re-baseline against the
+  installed Chromium so a deliberately wrong radius on the smaller
+  button still fails; all 25 subtests scored.
+- [ ] Exit: green in `design` with `design/mirror` by name; commit
+  and push in `design` and `.github`.
 
 #### CE2.5: Workbench — vaultview, mindchat, feeds
 
