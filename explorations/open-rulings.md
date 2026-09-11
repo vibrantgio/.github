@@ -2845,6 +2845,20 @@ Filed 2026-09-11 from the task's own findings.
 
 403. **[bug]** **The scrollbar's match marks are near-invisible on a white content fill.** `components/scrollbar.FromTokens` lays them at 0x66 and 0xb2 of `FindHighlight` and flattens them, which on white is #fdf9e5, and a different colour from the document's own marks. The marks want the document's rule: the measured fill at full coverage for the current match, half for the others.
 
+## BN. From CE2.4b's fresh-eyes review of the gallery as macOS controls
+
+Full record in `reviews/ce2.4b-gallery-fresh-eyes.md` (eleven findings, two recorded misreads). Filed 2026-09-11 from Phase CE. Fixed in the task: the toast on no surface, the badge section drawing one row three times. Pool BJ holds the signals' standing items; these are new.
+
+404. **[bug]** **`FieldEdge` is invisible on the field, and a disabled field reads stronger than an enabled one.** The measured edge (#f3f3f3 on white) does not read at 1x, and the disabled state adds an edge the enabled state lacks. Measure the platform's field edge again (the save dialog's field at 1x) and the disabled field's face.
+
+405. **[bug]** **The focus ring is drawn inside the accent fill where it cannot be seen, and three controls build it three ways.** One ring, outside the control by the platform's offset (measure a focused control), through `components/internal/focus` alone.
+
+406. **[decide]** **The alert's severity mark is one shape in four hues;** the platform gives each status its own symbol. Joins pool 394.
+
+407. **[decide]** **The icon button is square where the platform's toolbar button is a capsule,** and the badge's dismiss hover is invisible. Geometry to measure off `finder-window*.png`.
+
+408. **[bug]** **The search field's corner radius and its naked clear mark** do not match the platform's search field (measure off Finder's toolbar field).
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
