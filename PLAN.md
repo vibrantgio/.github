@@ -20887,7 +20887,7 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 
 #### CE2.6: Workbench — themer, sitedocs, the root and the small apps
 
-- [ ] `workbench/themer` becomes the theme colour's chooser: it shows
+- [x] `workbench/themer` becomes the theme colour's chooser: it shows
   the platform's accent colour as the default, lets the user pick a
   colour (from an image as today, or directly) as the theme colour,
   and keeping it writes the brand file; the platform set with the
@@ -20895,7 +20895,7 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
   ramp, no seed lift, no derived palette. `workbench/sitedocs`, the
   launcher, and every other app under `workbench`; `workbench/llms.txt`
   and the READMEs say the platform's names.
-- [ ] Exit: green in every workbench app by name; the org tree green;
+- [x] Exit: green in every workbench app by name; the org tree green;
   commit and push in `workbench` and `.github`.
 
 #### CE2.6b: Overlays over mixed content composite as the platform does
