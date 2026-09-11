@@ -20470,6 +20470,8 @@ with the reader beside it. The rows a consumer reaches for:
 |---|---|---|---|
 | windowBackgroundColor | #ffffff | #1e1e1e | the window's plane (the backdrop), floating surfaces |
 | the sidebar and toolbar material (both schemes measured off mail-window.png, finder-window.png and their light counterparts; ADR-019, "The measured materials") | #ffffff measured | #232a2e measured | the chrome regions — a flat paint of the platform's vibrant material as it measured on the reference desktop; in the light scheme that is the content's fill exactly |
+| the grouped box, measured (CE1.5's System Settings captures) | #f7f7f7 over #ffffff | #2a3034 over #232a2e | a card: a small step of fill, darker in light, lighter in dark, no hairline, no shadow |
+| hover and press, measured (CE1.5's Finder toolbar captures) | black at 0.051 / 0.098 | white at 0.094 / 0.098 | toolbar buttons only; push buttons, list rows and sidebar rows do not tint on hover |
 | controlBackgroundColor, textBackgroundColor | #ffffff | #1e1e1e | the content, lists, tables, fields |
 | underPageBackgroundColor | #969696 α.90 | #282828 | the backdrop showing around a pane |
 | separatorColor | #000000 α.10 | #ffffff α.10 | every seam, over whatever is beneath |
