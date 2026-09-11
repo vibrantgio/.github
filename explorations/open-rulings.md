@@ -2831,6 +2831,16 @@ Full record in `reviews/ce2.2-gallery-fresh-eyes.md`. Filed 2026-09-11 from Phas
 
 394. **[decide]** **The alert's chevron is a disclosure triangle, and severity now rides on hue alone** since the container tint went. Whether an in-flow alert takes the platform's icon per status (the SF symbols macOS uses) once `components/icon` can carry them.
 
+## BK. From CE2.2b, alpha names compositing in sRGB
+
+Filed 2026-09-11 from the task's own findings; all pinned by tests against `save-dialog-{light,dark}.png`.
+
+395. **[bug]** **`ScrollbarThumb`'s coverage was fitted through the linear-light blend.** 0.337 reproduces the captured knob only in linear light; flattened in sRGB it reads #676d70 where the capture shows #9d9fa1, so the knob is now dimmer in dark and darker in light. A re-fit in sRGB (about 0.572) touches the tokens, both tsv copies and ADR-019: theme work, one short task or a line in CE2.7's theme pass. The hover, press and shadow overlays were fitted in sRGB and stay exact.
+
+396. **[bug]** **`Label` carries 217 where the platform's byte is 216.** The catalogue records alphas to two decimals and round(0.85×255) lands one 255th light of every label the capture shows. Read the alphas off the platform to the byte (CE1.3's live reader has them) and let the tsv carry three decimals or the byte.
+
+397. **[task]** **`input`'s checkbox and radio still call `tokens.Disabled(ControlAccent)`,** a derivation CE2.1 missed; CE2.2b flattens its output and leaves it for the disabled state's platform answer (a disabled control on macOS: the accent at the disabled text's coverage, or `DisabledControlText` on `PushButtonFill`; measure if a capture holds one).
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
