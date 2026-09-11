@@ -20671,10 +20671,10 @@ the cause named. Typography untouched.
 
 #### CE2.1: Components — the controls
 
-- [ ] `components/button`, `chip`, `input`, `picker`, `list`,
+- [x] `components/button`, `chip`, `input`, `picker`, `list`,
   `scrollarea`, `scrollbar`, `pagination`, `breadcrumb`, `paragraph`,
   and `components/internal`.
-- [ ] Exit: green in `components` by name; commit and push in
+- [x] Exit: green in `components` by name; commit and push in
   `components` and `.github`.
 
 #### CE2.2: Components — the signals and the gallery
