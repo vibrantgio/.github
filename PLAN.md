@@ -6056,6 +6056,26 @@ at the top of `obsidian-note-original.png` in the dark appearance.
 So the reference sizes its navigation marks at the height of the text
 beside them, not above it, and mutes them well under that text's ink.
 
+#### The platform's semantic colours
+
+Added 2026-09-11 by CE1.1, which needed the platform's own answer for every
+element a control draws. Read programmatically, no application launched: a
+command-line AppKit program asks NSColor for each semantic name under the aqua
+and then the darkAqua appearance and prints it in sRGB.
+
+| what | file | method |
+| --- | --- | --- |
+| the catalogue: 43 AppKit semantic colour names, light and dark | `nscolors.tsv` | one tab-separated row per name; `#rrggbb` with ` a0.NN` where alpha is below 1; a leading `#` header names the OS it was read on — macOS 26.5.2 (build 25F84), read 2026-09-10 |
+| the program that read it | `nscolors.swift` | `performAsCurrentDrawingAppearance` per appearance, `usingColorSpace(.sRGB)`, components rounded to bytes and alpha printed to two decimals |
+| the find highlight as Mail paints it | `mail-find-light.png`, `mail-find-dark.png` | flat-region samples of the match fill and of the text on it: light `#faefbd` on text `#26251d`, dark `#6e6e4d` on text `#e8e9e3` |
+
+Two cautions the catalogue carries. AppKit's `findHighlightColor` answers
+`#ffff00` in both appearances and the platform's own applications do not paint
+it — Mail's captures above are what the highlight actually looks like, and they
+are what the token set records. And the alpha column is two decimals, so a byte
+taken from it is within one 255th of what AppKit reported; a live reader closes
+that gap.
+
 #### What the captures contain
 
 Thirty-three files, 1.3 MB. Whole-window captures give context and carry the
@@ -20365,7 +20385,7 @@ version it was read on.
 
 #### CE1.1: The platform's colour set exists in the theme
 
-- [ ] `theme/tokens`: a new colour set whose fields are AppKit's
+- [x] `theme/tokens`: a new colour set whose fields are AppKit's
   semantic names, one to one, in Go casing (`WindowBackground`,
   `ControlBackground`, `TextBackground`, `UnderPageBackground`,
   `Separator`, `Grid`, `SelectedContentBackground`,
@@ -20382,11 +20402,11 @@ version it was read on.
   catalogue, with the accent and the selection colours substituted
   from the accent `theme/system` already reads; the live AppKit
   reader is CE1.3.
-- [ ] `.github/reference/macos/nscolors.tsv` (already in the plan
+- [x] `.github/reference/macos/nscolors.tsv` (already in the plan
   root with its reader) gains the macOS version it was read on, and
   ADR-019 gains the row; a test pins that the recorded light set
   equals the catalogue.
-- [ ] Exit: green in `theme`; commit and push in `theme` and
+- [x] Exit: green in `theme`; commit and push in `theme` and
   `.github`.
 
 #### CE1.2: The density scale takes the platform's control heights
