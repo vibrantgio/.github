@@ -23,12 +23,62 @@ were taken").
 | a search field's leading inset: the field's inner edge to the first pixel of the magnifier glyph | 10 px | `mail-window.png` | horizontal luminance run at y=26 — the field's stroke at x=867, its fill from x=868, the glyph from x=878 |
 | the same, on a more rounded capsule | 13 px | `voicememos-window.png` | same method — stroke x=643, fill from 644, glyph from 657 |
 
-**The reference holds no push button, checkbox, pop-up button or text field
-at regular size in a dialog or a sheet.** Everything above is a toolbar
-control or a pane field, and macOS 26 sizes its toolbar controls well over
-the size a push button is published at — 36 px against 22 pt. The two are
-different controls in different places, so neither reading corrects the
-other; both are recorded, and the gap below says what would settle it.
+Everything above is a toolbar control or a pane field, and macOS 26 sizes
+its toolbar controls well over the size a push button is published at — 36
+px against 22 pt. The two are different controls in different places, so
+neither reading corrects the other; both are recorded. The section below
+measures the dialog controls themselves.
+
+## What the dialog captures measure
+
+Added 2026-09-11 by CE1.5, from `save-dialog-light.png` and
+`save-dialog-dark.png` — a Save panel carrying a text field, a pop-up
+button, a checkbox and two push buttons at regular size, window-bounded,
+one capture per appearance at 1x. Both appearances agree to the pixel on
+every row below, which is why one column carries them. Each height is the
+first row the control leaves its sheet's fill to the last, the way this
+reference reads a control's extent everywhere else; the sheet's own fill is
+`#ffffff` light and `#232a2f` dark.
+
+| control | measured | where | method |
+| --- | --- | --- | --- |
+| push button — "Cancel", "Save" | 24 px, y 501–524 | `save-dialog-{light,dark}.png` | luminance run down x=365, clear of the label: the fill `#ececec` light and `#333a3f` dark against the sheet |
+| pop-up button — "Where:", "File Format:" | 24 px, y 281–304 and y 336–359 | same | the same run at x=440 and x=430 |
+| text field — "Tags:", unfocused | 27 px, y 243–269 | same | the field's fill is the sheet's, so the run reads its border rows, `#f3f3f3` light and `#2c3338` dark |
+| checkbox — "Options:" | 16 px square, y 372–387, x 264–279 | same | runs across and down the box; disabled here, which moves its fill and not its extent |
+| push button width | 74 px, both buttons | same | x 359–432 and x 441–514 |
+| the label's cap band | 10 px, y 508–517 | same | the bounding box of the label's marks inside the fill, each cap read on its own |
+| the label's horizontal inset | "Cancel" 16 px leading, 17 trailing; "Save" 23 and 23 | same | the fill's edge to the first pixel of the label's marks |
+
+**The inset is not a padding here.** Both buttons measure 74 px wide while
+their labels measure 41 px and 28 px, so both are sitting at the platform's
+minimum push-button width with the label centred in it; the 16 px and 23 px
+above are what centring leaves, not what the platform insets by. A capture
+of a push button whose label is long enough to drive its width would settle
+the padding, and this pair does not.
+
+**The cap band is the platform's standard label.** 10 px is what
+`mail-window.png`'s search-field label reads in ADR-019's cap-band section,
+so a dialog's push button is set in the same type as a toolbar's field.
+
+## Where the measured heights disagree with the published ones
+
+MEASURED, from the captures above, against the PUBLISHED rows below:
+
+| control | published | measured | difference |
+| --- | --- | --- | --- |
+| push button, regular | 22 pt | 24 px | +2 |
+| pop-up button | 22 pt | 24 px | +2 |
+| text field | 22 pt | 27 px | +5 |
+| label text size | 13 pt | a 10 px cap band, which is the platform's 14 pt label | +1 |
+| checkbox | not published here | 16 px | — |
+
+The 24 px push button is the number the 2026-08-05 `fittingSize` sweep
+recorded for the regular push bezel, which the section below keeps and
+which the density scale was ruled against. Two instruments that disagree
+with the Human Interface Guidelines and agree with each other are worth the
+ruling the guidelines got; CE1.5 changed no token, and `density.go` still
+ships the published 22 and 19.
 
 ## What the platform publishes
 
@@ -70,18 +120,18 @@ does not rediscover it as a contradiction.
 The 1 dp overshoot at Compact closes only by moving a typography role, and
 typography is not the density scale's to move.
 
-## The gap, and how it closes
+## The gap, and how it closed
 
 One capture would turn every PUBLISHED row above into a MEASURED one: a
-**System Settings dialog** (or any standard sheet) showing, at regular size,
-a push button, a text field, a pop-up button and a checkbox — in both the
-light and the dark appearance, window-bounded so the image is exactly the
-window's outer bounds. From it: each control's height, the horizontal inset
-between a push button's edge and the first pixel of its label, and that
-label's line box.
+**dialog or standard sheet** showing, at regular size, a push button, a text
+field, a pop-up button and a checkbox — in both the light and the dark
+appearance, window-bounded so the image is exactly the window's outer
+bounds.
 
-The owner supplies it. Nothing is launched from a task to close this gap —
-PLAN.md's "Measure from the stored reference" — and when it lands, store it
-here under a name that says which OS it is, read the numbers off the pixels,
-replace the published rows with measured ones, and leave this section
-standing with the date it closed.
+It landed 2026-09-11 as `save-dialog-light.png` and `save-dialog-dark.png`,
+taken in the one batched session PLAN.md's "Measure from the stored
+reference" allows, on macOS 26.5.2 (build 25F84), on the 2560×1440 display
+at 1x where one pixel is one point. Every number is in "What the dialog
+captures measure" above. The published rows are kept beside the measured
+ones rather than replaced, because the density scale was ruled onto them
+and only a ruling moves it.

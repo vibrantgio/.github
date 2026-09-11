@@ -6085,15 +6085,17 @@ surface's shadow. They live in the token set beside the catalogue's names,
 tagged so no live reader asks AppKit for a name it does not answer, and they
 are pinned against the "measured materials" section of `nscolors.tsv`.
 
-Two of the five are read off the pixels here. Three are not, and the table
-says so in its own words rather than letting the token set imply otherwise.
+Two of the five were read off the pixels at first and three were not. CE1.5
+took the captures the other three were waiting for, in one batched session
+on 2026-09-11, and the table below is what they measure: every row is now
+read off stored pixels.
 
 | what | light | dark | file | method |
 | --- | --- | --- | --- | --- |
-| the chrome material — sidebars, toolbars, navbars, inspectors, status bars | `#efefef` PUBLISHED | `#232a2e` MEASURED | `mail-window.png`, `finder-window.png` | dark: flat-region samples of Mail's toolbar band (y 1–31 at x=300) and of the flush mailbox list below its y=51 hairline, both `#232a2e`; the same value is Finder's window plane behind the floating pane. Light: no capture — see the gap below |
-| the card's fill — the platform's box | `#ffffff` STAND-IN | `#1e1e1e` STAND-IN | — | `controlBackgroundColor`, the content's own fill, standing in until the grouped-box capture lands |
-| the hover overlay | `#000000` α0.06 DERIVED | `#ffffff` α0.06 DERIVED | — | half the press overlay; the platform tints a toolbar button on hover, a list row not at all, and no capture shows either |
-| the press overlay | `#000000` α0.12 PUBLISHED | `#ffffff` α0.12 PUBLISHED | — | the midpoint of the 10–15% a pressed push button darkens by; no capture shows a pressed control |
+| the chrome material — sidebars, toolbars, navbars, inspectors, status bars | `#ffffff` MEASURED | `#232a2e` MEASURED | `mail-window.png`, `finder-window.png`, `mail-window-light.png`, `finder-window-light.png` | flat-region samples of Mail's toolbar band (y 1–31 at x=300) and of the mailbox list flush below its y=51 hairline: both read `#232a2e` dark and both read `#ffffff` light. Finder's window plane behind the floating pane carries the same value in each scheme, and so does System Settings' own plane |
+| the card's fill — the platform's box | `#f7f7f7` MEASURED | `#2a3034` MEASURED | `system-settings-grouped-box-light.png`, `system-settings-grouped-box-dark.png` | flat-region samples of the Appearance pane's grouped boxes, over a `#ffffff` plane light and a `#232a2e` plane dark. The box carries no hairline and no shadow: a column crossing its top edge steps from plane to fill at one row, and a row crossing its side ramps over 2–3 px of antialiasing |
+| the hover overlay | `#000000` α0.051 MEASURED | `#ffffff` α0.094 MEASURED | `control-hover-light.png`, `control-hover-dark.png` | a Finder toolbar button under the pointer, the band around it carrying the resting fill: light `#ffffff` → `#f2f2f2` and the glyph `#777777` → `#717171`, which black at α0.051 reproduces on every channel; dark `#242d32` → `#384146`, which white at α0.094 reproduces on green and within one 255th on red and blue |
+| the press overlay | `#000000` α0.098 MEASURED | `#ffffff` α0.098 MEASURED | `control-pressed-light.png`, `control-pressed-dark.png` | a Save dialog's "Cancel" push button held down by a posted `CGEvent`, the pop-up buttons above it carrying the resting fill: light `#ececec` → `#d5d5d5`, dark `#333a3f` → `#474d52`. Black and white at α0.098 reproduce both on all three channels; α0.09 and α0.11 do not |
 | a floating surface's shadow | `#000000` α0.075 MEASURED | `#000000` α0.075 MEASURED | `finder-sidebar-shadow.png`, `reminders-sidebar-shadow.png` | a horizontal walk outward from the pane's 1 px edge stroke at y=30: the window's `#232a2e` plane reads `#20272b` against the stroke and recovers to `#232a2e` 24 px out. Black at α0.075 over `#232a2e` reproduces `#20272b` on all three channels; α0.07 and α0.08 do not |
 
 The shadow's α0.075 is its peak, at the edge. Its ramp, read the same way
@@ -6101,34 +6103,54 @@ and identical in both captures: 0.075 at 1 px out, 0.065 at 4, 0.049 at 6,
 0.040 at 12, 0.025 at 14, 0.015 at 24, and nothing at 25. A caller carrying
 one number spreads it over 24 px rather than drawing it as an edge.
 
-**A citation corrected.** Phase CE's table attributes the light chrome
-material, `#efefef`, to `mail-window.png` and `notes-window.png`. Neither
-file carries it: every window capture in this reference was taken in the
-dark appearance (see "How the numbers were taken"), and the only
-light-appearance file here is `mail-find-light.png`, a crop of a message
-body and its find bar that shows no chrome at all. The dark half of that
-table row, `#232a2e`, is confirmed by the pixels. The light half is a
-published number, and the token set records it as one.
+**A citation corrected, and then corrected again.** Phase CE's table
+attributed the light chrome material, `#efefef`, to `mail-window.png` and
+`notes-window.png`, and CE1.4 showed that neither file carries it: every
+window capture in this reference was taken in the dark appearance. CE1.5's
+light captures settle what the number is. It is `#ffffff` — the same regions
+that read `#232a2e` dark read plain white light — so on macOS 26 the light
+chrome is the content's fill exactly, and `#efefef` is not what this
+platform paints. A consumer that wants its chrome to read apart from its
+content in the light scheme has to get that separation from somewhere other
+than this material.
 
-**The gaps, and how they close.** Three captures would turn five published,
-derived and stand-in rows into measured ones. The owner supplies them;
-nothing is launched from a task to close them, and when one lands it is
-stored here under a name that says which OS it is, read off the pixels, and
-this section is amended with the reading and the date rather than rewritten.
+**What the readings depend on.** The desktop these were taken on has "Tint
+window background with wallpaper colour" switched on, which is why the dark
+chrome material and the dark grouped box sit off neutral grey rather than on
+`windowBackgroundColor`'s `#1e1e1e`. The light readings barely move under
+the same setting. The dark numbers this reference has carried since the
+first sweep were read under it too, so the two schemes are read the same
+way; a desktop with the setting off would read the dark chrome nearer
+neutral.
 
-- **A light-appearance window** — any of the six applications already swept,
-  window-bounded, showing a sidebar and a toolbar. It settles the light
-  chrome material.
-- **A hovered and a pressed control, in both appearances** — a toolbar
-  button under the pointer and a push button held down, window-bounded so
-  the fill beneath the overlay is in the same image. It settles both state
-  overlays, and it is the one capture synthesis cannot produce: the
-  scrollbar section records that synthetic pointer events reach these
-  applications without the platform drawing the state they would summon.
-- **A System Settings grouped box, in both appearances** — the same capture
-  the control metrics section asks for, stored as
-  `system-settings-grouped-box.png`. It settles the card's fill, and it
-  carries the controls that settle the published heights at the same time.
+**What the session could not summon.** A push button does not tint under the
+pointer on macOS 26, and neither does a Finder list row or a System Settings
+sidebar row: the pointer was driven onto each by posted `CGEvent` moves, the
+window-bounded capture is pixel-identical to the resting one, and the same
+pointer driving does raise the window buttons' glyphs and does tint a
+toolbar button. So the hover row above is a toolbar button's, which is the
+one place the platform tints, and the press row is a push button's. This
+also amends the scrollbar section's reading that synthetic pointer events
+reach these applications without summoning the state: moves do summon
+hover where the platform draws one.
+
+**The gaps, and how they closed.** The three captures this section waited
+for were taken 2026-09-11 by CE1.5, in the single batched session the
+preamble's measurement rule allows, on macOS 26.5.2 (build 25F84) on the
+2560×1440 display at 1x, every application it launched quit and verified
+gone and the appearance restored to the Auto it was found on.
+
+- **A light-appearance window** — `finder-window-light.png` (1000×700) and
+  `mail-window-light.png` (1200×800), the sizes of the stored dark captures
+  of the same two applications. The Mail capture's private panes are
+  redacted by the row-modal method "Why the stored reference exists"
+  describes; every number was read from the unredacted original.
+- **A hovered and a pressed control, in both appearances** —
+  `control-hover-{light,dark}.png` and `control-pressed-{light,dark}.png`,
+  window-bounded, each carrying the resting fill in the same image.
+- **A System Settings grouped box, in both appearances** —
+  `system-settings-grouped-box-{light,dark}.png`, the Appearance pane, whose
+  account rows are redacted the same way.
 
 #### The platform's control metrics
 
@@ -6143,27 +6165,29 @@ them.
 | a text field outside a toolbar is 33 px tall — Finder's info pane, "Add Tags…", y 263–295 | `finder-window.png` | the field's fill (35,42,46) against the pane's (27,32,35) |
 | a search field holds its magnifier glyph 10 px off the field's inner edge, 13 px on a more rounded capsule | `mail-window.png`, `voicememos-window.png` | horizontal luminance run at the glyph's mid row |
 | the published heights the density scale takes — push button 22 / 19 / 16 pt, text field and pop-up button 22 pt, label 13 / 11 pt, about 8 pt beside a push button's label | `controls.md` | PUBLISHED: Apple's Human Interface Guidelines for macOS, not read off this machine |
+| the dialog controls themselves — push button 24 px, pop-up button 24 px, text field 27 px, checkbox 16 px square, the label's cap band 10 px | `save-dialog-light.png`, `save-dialog-dark.png` | MEASURED 2026-09-11 by CE1.5: a Save panel at regular size, window-bounded, one capture per appearance; luminance runs down a column clear of each label, both appearances agreeing to the pixel |
 
-**The reference holds no push button, checkbox, pop-up button or text field
-at regular size in a dialog or a sheet**, so the heights the density scale
-ships are published rather than measured. The captures measure toolbar
-controls at 36 px where the HIG publishes a 22 pt push button; those are
-different controls in different places and neither reading corrects the
-other. An older AppKit `fittingSize` reading (2026-08-05: push bezel regular
-24 pt) is kept in `controls.md` with the reason it differs — `fittingSize`
-answers with the bezel's fitting box, not the drawn control.
+**The gap closed on 2026-09-11.** The reference now holds a push button, a
+checkbox, a pop-up button and a text field at regular size in a sheet, and
+`controls.md` reads every height off those pixels beside the published rows.
+The two disagree: the drawn push button and pop-up button measure 24 px
+where the Human Interface Guidelines publish 22 pt, the text field 27 px
+where they publish 22 pt, and the label's cap band is the 10 px this
+reference reads for a 14 pt system label rather than the 9 px a 13 pt one
+would give. The 24 px agrees with the older AppKit `fittingSize` reading
+(2026-08-05: push bezel regular 24 pt), which `controls.md` keeps. **The
+density scale is not moved by this.** CE1.2's 22 and 19 were an owner ruling
+on the published numbers, and only a ruling moves them; CE1.5 changed no
+token and recorded the difference here.
 
-**The gap, and how it closes.** One window-bounded capture of a System
-Settings dialog showing a push button, a text field, a pop-up button and a
-checkbox at regular size, in both appearances, turns every published row
-into a measured one. The owner supplies it; no task launches an application
-to close it. When it lands, store it here under a name that says which OS it
-is, read the numbers off the pixels, and replace the published rows with
-measured ones.
+The toolbar rows above still stand beside the dialog rows: the captures
+measure toolbar controls at 36 px, and a toolbar control and a dialog's push
+button are different controls in different places, so neither reading
+corrects the other.
 
 #### What the captures contain
 
-Thirty-three files, 1.3 MB. Whole-window captures give context and carry the
+Forty-three files, 2.8 MB. Whole-window captures give context and carry the
 window edges; the crops are tight on the region each number was read from.
 
 - **Window buttons**, one per app: `finder-window-buttons.png`,
@@ -6187,6 +6211,19 @@ window edges; the crops are tight on the region each number was read from.
 - **Reading reference**: `obsidian-note-original.png`,
   `obsidian-note-ab.png`, `vaultview-note-ab.png` — copied from the owner's
   desktop, the evidence ADR-018 was decided from.
+- **The light appearance** (CE1.5, 2026-09-11): `finder-window-light.png`,
+  `mail-window-light.png` — the same two applications and the same window
+  sizes as the dark captures above.
+- **The platform's box**: `system-settings-grouped-box-light.png`,
+  `system-settings-grouped-box-dark.png`.
+- **Dialog controls**: `save-dialog-light.png`, `save-dialog-dark.png`.
+- **Control states**: `control-hover-light.png`, `control-hover-dark.png`,
+  `control-pressed-light.png`, `control-pressed-dark.png`.
+
+Every CE1.5 capture is window-bounded at 1x on the 2560×1440 display: its
+pixel size equals its window's point size, 1000×700 for the Finder pair,
+1200×800 for Mail, 723×720 for the System Settings pair, and 700×734 for
+the Save dialog and the pressed-control pair.
 
 One number belongs to the window itself rather than to any region above: the
 **window's corner radius is 16 px**, circular, fitted to the alpha contour of
@@ -20432,7 +20469,7 @@ with the reader beside it. The rows a consumer reaches for:
 | Platform name | Light | Dark | Used for |
 |---|---|---|---|
 | windowBackgroundColor | #ffffff | #1e1e1e | the window's plane (the backdrop), floating surfaces |
-| the sidebar and toolbar material (dark measured off mail-window.png and finder-window.png; light published, no light-appearance window capture exists yet — the white in mail-window.png is an HTML message body, not the sidebar) | #efefef published | #232a2e measured | the chrome regions — a flat paint of the platform's vibrant material as it measured on the reference desktop |
+| the sidebar and toolbar material (both schemes measured off mail-window.png, finder-window.png and their light counterparts; ADR-019, "The measured materials") | #ffffff measured | #232a2e measured | the chrome regions — a flat paint of the platform's vibrant material as it measured on the reference desktop; in the light scheme that is the content's fill exactly |
 | controlBackgroundColor, textBackgroundColor | #ffffff | #1e1e1e | the content, lists, tables, fields |
 | underPageBackgroundColor | #969696 α.90 | #282828 | the backdrop showing around a pane |
 | separatorColor | #000000 α.10 | #ffffff α.10 | every seam, over whatever is beneath |
@@ -20548,7 +20585,7 @@ Owner instruction 2026-09-11: the captures the phase waits for are
 taken by the system itself, in one batched session, as the reference
 rule allows, each app quit afterwards and the appearance restored.
 
-- [ ] In one session, both appearances (switching the appearance
+- [x] In one session, both appearances (switching the appearance
   through the system's own setting and restoring what was set):
   a reference app's window in the light appearance (Finder or Mail,
   same size as the stored dark capture); System Settings' grouped box
@@ -20559,7 +20596,7 @@ rule allows, each app quit afterwards and the appearance restored.
   machinery, the capture taken while the state holds). Each capture
   lands in `.github/reference/macos` at 1x with its scale recorded,
   and ADR-019's gap rows become measured rows.
-- [ ] `theme/tokens`: the platform set's stand-ins and published
+- [x] `theme/tokens`: the platform set's stand-ins and published
   values take the measured numbers: `SidebarMaterial` light,
   `CardFill` both schemes, `HoverOverlay` and `PressOverlay` both
   schemes; the tsv's measured-materials section and its testdata copy
@@ -20567,7 +20604,7 @@ rule allows, each app quit afterwards and the appearance restored.
   are recorded in `controls.md` beside CE1.2's published 22 and 19;
   if they differ, the density scale is not changed here and the
   difference is reported for a ruling.
-- [ ] Exit: green in `theme` and the field walkers by name; every app
+- [x] Exit: green in `theme` and the field walkers by name; every app
   the session launched is quit and verified gone; commit and push in
   `theme` and `.github`.
 
