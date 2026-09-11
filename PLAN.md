@@ -20271,20 +20271,20 @@ mark that carries meaning without being text (Lc 60 increased). Pool
   `RaiseFloor`, `SeamRatio` and `ContainerFloor` stay if they are
   lightness or ratio dials that do not gate legibility; say which in
   the commit body and why.
-- [ ] Measure and record in the commit body, on the default seed and
+- [x] Measure and record in the commit body, on the default seed and
   on systemBlue, both schemes: every on-colour before and after, and
   the Lc it now reaches; Save's label under systemBlue must come out
   white. Re-pin the palette goldens in `colors_test.go` with the cause
   named; regenerate the design bundle (`cd theme && go run
   ./cmd/vg-tokens -out ../design`) and the sheet's contrast
   annotations in `theme/export` report Lc; `design/mirror` by name.
-- [ ] Exit: green in `theme`, `design` and every field-walker module
+- [x] Exit: green in `theme`, `design` and every field-walker module
   by name (`effects/transition`, `workbench/themer`); commit and push
   in every touched repo and `.github`.
 
 #### CC1.2: The consumers compile against APCA
 
-- [ ] Mechanical: every call site that read `ContrastRatio` reads
+- [x] Mechanical: every call site that read `ContrastRatio` reads
   `color.Magnitude` or `color.BestOn` with the theme's floors —
   `components/internal/focus`, `components/internal/control`,
   `components/scrollbar`, `components/chip`, `components/gallery/palette`,
@@ -20292,7 +20292,7 @@ mark that carries meaning without being text (Lc 60 increased). Pool
   ratios assert Lc. No design change, no local floor numbers. Goldens
   that move because a foreground choice changed regenerate with the
   cause named, each read by eye as a foreground or mark change only.
-- [ ] Exit: the org tree builds green; green in `components`,
+- [x] Exit: the org tree builds green; green in `components`,
   `components/gallery`, `markdown`, `design/mirror` and every
   workbench app by name; CC1.1's remaining boxes tick with it; commit
   and push in every touched repo and `.github`.
