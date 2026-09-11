@@ -6076,6 +6076,60 @@ are what the token set records. And the alpha column is two decimals, so a byte
 taken from it is within one 255th of what AppKit reported; a live reader closes
 that gap.
 
+#### The measured materials
+
+Added 2026-09-11 by CE1.4, which needed a name for every fill a consumer
+reaches for and found five the platform gives no NSColor name: the chrome
+material, the card's fill, the hover and press overlays, and a floating
+surface's shadow. They live in the token set beside the catalogue's names,
+tagged so no live reader asks AppKit for a name it does not answer, and they
+are pinned against the "measured materials" section of `nscolors.tsv`.
+
+Two of the five are read off the pixels here. Three are not, and the table
+says so in its own words rather than letting the token set imply otherwise.
+
+| what | light | dark | file | method |
+| --- | --- | --- | --- | --- |
+| the chrome material — sidebars, toolbars, navbars, inspectors, status bars | `#efefef` PUBLISHED | `#232a2e` MEASURED | `mail-window.png`, `finder-window.png` | dark: flat-region samples of Mail's toolbar band (y 1–31 at x=300) and of the flush mailbox list below its y=51 hairline, both `#232a2e`; the same value is Finder's window plane behind the floating pane. Light: no capture — see the gap below |
+| the card's fill — the platform's box | `#ffffff` STAND-IN | `#1e1e1e` STAND-IN | — | `controlBackgroundColor`, the content's own fill, standing in until the grouped-box capture lands |
+| the hover overlay | `#000000` α0.06 DERIVED | `#ffffff` α0.06 DERIVED | — | half the press overlay; the platform tints a toolbar button on hover, a list row not at all, and no capture shows either |
+| the press overlay | `#000000` α0.12 PUBLISHED | `#ffffff` α0.12 PUBLISHED | — | the midpoint of the 10–15% a pressed push button darkens by; no capture shows a pressed control |
+| a floating surface's shadow | `#000000` α0.075 MEASURED | `#000000` α0.075 MEASURED | `finder-sidebar-shadow.png`, `reminders-sidebar-shadow.png` | a horizontal walk outward from the pane's 1 px edge stroke at y=30: the window's `#232a2e` plane reads `#20272b` against the stroke and recovers to `#232a2e` 24 px out. Black at α0.075 over `#232a2e` reproduces `#20272b` on all three channels; α0.07 and α0.08 do not |
+
+The shadow's α0.075 is its peak, at the edge. Its ramp, read the same way
+and identical in both captures: 0.075 at 1 px out, 0.065 at 4, 0.049 at 6,
+0.040 at 12, 0.025 at 14, 0.015 at 24, and nothing at 25. A caller carrying
+one number spreads it over 24 px rather than drawing it as an edge.
+
+**A citation corrected.** Phase CE's table attributes the light chrome
+material, `#efefef`, to `mail-window.png` and `notes-window.png`. Neither
+file carries it: every window capture in this reference was taken in the
+dark appearance (see "How the numbers were taken"), and the only
+light-appearance file here is `mail-find-light.png`, a crop of a message
+body and its find bar that shows no chrome at all. The dark half of that
+table row, `#232a2e`, is confirmed by the pixels. The light half is a
+published number, and the token set records it as one.
+
+**The gaps, and how they close.** Three captures would turn five published,
+derived and stand-in rows into measured ones. The owner supplies them;
+nothing is launched from a task to close them, and when one lands it is
+stored here under a name that says which OS it is, read off the pixels, and
+this section is amended with the reading and the date rather than rewritten.
+
+- **A light-appearance window** — any of the six applications already swept,
+  window-bounded, showing a sidebar and a toolbar. It settles the light
+  chrome material.
+- **A hovered and a pressed control, in both appearances** — a toolbar
+  button under the pointer and a push button held down, window-bounded so
+  the fill beneath the overlay is in the same image. It settles both state
+  overlays, and it is the one capture synthesis cannot produce: the
+  scrollbar section records that synthetic pointer events reach these
+  applications without the platform drawing the state they would summon.
+- **A System Settings grouped box, in both appearances** — the same capture
+  the control metrics section asks for, stored as
+  `system-settings-grouped-box.png`. It settles the card's fill, and it
+  carries the controls that settle the published heights at the same time.
+
 #### The platform's control metrics
 
 Added 2026-09-11 by CE1.2, which needed the platform's control heights for
@@ -20467,7 +20521,7 @@ version it was read on.
 
 #### CE1.4: Measured materials fill the gaps in the platform set
 
-- [ ] `theme/tokens`: the fills the phase's table names that have no
+- [x] `theme/tokens`: the fills the phase's table names that have no
   NSColor and cannot come from the live reader become fields of the
   platform set with provenance in their doc comments, so every G-CE2
   packet reads a name and never a number: the chrome material
@@ -20482,10 +20536,10 @@ version it was read on.
   colour and alpha measured off a captured floating window or the
   stored sidebar-shadow capture). Each field's comment cites its
   capture by file name.
-- [ ] The tsv gains a second section, "measured materials", with the
+- [x] The tsv gains a second section, "measured materials", with the
   same columns and the capture each value came from; ADR-019 gains
   the rows. A test pins the fields against the tsv.
-- [ ] Exit: green in `theme`; commit and push in `theme` and
+- [x] Exit: green in `theme`; commit and push in `theme` and
   `.github`.
 
 ### G-CE2: Every consumer takes the platform's names
