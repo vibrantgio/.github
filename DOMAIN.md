@@ -306,12 +306,12 @@ or darker than another by rule.
 | **backdrop** | nothing: the window's own plane, showing wherever nothing stands | the window background |
 | **chrome** | the chrome regions — sidebars, toolbars, navbars, inspectors, status bars, panes | the sidebar and toolbar material, measured into the reference |
 | **content** | the document being read, lists, tables | the text background |
-| **raised** | on the content and attached to it — cards, fields, filled insets | the platform's box, measured into the reference |
+| **raised** | on the content and attached to it — cards, fields, filled insets | the platform's grouped box: a small step from the surface beneath, darker in light and lighter in dark, measured into the reference; a field the platform's field |
 | **floating** | detached, placed by an attachment or over a scrim — dialogs, toasts, menus, popovers, tooltips | the window background, under the platform's shadow |
 
 Standing higher is told the way the platform tells it: a raised
-thing by its edge, a hairline of the separator colour, a floating
-thing by its shadow. A field inside a card is raised on the card the
+thing by the box's small step of fill, no hairline and no shadow; a
+floating thing by its shadow. A field inside a card is raised on the card the
 same way. Cards do not nest: grouping within a card is its
 structure.
 
@@ -325,8 +325,8 @@ it: the backdrop is only ever what shows around.
 ### Seam
 
 The hairline where two flush regions meet — the sidebar against the
-content, the navbar's foot, the status bar's top — and the edge of a
-raised thing. It is the platform's separator colour: black or white
+content, the navbar's foot, the status bar's top. It is the
+platform's separator colour: black or white
 at a tenth, laid over whatever is beneath, so it reads on any fill
 without being derived; drawn once, by the region above or leading.
 An inset object needs no seam: the backdrop showing around it does
@@ -343,9 +343,10 @@ above. A scrim is not a surface — nothing stands on it.
 The window's furniture: every region placed directly on the
 backdrop that frames the document rather than being it — navbar,
 toolbar, sidebar, inspector, status bar, pane. Its fill is the
-platform's sidebar and toolbar material as measured into the
-reference for each scheme: greyer than the content in both, darker
-than it in light and lighter than it in dark. The shell pattern is
+platform's, measured into the reference for each scheme: in light
+the same white as the content, told from it by a seam alone; in dark
+the sidebar material, a blue-grey lighter than the content. The
+shell pattern is
 the composition of chrome regions; a variant is "chrome" when the
 control lives in a chrome region. Chrome is window-scale only: the
 trim inside a component or pattern — a card's header, a dialog's
@@ -798,9 +799,10 @@ open.
 
 ### Card
 
-The pattern singling something out: the platform's box — one
-rounded surface with a hairline of the separator colour around it,
-its fill the platform's as measured into the reference — with
+The pattern singling something out: the platform's grouped box —
+one rounded surface whose fill is a small step from the surface it
+is in, darker in light and lighter in dark, no hairline and no
+shadow, measured into the reference from System Settings — with
 header, body and footer slots. It holds content that must stand
 apart from the page around it — a summary, a preview, the
 recommended tier. What a card holds stands on the card; a field in
