@@ -6088,7 +6088,11 @@ are pinned against the "measured materials" section of `nscolors.tsv`.
 Two of the five were read off the pixels at first and three were not. CE1.5
 took the captures the other three were waiting for, in one batched session
 on 2026-09-11, and the table below is what they measure: every row is now
-read off stored pixels.
+read off stored pixels. CE2.3 added two more the same day — the alternate
+row a striped list lays down and the dim a sheet lays over the window it
+interrupts — and CE2.1 and CE2.2 added `fieldEdge`, `scrollbarThumb` and
+`pushButtonFill` before them, so the section names ten fills rather than
+five; the tsv is the list that counts.
 
 | what | light | dark | file | method |
 | --- | --- | --- | --- | --- |
@@ -6097,6 +6101,8 @@ read off stored pixels.
 | the hover overlay | `#000000` α0.051 MEASURED | `#ffffff` α0.094 MEASURED | `control-hover-light.png`, `control-hover-dark.png` | a Finder toolbar button under the pointer, the band around it carrying the resting fill: light `#ffffff` → `#f2f2f2` and the glyph `#777777` → `#717171`, which black at α0.051 reproduces on every channel; dark `#242d32` → `#384146`, which white at α0.094 reproduces on green and within one 255th on red and blue |
 | the press overlay | `#000000` α0.098 MEASURED | `#ffffff` α0.098 MEASURED | `control-pressed-light.png`, `control-pressed-dark.png` | a Save dialog's "Cancel" push button held down by a posted `CGEvent`, the pop-up buttons above it carrying the resting fill: light `#ececec` → `#d5d5d5`, dark `#333a3f` → `#474d52`. Black and white at α0.098 reproduce both on all three channels; α0.09 and α0.11 do not |
 | a floating surface's shadow | `#000000` α0.075 MEASURED | `#000000` α0.075 MEASURED | `finder-sidebar-shadow.png`, `reminders-sidebar-shadow.png` | a horizontal walk outward from the pane's 1 px edge stroke at y=30: the window's `#232a2e` plane reads `#20272b` against the stroke and recovers to `#232a2e` 24 px out. Black at α0.075 over `#232a2e` reproduces `#20272b` on all three channels; α0.07 and α0.08 do not |
+| the alternate row's fill | `#f4f5f5` MEASURED | `#ffffff` α0.05 MEASURED | `finder-window-light.png`, and AppKit's own array | the second entry of `NSColor.alternatingContentBackgroundColors`, read 2026-09-11 by the catalogue's command-line program under aqua then darkAqua — the pair has no NSColor name of its own, AppKit answering for it as an array, so it is recorded as a measured material. Finder's list view draws the light value to the byte: the stripes at x=965 alternate `#ffffff` and `#f4f5f5` on a 20 px pitch. No stored capture holds a dark list view, so the dark row is the array's answer alone |
+| the scrim — the dim a sheet lays over the window it interrupts | `#000000` α0.20 MEASURED | `#000000` α0.26 MEASURED | `save-dialog-light.png`, `save-dialog-dark.png` | the window standing behind the sheet. Light: its toolbar band and its document body both read `#cccccc` against the `#ffffff` the sheet carries, which is black at 0.20 exactly. Dark: its toolbar band reads `#1a1f22` against the measured `#232a2e` chrome material, which black at 0.26 reproduces on every channel — 0.255 through 0.275 do, 0.25 does not. It is the one alpha in the set a caller hands the rasterizer as it stands: a scrim covers whatever the window happens to be showing, so there is no one surface to flatten it onto |
 
 The shadow's α0.075 is its peak, at the edge. Its ramp, read the same way
 and identical in both captures: 0.075 at 1 px out, 0.065 at 4, 0.049 at 6,
@@ -6201,6 +6207,40 @@ The toolbar rows above still stand beside the dialog rows: the captures
 measure toolbar controls at 36 px, and a toolbar control and a dialog's push
 button are different controls in different places, so neither reading
 corrects the other.
+
+#### The platform's row heights
+
+Added 2026-09-11 by CE2.3, which needed the row a list and a table draw at.
+The numbers are in `controls.md` beside the captures; nothing was launched
+to produce them.
+
+| what | file | method |
+| --- | --- | --- |
+| a list row in the content is 20 px and draws no seam | `finder-window-light.png` | luminance run down x=965, clear of every column's text: the stripes alternate `#ffffff` and `#f4f5f5` on an exact 20 px pitch from y=105 to y=284 |
+| the column header's foot is `separatorColor` | same | the row at y=79 reads `#e5e5e5`; `separatorColor` over the content's white is `#e6e6e6`, so the header's seam is that name within one 255th |
+| a sidebar row is 32 px, not 20 | same | the selected "Applications" row's fill, `#efefef`, runs y 148–179 at x=250 |
+| a message-list row is 80 px dark and 92 px light, parted by `separatorColor` | `mail-window.png`, `mail-window-light.png` | luminance run down x=380: dark rows are 79 px of `#232a2e` parted by one row of `#393f42`, light rows 91 px of `#ffffff` parted by one row of `#e6e6e6`. Both hairlines are `separatorColor` over the fill beside them, to the byte |
+
+**What the density scale took.** `Density.RowHeight` is the platform's list
+row, 20 dp Comfortable, and it replaces the control height as the pin for
+every stacked row — list rows, table rows, header cells, sidebar items. A
+pinned row is therefore 20 dp where it was 24, and neither 20 nor Compact's
+19 meets WCAG 2.5.8 Target Size (Minimum)'s 24 dp; `theme/tokens/density.go`
+records that cost rather than hiding it, as it did for the Compact row
+before.
+
+**The gaps.** No capture holds a list at the platform's *small* row size, so
+`CompactRowHeight` carries the small control's published 19 pt; one capture
+closes it — a list or table drawn at the platform's small row size,
+window-bounded, at 1x. No stored capture holds a dark-appearance list view
+either, so the alternate row's dark value is AppKit's array answer rather
+than a pixel; a dark Finder window in list view closes that one.
+
+**A sidebar row is not a list row.** Finder's sidebar draws 32 px against
+its list view's 20, so the two are different rows and neither corrects the
+other. `patterns/sidebar` takes the 20 dp row, which is the number CE2.3's
+task names; a ruling that a chrome rail draws at the platform's 32 would add
+a second row number rather than move this one.
 
 #### What the captures contain
 
@@ -20727,11 +20767,11 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 
 #### CE2.3: Patterns
 
-- [ ] Every package under `patterns`, including `patterns/internal`.
+- [x] Every package under `patterns`, including `patterns/internal`.
   The list's and the table's rows take the platform's row height,
   measured off the Finder and Mail window captures into the reference
   and recorded in ADR-019, in place of the control-height pin.
-- [ ] Exit: green in `patterns` by name; commit and push in
+- [x] Exit: green in `patterns` by name; commit and push in
   `patterns` and `.github`.
 
 #### CE2.4: Markdown, effects, design

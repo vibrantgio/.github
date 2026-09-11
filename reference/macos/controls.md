@@ -72,6 +72,40 @@ the padding, and this pair does not.
 `mail-window.png`'s search-field label reads in ADR-019's cap-band section,
 so a dialog's push button is set in the same type as a toolbar's field.
 
+## What the list captures measure
+
+Added 2026-09-11 by CE2.3, which needed the platform's row height for the
+list and the table. Both readings are 1x window captures, so the pixels are
+points.
+
+| what | measured | where | method |
+| --- | --- | --- | --- |
+| a list row in the content — Finder's list view | 20 px pitch, no seam between rows | `finder-window-light.png` | luminance run down x=965, clear of every column's text: the stripes alternate `#ffffff` and `#f4f5f5` on an exact 20 px pitch from y=105 to y=284, and no row draws a hairline |
+| the alternate row's fill | `#f4f5f5` | same | the flat fill of every second stripe. It is the second entry of AppKit's `alternatingContentBackgroundColors`, which answers `#f4f5f5` light and white at 0.05 dark — the light value to the byte. Recorded in `nscolors.tsv` as the measured material `alternatingContentBackground` |
+| the column header's foot | 1 px, `#e5e5e5` | same | the row at y=79, under the "Name / Date Modified / Size / Kind" band. `separatorColor` over the content's white is `#e6e6e6`, so the header's seam is that name within one 255th |
+| a sidebar row — Finder's | 32 px | same | the selected "Applications" row's fill, `#efefef`, runs y 148–179 at x=250. A sidebar row is not a content list row: it is 12 px taller |
+| a message-list row — Mail's | 80 px dark, 92 px light | `mail-window.png`, `mail-window-light.png` | luminance run down x=380: dark rows are 79 px of `#232a2e` parted by one row of `#393f42` at y=145, 225, 305 …; light rows are 91 px of `#ffffff` parted by one row of `#e6e6e6` at y=249, 341, 433 …. Both hairlines are `separatorColor` over the fill beside them, to the byte. These are multi-line message rows and not the platform's single-line row height, so the density scale does not take them |
+| the dim a sheet lays over the window it interrupts | black at 0.20 light, black at 0.26 dark | `save-dialog-light.png`, `save-dialog-dark.png` | the window standing behind the sheet. Light: its toolbar band and its document body both read `#cccccc` against the `#ffffff` the sheet itself carries, which is black at 0.20 exactly. Dark: its toolbar band reads `#1a1f22` against the measured `#232a2e` chrome material, which black at 0.26 reproduces on every channel (0.255 through 0.275 do; 0.25 does not). Recorded in `nscolors.tsv` as the measured material `scrim` |
+
+**What the density scale took.** `Density.RowHeight` is 20 dp Comfortable,
+MEASURED off Finder's list view above, and it replaces the control height as
+the pin for every stacked row — list rows, table rows, header cells, sidebar
+items. Compact carries the platform's small control height, 19 dp, because no
+stored capture holds a list drawn dense; that gap is below.
+
+**What is open here.** No capture holds a list at the platform's small row
+size, so `CompactRowHeight` is the small control's published 19 pt rather
+than a reading. One capture closes it: a **list or table drawn at the
+platform's small row size**, window-bounded, at 1x. A second gap: no stored
+capture holds a dark-appearance list view, so the alternate row's dark value
+is AppKit's array answer alone rather than a pixel.
+
+**What the sidebar row is not.** Finder's sidebar row measures 32 px against
+its list row's 20, so the two are different rows and neither corrects the
+other. `patterns/sidebar` takes the 20 dp row for now, because that is the
+number CE2.3's task names; a ruling that a chrome rail draws its rows at the
+platform's 32 px would be a second row token, not a change to this one.
+
 ## Where the measured heights supersede the published ones
 
 MEASURED, from the captures above, against the PUBLISHED rows below. Where
@@ -131,6 +165,8 @@ on 2026-09-11, and the density scale now takes the measured height.
 | `CompactControlHeight` | 19 dp | PUBLISHED: the small push button — no capture holds a small control |
 | `ComfortableFieldHeight` | 27 dp | MEASURED: the text field in the same pair. Supersedes the published 22 pt, and is a second number because the platform draws a field taller than a button |
 | `CompactFieldHeight` | 21 dp | DERIVED: 27 × 19/24 = 21.4, rounded — the measured field-to-control ratio applied to the small control, until a small field is captured |
+| `ComfortableRowHeight` | 20 dp | MEASURED: Finder's list view in `finder-window-light.png`, a 20 px stripe pitch with no row seam. Added by CE2.3; it replaces the control height as the pin for every stacked row |
+| `CompactRowHeight` | 19 dp | PUBLISHED: the small push button, carried until a capture holds a list drawn dense |
 | `Comfortable.PaddingX` | 8 dp | PUBLISHED: the inset beside a regular push button's label. The capture cannot correct it — both buttons sit at the platform's 74 px minimum width with their labels centred |
 | `Compact.PaddingX` | 7 dp | DERIVED: 8 × 19/22 = 6.9, rounded — the published small-to-regular ratio, both operands published, since neither the inset nor the small control is captured |
 | `Comfortable.PaddingY` | 2 dp | DERIVED: (24 − 20) / 2, where 20 dp is the LabelLarge line box a button is set in; a Comfortable button lands exactly on 24 |
