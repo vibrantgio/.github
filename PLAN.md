@@ -20432,7 +20432,7 @@ with the reader beside it. The rows a consumer reaches for:
 | Platform name | Light | Dark | Used for |
 |---|---|---|---|
 | windowBackgroundColor | #ffffff | #1e1e1e | the window's plane (the backdrop), floating surfaces |
-| the sidebar and toolbar material, measured (reference/macos mail-window, notes-window: Mail light sidebar #efefef; dark sidebars and toolbars #232a2e) | #efefef | #232a2e | the chrome regions — a flat paint of the platform's vibrant material as it measured on the reference desktop |
+| the sidebar and toolbar material (dark measured off mail-window.png and finder-window.png; light published, no light-appearance window capture exists yet — the white in mail-window.png is an HTML message body, not the sidebar) | #efefef published | #232a2e measured | the chrome regions — a flat paint of the platform's vibrant material as it measured on the reference desktop |
 | controlBackgroundColor, textBackgroundColor | #ffffff | #1e1e1e | the content, lists, tables, fields |
 | underPageBackgroundColor | #969696 α.90 | #282828 | the backdrop showing around a pane |
 | separatorColor | #000000 α.10 | #ffffff α.10 | every seam, over whatever is beneath |
