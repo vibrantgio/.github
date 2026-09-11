@@ -6076,6 +6076,37 @@ are what the token set records. And the alpha column is two decimals, so a byte
 taken from it is within one 255th of what AppKit reported; a live reader closes
 that gap.
 
+#### The platform's control metrics
+
+Added 2026-09-11 by CE1.2, which needed the platform's control heights for
+the density scale. The numbers, each tagged measured, published or derived,
+are in `controls.md` beside the captures; nothing was launched to produce
+them.
+
+| what | file | method |
+| --- | --- | --- |
+| every bordered toolbar control — search field, capsule button, segmented control, pop-up button — is 36 px tall, y 8–43, centred in the 52 px band | `finder-window.png`, `mail-window.png`, `reminders-window.png`, `voicememos-window.png`, `notes-window.png` | luminance run down a column through each control; all five windows agree to the pixel |
+| a text field outside a toolbar is 33 px tall — Finder's info pane, "Add Tags…", y 263–295 | `finder-window.png` | the field's fill (35,42,46) against the pane's (27,32,35) |
+| a search field holds its magnifier glyph 10 px off the field's inner edge, 13 px on a more rounded capsule | `mail-window.png`, `voicememos-window.png` | horizontal luminance run at the glyph's mid row |
+| the published heights the density scale takes — push button 22 / 19 / 16 pt, text field and pop-up button 22 pt, label 13 / 11 pt, about 8 pt beside a push button's label | `controls.md` | PUBLISHED: Apple's Human Interface Guidelines for macOS, not read off this machine |
+
+**The reference holds no push button, checkbox, pop-up button or text field
+at regular size in a dialog or a sheet**, so the heights the density scale
+ships are published rather than measured. The captures measure toolbar
+controls at 36 px where the HIG publishes a 22 pt push button; those are
+different controls in different places and neither reading corrects the
+other. An older AppKit `fittingSize` reading (2026-08-05: push bezel regular
+24 pt) is kept in `controls.md` with the reason it differs — `fittingSize`
+answers with the bezel's fitting box, not the drawn control.
+
+**The gap, and how it closes.** One window-bounded capture of a System
+Settings dialog showing a push button, a text field, a pop-up button and a
+checkbox at regular size, in both appearances, turns every published row
+into a measured one. The owner supplies it; no task launches an application
+to close it. When it lands, store it here under a name that says which OS it
+is, read the numbers off the pixels, and replace the published rows with
+measured ones.
+
 #### What the captures contain
 
 Thirty-three files, 1.3 MB. Whole-window captures give context and carry the
@@ -20412,14 +20443,14 @@ version it was read on.
 
 #### CE1.2: The density scale takes the platform's control heights
 
-- [ ] `theme/tokens`: Comfortable is the platform's regular control,
+- [x] `theme/tokens`: Comfortable is the platform's regular control,
   22 pt, and Compact its small control, 19 pt, with the inner padding
   the platform's; both measured into `.github/reference/macos` and
   ADR-019 from the stored captures, never from a launched app. Every
   control that states an offset from the control height keeps its
   offset. Nothing else in Density, Spacing, Radius or Typography
   moves.
-- [ ] Exit: green in `theme`; the field walkers run by name; commit
+- [x] Exit: green in `theme`; the field walkers run by name; commit
   and push in `theme` and `.github`. The consumers reflow in G-CE2.
 
 #### CE1.3: The platform set is read live from AppKit on macOS
