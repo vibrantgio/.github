@@ -51,6 +51,16 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | the label's cap band | 10 px, y 508–517 | same | the bounding box of the label's marks inside the fill, each cap read on its own |
 | the label's horizontal inset | "Cancel" 16 px leading, 17 trailing; "Save" 23 and 23 | same | the fill's edge to the first pixel of the label's marks |
 
+**The push button's fill is a colour, not only a height.** The `#ececec`
+light and `#333a3f` dark this row reads off "Cancel" are recorded in
+`nscolors.tsv` as the measured material `pushButtonFill`, because
+`controlColor` is not that value in either appearance: it reports `#ffffff`
+light and white at a quarter dark, which is the bezel's backing rather than
+the fill the platform draws. The "Save" button beside it is the default
+action and reads `#157efb`, the accent under the bezel's own gradient;
+that gradient is not recorded, so a consumer paints `controlAccentColor`
+flat.
+
 **The inset is not a padding here.** Both buttons measure 74 px wide while
 their labels measure 41 px and 28 px, so both are sitting at the platform's
 minimum push-button width with the label centred in it; the 16 px and 23 px
@@ -163,3 +173,10 @@ cannot be read off the stored pair: both buttons sit at the platform's
 minimum width with their labels centred. A capture of a push button whose
 label is long enough to drive its width would settle it; `Comfortable.PaddingX`
 stays the published 8 pt until one exists.
+
+**Also open: the tooltip.** No stored capture holds a help tag, so the fill,
+the edge and the text of `components/tooltip` are the Language's mapping of
+what a floating annotation is on this platform — the window background
+inside a separator hairline, the label colour on it — rather than three
+numbers read off a capture. One capture closes it: a **help tag standing
+beside its control**, in both appearances, window-bounded, at 1x.
