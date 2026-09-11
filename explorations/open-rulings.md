@@ -2825,6 +2825,20 @@ Full record in `reviews/ce2.2-gallery-fresh-eyes.md`. Filed 2026-09-11 from Phas
 
 Filed 2026-09-11 from the task's own findings; all pinned by tests against `save-dialog-{light,dark}.png`.
 
+## BL. From CE2.3, the patterns taking the platform's names
+
+Full record in `reviews/ce2.3-patterns-fresh-eyes.md` (twelve findings, six recorded misreads). Filed 2026-09-11 from Phase CE. Fixed in the task: a light shell drawing no seam between chrome and content.
+
+398. **[decide]** **Finder's sidebar row is 32 px where the list row is 20.** `Density.RowHeight` is 20/19 and `patterns/sidebar` takes it because CE2.3's text names one row height; the chrome rail wants a second number. Rule a sidebar row height measured into the reference (32 from `finder-window*.png`).
+
+399. **[decide]** **macOS insets and rounds the sidebar's selection** (about 8 px margins, 6 px radius); ours is full-bleed and square. Geometry, unmeasured; measure off `finder-window*.png` and rule.
+
+400. **[bug]** **`badge.Neutral`'s systemGray reads lighter than the dark card it sits on;** a Neutral badge on a card wants a fill that steps from the card, not from the content.
+
+401. **[bug]** **`table.RenderTextCell` flattens `Label` over `ControlBackground` on a striped row too,** one 255th off, because the cell has no row parity to read. Give the cell its row's fill.
+
+402. **[decide]** **The recorded platform set bakes in one desktop's wallpaper tint** (the owner's setting was on when the catalogue and captures were read); the live reader follows whatever the machine has, the recorded sets do not. Rule whether the recorded sets are re-read with the tint off, or the tint is the platform's answer.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
