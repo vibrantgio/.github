@@ -204,8 +204,11 @@ is dropped: the platform's system colours for the four statuses, its
 control heights for density, its accent colour for the accent, its
 controls' shapes for the controls. Where the platform's published
 guideline and what the platform actually draws differ, what it draws
-wins: measured beats published. What the platform does not define
-the Language defines.
+wins: measured beats published. Where the platform paints a colour
+at an alpha — a label, a separator, a hover — it composites in
+encoded sRGB, not in linear light, and so do we; a value read off a
+capture matches to the byte only that way. What the platform does
+not define the Language defines.
 
 ### Axis
 
@@ -234,8 +237,9 @@ to its text.
 | **Compact** | more on screen: the platform's small control height, tighter padding |
 
 A text field has a height of its own, the platform's, taller than
-the regular control; a checkbox its own, smaller. Both are measured
-into the reference, not derived from the control height.
+the regular control; a checkbox its own, smaller; a list's rows the
+platform's row height. All are measured into the reference, not
+derived from the control height.
 
 ### Radius
 
@@ -433,7 +437,13 @@ clears the floor for its kind — text, or a mark — and the On colour
 of a saturated fill is whichever of its two candidates reads better
 by it. A floor is a least Lc; a number the code keeps to size a
 step or a walk is a dial, not a floor. The floor values are the
-plan's, not the Language's.
+plan's, not the Language's. The floors choose colours the platform
+did not already choose: a pair measured off the platform — white on
+systemGreen, say — stands as the platform paints it, floor or no
+floor. A fill the user chose takes as its foreground whichever of
+black or white reads better on it, and that is the answer even when
+neither clears the floor. When the measure ties, the scheme's text
+colour wins.
 
 ### Fill
 

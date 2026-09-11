@@ -20728,6 +20728,9 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 #### CE2.3: Patterns
 
 - [ ] Every package under `patterns`, including `patterns/internal`.
+  The list's and the table's rows take the platform's row height,
+  measured off the Finder and Mail window captures into the reference
+  and recorded in ADR-019, in place of the control-height pin.
 - [ ] Exit: green in `patterns` by name; commit and push in
   `patterns` and `.github`.
 
@@ -20761,7 +20764,9 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 #### CE2.5: Workbench — vaultview, mindchat, feeds
 
 - [ ] The three apps' own paints and their goldens; an app paints
-  nothing a pattern already painted.
+  nothing a pattern already painted. Their rows — the tree, the
+  feeds list, the article list, the transcript — take the platform's
+  row height CE2.3 measured.
 - [ ] Exit: green in `workbench/vaultview`, `workbench/mindchat`,
   `workbench/feeds` by name; commit and push in `workbench` and
   `.github`.
@@ -20789,7 +20794,14 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
   `ForegroundOn`, `MarkOn`, `TextFloor` and `GraphicFloor` as walks, the elevation levels as
   colour sources, `InverseSurface`, high-contrast variants derived
   from ramps; in `theme/color`, tone, oklab, gamut and lab go with
-  them, apca and composite stay. Typography, Density, Spacing and
+  them, apca and Flatten stay. Three theme-side corrections land
+  here or earlier: `ScrollbarThumb`'s coverage, fitted through the
+  old linear blend, is re-fitted in sRGB (about 0.572) in tokens,
+  both tsv copies and ADR-019; the alpha names are read to the byte
+  through the live reader so that `Label` flattens to the platform's
+  216, not the tsv's two-decimal 217; `input`'s checkbox and radio
+  drop `tokens.Disabled(ControlAccent)`, a derivation CE2.1 missed,
+  for the disabled state's platform answer. Typography, Density, Spacing and
   Radius stay exactly as they are. `theme.Theme` carries the platform
   set alone. `theme/system` builds it from the platform's appearance
   and the theme colour; `theme/brand` keeps the theme colour and the

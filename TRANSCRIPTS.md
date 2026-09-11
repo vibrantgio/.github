@@ -933,3 +933,10 @@ Rene (to the vibrantgio session, relayed verbatim, on the save
 dialog's 24 pt controls against the HIG's 22): Yes conform to the
 platform and supercede the HIG in these areas.
 ^0005-measured-beats-published
+
+Rene (to pool 391, 392, 381, 382 and 386 with the recommendations: a
+platform-measured pair stands over the floors; ControlAccent stays
+constant as the platform has it; a user-chosen fill takes black or
+white, whichever reads better; a tie goes to the scheme's text
+colour; rows take the platform's row height): Yes to all five.
+^0005-five-pool-rulings

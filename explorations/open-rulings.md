@@ -2795,10 +2795,6 @@ Full record in `reviews/cb2.1-settings-fresh-eyes.md`; pool AS holds the dialog'
 
 Filed 2026-09-11 from the task's own findings and its review (`reviews/cc1.2-windows-fresh-eyes.md`; its ramp-grid marker finding is a recorded misread, the markers are black on the pale half). 183 goldens moved, all foregrounds and marks off the re-derived palette; 20 tests skip on the Material palette's shortfalls and leave with CE2.7.
 
-381. **[decide]** **A chip filled with a colour a picture chose cannot reach Lc 75 on either end of the axis.** The themer's four skipped tests: white on a saturated mid-tone like #2F9AFF reads Lc 60. Permanent under APCA, not the palette's doing. Either the text floor on a user-chosen fill is the mark floor (45), or such a chip wears its colour as a swatch beside neutral text.
-
-382. **[decide]** **APCA reads a mid grey as nearly equidistant from white and black,** so the code fence's edge rule gives the palest and the deepest base the same edge (#989898); `markdown/highlight`'s edge-follows-background test skips. The measure's own doing; rule whether the edge is chosen by Lc or by lightness.
-
 383. **[task]** **`color.LuminanceRatio` was hoisted into `theme/color`** by CC1.2 so the dials (ContainerFloor, StateFloor, SeamRatio, BorderSeparation) have one measure instead of a copy per package; ratify or fold into CE2.7's deletion, since the dials describe the Material palette's steps.
 
 384. **[bug]** **Windows seen once more in CC1.2's review:** the launcher's grid 40% empty with dead space under every card; sitedocs' band text at the far right and a cut viewport; vaultview's code block chopped mid-word with no scrollbar. None moved in this round; filed for CE3.2's per-app review.
@@ -2806,8 +2802,6 @@ Filed 2026-09-11 from the task's own findings and its review (`reviews/cc1.2-win
 ## BH. From CE1.2, the platform's control heights
 
 Filed 2026-09-11 from the task's own findings; numbers in `reference/macos/controls.md`.
-
-386. **[decide]** **At 22 and 19 no pinned stacked row reaches the 24 dp target size** (WCAG 2.5.8 AA); the old test asserted rows cleared it and now pins that they do not. Standalone pointer targets stay 44. Rule whether list and table rows keep the control height as their pin or take a row height of their own.
 
 387. **[bug]** **A Compact button draws 20 over a 19 floor:** LabelLarge's 20 dp line box does not fit the small control with any padding, so Compact PaddingY is 0 and the control overshoots by one. The small control wants the 11 pt label the platform gives it, which is a typography question Rene has closed for now; recorded, not resolved.
 
@@ -2823,10 +2817,6 @@ Filed 2026-09-11 from the task's own findings; numbers in `reference/macos/contr
 
 Full record in `reviews/ce2.2-gallery-fresh-eyes.md`. Filed 2026-09-11 from Phase CE. Fixed in the task: the alert's and tooltip's hairline landing as two half-strength rows. The alpha-compositing finding became task CE2.2b.
 
-391. **[decide]** **White on systemGreen measures 2.22:1 on a filled badge.** The platform's own count badge is white on the system colour, so the mapping is the ruled one; under APCA the pair is near Lc 40, under the mark floor. Rule that a platform pair is exempt from the floors, or that a filled badge takes the platform's darker variant of the colour.
-
-392. **[decide]** **`ControlAccent` is #007aff in both appearances while `SystemBlue` adapts** (#0088ff light, #0091ff dark in the catalogue). The platform reports controlAccentColor unchanged across appearances; whether the default button follows it as read, or the accent's per-appearance system colour.
-
 393. **[decide]** **A Ghost button reads as static text** with no fill and no edge; the platform's borderless button is the same at rest. Whether the emphasis stays, given macOS shows it only in toolbars and table footers.
 
 394. **[decide]** **The alert's chevron is a disclosure triangle, and severity now rides on hue alone** since the container tint went. Whether an in-flow alert takes the platform's icon per status (the SF symbols macOS uses) once `components/icon` can carry them.
@@ -2834,12 +2824,6 @@ Full record in `reviews/ce2.2-gallery-fresh-eyes.md`. Filed 2026-09-11 from Phas
 ## BK. From CE2.2b, alpha names compositing in sRGB
 
 Filed 2026-09-11 from the task's own findings; all pinned by tests against `save-dialog-{light,dark}.png`.
-
-395. **[bug]** **`ScrollbarThumb`'s coverage was fitted through the linear-light blend.** 0.337 reproduces the captured knob only in linear light; flattened in sRGB it reads #676d70 where the capture shows #9d9fa1, so the knob is now dimmer in dark and darker in light. A re-fit in sRGB (about 0.572) touches the tokens, both tsv copies and ADR-019: theme work, one short task or a line in CE2.7's theme pass. The hover, press and shadow overlays were fitted in sRGB and stay exact.
-
-396. **[bug]** **`Label` carries 217 where the platform's byte is 216.** The catalogue records alphas to two decimals and round(0.85×255) lands one 255th light of every label the capture shows. Read the alphas off the platform to the byte (CE1.3's live reader has them) and let the tsv carry three decimals or the byte.
-
-397. **[task]** **`input`'s checkbox and radio still call `tokens.Disabled(ControlAccent)`,** a derivation CE2.1 missed; CE2.2b flattens its output and leaves it for the disabled state's platform answer (a disabled control on macOS: the accent at the disabled text's coverage, or `DisabledControlText` on `PushButtonFill`; measure if a capture holds one).
 
 ## AR. From BV1.3, the open field reporting the trigger alone
 
