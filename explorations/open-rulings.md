@@ -2791,6 +2791,18 @@ Full record in `reviews/cb2.1-settings-fresh-eyes.md`; pool AS holds the dialog'
 
 377. **[bug]** **The key field is 50 px shorter than the two fields above it,** two chevrons in the dialog disagree, the checkbox's wording and scope are unclear, and the foot of the pane breaks the rhythm. Joins pool 326's form pass.
 
+## BG. From CC1.2, the consumers compiling against APCA
+
+Filed 2026-09-11 from the task's own findings and its review (`reviews/cc1.2-windows-fresh-eyes.md`; its ramp-grid marker finding is a recorded misread, the markers are black on the pale half). 183 goldens moved, all foregrounds and marks off the re-derived palette; 20 tests skip on the Material palette's shortfalls and leave with CE2.7.
+
+381. **[decide]** **A chip filled with a colour a picture chose cannot reach Lc 75 on either end of the axis.** The themer's four skipped tests: white on a saturated mid-tone like #2F9AFF reads Lc 60. Permanent under APCA, not the palette's doing. Either the text floor on a user-chosen fill is the mark floor (45), or such a chip wears its colour as a swatch beside neutral text.
+
+382. **[decide]** **APCA reads a mid grey as nearly equidistant from white and black,** so the code fence's edge rule gives the palest and the deepest base the same edge (#989898); `markdown/highlight`'s edge-follows-background test skips. The measure's own doing; rule whether the edge is chosen by Lc or by lightness.
+
+383. **[task]** **`color.LuminanceRatio` was hoisted into `theme/color`** by CC1.2 so the dials (ContainerFloor, StateFloor, SeamRatio, BorderSeparation) have one measure instead of a copy per package; ratify or fold into CE2.7's deletion, since the dials describe the Material palette's steps.
+
+384. **[bug]** **Windows seen once more in CC1.2's review:** the launcher's grid 40% empty with dead space under every card; sitedocs' band text at the far right and a cut viewport; vaultview's code block chopped mid-word with no scrollbar. None moved in this round; filed for CE3.2's per-app review.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
