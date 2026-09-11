@@ -5,7 +5,8 @@ MEASURED (a stored capture, the method named), PUBLISHED (Apple's Human
 Interface Guidelines, not read off this machine) or DERIVED (arithmetic on
 the two, shown). Indexed by ADR-019, "The platform's control metrics".
 
-Added 2026-09-11 by CE1.2. Nothing was launched to produce it.
+Added 2026-09-11 by CE1.2; the dialog measurements and the ruling that the
+measured numbers supersede the published ones are CE1.5 and CE1.6.
 
 ## What the stored captures measure
 
@@ -24,10 +25,10 @@ were taken").
 | the same, on a more rounded capsule | 13 px | `voicememos-window.png` | same method — stroke x=643, fill from 644, glyph from 657 |
 
 Everything above is a toolbar control or a pane field, and macOS 26 sizes
-its toolbar controls well over the size a push button is published at — 36
-px against 22 pt. The two are different controls in different places, so
-neither reading corrects the other; both are recorded. The section below
-measures the dialog controls themselves.
+its toolbar controls well over the size a push button is drawn at in a
+dialog — 36 px against the 24 px measured below. The two are different
+controls in different places, so neither reading corrects the other; both are
+recorded. The section below measures the dialog controls themselves.
 
 ## What the dialog captures measure
 
@@ -61,24 +62,28 @@ the padding, and this pair does not.
 `mail-window.png`'s search-field label reads in ADR-019's cap-band section,
 so a dialog's push button is set in the same type as a toolbar's field.
 
-## Where the measured heights disagree with the published ones
+## Where the measured heights supersede the published ones
 
-MEASURED, from the captures above, against the PUBLISHED rows below:
+MEASURED, from the captures above, against the PUBLISHED rows below. Where
+the two disagree the measured number is the platform's answer and the
+published one is superseded (owner ruling, 2026-09-11): the application is
+judged against the platform, and the guidelines are a document about it.
 
-| control | published | measured | difference |
-| --- | --- | --- | --- |
-| push button, regular | 22 pt | 24 px | +2 |
-| pop-up button | 22 pt | 24 px | +2 |
-| text field | 22 pt | 27 px | +5 |
-| label text size | 13 pt | a 10 px cap band, which is the platform's 14 pt label | +1 |
-| checkbox | not published here | 16 px | — |
+| control | published | measured | difference | what ships |
+| --- | --- | --- | --- | --- |
+| push button, regular | 22 pt | 24 px, `save-dialog-{light,dark}.png` | +2 | 24, MEASURED |
+| pop-up button | 22 pt | 24 px, same pair | +2 | 24, MEASURED — the same number as the push button |
+| text field | 22 pt | 27 px, same pair | +5 | 27, MEASURED, as its own number: the platform does not draw a field at a button's height |
+| checkbox | not published here | 16 px square, same pair | — | 16, MEASURED — recorded here and in `density.go`'s provenance table; not a density token, since the checkbox carries its own side length in `components/input` |
+| label text size | 13 pt | a 10 px cap band, which is the platform's 14 pt label | +1 | neither — typography is not the density scale's to move, and no task in this phase touches it |
+| push button, small | 19 pt | uncaptured | — | 19, PUBLISHED — the one number here still waiting on a capture |
+| horizontal inset beside a push button's label | about 8 pt | unreadable off this pair | — | 8, PUBLISHED — see "The inset is not a padding here" above |
 
 The 24 px push button is the number the 2026-08-05 `fittingSize` sweep
-recorded for the regular push bezel, which the section below keeps and
-which the density scale was ruled against. Two instruments that disagree
-with the Human Interface Guidelines and agree with each other are worth the
-ruling the guidelines got; CE1.5 changed no token, and `density.go` still
-ships the published 22 and 19.
+recorded for the regular push bezel, which the section below keeps. Two
+instruments that disagree with the Human Interface Guidelines and agree with
+each other got the ruling: `density.go` ships the measured heights as of
+CE1.6.
 
 ## What the platform publishes
 
@@ -100,38 +105,61 @@ An AppKit `fittingSize` sweep taken 2026-08-05, recorded in
 at mini 16 / small 20 / regular 24 / large 28 pt and NSTextField (rounded
 bezel, regular) at 24 pt. `fittingSize` answers with the bezel's fitting box,
 which is not the drawn control: it carries the margin the bezel keeps around
-itself. Where the two disagree the density scale takes the published height
-(owner ruling, 2026-09-10). The older reading is kept here so a later task
-does not rediscover it as a contradiction.
+itself. Its regular push bezel of 24 pt nonetheless lands on the 24 px the
+Save panel draws, which is why the two instruments are read as agreeing. The
+older reading is kept here so a later task does not rediscover it as a
+contradiction; the published-over-measured ruling of 2026-09-10 was reversed
+on 2026-09-11, and the density scale now takes the measured height.
 
 ## What the density scale takes
 
-`theme/tokens/density.go`, from CE1.2:
+`theme/tokens/density.go`, from CE1.6:
 
 | token | value | provenance |
 | --- | --- | --- |
-| `ComfortableControlHeight` | 22 dp | PUBLISHED: the regular push button, text field and pop-up button |
-| `CompactControlHeight` | 19 dp | PUBLISHED: the small push button |
-| `Comfortable.PaddingX` | 8 dp | PUBLISHED: the inset beside a regular push button's label |
-| `Compact.PaddingX` | 7 dp | DERIVED: 8 × 19/22 = 6.9, rounded — no small-size inset is published |
-| `Comfortable.PaddingY` | 1 dp | DERIVED: (22 − 20) / 2, where 20 dp is the LabelLarge line box a button is set in; a Comfortable button lands exactly on 22 |
+| `ComfortableControlHeight` | 24 dp | MEASURED: the regular push button and pop-up button in `save-dialog-{light,dark}.png`, both appearances agreeing to the pixel. Supersedes the published 22 pt |
+| `CompactControlHeight` | 19 dp | PUBLISHED: the small push button — no capture holds a small control |
+| `ComfortableFieldHeight` | 27 dp | MEASURED: the text field in the same pair. Supersedes the published 22 pt, and is a second number because the platform draws a field taller than a button |
+| `CompactFieldHeight` | 21 dp | DERIVED: 27 × 19/24 = 21.4, rounded — the measured field-to-control ratio applied to the small control, until a small field is captured |
+| `Comfortable.PaddingX` | 8 dp | PUBLISHED: the inset beside a regular push button's label. The capture cannot correct it — both buttons sit at the platform's 74 px minimum width with their labels centred |
+| `Compact.PaddingX` | 7 dp | DERIVED: 8 × 19/22 = 6.9, rounded — the published small-to-regular ratio, both operands published, since neither the inset nor the small control is captured |
+| `Comfortable.PaddingY` | 2 dp | DERIVED: (24 − 20) / 2, where 20 dp is the LabelLarge line box a button is set in; a Comfortable button lands exactly on 24 |
 | `Compact.PaddingY` | 0 dp | DERIVED: 20 > 19, so there is no room to pad with; a Compact button draws 20 dp against a 19 dp floor, 1 dp over |
 
-The 1 dp overshoot at Compact closes only by moving a typography role, and
-typography is not the density scale's to move.
+The checkbox's measured 16 px is in `density.go`'s provenance table as a
+line, not as a token: the checkbox's side length lives in
+`components/input`, which is where a consumer takes this number.
 
-## The gap, and how it closed
+Two overshoots are recorded rather than hidden, and both close only by moving
+a typography role, which is not the density scale's to move: a Compact button
+draws 20 dp against its 19 dp floor, and a Comfortable text field draws 28 dp
+against the platform's measured 27, BodyLarge's 24 dp line box plus the
+control's own 2 dp padding.
 
-One capture would turn every PUBLISHED row above into a MEASURED one: a
-**dialog or standard sheet** showing, at regular size, a push button, a text
-field, a pop-up button and a checkbox — in both the light and the dark
-appearance, window-bounded so the image is exactly the window's outer
-bounds.
+## The gap, and what is left of it
+
+One capture closed the regular-size gap: a **dialog or standard sheet**
+showing, at regular size, a push button, a text field, a pop-up button and a
+checkbox, in both appearances, window-bounded so the image is exactly the
+window's outer bounds.
 
 It landed 2026-09-11 as `save-dialog-light.png` and `save-dialog-dark.png`,
 taken in the one batched session PLAN.md's "Measure from the stored
 reference" allows, on macOS 26.5.2 (build 25F84), on the 2560×1440 display
 at 1x where one pixel is one point. Every number is in "What the dialog
-captures measure" above. The published rows are kept beside the measured
-ones rather than replaced, because the density scale was ruled onto them
-and only a ruling moves it.
+captures measure" above, and CE1.6 shipped them over the published ones.
+
+**What is still open.** No capture holds a control at the platform's *small*
+size, so `CompactControlHeight` is still the published 19 pt and
+`CompactFieldHeight` is derived from the regular pair's ratio. One capture
+closes it: a **window or sheet showing a small push button and a small text
+field**, in both appearances, window-bounded, at 1x — a control-size
+inspector pane or any application that draws its controls small. Until it
+exists, Compact is the one setting in the scale whose height is not read off
+this platform.
+
+**Also open, smaller.** The horizontal inset beside a push button's label
+cannot be read off the stored pair: both buttons sit at the platform's
+minimum width with their labels centred. A capture of a push button whose
+label is long enough to drive its width would settle it; `Comfortable.PaddingX`
+stays the published 8 pt until one exists.

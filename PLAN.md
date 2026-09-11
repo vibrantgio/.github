@@ -6164,21 +6164,38 @@ them.
 | every bordered toolbar control — search field, capsule button, segmented control, pop-up button — is 36 px tall, y 8–43, centred in the 52 px band | `finder-window.png`, `mail-window.png`, `reminders-window.png`, `voicememos-window.png`, `notes-window.png` | luminance run down a column through each control; all five windows agree to the pixel |
 | a text field outside a toolbar is 33 px tall — Finder's info pane, "Add Tags…", y 263–295 | `finder-window.png` | the field's fill (35,42,46) against the pane's (27,32,35) |
 | a search field holds its magnifier glyph 10 px off the field's inner edge, 13 px on a more rounded capsule | `mail-window.png`, `voicememos-window.png` | horizontal luminance run at the glyph's mid row |
-| the published heights the density scale takes — push button 22 / 19 / 16 pt, text field and pop-up button 22 pt, label 13 / 11 pt, about 8 pt beside a push button's label | `controls.md` | PUBLISHED: Apple's Human Interface Guidelines for macOS, not read off this machine |
+| what the platform publishes — push button 22 / 19 / 16 pt, text field and pop-up button 22 pt, label 13 / 11 pt, about 8 pt beside a push button's label | `controls.md` | PUBLISHED: Apple's Human Interface Guidelines for macOS, not read off this machine. Superseded wherever a capture reads the same control |
 | the dialog controls themselves — push button 24 px, pop-up button 24 px, text field 27 px, checkbox 16 px square, the label's cap band 10 px | `save-dialog-light.png`, `save-dialog-dark.png` | MEASURED 2026-09-11 by CE1.5: a Save panel at regular size, window-bounded, one capture per appearance; luminance runs down a column clear of each label, both appearances agreeing to the pixel |
+| the heights the density scale takes — control 24 dp Comfortable (MEASURED), 19 dp Compact (PUBLISHED, uncaptured); text field 27 dp Comfortable (MEASURED), 21 dp Compact (DERIVED, 27 × 19/24 rounded); padding 8/2 and 7/0 | `controls.md`, `theme/tokens/density.go` | CE1.6, 2026-09-11: the measured numbers over the published ones, per number, with the derivations shown |
 
-**The gap closed on 2026-09-11.** The reference now holds a push button, a
-checkbox, a pop-up button and a text field at regular size in a sheet, and
-`controls.md` reads every height off those pixels beside the published rows.
-The two disagree: the drawn push button and pop-up button measure 24 px
-where the Human Interface Guidelines publish 22 pt, the text field 27 px
-where they publish 22 pt, and the label's cap band is the 10 px this
-reference reads for a 14 pt system label rather than the 9 px a 13 pt one
-would give. The 24 px agrees with the older AppKit `fittingSize` reading
-(2026-08-05: push bezel regular 24 pt), which `controls.md` keeps. **The
-density scale is not moved by this.** CE1.2's 22 and 19 were an owner ruling
-on the published numbers, and only a ruling moves them; CE1.5 changed no
-token and recorded the difference here.
+**The gap closed on 2026-09-11 for the regular size.** The reference now
+holds a push button, a checkbox, a pop-up button and a text field at regular
+size in a sheet, and `controls.md` reads every height off those pixels beside
+the published rows. The two disagree: the drawn push button and pop-up button
+measure 24 px where the Human Interface Guidelines publish 22 pt, the text
+field 27 px where they publish 22 pt, and the label's cap band is the 10 px
+this reference reads for a 14 pt system label rather than the 9 px a 13 pt
+one would give. The 24 px agrees with the older AppKit `fittingSize` reading
+(2026-08-05: push bezel regular 24 pt), which `controls.md` keeps.
+
+**Measured beats published, per number** (owner ruling 2026-09-11, reversing
+the 2026-09-10 ruling that took the published heights). CE1.6 moved the
+density scale onto the captures: `ComfortableControlHeight` is the measured
+24, and the text field takes its own measured 27 as a second density number,
+because the platform does not draw a field at a button's height. The
+published 22 and 13 stay listed in `controls.md` as what the guidelines say,
+marked superseded. Typography did not move with them: the 10 px cap band says
+the platform's dialog label is 14 pt, and no task in this phase touches a
+type role.
+
+**The gap that is left: the small size.** No capture holds a control at the
+platform's small size, so `CompactControlHeight` is still the published 19 pt
+and `CompactFieldHeight` is derived from the regular pair's measured ratio.
+One capture closes it — a window or sheet drawing a small push button and a
+small text field, both appearances, window-bounded at 1x. A second, smaller
+gap: the horizontal inset beside a push button's label cannot be read off the
+stored pair, because both buttons sit at the platform's minimum width with
+their labels centred, so `Comfortable.PaddingX` stays the published 8 pt.
 
 The toolbar rows above still stand beside the dialog rows: the captures
 measure toolbar controls at 36 px, and a toolbar control and a dialog's push
@@ -20618,7 +20635,7 @@ regular push button and pop-up at 24 pt, the text field at 27, the
 checkbox at 16 and the label at 14 pt, where the HIG publishes 22 and
 13; CE1.2 shipped the published numbers.
 
-- [ ] `theme/tokens`: `ComfortableControlHeight` is 24; the text
+- [x] `theme/tokens`: `ComfortableControlHeight` is 24; the text
   field takes its own measured height, 27, as a density field beside
   the control height (name it plainly) so a field is not a button's
   height; `PaddingY` recomputed for the 20 dp label line box; the
@@ -20627,9 +20644,9 @@ checkbox at 16 and the label at 14 pt, where the HIG publishes 22 and
   the gap row in ADR-019 saying so. `controls.md` and ADR-019 say
   measured beats published, per number. Nothing in Spacing, Radius
   or Typography moves.
-- [ ] Tests re-pin the scale; the design bundle regenerates,
+- [x] Tests re-pin the scale; the design bundle regenerates,
   `design/mirror` by name.
-- [ ] Exit: green in `theme`, `design` and the field walkers by
+- [x] Exit: green in `theme`, `design` and the field walkers by
   name; commit and push in every touched repo and `.github`. The
   consumers reflow in G-CE2.
 
