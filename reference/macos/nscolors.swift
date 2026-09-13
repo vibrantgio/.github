@@ -16,8 +16,8 @@ let names: [(String, NSColor)] = [
 func hex(_ c: NSColor) -> String {
   guard let s = c.usingColorSpace(.sRGB) else { return "?" }
   let r = Int((s.redComponent*255).rounded()), g = Int((s.greenComponent*255).rounded()), b = Int((s.blueComponent*255).rounded())
-  let a = s.alphaComponent
-  return String(format: "#%02x%02x%02x", r, g, b) + (a < 0.999 ? String(format: " a%.2f", a) : "")
+  let a = Int((s.alphaComponent*255).rounded())
+  return String(format: "#%02x%02x%02x", r, g, b) + (a < 255 ? String(format: " a%d/255", a) : "")
 }
 for (name, c) in names {
   var l = "", d = ""

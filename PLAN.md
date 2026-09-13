@@ -6065,16 +6065,23 @@ and then the darkAqua appearance and prints it in sRGB.
 
 | what | file | method |
 | --- | --- | --- |
-| the catalogue: 43 AppKit semantic colour names, light and dark | `nscolors.tsv` | one tab-separated row per name; `#rrggbb` with ` a0.NN` where alpha is below 1; a leading `#` header names the OS it was read on — macOS 26.5.2 (build 25F84), read 2026-09-10 |
-| the program that read it | `nscolors.swift` | `performAsCurrentDrawingAppearance` per appearance, `usingColorSpace(.sRGB)`, components rounded to bytes and alpha printed to two decimals |
+| the catalogue: 43 AppKit semantic colour names, light and dark | `nscolors.tsv` | one tab-separated row per name; `#rrggbb` with ` aN/255` where alpha is below 1; a leading `#` header names the OS it was read on — macOS 26.5.2 (build 25F84), read 2026-09-10 and re-read 2026-09-13 with the alpha carried to the byte |
+| the program that read it | `nscolors.swift` | `performAsCurrentDrawingAppearance` per appearance, `usingColorSpace(.sRGB)`, components and alpha both rounded to bytes |
 | the find highlight as Mail paints it | `mail-find-light.png`, `mail-find-dark.png` | flat-region samples of the match fill and of the text on it: light `#faefbd` on text `#26251d`, dark `#6e6e4d` on text `#e8e9e3` |
 
 Two cautions the catalogue carries. AppKit's `findHighlightColor` answers
 `#ffff00` in both appearances and the platform's own applications do not paint
 it — Mail's captures above are what the highlight actually looks like, and they
-are what the token set records. And the alpha column is two decimals, so a byte
-taken from it is within one 255th of what AppKit reported; a live reader closes
-that gap.
+are what the token set records. And the alpha column WAS two decimals, which
+put a byte taken from it up to one 255th off what AppKit reported: `labelColor`
+carried round(0.85×255) = 217 where the platform's own coverage byte is 216,
+and the Save dialog's captures showed the difference — `labelColor` over the
+push button lands on `#242424` at 216 and `#232323` at 217. CE2.7 extended the
+reader and the catalogue to the byte and re-read on 2026-09-13: every alpha
+AppKit names is exactly n/255, the catalogue writes that n, and eleven rows of
+the light set and nine of the dark moved by one. The measured-materials section
+below keeps fractional coverages, because a fit is not a byte anyone read off
+the platform.
 
 #### The measured materials
 
@@ -6091,17 +6098,21 @@ on 2026-09-11, and the table below is what they measure: every row is now
 read off stored pixels. CE2.3 added two more the same day — the alternate
 row a striped list lays down and the dim a sheet lays over the window it
 interrupts — and CE2.1 and CE2.2 added `fieldEdge`, `scrollbarThumb` and
-`pushButtonFill` before them, so the section names ten fills rather than
-five; the tsv is the list that counts.
+`pushButtonFill` before them, and CE2.7 `sidebarSelection`, so the section
+names eleven fills rather than five; the tsv is the list that counts.
 
 | what | light | dark | file | method |
 | --- | --- | --- | --- | --- |
-| the chrome material — sidebars, toolbars, navbars, inspectors, status bars | `#ffffff` MEASURED | `#232a2e` MEASURED | `mail-window.png`, `finder-window.png`, `mail-window-light.png`, `finder-window-light.png` | flat-region samples of Mail's toolbar band (y 1–31 at x=300) and of the mailbox list flush below its y=51 hairline: both read `#232a2e` dark and both read `#ffffff` light. Finder's window plane behind the floating pane carries the same value in each scheme, and so does System Settings' own plane |
+| the chrome material — sidebars, toolbars, navbars, inspectors, status bars | `#f7f7f7` MEASURED | `#1c1c1c` MEASURED | `finder-window-untinted-light.png`, `finder-window-untinted-dark.png` | flat-region samples of Finder's sidebar, read with window-background wallpaper tinting OFF so the value is the platform's own and not the desktop picture's; the content beside it reads `#ffffff` and `#1e1e1e` in the same captures, so the chrome is a shade under the content in both appearances. The platform paints the dark band `#1b1b1b` through `#1d1d1d` down its height and `#1c1c1c` over its flat middle; the token set paints it flat. CE2.7 took these into the token set, replacing the `#ffffff` / `#232a2e` the tinted captures gave |
 | the card's fill — the platform's box | `#f7f7f7` MEASURED | `#2a3034` MEASURED | `system-settings-grouped-box-light.png`, `system-settings-grouped-box-dark.png` | flat-region samples of the Appearance pane's grouped boxes, over a `#ffffff` plane light and a `#232a2e` plane dark. The box carries no hairline and no shadow: a column crossing its top edge steps from plane to fill at one row, and a row crossing its side ramps over 2–3 px of antialiasing |
 | the hover overlay | `#000000` α0.051 MEASURED | `#ffffff` α0.094 MEASURED | `control-hover-light.png`, `control-hover-dark.png` | a Finder toolbar button under the pointer, the band around it carrying the resting fill: light `#ffffff` → `#f2f2f2` and the glyph `#777777` → `#717171`, which black at α0.051 reproduces on every channel; dark `#242d32` → `#384146`, which white at α0.094 reproduces on green and within one 255th on red and blue |
 | the press overlay | `#000000` α0.098 MEASURED | `#ffffff` α0.098 MEASURED | `control-pressed-light.png`, `control-pressed-dark.png` | a Save dialog's "Cancel" push button held down by a posted `CGEvent`, the pop-up buttons above it carrying the resting fill: light `#ececec` → `#d5d5d5`, dark `#333a3f` → `#474d52`. Black and white at α0.098 reproduce both on all three channels; α0.09 and α0.11 do not |
 | a floating surface's shadow | `#000000` α0.075 MEASURED | `#000000` α0.075 MEASURED | `finder-sidebar-shadow.png`, `reminders-sidebar-shadow.png` | a horizontal walk outward from the pane's 1 px edge stroke at y=30: the window's `#232a2e` plane reads `#20272b` against the stroke and recovers to `#232a2e` 24 px out. Black at α0.075 over `#232a2e` reproduces `#20272b` on all three channels; α0.07 and α0.08 do not |
 | the alternate row's fill | `#f4f5f5` MEASURED | `#ffffff` α0.05 MEASURED | `finder-window-light.png`, and AppKit's own array | the second entry of `NSColor.alternatingContentBackgroundColors`, read 2026-09-11 by the catalogue's command-line program under aqua then darkAqua — the pair has no NSColor name of its own, AppKit answering for it as an array, so it is recorded as a measured material. Finder's list view draws the light value to the byte: the stripes at x=965 alternate `#ffffff` and `#f4f5f5` on a 20 px pitch. No stored capture holds a dark list view, so the dark row is the array's answer alone |
+| the text field's hairline, unfocused | `#f3f3f3` MEASURED | `#2c3338` MEASURED | `save-dialog-light.png`, `save-dialog-dark.png` | the single border row of the "Tags:" field, y 243 and y 269, over that sheet's own fill (`#ffffff` light, `#232a2f` dark, the field's interior being the sheet's there). The light value is `separatorColor` over that white to the byte; the dark one is not, and nothing near it is — the separator over the dark sheet reads `#606264`, six times the step the platform draws — so the edge is recorded as the pixel |
+| an ordinary push button's fill, at rest | `#ececec` MEASURED | `#333a3f` MEASURED | `save-dialog-light.png`, `save-dialog-dark.png` | flat-region samples of the "Cancel" button, x 362–430, y 504–521: `#ececec` over 1008 of 1242 pixels light and `#333a3f` over 982 of them dark. `controlColor` is not this value in either appearance — it reports the bezel's backing, not the fill the platform draws |
+| the overlay scrollbar's thumb | `#000000` α0.572 MEASURED | `#ffffff` α0.572 MEASURED | `textedit-scrollbar.png` | the knob reads `#9d9fa1` over a `#1a2124` track, which `labelColor`'s white at 0.572 — 146/255 — reproduces within one 255th on every channel when flattened in ENCODED sRGB, the space the platform composites in. CE2.7 re-fitted it there; the 0.337 CE2.1 recorded was fitted through a blend in linear light. No stored capture holds a light-appearance overlay scrollbar — the platform hides the bar unless it is being operated — so the light row carries the dark row's coverage under `labelColor`'s black until one does |
+| the selected sidebar row's pill | `#178bfb` MEASURED | `#1994fc` MEASURED | `voicememos-sidebar-light.png`, `voicememos-sidebar-dark.png` | flat-region samples of Voice Memos' selected row, x 74–273 y 363–394 light, both 32 tall, cornered at 8, with a white label; the dark capture's rail reads `#1c1c1c`, which is the untinted chrome material. It is neither `controlAccentColor` (`#007aff`) nor `selectedContentBackgroundColor` — the platform lifts the pill above the accent over the chrome material — so both appearances are recorded as the pixel, and `PlatformColors.WithAccent` moves the pair with a chosen theme colour |
 | the scrim — the dim a sheet lays over the window it interrupts | `#000000` α0.20 MEASURED | `#000000` α0.26 MEASURED | `save-dialog-light.png`, `save-dialog-dark.png` | the window standing behind the sheet. Light: its toolbar band and its document body both read `#cccccc` against the `#ffffff` the sheet carries, which is black at 0.20 exactly. Dark: its toolbar band reads `#1a1f22` against the measured `#232a2e` chrome material, which black at 0.26 reproduces on every channel — 0.255 through 0.275 do, 0.25 does not. It is the one alpha in the set a caller hands the rasterizer as it stands: a scrim covers whatever the window happens to be showing, so there is no one surface to flatten it onto |
 
 The shadow's α0.075 is its peak, at the edge. Its ramp, read the same way
@@ -6248,7 +6259,8 @@ geometry and not a scale a consumer chooses.
 Added 2026-09-11 by CE2.5, read off the three captures the owner took the
 same day with "Tint window background with wallpaper colour" switched off:
 `finder-window-untinted-light.png`, `finder-window-untinted-dark.png` and
-`voicememos-sidebar-light.png`. All three are 1x on the 2560×1440 display,
+`voicememos-sidebar-light.png`; `voicememos-sidebar-dark.png` joined them
+2026-09-13 and CE2.7 read the pill's dark half off it. All three are 1x on the 2560×1440 display,
 and unlike the rest of this reference they carry the window's drop shadow, so
 the window's opaque bounds start where the alpha ramp ends; macOS 26 draws an
 8 px light rim inside those bounds and the rail's fill begins inside the rim.
@@ -6258,7 +6270,7 @@ The full method for each row is in `controls.md`.
 | --- | --- | --- |
 | the sidebar's fill, untinted, a shade darker than the content in BOTH schemes | `#f7f7f7` over `#ffffff` light, `#1c1c1c` over `#1e1e1e` dark | `finder-window-untinted-{light,dark}.png` |
 | a sidebar row | 32 px in all three captures | all three |
-| the selected row's pill, frontmost | `#178bfb` under a white label | `voicememos-sidebar-light.png`, and `mail-window-light.png` again |
+| the selected row's pill, frontmost | `#178bfb` under a white label light, `#1994fc` dark | `voicememos-sidebar-light.png`, `voicememos-sidebar-dark.png` (2026-09-13), and `mail-window-light.png` again |
 | the selected row's pill, not frontmost | `#f2f2f2` light, `#2a2a2a` dark | `finder-window-untinted-{light,dark}.png` |
 | the pill's inset from each edge of the rail | 10 px | `finder-window-untinted-light.png`, `voicememos-sidebar-light.png` |
 | the pill's corner | 8 px, circular fits of 7.9 and 8.4 | the same two |
@@ -6271,21 +6283,18 @@ a sidebar material. Nor is the unemphasized pill
 single coverage reproduces both appearances' readings — the light step is
 0.185 of the way to that name and the dark one 0.333.
 
-**The gap, and why it is still open.** No stored capture holds a dark sidebar
-whose window is frontmost, so the `#178bfb` pill has no dark partner. Until
-one does, `patterns/sidebar` paints the pill with `controlAccentColor` — the
-name the platform's own answer is a lift of, and the one that follows the
-user's accent as the platform's pill does — rather than recording a measured
-`SidebarSelection` with one half of its pair guessed. CE2.5 tried to take the
-capture and could not: the console session was locked
-(`CGSSessionScreenIsLocked` 1) and `screencapture -o -l` answers "could not
-create image from window" while it is. Rendering the row offscreen through
-AppKit does not substitute — an `NSTableView` at `style = .sourceList` drawn
-into a bitmap reproduces the dark unemphasized pill as `#424242` where Finder
-draws `#2a2a2a`, the platform's pill being drawn with a vibrancy that has no
-backdrop offscreen. One capture closes it: a sidebar in the dark appearance,
-its window frontmost, a row selected, window-bounded at 1x with wallpaper
-tinting off so it pairs with the light readings.
+**The gap closed 2026-09-13.** `voicememos-sidebar-dark.png` is the capture
+CE2.5 could not take: a sidebar in the dark appearance, its window frontmost,
+a row selected, with wallpaper tinting off. The pill reads `#1994fc` under a
+white label, 32 tall and cornered at 8 like its light partner, on a `#1c1c1c`
+rail. CE2.7 recorded the pair as `SidebarSelection`, and `patterns/sidebar`
+reads that name in place of `controlAccentColor`. (CE2.5's own attempt failed
+because the console session was locked — `CGSSessionScreenIsLocked` 1, and
+`screencapture -o -l` answers "could not create image from window" while it
+is. Rendering the row offscreen through AppKit was no substitute either: an
+`NSTableView` at `style = .sourceList` drawn into a bitmap reproduces the
+dark unemphasized pill as `#424242` where Finder draws `#2a2a2a`, the
+platform's pill being drawn with a vibrancy that has no backdrop offscreen.)
 
 #### What the captures contain
 
@@ -20939,12 +20948,12 @@ The fonts are untouched by the phase; these come back as they were.
 
 #### CE2.7: The Material set and its derivations are deleted
 
-- [ ] The sidebar pill's dark value, #1994fc, measured 2026-09-13 off
+- [x] The sidebar pill's dark value, #1994fc, measured 2026-09-13 off
   `reference/macos/voicememos-sidebar-dark.png` (sidebar #1c1c1c,
   pill 32 tall, radius 8, white label), goes into the tsv and tokens
   as the pair with the light #178bfb; `ControlAccent` stands in until
   then. Moved here from CE2.5, whose tick did not cover it.
-- [ ] `theme/tokens`: `ColorTokens` and everything that fed it go —
+- [x] `theme/tokens`: `ColorTokens` and everything that fed it go —
   `FromSeed`, the ramps and steps as colour sources, `Container`,
   `ContainerOn`, `StatusContainer`, `OnContainer`, `SurfaceAt`,
   `RaisedOn`, `SeamOn`, `StateAt`, `StateColor`, `SolidStateColor`,
@@ -20969,9 +20978,9 @@ The fonts are untouched by the phase; these come back as they were.
   code font, `theme/imageseed` keeps picking a colour from an image,
   and neither derives anything from it.
   `theme/export` emits the platform set under its names.
-- [ ] The field walkers run by name and are green: `effects/transition`,
+- [x] The field walkers run by name and are green: `effects/transition`,
   `workbench/themer`; the org tree builds green after this commit.
-- [ ] Exit: green in `theme` and the org tree; commit and push in
+- [x] Exit: green in `theme` and the org tree; commit and push in
   every touched repo and `.github`.
 
 ### G-CE3: The chainsaw
