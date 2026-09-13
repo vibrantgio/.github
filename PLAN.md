@@ -21059,7 +21059,7 @@ tag task appears here.
 
 #### CF1.3: The ruling sheet
 
-- [ ] From the five records and CE3.2's ten dispositions (pool 428),
+- [x] From the five records and CE3.2's ten dispositions (pool 428),
   one sheet for Rene in `explorations/library-rulings.md`: per
   component and pattern, a line with the reviewers' verdict in their
   words, the entry it touches, and the choices open (keep, merge
