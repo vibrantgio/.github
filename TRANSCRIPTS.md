@@ -961,3 +961,8 @@ shapes, which Phase CE leaves unmeasured, with the choice of
 narrowing the entry or keeping the promise and putting the measuring
 on the draft phase's ruling sheet): The promise stands, put it on the
 ruling sheet ^0005-shapes-promise-stands
+
+Rene (asked when the API is stabilized enough for a new alpha
+release, told: after the draft phase's tasks land, since that phase
+drops, merges and renames components): Ok, we tag after the draft
+phase lands then ^0005-tag-after-draft-phase
