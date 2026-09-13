@@ -21002,7 +21002,7 @@ The fonts are untouched by the phase; these come back as they were.
 
 #### CE3.2: The workbench looks like a Mac
 
-- [ ] Fresh-eyes review of every workbench app in both schemes
+- [x] Fresh-eyes review of every workbench app in both schemes
   against the stored macOS reference captures, filed per app; the
   defects that are one-line platform-name fixes are fixed in this
   task, the rest pooled.
