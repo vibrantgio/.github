@@ -259,9 +259,8 @@ number.
 
 ### Scheme
 
-Whether the theme is light or dark. Every colour is derived per
-scheme from the same roles and levels; the backdrop is darkest and
-each level is lighter in both.
+Whether the theme is light or dark. Every colour role has a value
+per scheme, the platform's for that appearance.
 
 | Scheme | Meaning |
 |---|---|
@@ -339,8 +338,8 @@ it: the backdrop is only ever what shows around.
 The hairline where two flush regions meet — the sidebar against the
 content, the navbar's foot, the status bar's top. It is the
 platform's separator colour: black or white
-at a tenth, laid over whatever is beneath, so it reads on any fill
-without being derived; drawn once, by the region above or leading.
+at a tenth, laid over whatever is beneath, so it reads on any fill;
+drawn once, by the region above or leading.
 An inset object needs no seam: the backdrop showing around it does
 that work. A seam the user can drag is a splitter.
 
@@ -417,17 +416,20 @@ ramp, no palette.
 
 ### Colour role
 
-One of the theme's named colours, from which every actual colour
-that carries its name is derived. Each role owns a ramp — its hue
-run from light to dark, walked in numbered steps — and colours
-derived from it: its tinted container, its foreground, its mark
-colour.
+One of the theme's named colours. The names are the platform's —
+the label colours, the window and content backgrounds, the
+separator, the selection colours, the accent, the system colours —
+each holding one value per scheme, read off the platform or measured
+into the reference. Nothing is derived from a role: a role is
+painted at its value. Two families carry names of the Language's
+own:
 
 | Roles | Family |
 |---|---|
-| **Neutral** | no hue of its own; the greys |
-| **Primary, Secondary, Tertiary** | the accent trio |
+| **Neutral** | no status: the platform's system grey where a fill is needed, its secondary label where a sign is |
 | **Error, Success, Warning, Info** | the status four, one per status — the platform's system red, green, orange and blue; Warning is orange, never yellow; yellow is the highlighter's |
+
+The theme colour is a role too: the platform's accent.
 
 When this document says "role" without saying which kind, it means
 a colour role.
@@ -435,11 +437,10 @@ a colour role.
 ### Contrast
 
 How well a foreground reads on a fill, measured as APCA lightness
-contrast, Lc. It is the one measure: a foreground is derived until it
-clears the floor for its kind — text, or a mark — and the On colour
-of a saturated fill is whichever of its two candidates reads better
-by it. A floor is a least Lc; a number the code keeps to size a
-step or a walk is a dial, not a floor. The floor values are the
+contrast, Lc. It is the one measure: a foreground reads when it
+clears the floor for its kind — text, or a mark — and the text on a
+fill the platform did not pair is whichever of black or white reads
+better by it. A floor is a least Lc. The floor values are the
 plan's, not the Language's. The floors choose colours the platform
 did not already choose: a pair measured off the platform — white on
 systemGreen, say — stands as the platform paints it, floor or no
@@ -450,46 +451,51 @@ colour wins.
 
 ### Fill
 
-The field a component paints behind its content, always
-derived against the surface it stands on, never a stored swatch —
-never absolute.
+The field a component paints behind its content: a colour role,
+painted at the platform's value for the scheme. A role the platform
+paints at an alpha composites over the surface beneath, in encoded
+sRGB.
 
 | Fill | Who wears it |
 |---|---|
-| the role's hue diluted toward the surface beneath — a pale tinted field | badges, persistent states and the Tonal button, all in one shared tint; behaviour tells them apart |
-| the role's hue at full saturation | Filled emphasis only — reserved for where interaction lives; a badge's fill is never saturated |
-| none | the ghost button at rest, the glyph badge |
+| the platform's push button fill, measured | the Tonal button, the disabled button, the chip at rest, the picker's trigger |
+| the theme colour | the Filled button — the one action a surface is about |
+| the platform's selection colour for the place | the selected chip, the picked row, the sidebar's active entry |
+| the status's system colour at full strength | the worded or counted badge |
+| the content's own background inside a separator hairline | the alert |
+| the window's own background inside a separator hairline | the toast, the tooltip |
+| none | the Ghost button at rest, the glyph badge |
 
-Transient states walk the fill — hover and press step it away
-from the surface beneath.
+Transient states lay the platform's hover and press overlays over the
+fill, or over the surface where there is none.
 
 ### Foreground
 
 What draws the content on the fill: text, glyph, stroke. A
 foreground comes in three kinds:
 
-| Kind | On what | How it is got |
+| Kind | On what | What it is |
 |---|---|---|
-| the text colour | a surface | one stored colour, Neutral's darkest step |
-| a derived foreground | a pale fill, or the surface itself, for a role's text, link or mark | the role's own hue at reading strength, worked out from the ramp against that surface until it reads |
-| an On colour | a saturated fill, or the inverse pair | one stored colour per role, a neutral knocked out for contrast; the only place a foreground leaves the role's hue |
+| the text colour | a surface, the push button fill, the alert, the toast, the tooltip | the platform's label colour; its secondary label for lesser text and for Neutral's bare sign |
+| a status colour | a bare glyph, the alert's icon, the toast's icon | the status's system colour itself |
+| the selected text | the theme colour, a selection colour, a status's fill | the platform's alternate selected control text — white in both schemes; on a fill the user chose, black or white, whichever reads better |
 
-Fill and foreground are derived from the same role and the same
-surface, never kept as a pair.
+Fill and foreground are read off the platform as the pair the
+platform paints.
 
 ### Accent
 
-How a persistent state is shown: a role-tinted fill with
-the role colour, darkened, as foreground — the same in a menu, a
-sidebar or a list. On a focused control the accent is the ring
-around it.
+How a persistent state is shown: the platform's selection colour for
+the place — the list's selected row, the sidebar's pill, the menu's
+picked row — as the fill, with white text. On a focused control the
+accent is the ring around it, in the theme colour.
 
 ### Selection
 
-The persistent state marking the thing you chose:
-the picked menu row, the marked Filter chip. Walking the neutral
-ramp for a persistent state is the transient grammar applied to the
-wrong kind of state.
+The persistent state marking the thing you chose: the picked menu
+row, the marked Filter chip, the sidebar's active entry. It is
+painted in the platform's selection colour with white text; the hover
+and press overlays are for transient states and paint no selection.
 
 ### Checked
 
@@ -583,17 +589,17 @@ about content — read, not used. One purpose, three utterances:
 
 | Utterance | Example | Fill |
 |---|---|---|
-| a word | "Popular" | tinted container — words are arbitrary content, so hue alone cannot carry the role |
-| a count | the unread 9 | tinted container, for the same reason |
-| a glyph | the key-check verdict | may stand bare — the glyph's shape carries the meaning; the green check and the red cross differ by form before they differ by hue |
+| a word | "Popular" | the status's system colour at full strength with white text, as the platform draws a count badge; Neutral wears the system grey |
+| a count | the unread 9 | the same |
+| a glyph | the key-check verdict | may stand bare, the glyph in the status's system colour — the glyph's shape carries the meaning; the green check and the red cross differ by form before they differ by hue |
 
-It covers what M3 and iOS call a badge too. Not a control: sized to
+It covers what iOS calls a badge too. Not a control: sized to
 its content like an inline annotation, not sized to the control
 height, visibly lighter than any control. The developer gives a
 badge one of the four statuses — Error, Success, Warning, Info — or
 no status. A status colours it in that status's role; a badge with
 no status is coloured Neutral, a plain category label. There is no
-other choice — no badge in Primary. Hue is never its only channel: hue
+other choice — no badge in the theme colour. Hue is never its only channel: hue
 alone collapses for colour-blind readers. Filled/Tonal emphasis does not exist on a badge;
 emphasis lives where interaction lives. A badge may be dismissible
 (the close mark keeps an invisible control-sized hit area); what
@@ -608,12 +614,13 @@ did made it appear, so it is never dismissible.
 
 ### Alert
 
-The status signal for a situation: a tinted rounded banner — an
-icon, a title, a body — standing in the page flow until the
-situation resolves. The developer gives an alert one of four: Error,
-Success, Warning or Info, and it is coloured in that status's role;
-an alert given no status is Info. There is no other choice — no
-Neutral alert, no alert in Primary. It holds words about the
+The status signal for a situation: a rounded box on the content's
+own background inside a separator hairline — an icon, a title in the
+text colour, a body — standing in the page flow until the situation
+resolves. The developer gives an alert one of four: Error, Success,
+Warning or Info, and the icon carries it in that status's system
+colour; an alert given no status is Info. There is no other choice —
+no Neutral alert, no alert in the theme colour. It holds words about the
 situation, never a control: an action on the situation stands beside
 the alert, or the situation is a modal's job.
 
@@ -631,12 +638,13 @@ in place.
 The status signal that presents a notification for a set time: a
 small annotation floating at level 2 that appears when the
 notification is raised and leaves by itself when the time is up. It
-is filled inverse — the other scheme's surface and foreground — so
-it stands out as a message over any content in either scheme. The
-developer gives a toast one of four: Error, Success, Warning or
-Info, and a toast given no status is Info; that status is indicated
-by its icon and mark, and there is no other choice — no Neutral
-toast, no toast in Primary. Structure:
+is filled with the window's own background inside a separator
+hairline under the platform's shadow, its message in the text colour,
+the same in either scheme. The developer gives a toast one of four:
+Error, Success, Warning or Info, and a toast given no status is Info;
+that status is indicated by its icon in the status's system colour,
+and there is no other choice — no Neutral toast, no toast in the
+theme colour. Structure:
 icon, text, close mark; the close is its only control. The
 presentation and its timing are what make it a toast; the
 notification is the message it carries. It appears in the
@@ -685,10 +693,10 @@ yellow is the highlight's alone; Warning is orange so that it can be.
 
 The hero's kicker: a short overline in the type stack
 that introduces the headline. Pure typography — a typographic role,
-not a badge: it carries no role, no container,
+not a badge: it carries no status, no fill,
 says nothing about content; it is the developer speaking, not the
 system. Wears type styling (size, tracking, a hue if the theme says
-so), never the badge's tinted container.
+so), never a badge's fill.
 
 ### Checkbox
 
@@ -783,11 +791,11 @@ The signal naming a control or explaining another signal on demand:
 a small annotation floating at level 3 beside its trigger, appearing
 by itself after a short delay on hover or focus and leaving when they
 do. It holds text only, never a control; anything the user must
-operate is the job for a popover. It is filled inverse — the other
-scheme's surface and foreground, the same in both schemes — so it
-reads as a message about the thing, not as a panel, and it carries
-no role. The tooltip and the toast are the inverse pair's two
-adoptions: the signals that float and tell about a thing.
+operate is the job for a popover. It is filled with the window's
+own background inside a separator hairline, its text in the text
+colour, the same in both schemes, and it carries no status. The
+tooltip and the toast are the two floating signals that tell about a
+thing.
 
 ### Text label
 
@@ -1030,6 +1038,9 @@ settled anatomy. Sources: [[TRANSCRIPTS#^0002-cold-turkey]]
 
 ### 0007 — shared-recipes
 
+Superseded by 0010: the platform pairs every fill and foreground, so
+there are no recipes to share.
+
 2026-09-01 · strategic. Colour recipes do not proliferate: when two
 things would differ by almost no practical visual difference, they
 share one recipe, and behaviour — not colour — tells them apart.
@@ -1096,7 +1107,8 @@ wins.
 Sources: [[TRANSCRIPTS#^0005-platform-colours]],
 [[TRANSCRIPTS#^0005-macos-app]],
 [[TRANSCRIPTS#^0005-hard-cut-to-platform]],
-[[TRANSCRIPTS#^0005-measured-beats-published]]
+[[TRANSCRIPTS#^0005-measured-beats-published]],
+[[TRANSCRIPTS#^0005-new-baseline]]
 
 ## Example dialogue
 
@@ -1111,17 +1123,3 @@ never ontologically part of.
 
 Sources: [[TRANSCRIPTS#^0001-anchor-not-chip]]
 
-Rene: tell me how the badge and chip differ in visual language and
-why the badge doesn't have a dilineation around it.
-
-Orchestrator: delineation is the grammar of interaction. A chip is
-an offer, so it draws a boundary — the outline marks the hit area,
-promises a press, and its fill walks the transient states. A badge
-is speech: the role hue *is* the message, nothing responds to the
-pointer, so there is no edge to promise — an outlined badge would
-dress as a control and invite a click it cannot honour. The costume
-sorts the family: quiet outline, you may act; tinted fill or a bare
-glyph, you are being told. (The "bare hued text" this reply
-originally allowed was closed by the later container ruling.)
-
-Sources: [[TRANSCRIPTS#^0002-badge-chip-visual]]

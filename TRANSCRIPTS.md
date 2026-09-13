@@ -950,3 +950,8 @@ rounded pill): Yes, next one ^0005-sidebar-selection-pill
 Rene (to pool 402, the wallpaper's tint in the recorded chrome): I
 can also turn off Tint window background with wallpaper colour —
 Both are on the desktop ^0005-chrome-untinted
+
+Rene (asked whether DOMAIN.md is now completely up to date, told
+the Language is clean once the staged rewrite lands and that a
+2026-09-02 dialogue still speaks of tinted fills): Yes I agree, we
+need to establish some new baseline ^0005-new-baseline
