@@ -20900,7 +20900,7 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
 
 #### CE2.6b: Overlays over mixed content composite as the platform does
 
-- [ ] Gio blends a coverage it is handed in linear light, so any
+- [x] Gio blends a coverage it is handed in linear light, so any
   overlay that is not over one flat fill — the modal's scrim over a
   page, the floating shadow's ramp over content, a hover over a row
   that holds an image — lands lighter than the platform (#e7e7e7
@@ -20913,7 +20913,7 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
   overlay the survey in `explorations/fills.md` lists as painted over
   mixed content. A test pins the scrim over a two-colour page to the
   platform's byte.
-- [ ] Exit: green in `effects`, `patterns` and every workbench app by
+- [x] Exit: green in `effects`, `patterns` and every workbench app by
   name; goldens that move regenerate with the cause named; commit and
   push in every touched repo and `.github`.
 
