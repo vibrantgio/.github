@@ -21050,12 +21050,12 @@ tag task appears here.
 
 #### CF1.2: One reviewer reads the entries against the renders
 
-- [ ] A fifth fresh subagent gets each component's DOMAIN entry beside
+- [x] A fifth fresh subagent gets each component's DOMAIN entry beside
   its rendered section, the same brief, and one question: does the
   entry describe what is drawn, and does what is drawn need the
   entry's distinctions? Recorded verbatim in
   `reviews/cf1.2-entries-fresh-eyes.md`.
-- [ ] Exit: the record committed and pushed in `.github`.
+- [x] Exit: the record committed and pushed in `.github`.
 
 #### CF1.3: The ruling sheet
 
