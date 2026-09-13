@@ -2895,6 +2895,14 @@ Filed 2026-09-13 from the task's own findings; numbers in the theme and componen
 
 422. **[bug]** **Two overlays sit in a chrome-inset layer and take the fallback, not the pass:** vaultview's chooser and sk150's modal, because `composite.Frame` composites only an overlay covering exactly the declared plane. They land within 3/255 of the platform; a plane declared per layer, or the pass taking a sub-rectangle, closes it.
 
+## BT. From CE3.1, the chainsaw
+
+Filed 2026-09-13 from the task's own findings.
+
+423. **[bug]** **No repo's AGENTS.md carries the retired-word table and no sync script exists,** so the table lives in the plan root alone and nothing propagates it; Phase A's template and sync script are gone or never were. One task: the table (or a pointer to the plan root's, which is allowed for AGENTS.md files, never for the pool) in every repo's AGENTS.md through a script the guard can run.
+
+424. **[bug]** **`design/components/*.html`'s hand-authored scaffolding still references variables CE2.7 deleted** (`--color-bg`, `--color-neutral-700`, `--elevation-1`); no retired word, so the guard is blind to it. Joins pool 410; one task in design, with a check that every `var(--…)` in the pages is declared by the bundle.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
