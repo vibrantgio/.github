@@ -2877,6 +2877,18 @@ Filed 2026-09-11 from the task's own findings. The org tree is green by name for
 
 415. **[task]** **`workbench/llms.txt`'s motion and typography sections still carry Material words** (MD3 easing families, MD3 type roles), deliberately left by CE2.6 for CE3.1's sweep; the typography section's names are the theme's own roles and stay, the "MD3" attributions go.
 
+## BR. From the fill-system audit of session vibrantgio-11 against Phase CE
+
+Sent 2026-09-13 at Rene's request, for his go. Its first point, that ten DOMAIN entries still speak Material (Theme, Scheme, Colour role, Fill, Foreground, Accent, Selection, Badge, Alert, Eyebrow, Toast, Tooltip: seed, ramp, tinted container, inverse) and contradict the seven G-CE2 rewrote, is the ontology session's and is with it; CE2.5 and CE2.6 had landed before the audit arrived, so the contradiction cost them nothing that CE3.1's sweep and the entries' rewrite do not fix.
+
+416. **[bug]** **The picker's own dropped menu casts no shadow** (`components/picker/menu.go`), where popover and modal cast `FloatingShadow`; the Menu entry says floating and the Level entry says a floating thing is told by its shadow. One components task.
+
+417. **[task]** **Radius and control shapes are unmeasured and unplanned.** The Platform entry promises the platform's control shapes; Phase CE says Radius does not move. The push button, the field, the menu and the sidebar selection's inset and corner want measuring off the stored captures (the pill's 10 and 8 are measured; the rest are not). One theme task after CE2.7.
+
+418. **[seed]** **The scrolled toolbar's dimming that ADR-019 measured** (Notes, about 76 px of reach) has no task. After the flat set lands.
+
+419. **[task]** **`explorations/fills.md` is obsolete twice over:** its first part describes the set CE2.7 deletes, and nothing was lifted from it into the plan. CE2.6b's text cites its overlay survey, so it goes when CE2.6b has consumed that list, not before.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
