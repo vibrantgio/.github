@@ -2887,6 +2887,14 @@ Sent 2026-09-13 at Rene's request, for his go. Its first point, that ten DOMAIN 
 
 419. **[task]** **`explorations/fills.md` is obsolete twice over:** its first part describes the set CE2.7 deletes, and nothing was lifted from it into the plan. CE2.6b's text cites its overlay survey, so it goes when CE2.6b has consumed that list, not before.
 
+## BS. From CE2.6b, overlays over mixed content
+
+Filed 2026-09-13 from the task's own findings; numbers in the theme and components commit bodies.
+
+421. **[decide]** **The offscreen pass costs a readback per frame drawn while an overlay is up:** 27 ms at 1440 by 900 on an M1 Max, 23 of it the readback, 2 ms at 320 by 240. Gio draws only on invalidation, so a still modal costs nothing after its first frame; a scrim over an animating page pays it every frame. Gio v0.10 exposes neither the blend space nor a shader, which is why the pass exists. Rule whether the cost stands, or an overlay over an animating page falls back to the fitted coverage (`theme/color.LinearCoverage`, within 3/255 at the scrim's alpha).
+
+422. **[bug]** **Two overlays sit in a chrome-inset layer and take the fallback, not the pass:** vaultview's chooser and sk150's modal, because `composite.Frame` composites only an overlay covering exactly the declared plane. They land within 3/255 of the platform; a plane declared per layer, or the pass taking a sub-rectangle, closes it.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.
