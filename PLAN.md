@@ -20917,6 +20917,26 @@ shadow. Owner ruling 2026-09-10 applies: conform to the platform.
   name; goldens that move regenerate with the cause named; commit and
   push in every touched repo and `.github`.
 
+#### CE2.6c: The themer keeps its code face and code theme choices
+
+CE2.6 deleted, along with the seed derivations, two choices that were
+never Material's: the fenced-code typeface (Roboto Mono or JetBrains
+Mono, the brand file's `mono` key) and the code-block theme (the
+highlighter's base pair, the file's `base` key), both offered by the
+themer before workbench 8c424ad. Rene found them gone on 2026-09-13.
+The fonts are untouched by the phase; these come back as they were.
+
+- [ ] `workbench/themer`: the code-face choice (Roboto Mono, JetBrains
+  Mono) and the code-block theme chooser (`markdown/highlight`'s base
+  pairs, light and dark, previewed on a fenced-code sample) return as
+  they stood at workbench 3031130, on the platform-name signatures;
+  keeping writes the `mono` and `base` keys beside the colour as
+  before, and the file's other keys stay untouched; loading reads them
+  back. Tests from 3031130's `bases.go`, `baseselect_test.go` and the
+  mono round-trip return, rewritten only where a signature changed.
+- [ ] Exit: green in `workbench/themer` and `theme` by name; commit
+  and push in `workbench` and `.github`.
+
 #### CE2.7: The Material set and its derivations are deleted
 
 - [ ] The sidebar pill's dark value, measured off a dark capture
