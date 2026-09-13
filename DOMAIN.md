@@ -925,7 +925,7 @@ icons and labels, or collapsed to icons alone — collapsed, it is a
 rail. Its rows stand at the sidebar's own row height. The active
 entry is marked the platform's way: a pill inset from the sidebar's
 edges, rounded, in the sidebar's own selection colour with a white
-label — measured into the reference from Voice Memos and Finder,
+label — measured into the reference from Voice Memos,
 never edge to edge and never the list's selection colour.
 
 ### Status bar

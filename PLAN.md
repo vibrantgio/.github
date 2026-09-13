@@ -20577,7 +20577,7 @@ with the reader beside it. The rows a consumer reaches for:
 |---|---|---|---|
 | windowBackgroundColor | #ffffff | #1e1e1e | the window's plane (the backdrop), floating surfaces |
 | the sidebar material with wallpaper tinting off, measured (reference/macos finder-window-untinted-{light,dark}.png; the tinted #232a2e was the reference desktop's wallpaper) | #f7f7f7 | #1c1c1c (the platform shades it #1b–#1d across; painted flat) | the chrome regions — a shade darker than the content in both schemes |
-| the sidebar's selected row, measured (voicememos-sidebar-light.png) | #178bfb pill, white label, 32 tall, inset ~10, radius ~8 | to be measured from a dark capture in CE2.5 | the sidebar's active entry; not selectedContentBackground |
+| the sidebar's selected row, measured (voicememos-sidebar-light.png) | #178bfb pill, white label, 32 tall, inset ~10, radius ~8 | #1994fc pill, white label, same geometry (voicememos-sidebar-dark.png, 2026-09-13) | the sidebar's active entry; not selectedContentBackground |
 | the sidebar's row height, measured (Finder, Voice Memos) | 32 | 32 | sidebar, tree and list-of-feeds rows; the list row stays 20 |
 | the grouped box, measured (CE1.5's System Settings captures) | #f7f7f7 over #ffffff | #2a3034 over #232a2e | a card: a small step of fill, darker in light, lighter in dark, no hairline, no shadow |
 | hover and press, measured (CE1.5's Finder toolbar captures) | black at 0.051 / 0.098 | white at 0.094 / 0.098 | toolbar buttons only; push buttons, list rows and sidebar rows do not tint on hover |
@@ -20939,11 +20939,11 @@ The fonts are untouched by the phase; these come back as they were.
 
 #### CE2.7: The Material set and its derivations are deleted
 
-- [ ] The sidebar pill's dark value, measured off a dark capture
-  (Finder or Voice Memos with a row selected, the desktop unlocked)
-  into the reference and the tsv as the pair with the light #178bfb;
-  `ControlAccent` stands in until then. Moved here from CE2.5, whose
-  tick did not cover it.
+- [ ] The sidebar pill's dark value, #1994fc, measured 2026-09-13 off
+  `reference/macos/voicememos-sidebar-dark.png` (sidebar #1c1c1c,
+  pill 32 tall, radius 8, white label), goes into the tsv and tokens
+  as the pair with the light #178bfb; `ControlAccent` stands in until
+  then. Moved here from CE2.5, whose tick did not cover it.
 - [ ] `theme/tokens`: `ColorTokens` and everything that fed it go —
   `FromSeed`, the ramps and steps as colour sources, `Container`,
   `ContainerOn`, `StatusContainer`, `OnContainer`, `SurfaceAt`,
