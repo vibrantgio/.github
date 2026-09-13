@@ -1108,7 +1108,8 @@ Sources: [[TRANSCRIPTS#^0005-platform-colours]],
 [[TRANSCRIPTS#^0005-macos-app]],
 [[TRANSCRIPTS#^0005-hard-cut-to-platform]],
 [[TRANSCRIPTS#^0005-measured-beats-published]],
-[[TRANSCRIPTS#^0005-new-baseline]]
+[[TRANSCRIPTS#^0005-new-baseline]],
+[[TRANSCRIPTS#^0005-shapes-promise-stands]]
 
 ## Example dialogue
 

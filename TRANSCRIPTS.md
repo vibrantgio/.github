@@ -955,3 +955,9 @@ Rene (asked whether DOMAIN.md is now completely up to date, told
 the Language is clean once the staged rewrite lands and that a
 2026-09-02 dialogue still speaks of tinted fills): Yes I agree, we
 need to establish some new baseline ^0005-new-baseline
+
+Rene (on the Platform entry's promise of the platform's control
+shapes, which Phase CE leaves unmeasured, with the choice of
+narrowing the entry or keeping the promise and putting the measuring
+on the draft phase's ruling sheet): The promise stands, put it on the
+ruling sheet ^0005-shapes-promise-stands

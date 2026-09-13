@@ -2883,8 +2883,6 @@ Sent 2026-09-13 at Rene's request, for his go. Its first point, that ten DOMAIN 
 
 416. **[bug]** **The picker's own dropped menu casts no shadow** (`components/picker/menu.go`), where popover and modal cast `FloatingShadow`; the Menu entry says floating and the Level entry says a floating thing is told by its shadow. One components task.
 
-417. **[task]** **Radius and control shapes are unmeasured and unplanned.** The Platform entry promises the platform's control shapes; Phase CE says Radius does not move. The push button, the field, the menu and the sidebar selection's inset and corner want measuring off the stored captures (the pill's 10 and 8 are measured; the rest are not). One theme task after CE2.7.
-
 418. **[seed]** **The scrolled toolbar's dimming that ADR-019 measured** (Notes, about 76 px of reach) has no task. After the flat set lands.
 
 419. **[task]** **`explorations/fills.md` is obsolete twice over:** its first part describes the set CE2.7 deletes, and nothing was lifted from it into the plan. CE2.6b's text cites its overlay survey, so it goes when CE2.6b has consumed that list, not before.
