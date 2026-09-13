@@ -2903,6 +2903,18 @@ Filed 2026-09-13 from the task's own findings.
 
 424. **[bug]** **`design/components/*.html`'s hand-authored scaffolding still references variables CE2.7 deleted** (`--color-bg`, `--color-neutral-700`, `--elevation-1`); no retired word, so the guard is blind to it. Joins pool 410; one task in design, with a check that every `var(--…)` in the pages is declared by the bundle.
 
+## BU. From CE3.2's fresh-eyes reviews of the ten workbench apps against the reference
+
+Ten records in `reviews/ce3.2-<app>-fresh-eyes.md`, each with a disposition beneath the verbatim reply (fixed here, already pooled, new for pooling, recorded misread). Filed 2026-09-13 from Phase CE. Fixed in the task: feeds' rail seam, mindchat's chrome-row title, sitedocs' tree row height. The per-app lists below stand as pool items by reference: each disposition's "new for pooling" lines are the items, filed by the review file rather than copied, until Rene shapes them into the library review's ruling sheet (draft Phase CF), which reads them.
+
+425. **[bug]** **`CardFill` and `PushButtonFill` dark were measured over the tinted #232a2e plane,** so both carry the reference desktop's wallpaper cast against the untinted #1e1e1e window; four reviewers found it independently. Same class as SidebarMaterial's re-recording: re-measure both off the untinted captures (a grouped box and a push button in the dark appearance with tinting off), tokens, both tsv copies, ADR-019.
+
+426. **[bug]** **The launcher paints its triangle field between the window plane and the page,** so every foreground and hairline is flattened over a surface it does not land on: dark secondary text measures 1.82:1 on one side of the window and 3.62:1 on the other. The field either becomes the declared plane or goes.
+
+427. **[decide]** **Read-only prose takes `textColor` in vaultview and sitedocs and `labelColor` in mindchat.** One answer: the platform uses textColor in text views and labelColor in labels; rule which a document is.
+
+428. **[task]** **The ten dispositions' remaining items** (feeds 12, mindchat 10, sitedocs 9, vaultview 12, themer 12, launcher 12, iconbrowser 9, marketing 12, sk150 8, todos 8): geometry, missing controls, composition and Language questions, read into the draft library review's ruling sheet (CF1.3) beside the gallery readings.
+
 ## AR. From BV1.3, the open field reporting the trigger alone
 
 Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stays a caller-chosen direction. No fresh-eyes review; the frames did not move.

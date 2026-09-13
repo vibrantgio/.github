@@ -21008,3 +21008,89 @@ The fonts are untouched by the phase; these come back as they were.
   task, the rest pooled.
 - [ ] Exit: live check by Rene of vaultview, mindchat and feeds in
   both schemes; commit and push in every touched repo and `.github`.
+
+## Phase CF: The library reads as one design
+
+Drafted 2026-09-13 at Rene's request (`explorations/library-design-
+review.md`), appended under his standing go for the readings that
+need no ruling. The cut removed the reasons for several of the
+library's distinctions without removing the distinctions: Tonal and
+Ghost were emphases of a derived palette; the chip's four purposes
+now share one colour; the levels no longer differ by fill; the
+badge's forms grew around tints; the marketing patterns were composed
+for a derived palette on a web-shaped page. Every review since CE2.1
+has said one piece of this. This phase reads the library whole,
+records what fresh eyes say, puts a ruling sheet in front of Rene,
+and only then turns rulings into tasks. It writes no code before he
+rules. The tagging round follows this phase in full, by his word; no
+tag task appears here.
+
+### G-CF1: Fresh eyes read the library whole
+
+#### CF1.1: Four reviewers read the gallery as macOS
+
+- [ ] Render the gallery whole in both schemes offscreen. Four fresh
+  subagents, none having seen the plan, one per group: the controls
+  (button, chip, input, picker, list, scrollbar, pagination,
+  breadcrumb, paragraph), the signals (badge, alert, toast, tooltip,
+  icon), the patterns (accordion, card, group, hero, feature, pricing,
+  testimonial, modal, popover, navbar, tabs, sidebar, pane, shell,
+  splitter, table, notifications), and text (markdown's document,
+  code, find, links). Each gets the reference captures beside the
+  renders, never from memory, the recorded-misreads brief (dark label
+  reads grey at 1x; the light sidebar material shows what is behind
+  the window; a still capture shows no fade or cursor; alpha
+  composites in sRGB and values are measured off captures), and one
+  question: reading these as the controls of a macOS application,
+  which are redundant with each other or with what the platform
+  already gives, which are missing for an ordinary Mac application,
+  and which look wrong for the platform? Each reply recorded verbatim
+  in `reviews/cf1.1-<group>-fresh-eyes.md` with frontmatter.
+- [ ] Exit: four records committed and pushed in `.github`.
+
+#### CF1.2: One reviewer reads the entries against the renders
+
+- [ ] A fifth fresh subagent gets each component's DOMAIN entry beside
+  its rendered section, the same brief, and one question: does the
+  entry describe what is drawn, and does what is drawn need the
+  entry's distinctions? Recorded verbatim in
+  `reviews/cf1.2-entries-fresh-eyes.md`.
+- [ ] Exit: the record committed and pushed in `.github`.
+
+#### CF1.3: The ruling sheet
+
+- [ ] From the five records and CE3.2's ten dispositions (pool 428),
+  one sheet for Rene in `explorations/library-rulings.md`: per
+  component and pattern, a line with the reviewers' verdict in their
+  words, the entry it touches, and the choices open (keep, merge
+  into, drop, add, rename), no recommendation dressed as a finding.
+  Orientation only: Tonal and Ghost against the platform's push,
+  borderless and toolbar buttons; the chip's four purposes against
+  the platform's tokens and tags; the badge's forms; the levels by
+  name, backdrop, chrome, content, raised and floating, against what
+  the platform draws at each; the controls' shapes and radii (push
+  button, field, menu, sidebar selection) measured off the stored
+  captures; card against group; alert and toast against the
+  platform's in-window banner and its notifications; tabs against
+  the segmented control; pagination and breadcrumb on a Mac; navbar
+  against the toolbar; picker against pop-up, pull-down and combo
+  box; the marketing patterns in a native library at all; the
+  splitter; the search field.
+- [ ] Exit: the sheet committed and pushed; Rene rules line by line.
+
+### G-CF2: The rulings become tasks
+
+Not written before Rene rules. One task per ruling that changes code,
+each one run, inserted here in execution order; a ruling that drops a
+component deletes it abruptly with its entry, gallery section and
+goldens; a ruling that adds one names the platform control it mirrors
+and the capture it is measured from; a ruling that merges two says
+which name survives. Every task ends with the gallery green and its
+section under fresh eyes.
+
+### G-CF3: The Language follows
+
+The ontology session rewrites each touched entry per ruling in the
+window before the task that changes its component, so no task maps
+from an entry that says two things; the retired-word table gains the
+names that leave.
