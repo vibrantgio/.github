@@ -54,8 +54,24 @@ libraries. It is not how you work this plan.
 | furniture | the chrome regions | chrome |
 | divider | the line between two regions | seam |
 | divider | the draggable one | splitter |
+| primary, secondary, tertiary | a colour role | the platform's name for what the thing is |
+| container | a tinted fill | the platform's fill (container stays for a Go container type and a layout container) |
+| surface variant | a fill off a variant | the platform's name for that surface |
+| on-, OnPrimary, OnAccent | the colour read on a fill | foreground (OnClick and its kind stay: they are event handlers) |
+| seed | a colour a palette derives from | the theme colour |
+| ramp, step, tone | a source of colour | the platform's name (a ramp of motion, a step in a walk, a skin tone stay) |
+| tint | a colour | the platform's name (a control that tints under the pointer, and wallpaper tinting, stay) |
+| inverse surface | a fill | the platform's name for that surface |
+| elevation, level | a source of fill | the platform's name for the level's fill (elevation stays for the shadow dimension, level for Gio's layout, a heading level and the five levels) |
+| Material, MD3, M3 | the design system | the platform (a macOS material, Gio's widget/material, the Material Design icon sets and a renderer's material stay) |
 
 The Language in DOMAIN.md retires words. A retired word in a packet, a
 review, a comment, a doc or an identifier is a defect; say the
 right-hand column. The senses in the middle column are the retired
 ones; a word keeps its other senses where the row says so.
+
+`scripts/check-retired-words.sh` is this table made executable: it walks
+every module in the checkout and files every hit by module and kind, with
+one exclusion rule per kept sense, each carrying its reason. Run
+`inventory` for the work list, `check` for the gate, `excluded` to audit
+the rules against the tree.

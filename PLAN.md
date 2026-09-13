@@ -20987,7 +20987,7 @@ The fonts are untouched by the phase; these come back as they were.
 
 #### CE3.1: Nothing hints at Material colour, and the guard keeps it so
 
-- [ ] The retired-word guard gains the Material colour names in the
+- [x] The retired-word guard gains the Material colour names in the
   sense of a colour: primary, secondary, tertiary (as colour roles),
   container (as a tinted fill), surface variant, on-colour and the
   OnX names, seed, ramp, step and tone (as colour sources), tint (as
@@ -20997,7 +20997,7 @@ The fonts are untouched by the phase; these come back as they were.
   density words, and the Lc floor names are excluded. Inventory across the org, then the sweep: comments, docs,
   `design/DESIGN.md`, `AGENTS.md` files, identifiers that still carry
   a Material name for a colour. Typography names are not on the list.
-- [ ] Exit: `check` clean org-wide; green everywhere; commit and push
+- [x] Exit: `check` clean org-wide; green everywhere; commit and push
   in every touched repo and `.github`.
 
 #### CE3.2: The workbench looks like a Mac

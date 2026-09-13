@@ -46,11 +46,13 @@
 #
 # Frozen records. A record of what was found, measured or said on a date is
 # not rewritten to follow a later Language: reviews/, TRANSCRIPTS.md, PLAN.md
-# above the first unchecked task, DOMAIN.md from its Decisions down, and
+# above the first unchecked task, DOMAIN.md from its Decisions down,
+# design/DESIGN.md from its Decision records down, and
 # explorations/open-rulings.md's "Review provenance" foot are excluded for
 # that reason and say so in `excluded` output. The two boundaries inside a
 # file are measured, not written down — the first unchecked box, the
-# provenance heading — so they move as the plan is worked. Everything else
+# Decisions heading, the Decision records heading, the provenance heading —
+# so they move as the documents are worked. Everything else
 # in .github is judged: AGENTS.md, DOMAIN's Language, the READMEs, the live
 # pool items and the plan from the task in hand downward are the texts a
 # packet is written from, and a retired word in one of them is a carrier.
@@ -72,8 +74,11 @@
 set -u
 
 # The retired words, from AGENTS.md's table. Both spellings of emphasised
-# are matched: the word is the same word.
-WORDS="wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider"
+# are matched: the word is the same word. "on" is in the list for one sense
+# only — the OnX prefix of a colour read on a fill, and the hyphenated
+# on-colour in prose — so its two rules carry the ten thousand ordinary
+# prepositions the tokenizer hands them.
+WORDS="wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider,primary,secondary,tertiary,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on"
 
 MODULES="backdrop circle components csg design effects font gradient ivg kiwi markdown mvu noise patterns seen style svg textdraw theme traer workbench .github"
 
@@ -140,6 +145,38 @@ author::*::ctx::(wrote|writes|written|article|testimonial|front ?matter|commit|c
 quiet::*::match::^quietly$::The ordinary adverb — a check that fails quietly — not a variant's prominence.
 loud::*::match::^loudly$::The ordinary adverb — a check that fails quietly — not a variant's prominence.
 volume::*::path::^(seen|csg)/::A volume is a solid in the geometry these renderers work in.
+
+# The Material colour names, retired by CE3.1: each is retired in the sense of
+# a colour and keeps every other sense, one rule per sense.
+primary,secondary,tertiary,container,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on::doc::path::^\.github/plan\.md$::Phase CE names the Material colour words in order to delete them, and the tasks below the plan's moving frozen boundary are executed history like the tasks above it.
+primary,secondary,tertiary,container,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on::doc::path::^\.github/explorations/::A pool item records what a review or a spike proposed on a date, in the language of that day; the derivation the colour items describe was deleted in Phase CE.
+on::identifier::!rawtoken::^On(Primary|Secondary|Tertiary|Accent|Surface|Background|Container|Inverse|Success|Warning|Error|Info|Status|Colou?r|Tint|Tone|Fill|Foreground)::"on" is retired as the prefix of a colour's on-colour — OnPrimary, OnSurface, OnAccent. OnClick, OnChange and OnDismiss are event handlers, and every other "on" is the preposition.
+on::identifier::ctx::^(components/paragraph|markdown)/[a-z_]*\.go .*onfill::[paragraph.Style].OnFill is the callback the layout calls for each fill it places — an event handler like OnClick; markdown/find sets it.
+on::comment,doc,string::!line::on-colou?r::In prose the retired sense is the hyphenated on-colour; every other "on" is the preposition.
+primary,secondary,tertiary::identifier::rawtoken::^Button(Primary|Secondary|Tertiary)$::Gio's pointer.ButtonPrimary and its siblings: a mouse button, a third party's identifier.
+primary,secondary,tertiary::*::ctx::label::AppKit's secondaryLabelColor and tertiaryLabelColor — the platform's own names for text at a strength.
+primary::*::line::(xyz|cie|pure primary|primaries|primary exactly|[xyz] primary)::The XYZ and RGB primaries of colour science, a third party's term.
+primary::*::path::^mvu/::The primary screen a window's frame is measured from.
+seed::identifier,string,comment::ctx::^theme/brand/brand(_test)?\.go .*(json:"seed|"seed"|f\.seed|retired key)::The file key the theme colour was written under before it took its own name: read for one release, never written.
+primary,secondary::*::line::(cta|call to action|action|screen|display|monitor|face|axis|click|key|pointer\.button|destructive|confirm|frame|strength|wording|element)::A primary action and its call-to-action button, the primary screen, a primary typeface, a secondary click, the platform's secondary strength: rank and position, not a colour role.
+material::*::path::^(seen|svg|csg|ivg|kiwi|style|textdraw|backdrop|gradient|circle|traer|noise|font)/::A material in the renderers: the surface properties a shader shades with, and the icon sets mirrored by name.
+material::*::ctx::(sidebar[- ]?material|chrome[- ]?material|window material|material(s)? (fill|section|table|match|instead)|measured.?material|material, which black|visual ?effect|nsvisualeffect|material the (platform|reference)|the platform.s .*material|material with wallpaper|material is the untinted)::A macOS material — the surface the platform names, measured in reference/macos and carried by the token SidebarMaterial.
+material::*::line::(material\.[a-za-z]|material.s (`|unexported|scrollbarstyle|anchorstrategy|fromlistposition|rangeisscrollable|list|theme|layout)|port of material|material layout recipe|the material theme|material theme\)|reference material|material named)::Gio's own widget/material package, whose names this text cites.
+material::doc::ctx::^\.github/domain\.md .*(platform and material|material.s$|material.s is dropped)::The Language names Material in order to say the platform's value replaces it and Material's is dropped.
+ramp::doc::ctx::^\.github/domain\.md .*no (ramp|palette)::The Language names the ramp in order to say the theme colour has none.
+material::*::ctx::(material symbols|material design icons?|material icons|mdicons|material (grid|catalogue|cell|glyph|set))::Third-party icon sets, mirrored here by their own names.
+md3,m3::string::line::(^|[^a-z])m3[." ]::A path's moveto with a relative coordinate, or a labelled point in an example — the letter and the digit, not Material's abbreviation.
+m3::comment,identifier::ctx::(sk150|quadrilateral|0x50)::The instrument's own stored group M3 and an example's point M3.
+material::*::ctx::(callop|colorop|mcolor|material[,)]|material :?= [a-z]+\.stop|material\(gtx\.ops|(fill|stroke)material|paint material|editor materials|label's material|label.s paint)::Gio names the paint source a label is drawn with a material: widget.Label.Layout's last argument is an op.CallOp, and the variables that carry it keep Gio's word.
+seed::*::!line::(^|[^a-z])(colou?r|accent|palette|hue|chroma|swatch|ramp|tone|tint|brand seed)::A seed is a starting value — a random seed, a model's seed data, a stream's first value, the clickable a focus walk starts at; the retired sense is a colour a palette derives from and says so on the line.
+ramp::*::line::(alpha.ramp|monotone ramp|antialias|gradient|blur)::A ramp of alpha or of blur: a gradient, not a ramp of colour.
+ramp::*::!line::(^|[^a-z])(colou?r|fill|tone|tint|shade|palette|swatch|pin|seed|step)::A ramp of motion, of blur or of shadow depth; the retired sense is a ramp of colour and says fill, tone or palette on the line.
+step::*::!line::(^|[^a-z])(ramp|tonal|tone|shade)::A step in a walk, in an animation, in a wizard, in spacing, in a heading scale, and the platform's small step of fill between two measured values; the retired sense indexes a ramp of colour.
+tone::*::ctx::(skin.tone|emoji|regional-indicator)::Unicode's skin-tone sequences, a third party's term.
+tint::*::ctx::(wallpaper tint|tinting off|tinted desktop|tinting on|wallpaper)::The platform's wallpaper-tinting setting, named as the platform names it.
+tint::*::!line::(^|[^a-z])(tonal|elevation|ramp|seed|palette|colou?r role|surface tint)::A control that tints under the pointer, a glyph painted through a tint, the platform's wallpaper tinting; the retired sense is Material's tonal tint of a fill.
+elevation::*::!ctx::(elevation (tint|overlay|fill|colou?r)|tonal elevation|elevation as a (fill|colou?r)|--color-elevation)::Elevation is the dimension a floating surface stands in, spoken in levels and drawn as a shadow; the retired sense is a fill derived from it.
+level::*::!ctx::(surfaceat|levelchrome|levelbackdrop|--color-level|--elevation-|level tint|tint.{0,12}level|level overlay|overlay.{0,12}level|tonal elevation|elevation (tint|overlay)|neutral step)::A heading level, Gio's layout level, a log level, an outline level, an APCA level and the Language's five levels, each with the platform fill it is given; the retired sense derives a fill from the level.
 RULES
 #
 # Three exemptions the plan names carry no rule, because nothing in the tree
@@ -206,6 +243,11 @@ if [ -f "$here/DOMAIN.md" ]; then
   domain_frozen=$(grep -n '^## Decisions' "$here/DOMAIN.md" | head -1 | cut -d: -f1)
   [ -n "$domain_frozen" ] || domain_frozen=0
 fi
+design_frozen=0
+if [ -f "$root/design/DESIGN.md" ]; then
+  design_frozen=$(grep -n '^## Decision records' "$root/design/DESIGN.md" | head -1 | cut -d: -f1)
+  [ -n "$design_frozen" ] || design_frozen=0
+fi
 pool_frozen=0
 if [ -f "$here/explorations/open-rulings.md" ]; then
   pool_frozen=$(grep -n '^## Review provenance' "$here/explorations/open-rulings.md" | head -1 | cut -d: -f1)
@@ -223,7 +265,8 @@ export RETIRED_RULES="$EXCLUSIONS"
 # multi-byte rune nor rejects one it cannot decode.
 report=$(printf '%s\n' "$hits" | LC_ALL=C awk -F'\t' \
   -v mode="$MODE" -v kinds="$KINDS" -v only="$ONLY_WORDS" \
-  -v planfrozen="$plan_frozen" -v poolfrozen="$pool_frozen" -v domainfrozen="$domain_frozen" '
+  -v planfrozen="$plan_frozen" -v poolfrozen="$pool_frozen" -v domainfrozen="$domain_frozen" \
+  -v designfrozen="$design_frozen" '
 function lc(s) { return tolower(s) }
 BEGIN {
   n = split(ENVIRON["RETIRED_RULES"], rl, "\n")
@@ -278,6 +321,8 @@ function inlist(what, list,   m, a, i) {
     why = "The Language is present tense; the decisions and the recorded dialogue below it are dated records."
   else if (path == ".github/explorations/open-rulings.md" && poolfrozen+0 > 0 && line+0 >= poolfrozen+0)
     why = "Review provenance keeps each section preamble verbatim, as a record of what a reviewer was handed."
+  else if (path == "design/DESIGN.md" && designfrozen+0 > 0 && line+0 >= designfrozen+0)
+    why = "A decision record states what was decided on a date and in the language of that day; the copies of these ADRs in the plan are frozen for the same reason."
 
   ctx = lc(path " " text)
   for (i = 1; i <= nrules && why == ""; i++) {

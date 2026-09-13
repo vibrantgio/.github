@@ -4,8 +4,8 @@ Vibrant Gio is a design system for native desktop applications on macOS, Windows
 and Linux, written in Go on [Gio](https://gioui.org). An application is a
 Model-View-Update loop over [reactivego/rx](https://github.com/reactivego/rx)
 observables — state, theme and rendering are all driven reactively — and the
-design decisions follow Material Design's *generative* ideas, design tokens and
-semantic roles rather than a transcription of the Android component set.
+design decisions follow the platform's own colours, control metrics and
+semantic names rather than a transcription of any one component set.
 
 <p>
   <img src="launcher-dark.png" alt="Workbench launcher in dark mode — app cards on a live seen 3D field" width="49%">
@@ -19,7 +19,7 @@ semantic roles rather than a transcription of the Android component set.
 Two of the example applications, each captured in the OS dark and light
 appearance. Every window re-themes live when the system appearance switches —
 these four shots are one running process per app with the appearance flipped
-underneath it. The entire palette is derived from a single seed colour.
+underneath it. Every colour is the platform's own, read off the platform per appearance.
 
 ## Start here
 
@@ -34,9 +34,9 @@ underneath it. The entire palette is derived from a single seed colour.
   tags, the bootstrap skeleton, MVU and rx, typography. It is not how the
   libraries themselves are built.
 - **[design/DESIGN.md](https://github.com/vibrantgio/design/blob/master/DESIGN.md)** —
-  the architecture and why it is shaped this way: the layering, the generative
-  colour model, the deliberate desktop divergences from Material Design 3, and
-  the decision records.
+  the architecture and why it is shaped this way: the layering, the platform
+  colour model, the deliberate desktop divergences from the touch-first
+  reference, and the decision records.
 
 ## The stack
 
@@ -52,7 +52,7 @@ modules in a lower tier, plus anything in the support row.
 | 0 | [backdrop](https://github.com/vibrantgio/backdrop) | Solid colour fill, laid out like any other component |
 | 0 | [gradient](https://github.com/vibrantgio/gradient) | Linear gradient fill, laid out like any other component |
 | 0 | [circle](https://github.com/vibrantgio/circle) | Mathematically precise circles via Bézier approximation |
-| 1 | [theme](https://github.com/vibrantgio/theme) | The theme runtime and every design token: colour ramps and pins derived from one seed by the CIELAB/OKLCh engine, Typography, Density, Motion, Elevation; live OS dark-mode, accent-colour and accessibility tracking, preference persistence, window integration, token export |
+| 1 | [theme](https://github.com/vibrantgio/theme) | The theme runtime and every design token: the platform's own colour set read off the platform per appearance, Typography, Density, Motion, Elevation; live OS dark-mode, accent-colour and accessibility tracking, preference persistence, window integration, token export |
 | 2 | [components](https://github.com/vibrantgio/components) | Component foundation: button, input, list, paragraph, scrollbar, scrollarea, icon, icons, layout, keyed identity, initial values, cache, bench |
 | 3 | [effects](https://github.com/vibrantgio/effects) | Effects layer: tween, spring, springbutton, transition, glow, depth, blur, motion, and a shared animation conductor |
 | 4 | [patterns](https://github.com/vibrantgio/patterns) | Pattern library: shell, navbar, sidebar, table, pagination, tabs, modal, alert, popover, tooltip, toast, card, accordion, breadcrumb, hero, feature, pricing, testimonial |
