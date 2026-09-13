@@ -65,7 +65,11 @@ Rene's rulings into tasks. It writes no code before he rules.
   pagination and breadcrumb on a Mac; navbar against the toolbar;
   picker against pop-up, pull-down and combo box; the marketing
   patterns in a native library at all; the splitter; the search
-  field.
+  field; the controls' shapes — the push button's, the field's, the
+  menu's and the sidebar selection's radius and inset measured off
+  the stored captures, since the Platform entry's promise of the
+  platform's control shapes stands (Rene, 2026-09-13) and Phase CE
+  left Radius untouched.
 - [ ] Exit: the sheet committed and pushed; Rene rules line by line.
 
 ### G-CF2: The rulings become tasks
