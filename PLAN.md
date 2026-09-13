@@ -21029,7 +21029,7 @@ tag task appears here.
 
 #### CF1.1: Four reviewers read the gallery as macOS
 
-- [ ] Render the gallery whole in both schemes offscreen. Four fresh
+- [x] Render the gallery whole in both schemes offscreen. Four fresh
   subagents, none having seen the plan, one per group: the controls
   (button, chip, input, picker, list, scrollbar, pagination,
   breadcrumb, paragraph), the signals (badge, alert, toast, tooltip,
@@ -21046,7 +21046,7 @@ tag task appears here.
   already gives, which are missing for an ordinary Mac application,
   and which look wrong for the platform? Each reply recorded verbatim
   in `reviews/cf1.1-<group>-fresh-eyes.md` with frontmatter.
-- [ ] Exit: four records committed and pushed in `.github`.
+- [x] Exit: four records committed and pushed in `.github`.
 
 #### CF1.2: One reviewer reads the entries against the renders
 
