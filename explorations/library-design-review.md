@@ -57,7 +57,9 @@ Rene's rulings into tasks. It writes no code before he rules.
   expects, for orientation only: Tonal and Ghost against the
   platform's push, borderless and toolbar buttons; the chip's four
   purposes against the platform's tokens and tags; the badge's forms;
-  levels 0–3 against window, content, chrome and floating; card
+  the levels by name, backdrop, chrome, content, raised and floating,
+  against what the platform draws at each; the control shapes and
+  radii (pool 417 folds into this sheet); card
   against group; alert and toast against the platform's in-window
   banner and its notifications; tabs against the segmented control;
   pagination and breadcrumb on a Mac; navbar against the toolbar;
