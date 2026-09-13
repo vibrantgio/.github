@@ -186,14 +186,15 @@ is a component, however large.
 
 ### Theme
 
-Everything a window draws with, derived from one seed: the colours
-of every role and level in both schemes, and the axes — density,
-radius, typography roles — read by every component. A window has one
-theme at a time. It follows the platform — its scheme from the
-system's appearance, its colours the platform's own, its theme
-colour the system's accent colour unless the user has kept one in
-the themer — and every application on the machine draws with the
-same one.
+Everything a window draws with: the colours of every role and level
+in both schemes, the theme colour, and the axes — density, radius,
+typography roles — read by every component. A window has one theme
+at a time. It follows the platform — its scheme from the system's
+appearance, its colours the platform's own, its theme colour the
+system's accent colour unless the user has kept one in the themer —
+and every application on the machine draws with the same one. The
+themer keeps three choices: the theme colour, the typeface code is
+set in, and the colours code is highlighted with.
 
 ### Platform
 
