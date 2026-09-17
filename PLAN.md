@@ -21732,7 +21732,12 @@ with Rene on the ruling sheet.
   (`HoverOverlay` flattened over the control's fill, or the measured
   value if the capture disagrees, named as measured); a dialog push
   button that the platform does not hover keeps rest, stated with the
-  capture that shows it. Disabled fades the whole control as the save
+  capture that shows it; the picker's form trigger takes the same
+  hover, measured off the Finder view pop-up under the pointer in
+  `control-hover-{light,dark}.png` (`#f2f2f2`/`#384146`, the
+  `HoverOverlay` over its fill), and its pressed state the push
+  button's until a pressed pop-up is captured (on 425's list).
+  Disabled fades the whole control as the save
   dialog measures: `PushButtonFill` under `DisabledControlText`, the
   fill and edge at the measured disabled coverage, so a disabled push
   button and an enabled Tonal one are no longer byte-identical; the
