@@ -3068,13 +3068,3 @@ none of it in CG4.13's result.
 
 510. **[decide]** **The leading cluster keeps the platform's absolute measures while the prompt is set in a role a fifth larger.** The glyph is drawn at the platform's size and the gap after it at the platform's five columns, both measured; the prompt beside them is BodyLarge. So the platform's ring runs about 18% larger than its own cap height and ours runs level with a cap 19% taller — the glyph reads undersized beside its own text, and the gap that is right in pixels is proportionally tight. It is pool 494's consequence read off the drawn pixels, and it closes at either end: the role's size, or a cluster that scales with the text it leads.
 
-## CE. From CG4.14, the retired-word guard's widened context window
-
-Filed 2026-09-17 while making a `ctx` exclusion span the line before and
-after a match. Widening the window can only exclude more lines, never
-fewer, and over the org it newly caught three: two live "reach" lines in
-`components/picker/menu.go` and `workbench/mindchat/frame.go`, fixed in
-this task, and one in `.github/DOMAIN.md`, which this dispatch's packet
-holds off-limits to this session.
-
-516. **[bug]** **DOMAIN.md's Pricing entry still says "emphasised" for a pricing tier.** Line 931, "one optionally emphasised.", reads clean only because the word "tiers" sits on the wrapped line above it; CG4.14's widened ctx window now catches it as the retired sense (AGENTS.md's own row: emphasised for a pricing tier says the recommended tier). DOMAIN.md belongs to another session, so `check-retired-words.sh check` is not clean over the org until that entry is reworded.

@@ -21552,16 +21552,8 @@ side; it was wrong.
   one wrapped retired sense as caught. AGENTS.md's guard note says
   the context spans adjacent lines.
 - [x] Goldens do not move.
-- [ ] Exit: `go test ./scripts/retiredwords/...` green; the guard
+- [x] Exit: `go test ./scripts/retiredwords/...` green; the guard
   clean over the org; commit and push in `.github`.
-  - Open: `go test ./scripts/retiredwords/...` is green and the two
-    live "reach" lines the widened window newly caught
-    (`components/picker/menu.go`, `workbench/mindchat/frame.go`) are
-    fixed and pushed. One catch remains: `.github/DOMAIN.md:931`
-    ("optionally emphasised", a pricing tier) is a genuine retired-word
-    line under the widened window, but DOMAIN.md is off-limits to this
-    session — see open-rulings.md CE.516. The guard is not yet clean
-    over the org.
 
 
 #### CG4.15: Every repo's AGENTS.md points at the plan root and names no consumer
