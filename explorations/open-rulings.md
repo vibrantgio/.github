@@ -3059,3 +3059,12 @@ everything below is what it found around them, none of it in CG4.10's result.
 499. **[bug]** **Comments across four repositories still quote the pre-measurement control heights.** "36 dp Comfortable, 28 dp Compact" survives in `components/pagination`, `components/picker/menu.go`, `components/list`'s and `patterns/table`'s tests, `patterns/README.md` and `workbench/todos`, and "40 dp Comfortable" in `components/input/dropdown_test.go`, where the measured scale has been 24 and 19 since CE1.2 and an option row 28 and 24. None of the words is retired, so the guard cannot see them.
 
 500. **[decide]** **Two workbench rows were sized from the pointer floor CG4.10 deleted.** `feeds`' `prefsRowHDp` is 44 and `todos`' action row 48, both picked to leave a ghost control its old target. The comments now say what the rows are for; the numbers themselves no longer have a provenance.
+
+
+## CD. From CG4.11, the theme module's README names no consumer
+
+Filed 2026-09-17 from the task's correction: theme/AGENTS.md's canonical-guide
+line was left as-is rather than reworded, because it is not this task's to fix
+alone.
+
+508. **[chore]** **Every support library's `AGENTS.md` points at the workbench guide, a consumer, org-wide.** `theme/AGENTS.md`'s "Read the org guide before you write code against this module" line names `raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt`, the same pattern in every repository's `AGENTS.md`. One chore across all repos, not a per-repo README fix.
