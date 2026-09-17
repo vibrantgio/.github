@@ -21284,7 +21284,7 @@ side; it was wrong.
 
 #### CG4.1: The themer switches its own scheme and shows every highlighter style
 
-- [ ] `workbench/themer`: one appearance switch at the top of the
+- [x] `workbench/themer`: one appearance switch at the top of the
   window, as before, switches the themer's whole window and its
   preview between light and dark; nothing is shown side by side. The
   group is titled "Syntax highlighter style" and every style chroma
@@ -21306,9 +21306,9 @@ side; it was wrong.
   and the gallery caption from CG3.2, which becomes "Markdown — a
   fenced code block in the chosen syntax highlighter style". The
   guard does not gain "base"; the migration is this task's own check.
-- [ ] Goldens regenerate with the cause named; fresh-eyes review
+- [x] Goldens regenerate with the cause named; fresh-eyes review
   beside the Appearance pane captures, both schemes.
-- [ ] Exit: green in `workbench/themer` by name; commit and push in
+- [x] Exit: green in `workbench/themer` by name; commit and push in
   `workbench` and `.github`. Rene's own check is not a step: what it
   finds is filed as a task.
 
