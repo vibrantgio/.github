@@ -3068,3 +3068,18 @@ none of it in CG4.13's result.
 
 510. **[decide]** **The leading cluster keeps the platform's absolute measures while the prompt is set in a role a fifth larger.** The glyph is drawn at the platform's size and the gap after it at the platform's five columns, both measured; the prompt beside them is BodyLarge. So the platform's ring runs about 18% larger than its own cap height and ours runs level with a cap 19% taller — the glyph reads undersized beside its own text, and the gap that is right in pixels is proportionally tight. It is pool 494's consequence read off the drawn pixels, and it closes at either end: the role's size, or a cluster that scales with the text it leads.
 
+
+## CE. From CG4.19, the field's gap and the text field's inset
+
+Filed 2026-09-17 from the task itself. No fresh-eyes review was named; the
+five and eight clear columns and the text field's inset were read back off
+the regenerated goldens, and everything below is what the measurement left
+open.
+
+524. **[decide]** **The platform's 7 px is read to the value's first pixel and spent as the text's origin.** `save-dialog-{light,dark}.png` gives the field's fill from x=265 and the first pixel of "Untitled" at x=272; the inset the code spends places the text's origin, and the face adds its first glyph's left side bearing on top of it, so our text's first pixel stands 8 columns in where the platform's stands 7. Either the inset is 6, so the drawn pixel lands where the platform's does, or the 7 stands and every field's text sits a column further in. A bearing is a property of the letter, so no single inset reproduces the platform for every first letter, and the capture cannot say which of the two the platform itself spends.
+
+525. **[decide]** **The inset is read through a focus ring, because the only field in the Save panel holding a value is the focused one.** The field's box was recovered from the unfocused "Tags:" field below it, which runs the same columns x 264–495, and the ring is drawn two columns outside that box. No capture in `reference/macos` holds an unfocused text field carrying text, which is what would settle the reading without the recovery.
+
+526. **[decide]** **The plain text field is now asymmetric: the leading inset is the measured 7 and the trailing one is still `spacing.S3`'s 12.** The same capture can settle the trailing number the same way — the value's last pixel to the field's inner edge — and was not read for it here, because the task named the leading inset alone.
+
+527. **[decide]** **`components/picker`'s field trigger still spends `spacing.S3` at both ends.** `components/picker/field.go:652` and `menu.go:402` place the trigger's prompt and the menu's rows 12 px in, so a picker standing beside a text field in one form now starts its prompt four columns further in than the field beside it, although the platform draws the two as one control's width. Whether the picker's own inset measures the same 7 is unread: no stored capture holds a pop-up button's label against its field's inner edge.

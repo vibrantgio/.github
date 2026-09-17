@@ -21631,7 +21631,7 @@ side; it was wrong.
 
 #### CG4.19: The field's gap and the text field's inset are the measured integers
 
-- [ ] Measurements, not rulings. `components/input`: the gap from the
+- [x] Measurements, not rulings. `components/input`: the gap from the
   glyph's last pixel to the prompt's first is spent from the glyph's
   drawn end rounded to the pixel it actually covers, so the clear
   space is the measured 5 columns on chrome and 8 on a form, not
@@ -21640,9 +21640,9 @@ side; it was wrong.
   off the save dialog's text field (`save-dialog-{light,dark}.png`,
   the field's inner edge to the text's first pixel) and recorded in
   `controls.md`; the measured number replaces `spacing.S3`.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 

@@ -6,7 +6,8 @@ Interface Guidelines, not read off this machine) or DERIVED (arithmetic on
 the two, shown). Indexed by ADR-019, "The platform's control metrics".
 
 Added 2026-09-11 by CE1.2; the dialog measurements and the ruling that the
-measured numbers supersede the published ones are CE1.5 and CE1.6.
+measured numbers supersede the published ones are CE1.5 and CE1.6; the text
+field's leading inset is CG4.19.
 
 ## What the stored captures measure
 
@@ -48,6 +49,7 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | push button — "Cancel", "Save" | 24 px, y 501–524 | `save-dialog-{light,dark}.png` | luminance run down x=365, clear of the label: the fill `#ececec` light and `#333a3f` dark against the sheet |
 | pop-up button — "Where:", "File Format:" | 24 px, y 281–304 and y 336–359 | same | the same run at x=440 and x=430 |
 | text field — "Tags:", unfocused | 27 px, y 243–269 | same | the field's fill is the sheet's, so the run reads its border rows, `#f3f3f3` light and `#2c3338` dark |
+| that text field's leading inset: the field's inner edge to the text's first pixel | 7 px | same | read off the focused "Save As:" field, the only one in the sheet holding a value. Its box runs x 264–495, the same columns the "Tags:" field below it runs, so its fill begins at x=265; the first pixel column of "Untitled" is x=272. The focus ring is drawn two columns outside the box, over x 262–266, which is why the box is read off the pair rather than off the ring. Both appearances give 272; dark carries one faint antialiased column at x=271, three of 255 above the selection's fill, which light does not, and a fringe is not the glyph's first column |
 | checkbox — "Options:" | 16 px square, y 372–387, x 264–279 | same | runs across and down the box; disabled here, which moves its fill and not its extent |
 | push button width | 74 px, both buttons | same | x 359–432 and x 441–514 |
 | the label's cap band | 10 px, y 508–517 | same | the bounding box of the label's marks inside the fill, each cap read on its own |
