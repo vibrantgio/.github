@@ -3031,6 +3031,4 @@ found around them, none of it in CG3.3's result.
 
 478. **[decide]** **Three of the themer's grouped boxes hold exactly one row and no seam.** The platform's boxes group two or more rows divided by hairlines; a box round one row is a background band rather than a group, which is what the Picture, Theme colour and Code face boxes now are. Whether a single-row box is the platform's shape at all, or whether those three rows belong in one box divided by seams, is unruled.
 
-479. **[decide]** **`markdown`'s contrast floor is still WCAG 2's AA ratio.** `highlight.ContrastFloor`, `StyleContrast` and `markdown/README.md` all measure and name WCAG 2 AA, after the 2026-09-10 ruling that APCA is the one contrast measure and WCAG 2 is deleted. Nothing acts on the answer — contrast is surfaced and never enforced — so this is a question about what the number reported beside a style's name should be.
-
 480. **[decide]** **`markdown/highlight`'s package comment names a Material palette step.** "on the light token theme that is near-white text on the light Neutral 300 code fill" — the fill has been the platform's alternating content fill since the platform ruling, and "Neutral 300" is a step in a palette this org no longer has. The guard does not cover it because the words are not on the retired list.

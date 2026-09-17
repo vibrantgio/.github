@@ -21354,3 +21354,20 @@ side; it was wrong.
   fill.
 - [ ] Exit: green in `workbench/themer` and every touched module by
   name; commit and push in every touched repo and `.github`.
+
+#### CG4.4: The markdown module measures contrast by APCA alone
+
+- [ ] Decision 0009 binds: APCA is the one contrast measure and
+  WCAG 2 is deleted. `markdown/highlight`'s `ContrastFloor`,
+  `StyleContrast` and its sweep test, `markdown/README.md`, and the
+  comment in `markdown/style.go` naming WCAG 1.4.11's 3:1 still
+  measure and name WCAG 2. The floor becomes an Lc floor on the same
+  rule as the theme's (`tokens.TextFloor` 75 for text, `GraphicFloor`
+  45 for marks, `color.APCA`), the sweep reports Lc, the README says
+  so; whatever nothing reads goes. The retired-word guard gains
+  "WCAG" as a word, with the frozen regions and Decisions excluded
+  as the other words are.
+- [ ] Goldens do not move; the sweep's recorded numbers regenerate
+  with the cause named.
+- [ ] Exit: green in `markdown` by name and every consumer builds;
+  guard clean; commit and push in `markdown` and `.github`.
