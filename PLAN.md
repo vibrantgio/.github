@@ -21094,3 +21094,67 @@ The ontology session rewrites each touched entry per ruling in the
 window before the task that changes its component, so no task maps
 from an entry that says two things; the retired-word table gains the
 names that leave.
+
+## Phase CG: Two windows read as one composition
+
+Owner findings 2026-09-17, from three screenshots he took (kept in
+`reference/macos/`: `chatgpt-window-light.png`, a Mac application
+whose sidebar and content read right; `vaultview-2026-09-17-light.png`
+and `themer-2026-09-17-light.png`, ours). Vaultview: the surfaces
+left of the content do not combine; the rail is a grey material with
+a second boxed panel inside it, the search field a white pill on
+grey, the content a white column between two grey ones, and the
+outline's selection a full-width flat bar where the rail's is a
+pill. The themer: the main window confuses; the sample window's
+green selection box sits beside the named-colour table, the table
+scrolls inside the preview beside the sample, and the whole reads
+as badly designed. Both are compositions, not colour names, and
+belong to the windows' frames. These two run before the library
+rulings' tasks, under the standing go; the ruling sheet stays with
+Rene. No tags.
+
+### G-CG1: Vaultview's three columns combine
+
+#### CG1.1: The rail, the content and the outline read as one window
+
+- [ ] `workbench/vaultview` (and `patterns/pane`, `sidebar`, `shell`
+  where the app only passes through): measured against
+  `chatgpt-window-light.png` and the Finder and Notes captures, in
+  both schemes: the rail is one flat sidebar material with no boxed
+  panel inside it and no inner hairline, its search field the
+  platform's field on the material (the save dialog's field), its
+  rows the 32 pill inset as Finder's; the content column is the
+  content's white with the toolbar band on it and one seam to the
+  rail; the outline and backlinks are an inspector: the platform's
+  inspector material (measure Notes' or Finder's inspector if a
+  capture holds one, else the sidebar material) with a seam to the
+  content, its selection the same inset pill as the rail's, not a
+  full-width bar; the foot's Rescan and Switch Vault the platform's
+  small controls. Every number measured, every colour a platform
+  name.
+- [ ] Goldens regenerate with the cause named; fresh-eyes review of
+  the window beside `chatgpt-window-light.png` and a Finder capture,
+  both schemes.
+- [ ] Exit: green in `patterns` and `workbench/vaultview` by name; live
+  check by Rene; commit and push in every touched repo and `.github`.
+
+### G-CG2: The themer's window is one column of choices and one preview
+
+#### CG2.1: The themer reads top to bottom
+
+- [ ] `workbench/themer`: the window is one column of choices, each a
+  titled group in reading order, the picture and its swatches, the
+  theme colour, the code face, the syntax base, and one preview: a
+  single sample window drawn in the chosen colours, both schemes side
+  by side, at a fixed size, no inner scroller; the named-colour table
+  leaves the window (the gallery's board already shows the set) or
+  becomes a separate sheet reached by a button; the sample's
+  selection reads as the rail's pill, not a green box; Keep this
+  theme is the window's one default button in the footer; the whole
+  fits a 1200 by 900 window without scrolling the window. Measured
+  against System Settings' Appearance pane for how the platform lays
+  out a choices window.
+- [ ] Goldens regenerate with the cause named; fresh-eyes review
+  beside the Appearance pane capture, both schemes.
+- [ ] Exit: green in `workbench/themer` by name; live check by Rene;
+  commit and push in `workbench` and `.github`.
