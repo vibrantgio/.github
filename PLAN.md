@@ -21314,7 +21314,7 @@ side; it was wrong.
 
 #### CG4.2: The colour set has one name and "static twin" retires
 
-- [ ] Rulings of 2026-09-17 via the ontology session. The colour set
+- [x] Rulings of 2026-09-17 via the ontology session. The colour set
   is "the platform's colours" in prose and captions, "Colours" as a
   section or tab title, and `PlatformColors` in identifiers as
   `tokens` already has it: `components/gallery/inventory`'s
@@ -21328,8 +21328,8 @@ side; it was wrong.
   specimen's section heading say in plain words that this is the
   render without interaction, and no noun is coined for it. Neither
   needs a Language entry.
-- [ ] Goldens regenerate with the cause named.
-- [ ] Exit: green in `components/gallery` and `workbench/sitedocs` by
+- [x] Goldens regenerate with the cause named.
+- [x] Exit: green in `components/gallery` and `workbench/sitedocs` by
   name; guard clean; commit and push in every touched repo and
   `.github`.
 
