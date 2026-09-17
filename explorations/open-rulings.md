@@ -3068,3 +3068,10 @@ none of it in CG4.13's result.
 
 510. **[decide]** **The leading cluster keeps the platform's absolute measures while the prompt is set in a role a fifth larger.** The glyph is drawn at the platform's size and the gap after it at the platform's five columns, both measured; the prompt beside them is BodyLarge. So the platform's ring runs about 18% larger than its own cap height and ours runs level with a cap 19% taller — the glyph reads undersized beside its own text, and the gap that is right in pixels is proportionally tight. It is pool 494's consequence read off the drawn pixels, and it closes at either end: the role's size, or a cluster that scales with the text it leads.
 
+## CE. From CG4.15, the support-library rule beyond AGENTS.md
+
+Filed 2026-09-17 from the task itself, scoped to AGENTS.md files alone;
+this is what it found beside that scope, none of it in CG4.15's result.
+
+518. **[decide]** **Every support repo's `README.md` still points at `workbench/llms.txt` as its guide, the same shape CG4.15 just retired in AGENTS.md.** All twenty support repos' READMEs (for instance `svg/README.md:121`, `gradient/README.md:89`, `components/README.md:164`) carry the same `raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt` link this task removed from AGENTS.md, naming the workbench by URL. Whether the support-library rule reaches READMEs, or stops at AGENTS.md, is the ontology session's call; `design/DESIGN.md:18` and `workbench/sitedocs/guide.go:31` carry the same link and were left untouched as out of scope either way (the first is a frozen record, the second is workbench naming its own document).
+

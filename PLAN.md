@@ -21558,7 +21558,7 @@ side; it was wrong.
 
 #### CG4.15: Every repo's AGENTS.md points at the plan root and names no consumer
 
-- [ ] Ruling of 2026-09-17 via the ontology session, the
+- [x] Ruling of 2026-09-17 via the ontology session, the
   support-library rule: no support library names a consumer,
   AGENTS.md included. All 22 AGENTS.md files (the plan root, twenty
   support repos, the workbench) take the same shape through a script
@@ -21571,8 +21571,8 @@ side; it was wrong.
   `explorations/open-rulings.md`; the script asserts it. The script
   is idempotent and `check-agents.sh` (or the guard) fails when a
   repo's AGENTS.md drifts from the shape.
-- [ ] Goldens do not move.
-- [ ] Exit: the script run over every repo, each repo's AGENTS.md
+- [x] Goldens do not move.
+- [x] Exit: the script run over every repo, each repo's AGENTS.md
   committed and pushed with the task heading as subject; the check
   green; guard clean; commit and push in `.github`.
 
