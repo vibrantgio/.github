@@ -867,6 +867,9 @@ The chrome pattern of a column beside the content, showing the
 properties of whatever is selected in it and offering the controls
 that change them. It follows the selection; empty selection, empty
 inspector.
+It is chrome: it wears the sidebar
+material, with a seam to the content, and a list in it selects as
+the sidebar does, with the inset pill.
 
 ### Modal
 
