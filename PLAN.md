@@ -21449,7 +21449,7 @@ side; it was wrong.
 
 #### CG4.9: The design document's frozen records name the decision that superseded them
 
-- [ ] Ruling of 2026-09-17 via the ontology session: `design/DESIGN.md`'s
+- [x] Ruling of 2026-09-17 via the ontology session: `design/DESIGN.md`'s
   decision records that promise the ratio measure Decision 0009
   deleted are frozen and never rewritten; each gains a superseded-by
   line naming the APCA decision (0009, apca-contrast), in the form
@@ -21459,8 +21459,8 @@ side; it was wrong.
   The "Key architectural patterns" preamble still sends a developer
   to `llms.txt` for "AutoConnect counts"; no application keeps one
   after CG4.6, so that sentence goes.
-- [ ] Goldens do not move.
-- [ ] Exit: green in `design` and `design/mirror` by name; guard
+- [x] Goldens do not move.
+- [x] Exit: green in `design` and `design/mirror` by name; guard
   clean; commit and push in `design` and `.github`.
 
 #### CG4.11: The theme module's README names no consumer
