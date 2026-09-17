@@ -21750,6 +21750,36 @@ with Rene on the ruling sheet.
   consumer by name; guard clean; commit and push in every touched
   repo and `.github`.
 
+#### CG5.2b: The picker's marks and Compact box are read off the captures
+
+- [ ] Measurements under measured beats published, ruled 2026-09-18
+  via the ontology session, after CG5.1's fresh eyes. `components/picker`:
+  both variants' marks are one colour, the measured `ControlText`
+  (the chrome variant's mark takes it too); the toolbar (chrome)
+  trigger wears the stacked chevron pair the Finder toolbar capture
+  shows for its view pop-up (`finder-window-light.png`, 8 by 11 in a
+  36 px control), not the pull-down's single chevron, and the single
+  chevron is kept only for a pull-down purpose if the component has
+  one; the chrome trigger stands as the platform's toolbar controls
+  do, lighter than the band it stands on in both appearances
+  (`finder-window-untinted-{light,dark}.png`: `#ffffff` on `#f7f7f7`,
+  `#262626` on `#1e1e1e`), a figure on the band and not part of
+  it; the mark's size does
+  not scale with the control (the platform draws the same 8 by 11
+  pair in a 24 and a 36 px control), so `toolbarface`'s ratio goes
+  and the mark is placed at its measured size; the stroke's profile
+  against a tapered glyph and Compact's box are read off the captures
+  at their sizes (Compact draws its 19 dp around the 24 dp line box
+  today; the label is clipped or the line box shrunk to what the 19
+  px control shows, measured off `controls.md`'s small control rows).
+  Every number recorded in `controls.md`.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of both variants beside the
+  Finder toolbar and the save dialog crops.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer whose golden moved by name; guard clean; commit and push
+  in every touched repo and `.github`.
+
 #### CG5.3: A control's edge lies inside its box and the checkbox row is measured
 
 - [ ] `components/button`'s `strokeRRect` insets a 1 dp edge so the
@@ -21802,4 +21832,28 @@ with Rene on the ruling sheet.
 - [ ] Exit: green in `components`, `components/gallery` and every
   consumer by name; guard clean; commit and push in every touched
   repo and `.github`.
+
+
+#### CG5.6: The design bundle mirrors what the library draws
+
+- [ ] Ruling of 2026-09-18 via the ontology session: the design
+  bundle mirrors the library as drawn. `design`'s `styles.css` (via
+  `theme/export`'s generator where the value is generated) emits
+  `letter-spacing: 0` for every text role while the library's typeset
+  spends no tracking, and the mirror's ceiling measures against that;
+  whether the tracking token should ever be spent is typography and
+  stays with Rene (pool 494). The sheet's controls are redrawn to
+  what G-CG5 landed: the pop-up trigger at the control height, no
+  edge until focus, label 11 plus bearing, the 8 by 11 chevron pair
+  as a masked SVG in `--platform-control-text` ending 9 px clear;
+  hover, pressed and disabled as CG5.2 measured; the edge inside the
+  box, the checkbox row, the menu and the focus halo as CG5.3 to
+  CG5.5 landed. `design/mirror` is green with its ceiling unchanged
+  and still failing the nearest wrong variant; the bundle regenerated
+  and its pages checked.
+- [ ] Goldens regenerate with the cause named; the mirror's
+  calibration recorded.
+- [ ] Exit: green in `design` and `design/mirror` by name; guard
+  clean; commit and push in `theme` if the generator moved, `design`
+  and `.github`.
 
