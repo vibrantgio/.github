@@ -21234,15 +21234,15 @@ readouts take the colours of the meter's own display, photographed in
 
 #### CG3.1: Sitedocs' tab strip names one kind of thing per tab
 
-- [ ] `workbench/sitedocs`: the Theme tab splits into Colours (the
+- [x] `workbench/sitedocs`: the Theme tab splits into Colours (the
   colour board) and Typography (the type scale), in that order after
   Docs; the route identifiers, the strip labels and the tests follow.
   Every other tab is read by the same test — one tab holds one kind of
   thing — and split where it holds two; a split declined is pooled
   with its reason, one line each.
-- [ ] Goldens regenerate with the cause named; fresh-eyes review of
+- [x] Goldens regenerate with the cause named; fresh-eyes review of
   the strip, both schemes.
-- [ ] Exit: green in `workbench/sitedocs` by name; commit and push in
+- [x] Exit: green in `workbench/sitedocs` by name; commit and push in
   `workbench` and `.github`.
 
 #### CG3.2: Every gallery caption reads as plain prose
