@@ -21287,8 +21287,8 @@ side; it was wrong.
 - [ ] `workbench/themer`: one appearance switch at the top of the
   window, as before, switches the themer's whole window and its
   preview between light and dark; nothing is shown side by side. The
-  group is titled "Syntax highlighter style" and every name chroma
-  registers is listed, all of them visible or a list that reaches
+  group is titled "Syntax highlighter style" and every style chroma
+  offers is listed, all of them visible or a list that reaches
   every one without hiding the rest; the "one of N fitted to a …
   background" caption goes; a style names its own light or dark
   fitting inline if that is needed at all. The preview is one sample
