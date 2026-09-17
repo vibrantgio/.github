@@ -21500,7 +21500,7 @@ side; it was wrong.
 
 #### CG4.12: Every field states the surface it stands on, on every path
 
-- [ ] Ruling of 2026-09-17 via the ontology session: a field states
+- [x] Ruling of 2026-09-17 via the ontology session: a field states
   the surface it stands on, on every path, and a fill that lands
   right only because two platform names coincide today is a latent
   defect. `workbench/vaultview`'s find-in-note field states its plane
@@ -21511,8 +21511,8 @@ side; it was wrong.
   `Surface` property instead of relying on `TextBackground`
   coinciding with it. One test pins one of the three over a surface
   that differs from `WindowBackground` and reads the interior.
-- [ ] Goldens do not move.
-- [ ] Exit: green in `workbench/vaultview`, `workbench/mindchat` and
+- [x] Goldens do not move.
+- [x] Exit: green in `workbench/vaultview`, `workbench/mindchat` and
   `workbench/feeds` by name; guard clean; commit and push in
   `workbench` and `.github`.
 
