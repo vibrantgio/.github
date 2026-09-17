@@ -30,6 +30,12 @@ heading by prefixing "once this lands," and reading it aloud; if it does
 not say what is then true, rewrite it. Applies to new headings
 (owner-ruled 2026-09-09); checked-off history keeps its titles.
 
+**An exit names what its worker can verify.** Green by name, a review
+record on disk, a commit pushed. The owner's own check of a landing is
+never a step and never holds an exit open: what he finds is filed as a
+task, and the plan's order stays its execution order (owner-ruled
+2026-09-17, after five exits stood open under checked successors).
+
 **Comments carry constraints, not history.** A code comment states a
 constraint the code cannot show, an invariant, or the provenance of a
 measured number — and stops. Decision history, review anecdotes,
@@ -20390,11 +20396,11 @@ composites to about #786512, over white to about #ffec99. No tags.
   flash follow through the library; nothing local.
 - [x] Goldens that move regenerate with the cause named, both
   schemes, downstream included.
-- [ ] Exit: green in `markdown`, `components`, `components/gallery`
+- [x] Exit: green in `markdown`, `components`, `components/gallery`
   and `workbench/vaultview` by name; fresh-eyes review of a dark note
-  with three matches and of a light one; live check by Rene of a dark
-  find in vaultview; commit and push in every touched repo and
-  `.github`.
+  with three matches and of a light one; commit and push in every
+  touched repo and `.github`. Rene's own check of a dark find in
+  vaultview is not a step: what it finds is filed as a task.
 
 
 ## Phase CA: Mindchat's conversation
@@ -20446,9 +20452,10 @@ tags.
 - [x] Goldens: a conversation with two exchanges, a pending turn and
   a failed one, both schemes; goldens that move regenerate with the
   cause named.
-- [ ] Exit: green in `workbench/mindchat` by name; fresh-eyes review
-  of the conversation in both schemes; live check by Rene; commit and
-  push in `workbench` and `.github`.
+- [x] Exit: green in `workbench/mindchat` by name; fresh-eyes review
+  of the conversation in both schemes; commit and push in `workbench`
+  and `.github`. Rene's own check is not a step: what it finds is
+  filed as a task.
 
 ## Phase CB: Mindchat's settings dialog keeps its marks
 
@@ -20492,8 +20499,9 @@ first because the dialog's fix depends on it. No tags.
   before the conversion.
 - [x] Goldens that move regenerate with the cause named; fresh-eyes
   review of the settings dialog open, both schemes.
-- [ ] Exit: green in `workbench/mindchat` by name; live check by
-  Rene; commit and push in every touched repo and `.github`.
+- [x] Exit: green in `workbench/mindchat` by name; commit and push in
+  every touched repo and `.github`. Rene's own check is not a step:
+  what it finds is filed as a task.
 
 ## Phase CC: Contrast is judged by APCA alone
 
@@ -21006,8 +21014,10 @@ The fonts are untouched by the phase; these come back as they were.
   against the stored macOS reference captures, filed per app; the
   defects that are one-line platform-name fixes are fixed in this
   task, the rest pooled.
-- [ ] Exit: live check by Rene of vaultview, mindchat and feeds in
-  both schemes; commit and push in every touched repo and `.github`.
+- [x] Exit: green in `workbench/vaultview`, `workbench/mindchat` and
+  `workbench/feeds` by name; commit and push in every touched repo and
+  `.github`. Rene's own check of the three in both schemes is not a
+  step: what it finds is filed as a task.
 
 ## Phase CF: The library reads as one design
 
@@ -21076,7 +21086,8 @@ tag task appears here.
   against the toolbar; picker against pop-up, pull-down and combo
   box; the marketing patterns in a native library at all; the
   splitter; the search field.
-- [ ] Exit: the sheet committed and pushed; Rene rules line by line.
+- [x] Exit: the sheet committed and pushed. Rene's rulings on it are
+  not a step: each one becomes a G-CF2 task when it arrives.
 
 ### G-CF2: The rulings become tasks
 
@@ -21158,3 +21169,49 @@ Rene. No tags.
   beside the Appearance pane capture, both schemes.
 - [ ] Exit: green in `workbench/themer` by name; live check by Rene;
   commit and push in `workbench` and `.github`.
+
+### G-CG3: Sitedocs and the sk150 read as their owner asked
+
+Owner requests 2026-09-17. Sitedocs' Theme tab holds two kinds of thing,
+the colour set and the type scale, and the tab strip should say so; the
+gallery's code-block caption reads as gibberish; and the sk150's three
+readouts take the colours of the meter's own display, photographed in
+`reference/sk150-display.png`.
+
+#### CG3.1: Sitedocs' tab strip names one kind of thing per tab
+
+- [ ] `workbench/sitedocs`: the Theme tab splits into Colours (the
+  colour board) and Typography (the type scale), in that order after
+  Docs; the route identifiers, the strip labels and the tests follow.
+  Every other tab is read by the same test — one tab holds one kind of
+  thing — and split where it holds two; a split declined is pooled
+  with its reason, one line each.
+- [ ] Goldens regenerate with the cause named; fresh-eyes review of
+  the strip, both schemes.
+- [ ] Exit: green in `workbench/sitedocs` by name; commit and push in
+  `workbench` and `.github`.
+
+#### CG3.2: Every gallery caption reads as plain prose
+
+- [ ] `components/gallery/inventory`: the code specimen's caption
+  becomes "Markdown — a fenced code block in the chosen syntax base";
+  every other Section title is read for the same fault (a clause that
+  states no fact a reader can see) and rewritten as one plain caption.
+  Sitedocs shows the same titles and moves with them.
+- [ ] Goldens regenerate with the cause named.
+- [ ] Exit: green in `components/gallery` and `workbench/sitedocs` by
+  name; commit and push in every touched repo and `.github`.
+
+#### CG3.3: The sk150's readouts take the meter's own colours
+
+- [ ] `workbench/sk150`: the volt readout and its unit are the
+  display's green (`#2bf42f`), the amp readout and its unit and the ON
+  mark its yellow (`#fefb43`), the watt readout and its unit its
+  magenta (`#f928fa`), all on the panel's black (`#090905`), measured
+  from `reference/sk150-display.png` and named as measured values in
+  the app's one theme file, not platform names; both schemes show the
+  same panel, since the meter has one.
+- [ ] Goldens regenerate with the cause named; fresh-eyes review
+  beside the photograph.
+- [ ] Exit: green in `workbench/sk150` by name; commit and push in
+  `workbench` and `.github`.

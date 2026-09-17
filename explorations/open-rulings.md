@@ -2873,8 +2873,6 @@ Full record in `reviews/ce2.5-workbench-fresh-eyes.md`. Filed 2026-09-11 from Ph
 
 Filed 2026-09-11 from the task's own findings. The org tree is green by name for the first time since CE1.2.
 
-414. **[decide]** **sk150's three readouts took system colours a worker chose:** Volt `ControlAccent`, Amp `SystemTeal`, Watt `SystemPurple`, in one place (`workbench/sk150/theme.go`), since a one-accent platform has no counterpart for three tinted readouts. Two lines to overrule; Rene names the three, or rules that a readout is `Label` and only its unit carries a colour.
-
 415. **[task]** **`workbench/llms.txt`'s motion and typography sections still carry Material words** (MD3 easing families, MD3 type roles), deliberately left by CE2.6 for CE3.1's sweep; the typography section's names are the theme's own roles and stay, the "MD3" attributions go.
 
 ## BR. From the fill-system audit of session vibrantgio-11 against Phase CE
