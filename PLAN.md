@@ -21404,3 +21404,45 @@ side; it was wrong.
 - [ ] Exit: green in `theme`, `mvu`, `workbench` and every workbench
   app by name; guard clean; commit and push in every touched repo
   and `.github`.
+
+#### CG4.7: A text field in a grouped box fills with the box
+
+- [ ] Reading of 2026-09-17 via the ontology session: no stored
+  capture holds a text field inside a grouped box, so the save
+  dialog's reading stands, the platform's field fills with the
+  surface it stands on inside the field edge, which
+  `components/internal/control.FieldFill` already carries. The
+  themer's hex colour field therefore states its surface as the
+  group box's fill (`CardFill`, the `Surface` property from CG1.1),
+  not `TextBackground`; `workbench/themer`'s window test reads the
+  field's interior as the box's fill in both appearances. Any other
+  published field standing in a grouped box in the workbench follows
+  the same reading, found by grep, not assumed.
+- [ ] Goldens regenerate with the cause named where a field moves.
+- [ ] Exit: green in `workbench/themer` and every touched app by name;
+  guard clean; commit and push in every touched repo and `.github`.
+
+#### CG4.8: A search field on a sidebar is the platform's flat recess
+
+- [ ] Reading of 2026-09-17 via the ontology session: the System
+  Settings capture (`system-settings-grouped-box-{light,dark}.png`,
+  the whole window) shows its sidebar search field as a flat recess
+  with no stroke, the Voice Memos answer, standing on a sidebar. That
+  is the capture pool 439 asked for. Measure it: the recess's fill in
+  both appearances, its height, corner radius, insets from the
+  sidebar's edges, the magnifier and placeholder colours; the
+  measured values join the platform set as a material tagged
+  `appkit:"-"` (`SidebarSearchFill` or the name the measurement
+  earns) with provenance in `reference/macos/controls.md`. The
+  search field component (`components/input`'s search field) takes a
+  sidebar variant drawn as that recess, no edge; vaultview's rail
+  field takes it, and every other field standing on a chrome rail in
+  the workbench (feeds, iconbrowser, mindchat, sk150 per pool 431)
+  is read for whether it is a search field on a rail and takes the
+  same. A text field that is not a search field keeps the save
+  dialog's edge.
+- [ ] Goldens regenerate with the cause named; fresh-eyes review of
+  vaultview's rail beside the System Settings sidebar, both schemes.
+- [ ] Exit: green in `theme`, `components`, `components/gallery`,
+  `workbench/vaultview` and every touched app by name; guard clean;
+  commit and push in every touched repo and `.github`.
