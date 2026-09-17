@@ -21647,6 +21647,24 @@ side; it was wrong.
   in every touched repo and `.github`.
 
 
+#### CG4.20: The patterns README's table example stands on its own and the consumer check reads whole words
+
+- [ ] `patterns/README.md`: the table example in "Usage" and the
+  header-slot note in "Status" are rewritten as a self-contained
+  excerpt that compiles against `patterns/table`'s current API, with
+  no application named or implied (the excerpt came from an
+  application deleted in O0.1 and cannot be verified against any
+  live app). `.github/scripts/sync-agents.sh check`'s consumer-name
+  assertion matches whole words, case-sensitively, against the
+  application names as spelled (`marketing` the app, not
+  `Marketing` the patterns category), so a support library's own
+  vocabulary passes and a consumer's name still fails; a test or
+  fixture in the script's own check proves both.
+- [ ] Goldens do not move.
+- [ ] Exit: `sync-agents.sh check` green; guard clean; commit and push
+  in `patterns` and `.github`.
+
+
 ### G-CG5: The controls' states and indicators are the platform's as measured
 
 Rulings of 2026-09-17 via the ontology session, after CG4.10's fresh
