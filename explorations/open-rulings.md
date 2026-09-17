@@ -3039,3 +3039,12 @@ found around them, none of it in CG3.3's result.
 Filed 2026-09-17 from running the retired-word guard over the org with
 "WCAG" added to it. Everything the guard found in live code was fixed in
 the task; the three below are what the sweep turned up that it cannot fix.
+
+## CA. From CG4.6, the applications dropping the model stream's subscriber ledger
+
+Filed 2026-09-17. Both are consumer-naming or stale-rule prose the task's
+own scope did not reach.
+
+487. **[decide]** **`theme`'s README still names the workbench applications in three places outside the bootstrap section.** The live-theme paragraph ("all seven workbench applications bootstrap the same two lines"), the tier paragraph ("the workbench applications bootstrap `system` and `window`") and the canonical-guide link all name an in-org consumer from inside a support library; CG4.6 rewrote only the bootstrap section it was scoped to, so the rule is satisfied there and nowhere else in the file.
+
+488. **[decide]** **`design/DESIGN.md` still sends an app developer to `llms.txt` for "AutoConnect counts" as an operational rule.** The preamble to "Key architectural patterns" names them among the recipes an application needs; after CG4.6 no application keeps such a count and `llms.txt` tells a developer not to introduce one.
