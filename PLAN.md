@@ -21269,3 +21269,45 @@ readouts take the colours of the meter's own display, photographed in
   beside the photograph.
 - [ ] Exit: green in `workbench/sk150` by name; commit and push in
   `workbench` and `.github`.
+
+### G-CG4: The themer answers its owner's review
+
+Owner review 2026-09-17 of the CG2.1 window. "Syntax base" is a
+coinage: chroma calls the thing a style, so the group is the syntax
+highlighter style. The style list shows five of the thirty-six names,
+"way too small". The caption "one of 36 fitted to a light background"
+is weird beside a switch. The preview group is huge and holds a tiny
+sample of a minimal selection of components, shown light and dark
+side by side where the themer used to have one switch at the top that
+switched the themer itself. CG2.1's own text asked for the side by
+side; it was wrong.
+
+#### CG4.1: The themer switches its own scheme and shows every highlighter style
+
+- [ ] `workbench/themer`: one appearance switch at the top of the
+  window, as before, switches the themer's whole window and its
+  preview between light and dark; nothing is shown side by side. The
+  group is titled "Syntax highlighter style" and every name chroma
+  registers is listed, all of them visible or a list that reaches
+  every one without hiding the rest; the "one of N fitted to a …
+  background" caption goes; a style names its own light or dark
+  fitting inline if that is needed at all. The preview is one sample
+  window filling the preview group's available room in the current
+  scheme: a sidebar with the pill selection, a toolbar with the
+  platform's controls, a text field, push buttons, a badge, prose,
+  and a fenced code block in the chosen code face and highlighter
+  style, so a choice above changes something visible below. "Keep
+  this theme" stays the footer's one default button. The Language
+  entry Syntax highlighter style (.github d56cc13) binds: "base"
+  retires from identifiers and prose across the org, `highlight`'s
+  `BasePair`, `Bases`, `DefaultBase` and `WearPair`'s naming, the
+  brand file's `base` key (the old key read for one release as
+  `themeColour` was), the ~12 comments still saying "syntax palette",
+  and the gallery caption from CG3.2, which becomes "Markdown — a
+  fenced code block in the chosen syntax highlighter style". The
+  guard does not gain "base"; the migration is this task's own check.
+- [ ] Goldens regenerate with the cause named; fresh-eyes review
+  beside the Appearance pane captures, both schemes.
+- [ ] Exit: green in `workbench/themer` by name; commit and push in
+  `workbench` and `.github`. Rene's own check is not a step: what it
+  finds is filed as a task.
