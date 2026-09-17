@@ -3007,3 +3007,24 @@ Filed 2026-09-17 from the task's own reading of every `Title:` in
 `components/gallery/inventory`.
 
 467. **[bug]** **A gallery golden moves outside the band that changed.** Rewording one caption in CG3.2 moved 64 pixels elsewhere in the components image, each by a single level of antialiasing, in sections the change does not touch — the shaper's glyph cache is warmed by whichever string is shaped first, so an unrelated string of a different length shifts the rasterisation of later ones. The consequence is that a golden diff cannot be read as "only this moved" without measuring magnitude, which a reviewer will not do. A deterministic shaper per image, or a per-tile render, would remove it.
+
+## BY. From CG3.3, the sk150's readout panel
+
+Filed 2026-09-17 from the fresh-eyes review beside the owner's
+photograph. The review found the colours and the black exact and the
+panel rightly the same in both schemes; everything below is what it
+found around them, none of it in CG3.3's result.
+
+468. **[decide]** **The power readout prints a resolution the instrument does not have.** The device shows a fixed four-digit field with a floating point — `21.00`, `7.000`, `147.0` — where the app prints `147.000`, which is the product of the two rows above rather than a register the device reads. Measured in the render: the magenta row's leading digit starts 64 px left of the two rows above it, so the three lines no longer share one field and align on neither edge. The format predates the colours; the black panel is what made it visible.
+
+469. **[decide]** **The readout digits are a text face where the device's are seven-segment.** At 4x the app's zeros carry a diagonal slash, the `1` an angled flag, the terminals are round and the point a round dot; the photograph's are mitred angular strokes with visible segment gaps, an open `0`, a bare vertical `1` and a square point. Read cold as "the single largest reason the panel does not read as the meter". Typography was out of CG3.3's result by ruling; a segment face is the answer if the panel is to be the device's own.
+
+470. **[decide]** **The readout rows are leaded like body text.** Digit height 42 px on a 77 px pitch — a gap 83% of the digit height — against roughly 10% on the device, where the three lines form one dense block; and the digits are ~17% of the panel's height against ~29% on the device. The decimal point takes a whole monospace cell for an 11 px dot, so `21.00` reads as `21 . 00` where the device tucks the point into a narrow gap. All of it is the Code role blown up to 56 sp, which is a text face's metrics standing in for a panel's.
+
+471. **[decide]** **The readout panel has an empty left gutter and the numbers float in it.** The device puts indicators down the left — a buzzer glyph, and the yellow `ON` beside the current row — and pins the numbers hard right against the unit column. The app centres the block and leaves a 111 px right margin, and its output state lives only in the window header, so the panel itself gives no sign the output is live. Whether the display carries its own indicator column, and whether the header's cluster then moves into it, is one ruling for the window.
+
+472. **[decide]** **In the dark scheme the readout panel's black has no edge.** `#090905` on the dark window's `#1e1e1e` is a 21-level step with no bezel and rounded corners: on the light window it reads as black glass, on the dark one as a faint rectangle. The device's display sits in a visible grey bezel with square corners. The panel stands off the dark plane further than the chart panels beside it do, so this is a question about the whole window's dark plane as much as about the panel.
+
+473. **[decide]** **The device colours are a camera's exposure, not the display's emission.** The four values are measured off the brightest lit-segment pixels of a photograph, so they carry the capture's blown highlights; read cold, the green and the magenta "read as neon" at this size on a white page. The owner named these values from this photograph, so nothing was changed; what would settle it is a second capture, or a measurement of the panel under a known exposure.
+
+474. **[bug]** **The retired-words guard is red on a verb.** `scripts/check-retired-words.sh check` fails on one hit, `PLAN.md:21291` — "every name chroma registers", the verb, not the retired noun sense of a component's setting. The guard has an exclusion rule per kept sense and none for this one, so the gate stays red for every task that follows until either the rule or the sentence changes.

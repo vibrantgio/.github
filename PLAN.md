@@ -21258,16 +21258,16 @@ readouts take the colours of the meter's own display, photographed in
 
 #### CG3.3: The sk150's readouts take the meter's own colours
 
-- [ ] `workbench/sk150`: the volt readout and its unit are the
+- [x] `workbench/sk150`: the volt readout and its unit are the
   display's green (`#2bf42f`), the amp readout and its unit and the ON
   mark its yellow (`#fefb43`), the watt readout and its unit its
   magenta (`#f928fa`), all on the panel's black (`#090905`), measured
   from `reference/sk150-display.png` and named as measured values in
   the app's one theme file, not platform names; both schemes show the
   same panel, since the meter has one.
-- [ ] Goldens regenerate with the cause named; fresh-eyes review
+- [x] Goldens regenerate with the cause named; fresh-eyes review
   beside the photograph.
-- [ ] Exit: green in `workbench/sk150` by name; commit and push in
+- [x] Exit: green in `workbench/sk150` by name; commit and push in
   `workbench` and `.github`.
 
 ### G-CG4: The themer answers its owner's review
