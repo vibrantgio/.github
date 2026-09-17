@@ -3056,3 +3056,27 @@ everything below is what it found around them, none of it in CG4.10's result.
 
 500. **[decide]** **Two workbench rows were sized from the pointer floor CG4.10 deleted.** `feeds`' `prefsRowHDp` is 44 and `todos`' action row 48, both picked to leave a ghost control its old target. The comments now say what the rows are for; the numbers themselves no longer have a provenance.
 
+
+## CD. From CG4.13, the chrome search field's marks
+
+Filed 2026-09-17 from the fresh-eyes review of vaultview's rail beside
+System Settings' sidebar, and from the measurement itself. The review read
+every number the task set back off the drawn pixels — the glyph's 9 px
+inset, the five clear columns after it, the handle's angle and reach, the
+glyph's area against the capture's, and the recess's height, corner, fills
+and absent edge again — and everything below is what it found around them,
+none of it in CG4.13's result.
+
+509. **[decide]** **Dark: the recess is the only tinted thing in an untinted rail, and the step's sign is now measured on both sides.** Scanning the whole dark rail for pixels where max−min ≥ 2 puts every hit outside the selection pill inside the search field's rows. The platform's field is the same `#2f3234` but stands on a `#1c2124` sidebar, so it reads 3 levels *less* blue than what it stands on; ours stands on a neutral `#1c1c1c` and reads 4 levels *more*. The absolute sample was right and only meant what it meant against a tinted surround. Either the rail takes the cast or the fill is re-derived neutral at the same step; the capture that would settle it is already named in `controls.md`.
+
+510. **[decide]** **The leading cluster keeps the platform's absolute measures while the prompt is set in a role a fifth larger.** The glyph is drawn at the platform's size and the gap after it at the platform's five columns, both measured; the prompt beside them is BodyLarge. So the platform's ring runs about 18% larger than its own cap height and ours runs level with a cap 19% taller — the glyph reads undersized beside its own text, and the gap that is right in pixels is proportionally tight. It is pool 494's consequence read off the drawn pixels, and it closes at either end: the role's size, or a cluster that scales with the text it leads.
+
+511. **[bug]** **The field's prompt sits a pixel above the field's centre row.** Measured: our band centres on 75.0 against a field centre of 76.0, where the platform's centres on 75.15 against 75.0. It is the text field's own vertical centring — the content box halved into the drawn height — which every field in the library shares, so it is not the search field's to move alone.
+
+512. **[decide]** **vaultview's search prompt is a verb phrase ending in an ellipsis.** "Find a note…" against the platform's bare "Search". On macOS a trailing ellipsis says a control opens a further dialog, which is the wrong promise inside a text field, and the verb phrase is not the platform's idiom. Read cold it is the one difference in the field visible at 1x without measuring. It is an application's string, not the library's.
+
+513. **[decide]** **Light: the rail's material is three levels darker than the platform's sidebar, so the recess's step is 15 levels where the platform's is 18.** Our rail reads `#f7f7f7` beside the sidebar's `#fafafa` at the field's height, with the same `#e8e8e8` fill in both, so the recess separates from what it stands on slightly less than the platform's does. Dark is the other way about, so this is the light material's reading and not the recess's.
+
+514. **[decide]** **The form variant's leading inset is still a spacing token.** The chrome variant now sets its glyph 9 px in, measured; on a form the mark's square still stands at spacing.S3's 12 dp, which is nobody's reading. The three stored search fields give 9 px in System Settings' sidebar, 10 in Mail's toolbar and 13 in Voice Memos' capsule, and none of the three is a form field: no stored capture holds a search field on a form at all.
+
+515. **[decide]** **The clear mark has no capture behind its size or its inset.** The field now draws both marks in one 16 dp square taken off the magnifier, and holds the trailing one at the field's own horizontal padding with spacing.S2 after the text. No stored capture holds a macOS search field with anything typed into it, so the mark's drawing, its size and where it sits are all carried rather than read.

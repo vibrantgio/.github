@@ -162,6 +162,9 @@ outer corner.
 | the recess's insets from the sidebar's edges | 8 px leading, 8 px trailing | both | the sidebar's fill spans x 10–220 between a 2 px light rim at x 8–9 and the seam at x 221–222; the field spans x 18–212 inside it. The same 8 px on each side in both appearances |
 | the recess's top | 53 px below the window's top outer edge | both | the window's top rim is at y=8 and the field's first row at y=61; the window buttons are centred at (25.5, 25.5), the red one spanning x 19–32, y 19–32 |
 | the magnifier | 15 × 13 px, x 27–41, y 69–81 | both | the bounding box of the glyph's marks inside the fill. Its leading inset is 9 px — the recess's edge at x=18 to the glyph's first pixel at x=27 — and its centre row, y=75, is the recess's own (y 61–88) |
+| the magnifier's lens | a ring, 11.68 px across and 9.73 down outside, its band 1.30 px across and 1.04 down, centred (32.86, 74.57) | both | sub-pixel edges from the coverage in each row and column, the extremes fitted by a parabola over three: left 27.00, right 38.68, top 69.69, bottom 79.41, and the band's thickness the coverage summed along a cut through each extreme. A radial profile about that centre, sampled every 5 degrees clear of the handle, runs 5.11 px along the row and 4.21 down the column — a period of 180 degrees, so it is an ellipse and not a mis-centred circle |
+| the magnifier's handle | a band at 39.8 degrees below the row, its far end 11.08 px from the lens's centre | both | the principal axis of the coverage outside the lens's band in the lower trailing quadrant, and that axis's far extreme: the tip lands at (41.37, 81.66) against the lens's centre, 8.51 px along the row and 7.09 down |
+| the same glyph in a toolbar | 13 × 13 px, a round lens 10.28 px across outside on a 1.32 px band, centred (883.17, 25.48); the handle at 43.7 degrees, its far end 10.15 px from that centre | `mail-window.png`, and `voicememos-window.png` agrees at 13 × 13 with a lens of 4.49 px centreline radius | a least-squares circle fitted to the coverage clear of the handle: rms 0.47 px about a radius of 4.51, which is the band's own thickness over √12 and so the fit of a circle, not of an ellipse. The same radial profile holds 4.39 to 4.56 px all the way round |
 | the placeholder | an 11 px cap band, x 47–88, y 70–80, 5 px after the magnifier | both | the bounding box of "Search" inside the fill |
 | the magnifier's and the placeholder's colour | `placeholderTextColor` over the recess — black at 127/255 light, white at 140/255 dark | both, and `voicememos-window.png` | light: the placeholder's darkest pixel is `#747474`, which is that coverage over `#e8e8e8` to the byte, and the magnifier's is `#787878`, four 255ths short because a thin ring never fully covers a pixel. Dark: the placeholder peaks `#979899` on the recess, white at 127/255 rather than the 140/255 AppKit answers with — Voice Memos' untinted dark toolbar field peaks `#a4a4a4` on its `#363636` fill, white at 140/255 to the byte, so the shortfall is this sidebar's vibrancy and not the platform's answer. `secondaryLabelColor` carries the same two coverages, so the mark and the prompt are one colour |
 
@@ -181,6 +184,27 @@ dark), against the sidebar recess's 28, and in the dark appearance it wears a
 1 px `#4d4d4d` rim above and below its `#363636` fill where the sidebar
 recess wears none. Its light fill is the recess's `#e8e8e8` and its dark fill
 is not, so neither capture corrects the other and both are recorded.
+
+**The sidebar's magnifier is the toolbar's glyph drawn wide.** The three
+stored search fields carry one drawing at one size — 13 × 13 px across its
+marks in Mail's toolbar and in Voice Memos' capsule, a round lens 10.28 px
+across outside on a band of 1.3, its handle at 45 degrees reaching twice the
+lens's outer radius from the lens's centre. System Settings' sidebar draws the
+same glyph 15 px wide: the lens's centreline radius is 5.11 px along the row
+against 4.21 down the column, an aspect of 1.21 where the toolbar's is 1.00,
+and the handle sits at 39.8 degrees rather than 43.7 — which is what that same
+aspect does to a 45 degree band, since atan(1/1.21) is 39.6. Against the
+toolbar's reading the sidebar's glyph is 1.13 times the radius along the row
+and 0.93 times it down the column; the handle's far end is 1.19 times as far
+along the row and 0.98 as far down it.
+
+The stretch is that application's rasterising and not the capture's. A window
+button in the same picture has a coverage-weighted spread of 4.009 px on both
+axes, a ratio of 1.000, so the pixels are square and every other reading off
+this capture stands. What a library draws from this pair is the round glyph at
+the sidebar's placement: two captures out of three read it round, and an
+ellipse is one application's raster rather than a shape the platform owns.
+Recorded 2026-09-17 by CG4.13.
 
 **Where the drawn height already lands.** A Comfortable text field in this
 library draws 28 dp — BodyLarge's 24 dp line box plus 2×2 dp of the density's

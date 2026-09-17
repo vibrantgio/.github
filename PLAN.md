@@ -21518,7 +21518,7 @@ side; it was wrong.
 
 #### CG4.13: The chrome search field's marks follow the sidebar capture
 
-- [ ] Rulings of 2026-09-17 via the ontology session, measured beats
+- [x] Rulings of 2026-09-17 via the ontology session, measured beats
   published: a sidebar field's inset is read off the capture that
   matches the case, System Settings' sidebar
   (`system-settings-grouped-box-{light,dark}.png`, the numbers in
@@ -21533,9 +21533,9 @@ side; it was wrong.
   marks live; if the same glyph serves the form variant it moves
   there too and the change is named. The prompt's size (pool 494) is
   typography and does not move.
-- [ ] Goldens regenerate with the cause named; fresh-eyes review of
+- [x] Goldens regenerate with the cause named; fresh-eyes review of
   the rail beside the sidebar crop, both schemes.
-- [ ] Exit: green in `components`, `components/gallery` and
+- [x] Exit: green in `components`, `components/gallery` and
   `workbench/vaultview` by name; guard clean; commit and push in every
   touched repo and `.github`.
 
