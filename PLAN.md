@@ -21371,3 +21371,17 @@ side; it was wrong.
   with the cause named.
 - [ ] Exit: green in `markdown` by name and every consumer builds;
   guard clean; commit and push in `markdown` and `.github`.
+
+#### CG4.5: Sitedocs' colour board identifiers say the platform's colours
+
+- [ ] The ruling behind CG4.2 covers every identifier for the colour
+  set, not only the two it named: `workbench/sitedocs/theme_palette.go`
+  becomes `theme_colours.go`, `PaletteRows` → `PlatformColorRows` or
+  `ColourRows` as the file's own naming has it, `PaletteSectionRows`
+  and `paletteChrome` follow, their doc comments say the platform's
+  colours, and every caller and test moves with them. Grep
+  `-i palette` in `workbench/sitedocs` afterwards; only chroma's own
+  vocabulary may remain.
+- [ ] Goldens do not move.
+- [ ] Exit: green in `workbench/sitedocs` by name; guard clean; commit
+  and push in `workbench` and `.github`.
