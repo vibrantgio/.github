@@ -21456,9 +21456,27 @@ side; it was wrong.
   DOMAIN's 0007 carries. Nothing live in DESIGN.md or the design
   bundle may still promise that ratio; grep the module's live prose
   for the retired word and fix what the guard's frozen regions hide.
+  The "Key architectural patterns" preamble still sends a developer
+  to `llms.txt` for "AutoConnect counts"; no application keeps one
+  after CG4.6, so that sentence goes.
 - [ ] Goldens do not move.
 - [ ] Exit: green in `design` and `design/mirror` by name; guard
   clean; commit and push in `design` and `.github`.
+
+#### CG4.11: The theme module's README names no consumer
+
+- [ ] A support library never names a consumer. `theme/README.md`
+  still names the workbench applications in three places outside the
+  bootstrap section CG4.6 rewrote: the live-theme paragraph, the tier
+  paragraph and the canonical-guide link. Each says what it says
+  without an application name or path; a link to the workbench guide
+  goes or points at the theme's own documentation. Grep the module's
+  prose for `workbench`, `mindchat`, `vaultview`, `feeds`, `todos`,
+  `themer`, `sitedocs`, `sk150`, `iconbrowser`, `marketing`,
+  `launcher` afterwards; nothing remains.
+- [ ] Goldens do not move.
+- [ ] Exit: green in `theme` by name; guard clean; commit and push in
+  `theme` and `.github`.
 
 #### CG4.10: The pointer target is the control's own measured height
 
