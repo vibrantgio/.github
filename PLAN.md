@@ -21597,7 +21597,7 @@ side; it was wrong.
 
 #### CG4.17: The retired-word matcher recognises the "-able" forms
 
-- [ ] `.github/scripts/retiredwords/main.go`'s inflection list
+- [x] `.github/scripts/retiredwords/main.go`'s inflection list
   (`s, es, ed, ing, ly, er, est, ness`) gains `able`, `ible` and the
   `un-` prefix form so "reachable" and "unreachable" are matched as
   the retired word and not only read as another line's context; a
@@ -21606,21 +21606,9 @@ side; it was wrong.
   the same task (one commit per repo, same subject) or, if it is in a
   file another session owns, pooled in one line.
 - [x] Goldens do not move.
-- [ ] Exit: `GOWORK=off go test ./scripts/retiredwords/...` green; the
+- [x] Exit: `GOWORK=off go test ./scripts/retiredwords/...` green; the
   guard clean over the org; commit and push in every touched repo and
   `.github`.
-
-
-Open: the matcher and its tests landed (`buildPattern` in
-`scripts/retiredwords/main.go`, five new cases in `main_test.go`), but
-the org-wide guard is not clean: 47 newly caught "reach" hits split
-between the retired "operating a control" sense and an ordinary-English
-CS sense (dead-code panics, GC/memory reachability, package-graph
-reachability) the existing `reach::*::!ctx` exclusion rule does not yet
-discriminate, since it was written before the matcher could produce a
-"reachable" hit to test it against. Classifying and fixing the 47 needs
-a ruling; filed as pool item 521 (§CE).
-
 
 #### CG4.18: No support library's README points at a consumer
 

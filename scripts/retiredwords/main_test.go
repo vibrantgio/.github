@@ -144,3 +144,35 @@ func TestBuildPattern_UnrelatedAbleWordNotCaught(t *testing.T) {
 		}
 	}
 }
+
+// These pin CG4.17's ruling on the guard side: check-retired-words.sh's
+// reach::*::ctx kept-sense rule keeps the computer-science senses of
+// "reachable"/"unreachable" (dead code, memory and garbage-collector
+// reachability, package/import-graph reachability) as ordinary English,
+// while the genuine "operating a control" sense stays caught for reword.
+// The regex is the rule's own, mirrored here so a change to one without
+// the other fails a test rather than silently drifting.
+
+const reachKeptSenseRule = `panic\(|unreachable"\)|garbage|collect|retain|memory|import|package|graph|dead code|not reachable by|reachable from the root|lint|promotion|unreachable offset|struct|rather than from|chroma|registry|evict|handle|goroutine|unreachable here|unreachable code|device`
+
+func TestCtxWindow_DeadCodePanicExcludedFromReach(t *testing.T) {
+	lines := []string{
+		"\tdefault:",
+		"\t\tpanic(\"unreachable\")",
+		"\t}",
+	}
+	if !matchesWindow(t, lines, 2, reachKeptSenseRule) {
+		t.Fatal(`panic("unreachable") was not excluded by the dead-code kept-sense rule`)
+	}
+}
+
+func TestCtxWindow_ReachableFromKeyboardStaysCaught(t *testing.T) {
+	lines := []string{
+		"// LayoutSelectable lays out items exactly like [Layout] and additionally makes",
+		"// the whole list reachable from the keyboard. rowFn is told whether the row it",
+		"// is drawing is the selected one, so the caller renders selection its own way;",
+	}
+	if matchesWindow(t, lines, 2, reachKeptSenseRule) {
+		t.Fatal(`"reachable from the keyboard" was wrongly excluded by the dead-code kept-sense rule`)
+	}
+}
