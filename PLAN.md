@@ -21665,6 +21665,27 @@ side; it was wrong.
   in `patterns` and `.github`.
 
 
+#### CG4.21: The text field's two insets and the picker's follow the save dialog
+
+- [ ] Measurements, not rulings. `components/input`: the leading
+  inset is spent so the text's first covered pixel lands 7 columns
+  from the inner edge as the save dialog's does (the measured 7
+  includes the first letter's side bearing, so the origin sits at 7
+  less that bearing for the capture's own first letter; state the
+  rule in the comment), and the trailing inset is measured off the
+  same capture (the value's last pixel or the field's clear-mark
+  slot to the inner edge) and replaces `spacing.S3`, so the field is
+  symmetric by measurement, not by token. `components/picker`'s
+  field trigger spends the same measured insets at both ends
+  (`field.go`, `menu.go`), so a picker beside a text field starts its
+  text on the same column. Tests read both columns off a capture.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer whose golden moved by name; guard clean; commit and push
+  in every touched repo and `.github`.
+
+
 ### G-CG5: The controls' states and indicators are the platform's as measured
 
 Rulings of 2026-09-17 via the ontology session, after CG4.10's fresh
