@@ -743,9 +743,9 @@ Shift+Enter to the previous — scrolling the current one into view.
 What it holds originates with the user.
 Standing on chrome — a sidebar, a toolbar — it is the platform's
 search field there: a flat recess set a shade apart from the
-sidebar material, darker in light and lighter in dark, with no edge
-and the ends fully rounded, measured into the reference from System
-Settings' sidebar and Voice Memos' toolbar.
+sidebar material, measured per scheme, with no edge and the ends
+fully rounded, measured into the reference from System Settings'
+sidebar and Voice Memos' toolbar.
 
 ### Scrollbar
 
@@ -927,8 +927,8 @@ job for a tooltip.
 
 ### Pricing
 
-The marketing pattern laying tiers side by side as cards, one
-optionally emphasised.
+The marketing pattern laying tiers side by side as cards; one of
+them may be singled out as the recommended tier.
 
 ### Shell
 
