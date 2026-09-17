@@ -21128,7 +21128,7 @@ Rene. No tags.
 
 #### CG1.1: The rail, the content and the outline read as one window
 
-- [x] `workbench/vaultview` (and `patterns/pane`, `sidebar`, `shell`
+- [ ] `workbench/vaultview` (and `patterns/pane`, `sidebar`, `shell`
   where the app only passes through): measured against
   `chatgpt-window-light.png` and the Finder and Notes captures, in
   both schemes: the rail is one flat sidebar material with no boxed
@@ -21142,12 +21142,20 @@ Rene. No tags.
   content, its selection the same inset pill as the rail's, not a
   full-width bar; the foot's Rescan and Switch Vault the platform's
   small controls. Every number measured, every colour a platform
-  name.
+  name. Open after the first landing (components a7d9115, workbench
+  07c32e2): the rail still sits in a pane, a rounded panel inset on
+  the window's plane with a hairline round it; the grey band outside
+  the sidebar in `chatgpt-window-light.png` is the window's shadow on
+  a black desktop, not a plane, and Finder's untinted sidebar runs to
+  the window's edges. The rail's material runs to the window's top,
+  bottom and left edges with the one seam to the content; the pane
+  leaves the rail (and every rail that only passes the pane through).
 - [x] Goldens regenerate with the cause named; fresh-eyes review of
   the window beside `chatgpt-window-light.png` and a Finder capture,
   both schemes.
-- [x] Exit: green in `patterns` and `workbench/vaultview` by name; live
-  check by Rene; commit and push in every touched repo and `.github`.
+- [x] Exit: green in `patterns` and `workbench/vaultview` by name;
+  commit and push in every touched repo and `.github`. Rene's own
+  check is not a step: what it finds is filed as a task.
 
 ### G-CG2: The themer's window is one column of choices and one preview
 
@@ -21167,8 +21175,9 @@ Rene. No tags.
   out a choices window.
 - [ ] Goldens regenerate with the cause named; fresh-eyes review
   beside the Appearance pane capture, both schemes.
-- [ ] Exit: green in `workbench/themer` by name; live check by Rene;
-  commit and push in `workbench` and `.github`.
+- [ ] Exit: green in `workbench/themer` by name; commit and push in
+  `workbench` and `.github`. Rene's own check is not a step: what it
+  finds is filed as a task.
 
 ### G-CG3: Sitedocs and the sk150 read as their owner asked
 
