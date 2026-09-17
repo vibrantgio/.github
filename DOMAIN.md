@@ -741,6 +741,10 @@ it. Finding within a page, it also says how many matches there are
 and which is current, and steps between them — Enter to the next,
 Shift+Enter to the previous — scrolling the current one into view.
 What it holds originates with the user.
+Standing on chrome — a sidebar, a toolbar — it is the platform's
+search field there: a flat recess a shade darker than the material,
+no edge, the ends fully rounded, measured into the reference from
+System Settings' sidebar and Voice Memos' toolbar.
 
 ### Scrollbar
 
