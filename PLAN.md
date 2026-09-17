@@ -21612,7 +21612,7 @@ side; it was wrong.
 
 #### CG4.18: No support library's README points at a consumer
 
-- [ ] The support-library rule reaches every document a support repo
+- [x] The support-library rule reaches every document a support repo
   publishes: each support repo's `README.md` still carries the
   canonical-guide link to `workbench/llms.txt` that CG4.15 retired
   from AGENTS.md. The link is replaced by a pointer at the plan
@@ -21623,8 +21623,8 @@ side; it was wrong.
   check` gains the same three assertions over README.md files, so
   drift fails the check. The workbench's own README and `llms.txt`
   and `design/DESIGN.md`'s frozen records are not touched.
-- [ ] Goldens do not move.
-- [ ] Exit: each changed repo's README committed and pushed with the
+- [x] Goldens do not move.
+- [x] Exit: each changed repo's README committed and pushed with the
   task heading as subject; the check green; guard clean; commit and
   push in `.github`.
 

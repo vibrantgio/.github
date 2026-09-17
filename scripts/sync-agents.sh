@@ -23,6 +23,11 @@
 # changes nothing — the second run finds no legacy line left to strip and
 # writes the same block back.
 #
+# CG4.18 extended the rule to each support repo's README.md: `check` mode's
+# open-rulings and consumer-name assertions below run over both AGENTS.md and
+# README.md. `write` mode still only touches AGENTS.md — a README's prose is
+# hand-edited, not templated.
+#
 # Usage (run from the plan root, i.e. from .github, or anywhere):
 #   .github/scripts/sync-agents.sh          write every repo's AGENTS.md
 #   .github/scripts/sync-agents.sh check    exit non-zero on any drift
@@ -126,12 +131,14 @@ sync_one() {
 check_no_open_rulings() {
   local status=0
   for repo in $ALL_REPOS .github; do
-    local file="$repo/AGENTS.md"
-    [ -f "$file" ] || continue
-    if grep -q 'open-rulings' "$file"; then
-      echo "FORBIDDEN: $file names open-rulings.md"
-      status=1
-    fi
+    for name in AGENTS.md README.md; do
+      local file="$repo/$name"
+      [ -f "$file" ] || continue
+      if grep -q 'open-rulings' "$file"; then
+        echo "FORBIDDEN: $file names open-rulings.md"
+        status=1
+      fi
+    done
   done
   return $status
 }
@@ -139,17 +146,19 @@ check_no_open_rulings() {
 check_no_consumer_names() {
   local status=0
   for repo in $SUPPORT_REPOS; do
-    local file="$repo/AGENTS.md"
-    [ -f "$file" ] || continue
-    if grep -qw 'workbench' "$file"; then
-      echo "FORBIDDEN: $file names workbench"
-      status=1
-    fi
-    for app in $APPLICATIONS; do
-      if grep -qw "$app" "$file"; then
-        echo "FORBIDDEN: $file names application $app"
+    for name in AGENTS.md README.md; do
+      local file="$repo/$name"
+      [ -f "$file" ] || continue
+      if grep -qw 'workbench' "$file"; then
+        echo "FORBIDDEN: $file names workbench"
         status=1
       fi
+      for app in $APPLICATIONS; do
+        if grep -qw "$app" "$file"; then
+          echo "FORBIDDEN: $file names application $app"
+          status=1
+        fi
+      done
     done
   done
   return $status

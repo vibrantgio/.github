@@ -3068,3 +3068,12 @@ none of it in CG4.13's result.
 
 510. **[decide]** **The leading cluster keeps the platform's absolute measures while the prompt is set in a role a fifth larger.** The glyph is drawn at the platform's size and the gap after it at the platform's five columns, both measured; the prompt beside them is BodyLarge. So the platform's ring runs about 18% larger than its own cap height and ours runs level with a cap 19% taller — the glyph reads undersized beside its own text, and the gap that is right in pixels is proportionally tight. It is pool 494's consequence read off the drawn pixels, and it closes at either end: the role's size, or a cluster that scales with the text it leads.
 
+## CE. From CG4.18, rewording patterns/README's consumer names
+
+Filed 2026-09-17 while replacing the canonical-guide link and rewording
+consumer-naming sentences in every support repo's README.md.
+
+522. **[bug]** **`patterns/README.md`'s `table` example is condensed from a deleted application.** The "Usage" section's `maincontent.go` excerpt and the "Status" section's header-slot note both cited `workbench/watchlist`, an app O0.1 removed along with its planning files. CG4.18 reworded both sentences to say "an application" without naming it, but neither the example's continued accuracy nor a replacement source was verified — the excerpt may now be uncheckable against any live application.
+
+523. **[decide]** **`patterns`' own "Marketing" package category collides with the workbench `marketing` application's name.** CG4.18's README check flagged the module's own prose ("the marketing patterns") as naming the consumer application, though it meant the `hero`/`feature`/`pricing`/`testimonial` package group the README's own table already headers "Marketing". Capitalized to "Marketing patterns" to clear the check, matching the table heading's own case — a mechanical fix for the check's literal string match, not a ruling on whether the design system should have a package category sharing a word with an application's name.
+
