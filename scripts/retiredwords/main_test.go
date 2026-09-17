@@ -92,3 +92,55 @@ func TestCtxWindow_SingleLineFile(t *testing.T) {
 		t.Fatalf("window in a single-line file = %q, want %q", got, want)
 	}
 }
+
+// These pin CG4.17's fix: the inflection list gains "able", "ible" and the
+// "un-" prefix, so "reachable" and its kin are matched as the retired word
+// "reach" and not read as some other word entirely.
+
+func TestBuildPattern_ReachableCaught(t *testing.T) {
+	re := buildPattern("reach")
+	if !re.MatchString("reachable") {
+		t.Fatal(`"reachable" was not matched as an inflection of "reach"`)
+	}
+}
+
+func TestBuildPattern_UnreachableCaught(t *testing.T) {
+	re := buildPattern("reach")
+	if !re.MatchString("unreachable") {
+		t.Fatal(`"unreachable" was not matched as an inflection of "reach"`)
+	}
+}
+
+func TestBuildPattern_UnreachedCaught(t *testing.T) {
+	re := buildPattern("reach")
+	if !re.MatchString("unreached") {
+		t.Fatal(`"unreached" was not matched as an inflection of "reach"`)
+	}
+}
+
+func TestBuildPattern_KeptSenseExcludedInAbleForm(t *testing.T) {
+	// "author" is retired for who built the application; who wrote the
+	// content keeps the word, and check-retired-words.sh's ctx rule keeps
+	// it whenever a content word ("post", among others) sits in the
+	// three-line window. The -able form is still matched as the word
+	// "author", and the kept-sense rule must still exclude it once its ctx
+	// carries the kept sense.
+	re := buildPattern("author")
+	if !re.MatchString("authorable") {
+		t.Fatal(`"authorable" was not matched as an inflection of "author"`)
+	}
+	lines := []string{"the CMS makes every post authorable by its writer."}
+	rule := `wrote|writes|written|article|testimonial|front ?matter|commit|content|document|feed|post|avatar|name|role|drew|drawn|authored|icon|glyph|path`
+	if !matchesWindow(t, lines, 1, rule) {
+		t.Fatal("kept sense in the -able form was not excluded by the ctx rule")
+	}
+}
+
+func TestBuildPattern_UnrelatedAbleWordNotCaught(t *testing.T) {
+	re := buildPattern("reach")
+	for _, word := range []string{"table", "stable"} {
+		if re.MatchString(word) {
+			t.Fatalf("%q was wrongly matched as an inflection of %q", word, "reach")
+		}
+	}
+}

@@ -3068,3 +3068,12 @@ none of it in CG4.13's result.
 
 510. **[decide]** **The leading cluster keeps the platform's absolute measures while the prompt is set in a role a fifth larger.** The glyph is drawn at the platform's size and the gap after it at the platform's five columns, both measured; the prompt beside them is BodyLarge. So the platform's ring runs about 18% larger than its own cap height and ours runs level with a cap 19% taller — the glyph reads undersized beside its own text, and the gap that is right in pixels is proportionally tight. It is pool 494's consequence read off the drawn pixels, and it closes at either end: the role's size, or a cluster that scales with the text it leads.
 
+
+## CE. From CG4.17, the retired-word matcher's new "-able" forms
+
+Filed 2026-09-17 from running `check-retired-words.sh check` after the
+matcher gained the `able`, `ible` and `un-` inflections. The matcher
+change and its tests landed in the same task; this classification did
+not.
+
+521. **[decide]** **"reachable"/"unreachable" carries two senses the guard's one exclusion rule cannot yet tell apart.** The 47 newly caught hits split roughly in half: a genuine "operating a control" sense the retired-word row means to catch (`components/picker/menu.go:124` "unreachable option", `workbench/mindchat/onkey_test.go:114` "a settings control... not reachable at all", `components/list/list.go:188` "the whole list reachable from the keyboard", `patterns/modal/modal.go:56` "the control... reachable at all"), and an ordinary-English CS sense the row's own reason text already means to keep ("a value reaching a limit... are ordinary English") — dead code (`ivg/encode/encode.go:274,400`, `theme/preferences/preferences_test.go:116,167` both `panic("unreachable")`), GC/memory reachability (`mvu/window.go:50,163,182`, `mvu/desktop/drop.go:138`, `mvu/window_test.go:95,104`), and package/import-graph reachability (`markdown/block.go:17`, four `noliteralcolor_test.go` copies of "blank import: no reachable name"). `check-retired-words.sh`'s `reach::*::!ctx` rule lists bare "reachable" as an unconditional retired-sense pattern, written before the matcher could ever produce a "reachable" hit to test it against; it needs a second rule (or a rewritten regex) discriminating the CS-idiom contexts, with each remaining hit reworded to "operate"-based language once that stands. Left for a ruling rather than guessed line by line across fifteen repositories.

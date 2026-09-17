@@ -22,11 +22,19 @@
 // named across a wrapped line is still found.
 //
 // Matching is case-insensitive on word boundaries, with the inflections a
-// retired word takes in English prose (s, es, ed, ing, ly, er, est, ness) — "washes" and
-// "registered" are the same word as "wash" and "register". Identifiers are
-// split on underscores and camel-case humps first (`ghostWash` -> ghost,
-// Wash; `HTMLCanvas` -> HTML, Canvas), so a compound identifier is a hit on
-// its embedded word.
+// retired word takes in English prose (s, es, ed, ing, ly, er, est, ness,
+// able, ible, and the un- prefix) — "washes" and "registered" are the same
+// word as "wash" and "register", and "reachable" and "unreachable" are the
+// same word as "reach". The suffix is appended straight after the word, the
+// same as every other suffix in the list; no stem is edited first. A word
+// whose English spelling would drop a trailing "e" before "-able"
+// ("emphasise" -> "emphasisable") is not special-cased, because none of the
+// suffixes already in the list special-case it either — "voice" gets no
+// dropped-e treatment for "-ed" — so a retired word that needs the dropped
+// form is spelled out as its own list entry instead, the way "emphasised"
+// already is. Identifiers are split on underscores and camel-case humps
+// first (`ghostWash` -> ghost, Wash; `HTMLCanvas` -> HTML, Canvas), so a
+// compound identifier is a hit on its embedded word.
 package main
 
 import (
@@ -55,7 +63,7 @@ func main() {
 	// is pure ASCII letters.
 	pats := make([]*regexp.Regexp, len(list))
 	for i, w := range list {
-		pats[i] = regexp.MustCompile(`(?i)\b` + regexp.QuoteMeta(w) + `(s|es|ed|ing|ly|er|est|ness)?\b`)
+		pats[i] = buildPattern(w)
 	}
 
 	out := bufio.NewWriter(os.Stdout)
@@ -96,6 +104,15 @@ func main() {
 		fmt.Fprintf(os.Stderr, "retiredwords: %v\n", err)
 		os.Exit(1)
 	}
+}
+
+// buildPattern returns the case-insensitive, whole-token pattern for one
+// retired word: an optional "un" prefix, the word itself, and an optional
+// English inflection suffix (s, es, ed, ing, ly, er, est, ness, able,
+// ible). See the package doc comment for the no-stem-editing convention
+// this follows.
+func buildPattern(word string) *regexp.Regexp {
+	return regexp.MustCompile(`(?i)\b(un)?` + regexp.QuoteMeta(word) + `(s|es|ed|ing|ly|er|est|ness|able|ible)?\b`)
 }
 
 // cleanLine trims one source line for the report: tabs become spaces (the
