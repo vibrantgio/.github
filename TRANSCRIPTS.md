@@ -966,3 +966,8 @@ Rene (asked when the API is stabilized enough for a new alpha
 release, told: after the draft phase's tasks land, since that phase
 drops, merges and renames components): Ok, we tag after the draft
 phase lands then ^0005-tag-after-draft-phase
+
+Rene (to the vibrantgio session on the CG2.1 themer, relayed:
+rejecting "Syntax base", since chroma calls the thing a style,
+"lexers, formatters and styles"): Syntax highlighter style, or
+Syntax highlighter for short. ^0005-syntax-highlighter-style

@@ -194,7 +194,7 @@ appearance, its colours the platform's own, its theme colour the
 system's accent colour unless the user has kept one in the themer —
 and every application on the machine draws with the same one. The
 themer keeps three choices: the theme colour, the typeface code is
-set in, and the colours code is highlighted with.
+set in, and the syntax highlighter style.
 
 ### Platform
 
@@ -413,6 +413,16 @@ in the themer; on other platforms the themer sets it. It stands in
 wherever the platform uses its accent colour — the default button,
 the selection, the focus ring — and nothing else derives from it: no
 ramp, no palette.
+
+### Syntax highlighter style
+
+The named set of colours code is highlighted with, one of the styles
+the syntax highlighter offers: a colour per kind of token —
+keyword, string, comment, name — and the fill of the code block they
+stand on. The themer keeps one per scheme, and the code block draws
+with the one for the scheme in force. "Syntax highlighter" is the
+short form. The style's colours are the style's own; nothing else in
+the window is coloured from them.
 
 ### Colour role
 
