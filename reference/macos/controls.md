@@ -23,6 +23,8 @@ were taken").
 | text field outside a toolbar — Finder's info pane, "Add Tags…" | 33 px tall (y 263–295), 220 px wide (x 770–989) | `finder-window.png` | the field's fill (35,42,46) against the pane's (27,32,35), first and last row and column that leave the pane |
 | a search field's leading inset: the field's inner edge to the first pixel of the magnifier glyph | 10 px | `mail-window.png` | horizontal luminance run at y=26 — the field's stroke at x=867, its fill from x=868, the glyph from x=878 |
 | the same, on a more rounded capsule | 13 px | `voicememos-window.png` | same method — stroke x=643, fill from 644, glyph from 657 |
+| that search field's gap: the glyph's last pixel to the prompt's first | 8 px | `mail-window.png` | the glyph spans x 878–890 and the prompt x 899–941, so eight clear columns stand between them. Read as a 2 px deviation from the field's own fill (36,45,50) over y 14–37, which is the run the leading inset above was read from. The sidebar field's gap is five, read the same way |
+| that search field's prompt against the field's centre row | the prompt's cap band centred on it, the rounding falling half a pixel low | `mail-window.png` | "Search" occupies y 21–31 in a field of y 8–43: the band's centre is 26.5 against the field's 26.0. The sidebar field agrees — y 70–80 in a field of y 61–88, 75.5 against 75.0 |
 
 Everything above is a toolbar control or a pane field, and macOS 26 sizes
 its toolbar controls well over the size a push button is drawn at in a

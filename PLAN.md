@@ -21579,7 +21579,7 @@ side; it was wrong.
 
 #### CG4.16: The search field's prompt sits on the centre row and the form inset is Mail's
 
-- [ ] Rulings of 2026-09-17 via the ontology session, measurements
+- [x] Rulings of 2026-09-17 via the ontology session, measurements
   not rulings: `components/input`'s search field draws its prompt
   with its cap band centred on the field's centre row in both
   variants (CG4.13's fresh eyes read ours 1 px high; the text field's
@@ -21589,9 +21589,9 @@ side; it was wrong.
   of the spacing token, with the gap to the prompt measured the same
   way; the placeholder is the platform's word, "Search", and vaultview's
   "Find a note…" becomes it. The prompt's size stays (pool 494).
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer by name; guard clean; commit and push in every touched
   repo and `.github`.
 
