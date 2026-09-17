@@ -21374,7 +21374,7 @@ side; it was wrong.
 
 #### CG4.5: Sitedocs' colour board identifiers say the platform's colours
 
-- [ ] The ruling behind CG4.2 covers every identifier for the colour
+- [x] The ruling behind CG4.2 covers every identifier for the colour
   set, not only the two it named: `workbench/sitedocs/theme_palette.go`
   becomes `theme_colours.go`, `PaletteRows` → `PlatformColorRows` or
   `ColourRows` as the file's own naming has it, `PaletteSectionRows`
@@ -21382,8 +21382,8 @@ side; it was wrong.
   colours, and every caller and test moves with them. Grep
   `-i palette` in `workbench/sitedocs` afterwards; only chroma's own
   vocabulary may remain.
-- [ ] Goldens do not move.
-- [ ] Exit: green in `workbench/sitedocs` by name; guard clean; commit
+- [x] Goldens do not move.
+- [x] Exit: green in `workbench/sitedocs` by name; guard clean; commit
   and push in `workbench` and `.github`.
 
 #### CG4.6: The applications drop the model stream's subscriber ledger
