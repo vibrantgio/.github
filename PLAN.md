@@ -21311,3 +21311,24 @@ side; it was wrong.
 - [ ] Exit: green in `workbench/themer` by name; commit and push in
   `workbench` and `.github`. Rene's own check is not a step: what it
   finds is filed as a task.
+
+#### CG4.2: The colour set has one name and "static twin" retires
+
+- [ ] Rulings of 2026-09-17 via the ontology session. The colour set
+  is "the platform's colours" in prose and captions, "Colours" as a
+  section or tab title, and `PlatformColors` in identifiers as
+  `tokens` already has it: `components/gallery/inventory`'s
+  `platformSet` becomes `platformColors`, `palette.PlatformRows`
+  becomes `PlatformColorRows`, the gallery caption "Palette — …"
+  becomes "Colours — the platform's colours, every name in both
+  appearances", and every consumer follows; "Palette" leaves prose
+  and captions (the `palette` package name is a path, ruled
+  separately if at all). "static twin" retires: the package comment
+  in `components/gallery/inventory/patterns.go` and the accordion
+  specimen's section heading say in plain words that this is the
+  render without interaction, and no noun is coined for it. Neither
+  needs a Language entry.
+- [ ] Goldens regenerate with the cause named.
+- [ ] Exit: green in `components/gallery` and `workbench/sitedocs` by
+  name; guard clean; commit and push in every touched repo and
+  `.github`.

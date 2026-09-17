@@ -3006,8 +3006,4 @@ review (`reviews/cg3.1-sitedocs-fresh-eyes.md`).
 Filed 2026-09-17 from the task's own reading of every `Title:` in
 `components/gallery/inventory`.
 
-464. **[decide]** **The colour set has three names in three places.** The foundations section's caption opens "Palette — the platform's colour set", sitedocs' cell for that same content now reads Colours (CG3.1), and the code calls it the platform set (`platformSet`, `PlatformRows`). CG3.2 left the caption byte-identical because it states a visible fact; which of the three words is the one name is a copy ruling, and it moves the caption, the cell and possibly the identifiers together.
-
-466. **[decide]** **"static twin" is a code-only noun.** `components/gallery/inventory/patterns.go` names the non-interactive render path "the static twin" in its package comment, and the accordion specimen's own copy repeats it as a section heading ("Why the static twin"). There is no Language entry for it, and a twin is a metaphor. Either the concept earns an entry or the word retires and both sites say what the path is.
-
 467. **[bug]** **A gallery golden moves outside the band that changed.** Rewording one caption in CG3.2 moved 64 pixels elsewhere in the components image, each by a single level of antialiasing, in sections the change does not touch — the shaper's glyph cache is warmed by whichever string is shaped first, so an unrelated string of a different length shifts the rasterisation of later ones. The consequence is that a golden diff cannot be read as "only this moved" without measuring magnitude, which a reviewer will not do. A deterministic shaper per image, or a per-tile render, would remove it.
