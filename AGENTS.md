@@ -44,7 +44,7 @@ libraries. It is not how you work this plan.
 | widget | a component (layout.Widget stays Gio's) | component |
 | mark | the former component | badge (mark stays for the glyph a control draws) |
 | elevated | standing higher | raised, or floating |
-| reach | operating a control | operate |
+| reach | operating a control; kept where it means code, memory or an import graph being reachable, and the `unreachable` panic idiom | operate |
 | canvas | the area the window paints | the window's plane, the backdrop |
 | author | who built the application | developer (author stays for who wrote content) |
 | container | a card's surface | surface (container stays for the tinted field) |
