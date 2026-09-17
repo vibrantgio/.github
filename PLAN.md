@@ -21707,7 +21707,17 @@ with Rene on the ruling sheet.
   chevron for a pull-down, hairline strokes in the secondary label's
   grey, sized and inset as measured; the solid filled triangle goes.
   The gallery's toolbar trigger already draws the single chevron and
-  keeps it.
+  keeps it. The trigger is the pop-up it is drawn as, measured beats
+  published (CG4.21's readings of the File Format pop-up in
+  `controls.md`): its label sits 12 px in from the control's edge,
+  not the text field's 7; it draws no edge column, its fill meeting
+  the sheet directly, so the `Separator` on four sides goes and the
+  insets are spent from the fill's edge; its mark ends 9 px clear of
+  the trailing edge with its size and placement measured off the same
+  capture, replacing the unmeasured 16 dp `fieldChevron`. The
+  picker's tests that pinned the field's 7 for the trigger move to
+  the pop-up's 12; menu rows keep the field's insets until CG5.4
+  measures the menu.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the picker's states beside
   the save dialog's pop-up and the Finder toolbar.

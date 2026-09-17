@@ -3068,14 +3068,3 @@ none of it in CG4.13's result.
 
 510. **[decide]** **The leading cluster keeps the platform's absolute measures while the prompt is set in a role a fifth larger.** The glyph is drawn at the platform's size and the gap after it at the platform's five columns, both measured; the prompt beside them is BodyLarge. So the platform's ring runs about 18% larger than its own cap height and ours runs level with a cap 19% taller — the glyph reads undersized beside its own text, and the gap that is right in pixels is proportionally tight. It is pool 494's consequence read off the drawn pixels, and it closes at either end: the role's size, or a cluster that scales with the text it leads.
 
-## CE. From CG4.21, the field's two insets and the picker's
-
-Filed 2026-09-18 from the measurement itself: the save dialog's own
-controls answer more than the task asked them, and the answers are not all
-the ones the task took.
-
-528. **[decide]** **The platform sets a pop-up's label deeper than the text field's text beside it.** MEASURED, `save-dialog-{light,dark}.png`: the "File Format:" pop-up's fill runs x 264–451 and its label's first covered pixel is x=276, twelve columns in, where the "Save As:" field's fill begins at x=265 and its value's first covered pixel is x=272, seven. CG4.21 gave the picker the field's seven so a picker beside a text field starts its value on one column, which is the result the task states and is not what the platform does. One ruling: our two controls align with each other, or a picker follows the pop-up it is drawn as.
-
-529. **[decide]** **The platform's pop-up draws no edge and ours draws a hairline.** MEASURED, the same pair: a run down x=350 gives `#ececec` light and `#333a3f` dark from the pop-up's first row to its last, so the bezel's fill is its own outer edge; `components/picker`'s trigger draws `Separator` over its fill on all four sides. The trigger's insets are spent from an inner edge the platform does not have.
-
-530. **[seed]** **The pop-up's mark has a reading the picker's does not take.** MEASURED, the same pair: the chevron pair spans x 435–442 and stands 9 px clear of the fill's trailing edge at x=451. `fieldChevron` is a fixed 16 dp centred on the trigger's own trailing inset, neither number read off a capture.
