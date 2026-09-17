@@ -8,8 +8,9 @@ the two, shown). Indexed by ADR-019, "The platform's control metrics".
 Added 2026-09-11 by CE1.2; the dialog measurements and the ruling that the
 measured numbers supersede the published ones are CE1.5 and CE1.6; the text
 field's leading inset is CG4.19, its origin, its trailing end and the
-pop-up's own label and mark are CG4.21, and the pop-up's height, its
-label's origin and its mark's whole geometry are CG5.1.
+pop-up's own label and mark are CG4.21, the pop-up's height, its
+label's origin and its mark's whole geometry are CG5.1, and the
+switched-off controls and the states are CG5.2.
 
 ## What the stored captures measure
 
@@ -63,7 +64,12 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | that mark's colour | `labelColor` | same | the pair's fully covered pixels read 36 light and (224,225,226) dark against fills of `#ececec` and `#333a3f`, which is `labelColor`'s 216 of 255 flattened onto each to the byte on every channel. `secondaryLabelColor`'s coverage would land at 118 and 163 — the mark is not drawn in it. The library spends `controlText`, which carries the same 216 in both appearances and is the name for a control's own marks |
 | the Finder toolbar's pop-up draws the same glyph | 8 px wide, 11 px tall, upper y 21–25, lower y 27–31, x 726–733 | `finder-window-light.png` | the view pop-up in the toolbar band, in a control 36 px tall — identical in size to the dialog's, so the platform sizes this mark by its point size and not by the control it stands in |
 | the Finder toolbar's pull-down draws ONE chevron | 8 px wide, 5 px tall — x 792–799, y 24–28 | same | the group control beside it: the pair's lower half alone, apex down, the same eight columns and the same five rows. Mail's folder pull-down reads 9 × 5 (`mail-window.png`, x 740–748, y 23–28) in a control 29 px tall; this one reads 8 × 5 in a control 36 px tall. The mark does not scale with the control it stands in, which is what `components/internal/toolbarface` models it as |
-| checkbox — "Options:" | 16 px square, y 372–387, x 264–279 | same | runs across and down the box; disabled here, which moves its fill and not its extent |
+| checkbox — "Options:" | 16 px square, y 372–387, x 264–279 | same | runs across and down the box; switched off here, which moves its fill and not its extent |
+| the second checkbox of the same pair | 16 px square, y 394–409, the same columns | same | the sheet carries two switched-off checkboxes, "Show startup screen" and "Stay open after run handler", and they agree to the pixel |
+| a switched-off control's fill | `#f2f2f2` light, `#2e3439` dark | same | flat-region samples of both checkboxes, x 264–279. The box draws no edge of its own: its rim is a one-pixel antialiased ramp from the fill to the sheet (`#f3f3f3` through `#fbfbfb` light), the way the pop-up above it meets the sheet with no edge column |
+| the enabled fill it is read against | `#ececec` light, `#333a3f` dark | same | the "File Format:" pop-up's own fill, its last rows at y 355–359, seventeen rows above the first checkbox on the same sheet — the push button's measured fill |
+| a switched-off control's coverage | 170 of 255 | same | the fraction of its own paint a switched-off control keeps over the surface it stands on. The enabled fill over the sheet at that coverage lands on the switched-off reading: light `#ececec` over `#ffffff` gives 242.33 → `#f2f2f2`, exact; dark `#333a3f` over `#232a2f` gives (45.67, 52.67, 57.67) → (46, 53, 58) against the measured (46, 52, 57), exact on red and one 255th over on green and blue — the tolerance the hover overlay's dark reading carries. No single coverage lands all four channels exactly, so the reading is recorded with its miss |
+| a switched-off control's wording | `#bdbdbd` light, `#595f62` dark | same | the plateau of both checkbox labels on the sheet's own fill. Dark is `disabledControlTextColor`'s white at 63/255 to the byte on every channel. Light is three 255ths past `disabledControlTextColor`'s `#c0c0c0` — it is `tertiaryLabelColor`'s black at 66/255 exactly, and `#c0c0c0` pixels stand in the same labels — so the two names are one 255th-and-a-half apart in the light appearance and identical in the dark, where both report 63/255. A consumer spends `disabledControlTextColor`, the platform's name for a control's own switched-off text |
 | push button width | 74 px, both buttons | same | x 359–432 and x 441–514 |
 | the label's cap band | 10 px, y 508–517 | same | the bounding box of the label's marks inside the fill, each cap read on its own |
 | the label's horizontal inset | "Cancel" 16 px leading, 17 trailing; "Save" 23 and 23 | same | the fill's edge to the first pixel of the label's marks |
@@ -78,6 +84,46 @@ no separate reading is owed. `control-pressed-{light,dark}.png` holds no
 pressed pop-up at all: differenced against `save-dialog-{light,dark}.png` it
 changes only x 359–432, y 501–524, which is the "Cancel" PUSH BUTTON. A
 pressed pop-up is on the capture list.
+
+**What the state captures hold for a push button.** `control-hover-{light,
+dark}.png` holds no push button under the pointer — its pointer is on the
+Finder toolbar's view pop-up, and that window carries no push button at all —
+so nothing here measures a push button as exempt from the hover overlay, and
+such a capture is on the capture list. What `control-pressed-{light,dark}.png`
+does settle is that the two pointer states do not stack: the held "Cancel"
+reads `#d5d5d5` light and `#474d52` dark, which is `pressOverlay` straight
+over `pushButtonFill` on every channel, with no hover composited under it.
+Differenced against the resting sheet the capture changes those 74 × 24 pixels
+and nothing else, the "Save" button beside it holding its `#157efb`.
+
+**The two pointer overlays disagree between the appearances.** Read off the two
+state captures together: light, `hoverOverlay` is black at 0.051 and
+`pressOverlay` black at 0.098, a ratio of 1.9 — a hovered control moves 13
+levels off white and a held one 23 levels off `#ececec`. Dark, they are white at
+0.094 and white at 0.098, a ratio of 1.04 — both move about 20 levels. So a dark
+control drawn with its resting fill under the pointer and then held moves by one
+255th between the two states, where the same pair in light moves by eleven. The
+two coverages were read off different controls: hover off a Finder toolbar
+control that carries NO fill at rest, press off a Save dialog push button over
+the push button's own fill. Nothing in the reference says whether the platform
+draws a weaker hover on a control that already carries a bezel than on the
+fill-less toolbar control the dark reading came from. One control captured under
+the pointer and then held, in the dark appearance, is what would settle it, and
+it is on the capture list.
+
+**What the sheet's switched-off controls are.** Read off
+`save-dialog-{light,dark}.png`: the two "Options:" checkboxes are the only
+switched-off controls in it. The "Save As:" and "Tags:" fields, the "Where:"
+and "File Format:" pop-ups and both push buttons are enabled — their labels
+read `labelColor`'s `#272727` light and `#dddfdf` dark where the checkbox
+labels read `#bdbdbd` and `#595f62`. The "Save As:", "Tags:" and "Where:" row
+labels read `#808080` light and `#9c9fa1` dark, which is `secondaryLabelColor`
+over the sheet; that is the system panel setting its own row labels weaker
+than the accessory view below it sets "File Format:" and "Options:", and it is
+not a switched-off reading. So the sheet holds no switched-off push button and
+no switched-off control that draws an edge, and the coverage above — read off
+the checkbox's fill, which is all a checkbox draws — is what carries both the
+fill and the edge until either capture is taken.
 
 **The push button's fill is a colour, not only a height.** The `#ececec`
 light and `#333a3f` dark this row reads off "Cancel" are recorded in

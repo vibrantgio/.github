@@ -21727,7 +21727,7 @@ with Rene on the ruling sheet.
 
 #### CG5.2: Button and chip hover and disabled are the platform's fills
 
-- [ ] `components/button` and `components/chip`: hover takes the
+- [x] `components/button` and `components/chip`: hover takes the
   platform's hover fill measured off `control-hover-{light,dark}.png`
   (`HoverOverlay` flattened over the control's fill, or the measured
   value if the capture disagrees, named as measured); a dialog push
@@ -21743,10 +21743,10 @@ with Rene on the ruling sheet.
   button and an enabled Tonal one are no longer byte-identical; the
   picker's disabled trigger and the text field's disabled edge follow
   the same measurement.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the hover and disabled
   specimens beside the captures.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer by name; guard clean; commit and push in every touched
   repo and `.github`.
 
