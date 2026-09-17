@@ -21128,7 +21128,7 @@ Rene. No tags.
 
 #### CG1.1: The rail, the content and the outline read as one window
 
-- [ ] `workbench/vaultview` (and `patterns/pane`, `sidebar`, `shell`
+- [x] `workbench/vaultview` (and `patterns/pane`, `sidebar`, `shell`
   where the app only passes through): measured against
   `chatgpt-window-light.png` and the Finder and Notes captures, in
   both schemes: the rail is one flat sidebar material with no boxed
@@ -21143,10 +21143,10 @@ Rene. No tags.
   full-width bar; the foot's Rescan and Switch Vault the platform's
   small controls. Every number measured, every colour a platform
   name.
-- [ ] Goldens regenerate with the cause named; fresh-eyes review of
+- [x] Goldens regenerate with the cause named; fresh-eyes review of
   the window beside `chatgpt-window-light.png` and a Finder capture,
   both schemes.
-- [ ] Exit: green in `patterns` and `workbench/vaultview` by name; live
+- [x] Exit: green in `patterns` and `workbench/vaultview` by name; live
   check by Rene; commit and push in every touched repo and `.github`.
 
 ### G-CG2: The themer's window is one column of choices and one preview
