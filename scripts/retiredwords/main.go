@@ -9,13 +9,17 @@
 //
 // Input: file paths on stdin, one per line. Output: one TSV hit per line,
 //
-//	path <TAB> line <TAB> kind <TAB> word <TAB> match <TAB> token <TAB> line text
+//	path <TAB> line <TAB> kind <TAB> word <TAB> match <TAB> token <TAB> line text <TAB> ctx window
 //
 // kind is identifier, comment, string or doc; word is the retired word in
 // its canonical lower-case spelling; match is the text that actually matched
 // (`Washes`, `Marked`); token is the whole identifier the word sits in
 // (`ghostWash`), or the match again for the text kinds; the line text is
 // trimmed and truncated, for the reader and for the shell's exclusion rules.
+// The ctx window is the three-line window a `ctx` exclusion rule is judged
+// against — the line before the matched line, the line text again and the
+// line after, trimmed and joined with single spaces — so a kept sense
+// named across a wrapped line is still found.
 //
 // Matching is case-insensitive on word boundaries, with the inflections a
 // retired word takes in English prose (s, es, ed, ing, ly, er, est, ness) — "washes" and
@@ -72,14 +76,9 @@ func main() {
 		emit := func(line int, kind, word, match, tok string) {
 			text := ""
 			if line-1 >= 0 && line-1 < len(lines) {
-				text = strings.TrimSpace(strings.ReplaceAll(lines[line-1], "\t", " "))
+				text = cleanLine(lines[line-1])
 			}
-			// Truncated on runes: a line cut mid-rune is invalid UTF-8, and
-			// the shell's awk rejects the byte sequence rather than the line.
-			if r := []rune(text); len(r) > 1000 {
-				text = string(r[:1000])
-			}
-			fmt.Fprintf(out, "%s\t%d\t%s\t%s\t%s\t%s\t%s\n", path, line, kind, word, match, tok, text)
+			fmt.Fprintf(out, "%s\t%d\t%s\t%s\t%s\t%s\t%s\t%s\n", path, line, kind, word, match, tok, text, ctxWindow(lines, line))
 		}
 		if filepath.Ext(path) == ".go" {
 			scanGo(path, src, list, pats, emit)
@@ -97,6 +96,36 @@ func main() {
 		fmt.Fprintf(os.Stderr, "retiredwords: %v\n", err)
 		os.Exit(1)
 	}
+}
+
+// cleanLine trims one source line for the report: tabs become spaces (the
+// report is itself tab-separated) and outer whitespace is stripped. It is
+// truncated on runes, not bytes: a line cut mid-rune is invalid UTF-8, and
+// the shell's awk rejects the byte sequence rather than the line.
+func cleanLine(s string) string {
+	s = strings.TrimSpace(strings.ReplaceAll(s, "\t", " "))
+	if r := []rune(s); len(r) > 1000 {
+		s = string(r[:1000])
+	}
+	return s
+}
+
+// ctxWindow returns the three-line window a `ctx` (and `!ctx`) exclusion
+// rule is judged against: the line before the matched line, the matched
+// line itself and the line after, each cleaned with cleanLine and joined
+// with single spaces. A line outside the file — before the first, after
+// the last — contributes nothing, so the window is shorter at either
+// edge. This is what lets a kept sense span a wrap: "material" at the end
+// of one line and "Voice Memos" at the start of the next both land in the
+// same window.
+func ctxWindow(lines []string, line int) string {
+	var parts []string
+	for _, i := range []int{line - 2, line - 1, line} {
+		if i >= 0 && i < len(lines) {
+			parts = append(parts, cleanLine(lines[i]))
+		}
+	}
+	return strings.Join(parts, " ")
 }
 
 // scanGo files every hit in one Go source file by the kind of token it sits

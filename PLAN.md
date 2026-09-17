@@ -21541,7 +21541,7 @@ side; it was wrong.
 
 #### CG4.14: The retired-word guard's context exclusions match across a wrapped line
 
-- [ ] `.github/scripts/check-retired-words.sh` and
+- [x] `.github/scripts/check-retired-words.sh` and
   `scripts/retiredwords/main.go`: a `ctx` exclusion matches on one
   line only, so prose that wraps between the retired word and its
   kept-sense context ("material" before "Voice Memos", the retired
@@ -21551,9 +21551,17 @@ side; it was wrong.
   `scripts/retiredwords` pins one wrapped kept sense as excluded and
   one wrapped retired sense as caught. AGENTS.md's guard note says
   the context spans adjacent lines.
-- [ ] Goldens do not move.
+- [x] Goldens do not move.
 - [ ] Exit: `go test ./scripts/retiredwords/...` green; the guard
   clean over the org; commit and push in `.github`.
+  - Open: `go test ./scripts/retiredwords/...` is green and the two
+    live "reach" lines the widened window newly caught
+    (`components/picker/menu.go`, `workbench/mindchat/frame.go`) are
+    fixed and pushed. One catch remains: `.github/DOMAIN.md:931`
+    ("optionally emphasised", a pricing tier) is a genuine retired-word
+    line under the widened window, but DOMAIN.md is off-limits to this
+    session — see open-rulings.md CE.516. The guard is not yet clean
+    over the org.
 
 
 #### CG4.15: Every repo's AGENTS.md points at the plan root and names no consumer

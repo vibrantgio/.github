@@ -3080,3 +3080,17 @@ none of it in CG4.13's result.
 514. **[decide]** **The form variant's leading inset is still a spacing token.** The chrome variant now sets its glyph 9 px in, measured; on a form the mark's square still stands at spacing.S3's 12 dp, which is nobody's reading. The three stored search fields give 9 px in System Settings' sidebar, 10 in Mail's toolbar and 13 in Voice Memos' capsule, and none of the three is a form field: no stored capture holds a search field on a form at all.
 
 515. **[decide]** **The clear mark has no capture behind its size or its inset.** The field now draws both marks in one 16 dp square taken off the magnifier, and holds the trailing one at the field's own horizontal padding with spacing.S2 after the text. No stored capture holds a macOS search field with anything typed into it, so the mark's drawing, its size and where it sits are all carried rather than read.
+
+
+## CE. From CG4.14, the retired-word guard's widened context window
+
+Filed 2026-09-17 while making a `ctx` exclusion span the line before and
+after a match. Widening the window can only exclude more lines, never
+fewer, and over the org it newly caught three: two live "reach" lines in
+`components/picker/menu.go` and `workbench/mindchat/frame.go`, fixed in
+this task, and one in `.github/DOMAIN.md`, which this dispatch's packet
+holds off-limits to this session.
+
+516. **[bug]** **DOMAIN.md's Pricing entry still says "emphasised" for a pricing tier.** Line 931, "one optionally emphasised.", reads clean only because the word "tiers" sits on the wrapped line above it; CG4.14's widened ctx window now catches it as the retired sense (AGENTS.md's own row: emphasised for a pricing tier says the recommended tier). DOMAIN.md belongs to another session, so `check-retired-words.sh check` is not clean over the org until that entry is reworded.
+
+517. **[bug]** **The retiredwords matcher's inflection list has no "-able" form.** `s, es, ed, ing, ly, er, est, ness` are the suffixes a retired word is matched with; "reachable" and "unreachable" are never tokenized as a match at all, only picked up as ctx material for a neighbouring line. `workbench/mindchat/frame.go:20`'s "is reachable in both states" carries the retired sense of reach (operating a control, said instead) and was fixed alongside its neighbour in this task, but the matcher still cannot catch a bare "-able" occurrence of any retired word on its own line.

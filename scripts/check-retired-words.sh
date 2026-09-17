@@ -91,7 +91,9 @@ MODULES="backdrop circle components csg design effects font gradient ivg kiwi ma
 # kind   identifier, comment, doc, string, a comma list, or *
 # field  path, line, match, token, rawtoken (the token as written, case
 #        kept), quoted (whether the word sits inside
-#        quotes or backticks), or ctx (path and line together); prefixed
+#        quotes or backticks), or ctx (the path and a three-line window —
+#        the line before the match, the matched line and the line after,
+#        so a kept sense named across a wrap is still found); prefixed
 #        with ! it excludes every hit whose field does NOT match, which is
 #        how a word retired in one sense only is judged in that sense alone
 # regex  an extended regular expression, matched against the lower-cased
@@ -291,7 +293,7 @@ function inlist(what, list,   m, a, i) {
   return 0
 }
 {
-  path = $1; line = $2; kind = $3; word = $4; match_ = $5; token = $6; text = $7
+  path = $1; line = $2; kind = $3; word = $4; match_ = $5; token = $6; text = $7; ctxwin = $8
   # A word inside quotes or backticks on the line is named, or quoted from
   # something that says it, rather than used: an odd number of either mark
   # before it means the word sits inside a quoted span.
@@ -326,7 +328,12 @@ function inlist(what, list,   m, a, i) {
   else if (path == "design/DESIGN.md" && designfrozen+0 > 0 && line+0 >= designfrozen+0)
     why = "A decision record states what was decided on a date and in the language of that day; the copies of these ADRs in the plan are frozen for the same reason."
 
-  ctx = lc(path " " text)
+  # The three-line window — the line before the match, the matched line
+  # and the line after — so a kept sense named across a wrap ("material"
+  # at the end of one line, "Voice Memos" at the start of the next) is
+  # still found. retiredwords/main.go builds the window; this only lowers
+  # it and prepends the path, as it always has.
+  ctx = lc(path " " ctxwin)
   for (i = 1; i <= nrules && why == ""; i++) {
     if (!inlist(word, rword[i])) continue
     if (!inlist(kind, rkind[i])) continue
