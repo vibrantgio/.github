@@ -21496,6 +21496,45 @@ side; it was wrong.
   `workbench/feeds` by name; guard clean; commit and push in
   `workbench` and `.github`.
 
+#### CG4.13: The chrome search field's marks follow the sidebar capture
+
+- [ ] Rulings of 2026-09-17 via the ontology session, measured beats
+  published: a sidebar field's inset is read off the capture that
+  matches the case, System Settings' sidebar
+  (`system-settings-grouped-box-{light,dark}.png`, the numbers in
+  `reference/macos/controls.md` under "What the sidebar search field
+  measures"); the toolbar's and the sheet's insets are those places'
+  own. The `Chrome` variant of `components/input`'s search field
+  therefore sets its magnifier 9 px in from the field's leading edge
+  with the prompt 5 px after it; the magnifier is the platform's
+  glyph as measured, 15 by 13 with an 11 px ring at a hairline
+  stroke, its centre on the field's centre row, not a bold icon
+  centred on its own box. The icon asset lives where the library's
+  marks live; if the same glyph serves the form variant it moves
+  there too and the change is named. The prompt's size (pool 494) is
+  typography and does not move.
+- [ ] Goldens regenerate with the cause named; fresh-eyes review of
+  the rail beside the sidebar crop, both schemes.
+- [ ] Exit: green in `components`, `components/gallery` and
+  `workbench/vaultview` by name; guard clean; commit and push in every
+  touched repo and `.github`.
+
+#### CG4.14: The retired-word guard's context exclusions match across a wrapped line
+
+- [ ] `.github/scripts/check-retired-words.sh` and
+  `scripts/retiredwords/main.go`: a `ctx` exclusion matches on one
+  line only, so prose that wraps between the retired word and its
+  kept-sense context ("material" before "Voice Memos", the retired
+  contrast word before its pointer-target criteria numbers) trips the
+  guard, as this task's own first draft did. The matcher reads the line
+  before and after as context for a `ctx` rule, and a test in
+  `scripts/retiredwords` pins one wrapped kept sense as excluded and
+  one wrapped retired sense as caught. AGENTS.md's guard note says
+  the context spans adjacent lines.
+- [ ] Goldens do not move.
+- [ ] Exit: `go test ./scripts/retiredwords/...` green; the guard
+  clean over the org; commit and push in `.github`.
+
 #### CG4.10: The pointer target is the control's own measured height
 
 - [ ] Ruling of 2026-09-17 via the ontology session, Decision 0010:
