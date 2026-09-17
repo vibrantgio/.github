@@ -21407,7 +21407,7 @@ side; it was wrong.
 
 #### CG4.7: A text field in a grouped box fills with the box
 
-- [ ] Reading of 2026-09-17 via the ontology session: no stored
+- [x] Reading of 2026-09-17 via the ontology session: no stored
   capture holds a text field inside a grouped box, so the save
   dialog's reading stands, the platform's field fills with the
   surface it stands on inside the field edge, which
@@ -21418,8 +21418,8 @@ side; it was wrong.
   field's interior as the box's fill in both appearances. Any other
   published field standing in a grouped box in the workbench follows
   the same reading, found by grep, not assumed.
-- [ ] Goldens regenerate with the cause named where a field moves.
-- [ ] Exit: green in `workbench/themer` and every touched app by name;
+- [x] Goldens regenerate with the cause named where a field moves.
+- [x] Exit: green in `workbench/themer` and every touched app by name;
   guard clean; commit and push in every touched repo and `.github`.
 
 #### CG4.8: A search field on a sidebar is the platform's flat recess

@@ -3040,3 +3040,14 @@ Filed 2026-09-17 from running the retired-word guard over the org with
 "WCAG" added to it. Everything the guard found in live code was fixed in
 the task; the three below are what the sweep turned up that it cannot fix.
 
+
+## CA. From CG4.7, a text field in a grouped box filling with the box
+
+Filed 2026-09-17 from reading every published text and search field in
+the workbench against what encloses it. Only the themer's hex field
+stood in a filled box; the two below are what the sweep turned up beside
+it.
+
+490. **[decide]** **vaultview's find-in-note field states its surface on the static path and says nothing on the live one.** `note.go:739` hands `input.RenderSearch` `Surface: findFieldSurface(tok.col)`, which is `TextBackground`; the live `input.SearchField` at `note.go:478` leaves `Surface` unsaid and falls back to `control.FieldFill`, which is `TextBackground` too. The two paths agree today by arriving at the same colour twice rather than by stating one plane once, so a note page that ever moves off the text background moves the live field and leaves the golden's field behind. Whether a field that has a static twin must state its surface on both paths, or whether the fallback is the single statement and `findFieldSurface` should go, is the ruling.
+
+491. **[decide]** **Three platform fills are the same colour, so a field on the content's plane lands right while saying nothing.** `WindowBackground`, `ControlBackground` and `TextBackground` are all `#ffffff` light and `#1e1e1e` dark. mindchat's prompt stands on the transcript's `ControlBackground` and feeds' article filter on the same fill, and both leave `Surface` unsaid, which resolves to `TextBackground` — correct only while the three coincide. The measurements were taken apart and landed together, as the light grouped box and the light chrome material did; nothing says they stay together. Whether a field owes its plane a statement even when the fallback happens to match is the ruling, and it decides how many of these callers are latent.
