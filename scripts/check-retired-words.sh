@@ -78,7 +78,7 @@ set -u
 # only — the OnX prefix of a colour read on a fill, and the hyphenated
 # on-colour in prose — so its two rules carry the ten thousand ordinary
 # prepositions the tokenizer hands them.
-WORDS="wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider,primary,secondary,tertiary,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on"
+WORDS="wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider,primary,secondary,tertiary,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on,wcag"
 
 MODULES="backdrop circle components csg design effects font gradient ivg kiwi markdown mvu noise patterns seen style svg textdraw theme traer workbench .github"
 
@@ -177,6 +177,9 @@ tint::*::ctx::(wallpaper tint|tinting off|tinted desktop|tinting on|wallpaper)::
 tint::*::!line::(^|[^a-z])(tonal|elevation|ramp|seed|palette|colou?r role|surface tint)::A control that tints under the pointer, a glyph painted through a tint, the platform's wallpaper tinting; the retired sense is Material's tonal tint of a fill.
 elevation::*::!ctx::(elevation (tint|overlay|fill|colou?r)|tonal elevation|elevation as a (fill|colou?r)|--color-elevation)::Elevation is the dimension a floating surface stands in, spoken in levels and drawn as a shadow; the retired sense is a fill derived from it.
 level::*::!ctx::(surfaceat|levelchrome|levelbackdrop|--color-level|--elevation-|level tint|tint.{0,12}level|level overlay|overlay.{0,12}level|tonal elevation|elevation (tint|overlay)|neutral step)::A heading level, Gio's layout level, a log level, an outline level, an APCA level and the Language's five levels, each with the platform fill it is given; the retired sense derives a fill from the level.
+wcag::*::ctx::(2\.5\.5|2\.5\.8|target[- ]size|pointer[- ]target|hit[- ]target|min-hit-target)::WCAG 2.5.5 and 2.5.8 are the pointer-target criteria — a size in dp, which the row keeps; only the contrast measure was retired.
+wcag::*::ctx::wcag 3::APCA's own provenance: the formula this system measures contrast with is the one the WCAG 3 drafts carry.
+wcag::doc::path::^\.github/explorations/::A pool item records what a review measured on a date, in the measure of that day; the ratio it quotes was deleted by the APCA decision.
 RULES
 #
 # Three exemptions the plan names carry no rule, because nothing in the tree

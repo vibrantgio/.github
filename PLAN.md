@@ -21357,7 +21357,7 @@ side; it was wrong.
 
 #### CG4.4: The markdown module measures contrast by APCA alone
 
-- [ ] Decision 0009 binds: APCA is the one contrast measure and
+- [x] Decision 0009 binds: APCA is the one contrast measure and
   WCAG 2 is deleted. `markdown/highlight`'s `ContrastFloor`,
   `StyleContrast` and its sweep test, `markdown/README.md`, and the
   comment in `markdown/style.go` naming WCAG 1.4.11's 3:1 still
@@ -21367,9 +21367,9 @@ side; it was wrong.
   so; whatever nothing reads goes. The retired-word guard gains
   "WCAG" as a word, with the frozen regions and Decisions excluded
   as the other words are.
-- [ ] Goldens do not move; the sweep's recorded numbers regenerate
+- [x] Goldens do not move; the sweep's recorded numbers regenerate
   with the cause named.
-- [ ] Exit: green in `markdown` by name and every consumer builds;
+- [x] Exit: green in `markdown` by name and every consumer builds;
   guard clean; commit and push in `markdown` and `.github`.
 
 #### CG4.5: Sitedocs' colour board identifiers say the platform's colours

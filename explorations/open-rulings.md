@@ -3030,3 +3030,15 @@ found around them, none of it in CG3.3's result.
 480. **[decide]** **`markdown/highlight`'s package comment names a Material palette step.** "on the light token theme that is near-white text on the light Neutral 300 code fill" — the fill has been the platform's alternating content fill since the platform ruling, and "Neutral 300" is a step in a palette this org no longer has. The guard does not cover it because the words are not on the retired list.
 
 486. **[decide]** **The themer's replay fix is only in the workspace until `mvu` is tagged.** `workbench/themer` pins `mvu v1.0.1`, which predates the replay-latest model stream, so the field follows the switch in this checkout and would not off it. The tagging round settles it; no other consumer depends on the new behaviour.
+
+## BZ. From CG4.4, the markdown module measuring by APCA alone
+
+Filed 2026-09-17 from running the retired-word guard over the org with
+"WCAG" added to it. Everything the guard found in live code was fixed in
+the task; the three below are what the sweep turned up that it cannot fix.
+
+487. **[decide]** **The live pool states its contrast findings in a measure the system deleted.** Items 1, 60, 122 and 131 are all ratios — 4.03:1, 1.23:1, 5.46:1 against 11.37:1 — and the APCA decision deleted the ratio, so none of them can be ruled on as written: a pair at 4.03:1 may or may not clear Lc 75, and the light-against-dark factor those items rest on is a property of the measure that was dropped. They are dated records and the guard rightly excludes them; what is open is whether the four are re-measured in Lc before the ruling round reaches them, or retired and re-found.
+
+488. **[decide]** **`design/DESIGN.md`'s decision records promise a report the system no longer produces.** Three passages below "Decision records" — the accessibility gate, the ramp gate and the consequences — say "WCAG 2 ratios are still computed and reported, conformance claims cite them". Nothing computes them: `theme/color` carries APCA and a relative luminance, and no ratio function survives. The records are frozen by the standing rule and the guard excludes them for it, but `DESIGN.md` is the published design document, so a reader is told the system reports a number it cannot produce. Whether a frozen record gains a dated correction note, or the published document carries a live erratum above its records, is unruled.
+
+489. **[decide]** **The 44 dp pointer target is a published-guideline number kept against the platform ruling.** `tokens.MinHitTarget` is 44 dp because WCAG 2.5.5 Target Size (Enhanced) asks for it at AAA, while the platform's own regular push button is 24 dp and its small one 19 dp, measured. The platform ruling says the measured platform value wins where the two differ; it was written about Material, and a W3C criterion is not Material, so the rule does not decide this one. Every component extends its target to 44 dp, so the answer moves hit geometry across the whole library.
