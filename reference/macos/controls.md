@@ -7,7 +7,8 @@ the two, shown). Indexed by ADR-019, "The platform's control metrics".
 
 Added 2026-09-11 by CE1.2; the dialog measurements and the ruling that the
 measured numbers supersede the published ones are CE1.5 and CE1.6; the text
-field's leading inset is CG4.19.
+field's leading inset is CG4.19, and its origin, its trailing end and the
+pop-up's own label and mark are CG4.21.
 
 ## What the stored captures measure
 
@@ -50,6 +51,10 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | pop-up button — "Where:", "File Format:" | 24 px, y 281–304 and y 336–359 | same | the same run at x=440 and x=430 |
 | text field — "Tags:", unfocused | 27 px, y 243–269 | same | the field's fill is the sheet's, so the run reads its border rows, `#f3f3f3` light and `#2c3338` dark |
 | that text field's leading inset: the field's inner edge to the text's first pixel | 7 px | same | read off the focused "Save As:" field, the only one in the sheet holding a value. Its box runs x 264–495, the same columns the "Tags:" field below it runs, so its fill begins at x=265; the first pixel column of "Untitled" is x=272. The focus ring is drawn two columns outside the box, over x 262–266, which is why the box is read off the pair rather than off the ring. Both appearances give 272; dark carries one faint antialiased column at x=271, three of 255 above the selection's fill, which light does not, and a fringe is not the glyph's first column |
+| that text field's text origin: the field's inner edge to the column the text is laid from | 6 px | same | the "Save As:" value is selected in the capture, and the selection fills from the run's origin: `#b4d8fd` light and `#406489` dark from x=271 against the fill beginning at x=265. The first covered pixel of "Untitled" is one column further in, at x=272, so the U carries 1 px of left side bearing in the face the platform sets the field in, and the 7 above is that origin plus that bearing |
+| that text field's trailing end | no reading | same | nothing in either capture reaches it. The selection behind "Untitled" ends at x=318 and the value's last covered pixel at x=317, against an inner trailing edge at x=494; the "Tags:" field below holds no value at all. The trailing inset is the leading one mirrored until a capture holds a value that reaches a field's trailing edge, which is on the capture list |
+| pop-up button's leading inset: the control's inner edge to the first pixel of its label | 12 px | same | the "File Format:" pop-up's fill runs x 264–451 with no edge column — a run down x=350 gives `#ececec` light and `#333a3f` dark from the first row of the control to the last, so its outer edge and its inner edge are one — and the first covered column of its label is x=276 in both appearances. Five columns further in than the text field's 7 above: the platform sets a pop-up's label deeper than the field's text beside it |
+| that pop-up's mark: its last pixel to the control's inner trailing edge | 9 px | same | the chevron pair spans x 435–442 against a fill ending at x=451 |
 | checkbox — "Options:" | 16 px square, y 372–387, x 264–279 | same | runs across and down the box; disabled here, which moves its fill and not its extent |
 | push button width | 74 px, both buttons | same | x 359–432 and x 441–514 |
 | the label's cap band | 10 px, y 508–517 | same | the bounding box of the label's marks inside the fill, each cap read on its own |
