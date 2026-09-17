@@ -21649,7 +21649,7 @@ side; it was wrong.
 
 #### CG4.20: The patterns README's table example stands on its own and the consumer check reads whole words
 
-- [ ] `patterns/README.md`: the table example in "Usage" and the
+- [x] `patterns/README.md`: the table example in "Usage" and the
   header-slot note in "Status" are rewritten as a self-contained
   excerpt that compiles against `patterns/table`'s current API, with
   no application named or implied (the excerpt came from an
@@ -21660,8 +21660,8 @@ side; it was wrong.
   `Marketing` the patterns category), so a support library's own
   vocabulary passes and a consumer's name still fails; a test or
   fixture in the script's own check proves both.
-- [ ] Goldens do not move.
-- [ ] Exit: `sync-agents.sh check` green; guard clean; commit and push
+- [x] Goldens do not move.
+- [x] Exit: `sync-agents.sh check` green; guard clean; commit and push
   in `patterns` and `.github`.
 
 
