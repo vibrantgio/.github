@@ -21555,3 +21555,106 @@ side; it was wrong.
 - [ ] Exit: `go test ./scripts/retiredwords/...` green; the guard
   clean over the org; commit and push in `.github`.
 
+
+### G-CG5: The controls' states and indicators are the platform's as measured
+
+Rulings of 2026-09-17 via the ontology session, after CG4.10's fresh
+eyes read the gallery's controls beside the hover and pressed
+captures: the sizes measure as macOS; the indicators and the states
+do not. Each is a standing-rule defect under measured beats
+published, planned here. Nothing in these tasks renames a component;
+the naming of the picker against a menu, pop-up or pull-down stays
+with Rene on the ruling sheet.
+
+#### CG5.1: The picker's form trigger measures 24 and draws the platform's chevrons
+
+- [ ] `components/picker`: the form trigger draws at the pop-up
+  button's measured 24 dp (`controls.md`, the save dialog's File
+  Format pop-up, both appearances), not the text field's 28; the
+  chrome variant already draws 24, so the two variants agree. Its
+  indicator is the platform's, measured off the Finder toolbar
+  capture: the stacked chevron pair for a pop-up, the single thin
+  chevron for a pull-down, hairline strokes in the secondary label's
+  grey, sized and inset as measured; the solid filled triangle goes.
+  The gallery's toolbar trigger already draws the single chevron and
+  keeps it.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of the picker's states beside
+  the save dialog's pop-up and the Finder toolbar.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer by name; guard clean; commit and push in every touched
+  repo and `.github`.
+
+#### CG5.2: Button and chip hover and disabled are the platform's fills
+
+- [ ] `components/button` and `components/chip`: hover takes the
+  platform's hover fill measured off `control-hover-{light,dark}.png`
+  (`HoverOverlay` flattened over the control's fill, or the measured
+  value if the capture disagrees, named as measured); a dialog push
+  button that the platform does not hover keeps rest, stated with the
+  capture that shows it. Disabled fades the whole control as the save
+  dialog measures: `PushButtonFill` under `DisabledControlText`, the
+  fill and edge at the measured disabled coverage, so a disabled push
+  button and an enabled Tonal one are no longer byte-identical; the
+  picker's disabled trigger and the text field's disabled edge follow
+  the same measurement.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of the hover and disabled
+  specimens beside the captures.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer by name; guard clean; commit and push in every touched
+  repo and `.github`.
+
+#### CG5.3: A control's edge lies inside its box and the checkbox row is measured
+
+- [ ] `components/button`'s `strokeRRect` insets a 1 dp edge so the
+  whole stroke falls inside the reported size, as the checkbox
+  already draws its edge; the pure and live paths paint the same
+  pixels and a Tonal button measures 24 beside a Filled one. The
+  checkbox's and radio's row is measured off the reference: the
+  save dialog's Options checkbox row and any other capture holding a
+  checkbox in a row, recorded in `controls.md`; the footprint the
+  glyph is centred in takes the measured row height, whichever of
+  `ControlHeight` and `RowHeight` the measurement names, and the
+  density scale records it.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `theme`, `components`, `components/gallery` and
+  every consumer by name; guard clean; commit and push in every
+  touched repo and `.github`.
+
+#### CG5.4: The picker's menu floats on the platform's menu material
+
+- [ ] `components/picker`'s open menu is the platform's menu as
+  measured: it floats on the menu material distinctly lighter than
+  the window behind it (measure it off the reference; if no capture
+  holds an open menu, pool the gap and use `WindowBackground` lifted
+  by the floating shadow until it is filled), with the inset rounded
+  selection (the sidebar pill's inset and radius unless the menu
+  measures its own), a checkmark beside the current item, and it
+  opens over the trigger with the current row aligned to it rather
+  than dropping below. Its corner and shadow follow the existing pool
+  items 170, 329 and 416, which close with this task.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of the open menu beside the
+  reference.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer by name; guard clean; commit and push in every touched
+  repo and `.github`.
+
+#### CG5.5: Focus is one halo outside the control
+
+- [ ] Every focusable control draws focus one way, the platform's:
+  a halo outside the control at the measured coverage and width
+  (the save dialog's focused field shows it), the control keeping its
+  own edge and fill; the button's one-pixel darker ring inside the
+  accent fill goes, and the checkbox's and radio's focused paint no
+  longer replaces the 16 dp box with a larger one. The halo is drawn
+  in one place the controls share.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of the focused specimens
+  beside the save dialog.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer by name; guard clean; commit and push in every touched
+  repo and `.github`.
+
