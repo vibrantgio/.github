@@ -21247,13 +21247,13 @@ readouts take the colours of the meter's own display, photographed in
 
 #### CG3.2: Every gallery caption reads as plain prose
 
-- [ ] `components/gallery/inventory`: the code specimen's caption
+- [x] `components/gallery/inventory`: the code specimen's caption
   becomes "Markdown — a fenced code block in the chosen syntax base";
   every other Section title is read for the same fault (a clause that
   states no fact a reader can see) and rewritten as one plain caption.
   Sitedocs shows the same titles and moves with them.
-- [ ] Goldens regenerate with the cause named.
-- [ ] Exit: green in `components/gallery` and `workbench/sitedocs` by
+- [x] Goldens regenerate with the cause named.
+- [x] Exit: green in `components/gallery` and `workbench/sitedocs` by
   name; commit and push in every touched repo and `.github`.
 
 #### CG3.3: The sk150's readouts take the meter's own colours
