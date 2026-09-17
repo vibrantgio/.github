@@ -3044,3 +3044,34 @@ the placeholder's colour back as the platform's; everything below is
 what it found around them, none of it in CG4.8's result.
 
 494. **[decide]** **The search field's prompt is set about a fifth larger than the platform's.** Cap height 12 px against the sidebar field's 10, x-height 9 against 7 — BodyLarge's 16 sp where the platform sets its field at ~13 pt. `controls.md` already records the same gap against the push button's label cap band and leaves it, because typography is not the density scale's to move. It is one role's size, and it moves every field and every label set in that role with it.
+
+
+## CC. From CG4.10, the pointer target as the control's own height
+
+Filed 2026-09-17 from the task itself and from the fresh-eyes review of the
+gallery's controls beside the platform's captures. The review read every
+size back as the platform's — the 24 dp button and its corner, the accent
+fill, the pop-up's grey, the 16 dp checkbox, the field's hairline — and
+everything below is what it found around them, none of it in CG4.10's result.
+
+497. **[decide]** **The inline marks' pointer targets are still a borrowed 24 dp, and one of them now overhangs the control it rides on.** `badge.CloseHitDp`, `chip.DismissHitDp` and `input.ClearHitDp` are 24 dp apiece, picked as the AA target-size criterion before the platform ruling and left standing when CG4.10 deleted the 44. A Comfortable chip draws 20 dp, so its dismiss mark's target now reaches 2 dp past the chip above and below, where it used to sit inside the chip's own extended target. What the platform gives a mark inside a control is unmeasured: no stored capture holds one.
+
+498. **[bug]** **A control's 1 dp edge is drawn straddling its own boundary, so the pure path paints a control 2 px taller than its measured height.** `components/button`'s `strokeRRect` insets by `w/2`, which is 0 for a 1 px stroke, so the hairline path runs along the box's edge and half the stroke falls outside the reported size — the review measured a Tonal button at 26 px beside a Filled one at 24, where the platform's Cancel and Save share both edges exactly. Gio's `widget.Clickable` clips its child to the size it reports, so with the pointer target now the control's own box the live path drops that outer half and the pure path still paints it: `icon-light-compact` is that half-pixel and is the one golden CG4.10 moved. `components/input`'s checkbox already draws its edge as nested fills for the same reason.
+
+499. **[bug]** **Comments across four repositories still quote the pre-measurement control heights.** "36 dp Comfortable, 28 dp Compact" survives in `components/pagination`, `components/picker/menu.go`, `components/list`'s and `patterns/table`'s tests, `patterns/README.md` and `workbench/todos`, and "40 dp Comfortable" in `components/input/dropdown_test.go`, where the measured scale has been 24 and 19 since CE1.2 and an option row 28 and 24. None of the words is retired, so the guard cannot see them.
+
+500. **[decide]** **Two workbench rows were sized from the pointer floor CG4.10 deleted.** `feeds`' `prefsRowHDp` is 44 and `todos`' action row 48, both picked to leave a ghost control its old target. The comments now say what the rows are for; the numbers themselves no longer have a provenance.
+
+501. **[decide]** **No capture holds a macOS checkbox's row.** CG4.10 made the checkbox's and the radio's pointer target the footprint the 16 dp glyph is centred in, which is `Density.ControlHeight` — 24 dp Comfortable, 19 Compact. `controls.md` measures the glyph's 16 px square and the sheet's 24 px controls, but not the row a checkbox stands in, so whether the platform's checkbox row is the control height or the 20 dp list row is unmeasured.
+
+502. **[bug]** **The picker's form trigger draws a solid filled triangle where the platform draws chevrons.** The Finder toolbar capture carries both shapes the platform uses — a stacked chevron pair for a pop-up, a single thin chevron for a pull-down, hairline strokes in the label's grey — and the gallery's own toolbar trigger already draws the single chevron, so the two variants of one component disagree.
+
+503. **[decide]** **The picker's open menu is the page's own fill on the page, and it drops below the control.** Measured: the menu's interior is 255,255,255 light and 30,30,30 dark, the same as the page immediately outside its 1 px hairline, where the platform floats a menu on a material distinctly lighter than the window behind it. Its highlight is a full-bleed square bar running edge to edge, where the platform insets and rounds the selection; it carries no checkmark beside the current item; and it opens under the trigger where a platform pop-up opens over it with the selected row aligned to the control. The square corner and the missing shadow already stand as 170, 329 and 416.
+
+504. **[decide]** **The picker's form trigger draws 28 dp where the platform's pop-up button measures 24.** It is sized by the text field's rule — BodyLarge's 24 dp line box plus 2×PaddingY — and `controls.md` measures the pop-up button at 24 px in the same capture as the push button, both appearances agreeing. The chrome variant already draws 24, so the two variants of one component are 4 dp apart from each other as well as from the platform.
+
+505. **[bug]** **The gallery's hover specimens on button and chip are pixel-identical to rest.** Maximum channel difference zero in both appearances: a filled button is flat 0,122,255 in both columns, an unselected chip 236,236,236 in both, a selected one 0,100,225 in both; only press moves. A dialog push button genuinely has no hover on this platform, but the Finder capture shows the toolbar controls taking a bezel under the pointer, and a chip is that kind of control. Either the state is unimplemented or the specimen is mislabelled.
+
+506. **[decide]** **Focus is drawn three different ways, and on a filled button it is blue inside blue.** The button's ring is a one-pixel darker accent drawn inside the accent fill, unreadable at 1x; the platform draws a light halo outside the control while the control keeps its own edge, which the reference's Save As field shows. On the checkbox and radio the focused paint replaces the 16 dp box with a 24 dp ring and reduces the box to a grey ghost with no crisp edge, where the platform keeps the box intact and adds the halo round it.
+
+507. **[bug]** **Disabled is the label alone: a disabled button's fill is byte-identical to an enabled Tonal one.** Measured 236,236,236 for both, and the disabled picker's fill and the disabled field's hairline are byte-identical to their enabled ones — only the text greys, so a disabled push button and an enabled Tonal button are the same object. The platform fades the whole control: in the reference sheet the disabled checkbox's bezel sits at 242 against a 255 background while its label sits at 204.

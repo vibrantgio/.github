@@ -21537,7 +21537,7 @@ side; it was wrong.
 
 #### CG4.10: The pointer target is the control's own measured height
 
-- [ ] Ruling of 2026-09-17 via the ontology session, Decision 0010:
+- [x] Ruling of 2026-09-17 via the ontology session, Decision 0010:
   the platform's value over the borrowed one. `tokens.MinHitTarget`
   (44 dp, W3C AAA) goes; a control's pointer target is its own
   measured height, 24 in Comfortable and 19 in Compact, as the Badge
@@ -21545,12 +21545,12 @@ side; it was wrong.
   reads `MinHitTarget` (41 outside tests, in `components`, `theme`,
   `patterns`, the workbench) takes the control's height from the
   density scale instead, the padding it added to reach 44 goes, the
-  prose and the AGENTS table's WCAG row drop the pointer-target
-  clause, and the guard's kept-sense rule for WCAG 2.5.5/2.5.8 goes
+  prose and the AGENTS table's `WCAG` row drop the pointer-target
+  clause, and the guard's kept-sense rule for `WCAG 2.5.5/2.5.8` goes
   with it (nothing live cites them afterwards).
-- [ ] Goldens regenerate with the cause named where a control's
+- [x] Goldens regenerate with the cause named where a control's
   target shrank; fresh-eyes review of the gallery's controls beside
   `control-hover-{light,dark}.png`, both schemes.
-- [ ] Exit: green in `theme`, `components`, `components/gallery`,
+- [x] Exit: green in `theme`, `components`, `components/gallery`,
   `patterns` and `workbench` by name; guard clean; commit and push in
   every touched repo and `.github`.

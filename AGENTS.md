@@ -64,7 +64,7 @@ libraries. It is not how you work this plan.
 | inverse surface | a fill | the platform's name for that surface |
 | elevation, level | a source of fill | the platform's name for the level's fill (elevation stays for the shadow dimension, level for Gio's layout, a heading level and the five levels) |
 | Material, MD3, M3 | the design system | the platform (a macOS material, Gio's widget/material, the Material Design icon sets and a renderer's material stay) |
-| WCAG | a contrast measure | APCA, Lc (WCAG 2.5.5 and 2.5.8, the pointer-target criteria, stay, as does WCAG 3, which carries APCA) |
+| WCAG | a contrast measure | APCA, Lc (WCAG 3 stays, which carries APCA) |
 
 The Language in DOMAIN.md retires words. A retired word in a packet, a
 review, a comment, a doc or an identifier is a defect; say the
