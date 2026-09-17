@@ -21485,7 +21485,7 @@ side; it was wrong.
 
 #### CG4.11: The theme module's README names no consumer
 
-- [ ] A support library never names a consumer. `theme/README.md`
+- [x] A support library never names a consumer. `theme/README.md`
   still names the workbench applications in three places outside the
   bootstrap section CG4.6 rewrote: the live-theme paragraph, the tier
   paragraph and the canonical-guide link. Each says what it says
@@ -21494,8 +21494,8 @@ side; it was wrong.
   prose for `workbench`, `mindchat`, `vaultview`, `feeds`, `todos`,
   `themer`, `sitedocs`, `sk150`, `iconbrowser`, `marketing`,
   `launcher` afterwards; nothing remains.
-- [ ] Goldens do not move.
-- [ ] Exit: green in `theme` by name; guard clean; commit and push in
+- [x] Goldens do not move.
+- [x] Exit: green in `theme` by name; guard clean; commit and push in
   `theme` and `.github`.
 
 #### CG4.12: Every field states the surface it stands on, on every path
