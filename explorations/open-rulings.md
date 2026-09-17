@@ -3084,15 +3084,3 @@ The one item this section filed, 540 — a switched-off control fading its
 wording and keeping its whole bezel — was CG5.2's own task text and left the
 pool when CG5.2 landed. The section is kept for the two confirmations above.
 
-## CG. From CG5.2, the controls' hover and switched-off states as the platform's
-
-Filed 2026-09-18 from the measurement itself and from the fresh-eyes review of
-the gallery's button, chip, picker and text-field specimens and the picker's
-eight state images beside the hover, pressed and save-dialog captures. The
-review read every state with a platform anchor back as exact — light hover,
-both pressed fills, both resting fills, the light switched-off fill, the dark
-switched-off text, the label colours and the pop-up's 24 px — and everything
-below is what stands around them. CG5.2 closed the item that a switched-off
-control keeps its whole bezel, which is why 540 has left the pool.
-
-549. **[decide]** **A switched-off control's wording reads `tertiaryLabelColor` in the light appearance, not `disabledControlTextColor`.** The Save dialog's two switched-off checkbox labels plateau at `#bdbdbd` on the sheet's white, which is black at 66/255 to the byte, where `disabledControlTextColor`'s 63/255 lands on `#c0c0c0` — and pixels at that value stand in the same labels. The two names are identical in the dark appearance, where both report 63/255, so only light can tell them apart. The library spends `DisabledControlText`, the platform's own name for a control's switched-off text; which of the two the platform draws is unsettled.

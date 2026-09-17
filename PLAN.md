@@ -21796,7 +21796,11 @@ with Rene on the ruling sheet.
   checkbox in a row, recorded in `controls.md`; the footprint the
   glyph is centred in takes the measured row height, whichever of
   `ControlHeight` and `RowHeight` the measurement names, and the
-  density scale records it.
+  density scale records it. The checkbox's and radio's switched-off
+  label wears `TertiaryLabel`, the one name that matches the save
+  dialog's switched-off checkbox labels in both appearances (66/255
+  light, coinciding with `DisabledControlText`'s 63/255 dark, read by
+  CG5.2); the push button's wording keeps `DisabledControlText`.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included.
 - [ ] Exit: green in `theme`, `components`, `components/gallery` and
