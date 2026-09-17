@@ -21611,6 +21611,25 @@ side; it was wrong.
   `.github`.
 
 
+#### CG4.18: No support library's README points at a consumer
+
+- [ ] The support-library rule reaches every document a support repo
+  publishes: each support repo's `README.md` still carries the
+  canonical-guide link to `workbench/llms.txt` that CG4.15 retired
+  from AGENTS.md. The link is replaced by a pointer at the plan
+  root's `AGENTS.md` as the org's guide, in the same words the
+  managed AGENTS.md block uses; any other sentence in a support
+  repo's README that names `workbench` or an application by name is
+  reworded to say what it says without the name. `sync-agents.sh
+  check` gains the same three assertions over README.md files, so
+  drift fails the check. The workbench's own README and `llms.txt`
+  and `design/DESIGN.md`'s frozen records are not touched.
+- [ ] Goldens do not move.
+- [ ] Exit: each changed repo's README committed and pushed with the
+  task heading as subject; the check green; guard clean; commit and
+  push in `.github`.
+
+
 ### G-CG5: The controls' states and indicators are the platform's as measured
 
 Rulings of 2026-09-17 via the ontology session, after CG4.10's fresh
