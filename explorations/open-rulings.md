@@ -3068,12 +3068,3 @@ none of it in CG4.13's result.
 
 510. **[decide]** **The leading cluster keeps the platform's absolute measures while the prompt is set in a role a fifth larger.** The glyph is drawn at the platform's size and the gap after it at the platform's five columns, both measured; the prompt beside them is BodyLarge. So the platform's ring runs about 18% larger than its own cap height and ours runs level with a cap 19% taller — the glyph reads undersized beside its own text, and the gap that is right in pixels is proportionally tight. It is pool 494's consequence read off the drawn pixels, and it closes at either end: the role's size, or a cluster that scales with the text it leads.
 
-## CE. From CG4.16, the prompt on the field's centre row
-
-Filed 2026-09-17 from the task itself. The centring and the form
-variant's two numbers landed; everything below is what the measurement
-found around them, none of it in CG4.16's result.
-
-519. **[decide]** **Both variants' gaps are spent from a rounded-down drawing end, so the drawn clear space is a third of a column short of the measured one.** The captures measure the gap from the looking glass's last pixel; the drawing places that glass at a fraction of a pixel and the text after `int(glyphX+drawing)`, so a 13.33 px glass starting at a whole column ends a third of a column past the last whole one. The chrome variant draws 4.67 px clear where the sidebar measures 5, and the form variant 7.67 where Mail measures 8. It closes either by spending the gap from the drawing's true end or by ruling the rounding the platform's own.
-
-520. **[decide]** **The text field's own leading inset is still the spacing token, where the search field's is now measured on both variants.** A field carrying no looking glass sets its text `spacing.S3` — 12 dp — in from its edge, a number with no capture behind it. `controls.md` holds two fields whose text inset could be read directly: Finder's info-pane field and Mail's toolbar field, the second already read for the glyph.
