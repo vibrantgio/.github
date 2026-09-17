@@ -21772,7 +21772,12 @@ with Rene on the ruling sheet.
   at their sizes (Compact draws its 19 dp around the 24 dp line box
   today; the label is clipped or the line box shrunk to what the 19
   px control shows, measured off `controls.md`'s small control rows).
-  Every number recorded in `controls.md`.
+  `picker.FieldState` gains `Surface` so a switched-off trigger fades
+  toward the surface it stands on, as every field states (CG4.12);
+  the gallery's picker row shows the form trigger under the pointer
+  and the text field under the pointer, making room by a second row
+  if the page's width is spent. Every number recorded in
+  `controls.md`.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of both variants beside the
   Finder toolbar and the save dialog crops.
@@ -21846,7 +21851,9 @@ with Rene on the ruling sheet.
   what G-CG5 landed: the pop-up trigger at the control height, no
   edge until focus, label 11 plus bearing, the 8 by 11 chevron pair
   as a masked SVG in `--platform-control-text` ending 9 px clear;
-  hover, pressed and disabled as CG5.2 measured; the edge inside the
+  hover, pressed and disabled as CG5.2 measured (the sheet emits no
+  hover rule and no fade today, and its `.select` still draws the
+  hairline and the 16 dp mark); the edge inside the
   box, the checkbox row, the menu and the focus halo as CG5.3 to
   CG5.5 landed. `design/mirror` is green with its ceiling unchanged
   and still failing the nearest wrong variant; the bundle regenerated
