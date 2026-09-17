@@ -115,3 +115,102 @@ before being set aside; the first two are new and belong in the next brief.
   because the separator lies on the window's plane, the inspector's `#e6e6e6`
   because it lies on the content. Both are the Language's seam rule applied
   correctly, and they do not look like one window.
+
+# CG1.1, second pass — the rail leaves the plane it was set into
+
+The first pass kept the rail in `patterns/pane`: a rounded column set one
+margin inside the window's leading, top and bottom edges with a hairline
+round it, on the window's own plane. That was wrong, and the worker's
+ruling defending it was wrong with it.
+
+`finder-window-untinted-light.png` settles it. At row 500 the sidebar's
+`#f7f7f7` runs to x=351 and the content's `#ffffff` begins at x=352, with no
+hairline between them in 112 of 114 sampled rows; at x=200 the fill runs to
+the window's own top and bottom opaque bounds. The dark capture agrees on
+three sides and draws one pixel of `#434343` on the fourth. The eight-pixel
+band that shows left of the light sidebar is the rim macOS 26 draws inside
+the window frame, which is the platform's and not the application's to
+paint — and the dark capture does not carry it at all. The `#a1a1a1` and
+`#919191` read off `chatgpt-window-light.png` in the first pass are that
+window's own shadow and rim, not a plane with a panel inset on it.
+
+So `patterns/pane` became the flush chrome column — the run to the window's
+leading, top and bottom edges and one seam to what stands beside it — and
+every rail that passes it through moved with it: vaultview's, mindchat's and
+the gallery's own specimen. The inspector was re-measured the same way and
+was already right.
+
+The renders below are the task's own `window-light.png` and
+`window-dark.png` goldens at 1x, 1100×800, beside `chatgpt-window-light.png`
+and the two untinted Finder captures. The brief carried the first pass's
+misreads forward and added the operating system's rim, the square outer
+corners, the two measured pill values, and the four findings already filed.
+
+## The reviewer's reply, verbatim
+
+> Yes — at a glance it reads as a macOS window, and the bones are right. The pane tones are exactly the platform's: sidebar #F7F7F7 against #FFFFFF content in light and #1C1C1C against #1E1E1E in dark, which is pixel-for-pixel what the untinted Finder captures show, and the right-hand panel correctly takes the sidebar's tone rather than inventing a third. The sidebar row pitch is 32px, the same as Finder's. The selection pill, the breadcrumb, the disclosure chevrons and the outline indent-by-heading-level all behave. Both appearances hold together as the same window. The faults are these.
+>
+> **The search field has no field.** In light, the "Find a note…" box is filled #F7F7F7 — bit-identical to the sidebar behind it — and outlined with #F3F3F3, four levels off the surface. There is nothing there to see; at 1x it is a magnifier and some placeholder text with a ghost of a rectangle. Finder's search field is #F7F7F7 sitting on the #FFFFFF toolbar, an eight-level recess carried by fill and no stroke at all. Ours has the stroke and not the recess, and the stroke is below the threshold of visibility. In dark the same box is filled #1C1C1C, again identical to the sidebar, but its border is #2C3338, which is strong enough to see — so the control is plainly visible in dark and effectively absent in light. Finder's dark search field is #262626 on a #1E1E1E backdrop, again an eight-level fill step.
+>
+> **The dark window's control chrome is tinted blue.** Every grey in the dark render is neutral — #1C1C1C sidebar, #1E1E1E content, #323232 and #343434 seams, #DDDDDD and #999999 text — except the controls. The "Rescan" and "Switch Vault" fill is #333A3F, the buttons' border is #3E4449, and the search field's border is #2C3338. All three carry 4–6 levels more blue than red. At 1x the two footer buttons read as faintly blue slabs in the bottom-left corner against an otherwise dead-neutral window. The same buttons in light are #ECECEC, perfectly neutral, so the pair does not match across appearances.
+>
+> **The note text is pure black and pure white; nothing else in the window is.** The document title "Second Brain", the H1 "Reading list", both H2s, the paragraphs and the bullet items all have glyph cores at #000000 in light and #FFFFFF in dark. Every other label in our own window uses the platform value — the sidebar items are #262626/#DCDCDC, the breadcrumb's current page is #272727/#DDDDDD — and that is also what Finder's filenames and ChatGPT's body copy measure at (#272727 light, #DDDDDD dark). So the breadcrumb "Reading list" at y=55 and the heading "Reading list" 160 pixels below it are painted two different blacks, and in dark the whole note body is glaring white where the chrome around it is correctly held back.
+>
+> **The right-hand panel's contents are shoved against its left edge.** The panel occupies x=781–1099. The selected "Reading list" pill and the hairline above "Backlinks" both run x=790–1067: nine pixels of inset on the left, thirty-two on the right. The blue selection bar visibly stops well short of the window's right edge while hugging the divider side, and the Backlinks rule does the same. The sidebar's own pill is inset 10 left and 9 right, so the two list panels are built to different rules.
+>
+> **The three panes start and stop at three different heights.** At the top, the sidebar's toggle icon occupies y=18–33 and the title "Second Brain" y=19–30, but the right panel's first element, the "Outline" heading, does not begin until y=47 — a 28-pixel hole in the top-right corner with no header in it. At the bottom it is worse: the sidebar has a footer with an inset hairline at y=759 and buttons at y=770–789; the content pane's "29 lines" floats at y=783–792 on bare white with no footer rule, band, or separation from the document above it, seven pixels from the window edge; and the right panel simply runs out of text at y=758 with forty pixels of empty grey below. Nothing along the bottom edge relates to anything else.
+>
+> **The note's vertical scrollbar is full length on a document that fits.** The thumb runs x=766–771, y=198–744 — 547 pixels, essentially the whole track — beside a note whose last element, the code fence, ends at y=740 with all three of its outline entries visible on screen. A thumb that spans its own track is a scrollbar indicating nothing; macOS would not draw one. I am reporting its length and presence, not its weight or colour.
+>
+> Two smaller ones. The two pane seams are drawn at different strengths — the sidebar/content divider is #DFDFDF and the content/panel divider is #E6E6E6 in light (#323232 and #343434 in dark) — so the left seam is measurably harder than the right. And the light-mode "29 lines" is #969696, while the sidebar's own secondary text ("Find a note…", the outline items) is #7C7C7C, which is the platform's secondary label; in dark both are #9A9A9A and correct, so only the light status line drifts pale.
+>
+> Geometry of the footer buttons, for the record: 20 pixels tall with 8 pixels of padding beside "Rescan" — short and tight for a macOS push button, and painted a fill darker than the surface they stand on with a border only eleven levels off their own fill, so they read as flat recessed patches rather than raised controls.
+
+## Disposition
+
+**Fixed here.** Nothing from this reply. The window it read is the window
+this pass built; every fault it names is either already filed or a question
+the reference answers three different ways, and none is the plane the pass
+was reopened to remove.
+
+**What the reply confirms.** The pane tones, the 32 px row pitch and the
+inspector taking the sidebar's own fill rather than a third one are what the
+untinted Finder captures measure, and the reviewer sampled them
+independently. The plane is gone and nothing replaced it.
+
+**Recorded misread.**
+
+- **The note's scroll indicator is not on a note that fits.** The golden
+  note is taller than its viewport — `TestNoteScrollbarOnlyWhenTheNoteOverflows`
+  is the assertion that an indicator appears only when it is — and the thumb
+  runs y 198–744 in a track of very nearly that length because the note
+  overflows by a few rows. The reviewer's reading of the pixels is right and
+  the conclusion is not. What is left of the finding is real and is filed
+  below: an indicator that spans its own track tells the reader nothing.
+
+**Already pooled.**
+
+- The dark controls' blue cast — `PushButtonFill` `#333a3f` and `FieldEdge`
+  `#2c3338` — is item 425: both dark values were measured over the tinted
+  `#232a2e` plane and carry the reference desktop's cast against the
+  untinted `#1e1e1e` window. The reviewer found it a third time,
+  independently, and adds the button's border `#3e4449` to the list.
+- The note's prose at pure black and pure white where every label around it
+  takes the platform's is item 427, `textColor` against `labelColor`.
+- The inspector's rows inset 9 leading and 32 trailing is item 435, filed in
+  the first pass with the same measurement.
+- The two seams at `#dfdfdf` and `#e6e6e6` is item 436, which this pass
+  brought from `#919191`/`#e6e6e6` to those two.
+
+**New for pooling.** Items 439 to 443.
+
+- The search field, which is the reply's first finding and its strongest.
+  The task named the save dialog's field and `FieldEdge`, and that is what
+  this window draws; the reference does not agree with itself about what a
+  SEARCH field on a chrome rail is, and the answer the task named is
+  invisible in light. Measured for the item rather than painted.
+- The three columns' tops and feet not relating to one another.
+- The scroll indicator spanning its whole track.
+- The light status line one tier pale.
+- The foot's push buttons reading as recessed patches on a surface lighter
+  than their own fill.

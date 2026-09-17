@@ -21128,7 +21128,7 @@ Rene. No tags.
 
 #### CG1.1: The rail, the content and the outline read as one window
 
-- [ ] `workbench/vaultview` (and `patterns/pane`, `sidebar`, `shell`
+- [x] `workbench/vaultview` (and `patterns/pane`, `sidebar`, `shell`
   where the app only passes through): measured against
   `chatgpt-window-light.png` and the Finder and Notes captures, in
   both schemes: the rail is one flat sidebar material with no boxed
