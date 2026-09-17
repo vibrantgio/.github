@@ -142,6 +142,61 @@ offscreen through AppKit does not substitute — an `NSTableView` at
 pill as `#424242` where Finder draws `#2a2a2a`, because the platform's pill is
 drawn with a vibrancy that has no backdrop offscreen.
 
+## What the sidebar search field measures
+
+Added 2026-09-17 by CG4.8, from `system-settings-grouped-box-light.png` and
+`system-settings-grouped-box-dark.png` (723×720, the whole System Settings
+window, one capture per appearance at 1x, wallpaper tinting ON — the pair
+`cardFill` was read from) and from the toolbar search field in
+`voicememos-sidebar-light.png` and `voicememos-window.png`. The System
+Settings sidebar carries a search field at its top; that field is the recess
+below. Coordinates are window coordinates, (0,0) at the window's top-left
+outer corner.
+
+| what | measured | where | method |
+| --- | --- | --- | --- |
+| the recess's fill | `#e8e8e8` light, `#2f3234` dark | `system-settings-grouped-box-{light,dark}.png` | flat-region samples inside the field, x 120–204, y 64–85: the dark one is `#2f3234` over all 1870 pixels; the light one is `#e8e8e7` over 1690 of them and `#e8e8e8` over the rest, the blue channel one 255th down with the whole rail's shading — the sidebar beside it reads `#fafaf9` over 34141 of 49400 sampled pixels against `#fafafa` over 4598. Voice Memos' toolbar field carries the light value flat: `#e8e8e8` over 4527 pixels |
+| the recess's extent | 195 × **28 px**, x 18–212, y 61–88 | both | a luminance run down x=120, clear of the marks: the sidebar to the fill at y=61 and back at y=89, in both appearances to the row; a run across y=75 gives the two ends |
+| the recess has no edge | none in either appearance | both | the runs above step from the sidebar to the fill in one row and one column — no stroke row, no rim row, and the only intermediate values are the corner's antialiasing |
+| the recess's corner | fully rounded — 14 px, half its height | both light and dark | a circular fit to the sub-pixel coverage of the left end, its extreme pinned at x=18: r = 14.7, rms 0.38 px over 26 rows. The platform's corner is a continuous curve, which is what puts a circular fit above the half-height, exactly as the sidebar pill's 8 px corner fits at 7.9 and 8.4 above |
+| the recess's insets from the sidebar's edges | 8 px leading, 8 px trailing | both | the sidebar's fill spans x 10–220 between a 2 px light rim at x 8–9 and the seam at x 221–222; the field spans x 18–212 inside it. The same 8 px on each side in both appearances |
+| the recess's top | 53 px below the window's top outer edge | both | the window's top rim is at y=8 and the field's first row at y=61; the window buttons are centred at (25.5, 25.5), the red one spanning x 19–32, y 19–32 |
+| the magnifier | 15 × 13 px, x 27–41, y 69–81 | both | the bounding box of the glyph's marks inside the fill. Its leading inset is 9 px — the recess's edge at x=18 to the glyph's first pixel at x=27 — and its centre row, y=75, is the recess's own (y 61–88) |
+| the placeholder | an 11 px cap band, x 47–88, y 70–80, 5 px after the magnifier | both | the bounding box of "Search" inside the fill |
+| the magnifier's and the placeholder's colour | `placeholderTextColor` over the recess — black at 127/255 light, white at 140/255 dark | both, and `voicememos-window.png` | light: the placeholder's darkest pixel is `#747474`, which is that coverage over `#e8e8e8` to the byte, and the magnifier's is `#787878`, four 255ths short because a thin ring never fully covers a pixel. Dark: the placeholder peaks `#979899` on the recess, white at 127/255 rather than the 140/255 AppKit answers with — Voice Memos' untinted dark toolbar field peaks `#a4a4a4` on its `#363636` fill, white at 140/255 to the byte, so the shortfall is this sidebar's vibrancy and not the platform's answer. `secondaryLabelColor` carries the same two coverages, so the mark and the prompt are one colour |
+
+**The recess is a fill, not a step over what it stands on.** In the light
+appearance the same `#e8e8e8` stands on two different chrome fills — System
+Settings' `#fafaf9` sidebar and Voice Memos' `#ffffff` toolbar band — so it
+cannot be a coverage over what it stands on. The direction does not
+survive the scheme either: light, the recess is 18 levels darker than the
+sidebar; dark, it is 19 levels lighter than it (`#2f3234` over `#1c2124`).
+Recorded in `nscolors.tsv` as the measured material `sidebarSearchFill`,
+which is the name the reading earns: one fill, read off a sidebar, carrying
+neither a step nor the toolbar field's dark value.
+
+**The toolbar field is a different control.** In the same two appearances
+Voice Memos' toolbar search field measures 36 px tall (y 46–81 light, y 8–43
+dark), against the sidebar recess's 28, and in the dark appearance it wears a
+1 px `#4d4d4d` rim above and below its `#363636` fill where the sidebar
+recess wears none. Its light fill is the recess's `#e8e8e8` and its dark fill
+is not, so neither capture corrects the other and both are recorded.
+
+**Where the drawn height already lands.** A Comfortable text field in this
+library draws 28 dp — BodyLarge's 24 dp line box plus 2×2 dp of the density's
+padding, over the 27 dp floor — which is the recess's measured 28 to the
+pixel. The chrome variant therefore takes no height of its own; it takes the
+corner, the fill and the absence of an edge.
+
+**What is open here.** The dark reading was taken with wallpaper tinting on,
+so `#2f3234` carries the desktop picture's cast the way `cardFill`'s
+`#2a3034` does, and the sidebar it stands on reads `#1c2124` rather than the
+untinted `#1c1c1c` recorded as `sidebarMaterial`. No stored capture holds a
+sidebar search field in the dark appearance untinted. One capture closes it:
+a **window with a search field at the top of its sidebar, in the dark
+appearance, with "Tint window background with wallpaper colour" switched
+off**, window-bounded at 1x.
+
 ## Where the measured heights supersede the published ones
 
 MEASURED, from the captures above, against the PUBLISHED rows below. Where

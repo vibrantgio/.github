@@ -21424,7 +21424,7 @@ side; it was wrong.
 
 #### CG4.8: A search field on a sidebar is the platform's flat recess
 
-- [ ] Reading of 2026-09-17 via the ontology session: the System
+- [x] Reading of 2026-09-17 via the ontology session: the System
   Settings capture (`system-settings-grouped-box-{light,dark}.png`,
   the whole window) shows its sidebar search field as a flat recess
   with no stroke, the Voice Memos answer, standing on a sidebar. That
@@ -21441,9 +21441,9 @@ side; it was wrong.
   is read for whether it is a search field on a rail and takes the
   same. A text field that is not a search field keeps the save
   dialog's edge.
-- [ ] Goldens regenerate with the cause named; fresh-eyes review of
+- [x] Goldens regenerate with the cause named; fresh-eyes review of
   vaultview's rail beside the System Settings sidebar, both schemes.
-- [ ] Exit: green in `theme`, `components`, `components/gallery`,
+- [x] Exit: green in `theme`, `components`, `components/gallery`,
   `workbench/vaultview` and every touched app by name; guard clean;
   commit and push in every touched repo and `.github`.
 
