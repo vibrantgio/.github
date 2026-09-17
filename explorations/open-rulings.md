@@ -3034,13 +3034,6 @@ found around them, none of it in CG3.3's result.
 
 486. **[decide]** **The themer's replay fix is only in the workspace until `mvu` is tagged.** `workbench/themer` pins `mvu v1.0.1`, which predates the replay-latest model stream, so the field follows the switch in this checkout and would not off it. The tagging round settles it; no other consumer depends on the new behaviour.
 
-## BZ. From CG4.4, the markdown module measuring by APCA alone
-
-Filed 2026-09-17 from running the retired-word guard over the org with
-"WCAG" added to it. Everything the guard found in live code was fixed in
-the task; the three below are what the sweep turned up that it cannot fix.
-
-
 ## CA. From CG4.7, a text field in a grouped box filling with the box
 
 Filed 2026-09-17 from reading every published text and search field in
