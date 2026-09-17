@@ -6332,7 +6332,9 @@ window edges; the crops are tight on the region each number was read from.
   `mail-window-light.png` — the same two applications and the same window
   sizes as the dark captures above.
 - **The platform's box**: `system-settings-grouped-box-light.png`,
-  `system-settings-grouped-box-dark.png`.
+  `system-settings-grouped-box-dark.png` — the whole System Settings window on
+  the Appearance pane, which is also the platform's own choices window; the
+  2026-09-17 amendment below reads its layout off these two.
 - **Dialog controls**: `save-dialog-light.png`, `save-dialog-dark.png`.
 - **Control states**: `control-hover-light.png`, `control-hover-dark.png`,
   `control-pressed-light.png`, `control-pressed-dark.png`.
@@ -6437,6 +6439,49 @@ across schemes and argued where it is set, and it is left as it is.
 paints a step-300 tint, so in a light note it now reads heavier than the code
 block below it. That is the viewer's own surface, decided in its own goal, and
 changing it here would be a second judgment smuggled into this one.
+
+#### Amendment, 2026-09-17: how the Appearance pane lays a choices window out
+
+CG2.1 wanted the platform's own rhythm for a window that is one column of
+choices, and the reference already held it. The pair indexed above as **the
+platform's box** — `system-settings-grouped-box-{light,dark}.png` — is the
+whole System Settings window on the Appearance pane, 723×720, window-bounded
+at 1x on the 2560×1440 display, and not a crop of one box. Nothing new was
+captured for this task; the numbers below were read off those two files by
+column and row scans for the edges between the pane's plane and the boxes
+standing on it, and the two appearances agree to the pixel on every one.
+
+| what | measured | read from |
+| --- | --- | --- |
+| the content pane's leading edge | 223 | the sidebar's fill ends at x=220, a one-pixel light line stands at x=222 |
+| the grouped box's insets from the pane | 20 leading, 20 trailing | the box spans x 243–702 in a pane spanning 223–722 |
+| the grouped box's corner | radius 10, continuous | the top-leading contour at y=577: dx 11, 7, 5, 4, 3, 2 at dy 0–5, reaching the box's own edge at dy 9 — a hair wider than the circle of that radius at every row |
+| a row's pitch inside a box | 38 | "Sidebar icon size" spans y 577–614 and "Tint window background" y 615–651; "Text highlight colour" measures 39 |
+| the seam between two rows | one pixel, inset 10 each side | x 253–692 inside a box spanning 243–702 |
+| that seam's colour | `#ebebeb` light, `#343a3e` dark | flat samples at y=615 and y=343, against the `#f7f7f7` and `#2a3034` fill either side of it |
+| a row's label, and a group's title | inset 10 from the box's leading edge | the ink of "Sidebar icon size" and of "Theme" both begin at x 253–254 |
+| a group's title, cap band | 10 | "Theme" y 258–267 and "Windows" y 554–563, the same band a row's label measures at y 590–599 |
+| a box's bottom edge to the next group's box top | 56 | the plane runs y 225–280 and y 521–576 |
+| the title standing in that run | cap band 33 under the box above it, 14 over its own | the cap bands above |
+| two boxes inside one group | 10 apart | the plane runs y 382–391 and y 652–661 |
+
+A group's title is aligned with the labels inside the box under it and not
+with the box's own edge, which is the one thing about the layout that is not
+guessable from the box.
+
+**One value disagrees with a token.** The one-pixel seam between two rows
+inside a box measures 12 levels off the fill in light and 10 in dark, where
+`Separator` over `CardFill` — the name the Language gives that line — comes to
+24 and 21. The platform's in-box row seam is about half the strength of the
+separator it is named after. Recorded, not changed: the token serves every
+seam in the system and this is one measurement of one of them.
+
+**The pane's plane is not flat where the sidebar meets it.** Light, the run
+from x=223 rises from `#f3f3f3` to the pane's own `#ffffff` over about thirty
+points; dark, from `#21272b` to `#232a2e` over about twenty. That is
+the sidebar casting a shadow across the content, and it is a third answer to
+what the platform draws between those two regions — evidence for the open
+item that asks the question, not a value anything reads.
 
 ### The repo doc contract
 
@@ -21161,7 +21206,7 @@ Rene. No tags.
 
 #### CG2.1: The themer reads top to bottom
 
-- [ ] `workbench/themer`: the window is one column of choices, each a
+- [x] `workbench/themer`: the window is one column of choices, each a
   titled group in reading order, the picture and its swatches, the
   theme colour, the code face, the syntax base, and one preview: a
   single sample window drawn in the chosen colours, both schemes side
@@ -21173,9 +21218,9 @@ Rene. No tags.
   fits a 1200 by 900 window without scrolling the window. Measured
   against System Settings' Appearance pane for how the platform lays
   out a choices window.
-- [ ] Goldens regenerate with the cause named; fresh-eyes review
+- [x] Goldens regenerate with the cause named; fresh-eyes review
   beside the Appearance pane capture, both schemes.
-- [ ] Exit: green in `workbench/themer` by name; commit and push in
+- [x] Exit: green in `workbench/themer` by name; commit and push in
   `workbench` and `.github`. Rene's own check is not a step: what it
   finds is filed as a task.
 
