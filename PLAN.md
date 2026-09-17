@@ -21698,7 +21698,7 @@ with Rene on the ruling sheet.
 
 #### CG5.1: The picker's form trigger measures 24 and draws the platform's chevrons
 
-- [ ] `components/picker`: the form trigger draws at the pop-up
+- [x] `components/picker`: the form trigger draws at the pop-up
   button's measured 24 dp (`controls.md`, the save dialog's File
   Format pop-up, both appearances), not the text field's 28; the
   chrome variant already draws 24, so the two variants agree. Its
@@ -21718,10 +21718,10 @@ with Rene on the ruling sheet.
   picker's tests that pinned the field's 7 for the trigger move to
   the pop-up's 12; menu rows keep the field's insets until CG5.4
   measures the menu.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the picker's states beside
   the save dialog's pop-up and the Finder toolbar.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer by name; guard clean; commit and push in every touched
   repo and `.github`.
 

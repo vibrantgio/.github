@@ -7,8 +7,9 @@ the two, shown). Indexed by ADR-019, "The platform's control metrics".
 
 Added 2026-09-11 by CE1.2; the dialog measurements and the ruling that the
 measured numbers supersede the published ones are CE1.5 and CE1.6; the text
-field's leading inset is CG4.19, and its origin, its trailing end and the
-pop-up's own label and mark are CG4.21.
+field's leading inset is CG4.19, its origin, its trailing end and the
+pop-up's own label and mark are CG4.21, and the pop-up's height, its
+label's origin and its mark's whole geometry are CG5.1.
 
 ## What the stored captures measure
 
@@ -53,12 +54,30 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | that text field's leading inset: the field's inner edge to the text's first pixel | 7 px | same | read off the focused "Save As:" field, the only one in the sheet holding a value. Its box runs x 264–495, the same columns the "Tags:" field below it runs, so its fill begins at x=265; the first pixel column of "Untitled" is x=272. The focus ring is drawn two columns outside the box, over x 262–266, which is why the box is read off the pair rather than off the ring. Both appearances give 272; dark carries one faint antialiased column at x=271, three of 255 above the selection's fill, which light does not, and a fringe is not the glyph's first column |
 | that text field's text origin: the field's inner edge to the column the text is laid from | 6 px | same | the "Save As:" value is selected in the capture, and the selection fills from the run's origin: `#b4d8fd` light and `#406489` dark from x=271 against the fill beginning at x=265. The first covered pixel of "Untitled" is one column further in, at x=272, so the U carries 1 px of left side bearing in the face the platform sets the field in, and the 7 above is that origin plus that bearing |
 | that text field's trailing end | no reading | same | nothing in either capture reaches it. The selection behind "Untitled" ends at x=318 and the value's last covered pixel at x=317, against an inner trailing edge at x=494; the "Tags:" field below holds no value at all. The trailing inset is the leading one mirrored until a capture holds a value that reaches a field's trailing edge, which is on the capture list |
-| pop-up button's leading inset: the control's inner edge to the first pixel of its label | 12 px | same | the "File Format:" pop-up's fill runs x 264–451 with no edge column — a run down x=350 gives `#ececec` light and `#333a3f` dark from the first row of the control to the last, so its outer edge and its inner edge are one — and the first covered column of its label is x=276 in both appearances. Five columns further in than the text field's 7 above: the platform sets a pop-up's label deeper than the field's text beside it |
-| that pop-up's mark: its last pixel to the control's inner trailing edge | 9 px | same | the chevron pair spans x 435–442 against a fill ending at x=451 |
+| pop-up button's leading inset: the control's inner edge to the first pixel of its label | 12 px | same | the "File Format:" pop-up's fill runs x 264–451 with no edge column — a run down x=350 gives `#ececec` light and `#333a3f` dark from the first row of the control to the last, so its outer edge and its inner edge are one — and the first covered column of its label, "Script", is x=276 in both appearances. Five columns further in than the text field's 7 above: the platform sets a pop-up's label deeper than the field's text beside it. CG5.1 read the origin behind it the way CG4.19 read the field's: what a control spends is the origin and the face adds its first glyph's bearing, so the origin is 11. The bearing cannot be read off the S — that glyph's leading column carries only a fringe, 32 of the label's 200 levels light and 48 of its 173 dark, because an S opens on a curve and not on the U's stem — so it is the one column the "Untitled" of the field above exposes, where the selection gives the origin at x=271 against a first covered column at x=272 that is 90% covered |
+| that pop-up's mark: its last pixel to the control's inner trailing edge | 9 px | same | the chevron pair spans x 435–442 against a fill ending at x=451. The same nine stands between a Mail toolbar pull-down's chevron and its own trailing edge: `mail-window.png`, the folder control, its chevron ending at x=748 against the capsule's trailing rim at x=757, in a control 29 px tall. The room is fixed and not a ratio of the control's height |
+| that pop-up's mark: its extent | 8 px wide, 11 px tall — x 435–442, y 343–353 | same | CG5.1. Two chevrons point to point: the upper covers y 343–347 and points up, the lower y 349–353 and points down, five rows each, with y 348 left at the fill's own value across the whole eight columns |
+| that mark's gap | 1 px | same | y 348, the one clear row between the two chevrons |
+| that mark's stroke | ≈1.5 px perpendicular | same | an arm crossing a row covers about 2.1 columns — light row y=346 reads 108, 37 and 156 against a 236 fill and a 36 foreground, which is 0.64 + 0.99 + 0.40 — and the arm runs at 45°, so 2.1 × sin 45° ≈ 1.5. The same weight the pull-down's chevron is drawn at |
+| that mark's vertical position | centred, the rounding falling half a pixel low | same | the pair covers y 343–353 in a control of y 336–359: seven rows above it and six below, where an exact centring of eleven rows in twenty-four is 6.5. The same rounding the Mail search field's prompt takes above |
+| that mark's colour | `labelColor` | same | the pair's fully covered pixels read 36 light and (224,225,226) dark against fills of `#ececec` and `#333a3f`, which is `labelColor`'s 216 of 255 flattened onto each to the byte on every channel. `secondaryLabelColor`'s coverage would land at 118 and 163 — the mark is not drawn in it. The library spends `controlText`, which carries the same 216 in both appearances and is the name for a control's own marks |
+| the Finder toolbar's pop-up draws the same glyph | 8 px wide, 11 px tall, upper y 21–25, lower y 27–31, x 726–733 | `finder-window-light.png` | the view pop-up in the toolbar band, in a control 36 px tall — identical in size to the dialog's, so the platform sizes this mark by its point size and not by the control it stands in |
+| the Finder toolbar's pull-down draws ONE chevron | 8 px wide, 5 px tall — x 792–799, y 24–28 | same | the group control beside it: the pair's lower half alone, apex down, the same eight columns and the same five rows. Mail's folder pull-down reads 9 × 5 (`mail-window.png`, x 740–748, y 23–28) in a control 29 px tall; this one reads 8 × 5 in a control 36 px tall. The mark does not scale with the control it stands in, which is what `components/internal/toolbarface` models it as |
 | checkbox — "Options:" | 16 px square, y 372–387, x 264–279 | same | runs across and down the box; disabled here, which moves its fill and not its extent |
 | push button width | 74 px, both buttons | same | x 359–432 and x 441–514 |
 | the label's cap band | 10 px, y 508–517 | same | the bounding box of the label's marks inside the fill, each cap read on its own |
 | the label's horizontal inset | "Cancel" 16 px leading, 17 trailing; "Save" 23 and 23 | same | the fill's edge to the first pixel of the label's marks |
+
+**What the state captures hold for a pop-up.** `control-hover-{light,dark}.png`
+is the Finder window with the toolbar's VIEW POP-UP under the pointer — the
+control drawing the stacked pair — and its fill reads `#f2f2f2` light and
+`#384146` dark against `#ffffff` and `#242d32` at rest, which is exactly the
+`hoverOverlay` already recorded in `nscolors.tsv` from that capture. So a
+pop-up under the pointer takes the same overlay every other control takes and
+no separate reading is owed. `control-pressed-{light,dark}.png` holds no
+pressed pop-up at all: differenced against `save-dialog-{light,dark}.png` it
+changes only x 359–432, y 501–524, which is the "Cancel" PUSH BUTTON. A
+pressed pop-up is on the capture list.
 
 **The push button's fill is a colour, not only a height.** The `#ececec`
 light and `#333a3f` dark this row reads off "Cancel" are recorded in
