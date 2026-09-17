@@ -21332,3 +21332,25 @@ side; it was wrong.
 - [ ] Exit: green in `components/gallery` and `workbench/sitedocs` by
   name; guard clean; commit and push in every touched repo and
   `.github`.
+
+#### CG4.3: Every live component in the themer follows its own switch
+
+- [ ] `workbench/themer` (and `theme`, `mvu` where the default lives):
+  after CG4.1 the hex colour field, `components/input`'s live text
+  field, reads its colours off the theme stream and stays in the
+  desktop's appearance when the themer's switch sets the other, one
+  white field in a dark window. The model stream is published with
+  `Publish().AutoConnect(N)` and no replay, so a component that
+  resubscribes on a new theme is left without colours until the next
+  message. The model stream becomes a replay-latest multicast
+  (`rx.Behavior`, rx v0.3.0), the `modelObsConsumers` invariant and
+  its wiring test follow, and every published component the themer
+  draws switches with the window. Applies to any window that draws a
+  published component in an appearance of its own; the fix lives
+  where the default lives so the other apps take it without local
+  code.
+- [ ] Goldens regenerate with the cause named; a test flips the
+  switch against a desktop set the other way and reads the field's
+  fill.
+- [ ] Exit: green in `workbench/themer` and every touched module by
+  name; commit and push in every touched repo and `.github`.
