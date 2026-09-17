@@ -2906,7 +2906,7 @@ Filed 2026-09-13 from the task's own findings.
 
 Ten records in `reviews/ce3.2-<app>-fresh-eyes.md`, each with a disposition beneath the verbatim reply (fixed here, already pooled, new for pooling, recorded misread). Filed 2026-09-13 from Phase CE. Fixed in the task: feeds' rail seam, mindchat's chrome-row title, sitedocs' tree row height. The per-app lists below stand as pool items by reference: each disposition's "new for pooling" lines are the items, filed by the review file rather than copied, until Rene shapes them into the library review's ruling sheet (draft Phase CF), which reads them.
 
-425. **[bug]** **`CardFill` and `PushButtonFill` dark were measured over the tinted #232a2e plane,** so both carry the reference desktop's wallpaper cast against the untinted #1e1e1e window; four reviewers found it independently. Same class as SidebarMaterial's re-recording: re-measure both off the untinted captures (a grouped box and a push button in the dark appearance with tinting off), tokens, both tsv copies, ADR-019. Joined 2026-09-17 by `SidebarSearchFill` dark (`#2f3234`, b−r +5), read off the same tinted System Settings capture; all three re-measure off an untinted capture in the next permitted capture round.
+425. **[bug]** **`CardFill` and `PushButtonFill` dark were measured over the tinted #232a2e plane,** so both carry the reference desktop's wallpaper cast against the untinted #1e1e1e window; four reviewers found it independently. Same class as SidebarMaterial's re-recording: re-measure both off the untinted captures (a grouped box and a push button in the dark appearance with tinting off), tokens, both tsv copies, ADR-019. Joined 2026-09-17 by `SidebarSearchFill` dark (`#2f3234`, b−r +5), read off the same tinted System Settings capture; all three re-measure off an untinted capture in the next permitted capture round. Folded 2026-09-17: the dark recess's step sign against the sidebar reads −3B in the tinted capture and +4B in ours, settled by the same untinted capture; the light sidebar material reads 247 over the desktop and 250 over other windows (the material shows what stands behind the window), so the recorded 247 stands as a known variance; the search field's clear mark has no capture behind its size or inset and joins this capture list.
 
 426. **[bug]** **The launcher paints its triangle field between the window plane and the page,** so every foreground and hairline is flattened over a surface it does not land on: dark secondary text measures 1.82:1 on one side of the window and 3.62:1 on the other. The field either becomes the declared plane or goes.
 
@@ -3056,7 +3056,6 @@ everything below is what it found around them, none of it in CG4.10's result.
 
 500. **[decide]** **Two workbench rows were sized from the pointer floor CG4.10 deleted.** `feeds`' `prefsRowHDp` is 44 and `todos`' action row 48, both picked to leave a ghost control its old target. The comments now say what the rows are for; the numbers themselves no longer have a provenance.
 
-
 ## CD. From CG4.13, the chrome search field's marks
 
 Filed 2026-09-17 from the fresh-eyes review of vaultview's rail beside
@@ -3067,20 +3066,7 @@ glyph's area against the capture's, and the recess's height, corner, fills
 and absent edge again — and everything below is what it found around them,
 none of it in CG4.13's result.
 
-509. **[decide]** **Dark: the recess is the only tinted thing in an untinted rail, and the step's sign is now measured on both sides.** Scanning the whole dark rail for pixels where max−min ≥ 2 puts every hit outside the selection pill inside the search field's rows. The platform's field is the same `#2f3234` but stands on a `#1c2124` sidebar, so it reads 3 levels *less* blue than what it stands on; ours stands on a neutral `#1c1c1c` and reads 4 levels *more*. The absolute sample was right and only meant what it meant against a tinted surround. Either the rail takes the cast or the fill is re-derived neutral at the same step; the capture that would settle it is already named in `controls.md`.
-
 510. **[decide]** **The leading cluster keeps the platform's absolute measures while the prompt is set in a role a fifth larger.** The glyph is drawn at the platform's size and the gap after it at the platform's five columns, both measured; the prompt beside them is BodyLarge. So the platform's ring runs about 18% larger than its own cap height and ours runs level with a cap 19% taller — the glyph reads undersized beside its own text, and the gap that is right in pixels is proportionally tight. It is pool 494's consequence read off the drawn pixels, and it closes at either end: the role's size, or a cluster that scales with the text it leads.
-
-511. **[bug]** **The field's prompt sits a pixel above the field's centre row.** Measured: our band centres on 75.0 against a field centre of 76.0, where the platform's centres on 75.15 against 75.0. It is the text field's own vertical centring — the content box halved into the drawn height — which every field in the library shares, so it is not the search field's to move alone.
-
-512. **[decide]** **vaultview's search prompt is a verb phrase ending in an ellipsis.** "Find a note…" against the platform's bare "Search". On macOS a trailing ellipsis says a control opens a further dialog, which is the wrong promise inside a text field, and the verb phrase is not the platform's idiom. Read cold it is the one difference in the field visible at 1x without measuring. It is an application's string, not the library's.
-
-513. **[decide]** **Light: the rail's material is three levels darker than the platform's sidebar, so the recess's step is 15 levels where the platform's is 18.** Our rail reads `#f7f7f7` beside the sidebar's `#fafafa` at the field's height, with the same `#e8e8e8` fill in both, so the recess separates from what it stands on slightly less than the platform's does. Dark is the other way about, so this is the light material's reading and not the recess's.
-
-514. **[decide]** **The form variant's leading inset is still a spacing token.** The chrome variant now sets its glyph 9 px in, measured; on a form the mark's square still stands at spacing.S3's 12 dp, which is nobody's reading. The three stored search fields give 9 px in System Settings' sidebar, 10 in Mail's toolbar and 13 in Voice Memos' capsule, and none of the three is a form field: no stored capture holds a search field on a form at all.
-
-515. **[decide]** **The clear mark has no capture behind its size or its inset.** The field now draws both marks in one 16 dp square taken off the magnifier, and holds the trailing one at the field's own horizontal padding with spacing.S2 after the text. No stored capture holds a macOS search field with anything typed into it, so the mark's drawing, its size and where it sits are all carried rather than read.
-
 
 ## CE. From CG4.14, the retired-word guard's widened context window
 
@@ -3092,5 +3078,3 @@ this task, and one in `.github/DOMAIN.md`, which this dispatch's packet
 holds off-limits to this session.
 
 516. **[bug]** **DOMAIN.md's Pricing entry still says "emphasised" for a pricing tier.** Line 931, "one optionally emphasised.", reads clean only because the word "tiers" sits on the wrapped line above it; CG4.14's widened ctx window now catches it as the retired sense (AGENTS.md's own row: emphasised for a pricing tier says the recommended tier). DOMAIN.md belongs to another session, so `check-retired-words.sh check` is not clean over the org until that entry is reworded.
-
-517. **[bug]** **The retiredwords matcher's inflection list has no "-able" form.** `s, es, ed, ing, ly, er, est, ness` are the suffixes a retired word is matched with; "reachable" and "unreachable" are never tokenized as a match at all, only picked up as ctx material for a neighbouring line. `workbench/mindchat/frame.go:20`'s "is reachable in both states" carries the retired sense of reach (operating a control, said instead) and was fixed alongside its neighbour in this task, but the matcher still cannot catch a bare "-able" occurrence of any retired word on its own line.

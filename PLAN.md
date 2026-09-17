@@ -21585,6 +21585,40 @@ side; it was wrong.
   green; guard clean; commit and push in `.github`.
 
 
+#### CG4.16: The search field's prompt sits on the centre row and the form inset is Mail's
+
+- [ ] Rulings of 2026-09-17 via the ontology session, measurements
+  not rulings: `components/input`'s search field draws its prompt
+  with its cap band centred on the field's centre row in both
+  variants (CG4.13's fresh eyes read ours 1 px high; the text field's
+  shared centring is where the fix lives, so every field takes it);
+  the `Form` variant's leading inset is measured off Mail's toolbar
+  field (`mail-window.png`, 10 px per `controls.md` line 24) in place
+  of the spacing token, with the gap to the prompt measured the same
+  way; the placeholder is the platform's word, "Search", and vaultview's
+  "Find a note…" becomes it. The prompt's size stays (pool 494).
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer by name; guard clean; commit and push in every touched
+  repo and `.github`.
+
+#### CG4.17: The retired-word matcher recognises the "-able" forms
+
+- [ ] `.github/scripts/retiredwords/main.go`'s inflection list
+  (`s, es, ed, ing, ly, er, est, ness`) gains `able`, `ible` and the
+  `un-` prefix form so "reachable" and "unreachable" are matched as
+  the retired word and not only read as another line's context; a
+  test in `main_test.go` pins each. The guard run over the org after
+  the change; every newly caught live line is fixed in its module in
+  the same task (one commit per repo, same subject) or, if it is in a
+  file another session owns, pooled in one line.
+- [ ] Goldens do not move.
+- [ ] Exit: `GOWORK=off go test ./scripts/retiredwords/...` green; the
+  guard clean over the org; commit and push in every touched repo and
+  `.github`.
+
+
 ### G-CG5: The controls' states and indicators are the platform's as measured
 
 Rulings of 2026-09-17 via the ontology session, after CG4.10's fresh
