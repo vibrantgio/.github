@@ -21385,3 +21385,22 @@ side; it was wrong.
 - [ ] Goldens do not move.
 - [ ] Exit: green in `workbench/sitedocs` by name; guard clean; commit
   and push in `workbench` and `.github`.
+
+#### CG4.6: The applications drop the model stream's subscriber ledger
+
+- [ ] After CG4.3 `mvu.Loop`'s models observable replays the model in
+  force, so the `Publish().AutoConnect(N)` gate and its consumer
+  count in every application (feeds, mindchat, sk150, vaultview,
+  sitedocs, launcher, todos, iconbrowser, marketing) is dead weight
+  with three wiring tests maintaining it. Each application subscribes
+  the model stream directly, the counts and their tests go, and a
+  late subscriber test as the themer's `TestALateSubscriberReadsTheModelInForce`
+  stands where a wiring test stood. `theme`'s README quotes
+  `workbench/todos/main.go` verbatim for the bootstrap; a support
+  library never names a consumer, so the README shows the recipe in
+  its own words with no consumer path, and todos moves with the
+  recipe.
+- [ ] Goldens do not move.
+- [ ] Exit: green in `theme`, `mvu`, `workbench` and every workbench
+  app by name; guard clean; commit and push in every touched repo
+  and `.github`.

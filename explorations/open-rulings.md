@@ -3033,10 +3033,6 @@ found around them, none of it in CG3.3's result.
 
 480. **[decide]** **`markdown/highlight`'s package comment names a Material palette step.** "on the light token theme that is near-white text on the light Neutral 300 code fill" — the fill has been the platform's alternating content fill since the platform ruling, and "Neutral 300" is a step in a palette this org no longer has. The guard does not cover it because the words are not on the retired list.
 
-483. **[decide]** **Nine applications still keep an `AutoConnect` ledger the model stream no longer needs.** `mvu.Loop` now returns a replay-latest model stream, so `models.Publish().AutoConnect(modelObsConsumers)` buys nothing: the counts still standing are feeds 28, mindchat 10, sk150 3, vaultview 3, sitedocs 2, and 1 each in the launcher, todos, iconbrowser and marketing, with three wiring tests maintaining them. Retiring them deletes the census and the silent-hang failure mode that made a wrong count expensive.
-
-484. **[decide]** **`theme`'s README teaches the retired bootstrap.** Its "smallest complete application" quotes `workbench/todos/main.go` verbatim, `Publish().AutoConnect(modelObsConsumers)` included, so the recipe a reader copies is the one `mvu`'s own guidance now says buys nothing. The snippet and todos move together, not separately.
-
 485. **[decide]** **The themer's colour field is filled `TextBackground` inside a box filled `CardFill`.** The published field takes no stated surface, so it paints the platform's text background while the group box around it paints the box fill — two fills meeting inside one box. Whether a field standing in a box takes the box's own fill is a platform reading, and `control.FieldFill` already carries the measurement for a field on a sheet.
 
 486. **[decide]** **The themer's replay fix is only in the workspace until `mvu` is tagged.** `workbench/themer` pins `mvu v1.0.1`, which predates the replay-latest model stream, so the field follows the switch in this checkout and would not off it. The tagging round settles it; no other consumer depends on the new behaviour.
