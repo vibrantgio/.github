@@ -21556,6 +21556,27 @@ side; it was wrong.
   clean over the org; commit and push in `.github`.
 
 
+#### CG4.15: Every repo's AGENTS.md points at the plan root and names no consumer
+
+- [ ] Ruling of 2026-09-17 via the ontology session, the
+  support-library rule: no support library names a consumer,
+  AGENTS.md included. All 22 AGENTS.md files (the plan root, twenty
+  support repos, the workbench) take the same shape through a script
+  in `.github/scripts` the guard can run: one pointer to the plan
+  root's retired-word table (`.github/AGENTS.md`) instead of a copy,
+  and a canonical-guide line pointing at the plan root's `AGENTS.md`,
+  never at `workbench/llms.txt` or any consumer (the workbench's own
+  AGENTS.md may point at its own `llms.txt`, which is not a consumer
+  of itself). No AGENTS.md anywhere points at
+  `explorations/open-rulings.md`; the script asserts it. The script
+  is idempotent and `check-agents.sh` (or the guard) fails when a
+  repo's AGENTS.md drifts from the shape.
+- [ ] Goldens do not move.
+- [ ] Exit: the script run over every repo, each repo's AGENTS.md
+  committed and pushed with the task heading as subject; the check
+  green; guard clean; commit and push in `.github`.
+
+
 ### G-CG5: The controls' states and indicators are the platform's as measured
 
 Rulings of 2026-09-17 via the ontology session, after CG4.10's fresh

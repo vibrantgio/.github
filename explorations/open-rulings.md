@@ -2900,8 +2900,6 @@ Filed 2026-09-13 from the task's own findings; numbers in the theme and componen
 
 Filed 2026-09-13 from the task's own findings.
 
-423. **[bug]** **No repo's AGENTS.md carries the retired-word table and no sync script exists,** so the table lives in the plan root alone and nothing propagates it; Phase A's template and sync script are gone or never were. One task: the table (or a pointer to the plan root's, which is allowed for AGENTS.md files, never for the pool) in every repo's AGENTS.md through a script the guard can run.
-
 424. **[bug]** **`design/components/*.html`'s hand-authored scaffolding still references variables CE2.7 deleted** (`--color-bg`, `--color-neutral-700`, `--elevation-1`); no retired word, so the guard is blind to it. Joins pool 410; one task in design, with a check that every `var(--…)` in the pages is declared by the bundle.
 
 ## BU. From CE3.2's fresh-eyes reviews of the ten workbench apps against the reference
@@ -3034,7 +3032,6 @@ found around them, none of it in CG3.3's result.
 
 486. **[decide]** **The themer's replay fix is only in the workspace until `mvu` is tagged.** `workbench/themer` pins `mvu v1.0.1`, which predates the replay-latest model stream, so the field follows the switch in this checkout and would not off it. The tagging round settles it; no other consumer depends on the new behaviour.
 
-
 ## CB. From CG4.8, the search field's recess on a sidebar
 
 Filed 2026-09-17 from the fresh-eyes review of vaultview's rail beside
@@ -3044,7 +3041,6 @@ the placeholder's colour back as the platform's; everything below is
 what it found around them, none of it in CG4.8's result.
 
 494. **[decide]** **The search field's prompt is set about a fifth larger than the platform's.** Cap height 12 px against the sidebar field's 10, x-height 9 against 7 — BodyLarge's 16 sp where the platform sets its field at ~13 pt. `controls.md` already records the same gap against the push button's label cap band and leaves it, because typography is not the density scale's to move. It is one role's size, and it moves every field and every label set in that role with it.
-
 
 ## CC. From CG4.10, the pointer target as the control's own height
 
@@ -3060,11 +3056,3 @@ everything below is what it found around them, none of it in CG4.10's result.
 
 500. **[decide]** **Two workbench rows were sized from the pointer floor CG4.10 deleted.** `feeds`' `prefsRowHDp` is 44 and `todos`' action row 48, both picked to leave a ghost control its old target. The comments now say what the rows are for; the numbers themselves no longer have a provenance.
 
-
-## CD. From CG4.11, the theme module's README names no consumer
-
-Filed 2026-09-17 from the task's correction: theme/AGENTS.md's canonical-guide
-line was left as-is rather than reworded, because it is not this task's to fix
-alone.
-
-508. **[chore]** **Every support library's `AGENTS.md` points at the workbench guide, a consumer, org-wide.** `theme/AGENTS.md`'s "Read the org guide before you write code against this module" line names `raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt`, the same pattern in every repository's `AGENTS.md`. One chore across all repos, not a per-repo README fix.
