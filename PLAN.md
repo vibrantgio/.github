@@ -22354,7 +22354,7 @@ with Rene on the ruling sheet.
 
 #### CG5.9: A deferred halo stays inside the scroll area it was drawn in
 
-- [ ] Defects after CG5.5. `op.Defer` resets the clip, so a focused
+- [x] Defects after CG5.5. `op.Defer` resets the clip, so a focused
   control's halo inside a scroll area paints past the viewport's
   edge: the deferred halo (and the deferred band shadow, if the same
   applies) is clipped to the nearest scroll area's bounds, recorded
@@ -22377,9 +22377,9 @@ with Rene on the ruling sheet.
   from there, neither owning a fit of its own. The gallery gains an
   icon row: every mark in `components/icons` at 16, 20 and 24 dp in
   both schemes, named, so a review can be handed the set.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
