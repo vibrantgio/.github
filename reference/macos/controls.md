@@ -453,11 +453,59 @@ Added 2026-09-18 by CG5.3f, at 1x, from the toolbar bands of
 | Notes' compose | `notes-toolbar.png` | 17 × 17 | x 19-35, y 17-33 |
 | Voice Memos' sidebar toggle | `voicememos-window.png` | 19 × 15 | x 106-124, y 19-33 |
 
-A square form fills about 18 px and a round or diagonal one about 17, in a
-control 36 px tall. That is `components/icons`' own grid drawn at **24**: a
-square form to its 18-unit keyline and a round one to 20 units on a 24-unit
-grid, which is also the size at which every unit of that grid lands on a whole
-pixel. `components/internal/control`'s `ChromeMarkDp` carries it.
+A square form fills 18 to 19 px and a round or diagonal one 16 to 17, in a
+control 36 px tall. That is `components/icons`' own grid drawn at **24**, one
+unit to one device pixel, which is also the size at which every whole unit of
+that grid lands on a whole pixel. `components/internal/control`'s
+`ChromeMarkDp` carries it.
+
+**The square keyline is 19, and CG5.7 moved it there.** The set drew 18 until
+2026-09-18 and now draws the larger of the two square readings — the tag's
+19 × 19 — so a square mark at 24 dp covers the platform's own 19 px. Nineteen
+is odd against a 24-unit box, so a centred square form stands at 2.5 and 21.5
+and its four edges land a whole device pixel at 24 dp alone, reaching 0.917 of
+their best pixel at 20 and 0.667 at 16. The set's ROUND AND DIAGONAL allowance
+did NOT move with it: it stays 20 units, four over the magnifier's 16 and three
+over Notes' compose, so this library's magnifier, chevrons and checkmark stand
+wider in a band than the platform's do. The reading is recorded and the ruling
+is open.
+
+**The set's second weight is the sidebar toggle's list lines.** Inside that
+toggle's leading column, `voicememos-window.png` x 108–111, y 21–31: three
+bars carry 2.80 px of coverage between them over a length of 2.53, so each is
+**0.93 px** thick, and their centres stand 3.95, 6.15 and 8.35 px below the
+pane's top edge — a period of **2.20**. It is under one device pixel at 1x and
+it is drawn that way rather than as the figure’s own band under a fade: a band that
+cannot fill a pixel arrives at part coverage of the control's colour, which is
+what a secondary element reads as. `components/icons` carries it as
+`SidebarListBand` and `SidebarListPeriod`.
+
+**The history chevron, for the record.** `finder-window-light.png`, the
+back/forward pair at x 326–398: the back chevron covers x 340–347 and the
+forward one x 376–383, both y 19–32 — **8 × 14 px** in a control 36 px tall,
+arms at atan(7/8) = 41.2°, and a band of **1.53 px** perpendicular (row y=30
+covers 0.60 + 1.00 + 0.71 = 2.33 columns against a 254 fill and a 191
+foreground, and 2.33 × sin 41.2° = 1.53). Both are drawn in
+`disabledControlText`, Finder standing at the top of its history, which fixes
+the geometry and not the colour. `components/icons` draws 11 × 20 on its
+20-unit allowance, three columns wider and six rows taller.
+
+**What a toolbar draws its own words and glyphs in.** Read 2026-09-18 by
+CG5.7. `finder-window-light.png`, on a `#ffffff` band: the title
+"Applications" standing bare in the band (x 413–499) plateaus at **`#4d4d4d`**
+over 131 pixels, the group pull-down's grid glyph over 24 and the search
+capsule's magnifier over 15. A word and a glyph hold one plateau, so it is the
+drawn colour and not the partial coverage a thin stroke reaches — which is
+what the pop-up mark's own 77 was read as before this. `finder-window-untinted-dark.png`
+(the window's own origin is at x=56, y=38 in that capture): the pull-down's
+glyph plateaus at **`#e9e9e9`** and the window's title at `#e8e8e8`, one 255th
+below it, which is text against a vector mark. No name in `nscolors.tsv`
+flattens either: over the light band `controlText` gives `#272727`,
+`secondaryLabel` `#808080` and `tertiaryLabel` `#bdbdbd` against a pixel that
+is black at 178 of 255, and over the dark band `controlText` gives `#dcdcdc`
+against a pixel that is white at 230. A FORM control is not this — the Save
+dialog's pop-up draws its mark and its label at `controlText` exactly.
+Recorded in `nscolors.tsv` as the measured material `toolbarLabel`.
 
 **The band's weight, with the set's miss stated.** The axis-aligned band of
 those same symbols measures 1.12 px (the list bar: 122 and 147 on a `#ffffff`
@@ -927,7 +975,7 @@ foot.
 | the control's extent | 73 × 36 px, x 326-398, y 8-43 | both | the dark capture reads its rim at x=326 and x=398 and at y=8 and y=43, with the `#262626` fill between; the light capture steps from the band to the control's white at the same columns on its own middle rows |
 | the segments | 36 px each | both | the seam's column at x=362 leaves x 326-361 and x 363-398 — 36 and 36. Mail's three-segment group divides to 37.3 a segment, and the chrome variant's own width around one symbol is 38, so a segment is the standalone control's width and not a fraction of it |
 | the seam | 1 px wide, 20 px tall, y 16-35 | both | a run down x=362 reads the fill at y 8-15, the seam at y 16-35 and the fill again at y 36-43: eight rows clear at the top and eight at the foot of a 36 px control |
-| the seam's colour | `#f2f2f2` light over the control's `#ffffff`, `#3a3a3a` dark over its `#262626` | both | flat reads down the seam's own column. `separatorColor` over the fill gives `#3b3b3b` dark, one of 255 off the pixel, and `#e6e6e6` light, twelve off it. The library draws the seam's own name — the Language's rule for the line where two flush regions meet — and the light miss is filed |
+| the seam's colour | `#f2f2f2` light over the control's `#ffffff`, `#3a3a3a` dark over its `#262626` | both | flat reads down the seam's own column. `separatorColor` over the fill gives `#3b3b3b` dark, one of 255 off the pixel, and `#e6e6e6` light, twelve off it, so neither appearance is the name flattened. Recorded in `nscolors.tsv` as the measured material `toolbarControlSeam` and drawn as that value by `components/button`'s segmented control since CG5.7 |
 | the gap to the title beside it | 14 px | both | the pair's last column at x=398 against the title's first painted column at x=413 light and x=412 dark: fourteen and thirteen clear columns, and a glyph's own left side bearing is the difference. Fourteen is also what `notes-toolbar.png` leaves between its compose control and the group beside it |
 
 **What the dark capture's "second control" at x 412-468 actually is.** The

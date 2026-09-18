@@ -22285,7 +22285,7 @@ with Rene on the ruling sheet.
 
 #### CG5.7: The icon set's keyline and weights are the platform's measured ones
 
-- [ ] Ruling of 2026-09-18 via the ontology session, Decision 0010
+- [x] Ruling of 2026-09-18 via the ontology session, Decision 0010
   (symbols are not the typography ruling): `components/icons`' square
   keyline moves from 18 units to the platform's measured 19 (Finder's
   tag 19 by 19, Voice Memos' sidebar toggle 19.31 wide,
@@ -22313,10 +22313,10 @@ with Rene on the ruling sheet.
   pop-up trigger's chevron pair draws the measured eleven rows (five,
   one clear, five), not nine. Every
   icon golden and every golden holding a mark moves.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the gallery's icon row
   beside the Finder band, both schemes.
-- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+- [x] Exit: green in `components`, `components/gallery`, `patterns`,
   `workbench` and every consumer whose golden moved by name; guard
   clean; commit and push in every touched repo and `.github`.
 
