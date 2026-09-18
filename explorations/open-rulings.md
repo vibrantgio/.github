@@ -3151,15 +3151,3 @@ that stand nowhere near a viewport edge, and replaced; 673 records why.
 
 676. **[decide]** **`components/scrollarea` and `components/list` publish nothing about where they are.** The clip a focus band needs now comes from the clips the band stands inside, so neither container had to publish anything and neither does. If a later round wants a deferred drawing cut by a scrolling area — a tooltip anchored to a row, say — the container will need to say where its child stands, and that is the thing Gio cannot express today (673). Whether the library should carry an offset of its own down the context, so a widget can know where it sits, is unruled.
 
-
-## CP. From CG5.12, the clear mark's figure and what one capture cannot say
-
-Filed 2026-09-18 from the measurement itself. No fresh eyes were named for
-this task; the disc, the knockout and the magnifier were read off the
-regenerated goldens against the capture and the numbers are in the commit
-body. The reading that settled the figure — a least-squares fit of the whole
-mark to the capture's coverage — is recorded in `reference/macos/controls.md`,
-which is also where the first, row-cut reading of the same cross is kept
-beside it with why it came out an eighteenth of the figure thin.
-
-688. **[decide]** **The disc's colour cannot be read off the pixel.** It plateaus at `#232323` on the field's `#e8e8e8` fill, which is black at 216 of 255, and `labelColor` and `controlTextColor` both carry exactly that coverage in both appearances. `components/input` draws the mark in `ControlText` because the thing is a control the reader presses, which is the reference's own reading of the save dialog's pop-up drawing its mark. A capture separating the two names anywhere in the platform would settle whether that choice is right.
