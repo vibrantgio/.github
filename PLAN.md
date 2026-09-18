@@ -22383,3 +22383,29 @@ with Rene on the ruling sheet.
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
+
+#### CG5.10: The icon set's round allowance and primary band are one measurement each
+
+- [ ] Rulings of 2026-09-18 via the ontology session after CG5.7.
+  `components/icons`: the round and curved allowance is measured off
+  the magnifier's lens in the stored captures (`finder-window-light.png`
+  x 965–980, `mail-window.png`, `voicememos-window.png`: the lens's
+  outer diameter against the square keyline's 19) and the set's round
+  marks take it, recorded in `controls.md`; the set's primary band
+  is one measured width, the 1.39–1.44 the captures agree on, and
+  every mark draws it, each exception stated beside its capture in
+  the mark's file (the set's strokes span 1.15–2.13 today); the set's
+  doc states that 19 is the keyline of a symbol standing on its own
+  (the tag in the band, the sidebar's marks) while a mark inside a
+  control is that control's own measurement (the pull-down's 18, the
+  chevron pair's 8 by 11), as the density heights work per place.
+  `refresh` and `check` stay drawn to the grid until their captures
+  (on 425's list).
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of the gallery's icon row
+  beside the Finder band and the Voice Memos sidebar, both schemes.
+- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+  `workbench` and every consumer whose golden moved by name, `design`
+  and `design/mirror`; guard clean; commit and push in every touched
+  repo and `.github`.
+
