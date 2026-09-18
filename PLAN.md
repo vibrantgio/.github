@@ -22400,7 +22400,10 @@ with Rene on the ruling sheet.
   control is that control's own measurement (the pull-down's 18, the
   chevron pair's 8 by 11), as the density heights work per place.
   `refresh` and `check` stay drawn to the grid until their captures
-  (on 425's list).
+  (on 425's list). The toolbar control's deferred drop shadow cuts
+  the focused band's footprint out of itself as it already cuts the
+  control's box, so the halo does not read under the shadow's ramp
+  (CG5.9 measured up to 11/255 on the find recess).
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the gallery's icon row
   beside the Finder band and the Voice Memos sidebar, both schemes.
