@@ -22301,8 +22301,13 @@ with Rene on the ruling sheet.
   control's seam draws the measured `#f2f2f2` on its `#ffffff` fill
   (`finder-window-light.png`), a value of its own beside
   `ToolbarControlRim` as the dark one is, not `Separator` flattened
-  twelve levels short. Every icon golden and every golden holding a
-  mark moves.
+  twelve levels short. The toolbar's title and its glyphs wear the
+  measured `#4d4d4d` (`finder-window-light.png`, both measured; read
+  the dark one too): whichever platform name flattens there over the
+  band within a level, else a measured value of the toolbar recorded
+  like the pill and the recess, both schemes, not a name of its own;
+  every band title and chrome mark takes it. Every icon golden and
+  every golden holding a mark moves.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the gallery's icon row
   beside the Finder band, both schemes.
