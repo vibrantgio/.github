@@ -3110,3 +3110,22 @@ this task; the fill and the absence of an edge were read back off the
 regenerated gallery goldens by the worker and are in the commit body.
 
 568. **[bug]** **A component's op order moves text pixels across the whole gallery page.** Removing one `paint.FillShape` from the checkbox moved 66 scattered text pixels in `components-light.png` and 85 in `components-dark.png` by one 255th, in families the change does not touch, because the glyph atlas packs differently when the op stream changes. The regenerated images are stable across runs, so the gate still works, but every component change now carries unrelated text churn in its golden diff and a real one-255th text regression would be invisible inside it.
+
+## CI. From CG5.3d, the checkbox and the radio drawing their own labels
+
+Filed 2026-09-18 from the fresh-eyes review of the gallery's labelled
+checkbox and radio row beside the save dialog's Options rows, both
+appearances, recorded in `reviews/cg5.3d-checkbox-fresh-eyes.md`. The review
+confirmed every colour the task set off the pixels — the enabled label at
+#272727 and #dddddd and the switched-off one at #bdbdbd and #565656 — and
+confirmed the cap band's centring. Two of its findings were this task's own
+and were fixed rather than filed: the gap spent one column short of the
+reading, and the specimen row grouping its controls by state where the family
+is the boundary. One was already filed and is confirmed rather than refiled:
+the label set about a sixth larger than the platform's is pool 494, now a
+fourth independent finding and the first read off a checkbox.
+
+569. **[bug]** **An enabled unchecked checkbox is drawn fainter than a switched-off one.** The enabled box is a 2 px edge with no fill — #f3f3f3 on #ffffff, a twelve-level step — while the switched-off box beside it is a solid #f2f2f2; dark reads a #2c2c2c edge on #1e1e1e against a solid #2c3134, the same luminance. The two states use opposite drawing models, so the operable control is the weaker drawing and only its label tells the two apart. The switched-off fill is measured and exact; the enabled one is not measured at all — no stored capture holds an enabled checkbox and `checkbox.go` says so in place. The capture is on the reference's list and settles both the fill and the edge.
+570. **[bug]** **The checkbox's corners are square where the platform's are rounded, and its edge is twice the platform's width.** The drawn radius measures about 1 px at the 16 px footprint — one antialiased pixel at each corner — against about 3.5 px in `save-dialog-{light,dark}.png`, whose first fill row starts 3 columns in, the next 2 and the next 1. The edge is a 2 px nested fill where the platform draws a one-pixel hairline. It is `tokens.Radius.Sm` reaching a glyph that is not a control-sized box, and the same reading applies to every glyph the row draws.
+571. **[decide]** **`ControlAccent` is one flat #007aff in both appearances.** `tokens.PlatformLight` and `tokens.PlatformDark` carry the identical value, so a checked box and a chosen radio are the same blue in a dark window as in a light one; the platform brightens its accent in the dark appearance and lays a slight vertical gradient with a darker bottom edge under a filled control in the light one. Neither the second value nor the gradient is in the reference, and the capture that would settle them is not on its list.
+572. **[decide]** **The check mark is lighter than the platform's and sits tight to the box.** The stroke lands about 1.5 px effective, largely antialiasing, with square-cut terminals, and the figure spans 12 px inside a 16 px box — 2 px of air on each side. The platform's tick is heavier, its caps round, and it stands with visibly more air. The mark is drawn on components/icons' grid at the icon set's diagonal band measure, so moving it is a question about that grid rather than about this glyph.

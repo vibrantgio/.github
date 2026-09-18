@@ -21862,7 +21862,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3d: The checkbox and the radio draw their own labels
 
-- [ ] Language entries Checkbox and Radio at .github 0db5dce bind:
+- [x] Language entries Checkbox and Radio at .github 0db5dce bind:
   the control is the box (or disc) and its label, the label part of
   the control, clicking it operates the box. `components/input`'s
   checkbox and radio take a label: set in the text colour at the
@@ -21874,10 +21874,10 @@ with Rene on the ruling sheet.
   beside a box (todos' rows, the gallery's checkbox row, feeds'
   preferences, any other found by grep) hand it over and delete
   their local label; a checkbox with no label stays valid.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of a labelled checkbox row
   beside the save dialog's Options rows, both schemes.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
