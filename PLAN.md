@@ -22035,7 +22035,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3k: The pane toggle is a set mark and a spring button records its state
 
-- [ ] Defects after CG5.3i. A chrome figure stroked on its own
+- [x] Defects after CG5.3i. A chrome figure stroked on its own
   centreline lands neither of the platform's band profiles, so
   mindchat's `PanelGlyph` hands over to `components/icons`' sidebar
   mark drawn at the measured box and band (`icons.Sidebar`, its
@@ -22045,9 +22045,9 @@ with Rene on the ruling sheet.
   so `effects/springbutton` can record a state and draw the chosen
   patch as the static chrome button does; mindchat's pane toggle
   goes through it if it springs.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `effects`, `components`, `components/gallery`,
+- [x] Exit: green in `effects`, `components`, `components/gallery`,
   `workbench/mindchat` and every consumer whose golden moved by name;
   guard clean; commit and push in every touched repo and `.github`.
 
