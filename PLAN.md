@@ -22033,6 +22033,24 @@ with Rene on the ruling sheet.
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
+#### CG5.3k: The pane toggle is a set mark and a spring button records its state
+
+- [ ] Defects after CG5.3i. A chrome figure stroked on its own
+  centreline lands neither of the platform's band profiles, so
+  mindchat's `PanelGlyph` hands over to `components/icons`' sidebar
+  mark drawn at the measured box and band (`icons.Sidebar`, its
+  keyline stated as edges like `icons.Plus`, so a whole device pixel
+  lands inside at 16, 20 and 24 px) and is deleted, the mark's band
+  replicated as the capture shows it. `button.Props` gains `Checked`
+  so `effects/springbutton` can record a state and draw the chosen
+  patch as the static chrome button does; mindchat's pane toggle
+  goes through it if it springs.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `effects`, `components`, `components/gallery`,
+  `workbench/mindchat` and every consumer whose golden moved by name;
+  guard clean; commit and push in every touched repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as
