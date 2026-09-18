@@ -21976,6 +21976,36 @@ with Rene on the ruling sheet.
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
+#### CG5.3i: Vaultview's chrome row and the remaining chrome marks take the bordered control
+
+- [ ] Measurements and defects after CG5.3f. `workbench/vaultview`'s
+  chrome row is the platform's toolbar band: 52 dp (8 above, 36, 8
+  below, `controls.md`, as mindchat's `ChromeRowHeight` already is),
+  not one LabelLarge line box plus padding; its two sidebar toggles
+  (`frame.go`'s chrome-row toggle, `tree.go`'s rail-strip toggle)
+  take `button.RenderChrome`/`ChromeFace` in place of the bare
+  `icons.Sidebar` mark, and `onButtonLine` no longer hangs content
+  below the row's foot. The dark toolbar shadow draws its own
+  measured geometry (one 255th deep, seven rows below the control
+  only; `finder-window-untinted-dark.png`), not the light one's 23
+  rows and 9 offset: the shadow's reach and offset are per appearance
+  beside the coverage. `effects/springbutton` renders a chrome button
+  through the chrome face or refuses `Variant: Chrome` loudly; it
+  never draws the form button for it silently. `components/icons`
+  gains the plus mark measured off `notes-toolbar.png`'s and
+  `mail-window.png`'s compose symbols (box, band), and mindchat's
+  `PlusGlyph` hands over to it. A chrome control that records a state
+  draws its on-state as Finder's segmented view control measures (the
+  active segment's lighter inner fill, `finder-window-light.png`),
+  through `toolbarface`, so mindchat's toggle shows the pane's state.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of vaultview's chrome row
+  beside the Finder band, both schemes.
+- [ ] Exit: green in `effects`, `components`, `components/gallery`,
+  `workbench/vaultview`, `workbench/mindchat` and every consumer
+  whose golden moved by name; guard clean; commit and push in every
+  touched repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as
