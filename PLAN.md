@@ -22374,7 +22374,9 @@ with Rene on the ruling sheet.
   offset per appearance (and `PaneShadow`'s, `FloatingShadow`'s where
   they are lengths in code today) are token fields, and
   `components/internal/control` and `effects/depth` both read them
-  from there, neither owning a fit of its own.
+  from there, neither owning a fit of its own. The gallery gains an
+  icon row: every mark in `components/icons` at 16, 20 and 24 dp in
+  both schemes, named, so a review can be handed the set.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included.
 - [ ] Exit: green in `components`, `components/gallery` and every
