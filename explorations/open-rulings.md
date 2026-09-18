@@ -3110,3 +3110,12 @@ regenerated gallery goldens by the worker and are in the commit body.
 
 568. **[bug]** **A component's op order moves text pixels across the whole gallery page.** Removing one `paint.FillShape` from the checkbox moved 66 scattered text pixels in `components-light.png` and 85 in `components-dark.png` by one 255th, in families the change does not touch, because the glyph atlas packs differently when the op stream changes. The regenerated images are stable across runs, so the gate still works, but every component change now carries unrelated text churn in its golden diff and a real one-255th text regression would be invisible inside it.
 
+## CJ. From CG5.3h, the checkbox's corner and the control's edge
+
+Filed 2026-09-18 from the measurement itself. No fresh eyes were named for
+this task; the corner's coverage profile and the edge's width were read back
+off the regenerated goldens by the worker and are in the commit body.
+
+591. **[measured]** **The radio's dot is five sixteenths of its disc, not a half.** System Settings' selected radio carries a white dot of 5.00 px across — a least-squares circle through 16 sub-pixel edges, centre (261.00, 704.00), r = 2.50 at an rms of 0.025 px light and 0.024 px dark — inside a disc of 16. `components/input` draws the dot at half the circle, 8 dp, which is a third again too wide. The number is in `controls.md`; spending it is a task of its own, and it moves the radio's goldens everywhere a selected radio stands.
+592. **[measured]** **The switched-off box covers 15.85 px, not 16.** Read off both "Options:" boxes in `save-dialog-light.png`: the plateau row's covered span runs x 264.08 to 279.92 and the plateau column's y 372.08 to 387.92, so the drawn square is 15.85 px on each axis with a 0.92 coverage in its outermost row and column. The dark sheet's ten of 255 cannot resolve it and reads 16.00. Whether the glyph is a 16 px box the platform insets by a twelfth of a pixel, or a 15.85 px box, is not answerable off these two captures, and `components/input` draws 16.
+593. **[cleanup]** **`RenderCheckbox` and `RenderRadio` take a radius scale neither spends.** The radio never read one, and the checkbox stopped when its corner became a measured number of its own. Both signatures still carry `tokens.RadiusScale`, so every caller — the gallery, `design`'s mirror, the workbench apps — passes a value that reaches nothing. Dropping it is a signature change across four repos and belongs in a round that is already moving them.

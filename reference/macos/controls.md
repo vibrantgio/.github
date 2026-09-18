@@ -56,6 +56,7 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | push button — "Cancel", "Save" | 24 px, y 501–524 | `save-dialog-{light,dark}.png` | luminance run down x=365, clear of the label: the fill `#ececec` light and `#333a3f` dark against the sheet |
 | pop-up button — "Where:", "File Format:" | 24 px, y 281–304 and y 336–359 | same | the same run at x=440 and x=430 |
 | text field — "Tags:", unfocused | 27 px, y 243–269 | same | the field's fill is the sheet's, so the run reads its border rows, `#f3f3f3` light and `#2c3338` dark |
+| that text field's edge, its width | **1 px** on every side | same | runs across and down the "Tags:" box: one column at x=264 and one at x=495, one row at y=243 and one at y=269, each reading `#f3f3f3` light and `#2c3338` dark with the sheet on one side of it and the field's interior — which is the sheet's own fill — on the other. The column at x=263 and the one at x=496 are the sheet, unblended. It is the only unfocused enabled control on the sheet that draws an edge at all, which is what makes it the reading a checkbox and a radio spend until a capture holds one of theirs. Read 2026-09-18 by CG5.3h |
 | that text field's leading inset: the field's inner edge to the text's first pixel | 7 px | same | read off the focused "Save As:" field, the only one in the sheet holding a value. Its box runs x 264–495, the same columns the "Tags:" field below it runs, so its fill begins at x=265; the first pixel column of "Untitled" is x=272. The focus ring is drawn two columns outside the box, over x 262–266, which is why the box is read off the pair rather than off the ring. Both appearances give 272; dark carries one faint antialiased column at x=271, three of 255 above the selection's fill, which light does not, and a fringe is not the glyph's first column |
 | that text field's text origin: the field's inner edge to the column the text is laid from | 6 px | same | the "Save As:" value is selected in the capture, and the selection fills from the run's origin: `#b4d8fd` light and `#406489` dark from x=271 against the fill beginning at x=265. The first covered pixel of "Untitled" is one column further in, at x=272, so the U carries 1 px of left side bearing in the face the platform sets the field in, and the 7 above is that origin plus that bearing |
 | that text field's trailing end | no reading | same | nothing in either capture reaches it. The selection behind "Untitled" ends at x=318 and the value's last covered pixel at x=317, against an inner trailing edge at x=494; the "Tags:" field below holds no value at all. The trailing inset is the leading one mirrored until a capture holds a value that reaches a field's trailing edge, which is on the capture list |
@@ -70,10 +71,13 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | the Finder toolbar's pull-down draws ONE chevron | 8 px wide, 5 px tall — x 792–799, y 24–28 | same | the group control beside it: the pair's lower half alone, apex down, the same eight columns and the same five rows. Mail's folder pull-down reads 9 × 5 (`mail-window.png`, x 740–748, y 23–28) in a control 29 px tall; this one reads 8 × 5 in a control 36 px tall. The mark does not scale with the control it stands in, which is what `components/internal/toolbarface` models it as |
 | checkbox — "Options:" | 16 px square, y 372–387, x 264–279 | same | runs across and down the box; switched off here, which moves its fill and not its extent |
 | the second checkbox of the same pair | 16 px square, y 394–409, the same columns | same | the sheet carries two switched-off checkboxes, "Show startup screen" and "Stay open after run handler", and they agree to the pixel |
+| the checkbox's corner | **5 px** | same | a circular fit to the per-row coverage of the box's antialiased corner, the box's own extremes pinned — the fit CG4.8 made to the sidebar recess's ends. Light: r = 5.04, rms 0.038 px over 8 rows. Dark: r = 5.34, rms 0.070 px over 8 rows. All four corners of a box, and both boxes of a sheet, agree to the hundredth. The coverage missing from each corner says the same: 5.54 px² light and 6.21 px² dark against r²(1 − π/4), which is r = 5.08 and r = 5.38. The dark fit sits above the light one because the dark sheet and fill are ten of 255 apart against the light pair's thirteen, so its coverage is read across fewer levels, and both sit above the radius drawn for the reason every circular fit in this reference does — the platform's corner is a continuous curve, the same spread the sidebar recess's 14 shows at 14.7. The box's own extent read the same way is 15.85 px on both axes light (x 264.08–279.92, y 372.08–387.92) against 16.00 dark, whose ten levels cannot resolve the last tenth; the 16 px above is the covered columns and rows and stands. Read 2026-09-18 by CG5.3h |
 | the checkbox's row | 22 px | same | the pitch between the two squares: the first runs y 372–387 and the second y 394–409, so 394 − 372 = 22, with six clear rows between them. Both appearances agree to the pixel. The row is the pitch and nothing else — the sheet draws no row fill, seam or highlight behind a checkbox to read an extent off. It is neither the 24 px control height nor the 20 px list row, which is why `density.go` carries it as a number of its own |
 | the checkbox's label against its square | the label's cap band centred on the square, the rounding falling half a pixel low | same | "Show startup screen" caps run y 375–385 against a square of y 372–387: a band centre of 380.0 against the square's 379.5. "Stay open after run handler" agrees — y 397–407 against y 394–409, 402.0 against 401.5. The same rounding the pop-up's mark and the Mail search field's prompt take. Read on the S of each label, the only cap either carries, so the band includes that letterform's overshoot |
 | the checkbox's label, its leading gap | 6 px clear | same | the square's last column is x=279 and the label's first covered column x=286, in both appearances and both rows |
 | radio button — "Automatically based on mouse or trackpad" | 16 px circle, y 696–711, x 253–268 | `system-settings-grouped-box-{light,dark}.png` | the selected radio's accent disc, read as the run of accent-blue pixels across and down; both appearances agree to the pixel. The same 16 the checkbox measures, which is what `components/input` draws the radio's circle at. It is the only radio or checkbox in that capture — the grouped boxes above it carry switches, not checkboxes — and it stands alone in its group with the capture's lower edge below it, so it gives the glyph's size and no row pitch |
+| that radio's disc, as a circle | **r = 8 px**, centred on the glyph's own middle | same | a least-squares circle through every row's two sub-pixel ends and every column's, 60 points: centre (261.00, 704.00) with r = 8.17, rms 0.084 px light, and centre (261.00, 704.00) with r = 8.12, rms 0.073 px dark. The centre falls on the glyph's middle to the hundredth in both appearances and the radius a fifth of a pixel over 8, which is a circular fit reading an antialiased rim. The 16 px above is this circle's diameter, and the radio is a circle and not a rounded square. Read 2026-09-18 by CG5.3h |
+| that radio's dot | **5.00 px across** | same | the same fit to the white dot inside the accent disc: centre (261.00, 704.00), r = 2.50, rms 0.025 px light and rms 0.024 px dark, 16 edge points each. It is five sixteenths of the disc, where `components/input` draws the dot at half the circle. The reading is the platform's and is not yet spent. Read 2026-09-18 by CG5.3h |
 | a switched-off control's fill | `#f2f2f2` light, `#2e3439` dark | same | flat-region samples of both checkboxes, x 264–279. The box draws no edge of its own: its rim is a one-pixel antialiased ramp from the fill to the sheet (`#f3f3f3` through `#fbfbfb` light), the way the pop-up above it meets the sheet with no edge column |
 | the enabled fill it is read against | `#ececec` light, `#333a3f` dark | same | the "File Format:" pop-up's own fill, its last rows at y 355–359, seventeen rows above the first checkbox on the same sheet — the push button's measured fill |
 | a switched-off control's coverage | 170 of 255 | same | the fraction of its own paint a switched-off control keeps over the surface it stands on. The enabled fill over the sheet at that coverage lands on the switched-off reading: light `#ececec` over `#ffffff` gives 242.33 → `#f2f2f2`, exact; dark `#333a3f` over `#232a2f` gives (45.67, 52.67, 57.67) → (46, 53, 58) against the measured (46, 52, 57), exact on red and one 255th over on green and blue — the tolerance the hover overlay's dark reading carries. No single coverage lands all four channels exactly, so the reading is recorded with its miss |
@@ -244,6 +248,35 @@ not a switched-off reading. So the sheet holds no switched-off push button and
 no switched-off control that draws an edge, and the coverage above — read off
 the checkbox's fill, which is all a checkbox draws — is what carries both the
 fill and the edge until either capture is taken.
+
+**What the checkbox's corner and the control's edge measure.** Read
+2026-09-18 by CG5.3h off the same two sheets, and recorded in the rows
+above. The checkbox's corner is 5 px. It is read off the one pixel of
+antialiasing each of the two switched-off boxes carries at each of its
+four corners,
+by the fit CG4.8 made to the sidebar recess's ends: the per-row coverage
+gives a sub-pixel edge for every row the corner reaches, and a circle is
+fitted to that profile with the box's own extremes pinned. Eight rows fit
+r = 5.04 at an rms of 0.038 px light and r = 5.34 at 0.070 px dark, and
+the area the corner is missing — 5.54 px² and 6.21 px² against
+r²(1 − π/4) — answers 5.08 and 5.38 without a fit at all. Every corner of
+every box in both appearances is the same drawing to the hundredth.
+
+The edge is 1 px. No capture holds an enabled checkbox or an unselected
+radio, and both are on the capture list below, so the width comes off the
+one unfocused enabled control on the sheet that draws an edge at all: the
+"Tags:" field's box, one column at x=264 and one at x=495, one row at
+y=243 and one at y=269, `#f3f3f3` light and `#2c3338` dark against the
+sheet on one side and the field's interior on the other. `FieldEdge`
+already carries that colour; the width it is drawn at is now measured too,
+and it is a hairline and not the two pixels `components/input` drew.
+
+System Settings' radio settles the disc and not the edge. Its one radio is
+selected, so it is accent-filled and draws no edge of its own, and the
+capture's lower edge falls below it before an unselected sibling. The disc
+itself is a circle of r = 8 on the glyph's own centre — 60 sub-pixel edges,
+rms 0.084 px light and 0.073 px dark — which is the 16 px above read as a
+diameter rather than as a run of covered columns.
 
 **The push button's fill is a colour, not only a height.** The `#ececec`
 light and `#333a3f` dark this row reads off "Cancel" are recorded in
@@ -776,3 +809,14 @@ what a floating annotation is on this platform — the window background
 inside a separator hairline, the label colour on it — rather than three
 numbers read off a capture. One capture closes it: a **help tag standing
 beside its control**, in both appearances, window-bounded, at 1x.
+
+**Also open: the enabled checkbox and the unselected radio.** Every stored
+reading of either glyph is of a switched-off box or a selected disc, so the
+one thing neither capture can give is what a control at rest draws around
+itself. The corner is settled — a switched-off box draws the same corner an
+enabled one does — and the edge is not: its width and colour are the "Tags:"
+field's, spent because the field is the sheet's one unfocused enabled control
+that draws an edge and stands beside them in the same form. One capture
+closes it: a **dialog or sheet holding an enabled checkbox beside a
+switched-off one, and an unselected radio**, in both appearances,
+window-bounded, at 1x.

@@ -21957,7 +21957,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3h: The checkbox's corner and edge are measured
 
-- [ ] Measurement, not a ruling: the platform's checkbox corners are
+- [x] Measurement, not a ruling: the platform's checkbox corners are
   rounded and its edge a hairline where ours draws one antialiased
   pixel at the corner and a 2 px edge. The corner radius is read off
   the save dialog's switched-off boxes' corner ramp
@@ -21970,9 +21970,9 @@ with Rene on the ruling sheet.
   measures (1 px) and says so. `components/input`'s checkbox and
   radio draw the measured corner and edge; tests read the corner's
   coverage profile off a capture.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
