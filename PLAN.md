@@ -21944,6 +21944,11 @@ with Rene on the ruling sheet.
   fill change alone marking where the sidebar's column runs through
   it; below the band the boundary keeps today's paint until pool 437
   is ruled, which decides what the vertical boundary is painted with.
+  The Search field entry (.github 791a2b4) names the dark toolbar
+  recess's rim: the toolbar search field draws it at the measured
+  `#4d4d4d` (`voicememos-window.png`), a value of its own beside
+  `ToolbarSearchFill` rather than `Separator` flattened three levels
+  short, dark toolbar only, none in light or on the sidebar.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included.
 - [ ] Exit: green in `patterns`, `components/gallery` and every

@@ -3110,11 +3110,3 @@ regenerated gallery goldens by the worker and are in the commit body.
 
 568. **[bug]** **A component's op order moves text pixels across the whole gallery page.** Removing one `paint.FillShape` from the checkbox moved 66 scattered text pixels in `components-light.png` and 85 in `components-dark.png` by one 255th, in families the change does not touch, because the glyph atlas packs differently when the op stream changes. The regenerated images are stable across runs, so the gate still works, but every component change now carries unrelated text churn in its golden diff and a real one-255th text regression would be invisible inside it.
 
-
-## CI. From CG5.3e, the toolbar search field as a second recess
-
-Filed 2026-09-18 from the measurement itself. No fresh eyes were named for
-this task; the recess's rows, fill, rim and insets were read back off the
-regenerated goldens by the worker and are in the commit body.
-
-574. **[language]** **The Search field entry says the chrome recess has no edge, and the toolbar's measurably wears one.** `voicememos-window.png` carries a 1 px `#4d4d4d` rim the whole way round the toolbar recess — the ends as well as the top and bottom — which is the highlight every bordered control in a dark toolbar band wears; the sidebar recess wears none in either appearance. The entry's "no edge" reads true of the sidebar and false of the toolbar, and the wording is the ontology session's to settle.
