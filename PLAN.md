@@ -21934,7 +21934,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3g: The toolbar band is unified across the window's columns
 
-- [ ] Ruling of 2026-09-18 via the ontology session: the platform's
+- [x] Ruling of 2026-09-18 via the ontology session: the platform's
   window is columns running top to bottom, the sidebar's column
   through the toolbar row, and within the band the fill change
   carries the boundary; no seam line is drawn across the band.
@@ -21949,9 +21949,9 @@ with Rene on the ruling sheet.
   `#4d4d4d` (`voicememos-window.png`), a value of its own beside
   `ToolbarSearchFill` rather than `Separator` flattened three levels
   short, dark toolbar only, none in light or on the sidebar.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `patterns`, `components/gallery` and every
+- [x] Exit: green in `patterns`, `components/gallery` and every
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 

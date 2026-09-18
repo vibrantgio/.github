@@ -13,7 +13,8 @@ label's origin and its mark's whole geometry are CG5.1, the
 switched-off controls and the states are CG5.2, the toolbar
 control's own fill, edge, corner and mark are CG5.2b, its height read
 capture by capture is CG5.3b, the toolbar search field's own recess is
-CG5.3e, and the toolbar control's drop shadow and its symbol are CG5.3f.
+CG5.3e, the toolbar control's drop shadow and its symbol are CG5.3f, and
+the toolbar band's own boundary and the recess rim's name are CG5.3g.
 
 ## What the stored captures measure
 
@@ -586,6 +587,45 @@ control in every stored DARK toolbar wears the same 1 px highlight, and no
 control in any stored LIGHT toolbar wears one. A recess drawn in that band
 takes it with the rest of them, which is why the toolbar recess wears an edge
 where the sidebar recess wears none.
+
+**The recess's rim carries a value of its own.** Read by CG5.3g off the same
+`voicememos-window.png` rows: the pixel is `#4d4d4d`, and `separatorColor`
+over the `#363636` fill gives `#4a4a4a`, three of 255 short. Three levels is
+a miss a reader sees on a 325 px line, so the rim is recorded as the pixel
+and not as a name flattened: `toolbarSearchRim` in `nscolors.tsv`, `#4d4d4d`
+dark and `#000000` at zero coverage light, where the band steps straight to
+the fill with no stroke row on any side. It stands apart from the bordered
+control's own rim above, which is `#404040` over that control's `#262626` and
+misses by five — two different pixels over two different fills, so neither
+name can carry the other.
+
+## What the toolbar band's own boundary measures
+
+Read by CG5.3g at 1x from `finder-window-light.png`, a frontmost light Finder
+window whose own top-left corner is the capture's (0,0), the window running
+to x=999 and its sidebar meeting the content at x 316–318.
+
+| what | value | capture | method |
+| --- | --- | --- | --- |
+| the boundary inside the band | NO line: `#f9f9f9`, `#fafafa`, then `#efefef` recovering rightward | `finder-window-light.png` | a run across the boundary at every one of y=30, 40, 44, 48 and 51 reads x=316 `#f9f9f9`, x=317 `#fafafa` and x=318 `#efefef`, back to `#f1f1f1` by x=322. The pixel ON the boundary is LIGHTER than the sidebar beside it, which is a highlight and never a seam, and what darkens away from it recovers over the whole 24 px the sidebar's shadow reaches, so it is a shadow and not a line |
+| the boundary below the band | NO line either: `#fdfdfd`, `#ffffff`, then `#f3f3f3` recovering | same | the same run at y=80, y=200 and y=400 reads x=315 `#f9f9f9`, x=316 `#fdfdfd`, x=317 `#ffffff`, x=318 `#f3f3f3`, back to `#f5f5f5` by x=322. The platform draws no darker pixel than its neighbours at this boundary in any row of this window |
+| the band's top rows | one fill across both columns | same | at y=2, y=5, y=8 and y=12 the ten columns x 313–322 read within one level of each other — `#fafafa` at y=2, `#f9f9f9` at y=5, `#f7f7f7`/`#f8f8f8` at y=8, `#f5f5f5`/`#f6f6f6` at y=12 — so the band's own rows carry no boundary at all where the columns meet |
+| the band's depth | 52 px | the same five toolbar windows | the toolbar-control row at the head of this reference: a 36 px control with 8 px above and 8 below |
+
+**What this settles.** The platform's window is columns running top to
+bottom and the band runs across all of them; inside it the fill change alone
+says where a column's edge is. So `patterns/pane` stops its seam line at the
+band's lower edge, and a splitter drawn over that seam stops with it.
+
+**Where the pane learns the band's extent.** From its own `StripDp`, and
+from nothing a caller passes. That strip is cut to hold the window control
+buttons with the same air below them as above: 19 px of inset either side of
+a 14 px circle, both measured, which is 52 — the same 52 the band measures in
+every stored toolbar capture. The strip the buttons stand in and the band the
+columns run through are one number, so the pane already knows where the band
+ends. An application's own chrome row may be shallower than that and the band
+is unaffected: the row is what the application puts IN the band, not what the
+band is.
 
 ## Where the measured heights supersede the published ones
 
