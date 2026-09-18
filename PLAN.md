@@ -22203,7 +22203,7 @@ with Rene on the ruling sheet.
 
 #### CG5.4: The picker's menu floats on the platform's menu material
 
-- [ ] `components/picker`'s open menu is the platform's menu as
+- [x] `components/picker`'s open menu is the platform's menu as
   measured: it floats on the menu material distinctly lighter than
   the window behind it (measure it off the reference; if no capture
   holds an open menu, pool the gap and use `WindowBackground` lifted
@@ -22216,10 +22216,10 @@ with Rene on the ruling sheet.
   while its menu is open takes what the platform draws (read a capture
   holding an open pop-up if one exists; else the held state, and the
   capture goes on 425's list).
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the open menu beside the
   reference.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer by name; guard clean; commit and push in every touched
   repo and `.github`.
 

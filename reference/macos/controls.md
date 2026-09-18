@@ -1096,6 +1096,22 @@ minimum width with their labels centred. A capture of a push button whose
 label is long enough to drive its width would settle it; `Comfortable.PaddingX`
 stays the published 8 pt until one exists.
 
+**Also open: the open menu.** No stored capture holds an open menu of any
+kind — not a pop-up button's, not a pull-down's, not a contextual one — and
+`grep -i menu` over this file finds one row, which is about a pull-down's
+*closed* mark. So every value `components/picker`'s open menu draws is named
+rather than read: its plane is the window background under `FloatingShadow`,
+which is what the Language gives the floating level; its corner is 8, the
+sidebar pill's; its selection is the inset rounded pill at that pill's
+measured inset 10 and radius 8, filled in `SidebarSelection`, which is the one
+selection this reference measures inside a chrome region rather than in a
+content list; the box its check is drawn in is 16, the smallest of the three
+sizes `components/icons` is drawn at; and the check itself is drawn to that
+set's 24-unit grid, no capture holding a checkmark either. One capture closes
+all of it: a **pop-up button with its menu open**, showing the current item
+marked, in both appearances, window-bounded, at 1x. It is on 425's list with
+the pressed pop-up.
+
 **Also open: the tooltip.** No stored capture holds a help tag, so the fill,
 the edge and the text of `components/tooltip` are the Language's mapping of
 what a floating annotation is on this platform — the window background
