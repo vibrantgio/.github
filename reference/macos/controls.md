@@ -193,13 +193,16 @@ tapers and a straight cut does not.
 heavier than the measurement. The mark multiplies by the metric instead and
 draws 1.5 px.
 
-**The rim is drawn where it lifts.** The library's chrome trigger draws the
-platform's seam over its own fill and draws it only where that lands LIGHTER
-than the fill — the dark appearance, where the seam is white at 25/255 and
-gives `#3b3b3b` over the `#262626` fill against the measured `#404040`, five of
-255 short. In the light appearance the seam is black, it would darken the fill,
-and the platform draws no edge there at all, so none is drawn. The rule is the
-platform's behaviour stated once rather than an appearance the code tests for.
+**The rim is the measured pixel.** Every bordered toolbar control in this
+library draws `#404040` in the dark appearance and no edge at all in the
+light one, where the platform draws none — the value carried under the name
+`toolbarControlRim` in `nscolors.tsv`, as the toolbar search field's own rim
+is. The seam over the fill was the answer here until CG5.3m and gives
+`#3b3b3b`, five of 255 short of the pixel; over the band it gives `#323232`,
+fourteen short. Neither name lands it, which is why the value is its own. The
+light half is the platform's behaviour rather than an appearance the code
+tests for: the name answers no colour there and a caller draws nothing where
+it answers one.
 
 **What the library draws against these numbers.** The chrome trigger takes the
 fill, the absence of a light edge, the capsule corner, the mark at its measured
@@ -363,7 +366,7 @@ That triple is the LIGHT appearance's. The dark one is its own reading and
 the drawing carries both: `ToolbarShadowOf` answers the pair the appearance
 measures, and which one answers is the platform's own behaviour rather than
 an appearance the code tests for — where the platform gives the control an
-edge (the rim `ToolbarRim` answers a colour for) the control is told from its
+edge (the rim `ToolbarControlRim` answers a colour for) the control is told from its
 band by that edge and its fill and the shadow is a hint under it; where it
 gives none the fill IS the band's own white and the shadow is the whole of the
 step.

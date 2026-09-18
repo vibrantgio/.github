@@ -22076,7 +22076,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3m: Every mark lands its band and the chrome controls have goldens
 
-- [ ] Chores after CG5.3k. `components/icons`: every mark in the set
+- [x] Chores after CG5.3k. `components/icons`: every mark in the set
   is drawn to the band-landing rule `icons.Plus` and the sidebar mark
   state (a band's leading edge at 1.5m with m ≡ 0 or 3 mod 4, so a
   whole device pixel lands inside at 16, 20 and 24 dp), each mark's
@@ -22096,9 +22096,9 @@ with Rene on the ruling sheet.
   column has laid out, so it is not covered over one column and not
   the other (the shadow's reach past the band is clipped to the
   window, never to a column).
-- [ ] Goldens regenerate with the cause named where a mark moves;
+- [x] Goldens regenerate with the cause named where a mark moves;
   the new ones are named in the commit body.
-- [ ] Exit: green in `components`, `components/gallery`, `effects`,
+- [x] Exit: green in `components`, `components/gallery`, `effects`,
   `workbench/mindchat` and every consumer whose golden moved by name;
   guard clean; commit and push in every touched repo and `.github`.
 
