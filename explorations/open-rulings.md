@@ -3102,20 +3102,3 @@ fifth independent finding and the first proved from inside one component, since
 this task's toolbar fill is neutral in dark where the form trigger's is not;
 the label a sixth larger than the platform's is pool 494.
 
-
-## CH. From CG5.3b, the toolbar control's own height
-
-Filed 2026-09-18 from the measurement itself and from the fresh-eyes review of
-mindchat's toolbar row beside the Finder toolbar in both appearances. The
-review confirmed this task's whole result read cold — the band height, the
-vertical centring and the alignment with the window-control row all right —
-and closed CG5.2b's finding that the chrome trigger was "a third too short".
-One of its readings was rejected against the pixels rather than filed: the dark
-trigger's fill stands eight levels off its band, which is the platform's own
-step measured in the same image. The rest are below. Numbers 565 and 566 are
-from the code rather than the review.
-
-560. **[bug]** **A toolbar control in the light appearance has no separation from the band it stands on.** The platform tells them apart with the control's DROP SHADOW — `finder-window-light.png` reads 250 above the fill and 244 below it against a `#ffffff` control on a `#ffffff` band — and this library draws no shadow there, so the trigger reads as wording on the band. Fresh eyes read it that way independently and called the light-against-dark difference an inconsistency; the rim's polarity is the platform's own and measured (a `#404040` rim in dark, no stroke row in light), so what is owed is the shadow: measure its extent and its coverage off a frontmost light capture and decide whether a chrome control carries it.
-561. **[bug]** **A chrome control that is a mark alone has nothing to draw its container.** mindchat's pane toggle and new-chat mark stand bare on the band where the platform puts every toolbar control inside a capsule; the library's one bordered chrome control is the picker's trigger, so no component can give a mark that container. A chrome variant for the button — the capsule button and the segmented control the reference measures at the same 36 — is what the gap names.
-563. **[bug]** **The pane's seam is drawn across the toolbar band.** `patterns/pane` runs its seam the full height of the window, so the band is cut into two panels; the platform leaves the band unified and lets the fill change carry the boundary, which is what the same capture shows.
-564. **[bug]** **The chrome marks are drawn lighter and smaller than the platform's.** mindchat's toggle and `+` carry less stroke weight and optical size than the symbols in the Finder band at the same scale, the `+` most of all.

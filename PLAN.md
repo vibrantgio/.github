@@ -21901,6 +21901,53 @@ with Rene on the ruling sheet.
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
+#### CG5.3f: Every bordered toolbar control carries the measured shadow and a symbol keeps its capsule
+
+- [ ] Rulings of 2026-09-18 via the ontology session, measurements
+  under measured beats published. The toolbar control's drop shadow
+  is a measured material like the others: read off the Finder
+  toolbar captures in both appearances (`finder-window-light.png`
+  reads 250 above the `#ffffff` control and 244 below it on a
+  `#ffffff` band; read the dark one and the shadow's reach, offset
+  and coverage per row), joins `tokens.PlatformColors` tagged
+  `appkit:"-"` through the field walkers, and is drawn by every
+  bordered toolbar control (`toolbarface`) so a light control is told
+  from its band as the platform tells it. A chrome control whose
+  label is a symbol is still the platform's bordered toolbar control:
+  `components/button`'s chrome variant (the Button entry covers a
+  symbol as the label) draws the capsule at `ToolbarControlHeight`
+  around the symbol through the same `toolbarface`, and mindchat's
+  pane toggle and new-chat mark take it in place of a bare mark. The
+  symbols' size and stroke weight are measured off the Finder band
+  at 1x (the sidebar toggle, the view symbols, the search glyph) and
+  recorded in `controls.md`; `components/icons`' chrome marks take
+  the measured size and weight (symbols are not the typography
+  ruling).
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of mindchat's toolbar beside
+  the Finder band, both schemes.
+- [ ] Exit: green in `theme`, `effects/transition`, `components`,
+  `components/gallery` and every consumer whose golden moved by name;
+  guard clean; commit and push in every touched repo and `.github`.
+
+#### CG5.3g: The toolbar band is unified across the window's columns
+
+- [ ] Ruling of 2026-09-18 via the ontology session: the platform's
+  window is columns running top to bottom, the sidebar's column
+  through the toolbar row, and within the band the fill change
+  carries the boundary; no seam line is drawn across the band.
+  `patterns/pane` (and `shell` where it passes the pane through)
+  stops its seam line at the band's lower edge, so the band reads as
+  one across both columns as `finder-window-light.png` shows, the
+  fill change alone marking where the sidebar's column runs through
+  it; below the band the boundary keeps today's paint until pool 437
+  is ruled, which decides what the vertical boundary is painted with.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `patterns`, `components/gallery` and every
+  consumer whose golden moved by name; guard clean; commit and push
+  in every touched repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as
