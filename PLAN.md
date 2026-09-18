@@ -22177,7 +22177,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3p: A sidebar row is a symbol, a label and a count, and sections are headed by a small label
 
-- [ ] Language, the Sidebar entry at .github b00dd89: a row is a
+- [x] Language, the Sidebar entry at .github b00dd89: a row is a
   symbol, a label and, at the trailing end, a count when the entry
   has one; sections are headed by a small label and parted by space
   alone. `patterns/sidebar` draws the row that way, measured off
@@ -22193,10 +22193,10 @@ with Rene on the ruling sheet.
   where one holds it), its sections headed by the small label, and
   one indent per depth that does not shift; mindchat's rail follows
   where it lists. The aside is untouched.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of vaultview's rail beside
   Screenshot 1, both schemes.
-- [ ] Exit: green in `patterns`, `components/gallery`,
+- [x] Exit: green in `patterns`, `components/gallery`,
   `workbench/vaultview`, `workbench/mindchat` and every consumer whose
   golden moved by name; guard clean; commit and push in every touched
   repo and `.github`.

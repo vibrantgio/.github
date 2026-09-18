@@ -698,6 +698,51 @@ The first fit is what is drawn, and what would close the question is a
 two-lobe shadow — an ambient ring and a sunk key — which nothing in the
 library draws yet.
 
+## What a sidebar row measures
+
+Added 2026-09-18 by CG5.3p, from `voicememos-multi-folder-2026-09-18.png`
+(Screenshot 1, the panel at x 64–283, y 46–786 over a black desktop) and
+`voicememos-sidebar-dark.png` (320×600, the same window's rail in the dark
+appearance, its panel at x 8–227 — every column below is the light capture's
+less 56), cross-checked against `finder-window-untinted-dark.png` (the
+Favourites/Locations/Tags sidebar, its panel at x 64) and
+`voicememos-sidebar-light.png`. Coordinates are each capture's own pixels at
+1x, where one pixel is one point. Sub-pixel edges are the coverage read off
+the panel's own fill — `#f9f9f9` light, `#1c1c1c` dark — summed along a cut.
+
+The reading that decides the section: **a row is a symbol, a label and, at
+the trailing end, a count, and a section is headed by a small label with air
+above it and no line.** Every column below is stated as an inset from the
+panel's own edge, because the panel is what the row stands in.
+
+| what | measured | where | method |
+| --- | --- | --- | --- |
+| the row's symbol box | 24 dp, its leading edge 17 px in from the panel's leading edge, so the drawing centres on 29 | Screenshot 1; `finder-window-untinted-dark.png` | the folder mark's drawn box runs x 83.0–103.0 and y 211.0–227.0 — 20.0 across by 16.0 down — read sub-pixel off the coverage at y=220 (the leading band 83.0–84.50, the trailing 101.50–103.0) and down x=92 (the tab's top at 211.0, the body's foot at 227.0). Its centre is x=93.0, which is 29 in from the panel's x=64. Finder's dark sidebar draws a narrower mark on the same centre: the Documents page spans x 87–99 against its own panel at x=64. A 24 dp square set 17 in centres on 29, and the set's axis-aligned keyline — 18 of 24 — draws 18 across against the platform's 20 |
+| the row's label | its first column 48 px in from the panel's leading edge | Screenshot 1; `finder-window-untinted-dark.png` | "All Recordings" starts at x=112 and every folder name at x=112 or 113, against the panel's x=64. Finder's dark rows start at x=111, 47 in from its own panel edge |
+| the row's count | its last column 17 px in from the panel's trailing edge | Screenshot 1 | recorded above with the panel: each count is drawn to x 266 or 267 against the panel's trailing rim at x=283. The dark rail agrees — "2" ends at x=210 against its rim at x=227 |
+| the row label's cap height | 10 px | Screenshot 1 | the 'A' of "All Recordings" covers rows 108 to 117 at a flat 0.269 down its own stem and nothing above or below, so the cap band is [108.0, 118.0] and the baseline y=118.0. At the shipped face's cap ratio that is a 14 dp role — the sidebar already draws its rows in one |
+| the section label's cap height | 8 px, four fifths of the row label's | Screenshot 1 | the 'M' of "My Folders" covers rows 183 to 190 at a flat 0.498 down its own stem and its 'F' the same rows, so the cap band is [183.0, 191.0], 8 px, and the baseline y=191.0. At the same ratio that is an 11 dp role, which the scale already carries |
+| the section label's first column | 17 px in from the panel's leading edge — the symbol box's own column | Screenshot 1; `finder-window-untinted-dark.png` | "My Folders" starts at x=81 against the panel's x=64. Finder's "Favourites", "Locations" and "Tags" all start at x=81 against its own x=64 |
+| the section block | 42 px, the previous row's box to the next row's | Screenshot 1 | the second top row's box ends at y=161 (32 tall from the first row's y=97) and the first folder row's box begins at y=203, which is the selected row's y=363 less five pitches. The label's cap top stands 22 px into that block (y=183, the air already recorded) and its baseline 30 px into it (y=191.0). Nothing is drawn between the two runs of rows but that air: every row from y=162 to y=202, counted across x 66–281, holds the panel's own `#f9f9f9` and the `#fafafa` its fill dithers one 255th above it and nothing else but the label's own pixels, so a section is parted from the rows by space alone and by no line |
+| the row label's colour | `Label` | Screenshot 1; `voicememos-sidebar-dark.png` | light: a plateau of `#262626` over 22 pixels of one name, which is black at 216/255 over the panel's `#f9f9f9` to the byte. Dark: `#dcdcdc`, one 255th off white at 216/255 over `#1c1c1c` |
+| the section label's colour | `SecondaryLabel` | Screenshot 1; `voicememos-sidebar-dark.png` | light: a plateau of `#7d7d7d` over 39 pixels, which is black at 0.5 over `#f9f9f9` to the byte. Dark: `#999999`, which is white at 0.55 over `#1c1c1c` to the byte |
+| the count's colour | `#6d6d6d` light, `#a4a4a4` dark — no platform name | Screenshot 1; `voicememos-sidebar-dark.png` | light: a plateau of `#6d6d6d` over 7 to 15 pixels of every count in the capture; dark: `#a4a4a4`. Both are plateaux, so both are the drawn colour and not a stroke's shortfall — the section label plateaux on the same fill at `#7d7d7d` and `#999999`, which IS the name. Flattening every field of the recorded platform set over each panel fill puts no name within a level of either reading: `SecondaryLabel` is 16 short light and 11 short dark, and the nearest answer in the whole set is `ScrollbarThumb` at 3 and 6, which is a scrollbar's knob. So the count is recorded as a measured value of the sidebar, as the pill is: `SidebarCount` |
+| the label and the count on the pill | white | Screenshot 1 | the selected row's label plateaux at `#ffffff` over the pill's `#178bfb`, and its count peaks `#f9fcff` — white short of full coverage by the digits' own stems. The count keeps its column: it ends at x=266, the same 17 in from the panel's rim as every unselected count |
+| the row's symbol colour | `#000000` light, `#ffffff` dark — stronger than `Label` | Screenshot 1; `voicememos-sidebar-light.png`; `voicememos-sidebar-dark.png` | the folder mark plateaux at exactly `#000000` over 45 pixels in Screenshot 1 and over 30 in `voicememos-sidebar-light.png`, two captures of the same rail at different window positions, where the label beside it plateaux at `#262626`. Dark: `#ffffff`. A vector mark is not text and takes no stem darkening, so this is the drawn colour and not a rendering artefact |
+
+**What is open here.** The symbol reads 38 of 255 stronger than the label
+standing beside it in light and 35 in dark, and no platform name answers for
+black or white outright. The library draws a mark in the foreground of what
+it sits in, which is the label's own colour, and that is what the sidebar
+draws; the gap is filed rather than turned into a third value of the rail.
+
+**Where the two rows in the capture that carry no folder stand.** The two
+entries above the section — the waveform and the trash — draw 16 px of mark
+against the folder's 20, centred on x=92.5 against the folder's 93.0, and put
+their labels on the same x=112. So the columns are the row's and not the
+folder mark's, and the half pixel between the two centres is not drawable at
+1x.
+
 ## What the sidebar search field measures
 
 Added 2026-09-17 by CG4.8, from `system-settings-grouped-box-light.png` and
