@@ -22102,6 +22102,32 @@ with Rene on the ruling sheet.
   `workbench/mindchat` and every consumer whose golden moved by name;
   guard clean; commit and push in every touched repo and `.github`.
 
+#### CG5.3n: Vaultview's band holds the window's navigation and name, and the find grows from its trailing end
+
+- [ ] Rulings of 2026-09-18 via the ontology session, the Chrome
+  table's toolbar row and the captures. `workbench/vaultview`: the
+  find recess grows leftward from a fixed trailing end as Finder's
+  does (`finder-window-untinted-dark.png`), so no control walks when
+  it opens; the window's navigation (back and forward, if the app
+  has them) and the document's name stand in the band as Finder
+  keeps them (`finder-window-light.png`: the segmented pair beside
+  the bare title), the name leaving the note's head; the match count
+  stands inside the find field at its trailing end as Mail's find bar
+  measures (`mail-find-{light,dark}.png`, read the count's inset and
+  colour), not as loose text beside it; the pinned breadcrumb row
+  meets the scrolled content at a seam (the Seam entry's flush-regions
+  rule), not by touching. `components/scrollbar`: the thumb's
+  coverage is the recorded `ScrollbarThumb` 0.572 in both schemes
+  (it draws an opaque 109 light and lands too heavy the other way
+  dark);
+  a test reads the thumb off a capture in both.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of the window with the find
+  open beside Finder and Mail, both schemes.
+- [ ] Exit: green in `components`, `components/gallery`,
+  `workbench/vaultview` and every consumer whose golden moved by name;
+  guard clean; commit and push in every touched repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as
