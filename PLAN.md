@@ -21787,7 +21787,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3: A control's edge lies inside its box and the checkbox row is measured
 
-- [ ] `components/button`'s `strokeRRect` insets a 1 dp edge so the
+- [x] `components/button`'s `strokeRRect` insets a 1 dp edge so the
   whole stroke falls inside the reported size, as the checkbox
   already draws its edge; the pure and live paths paint the same
   pixels and a Tonal button measures 24 beside a Filled one. The
@@ -21807,9 +21807,9 @@ with Rene on the ruling sheet.
   live `picker.Field` sets `FieldState.Hovered` and `Pressed` from
   its clickable, so CG5.2's measured states are drawn in a running
   application and not only in the static render.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `theme`, `components`, `components/gallery` and
+- [x] Exit: green in `theme`, `components`, `components/gallery` and
   every consumer by name; guard clean; commit and push in every
   touched repo and `.github`.
 

@@ -67,6 +67,10 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | the Finder toolbar's pull-down draws ONE chevron | 8 px wide, 5 px tall — x 792–799, y 24–28 | same | the group control beside it: the pair's lower half alone, apex down, the same eight columns and the same five rows. Mail's folder pull-down reads 9 × 5 (`mail-window.png`, x 740–748, y 23–28) in a control 29 px tall; this one reads 8 × 5 in a control 36 px tall. The mark does not scale with the control it stands in, which is what `components/internal/toolbarface` models it as |
 | checkbox — "Options:" | 16 px square, y 372–387, x 264–279 | same | runs across and down the box; switched off here, which moves its fill and not its extent |
 | the second checkbox of the same pair | 16 px square, y 394–409, the same columns | same | the sheet carries two switched-off checkboxes, "Show startup screen" and "Stay open after run handler", and they agree to the pixel |
+| the checkbox's row | 22 px | same | the pitch between the two squares: the first runs y 372–387 and the second y 394–409, so 394 − 372 = 22, with six clear rows between them. Both appearances agree to the pixel. The row is the pitch and nothing else — the sheet draws no row fill, seam or highlight behind a checkbox to read an extent off. It is neither the 24 px control height nor the 20 px list row, which is why `density.go` carries it as a number of its own |
+| the checkbox's label against its square | the label's cap band centred on the square, the rounding falling half a pixel low | same | "Show startup screen" caps run y 375–385 against a square of y 372–387: a band centre of 380.0 against the square's 379.5. "Stay open after run handler" agrees — y 397–407 against y 394–409, 402.0 against 401.5. The same rounding the pop-up's mark and the Mail search field's prompt take. Read on the S of each label, the only cap either carries, so the band includes that letterform's overshoot |
+| the checkbox's label, its leading gap | 6 px clear | same | the square's last column is x=279 and the label's first covered column x=286, in both appearances and both rows |
+| radio button — "Automatically based on mouse or trackpad" | 16 px circle, y 696–711, x 253–268 | `system-settings-grouped-box-{light,dark}.png` | the selected radio's accent disc, read as the run of accent-blue pixels across and down; both appearances agree to the pixel. The same 16 the checkbox measures, which is what `components/input` draws the radio's circle at. It is the only radio or checkbox in that capture — the grouped boxes above it carry switches, not checkboxes — and it stands alone in its group with the capture's lower edge below it, so it gives the glyph's size and no row pitch |
 | a switched-off control's fill | `#f2f2f2` light, `#2e3439` dark | same | flat-region samples of both checkboxes, x 264–279. The box draws no edge of its own: its rim is a one-pixel antialiased ramp from the fill to the sheet (`#f3f3f3` through `#fbfbfb` light), the way the pop-up above it meets the sheet with no edge column |
 | the enabled fill it is read against | `#ececec` light, `#333a3f` dark | same | the "File Format:" pop-up's own fill, its last rows at y 355–359, seventeen rows above the first checkbox on the same sheet — the push button's measured fill |
 | a switched-off control's coverage | 170 of 255 | same | the fraction of its own paint a switched-off control keeps over the surface it stands on. The enabled fill over the sheet at that coverage lands on the switched-off reading: light `#ececec` over `#ffffff` gives 242.33 → `#f2f2f2`, exact; dark `#333a3f` over `#232a2f` gives (45.67, 52.67, 57.67) → (46, 53, 58) against the measured (46, 52, 57), exact on red and one 255th over on green and blue — the tolerance the hover overlay's dark reading carries. No single coverage lands all four channels exactly, so the reading is recorded with its miss |
@@ -442,6 +446,8 @@ on 2026-09-11, and the density scale now takes the measured height.
 | `CompactFieldHeight` | 21 dp | DERIVED: 27 × 19/24 = 21.4, rounded — the measured field-to-control ratio applied to the small control, until a small field is captured |
 | `ComfortableRowHeight` | 20 dp | MEASURED: Finder's list view in `finder-window-light.png`, a 20 px stripe pitch with no row seam. Added by CE2.3; it replaces the control height as the pin for every stacked row |
 | `CompactRowHeight` | 19 dp | PUBLISHED: the small push button, carried until a capture holds a list drawn dense |
+| `ComfortableCheckboxRowHeight` | 22 dp | MEASURED: the pitch between the two "Options:" checkboxes in `save-dialog-{light,dark}.png`, squares at y 372–387 and y 394–409. Added by CG5.3; it is the footprint the 16 px glyph is centred in, and the checkbox's and the radio's pointer target |
+| `CompactCheckboxRowHeight` | 17 dp | DERIVED: 22 × 19/24 = 17.4, rounded — the same regular-to-small ratio `CompactFieldHeight` takes, until a capture holds a small checkbox |
 | `Comfortable.PaddingX` | 8 dp | PUBLISHED: the inset beside a regular push button's label. The capture cannot correct it — both buttons sit at the platform's 74 px minimum width with their labels centred |
 | `Compact.PaddingX` | 7 dp | DERIVED: 8 × 19/22 = 6.9, rounded — the published small-to-regular ratio, both operands published, since neither the inset nor the small control is captured |
 | `Comfortable.PaddingY` | 2 dp | DERIVED: (24 − 20) / 2, where 20 dp is the LabelLarge line box a button is set in; a Comfortable button lands exactly on 24 |
@@ -449,7 +455,20 @@ on 2026-09-11, and the density scale now takes the measured height.
 
 The checkbox's measured 16 px is in `density.go`'s provenance table as a
 line, not as a token: the checkbox's side length lives in
-`components/input`, which is where a consumer takes this number.
+`components/input`, which is where a consumer takes this number. Its ROW is a
+token, added by CG5.3: the glyph does not move with density and the footprint
+it is centred in does.
+
+**Which stored captures hold a checkbox or a radio.** Only two.
+`save-dialog-{light,dark}.png` holds the pair of switched-off "Options:"
+checkboxes the rows above are read from, and it is the only capture holding
+two of them stacked, so it is the only one that can give a row pitch.
+`system-settings-grouped-box-{light,dark}.png` holds one selected radio, the
+"Automatically based on mouse or trackpad" row of the "Show scroll bars"
+group; everything else in that window's grouped boxes is a switch, a pop-up, a
+colour swatch or a picture chooser, and the capture's lower edge falls below
+that radio before a second one, so it gives the glyph and no pitch. No
+stored capture holds a checkbox at the platform's small size.
 
 Two overshoots are recorded rather than hidden, and both close only by moving
 a typography role, which is not the density scale's to move: a Compact button
