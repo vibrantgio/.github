@@ -18,7 +18,8 @@ toolbar band's own boundary and the recess rim's name are CG5.3g, and the
 dark shadow's own geometry, the chosen segment of a segmented control, the
 compose symbol's band and where a sidebar-side control stands in the band are
 CG5.3i, and what the whole band's composition measures capture by capture is
-CG5.3l.
+CG5.3l. The magnifier's lens, the round and curved allowance it fixes and the
+set's one band are CG5.10.
 
 ## How coverage is read off a rendered component
 
@@ -462,13 +463,26 @@ that grid lands on a whole pixel. `components/internal/control`'s
 **The square keyline is 19, and CG5.7 moved it there.** The set drew 18 until
 2026-09-18 and now draws the larger of the two square readings — the tag's
 19 × 19 — so a square mark at 24 dp covers the platform's own 19 px. Nineteen
-is odd against a 24-unit box, so a centred square form stands at 2.5 and 21.5
-and its four edges land a whole device pixel at 24 dp alone, reaching 0.917 of
-their best pixel at 20 and 0.667 at 16. The set's ROUND AND DIAGONAL allowance
-did NOT move with it: it stays 20 units, four over the magnifier's 16 and three
-over Notes' compose, so this library's magnifier, chevrons and checkmark stand
-wider in a band than the platform's do. The reading is recorded and the ruling
-is open.
+is odd against a 24-unit box, so a centred square form stands at 2.5 and 21.5,
+which no whole unit divides.
+
+**The round and curved allowance is 13, and CG5.10 measured it.** Read at 1x
+off the magnifier standing alone in the same band (`finder-window-light.png`,
+x 965–980, y 18–34), against the band's own `#ffffff` fill and the symbol's own
+`#4d4d4d` plateau: **the lens's outer diameter is 13.06 px** — leading outer
+edge x 965.02 and trailing 978.08 on the lens's own centre row, top y 18.85 and
+foot 31.90 down its own centre column, sub-pixel edges from the coverage of the
+first and last covered pixel in each cut. Against the tag's 19 px square in the
+same band that is **0.687 of the keyline**, and at 24 dp, where one grid unit
+is one device pixel, it is **13 units**. The two field glyphs agree at their own
+size: Mail's (x 878–890) and Voice Memos' (x 657–669) search fields each draw a
+lens 10.29 px across outside in a glyph 12.33 px wide, and against the toolbar
+symbol's own 15.75 px width that is 13.14 units. `components/icons` draws its
+round forms to 13 — the search mark's lens and the refresh mark's ring — in
+place of the unmeasured 20 it carried before. The DIAGONAL allowance is still
+unmeasured and stays 20: no stored capture holds a bare diagonal band standing
+alone in a band, the checkmark and the clear mark are all that take it, and the
+capture that would settle it is on 425's list.
 
 **The set's second weight is the sidebar toggle's list lines.** Inside that
 toggle's leading column, `voicememos-window.png` x 108–111, y 21–31: three
@@ -487,8 +501,9 @@ arms at atan(7/8) = 41.2°, and a band of **1.53 px** perpendicular (row y=30
 covers 0.60 + 1.00 + 0.71 = 2.33 columns against a 254 fill and a 191
 foreground, and 2.33 × sin 41.2° = 1.53). Both are drawn in
 `disabledControlText`, Finder standing at the top of its history, which fixes
-the geometry and not the colour. `components/icons` draws 11 × 20 on its
-20-unit allowance, three columns wider and six rows taller.
+the geometry and not the colour. `components/icons` draws the capture's own
+8 × 14 since CG5.7, at the set's one band of 1.4 rather than this capture's
+1.53; the exception is stated in each of the three chevron files.
 
 **What a toolbar draws its own words and glyphs in.** Read 2026-09-18 by
 CG5.7. `finder-window-light.png`, on a `#ffffff` band: the title
@@ -507,15 +522,30 @@ against a pixel that is white at 230. A FORM control is not this — the Save
 dialog's pop-up draws its mark and its label at `controlText` exactly.
 Recorded in `nscolors.tsv` as the measured material `toolbarLabel`.
 
-**The band's weight, with the set's miss stated.** The axis-aligned band of
-those same symbols measures 1.12 px (the list bar: 122 and 147 on a `#ffffff`
-fill, which over `controlText`'s 216 is 0.616 + 0.500 of a pixel), 1.15 to
-1.22 (the magnifier's circle at its own middle rows), 1.26 (Notes' compose)
-and 1.39 (Voice Memos' sidebar rectangle). The set draws 1.5 px at 24 — a
-sixth heavier — and a lighter one is not available to it: 1.25 units falls to
-0.83 px at the 16 dp end of its range, below one device pixel, where an
-antialiased line is drawn grey rather than in the control's colour. The
-reading is recorded and the weight stands.
+**The band's weight is 1.4, and CG5.10 settled it.** Every reading here is
+taken against the symbol's OWN drawn plateau — `#4d4d4d` on a light toolbar
+band, the measured `toolbarLabel` below — rather than against a colour name;
+the 1.12 to 1.26 CG5.3f recorded were read over `controlText`'s 216 and are
+superseded by these. The compose symbol measures **1.40 px** in
+`notes-toolbar.png` and again in `mail-window.png`; Voice Memos' sidebar
+rectangle **1.39**; the pop-up's chevron pair **1.36 to 1.44**; the sidebar
+folder **1.37 to 1.50**; Finder's view-pop-up list bar **1.35** (117 then 152
+on a `#ffffff` fill, which over 77 is 0.775 + 0.579 of a pixel, rows y 31–32 at
+x 708–717); and its magnifier's circle **1.48** (81 then 166 at its own centre
+row y=25, which is 0.978 + 0.500). `components/icons` draws **1.4 units** and
+every mark in the set draws it, on the axis, on a diagonal and on a curve
+alike; the set's own three weights and its 1.15-to-2.13 rendered spread go with
+it. Each mark whose capture reads otherwise states the exception in its own
+file — the history chevron's 1.53 perpendicular, the folder's 1.37 to 1.50,
+the document's 13-wide page.
+
+**What one band costs the small sizes, recorded.** 1.4 units is 0.93 px at
+16 dp and 1.17 at 20, so no band in the set holds a whole device pixel at 16 dp
+anywhere and only a band whose leading edge stands on a whole unit — or no more
+than 0.4 below one — holds one at 24. The set drew 1.5 to keep a whole pixel at
+the small end of the range, and 1.5 is not what the platform draws. Measured
+beats published; every mark's file states what its own bands reach at each of
+the three sizes.
 
 **A symbol keeps its capsule, and how wide.** A toolbar control carrying one
 symbol and nothing else measures 38 px wide against its 36 px height in
@@ -557,9 +587,8 @@ y 18-33), and its band measures **1.40 px** in both: a run across the square's
 leading edge at y=25 reads 233 then 115 on fills of 35 and 36, which over a
 foreground of 233 is 1.00 + 0.40 of a pixel, and its trailing edge 208 then
 140, which is 0.87 + 0.53. `components/icons`' plus mark takes that box and
-that band — the set's 18-unit square keyline and its axis-aligned 1.5, a sixth
-heavier, which is the miss the whole set carries above. Read 2026-09-18 by
-CG5.3i.
+that band: the set's 19-unit square keyline and, since CG5.10, this reading
+itself as the one band the whole set draws. Read 2026-09-18 by CG5.3i.
 
 **The room between two bordered controls standing apart.**
 `notes-toolbar.png` leaves 14 px between its compose capsule (x 8-44) and the

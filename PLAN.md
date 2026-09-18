@@ -22386,7 +22386,7 @@ with Rene on the ruling sheet.
 
 #### CG5.10: The icon set's round allowance and primary band are one measurement each
 
-- [ ] Rulings of 2026-09-18 via the ontology session after CG5.7.
+- [x] Rulings of 2026-09-18 via the ontology session after CG5.7.
   `components/icons`: the round and curved allowance is measured off
   the magnifier's lens in the stored captures (`finder-window-light.png`
   x 965–980, `mail-window.png`, `voicememos-window.png`: the lens's
@@ -22404,10 +22404,10 @@ with Rene on the ruling sheet.
   the focused band's footprint out of itself as it already cuts the
   control's box, so the halo does not read under the shadow's ramp
   (CG5.9 measured up to 11/255 on the find recess).
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the gallery's icon row
   beside the Finder band and the Voice Memos sidebar, both schemes.
-- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+- [x] Exit: green in `components`, `components/gallery`, `patterns`,
   `workbench` and every consumer whose golden moved by name, `design`
   and `design/mirror`; guard clean; commit and push in every touched
   repo and `.github`.
