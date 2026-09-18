@@ -21815,7 +21815,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3b: A toolbar control draws its own measured height and stands on chrome
 
-- [ ] Rulings of 2026-09-18 via the ontology session (Density entry
+- [x] Rulings of 2026-09-18 via the ontology session (Density entry
   at .github 39dd47b: a control standing in the toolbar has its own
   measured height, taller than the regular control). `tokens.Density`
   gains the toolbar control height, 36 measured off every bordered
@@ -21834,10 +21834,10 @@ with Rene on the ruling sheet.
   every workbench chrome trigger found by grep off chrome (mindchat's
   model menu at least, read each) either moves onto the toolbar band
   or becomes the form variant; no rim is invented for off-chrome use.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of a toolbar beside the
   Finder toolbar crop, both schemes.
-- [ ] Exit: green in `theme`, `effects/transition`, `components`,
+- [x] Exit: green in `theme`, `effects/transition`, `components`,
   `components/gallery` and every consumer whose golden moved by name;
   guard clean; commit and push in every touched repo and `.github`.
 

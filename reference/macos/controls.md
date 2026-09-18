@@ -10,8 +10,9 @@ measured numbers supersede the published ones are CE1.5 and CE1.6; the text
 field's leading inset is CG4.19, its origin, its trailing end and the
 pop-up's own label and mark are CG4.21, the pop-up's height, its
 label's origin and its mark's whole geometry are CG5.1, the
-switched-off controls and the states are CG5.2, and the toolbar
-control's own fill, edge, corner and mark are CG5.2b.
+switched-off controls and the states are CG5.2, the toolbar
+control's own fill, edge, corner and mark are CG5.2b, and its height read
+capture by capture is CG5.3b.
 
 ## What the stored captures measure
 
@@ -23,7 +24,7 @@ were taken").
 
 | what | value | capture | method |
 | --- | --- | --- | --- |
-| toolbar control height — search field, capsule button, segmented control, pop-up button alike | 36 px, y 8–43 | `finder-window.png`, `mail-window.png`, `reminders-window.png`, `voicememos-window.png`, `notes-window.png` | luminance run down a column through each control; every bordered control in all five windows starts at y=8 and ends at y=43 |
+| toolbar control height — search field, capsule button, segmented control, pop-up button alike | 36 px, y 8–43 | `finder-window.png`, `mail-window.png`, `reminders-window.png`, `voicememos-window.png`, `notes-window.png` | luminance run down a column through each control; every bordered control in all five windows starts at y=8 and ends at y=43. Re-read capture by capture under "The toolbar control's height, capture by capture" below, where the one exception is recorded: Mail's folder pull-down stands lower in its band and measures 29 |
 | that control's placement in the band | centred: 8 px above, 8 px below in a 52 px unified toolbar | same five | the band heights are ADR-019's "Title bar and toolbar bands" |
 | text field outside a toolbar — Finder's info pane, "Add Tags…" | 33 px tall (y 263–295), 220 px wide (x 770–989) | `finder-window.png` | the field's fill (35,42,46) against the pane's (27,32,35), first and last row and column that leave the pane |
 | a search field's leading inset: the field's inner edge to the first pixel of the magnifier glyph | 10 px | `mail-window.png` | horizontal luminance run at y=26 — the field's stroke at x=867, its fill from x=868, the glyph from x=878 |
@@ -111,6 +112,32 @@ were taken with wallpaper tinting ON.
 | that mark's trailing clearance | 9 px | same | the pair ends at x=733 against a fill ending at x=742. The same nine the dialog's pop-up leaves in a control 24 px tall, so the clearance is fixed and not a ratio of the control's height |
 | the pull-down beside it | ONE chevron, 8 by 5 | same | x 792-799, y 24-28, pixel for pixel the lower half of the pair: the group control is a menu of ACTIONS and not a choice. A picker is single-choice by contract, so nothing in this library draws it |
 
+**The toolbar control's height, capture by capture.** Read by CG5.3b as a
+luminance run down a column through each control's own middle. Every bordered
+control in every Finder toolbar capture measures 36 px, and two windows from
+other applications agree:
+
+| capture | what was read | reading |
+| --- | --- | --- |
+| `finder-window-untinted-dark.png` | all five bordered controls in the band, whose flat rim runs are x 404-432, 818-921, 980-989, 1050-1115 and 1178-1356 at y=46 and again at y=81 | rim row y=46, `#262626` fill over y 47-80, rim row y=81 — **36 px** outer, the same at x=418, 870, 984, 1082 and 1250 |
+| `finder-window-untinted-light.png` | the same band in the light appearance, controls at x 377-414, 895-909, 1032-1052, 1071-1089 and 1209-1355 | `#f7f7f7` fill over y 34-69 with no rim row on either side — **36 px**, read at x=405, 902, 1042, 1080 and 1280. This window is NOT frontmost, so its FILL is the platform's inactive drawing; its extent is not |
+| `finder-window-light.png` | the view pop-up, frontmost | `#ffffff` over y 8-43 at x=715 — **36 px** — with the drop shadow's 250 above it and 244 below, which is all that tells it from the band there |
+| `finder-window.png` | the same pop-up, dark, frontmost | rim rows at y=8 and y=43 with the `#242d32` fill between them at x=717 — **36 px** |
+| `mail-window.png` | the toolbar search field | the `#242d32` fill over y 8-43 at x=900 — **36 px** |
+| `notes-toolbar.png` | the whole band of a Notes toolbar | rim rows at y=8 and y=43 running 350 columns wide, `#232323` fill between — **36 px** |
+
+The band those controls stand in is 52 px, so the platform leaves 8 px above
+and 8 below (the row at the head of this reference). `tokens.Density` carries
+the 36 as `ToolbarControlHeight` from CG5.3b, which is what settles the open
+question the paragraph below recorded.
+
+Mail's folder PULL-DOWN is the one control in these windows that does not read
+36: at x=700 its fill runs y 20-47, one level off the band it stands on, which
+is the 29 px the dialog-control table above already records it at. It stands
+lower in the band than the search field beside it, so what it measures is a
+second row and not the same row drawn shorter. Nothing in this library draws a
+pull-down, so the reading is recorded and spent nowhere.
+
 **The pop-up mark's stroke, re-read.** CG5.1 recorded ≈1.5 px perpendicular
 from "an arm crossing a row covers about 2.1 columns … the arm runs at 45°".
 The arm does not run at 45°: an eight-by-five chevron's centreline runs at
@@ -149,13 +176,14 @@ and the platform draws no edge there at all, so none is drawn. The rule is the
 platform's behaviour stated once rather than an appearance the code tests for.
 
 **What the library draws against these numbers.** The chrome trigger takes the
-fill, the absence of a light edge, the capsule corner and the mark at its
-measured size and clearance. It does NOT take the 36: it draws the density's
-control height, 24 Comfortable, because that is the number `density.go` ships
-and the number the form trigger draws, and CG5.1 landed the two variants
-agreeing on it. Whether a control standing in a chrome region should draw the
-platform's toolbar height instead of the density's is an open question and not
-this reference's to settle.
+fill, the absence of a light edge, the capsule corner, the mark at its measured
+size and clearance, and — since CG5.3b — the 36 itself, through
+`tokens.Density.ToolbarControlHeight`. The two triggers are one component drawn
+in two places and the place settles the height: the form trigger draws the
+dialog pop-up's 24 and the chrome trigger the toolbar control's 36. The
+corner follows, being half the height either way. What CG5.1 landed and CG5.3b
+did not disturb is that the two variants spend one pair of insets and one
+mark.
 
 **What is open here.** No stored capture holds a toolbar control in the LIGHT
 appearance, frontmost, standing on a band that is not the same white it is —
@@ -448,6 +476,8 @@ on 2026-09-11, and the density scale now takes the measured height.
 | `CompactRowHeight` | 19 dp | PUBLISHED: the small push button, carried until a capture holds a list drawn dense |
 | `ComfortableCheckboxRowHeight` | 22 dp | MEASURED: the pitch between the two "Options:" checkboxes in `save-dialog-{light,dark}.png`, squares at y 372–387 and y 394–409. Added by CG5.3; it is the footprint the 16 px glyph is centred in, and the checkbox's and the radio's pointer target |
 | `CompactCheckboxRowHeight` | 17 dp | DERIVED: 22 × 19/24 = 17.4, rounded — the same regular-to-small ratio `CompactFieldHeight` takes, until a capture holds a small checkbox |
+| `ComfortableToolbarControlHeight` | 36 dp | MEASURED: every bordered control in the Finder toolbar captures, per capture in "The toolbar control's height, capture by capture" below. Added by CG5.3b; it is the height a bordered control standing in a chrome region draws, against the dialog control's 24 |
+| `CompactToolbarControlHeight` | 36 dp | CARRIED: no capture holds a toolbar drawn at the platform's small size, and all five stored windows draw their toolbar controls at one height, so Compact carries the measured 36 until one does |
 | `Comfortable.PaddingX` | 8 dp | PUBLISHED: the inset beside a regular push button's label. The capture cannot correct it — both buttons sit at the platform's 74 px minimum width with their labels centred |
 | `Compact.PaddingX` | 7 dp | DERIVED: 8 × 19/22 = 6.9, rounded — the published small-to-regular ratio, both operands published, since neither the inset nor the small control is captured |
 | `Comfortable.PaddingY` | 2 dp | DERIVED: (24 − 20) / 2, where 20 dp is the LabelLarge line box a button is set in; a Comfortable button lands exactly on 24 |
