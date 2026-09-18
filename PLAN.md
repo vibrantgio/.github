@@ -22166,7 +22166,11 @@ with Rene on the ruling sheet.
   the box the halo needs or paints the halo past its clip as the
   platform does; decide from the measurement and say so, since CG5.3
   read the checkbox's ring as 23 painted rows in a 22 dp footprint.
-  The halo is drawn in one place the controls share.
+  The halo is drawn in one place the controls share. Ruling of
+  2026-09-18 via the ontology session, the Level entry: the floating
+  level stands above everything in the window, so `patterns/modal`'s
+  scrim and surface defer as the popover, tooltip and menu do and
+  land above the band's deferred shadow, never below it.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the focused specimens
   beside the save dialog.

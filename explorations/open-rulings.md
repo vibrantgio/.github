@@ -3110,8 +3110,6 @@ regenerated gallery goldens by the worker and are in the commit body.
 
 568. **[bug]** **A component's op order moves text pixels across the whole gallery page.** Removing one `paint.FillShape` from the checkbox moved 66 scattered text pixels in `components-light.png` and 85 in `components-dark.png` by one 255th, in families the change does not touch, because the glyph atlas packs differently when the op stream changes. The regenerated images are stable across runs, so the gate still works, but every component change now carries unrelated text churn in its golden diff and a real one-255th text regression would be invisible inside it.
 
-
-
 ## CK. From CG5.3l, the vault's actions and the find in the toolbar band
 
 Filed 2026-09-18 from the measurement itself and from the fresh-eyes review of
@@ -3126,10 +3124,3 @@ shadow. Both are answered in the record of the review.
 
 607. **[decide]** **A worker coined two names in the shared icon set.** `components/icons` gained `refresh` and `open-folder` because both of the task's fallbacks were closed: the set held no mark that says either control, and the chrome variant draws no text — every document action in all five stored toolbar bands carries a symbol and not one carries a word. The drawing behind `open-folder` is measured off `mail-window.png`'s folder pull-down (19 by 15 px, band 1.34); `refresh` has no capture anywhere in the reference and is drawn to the grid alone, as `disclosure`, `clear` and the two history marks are. The set's names are published contract and stable once published, and these two were chosen by a worker rather than coined or approved.
 
-## CL. From CG5.3m, the band-landing walk and the band's shadow pass
-
-Filed 2026-09-18 from the measurement itself. No fresh eyes were named for this
-task; the rim's value and the shadow's rows were read back off the regenerated
-goldens by the worker and are in the commit bodies.
-
-619. **[bug]** **A modal sits below everything the library defers.** `patterns/modal` paints its scrim and its surface as ordinary ops, where every other floating surface — `patterns/popover`, `components/tooltip`, the picker's menu — and now a band control's drop shadow go through `op.Defer`, which flushes once at the end of the frame. A deferred drawing therefore lands on top of an open modal. It shows nothing today: the scrim and the shadow are both black coverages and two multiplications commute, which the settings frames confirm to the byte, and no stored composition puts a modal surface under a band control. A non-black overlay, or a dialog that reached the band, would show it.
