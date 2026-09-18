@@ -22074,6 +22074,27 @@ with Rene on the ruling sheet.
   golden moved by name; guard clean; commit and push in every touched
   repo and `.github`.
 
+#### CG5.3m: Every mark lands its band and the chrome controls have goldens
+
+- [ ] Chores after CG5.3k. `components/icons`: every mark in the set
+  is drawn to the band-landing rule `icons.Plus` and the sidebar mark
+  state (a band's leading edge at 1.5m with m ≡ 0 or 3 mod 4, so a
+  whole device pixel lands inside at 16, 20 and 24 dp), each mark's
+  file stating its edges, with a test walking the set; where a mark
+  cannot land at one size its miss is stated in its file. Goldens
+  are stored where a chrome control is drawn and none is kept:
+  `effects/springbutton`'s chrome control at rest and mid-spring in
+  both schemes; mindchat's whole-window render in both schemes (the
+  crop CG5.3k stored joins a full-window golden as vaultview keeps).
+  The five stale `.actual.png` files beside `components/button`'s
+  goldens are deleted and `.gitignore` in every repo with goldens
+  ignores `*.actual.png`.
+- [ ] Goldens regenerate with the cause named where a mark moves;
+  the new ones are named in the commit body.
+- [ ] Exit: green in `components`, `components/gallery`, `effects`,
+  `workbench/mindchat` and every consumer whose golden moved by name;
+  guard clean; commit and push in every touched repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as
