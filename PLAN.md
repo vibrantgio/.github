@@ -22051,6 +22051,29 @@ with Rene on the ruling sheet.
   `workbench/mindchat` and every consumer whose golden moved by name;
   guard clean; commit and push in every touched repo and `.github`.
 
+#### CG5.3l: Vaultview's document actions stand in its toolbar band
+
+- [ ] Ruling of 2026-09-18 via the ontology session, the Chrome
+  table's toolbar row: the toolbar is the strip along the window's
+  top holding the controls that act on the document. `workbench/vaultview`:
+  Rescan and Switch Vault leave the rail's foot and the find leaves
+  the note's head for the band, as bordered toolbar controls or the
+  toolbar search recess (`input.Toolbar`), composed as the Finder
+  captures compose theirs: the sidebar toggle at the leading end,
+  document actions over the content column, the search recess and
+  the inspector's controls at the trailing end where the trailing
+  column's fill rises into the band (`finder-window-light.png`,
+  `finder-window-untinted-dark.png`, gaps and order measured and
+  recorded in `controls.md`). The rail's foot and the note's head
+  lose the rows those controls occupied; the find's shortcut and
+  behaviour are unchanged.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of the window beside the
+  Finder captures, both schemes.
+- [ ] Exit: green in `workbench/vaultview` and every consumer whose
+  golden moved by name; guard clean; commit and push in every touched
+  repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as
