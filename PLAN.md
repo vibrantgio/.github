@@ -21843,7 +21843,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3c: A switched-off checkbox is drawn as the save dialog measures
 
-- [ ] Measurements, not rulings (CG5.3's readings in `controls.md`):
+- [x] Measurements, not rulings (CG5.3's readings in `controls.md`):
   the platform's switched-off checkbox is a fill with no edge column,
   `#f2f2f2` light / `#2e3439` dark on the sheet, the enabled fill
   faded at the measured 170/255 (`tokens.DisabledCoverage`).
@@ -21854,9 +21854,9 @@ with Rene on the ruling sheet.
   is today with the gap on 425's list. The glyph's mark and the label
   follow CG5.3's names. Tests read the switched-off box's fill and
   edge rows off a capture.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
