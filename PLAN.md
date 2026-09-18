@@ -22368,7 +22368,13 @@ with Rene on the ruling sheet.
   pass the one Tolerance (0.0178 and 0.0176 against 0.0223), so the
   ceiling is one number again; `TestPageVarClosure` covers every
   hand-authored page in `design/components` as well as the generated
-  three, so a `var()` that resolves to nothing fails.
+  three, so a `var()` that resolves to nothing fails. A measured
+  shadow's geometry lives in `theme/tokens` beside its coverage as the
+  pill and the recess carry theirs: `ToolbarControlShadow`'s reach and
+  offset per appearance (and `PaneShadow`'s, `FloatingShadow`'s where
+  they are lengths in code today) are token fields, and
+  `components/internal/control` and `effects/depth` both read them
+  from there, neither owning a fit of its own.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included.
 - [ ] Exit: green in `components`, `components/gallery` and every
