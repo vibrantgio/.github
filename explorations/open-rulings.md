@@ -3102,11 +3102,3 @@ fifth independent finding and the first proved from inside one component, since
 this task's toolbar fill is neutral in dark where the form trigger's is not;
 the label a sixth larger than the platform's is pool 494.
 
-## CH. From CG5.3, the checkbox's row and what is left outside a control's box
-
-Filed 2026-09-18 from the measurement itself. No fresh-eyes review is named
-for this task; the numbers below were read off the stored captures and off the
-regenerated goldens. CG5.3 closed the button's straddling hairline, which is
-why nothing here restates it.
-
-558. **[decide]** **Nothing in the library draws a checkbox's label, so two measured numbers have no consumer.** CG5.3 read the save dialog's checkbox labels for their colour and recorded the geometry beside it — the label's cap band centred on the square with the rounding half a pixel low, and 6 clear columns from the square's trailing edge to the label's first pixel. `input.Checkbox` and `input.Radio` take a `Description` for the screen reader and paint no wording, so every application beside them writes its own row. Whether a labelled option row is this library's to draw is the open question; until it is answered the two numbers sit in `controls.md` unused.

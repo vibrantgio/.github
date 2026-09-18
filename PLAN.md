@@ -21860,6 +21860,27 @@ with Rene on the ruling sheet.
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
+#### CG5.3d: The checkbox and the radio draw their own labels
+
+- [ ] Language entries Checkbox and Radio at .github 0db5dce bind:
+  the control is the box (or disc) and its label, the label part of
+  the control, clicking it operates the box. `components/input`'s
+  checkbox and radio take a label: set in the text colour at the
+  measured 6 px gap after the box with its cap band centred on the
+  box's row (CG5.3's readings in `controls.md`), the whole row the
+  pointer target, the label faded with the box when switched off
+  (`TertiaryLabel`, CG5.3), and the live and static paths drawing the
+  same pixels. The apps and specimens that drew their own label
+  beside a box (todos' rows, the gallery's checkbox row, feeds'
+  preferences, any other found by grep) hand it over and delete
+  their local label; a checkbox with no label stays valid.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of a labelled checkbox row
+  beside the save dialog's Options rows, both schemes.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer whose golden moved by name; guard clean; commit and push
+  in every touched repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as
