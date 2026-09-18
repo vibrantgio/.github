@@ -636,6 +636,56 @@ offscreen through AppKit does not substitute — an `NSTableView` at
 pill as `#424242` where Finder draws `#2a2a2a`, because the platform's pill is
 drawn with a vibrancy that has no backdrop offscreen.
 
+## What the sidebar panel measures
+
+Added 2026-09-18 by CG5.3n, from the owner's three captures of Voice Memos
+on macOS 26 — `voicememos-multi-folder-2026-09-18.png`,
+`voicememos-multi-folder-search-2026-09-18.png` and
+`voicememos-multi-folder-selected-2026-09-18.png`, all 1088×869 at 1x over a
+BLACK desktop, so the window's own bounds are where the black stops — and
+cross-checked against `finder-window-untinted-dark.png` (1443×1107),
+`finder-window-untinted-light.png` (1399×1063), `notes-window.png`
+(1100×850) and `reminders-window.png` (1000×700).
+
+The reading that decides the section: **the platform's sidebar is not a
+flush column parted by a seam. It is an inset rounded panel standing inside
+the window**, with the window's own plane showing around it on three sides,
+its own rim on all four and the shadow it casts on what lies around it.
+CG1.1's second landing read `finder-window-untinted-light.png` as a flush
+column because in that capture the window's plane and the panel's rim are
+both `#ffffff` and the desktop behind is light, so the eight pixels of plane
+and the rim inside them are one white band; the black-desktop captures
+separate them.
+
+Coordinates below are the capture's own pixels. In Screenshot 1 the window
+stands at x 56–1031, y 38–794 and the panel at x 64–283, y 46–786.
+
+| what | measured | where | method |
+| --- | --- | --- | --- |
+| the panel's fill | `#f9f9f9` here, `#f7f7f7` untinted | Screenshot 1; `finder-window-untinted-light.png` | flat-region samples of the interior read `#f9f9f9` on every channel. It is the sidebar material, not a value of its own: the light Finder capture over a LIGHT desktop reads the same panel at `#f7f7f7` to the byte, so the black desktop behind this window lifts the material two of 255 through the glass. Dark: `#1c1c1c` in `finder-window-untinted-dark.png`, `#1b1b1b`–`#1c1c1c` in `notes-window.png` and `reminders-window.png` |
+| the panel's inset | 8 px on the leading, top and bottom sides; none on the trailing side | all four window captures | Screenshot 1: the window's first opaque column is x=56 and the panel's rim is x=64; its top row is y=38 and the rim y=46; its last row is y=794 and the rim y=786. `finder-window-untinted-dark.png`: window x 56–1442, y 38–1032, panel rim at x=64, y=46 and y=1024. `notes-window.png` and `reminders-window.png` are cropped to the window's bounds and put the rim at x=8, y=8 and 8 rows above the last. On the trailing side the content begins in the column after the rim with no gap in any of them |
+| the panel's rim | `#ffffff` light, `#3a3a3a` dark, 1 px, all four sides | Screenshot 1; `finder-window-untinted-dark.png` | light: the rim reads 255 on every channel down x=64, along y=46 and y=786 and down x=283 — opaque, since white at any coverage over a fill that light lands short of 255. Dark: `#3a3a3a` flat down x=64 and along y=46 and y=1024; down the trailing edge at x=373 it reads `#404040` through the band and `#434343` below it, the panel's own sidebar material lifting toward that edge. `notes-window.png` and `reminders-window.png` read `#353535` and `#363636` over their own `#212121` plane. `separatorColor` over the dark fill gives `#3b3b3b` and over the light fill `#e6e6e6`, so the value is carried and not flattened. Recorded as `paneRim` |
+| the panel's corner | 17.85 px to its outer edge — 18 | Screenshot 1 | a circle fitted to the rim's own centreline at the three corners the window's rounding does not overlap: r=17.19 at the top-trailing (rms 0.150 px, 28 points), r=17.48 at the bottom-trailing (rms 0.130, 26) and r=17.38 at the bottom-leading (rms 0.117, 26), which is 17.35 to the centre of a 1 px rim and 17.85 to the panel's outer edge. The window's own corner in the same capture fits r=25.94 (rms 0.195, 48 points), so the panel's rounding is the window's own less the 8 px it is set in by, and the two are concentric. The platform's corner is a continuous curve, which is why the arc leaves the straight edge ~13 px from the corner where a circle of that radius would leave it at ~11 |
+| the panel's shadow | black at 13/255, 24 px of reach, its rectangle sunk 9 px | Screenshot 1 | read as the darkening of the white plane and the white content around the panel. Beside the trailing rim the content reads 244 and recovers to `#ffffff` 33 columns out; the 8 px of plane at the leading edge reads 239 at the rim and 245 at the window's edge; the 8 px above reads 247 and 251. A linear ramp of black at 13/255 spread over 24 px from a rectangle sunk 9 px lands those 9,096 sampled pixels at an rms of 1.19 of 255 with a worst miss of 3.4. Recorded as `paneShadow` |
+| — the same shadow, below the panel | 8–11 of 255 deeper than the model | Screenshot 1 | the 8 px of plane below the panel reads 227 at the rim and 234 at the window's edge, where one sunk rectangle at the fit above puts 242. The platform's shadow is blurred and lit from above, and one rectangle with one peak cannot be both that deep below and that light beside; `toolbarControlShadow` carries the same limit, fitted the same way |
+| — the same shadow, dark | 1–2 of 255 | `finder-window-untinted-dark.png`, `notes-window.png` | the plane beside the leading rim reads 27 and recovers to 28 within 6 columns; the content beside the trailing rim reads 29 against its own `#1e1e1e`. Black at 13/255 on a plane that dark IS one and a half of 255, so one coverage serves both appearances, as `floatingShadow` does |
+| the window buttons, inside the panel | 14 px circles at x 75–88, 98–111, 121–134, y 57–70 | Screenshot 1 | 19 px in from the window's own glass on both axes — the placement already recorded for Finder, Mail, Notes and Voice Memos — and so 11 px in from the panel's own top-leading corner. Their centre line is y=64, which is 26 below the window's top edge: the middle of the 52 px band, and the middle of the panel's own 36 px strip |
+| the panel's own marks | bare, at its top trailing corner | Screenshot 1 | the new-folder mark is drawn over x 209–230 and the sidebar toggle over x 252–271, both y 57–71 — on the buttons' centre line. Neither carries a capsule, a fill or a rim: the bordered toolbar control is the BAND's drawing. Their centres stand 42 apart, which at the 24 px mark box is 18 px of clear band between the boxes, and the trailing mark ends 12 px clear of the panel's rim. Their darkest drawn pixel is `#4b4b4b`, which is a floor and not the colour: a 1 px symbol stroke at 1x never reaches full coverage |
+| the row pitch | 32 px | Screenshot 1 | the two top entries are drawn over y 105–121 and 136–154, the six folder rows over y 211–226, 243–258, 275–290, 307–322, 339–354 and 403–418, and the selected row's pill spans y 363–394 — 32 between every pair of centres, which is the row height already recorded for the sidebar |
+| the first row's box | top at y=97, 51 px below the panel's top edge | Screenshot 1 | the pill's own box is 32 tall and the rows are 32 apart, so the first row's top is the selected row's 363 less eight pitches. That is 15 px below the foot of the panel's 36 px strip |
+| the selection pill | x 74–273, y 363–394, `#178bfb`, corner 8 | Screenshot 1 | flat `#178bfb` over the interior, 200 by 32, inset 10 px from each of the panel's own edges — the same 10 already recorded against Finder's rail — with a white label. It confirms `SidebarSelection` to the byte |
+| the section label | `#7d7d7d`, 22 px of air above it | Screenshot 1 | "My Folders" is drawn over x 81–138, y 183–192, its darkest pixel `#7d7d7d` — `secondaryLabelColor`'s black at 0.5 over the panel's `#f9f9f9` to within half of 255. The row above it ends at y=161, so 22 px stand between the two. The row labels beside it read `#262626`, which is `labelColor`'s black at 0.85 over the same fill |
+| the counts | `#6d6d6d`, ending 17 px in from the panel's rim | Screenshot 1 | each folder's count is drawn to x 266 or 267, which is 17 px clear of the panel's trailing edge and 8 px inside the selection pill's own trailing edge. Their darkest pixel is `#6d6d6d`, 16 of 255 darker than the section label's `#7d7d7d` on the same fill; both are drawn in one name and the digits' stems reach fuller coverage than an 11 px semibold label's do |
+
+**What is open here.** The one-rectangle shadow model cannot hold the
+capture's four sides at once: fitted to the content beside the panel, the
+plane at its leading edge and the plane above it, it misses the plane below
+by 8–11 of 255; fitted to all four at equal weight it lands every side within
+about 3 of 255 but halves the ramp the reader actually sees on the content.
+The first fit is what is drawn, and what would close the question is a
+two-lobe shadow — an ambient ring and a sunk key — which nothing in the
+library draws yet.
+
 ## What the sidebar search field measures
 
 Added 2026-09-17 by CG4.8, from `system-settings-grouped-box-light.png` and

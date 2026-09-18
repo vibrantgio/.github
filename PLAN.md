@@ -22104,7 +22104,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3n: The sidebar is the platform's inset panel again
 
-- [ ] Owner finding 2026-09-18: "The sidebar doesn't look like a
+- [x] Owner finding 2026-09-18: "The sidebar doesn't look like a
   sidebar anymore. Look at Screenshot 1 at the left side of the
   window at the sidebar. Vaultview just does NOT have the same
   sidebar." His three captures are kept as
@@ -22136,12 +22136,12 @@ with Rene on the ruling sheet.
   panel's corner as Voice Memos keeps it. The seam question is
   answered by the capture: inside the band and below it there is no
   line, the panel's rim and shadow are the boundary.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of vaultview's window beside
   Screenshot 1, both schemes, with the recorded misread that the
   earlier CG1.1 review called this panel "a grey slab neither Finder
   nor ChatGPT has": it is the platform's sidebar.
-- [ ] Exit: green in `patterns`, `components/gallery`,
+- [x] Exit: green in `patterns`, `components/gallery`,
   `workbench/vaultview`, `workbench/mindchat` and every consumer whose
   golden moved by name; guard clean; commit and push in every touched
   repo and `.github`.
