@@ -3110,3 +3110,12 @@ regenerated gallery goldens by the worker and are in the commit body.
 
 568. **[bug]** **A component's op order moves text pixels across the whole gallery page.** Removing one `paint.FillShape` from the checkbox moved 66 scattered text pixels in `components-light.png` and 85 in `components-dark.png` by one 255th, in families the change does not touch, because the glyph atlas packs differently when the op stream changes. The regenerated images are stable across runs, so the gate still works, but every component change now carries unrelated text churn in its golden diff and a real one-255th text regression would be invisible inside it.
 
+
+## CI. From CG5.3j, the radio's dot at the measured five sixteenths
+
+Filed 2026-09-18 from the measurement itself. No fresh eyes were named for
+this task; the dot's diameter and centre were read back off the regenerated
+goldens by the worker and are in the commit body.
+
+599. **[bug]** **The published sheet draws the radio's dot at half the disc.** `design`'s `.radio` puts an 8 px dot in the 16 px circle, which is what the component drew before the platform's 5.00 px reading was spent. `design/mirror`'s radio-selected pair scored 0.0644 against its 0.0223 ceiling before this task and 0.0827 after, red on both sides: the pair cannot come back inside the ceiling until the sheet's dot is the measured five sixteenths.
+600. **A coverage read off a component capture's colour channels is not a coverage until it is linearised.** The rasterizer mixes one colour into another in linear light and the capture stores the result encoded, so a half-covered white pixel over the accent holds 0.69 of the channel where the stored macOS captures' own antialiasing holds 0.46 at the same geometry. Read as stored, the selected radio's dot fits r = 2.73 where the geometry is 2.49. Only the alpha channel of a capture is coverage as stored, which is why every reading made so far has been made on it; a mark drawn over an opaque fill has no alpha to read and needs the conversion.
