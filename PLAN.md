@@ -22170,3 +22170,26 @@ with Rene on the ruling sheet.
   clean; commit and push in `theme` if the generator moved, `design`
   and `.github`.
 
+
+#### CG5.7: The icon set's keyline and weights are the platform's measured ones
+
+- [ ] Ruling of 2026-09-18 via the ontology session, Decision 0010
+  (symbols are not the typography ruling): `components/icons`' square
+  keyline moves from 18 units to the platform's measured 19 (Finder's
+  tag 19 by 19, Voice Memos' sidebar toggle 19.31 wide,
+  `controls.md`), and the set gains a second measured weight for
+  secondary elements (the sidebar mark's list lines at 0.93 units on a
+  2.20 period, as measured, not the primary band faded). Every mark
+  is redrawn against a platform capture where one holds it (sidebar,
+  search, plus, chevrons, the view symbols in the Finder band) and
+  against the measured keyline and weights where none does, each
+  file stating its edges and where it cannot land a whole pixel at
+  16, 20 or 24 dp; the band-landing rule and its tests follow the new
+  keyline. Every icon golden and every golden holding a mark moves.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of the gallery's icon row
+  beside the Finder band, both schemes.
+- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+  `workbench` and every consumer whose golden moved by name; guard
+  clean; commit and push in every touched repo and `.github`.
+

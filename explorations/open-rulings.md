@@ -3110,13 +3110,3 @@ regenerated gallery goldens by the worker and are in the commit body.
 
 568. **[bug]** **A component's op order moves text pixels across the whole gallery page.** Removing one `paint.FillShape` from the checkbox moved 66 scattered text pixels in `components-light.png` and 85 in `components-dark.png` by one 255th, in families the change does not touch, because the glyph atlas packs differently when the op stream changes. The regenerated images are stable across runs, so the gate still works, but every component change now carries unrelated text churn in its golden diff and a real one-255th text regression would be invisible inside it.
 
-
-## CI. From CG5.3k, the pane toggle as the set's mark
-
-Filed 2026-09-18 from the measurement itself. No fresh eyes were named for
-this task; the mark's box, band and seam were read back off the regenerated
-mindchat goldens and off a render of the mark at all three sizes by the
-worker, coverage linearised, and are in the commit bodies.
-
-601. **The set's square keyline is narrower than the platform's own square symbols.** Finder's tag measures 19 × 19 and Voice Memos' sidebar toggle 19.31 × 15.12 in a control 36 px tall, against the set's 18-unit keyline drawn at 24. The grid cannot reach 19 and keep a band whose edges land whole device pixels: the centred widths available on the 1.5 sub-grid are 18 and 21, and 18 is the nearer. Every square form in the set is therefore drawn about a twentieth small, and the keyline itself has never been measured against the readings it was derived from.
-603. **The set has one weight, so a faint element is drawn at the primary weight and faded.** The sidebar mark's list lines measure 0.93 units thick on a 2.20 period; they are drawn 1.5 thick on a 3.00 period at fill-opacity 0.8, because 0.93 falls to 0.62 px at 16 dp and three 1.5 bars 2.20 apart would read as one block there. Whether a secondary element should have a measure of its own, the way the diagonal does, is unruled.
