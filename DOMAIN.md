@@ -123,8 +123,8 @@ either: an alert in Warning is an alert indicating Warning.
 
 | Variant | Of | Meaning |
 |---|---|---|
-| **form** | picker | a field among fields |
-| **chrome** | picker | in a chrome region — a toolbar, a navbar |
+| **form** | picker, button, search field | a field among fields, on the content or in a sheet |
+| **chrome** | picker, button, search field | in a chrome region — a toolbar, a sidebar, a navbar |
 
 ### Emphasis
 
