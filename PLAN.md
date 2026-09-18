@@ -22309,7 +22309,9 @@ with Rene on the ruling sheet.
   band within a level, else a measured value of the toolbar recorded
   like the pill and the recess, both schemes, not a name of its own;
   every band title and chrome mark takes it. The `open-folder` mark's
-  comment and drawing agree about its flap after the redraw. Every
+  comment and drawing agree about its flap after the redraw. The
+  pop-up trigger's chevron pair draws the measured eleven rows (five,
+  one clear, five), not nine. Every
   icon golden and every golden holding a mark moves.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the gallery's icon row
@@ -22348,4 +22350,23 @@ with Rene on the ruling sheet.
   `workbench/feeds`, `workbench/vaultview` and every consumer whose
   golden moved by name; guard clean; commit and push in every touched
   repo and `.github`.
+
+
+#### CG5.9: A deferred halo stays inside the scroll area it was drawn in
+
+- [ ] Defects after CG5.5. `op.Defer` resets the clip, so a focused
+  control's halo inside a scroll area paints past the viewport's
+  edge: the deferred halo (and the deferred band shadow, if the same
+  applies) is clipped to the nearest scroll area's bounds, recorded
+  when the control lays out, so it never leaves the area it was drawn
+  in; a test scrolls a focused control half out of a list and reads
+  no halo pixel beyond the viewport. The gallery's focus sheet drops
+  the light row that coincides with another (`CardFill` and
+  `SidebarMaterial` are both `#f7f7f7` light) or labels the pair as
+  one, so no two rows are the same test.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer whose golden moved by name; guard clean; commit and push
+  in every touched repo and `.github`.
 
