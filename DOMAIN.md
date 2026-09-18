@@ -240,8 +240,9 @@ to its text.
 A text field has a height of its own, the platform's, taller than
 the regular control; a checkbox its own, smaller; a list's rows the
 platform's row height; a sidebar's rows their own, taller than a
-list's. All are measured into the reference, not derived from the
-control height.
+list's; a control standing in the toolbar its own, taller than the
+regular control. All are measured into the reference, not derived
+from the control height.
 
 ### Radius
 
