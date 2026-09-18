@@ -3110,3 +3110,25 @@ regenerated gallery goldens by the worker and are in the commit body.
 
 568. **[bug]** **A component's op order moves text pixels across the whole gallery page.** Removing one `paint.FillShape` from the checkbox moved 66 scattered text pixels in `components-light.png` and 85 in `components-dark.png` by one 255th, in families the change does not touch, because the glyph atlas packs differently when the op stream changes. The regenerated images are stable across runs, so the gate still works, but every component change now carries unrelated text churn in its golden diff and a real one-255th text regression would be invisible inside it.
 
+
+## CI. From CG5.3i, vaultview's chrome row and the remaining chrome marks as the bordered control
+
+Filed 2026-09-18 from the measurement itself and from the fresh-eyes review of
+vaultview's whole window in both schemes beside the frontmost Finder captures.
+The review confirmed the band at 52, each column's fill continuing up into it,
+the seams stopping at its foot in all three columns and the sidebar toggle
+standing at the leading end of the band. One of its findings was a misread
+against the measurement and is recorded in `reviews/cg5.3i-vaultview-fresh-eyes.md`
+rather than filed: the 38 × 36 capsule read as a disc, which is the shape
+`mail-window.png`'s compose control and `voicememos-window.png`'s sidebar
+toggle both measure.
+
+594. **[decide]** **vaultview's toolbar-class actions stand everywhere but in its toolbar.** The band carries one control and then 754 empty columns: the fresh eyes found no painted pixel from x=360 to the window's edge in either scheme, while Finder's band carries a back/forward pair before the title and a cluster of view, group, share, tag, more and search after it. This window's counterparts are outside the band — the search field at the top of the sidebar, back and forward as bare chevrons beside the breadcrumb in the content column, rescan and switch-vault as push buttons at the sidebar's foot. Decide which of them are toolbar items, since each one moved into the band is a row of content given back.
+
+595. **[decide]** **The inspector column takes the band's trailing end, which is where the platform keeps its controls.** The trailing column's fill rises into the band and steps at its boundary — 255 to 247 light, 30 to 28 dark — which is the platform's own rule and not a defect: `controls.md` records that a toolbar band carries no fill of its own and continues whatever region lies under it. What is open is the composition: Finder's band runs unbroken to the window's trailing edge and stands its control cluster there, and a window whose trailing column owns that end has nowhere to put one. It pairs with 594, and with the reviewer's note that the two schemes disagree about how visible the step is.
+
+596. **[decide]** **A chrome figure stroked on its own centreline cannot land the platform's band either way.** The 2026-09-18 ruling undid CG5.3f's half-pixel phasing, and the before and after are recorded: at 24 px, black on white, the leading band of mindchat's `PanelGlyph` outline now reads 137, 138 across two columns where the phased drawing read 225, 2, 225 across three, and the platform's own compose symbol reads one column at its colour and 0.40 of the next (`notes-toolbar.png`, `mail-window.png`, both at 1.40 px). A band stated by its two edges — unit 3 to 4.5, the way `components/icons` draws every mark and the way this task's new plus mark does — lands that profile with nothing nudging it. Decide whether `PanelGlyph` hands over to a set mark the way `PlusGlyph` just did.
+
+597. **[capture]** **No stored capture holds a chosen segment in a FRONTMOST light window.** The on-state a chrome control draws is measured off Finder's four-segment view control: `finder-window-untinted-dark.png` gives it frontmost, and the light reading comes from `finder-window-untinted-light.png`, which is an INACTIVE window whose fill and patch are both the platform's faded drawing. The coverage between the two is what `ToolbarCheckedOverlay` carries, and over a frontmost light control's `#ffffff` it lands `#e5e5e5` — a transfer, not a reading. One capture closes it: a frontmost light window whose toolbar carries a segmented control with a segment chosen, window-bounded at 1x with wallpaper tinting off.
+
+598. **[decide]** **A spring button cannot record a state.** `button.RenderState` now carries `Checked`, which the chrome variant draws as the platform's chosen-segment patch, but `button.Props` carries no such field: `effects/springbutton` reassembles its render state from Props and the clickable, so a spring chrome toggle draws off in every state. Decide whether the recorded state belongs on Props — where it would reach the static `button.Button` too, which has the same gap — or stays a pure-renderer affair.

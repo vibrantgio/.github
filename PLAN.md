@@ -21978,7 +21978,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3i: Vaultview's chrome row and the remaining chrome marks take the bordered control
 
-- [ ] Measurements and defects after CG5.3f. `workbench/vaultview`'s
+- [x] Measurements and defects after CG5.3f. `workbench/vaultview`'s
   chrome row is the platform's toolbar band: 52 dp (8 above, 36, 8
   below, `controls.md`, as mindchat's `ChromeRowHeight` already is),
   not one LabelLarge line box plus padding; its two sidebar toggles
@@ -22010,10 +22010,10 @@ with Rene on the ruling sheet.
   vaultview's trailing (inspector) splitter also stops its line at the
   band's lower edge (`pane.SeamTop`), so the band is one across all
   three columns.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of vaultview's chrome row
   beside the Finder band, both schemes.
-- [ ] Exit: green in `effects`, `components`, `components/gallery`,
+- [x] Exit: green in `effects`, `components`, `components/gallery`,
   `workbench/vaultview`, `workbench/mindchat` and every consumer
   whose golden moved by name; guard clean; commit and push in every
   touched repo and `.github`.

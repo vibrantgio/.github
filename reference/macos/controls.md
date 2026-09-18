@@ -13,8 +13,11 @@ label's origin and its mark's whole geometry are CG5.1, the
 switched-off controls and the states are CG5.2, the toolbar
 control's own fill, edge, corner and mark are CG5.2b, its height read
 capture by capture is CG5.3b, the toolbar search field's own recess is
-CG5.3e, the toolbar control's drop shadow and its symbol are CG5.3f, and
-the toolbar band's own boundary and the recess rim's name are CG5.3g.
+CG5.3e, the toolbar control's drop shadow and its symbol are CG5.3f, the
+toolbar band's own boundary and the recess rim's name are CG5.3g, and the
+dark shadow's own geometry, the chosen segment of a segmented control, the
+compose symbol's band and where a sidebar-side control stands in the band are
+CG5.3i.
 
 ## What the stored captures measure
 
@@ -339,6 +342,15 @@ one. No coverage, reach and offset land them all within one: the drawing is
 two 255ths light in the two rows directly under the control and one 255th
 light in the far tail, which is the shape of a blur against a straight ramp.
 
+That triple is the LIGHT appearance's. The dark one is its own reading and
+the drawing carries both: `ToolbarShadowOf` answers the pair the appearance
+measures, and which one answers is the platform's own behaviour rather than
+an appearance the code tests for — where the platform gives the control an
+edge (the rim `ToolbarRim` answers a colour for) the control is told from its
+band by that edge and its fill and the shadow is a hint under it; where it
+gives none the fill IS the band's own white and the shadow is the whole of the
+step.
+
 **Dark, read off five controls in one band** (`finder-window-untinted-dark.png`,
 the bordered controls whose flat rim runs are at x 404-432, 818-921, 980-989,
 1050-1115 and 1178-1356). Under every one of them the `#1e1e1e` band reads
@@ -349,10 +361,22 @@ their tinted `#232a2e` band read `#222a2d` under the control over eleven rows,
 recovering by fifteen, and `notes-toolbar.png` reads `#1d1d1d` under its
 compose control over seven. Black at 6/255 reproduces all four of those bytes
 exactly (30→29, 46→45, 42→41, 35→34); 4/255 and below leaves the tinted band
-alone, and 9/255 and above takes two levels off the untinted one. Spread over
-the one geometry it darkens a wider halo than the platform's seven rows, a
-miss of one 255th on a band that dark — and the dark control is told from its
-band by its `#262626` fill and its `#404040` rim, not by this.
+alone, and 9/255 and above takes two levels off the untinted one.
+
+**The dark geometry, re-read 2026-09-18 by CG5.3i.** The reading above was
+spread over the light appearance's 23 and 9, which darkens a wider halo than
+the platform's seven rows. Re-read and fitted: **2 px of reach with the
+rectangle sunk 6 px**, at the recorded 6/255.
+
+| what was read | reading |
+| --- | --- |
+| `finder-window-untinted-dark.png`, the search field at x 1155-1379, y 46-81 | rows 82-88 read `#1d1d1d` across the control's own columns, row 89 the band's `#1e1e1e`; every column beside the control reads the band untouched at every row, including the gaps between two controls (x=951, x=1018, x=1146 run 30 from y=40 to y=99); every row above reads the band |
+| the same, the region's shape | the darkened run narrows with depth — x 1161-1373 at y=82, 1164-1370 at y=85, 1172-1362 at y=88 — which is the capsule's own rounded foot sunk below it |
+| `notes-toolbar.png`, the compose control at x 8-44, y 8-43 | rows 44-50 read 29 on a band of 30, row 51 the band; nothing above or beside |
+| the fit | over 10,575 band pixels around those two controls (31,725 channel samples), offset 6 and reach 2 leaves 312 channels off by one 255th and none by more, bar three pixels of the control's own antialiased corner that the band tolerance admits. Offset 7 with reach 1 is next at 324; the light pair on the same samples is eleven times worse |
+
+The dark control is told from its band by its `#262626` fill and its `#404040`
+rim, not by this: seven rows of one 255th is a hint and not a step.
 
 **The toolbar search recess casts the same shadow; the sidebar recess casts
 none.** `voicememos-sidebar-light.png`: the band over that window's toolbar
@@ -368,6 +392,28 @@ painted inside a control's own `layout.Widget` is cut off at the control's
 edge on the live path and drawn whole on the pure one. The library records the
 control, paints the shadow under the box the control measured itself to, and
 replays it — `components/internal/toolbarface`'s `Cast`.
+
+## What a toolbar control's chosen segment measures
+
+Added 2026-09-18 by CG5.3i, from `finder-window-untinted-dark.png` and
+`finder-window-untinted-light.png` — the only stored captures holding a
+segmented toolbar control with one segment chosen. It is what a chrome
+control that records a yes draws its on-state as.
+
+| what | measured | where | method |
+| --- | --- | --- | --- |
+| the control | 4 segments, x 796-943, y 46-81 | `finder-window-untinted-dark.png` | the view control: icon, list, column, gallery, the list segment chosen. 148 px over four segments is 37 a segment, the 37.3 Mail's three-segment groups already divide to |
+| the chosen segment's patch | **32 × 26**, x 836-867, y 51-76 | same | the run of `#494949` inside the control's `#262626`, row by row. Five rows clear of the control's own box above and below, two and a half columns clear at either end of its 37 px segment |
+| that patch's fill | `#494949` on the control's `#262626` | same | flat-region samples. White at 41 of 255 over that fill lands it to the byte; no AppKit name in `nscolors.tsv` does |
+| the same, light | `#dedede` on `#f7f7f7`, the same **32 × 26** (x 814-845, y 39-64) | `finder-window-untinted-light.png` | the same control in that window. Black at 26 of 255 over that fill lands it to the byte. That window is NOT frontmost, so its fill and its patch are both the platform's faded drawing: the PIXEL is not an active control's, and it is the COVERAGE between the two that is recorded. Over a frontmost light control's `#ffffff` it lands `#e5e5e5` |
+| that patch's corner | a capsule's, half its own height | both | the per-row inset of its top runs 8, 6, 5, 4, 3, 2, 1 columns against r = 13's 9.4, 7.7, 6.5, 5.5, 4.7, 4.0, 3.3 — the spread the platform's continuous corner puts on a circular fit everywhere in this reference, and the same shape the control around it is drawn with |
+
+`finder-window-light.png` holds no segmented control at all, so no FRONTMOST
+light reading of this patch exists. One capture closes it: **a frontmost light
+window whose toolbar carries a segmented control with a segment chosen**.
+`tokens.PlatformColors.ToolbarCheckedOverlay` carries the coverage and
+`components/internal/control`'s `ToolbarCheckedInsetYDp` and
+`ToolbarCheckedInsetXDp` the insets.
 
 ## What a toolbar control's symbol measures
 
@@ -418,6 +464,31 @@ stands over the sidebar region in a full capsule (x 96-135, fill `#272727` on
 a `#1e1e1e` band, the dark rim at either end). So the platform does not settle
 it, and what this library draws is Voice Memos' — the application the Language
 already names for the toolbar search field.
+
+**Where a sidebar-side control stands in the band, and what it leaves the
+window's buttons.** `voicememos-window.png`: the three control buttons run
+x 19-78 and the sidebar toggle's capsule begins at x=96, so the control stands
+at the LEADING end of the band with **17 px** of clear band after the buttons.
+`notes-window.png` and `reminders-window.png` keep their two sidebar-side
+marks at the sidebar's TRAILING corner instead; no stored Finder capture
+carries a sidebar toggle at all, in either appearance. The library follows
+Voice Memos', as the bordered-mark ruling above does, and `patterns/pane`
+carries the 17 as `ButtonGapDp`: the same control stands in the window's
+chrome row once the pane is away, that row leads past the same buttons by the
+same air, and so the two halves of one switch stand in one window column
+whichever way the pane goes. Read 2026-09-18 by CG5.3i.
+
+**The compose symbol's band, and what the plus mark takes from it.**
+`notes-toolbar.png` (the control at x 8-44) and `mail-window.png` (x 404-441)
+draw the same compose symbol, and it is the platform's own new-item control.
+Its covered box is 17 × 17 in Notes and **16 × 16** in Mail (x 415-430,
+y 18-33), and its band measures **1.40 px** in both: a run across the square's
+leading edge at y=25 reads 233 then 115 on fills of 35 and 36, which over a
+foreground of 233 is 1.00 + 0.40 of a pixel, and its trailing edge 208 then
+140, which is 0.87 + 0.53. `components/icons`' plus mark takes that box and
+that band — the set's 18-unit square keyline and its axis-aligned 1.5, a sixth
+heavier, which is the miss the whole set carries above. Read 2026-09-18 by
+CG5.3i.
 
 **The room between two bordered controls standing apart.**
 `notes-toolbar.png` leaves 14 px between its compose capsule (x 8-44) and the
