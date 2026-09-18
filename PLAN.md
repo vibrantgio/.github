@@ -22334,7 +22334,13 @@ with Rene on the ruling sheet.
   drawn pixels (the platform draws every count to x 266 or 267) and
   the count is placed so its last covered column lands there, not
   its layout box (the digit's side bearing read and subtracted, as
-  the text field's origin is). The aside is untouched.
+  the text field's origin is). The row's symbol wears the measured
+  colour, `#000000` light and `#ffffff` dark off
+  `voicememos-multi-folder-2026-09-18.png` and `voicememos-sidebar-dark.png`,
+  recorded as a measured value of the sidebar (`SidebarSymbol`,
+  `appkit:"-"`, through the field walkers) since no platform name
+  flattens there; on the pill it wears the pill's white. The aside is
+  untouched.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of feeds' rail beside
   Screenshot 1, both schemes.
