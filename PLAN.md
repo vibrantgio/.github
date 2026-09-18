@@ -22297,8 +22297,12 @@ with Rene on the ruling sheet.
   16, 20 or 24 dp; the band-landing rule and its tests follow the new
   keyline. The picker's chevron pair and single chevron, geometry in
   `components/internal/control` today, join the set as marks so the
-  grid, the rule and the walk reach them. Every icon golden and every
-  golden holding a mark moves.
+  grid, the rule and the walk reach them. The light segmented
+  control's seam draws the measured `#f2f2f2` on its `#ffffff` fill
+  (`finder-window-light.png`), a value of its own beside
+  `ToolbarControlRim` as the dark one is, not `Separator` flattened
+  twelve levels short. Every icon golden and every golden holding a
+  mark moves.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the gallery's icon row
   beside the Finder band, both schemes.
