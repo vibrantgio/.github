@@ -22006,6 +22006,10 @@ with Rene on the ruling sheet.
   across two pixels, and the measurement wins over crispness; where
   the platform's own windows split on bordering a sidebar-side mark,
   Finder decides for chrome, so every sidebar-side mark is bordered.
+  The band's rule is the window's, not the chrome column's alone:
+  vaultview's trailing (inspector) splitter also stops its line at the
+  band's lower edge (`pane.SeamTop`), so the band is one across all
+  three columns.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of vaultview's chrome row
   beside the Finder band, both schemes.
