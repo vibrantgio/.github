@@ -22175,6 +22175,32 @@ with Rene on the ruling sheet.
   `workbench/vaultview` and every consumer whose golden moved by name;
   guard clean; commit and push in every touched repo and `.github`.
 
+#### CG5.3p: A sidebar row is a symbol, a label and a count, and sections are headed by a small label
+
+- [ ] Language, the Sidebar entry at .github b00dd89: a row is a
+  symbol, a label and, at the trailing end, a count when the entry
+  has one; sections are headed by a small label and parted by space
+  alone. `patterns/sidebar` draws the row that way, measured off
+  `voicememos-multi-folder-2026-09-18.png` (`controls.md`: the folder
+  symbol's box and inset, the label's start, the count ending 17 in
+  from the rim, the section label `#7d7d7d` with 22 px of air above,
+  row pitch 32), the count in whichever platform name flattens to the
+  measured `#6d6d6d` over the panel's fill (`SecondaryLabel` first;
+  if none lands within a level it is recorded as a measured value of
+  the sidebar like the pill, not named). `workbench/vaultview`'s tree
+  draws its rows with a symbol per entry (the set's folder and note
+  marks, or the platform's document symbol measured off a capture
+  where one holds it), its sections headed by the small label, and
+  one indent per depth that does not shift; mindchat's rail follows
+  where it lists. The aside is untouched.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of vaultview's rail beside
+  Screenshot 1, both schemes.
+- [ ] Exit: green in `patterns`, `components/gallery`,
+  `workbench/vaultview`, `workbench/mindchat` and every consumer whose
+  golden moved by name; guard clean; commit and push in every touched
+  repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as
