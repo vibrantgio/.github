@@ -22402,6 +22402,26 @@ with Rene on the ruling sheet.
   and `design/mirror`; guard clean; commit and push in every touched
   repo and `.github`.
 
+#### CG5.12: The search field's marks are the platform's measured ones
+
+- [ ] Measurements after CG5.11. `components/input`'s clear mark is
+  the platform's, measured off `voicememos-multi-folder-search-2026-09-18.png`
+  x 996–1009: a filled disc 13.06 px across in the mark's colour with
+  the field's fill showing through a knocked-out cross of 5.31 px at
+  45°, arms 1.05 px perpendicular; `icons.Clear` draws that disc and
+  knockout (a mark that names the control's own drawing), and the
+  bare cross goes. The search field's magnifier draws at the
+  platform's own extent, 12.33 px in the field, not 11.19: `markDp`
+  is re-derived from the measured lens (13 units of 24, CG5.10) so
+  the glyph's covered extent lands the capture's; the platform's 10
+  px inset and 8 px gap hold. The second band's proportion below 24
+  dp joins 425's list.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer whose golden moved by name; guard clean; commit and push
+  in every touched repo and `.github`.
+
 #### CG5.8: The sidebar pattern is the panel's width and every rail stands in the row's columns
 
 - [ ] Defects against the Sidebar entry after CG5.3p. `patterns/sidebar`
