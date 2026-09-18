@@ -21922,7 +21922,9 @@ with Rene on the ruling sheet.
   at 1x (the sidebar toggle, the view symbols, the search glyph) and
   recorded in `controls.md`; `components/icons`' chrome marks take
   the measured size and weight (symbols are not the typography
-  ruling).
+  ruling). The sidebar recess's trailing inset spends no hairline
+  (it draws none), so its clear mark stands where the measurement
+  puts it, not one column further in.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of mindchat's toolbar beside
   the Finder band, both schemes.
