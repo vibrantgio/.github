@@ -21813,6 +21813,34 @@ with Rene on the ruling sheet.
   every consumer by name; guard clean; commit and push in every
   touched repo and `.github`.
 
+#### CG5.3b: A toolbar control draws its own measured height and stands on chrome
+
+- [ ] Rulings of 2026-09-18 via the ontology session (Density entry
+  at .github 39dd47b: a control standing in the toolbar has its own
+  measured height, taller than the regular control). `tokens.Density`
+  gains the toolbar control height, 36 measured off every bordered
+  control in the Finder toolbar captures (`finder-window-light.png`,
+  `finder-window-untinted-{light,dark}.png`; Compact's value read off
+  a capture if one holds a small toolbar, else the same 36 stated as
+  such), added through the field walkers (`effects/transition`,
+  `theme/export`, `workbench/themer` by name); the picker's chrome
+  trigger and every bordered control drawn in a chrome region (the
+  search field's chrome variant is a recess and keeps its 28; say
+  which controls are bordered) draw that height, capsule corners at
+  half of it, the mark and label at their measured insets. The Chrome
+  entry binds: a chrome variant lives in a chrome region, so a chrome
+  trigger on the content plane is a defect in the app that put it
+  there; the gallery's chrome specimen stands on a chrome band, and
+  every workbench chrome trigger found by grep off chrome (mindchat's
+  model menu at least, read each) either moves onto the toolbar band
+  or becomes the form variant; no rim is invented for off-chrome use.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of a toolbar beside the
+  Finder toolbar crop, both schemes.
+- [ ] Exit: green in `theme`, `effects/transition`, `components`,
+  `components/gallery` and every consumer whose golden moved by name;
+  guard clean; commit and push in every touched repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as

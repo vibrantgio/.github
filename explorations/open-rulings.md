@@ -3084,7 +3084,6 @@ The one item this section filed, 540 — a switched-off control fading its
 wording and keeping its whole bezel — was CG5.2's own task text and left the
 pool when CG5.2 landed. The section is kept for the two confirmations above.
 
-
 ## CG. From CG5.2b, the picker's two triggers as the platform's two controls
 
 Filed 2026-09-18 from the measurement itself and from the fresh-eyes review of
@@ -3102,7 +3101,3 @@ were already filed and are confirmed rather than refiled: hover and press one
 fifth independent finding and the first proved from inside one component, since
 this task's toolbar fill is neutral in dark where the form trigger's is not;
 the label a sixth larger than the platform's is pool 494.
-
-551. **[decide]** **A chrome-region control draws the density's control height where the platform's toolbar control measures 36.** Every bordered control in all three Finder toolbar captures spans 36 px; the chrome trigger draws 24 Comfortable, which is what `density.go` ships and what CG5.1 landed the two variants agreeing on. The platform sizes a toolbar control by the band it stands in and a dialog control by the dialog, and this library has one control height for both. Whether a chrome-region control takes a height of its own — as the text field, the checkbox and the sidebar row already do — is the ruling; it moves every toolbar trigger and the band around it.
-
-554. **[decide]** **A chrome trigger standing on the content plane is white on white in the light appearance.** CG5.2b gave the control the platform's toolbar fill, `#ffffff` light, and took away the light rim the platform does not draw — so on the chrome material it stands eight levels off its band, and on the content plane it stands off nothing. The platform has the same control in the same place and tells it apart with a drop shadow, which this library does not draw for a control. Either the shadow is measured and drawn, or a control put on a plane it cannot be seen on is the caller's error and the component says so.
