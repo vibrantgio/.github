@@ -22102,7 +22102,51 @@ with Rene on the ruling sheet.
   `workbench/mindchat` and every consumer whose golden moved by name;
   guard clean; commit and push in every touched repo and `.github`.
 
-#### CG5.3n: Vaultview's band holds the window's navigation and name, and the find grows from its trailing end
+#### CG5.3n: The sidebar is the platform's inset panel again
+
+- [ ] Owner finding 2026-09-18: "The sidebar doesn't look like a
+  sidebar anymore. Look at Screenshot 1 at the left side of the
+  window at the sidebar. Vaultview just does NOT have the same
+  sidebar." His three captures are kept as
+  `reference/macos/voicememos-multi-folder-2026-09-18.png`,
+  `voicememos-multi-folder-search-2026-09-18.png` and
+  `voicememos-multi-folder-selected-2026-09-18.png` (Voice Memos on
+  macOS 26 at 1x, over a black desktop). They decide what CG1.1's
+  second landing got wrong: the platform's sidebar is an inset
+  rounded panel standing inside the window, not a flush column
+  parted by a seam. Read off Screenshot 1: the panel's fill
+  (`#f9f9f9` here, the sidebar material over black), its 1 px white
+  rim on every side, its inset from the window's edges (about 8 px,
+  measure), its corner radius (fit as the recess's ends were), its
+  shadow cast onto the content to its right and below (the ramp
+  `#f4`→`#fb` over about 14 columns, `#e4`→`#ea` over 6 rows;
+  read the coverage per column and row), the window buttons standing
+  inside the panel, the sidebar's own marks (new folder, sidebar
+  toggle) bare inside the panel's top trailing corner, the row pitch,
+  the selection pill, the section label, the counts at the trailing
+  edge; the untinted Finder and the earlier Voice Memos captures
+  cross-check every number, and `controls.md` records them all.
+  `patterns/pane` draws the panel again: the rounded inset with its
+  rim and shadow, the window buttons inside it, the marks at its top
+  trailing corner bare (the platform's own sidebar panel draws them
+  bare; the bordered toolbar control is the band's, not the panel's);
+  the content beside it is the window's plane with no seam. Every
+  rail that passes the pane through (vaultview, mindchat, the gallery
+  specimen) takes it; vaultview's toggle leaves the band for the
+  panel's corner as Voice Memos keeps it. The seam question is
+  answered by the capture: inside the band and below it there is no
+  line, the panel's rim and shadow are the boundary.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of vaultview's window beside
+  Screenshot 1, both schemes, with the recorded misread that the
+  earlier CG1.1 review called this panel "a grey slab neither Finder
+  nor ChatGPT has": it is the platform's sidebar.
+- [ ] Exit: green in `patterns`, `components/gallery`,
+  `workbench/vaultview`, `workbench/mindchat` and every consumer whose
+  golden moved by name; guard clean; commit and push in every touched
+  repo and `.github`.
+
+#### CG5.3o: Vaultview's band holds the window's navigation and name, and the find grows from its trailing end
 
 - [ ] Rulings of 2026-09-18 via the ontology session, the Chrome
   table's toolbar row and the captures. `workbench/vaultview`: the
