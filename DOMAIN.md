@@ -713,13 +713,18 @@ so), never a badge's fill.
 
 The binary control recording a yes or no. Its recorded yes is the
 checked state; only the user's own operation repaints the mark.
+Structure: the box and its label. As on the platform the label is
+part of the control — clicking it operates the box — set beside it
+at the platform's measured gap, in the text colour, and faded with
+the box when the control is disabled.
 
 ### Radio
 
 The one-of-a-few control: a visible group of options that exclude
 each other, each shown, one chosen. Choosing one clears the others.
 When the options are too many to stay visible, the picker takes
-over.
+over. Each option is a disc and its label, the label part of the
+control as the checkbox's is.
 
 ### Switch
 
