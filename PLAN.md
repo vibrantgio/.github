@@ -21881,6 +21881,26 @@ with Rene on the ruling sheet.
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
+#### CG5.3e: A search field on a toolbar draws the toolbar recess's measured height
+
+- [ ] Measurement, not a ruling: the platform draws a sidebar search
+  recess at 28 (System Settings, CG4.8) and a toolbar search recess
+  at 36 (Voice Memos and Mail, `controls.md`, the toolbar control
+  height CG5.3b added). `components/input`'s `Chrome` variant is one
+  control for both places today. The search field on a toolbar draws
+  `ToolbarControlHeight` with fully rounded ends and the toolbar
+  recess's measured fill and insets (read off `voicememos-window.png`
+  and `mail-window.png`, both appearances where held), the sidebar's
+  keeps 28 and `SidebarSearchFill`; the two are told apart by the
+  chrome region the caller names (a property, not a new variant name
+  unless the Language gives one). The gallery shows both; the
+  workbench's toolbar search fields, if any, take it.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer whose golden moved by name; guard clean; commit and push
+  in every touched repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as
@@ -21939,7 +21959,11 @@ with Rene on the ruling sheet.
   as a masked SVG in `--platform-control-text` ending 9 px clear;
   hover, pressed and disabled as CG5.2 measured (the sheet emits no
   hover rule and no fade today, and its `.select` still draws the
-  hairline and the 16 dp mark); the edge inside the
+  hairline and the 16 dp mark); the density walkers carry every
+  density field (`theme/export`'s JSON omits `fieldHeight`,
+  `rowHeight` and `checkboxRowHeight`, its CSS `checkbox-row-height`;
+  a test walks `tokens.Density` by reflection so a new field cannot
+  be missed again); the edge inside the
   box, the checkbox row, the menu and the focus halo as CG5.3 to
   CG5.5 landed. `design/mirror` is green with its ceiling unchanged
   and still failing the nearest wrong variant; the bundle regenerated
