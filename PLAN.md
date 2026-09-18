@@ -22404,7 +22404,7 @@ with Rene on the ruling sheet.
 
 #### CG5.12: The search field's marks are the platform's measured ones
 
-- [ ] Measurements after CG5.11. `components/input`'s clear mark is
+- [x] Measurements after CG5.11. `components/input`'s clear mark is
   the platform's, measured off `voicememos-multi-folder-search-2026-09-18.png`
   x 996–1009: a filled disc 13.06 px across in the mark's colour with
   the field's fill showing through a knocked-out cross of 5.31 px at
@@ -22416,9 +22416,9 @@ with Rene on the ruling sheet.
   the glyph's covered extent lands the capture's; the platform's 10
   px inset and 8 px gap hold. The second band's proportion below 24
   dp joins 425's list.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 

@@ -953,6 +953,27 @@ through the cross in it: it ends **14 px** clear of the field's trailing edge,
 against the magnifier's **13** at the leading one (fill from x=700, glyph from
 x=713), which is this application's own inset recorded above.
 
+**The clear mark's own figure, read 2026-09-18 by CG5.12.** A least-squares
+fit of the whole mark to the capture's own coverage, taken against the disc's
+`#232323` plateau over the `#e8e8e8` fill, rms **0.007** of a pixel per pixel
+over the mark's 18 × 17 block:
+
+| what | measured | method |
+| --- | --- | --- |
+| the disc | **13.04 px** across, centred (1002.56, 64.45) | the fit; the row and column extremes agree at 13.06 and 13.05, and the disc's own centre stands half a pixel below the field's centre row (64.45 against 64.0), the rounding every centred element in this reference takes |
+| the disc's colour | `#232323`, which is `labelColor` and `controlTextColor` over the recess — both are black at 216/255 and flatten to that byte, so the pixel cannot tell the two names apart | flat-region samples of the disc's plateau. The magnifier and the prompt at the other end of the same field are `placeholderTextColor`'s 127/255, so the mark the reader PRESSES is drawn at full label strength and the two that name the control are not |
+| the cross | arms **1.18 px** across perpendicular, centre lines **7.00 px** tip to tip at 45 degrees, square ended and so 5.78 px across the figure's bounding box | the same fit. Round ends fit as well as square (rms 0.0455 against 0.0457 over the mark's own block, arms 1.18 either way), so the cap is not settled by this capture and the arm's width is |
+| the knockout | the field's own fill, not a second colour | the cross bottoms out at the fill's `#e8e8e8` at its crossing and short of it along the arms, which is a 1.18 px hole never fully clearing a pixel |
+
+A ROW OR COLUMN CUT UNDER-READS THIS CROSS, which is worth recording because
+the first reading of it was taken that way and came out 5.31 by 5.32 px with
+arms of 1.05. A cut across a 45-degree arm is the arm's own width times root
+two, and a cut integrated over a whole pixel row near an arm's end takes in
+the air past that end, so both numbers come out thin. The area the two models
+enclose settles it: the capture's knockout covers 15.29 px of the disc, the
+fit's 15.13 and the row readings' 12.46 — an eighteenth of the figure
+missing. `components/icons`' clear mark is drawn to the fit.
+
 **No stored capture holds a search field REPORTING a count.** `mail-find-light.png`
 and `mail-find-dark.png` hold Mail's find highlight in the message body and no
 find bar at all. So where a count stands inside a field is composed from the

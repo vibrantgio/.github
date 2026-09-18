@@ -3151,3 +3151,17 @@ that stand nowhere near a viewport edge, and replaced; 673 records why.
 
 676. **[decide]** **`components/scrollarea` and `components/list` publish nothing about where they are.** The clip a focus band needs now comes from the clips the band stands inside, so neither container had to publish anything and neither does. If a later round wants a deferred drawing cut by a scrolling area — a tooltip anchored to a row, say — the container will need to say where its child stands, and that is the thing Gio cannot express today (673). Whether the library should carry an offset of its own down the context, so a widget can know where it sits, is unruled.
 
+
+## CP. From CG5.12, the clear mark's figure and what one capture cannot say
+
+Filed 2026-09-18 from the measurement itself. No fresh eyes were named for
+this task; the disc, the knockout and the magnifier were read off the
+regenerated goldens against the capture and the numbers are in the commit
+body. The reading that settled the figure — a least-squares fit of the whole
+mark to the capture's coverage — is recorded in `reference/macos/controls.md`,
+which is also where the first, row-cut reading of the same cross is kept
+beside it with why it came out an eighteenth of the figure thin.
+
+686. **[decide]** **The clear mark's cap is not settled by the one capture that holds one.** Square ends and round ends fit `voicememos-multi-folder-search-2026-09-18.png` equally — rms 0.0455 against 0.0457 over the mark's own 10 × 9 block, arms 1.18 px either way — and the two differ by 0.29 px of the figure's bounding extent (5.78 square against 5.49 round). `components/icons` draws square ends because a cross is read by its crossing, which is the rule the bare cross it replaced carried. A capture of a LARGER clear control — a sheet's, a list row's — would separate the two, and nothing stored holds one.
+687. **[decide]** **The 14 px the clear mark ends clear of the field's trailing edge is Voice Memos' own number, and the library spends it.** The same capture insets its magnifier 13 px from the leading edge where Mail and Finder both read 10, and the library spends the platform's 10 rather than that 13. If the trailing clearance is the same three px loose, the platform's is 11. No second stored capture holds a clear control at all, so 14 is the one reading there is; a toolbar search field carrying a query in a second application settles it.
+688. **[decide]** **The disc's colour cannot be read off the pixel.** It plateaus at `#232323` on the field's `#e8e8e8` fill, which is black at 216 of 255, and `labelColor` and `controlTextColor` both carry exactly that coverage in both appearances. `components/input` draws the mark in `ControlText` because the thing is a control the reader presses, which is the reference's own reading of the save dialog's pop-up drawing its mark. A capture separating the two names anywhere in the platform would settle whether that choice is right.
