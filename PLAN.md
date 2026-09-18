@@ -22225,7 +22225,7 @@ with Rene on the ruling sheet.
 
 #### CG5.5: Focus is one halo outside the control
 
-- [ ] Every focusable control draws focus one way, the platform's:
+- [x] Every focusable control draws focus one way, the platform's:
   a halo outside the control at the measured coverage and width
   (the save dialog's focused field shows it), the control keeping its
   own edge and fill; the button's one-pixel darker ring inside the
@@ -22241,10 +22241,10 @@ with Rene on the ruling sheet.
   level stands above everything in the window, so `patterns/modal`'s
   scrim and surface defer as the popover, tooltip and menu do and
   land above the band's deferred shadow, never below it.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the focused specimens
   beside the save dialog.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer by name; guard clean; commit and push in every touched
   repo and `.github`.
 

@@ -93,6 +93,9 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | the second checkbox of the same pair | 16 px square, y 394–409, the same columns | same | the sheet carries two switched-off checkboxes, "Show startup screen" and "Stay open after run handler", and they agree to the pixel |
 | the checkbox's corner | **5 px** | same | a circular fit to the per-row coverage of the box's antialiased corner, the box's own extremes pinned — the fit CG4.8 made to the sidebar recess's ends. Light: r = 5.04, rms 0.038 px over 8 rows. Dark: r = 5.34, rms 0.070 px over 8 rows. All four corners of a box, and both boxes of a sheet, agree to the hundredth. The coverage missing from each corner says the same: 5.54 px² light and 6.21 px² dark against r²(1 − π/4), which is r = 5.08 and r = 5.38. The dark fit sits above the light one because the dark sheet and fill are ten of 255 apart against the light pair's thirteen, so its coverage is read across fewer levels, and both sit above the radius drawn for the reason every circular fit in this reference does — the platform's corner is a continuous curve, the same spread the sidebar recess's 14 shows at 14.7. The box's own extent read the same way is 15.85 px on both axes light (x 264.08–279.92, y 372.08–387.92) against 16.00 dark, whose ten levels cannot resolve the last tenth; the 16 px above is the covered columns and rows and stands. Read 2026-09-18 by CG5.3h |
 | the checkbox's row | 22 px | same | the pitch between the two squares: the first runs y 372–387 and the second y 394–409, so 394 − 372 = 22, with six clear rows between them. Both appearances agree to the pixel. The row is the pitch and nothing else — the sheet draws no row fill, seam or highlight behind a checkbox to read an extent off. It is neither the 24 px control height nor the 20 px list row, which is why `density.go` carries it as a number of its own |
+| the focused field's HALO, its width | **4 px** on every side | `save-dialog-{light,dark}.png` | the focused "Save As:" field, the only keyboard focus indicator in this reference. Across a row clear of both corners (y=220): x 262, 263, 264, 265 carry it and x 261 and x 266 are the sheet unblended; x 494, 495, 496, 497 carry it and x 493 and x 498 are the sheet. Down a column clear of both corners (x=350): y 205–208 and y 231–234, with y 204, 209, 230 and 235 the sheet. Hard-edged on both sides — no ramp, no blur, nothing past the fourth px. Both appearances give the same eight columns and the same eight rows. Read 2026-09-18 by CG5.5 |
+| that halo's placement | **2 px outside the box, 2 px over it** | same | the field's box runs x 264–495, the columns the unfocused "Tags:" field below it runs, so its outer boundary is x=264.0 leading and x=496.0 trailing. The band covers 262.0–266.0 and 494.0–498.0: centred on the box's own outline, half of it past the box and half over the box's outermost two columns. The field keeps its edge under it — x=264 reads the halo over the field's own `#f3f3f3` edge column where x=263 and x=265 read it over the sheet, a difference of six of 255 light — so the halo composites over the control rather than replacing anything. Vertically the same: the band's centrelines are y=207.0 and y=233.0. Read 2026-09-18 by CG5.5 |
+| that halo's colour | `keyboardFocusIndicatorColor`, at its own coverage | same | `#0067f4` at 127/255 light and `#1aa9ff` at 127/255 dark (`nscolors.tsv`), landed on whatever the band stands on. Solving each column for coverage against the sheet gives, light, 0.467 / 0.480 / 0.479 / 0.480 on green across x 262–265 and the same four down y 205–208; dark, 0.496 / 0.512 / 0.517 / 0.512 on green and 0.481 / 0.495 / 0.492 / 0.495 on blue — the name's own 0.498 to within the rounding, so the band is that name at full coverage and not a second value. The red channel disagrees in both appearances (light 0.45, dark negative) because the capture is Display P3 where `nscolors.tsv` records sRGB, and red is the channel that conversion moves; green and blue, whose ranges are wide, both land the name. Read 2026-09-18 by CG5.5 |
 | the checkbox's label against its square | the label's cap band centred on the square, the rounding falling half a pixel low | same | "Show startup screen" caps run y 375–385 against a square of y 372–387: a band centre of 380.0 against the square's 379.5. "Stay open after run handler" agrees — y 397–407 against y 394–409, 402.0 against 401.5. The same rounding the pop-up's mark and the Mail search field's prompt take. Read on the S of each label, the only cap either carries, so the band includes that letterform's overshoot |
 | the checkbox's label, its leading gap | 6 px clear | same | the square's last column is x=279 and the label's first covered column x=286, in both appearances and both rows |
 | radio button — "Automatically based on mouse or trackpad" | 16 px circle, y 696–711, x 253–268 | `system-settings-grouped-box-{light,dark}.png` | the selected radio's accent disc, read as the run of accent-blue pixels across and down; both appearances agree to the pixel. The same 16 the checkbox measures, which is what `components/input` draws the radio's circle at. It is the only radio or checkbox in that capture — the grouped boxes above it carry switches, not checkboxes — and it stands alone in its group with the capture's lower edge below it, so it gives the glyph's size and no row pitch |
@@ -858,7 +861,16 @@ both, and the three readings are recorded side by side.
 frontmost, FOCUSED Voice Memos toolbar field holding "Drie". The window's own
 trailing edge is at x=1031 and the field's fill runs x 700-1023, so the recess
 is 324 wide and ends the measured 8 clear of the window, and it stands 36 tall
-at y 46-81 under a focus ring reaching three px outside it. The clear mark is
+at y 46-81 under a focus halo four px wide. Read column by column 2026-09-18
+by CG5.5: the band covers x 696-699 leading, y 43-46 above and y 81-84 below,
+with the toolbar band unblended at x=695, y=42 and y=85 and the recess's own
+fill unblended at x=700 — so this control's halo lies OUTSIDE its box, where
+the save dialog's focused field straddles its own (two px out, two px over).
+The two controls are read as they measure and neither corrects the other; the
+library draws the dialog field's, which is the reading CG5.5 was given. This
+capture's halo is also not the dialog's colour — it peaks at `#7b91df` over a
+`#f9f9f9` band where `keyboardFocusIndicatorColor` would land `#7db0f6` — so
+what the accent was set to when it was taken is not known. The clear mark is
 a filled disc at x 996-1009, 14 px across, with the field's own fill showing
 through the cross in it: it ends **14 px** clear of the field's trailing edge,
 against the magnifier's **13** at the leading one (fill from x=700, glyph from
@@ -1129,3 +1141,16 @@ that draws an edge and stands beside them in the same form. One capture
 closes it: a **dialog or sheet holding an enabled checkbox beside a
 switched-off one, and an unselected radio**, in both appearances,
 window-bounded, at 1x.
+
+**Also open: a focused control that is not a text field.** The halo is read
+off one control — the Save dialog's focused "Save As:" field, which straddles
+its own box — and the only other focused control in the reference, Voice
+Memos' toolbar search recess, puts its whole band outside the fill instead.
+Neither is a push button, a checkbox, a radio or a chip, and the placement
+matters most on the one whose fill is the accent: `keyboardFocusIndicator` is
+that accent at 127/255, so the half of the band lying over an accent-filled
+button composites to within nine of 255 of the fill and the visible indicator
+is half its width (read by CG5.5's fresh eyes off the library's own focus
+sheet). One capture closes it: a **dialog or sheet with keyboard navigation
+on, showing a focused push button and a focused checkbox**, in both
+appearances, window-bounded, at 1x.
