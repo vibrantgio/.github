@@ -21998,6 +21998,14 @@ with Rene on the ruling sheet.
   draws its on-state as Finder's segmented view control measures (the
   active segment's lighter inner fill, `finder-window-light.png`),
   through `toolbarface`, so mindchat's toggle shows the pane's state.
+  Rulings of 2026-09-18 via the ontology session: a control that
+  moves under the pointer is a composition defect, the platform's
+  toolbar controls stay put, so mindchat's toggle and new-chat keep
+  one place whichever way the pane strip goes; a chrome figure's band
+  is replicated as the capture shows it, the measured coverage split
+  across two pixels, and the measurement wins over crispness; where
+  the platform's own windows split on bordering a sidebar-side mark,
+  Finder decides for chrome, so every sidebar-side mark is bordered.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of vaultview's chrome row
   beside the Finder band, both schemes.
