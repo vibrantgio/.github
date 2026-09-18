@@ -22132,7 +22132,9 @@ with Rene on the ruling sheet.
   as a masked SVG in `--platform-control-text` ending 9 px clear;
   hover, pressed and disabled as CG5.2 measured (the sheet emits no
   hover rule and no fade today, and its `.select` still draws the
-  hairline and the 16 dp mark); the density walkers carry every
+  hairline and the 16 dp mark; its `.radio` draws the dot at half
+  the disc where CG5.3j measured five sixteenths, which holds the
+  mirror's radio pair red); the density walkers carry every
   density field (`theme/export`'s JSON omits `fieldHeight`,
   `rowHeight` and `checkboxRowHeight`, its CSS `checkbox-row-height`;
   a test walks `tokens.Density` by reflection so a new field cannot

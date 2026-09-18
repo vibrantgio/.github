@@ -19,6 +19,22 @@ dark shadow's own geometry, the chosen segment of a segmented control, the
 compose symbol's band and where a sidebar-side control stands in the band are
 CG5.3i.
 
+## How coverage is read off a rendered component
+
+A macOS capture stores what the platform drew, so a pixel's channels
+read against the two flat fills either side give its coverage
+directly, and that is how every number in this file was read. A
+capture of one of this library's components is not read the same
+way: Gio mixes one colour into another in linear light and the
+capture stores the result encoded, so a half-covered white pixel over
+the accent holds 0.69 of the channel where the platform's own
+antialiasing holds 0.46 at the same geometry. A coverage read off a
+component's colour channels is therefore linearised first
+(`theme/color`'s transfer), and only the alpha channel is coverage as
+stored; a mark drawn over an opaque fill has no alpha to read. Read
+as stored, the radio's measured 5 px dot fits r 2.73; linearised it
+fits 2.49 (CG5.3j).
+
 ## What the stored captures measure
 
 Every capture here is window-bounded (`screencapture -o -l <windowID>`) on a
