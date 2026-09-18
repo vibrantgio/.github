@@ -9,8 +9,9 @@ Added 2026-09-11 by CE1.2; the dialog measurements and the ruling that the
 measured numbers supersede the published ones are CE1.5 and CE1.6; the text
 field's leading inset is CG4.19, its origin, its trailing end and the
 pop-up's own label and mark are CG4.21, the pop-up's height, its
-label's origin and its mark's whole geometry are CG5.1, and the
-switched-off controls and the states are CG5.2.
+label's origin and its mark's whole geometry are CG5.1, the
+switched-off controls and the states are CG5.2, and the toolbar
+control's own fill, edge, corner and mark are CG5.2b.
 
 ## What the stored captures measure
 
@@ -73,6 +74,91 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | push button width | 74 px, both buttons | same | x 359–432 and x 441–514 |
 | the label's cap band | 10 px, y 508–517 | same | the bounding box of the label's marks inside the fill, each cap read on its own |
 | the label's horizontal inset | "Cancel" 16 px leading, 17 trailing; "Save" 23 and 23 | same | the fill's edge to the first pixel of the label's marks |
+
+## What the toolbar control measures
+
+Added 2026-09-18 by CG5.2b, from `finder-window-untinted-{light,dark}.png`,
+`finder-window-light.png` and `finder-window.png`. A control standing in a
+toolbar band is a different control from the dialog's pop-up above — 36 px
+against 24, a capsule against a rounded rectangle — and these are its own
+numbers.
+
+**Which capture is which window.** Read off the traffic lights: a saturated
+hue means the window is frontmost and its controls are drawn active.
+`finder-window-untinted-dark.png` is FRONTMOST (its yellow button reads
+`#f8bb00`). `finder-window-untinted-light.png` is NOT (no pixel in its title
+bar carries a hue over 127 of saturation) — it is an inactive window, and its
+toolbar controls are the platform's faded drawing rather than a control's own.
+`finder-window-light.png` and `finder-window.png` are both frontmost and both
+were taken with wallpaper tinting ON.
+
+| what | measured | where | method |
+| --- | --- | --- | --- |
+| a toolbar control's fill, frontmost, untinted, dark | `#262626` on a `#1e1e1e` band | `finder-window-untinted-dark.png` | flat-region samples of the search field's interior (x 1162-1372, y 47-80): `#262626` over 1731 of 1783 pixels, against a band flat at `#1e1e1e` over 6650 sampled pixels. Eight levels lighter than what it stands on. The band is the fill of whatever region lies under it, continued upward — `#1c1c1c` over the sidebar, `#1e1e1e` over the content — so a toolbar band carries no fill of its own |
+| the same, frontmost, tinted, dark | `#242d32` on a `#232a2e` band | `finder-window.png` | the view pop-up at x 692-742, y 8-43, against the band at x 457-685. Lighter on every channel, which is the direction the untinted pair gives |
+| the same, frontmost, light | `#ffffff` | `finder-window-light.png` | the view pop-up's interior, flat `#ffffff`. The band beneath it there is the content's own `#ffffff`, so this capture fixes the fill's VALUE and not its step: the control is told from its band by its drop shadow alone. On the chrome material this library paints, `#ffffff` stands eight levels lighter, which is the dark appearance's step to the level. Recorded in `nscolors.tsv` as the measured material `toolbarControlFill` |
+| an INACTIVE window's toolbar control | `#f7f7f7` on a `#ffffff` band, its glyphs at `tertiaryLabelColor` | `finder-window-untinted-light.png` | the same flat-region method; the glyphs peak at 183 on the 247 fill, which is black at 66/255 over it to the byte. Recorded so a later reading does not take this capture for an active control: it is the platform's inactive drawing, and it runs the other way — the control is DARKER than its band |
+| that control's height | 36 px | `finder-window-untinted-{light,dark}.png` | a run down x=1200 light gives `#f7f7f7` over y 34-69 and one down x=1250 dark gives `#262626` over y 47-80 with its rim rows at 46 and 81. The same 36 the toolbar-control row at the head of this reference records |
+| that control's edge, dark | 1 px, `#404040` | `finder-window-untinted-dark.png` | the rows immediately above and below the fill read 64 at every column of the flat middle, and the columns at either end read 61-62 through the corner's antialiasing. `separatorColor` over the fill gives `#3b3b3b` and over the band `#323232`, so neither name lands it and the rim is recorded as the pixel. Voice Memos' dark toolbar field agrees in kind — a `#4d4d4d` rim over a `#363636` fill, already recorded in the sidebar search field's section |
+| that control's edge, light | NONE | `finder-window-{light,untinted-light}.png` | the untinted capture steps from the band to the fill in one row with no stroke row. The frontmost capture has no darker row on any side either: a run down x=715 reads 251, 251, 251, 250, 250 and then the control's 255 from y=8, and a run across y=15 reads 252 down to 249 over x 686-696 and then 255 from x=697. What falls outside the control there is its drop shadow, which darkens AWAY from the control and never sits against it. So the platform's toolbar control wears a rim in the dark appearance only, and there it is a HIGHLIGHT — lighter than both its fill and its band |
+| that control's corner | fully rounded — half its height | `finder-window-untinted-light.png`, `finder-window.png` | sub-pixel left-edge fits on the group pull-down (x 938.1 at its extreme, over rows 50-53, its own middle): circular fits row by row run 17.4, 18.1, 19.1 and 23.7 about the half-height's 18, the spread the platform's continuous corner puts on a circular fit everywhere else in this reference. The dark tinted view pop-up agrees: 36 px tall, its first row 12 columns in from its extreme against a capsule's 13.8 |
+| that control's mark | the stacked chevron pair, 8 by 11 | `finder-window-light.png` | x 726-733, upper y 21-25, lower y 27-31, in a control 36 px tall — the same eight by eleven the 24 px dialog pop-up draws. The mark is sized by its point size, not by the control |
+| that mark's colour | `controlText` | same | its darkest pixel reads 77 on the `#ffffff` fill, which is `controlText`'s 216/255 at 82% coverage — the coverage a 1.4 px diagonal reaches at this raster phase. `secondaryLabelColor`'s 127/255 would need 140% of a pixel to reach 77, so the toolbar's mark is NOT the secondary label; it is the same name the dialog's pair reads exactly. The icon beside it in the same control peaks at the same 77 |
+| that mark's trailing clearance | 9 px | same | the pair ends at x=733 against a fill ending at x=742. The same nine the dialog's pop-up leaves in a control 24 px tall, so the clearance is fixed and not a ratio of the control's height |
+| the pull-down beside it | ONE chevron, 8 by 5 | same | x 792-799, y 24-28, pixel for pixel the lower half of the pair: the group control is a menu of ACTIONS and not a choice. A picker is single-choice by contract, so nothing in this library draws it |
+
+**The pop-up mark's stroke, re-read.** CG5.1 recorded ≈1.5 px perpendicular
+from "an arm crossing a row covers about 2.1 columns … the arm runs at 45°".
+The arm does not run at 45°: an eight-by-five chevron's centreline runs at
+atan(2·5/8) = 51.3° off the horizontal. Re-read off
+`save-dialog-light.png`, the upper chevron's left arm crosses row y=345 over
+0.02 + 0.65 + 0.99 = 1.66 columns and row y=346 over 0.64 + 0.99 + 0.40 = 2.03,
+a mean of 1.85, which perpendicular is 1.85 × sin 51.3° = 1.44 px. The whole
+upper chevron covers 12.73 px² of that capture, which over a centreline of
+2 × 4.7 px is 1.36 px of width. So the stroke measures 1.36 to 1.44 and the
+recorded 1.5 stands as the nearest weight this system draws, with its miss
+stated here.
+
+**The mark's profile.** The platform draws two thin strokes meeting at a
+point, not a wedge. Its upper chevron's coverage, row by row off
+`save-dialog-light.png` (x 435-442, y 343-347), totals 0.38, 2.55, 4.09, 4.06,
+1.65 of a pixel — a third of a pixel of paint in the apex row. A stroked polyline drawn
+with this rasterizer is capped and joined ROUND, which puts 1.49 in that row
+and reaches full width three rows down: that is the blob CG5.1's fresh eyes
+read as "a filled wedge with rounded shoulders". The mark is therefore drawn
+as a filled outline with a mitered apex and cut ends, which puts 0.46 in the
+apex row against the platform's 0.38 and 11.3 px² of coverage against its
+12.73. The remaining excess is at the arms' far ends, where the platform
+tapers and a straight cut does not.
+
+**The stroke is spent in pixels.** `gtx.Dp` rounds to a whole pixel, so a
+1.5 dp stroke asked for through it is TWO pixels at one pixel per dp — a third
+heavier than the measurement. The mark multiplies by the metric instead and
+draws 1.5 px.
+
+**The rim is drawn where it lifts.** The library's chrome trigger draws the
+platform's seam over its own fill and draws it only where that lands LIGHTER
+than the fill — the dark appearance, where the seam is white at 25/255 and
+gives `#3b3b3b` over the `#262626` fill against the measured `#404040`, five of
+255 short. In the light appearance the seam is black, it would darken the fill,
+and the platform draws no edge there at all, so none is drawn. The rule is the
+platform's behaviour stated once rather than an appearance the code tests for.
+
+**What the library draws against these numbers.** The chrome trigger takes the
+fill, the absence of a light edge, the capsule corner and the mark at its
+measured size and clearance. It does NOT take the 36: it draws the density's
+control height, 24 Comfortable, because that is the number `density.go` ships
+and the number the form trigger draws, and CG5.1 landed the two variants
+agreeing on it. Whether a control standing in a chrome region should draw the
+platform's toolbar height instead of the density's is an open question and not
+this reference's to settle.
+
+**What is open here.** No stored capture holds a toolbar control in the LIGHT
+appearance, frontmost, standing on a band that is not the same white it is —
+the one capture that would separate this control's fill from its band in that
+appearance. One capture closes it: a **frontmost light window whose toolbar
+band carries the sidebar material under a bordered control**, window-bounded
+at 1x with wallpaper tinting off.
 
 **What the state captures hold for a pop-up.** `control-hover-{light,dark}.png`
 is the Finder window with the toolbar's VIEW POP-UP under the pointer — the
@@ -370,6 +456,18 @@ a typography role, which is not the density scale's to move: a Compact button
 draws 20 dp against its 19 dp floor, and a Comfortable text field draws 28 dp
 against the platform's measured 27, BodyLarge's 24 dp line box plus the
 control's own 2 dp padding.
+
+**What a Compact pop-up does with its label.** Read 2026-09-18 by CG5.2b
+against the small control rows above: the platform's small control is the
+published 19 pt, no stored capture holds one, and the capture that would close
+it is on this reference's list. BodyLarge's line box is 24 dp at every
+density, so a Compact pop-up draws a 19 dp control around a 24 dp line box.
+What is cut is the leading that line box carries, not the type: the role's cap
+band measures 12 px — CG5.1's fresh eyes read it on the gallery's own trigger —
+and 12 stands inside 19 with three and a half rows either side. So both
+triggers cap the line box to the control's height and clip what they draw to
+their own shape, and the role's size does not move. Whether BodyLarge is the
+right size for a control's label at all is typography's question and is pooled.
 
 ## The gap, and what is left of it
 

@@ -21752,7 +21752,7 @@ with Rene on the ruling sheet.
 
 #### CG5.2b: The picker's marks and Compact box are read off the captures
 
-- [ ] Measurements under measured beats published, ruled 2026-09-18
+- [x] Measurements under measured beats published, ruled 2026-09-18
   via the ontology session, after CG5.1's fresh eyes. `components/picker`:
   both variants' marks are one colour, the measured `ControlText`
   (the chrome variant's mark takes it too); the toolbar (chrome)
@@ -21778,10 +21778,10 @@ with Rene on the ruling sheet.
   and the text field under the pointer, making room by a second row
   if the page's width is spent. Every number recorded in
   `controls.md`.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of both variants beside the
   Finder toolbar and the save dialog crops.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
