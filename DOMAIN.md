@@ -954,7 +954,9 @@ in its top trailing corner, measured into the reference from Voice
 Memos. No seam parts it from the content; the window's plane around
 it does. Expanded it shows icons and labels, collapsed icons alone —
 collapsed, it is a rail. Its rows stand at the sidebar's own row
-height. The active
+height, each a symbol, a label and, at the trailing end, a count
+when the entry has one; sections are headed by a small label and
+parted by space alone. The active
 entry is marked the platform's way: a pill inset from the sidebar's
 edges, rounded, in the sidebar's own selection colour with a white
 label — measured into the reference from Voice Memos,
