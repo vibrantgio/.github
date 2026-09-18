@@ -22251,7 +22251,7 @@ with Rene on the ruling sheet.
 
 #### CG5.6: The design bundle mirrors what the library draws
 
-- [ ] Ruling of 2026-09-18 via the ontology session: the design
+- [x] Ruling of 2026-09-18 via the ontology session: the design
   bundle mirrors the library as drawn. `design`'s `styles.css` (via
   `theme/export`'s generator where the value is generated) emits
   `letter-spacing: 0` for every text role while the library's typeset
@@ -22276,9 +22276,9 @@ with Rene on the ruling sheet.
   CG5.5 landed. `design/mirror` is green with its ceiling unchanged
   and still failing the nearest wrong variant; the bundle regenerated
   and its pages checked.
-- [ ] Goldens regenerate with the cause named; the mirror's
+- [x] Goldens regenerate with the cause named; the mirror's
   calibration recorded.
-- [ ] Exit: green in `design` and `design/mirror` by name; guard
+- [x] Exit: green in `design` and `design/mirror` by name; guard
   clean; commit and push in `theme` if the generator moved, `design`
   and `.github`.
 
