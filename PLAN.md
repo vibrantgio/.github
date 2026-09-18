@@ -22263,7 +22263,9 @@ with Rene on the ruling sheet.
   as a masked SVG in `--platform-control-text` ending 9 px clear;
   hover, pressed and disabled as CG5.2 measured (the sheet emits no
   hover rule and no fade today, and its `.select` still draws the
-  hairline and the 16 dp mark; its `.radio` draws the dot at half
+  hairline and the 16 dp mark; `design/components/navigation.html`'s
+  hand-authored sidebar specimen pictures the replaced row and is
+  redrawn to the panel's row; its `.radio` draws the dot at half
   the disc where CG5.3j measured five sixteenths, which holds the
   mirror's radio pair red); the density walkers carry every
   density field (`theme/export`'s JSON omits `fieldHeight`,
@@ -22306,12 +22308,38 @@ with Rene on the ruling sheet.
   the dark one too): whichever platform name flattens there over the
   band within a level, else a measured value of the toolbar recorded
   like the pill and the recess, both schemes, not a name of its own;
-  every band title and chrome mark takes it. Every icon golden and
-  every golden holding a mark moves.
+  every band title and chrome mark takes it. The `open-folder` mark's
+  comment and drawing agree about its flap after the redraw. Every
+  icon golden and every golden holding a mark moves.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the gallery's icon row
   beside the Finder band, both schemes.
 - [ ] Exit: green in `components`, `components/gallery`, `patterns`,
   `workbench` and every consumer whose golden moved by name; guard
   clean; commit and push in every touched repo and `.github`.
+
+
+#### CG5.8: The sidebar pattern is the panel's width and every rail stands in the row's columns
+
+- [ ] Defects against the Sidebar entry after CG5.3p. `patterns/sidebar`
+  is still the flush rail the panel replaced (192 dp with a trailing
+  hairline) where the measured panel is 220 dp with no line: the
+  pattern's width and edge follow the panel (`controls.md`, CG5.3n),
+  the gallery specimen with it. `workbench/feeds`' rail lists and
+  does not stand in the row's columns: it takes the row's symbol,
+  label and count columns as vaultview and mindchat do. vaultview's
+  filtered row puts its folder annotation in the count's column,
+  which the Language gives to a count: the annotation moves to the
+  label's run or goes. A trailing alignment is measured to the
+  drawn pixels (the platform draws every count to x 266 or 267) and
+  the count is placed so its last covered column lands there, not
+  its layout box (the digit's side bearing read and subtracted, as
+  the text field's origin is). The aside is untouched.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of feeds' rail beside
+  Screenshot 1, both schemes.
+- [ ] Exit: green in `patterns`, `components/gallery`,
+  `workbench/feeds`, `workbench/vaultview` and every consumer whose
+  golden moved by name; guard clean; commit and push in every touched
+  repo and `.github`.
 
