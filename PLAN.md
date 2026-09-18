@@ -22384,7 +22384,7 @@ with Rene on the ruling sheet.
 
 #### CG5.11: The set's band is a fixed device width per size
 
-- [ ] Rulings of 2026-09-18 via the ontology session, measured beats
+- [x] Rulings of 2026-09-18 via the ontology session, measured beats
   published. `components/icons`: where a capture holds a small
   symbol (the sidebar's 15-high marks in `voicememos-window.png`,
   the 13 by 13 magnifier in the field), the band's device width at
@@ -22395,9 +22395,9 @@ with Rene on the ruling sheet.
   exception beside the three there; no redraw below 24 dp without a
   capture. The diagonal allowance is measured off `check` and `clear`
   where a capture holds either, else it joins 425 with 671.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+- [x] Exit: green in `components`, `components/gallery`, `patterns`,
   `workbench` and every consumer whose golden moved by name, `design`
   and `design/mirror`; guard clean; commit and push in every touched
   repo and `.github`.
