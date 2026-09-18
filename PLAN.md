@@ -22148,7 +22148,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3o: Vaultview's band holds the window's navigation and name, and the find grows from its trailing end
 
-- [ ] Rulings of 2026-09-18 via the ontology session, the Chrome
+- [x] Rulings of 2026-09-18 via the ontology session, the Chrome
   table's toolbar row and the captures. `workbench/vaultview`: the
   find recess grows leftward from a fixed trailing end as Finder's
   does (`finder-window-untinted-dark.png`), so no control walks when
@@ -22168,10 +22168,10 @@ with Rene on the ruling sheet.
   round: `workbench/.gitignore` ignores `.claude/worktrees/`;
   `patterns/popover/popover.go` and `patterns/modal/scrim_test.go`
   are gofmt-clean.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the window with the find
   open beside Finder and Mail, both schemes.
-- [ ] Exit: green in `components`, `components/gallery`,
+- [x] Exit: green in `components`, `components/gallery`,
   `workbench/vaultview` and every consumer whose golden moved by name;
   guard clean; commit and push in every touched repo and `.github`.
 

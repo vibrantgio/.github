@@ -528,8 +528,8 @@ and the shadow's 250 above and below it.
 
 | capture | window | the sidebar column's share | the content column's share | the trailing end |
 | --- | --- | --- | --- | --- |
-| `finder-window-light.png` | 1000 wide, sidebar meeting content at x=317 | the three window buttons at x 19-78 and **nothing else**: no sidebar toggle in either Finder capture | back/forward x 335-389 (55 wide, two segments) at the column's leading end, 18 clear of the boundary; the title "Applications" bare at x 413-499; then the actions at the trailing end — view pop-up 694-742, group pull-down 759-808, a share/tag/more trio 827-936 | the search, a symbol-only capsule 955-991 (37 wide, the magnifier at 965-980), ending **8** from the window's trailing edge |
-| `finder-window-untinted-dark.png` | 1331 wide | the window buttons alone | back/forward 326-398, a second control 412-468, the four-segment view control 740-887, a pull-down 904-953, a trio 972-1081 | the search field, EXPANDED, 1100-1322 (223 wide), ending **8** from the window's trailing edge |
+| `finder-window-light.png` | 1000 wide, sidebar meeting content at x=317 | the three window buttons at x 19-78 and **nothing else**: no sidebar toggle in either Finder capture | back/forward x 326-398 (73 wide, two segments) at the column's leading end, 8 clear of the content column's first pixel; the title "Applications" bare at x 413-499; then the actions at the trailing end — view pop-up 694-742, group pull-down 759-808, a share/tag/more trio 827-936 | the search, a symbol-only capsule 955-991 (37 wide, the magnifier at 965-980), ending **8** from the window's trailing edge |
+| `finder-window-untinted-dark.png` | 1331 wide | the window buttons alone | back/forward 326-398, the window's title bare at 412-468 (read as a control here before; see the segmented control's section below), the four-segment view control 740-887, a pull-down 904-953, a trio 972-1081 | the search field, EXPANDED, 1100-1322 (223 wide), ending **8** from the window's trailing edge |
 | `mail-window.png` | 1200 wide, message list meeting the reading pane at x=392 | the window buttons alone | compose 404-440 (37) 12 clear of the seam, at the reading pane's leading end; then reply/reply-all/forward 469-578, archive/delete/junk 587-697, the mailbox pull-down 706-757, the flag pair 766-838 | the search recess 867-1191 (325 wide), ending **8** from the window's trailing edge |
 | `voicememos-window.png` | 976 wide | the window buttons at x 19-78, the sidebar toggle's capsule at 96-135 (40 wide) **17** clear of them, and the title "All Recordings" bare at 149-250 | nothing at all | the search recess 643-967 (325 wide), ending **8** from the window's trailing edge |
 | `notes-toolbar.png` | a 591 px crop of the band | — | compose 8-44, a four-segment format group from 58, a share/more pair 236-315 | the search recess 332-582 |
@@ -540,6 +540,18 @@ before it, over the content column. Nothing but the window buttons, a sidebar
 toggle and the window's title stands over the sidebar column. And the last
 control in the band ends **8 px** clear of the window's own trailing edge in
 all four full windows — the one number every capture reads the same.
+
+**The light window's back/forward pair was under-measured, and the corrected
+reading is above.** Read by CG5.3o at 1x from the same capture: a run across
+the pair's own middle rows — y=20 and y=30 — steps from the band's 243 to 255
+at x=327 with x=326 antialiased at 248, and back at x=398, so the control
+spans x 326-398, 73 px, and stands 8 clear of the content column's first
+pixel at x=318. The 335-389 recorded here before was taken at y=10 and y=41,
+the rows the corner radius has already carried the fill in from, which reads
+a rounded control 18 px short of its own width.
+`finder-window-untinted-dark.png` settles it: there the rim is visible and
+reads at x=326 and x=398 exactly, in a window whose sidebar rim stands at
+x=317 — the same 73, and the same 8 clear.
 
 **The room between two bordered controls standing apart, read across all
 five.** 8 (`mail-window.png`, inside one cluster of three), 14
@@ -795,6 +807,26 @@ both, and the three readings are recorded side by side.
 | the gap, THIS application | 7 px | `voicememos-window.png` | the glyph's last pixel at x=669 against the prompt's first at x=677. `mail-window.png` reads EIGHT (x 890 to x 899), which is the number recorded at the head of this reference and the one the library spends |
 | the magnifier's and the prompt's colour | `placeholderTextColor` over the recess — black at 127/255 light, white at 140/255 dark | both | light: both bottom out at `#747474`, which is that coverage over `#e8e8e8` to the byte; dark: both peak at `#a4a4a4`, which is white at 140/255 over `#363636` to the byte, where 127/255 would land at 154. The mark and the prompt are one colour, as they are in the sidebar's recess |
 
+**What the field's trailing end holds while it carries a query.** Read
+2026-09-18 by CG5.3o at 1x from
+`voicememos-multi-folder-search-2026-09-18.png` — the owner's own capture of a
+frontmost, FOCUSED Voice Memos toolbar field holding "Drie". The window's own
+trailing edge is at x=1031 and the field's fill runs x 700-1023, so the recess
+is 324 wide and ends the measured 8 clear of the window, and it stands 36 tall
+at y 46-81 under a focus ring reaching three px outside it. The clear mark is
+a filled disc at x 996-1009, 14 px across, with the field's own fill showing
+through the cross in it: it ends **14 px** clear of the field's trailing edge,
+against the magnifier's **13** at the leading one (fill from x=700, glyph from
+x=713), which is this application's own inset recorded above.
+
+**No stored capture holds a search field REPORTING a count.** `mail-find-light.png`
+and `mail-find-dark.png` hold Mail's find highlight in the message body and no
+find bar at all. So where a count stands inside a field is composed from the
+two readings above rather than measured: it takes the field's trailing end
+leading of the clear mark, the mark keeps its measured inset, and the clear
+space between them is the 8 px the platform leaves between the magnifier and
+the prompt at the other end (`mail-window.png`).
+
 **Two other windows draw their toolbar search field at the bordered control's
 own fill.** Finder's reads `#262626` on a `#1e1e1e` band in
 `finder-window-untinted-dark.png` and Mail's `#242d32` on a `#232a2e` band in
@@ -823,6 +855,30 @@ the fill with no stroke row on any side. It stands apart from the bordered
 control's own rim above, which is `#404040` over that control's `#262626` and
 misses by five — two different pixels over two different fills, so neither
 name can carry the other.
+
+## What the band's segmented control measures
+
+Read 2026-09-18 by CG5.3o at 1x from `finder-window-light.png` and
+`finder-window-untinted-dark.png`, the back/forward pair each window keeps at
+the leading end of its content column's share. The pair is ONE capsule
+divided, not two controls side by side: the rim runs round the whole of it and
+the halves are parted by a line that stops short of the control's top and
+foot.
+
+| what | value | capture | method |
+| --- | --- | --- | --- |
+| the control's extent | 73 × 36 px, x 326-398, y 8-43 | both | the dark capture reads its rim at x=326 and x=398 and at y=8 and y=43, with the `#262626` fill between; the light capture steps from the band to the control's white at the same columns on its own middle rows |
+| the segments | 36 px each | both | the seam's column at x=362 leaves x 326-361 and x 363-398 — 36 and 36. Mail's three-segment group divides to 37.3 a segment, and the chrome variant's own width around one symbol is 38, so a segment is the standalone control's width and not a fraction of it |
+| the seam | 1 px wide, 20 px tall, y 16-35 | both | a run down x=362 reads the fill at y 8-15, the seam at y 16-35 and the fill again at y 36-43: eight rows clear at the top and eight at the foot of a 36 px control |
+| the seam's colour | `#f2f2f2` light over the control's `#ffffff`, `#3a3a3a` dark over its `#262626` | both | flat reads down the seam's own column. `separatorColor` over the fill gives `#3b3b3b` dark, one of 255 off the pixel, and `#e6e6e6` light, twelve off it. The library draws the seam's own name — the Language's rule for the line where two flush regions meet — and the light miss is filed |
+| the gap to the title beside it | 14 px | both | the pair's last column at x=398 against the title's first painted column at x=413 light and x=412 dark: fourteen and thirteen clear columns, and a glyph's own left side bearing is the difference. Fourteen is also what `notes-toolbar.png` leaves between its compose control and the group beside it |
+
+**What the dark capture's "second control" at x 412-468 actually is.** The
+composition table above listed it as a control. It is the window's TITLE: a
+run across it at y=25 reads 232 peaks on a 30 band with no fill, no rim and no
+capsule anywhere in those columns. Both Finder windows therefore compose their
+content column's share the same way — the segmented pair, then the title bare
+beside it — and neither carries a third thing at the leading end.
 
 ## What the toolbar band's own boundary measures
 
