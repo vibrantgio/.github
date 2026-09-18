@@ -749,9 +749,10 @@ Shift+Enter to the previous — scrolling the current one into view.
 What it holds originates with the user.
 Standing on chrome — a sidebar, a toolbar — it is the platform's
 search field there: a flat recess set a shade apart from the
-sidebar material, measured per scheme, with no edge and the ends
-fully rounded, measured into the reference from System Settings'
-sidebar and Voice Memos' toolbar.
+sidebar material, measured per scheme, the ends fully rounded, with
+no edge except where the platform draws one — the dark toolbar's
+recess carries a lighter rim, measured — read into the reference
+from System Settings' sidebar and Voice Memos' toolbar.
 
 ### Scrollbar
 
