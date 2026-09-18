@@ -22088,7 +22088,14 @@ with Rene on the ruling sheet.
   crop CG5.3k stored joins a full-window golden as vaultview keeps).
   The five stale `.actual.png` files beside `components/button`'s
   goldens are deleted and `.gitignore` in every repo with goldens
-  ignores `*.actual.png`.
+  ignores `*.actual.png`. Two measured defects join: the bordered
+  toolbar control's dark rim draws at the measured `#404040`
+  (`controls.md`) as a value of its own, not `Separator` flattened
+  five levels short (the toolbar search rim already does); a band
+  control's drop shadow is painted once for the band, after every
+  column has laid out, so it is not covered over one column and not
+  the other (the shadow's reach past the band is clipped to the
+  window, never to a column).
 - [ ] Goldens regenerate with the cause named where a mark moves;
   the new ones are named in the commit body.
 - [ ] Exit: green in `components`, `components/gallery`, `effects`,
