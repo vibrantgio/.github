@@ -12,8 +12,8 @@ pop-up's own label and mark are CG4.21, the pop-up's height, its
 label's origin and its mark's whole geometry are CG5.1, the
 switched-off controls and the states are CG5.2, the toolbar
 control's own fill, edge, corner and mark are CG5.2b, its height read
-capture by capture is CG5.3b, and the toolbar search field's own recess is
-CG5.3e.
+capture by capture is CG5.3b, the toolbar search field's own recess is
+CG5.3e, and the toolbar control's drop shadow and its symbol are CG5.3f.
 
 ## What the stored captures measure
 
@@ -264,6 +264,131 @@ the padding, and this pair does not.
 **The cap band is the platform's standard label.** 10 px is what
 `mail-window.png`'s search-field label reads in ADR-019's cap-band section,
 so a dialog's push button is set in the same type as a toolbar's field.
+
+## What the toolbar control's drop shadow measures
+
+Added 2026-09-18 by CG5.3f, from `finder-window-light.png`,
+`finder-window-untinted-dark.png`, `finder-window.png`, `mail-window.png`,
+`notes-toolbar.png` and `voicememos-sidebar-light.png`. Every bordered control
+standing in a toolbar band casts one, and it is what tells a LIGHT control
+from its band: the platform draws no edge there and fills the control with the
+band's own white, so the shadow is the whole of the step.
+
+**Light, read off the Finder view pop-up** (`finder-window-light.png`, the
+control at x 694-742, y 8-43, on a band flat at `#ffffff`). The darkening in
+255ths of the band, by distance from the control's own edge:
+
+| direction | peak at 1 px out | the ramp, 255ths by distance | zero at |
+| --- | --- | --- | --- |
+| below | **11** (244) | 11,11,10,10,10,9,9,8,8,8,7,7,6,6,6,5,5,5,4,4,4,3,3,3,3,2,2,2,2,2,1,1,1,1,1,–,1,1 | 39 rows |
+| beside | **7** (248) | 7,7,7,6,6,6,5,5,5,4,4,4,4,3,3,3,2,2,2,2,2,1,1,1,1,1,1,1,1,1 | 31 columns |
+| above | **5** (250) | 5,5,4,4,4,3,3,2 and still 2 at the capture's own top edge | about 15 rows, extrapolated |
+
+Read down x=715 and across y=26; the row at y=79 is the band's own seam and is
+skipped in the run below. The reading above is cut off by the window's top
+outer edge at eight rows, where the band still stands two 255ths down — the
+one direction no stored capture closes, since a toolbar band has a window edge
+above it.
+
+The profile above is the profile below shifted by SIXTEEN rows — `below(d+16)`
+gives `above(d)` on seven of the eight rows that can be compared — so the
+shadow is one shape sunk EIGHT px below the control rather than two shadows or
+a symmetric one.
+
+**What the library draws, and its miss.** One rectangle sunk below the
+control, painted at a peak coverage and ramping linearly to nothing at a reach:
+the ramp `effects/depth` draws for a floating surface, in
+`components/internal/control`'s `DrawToolbarShadow`. Fitted to all 77 sampled
+pixels above, the best whole-alpha triple is **black at 9/255, 23 px of reach,
+the rectangle sunk 9 px** — every sample within two 255ths and most within
+one. No coverage, reach and offset land them all within one: the drawing is
+two 255ths light in the two rows directly under the control and one 255th
+light in the far tail, which is the shape of a blur against a straight ramp.
+
+**Dark, read off five controls in one band** (`finder-window-untinted-dark.png`,
+the bordered controls whose flat rim runs are at x 404-432, 818-921, 980-989,
+1050-1115 and 1178-1356). Under every one of them the `#1e1e1e` band reads
+`#1d1d1d` over y 82-88 — **one 255th deep and seven rows tall** — and the rows
+above them and the columns beside them read the band's own value untouched.
+Three other dark bands agree: `finder-window.png` and `mail-window.png` on
+their tinted `#232a2e` band read `#222a2d` under the control over eleven rows,
+recovering by fifteen, and `notes-toolbar.png` reads `#1d1d1d` under its
+compose control over seven. Black at 6/255 reproduces all four of those bytes
+exactly (30→29, 46→45, 42→41, 35→34); 4/255 and below leaves the tinted band
+alone, and 9/255 and above takes two levels off the untinted one. Spread over
+the one geometry it darkens a wider halo than the platform's seven rows, a
+miss of one 255th on a band that dark — and the dark control is told from its
+band by its `#262626` fill and its `#404040` rim, not by this.
+
+**The toolbar search recess casts the same shadow; the sidebar recess casts
+none.** `voicememos-sidebar-light.png`: the band over that window's toolbar
+recess reads 250 and the band under it 244, the same two bytes the Finder
+pop-up leaves, falling away over the same distances. `system-settings-grouped-box-light.png`:
+every row above and below its sidebar recess reads the sidebar's own 249-250,
+with no darkening at any distance. So the shadow belongs to the toolbar BAND's
+controls and not to a recess as such.
+
+**The shadow falls outside the control's own box.** `gioui.org/widget`'s
+Clickable clips whatever it wraps to the box its layout.Widget reports, so a shadow
+painted inside a control's own `layout.Widget` is cut off at the control's
+edge on the live path and drawn whole on the pure one. The library records the
+control, paints the shadow under the box the control measured itself to, and
+replays it — `components/internal/toolbarface`'s `Cast`.
+
+## What a toolbar control's symbol measures
+
+Added 2026-09-18 by CG5.3f, at 1x, from the toolbar bands of
+`finder-window-light.png`, `notes-toolbar.png` and `voicememos-window.png`.
+
+| symbol | capture | covered extent | where |
+| --- | --- | --- | --- |
+| the group pull-down's grid | `finder-window-light.png` | **18 × 18** | x 769-786, y 17-34 |
+| the tag | same | **19 × 19** | x 873-891, y 17-35 |
+| the view pop-up's list | same | 17 × 12 | x 704-720, y 21-32 |
+| the magnifier | same | 16 × 17 | x 965-980, y 18-34 |
+| the ellipsis | same | 16 × 4 | x 911-926, y 24-27 |
+| Notes' compose | `notes-toolbar.png` | 17 × 17 | x 19-35, y 17-33 |
+| Voice Memos' sidebar toggle | `voicememos-window.png` | 19 × 15 | x 106-124, y 19-33 |
+
+A square form fills about 18 px and a round or diagonal one about 17, in a
+control 36 px tall. That is `components/icons`' own grid drawn at **24**: a
+square form to its 18-unit keyline and a round one to 20 units on a 24-unit
+grid, which is also the size at which every unit of that grid lands on a whole
+pixel. `components/internal/control`'s `ChromeMarkDp` carries it.
+
+**The band's weight, with the set's miss stated.** The axis-aligned band of
+those same symbols measures 1.12 px (the list bar: 122 and 147 on a `#ffffff`
+fill, which over `controlText`'s 216 is 0.616 + 0.500 of a pixel), 1.15 to
+1.22 (the magnifier's circle at its own middle rows), 1.26 (Notes' compose)
+and 1.39 (Voice Memos' sidebar rectangle). The set draws 1.5 px at 24 — a
+sixth heavier — and a lighter one is not available to it: 1.25 units falls to
+0.83 px at the 16 dp end of its range, below one device pixel, where an
+antialiased line is drawn grey rather than in the control's colour. The
+reading is recorded and the weight stands.
+
+**A symbol keeps its capsule, and how wide.** A toolbar control carrying one
+symbol and nothing else measures 38 px wide against its 36 px height in
+`mail-window.png` (the compose control, x 404-441), 37 in `notes-toolbar.png`
+(x 8-44) and 40 in `voicememos-window.png` (the sidebar toggle, x 96-135);
+Mail's three-segment groups divide to 37.3 a segment. Around a 24 px mark box
+those leave 7, 6.5 and 8 columns a side. Seven is the middle reading and lands
+Mail's control exactly, which is `ChromeMarkSideDp`, and the platform's own
+spread across the four readings is three columns.
+
+**Two applications draw their sidebar-side toolbar marks BARE.**
+`notes-window.png` and `reminders-window.png` both carry a new-item mark and a
+sidebar toggle standing over the sidebar region with no capsule, no fill and
+no rim, where every control over the content in the same two bands is
+bordered. `voicememos-window.png` runs the other way: its sidebar toggle
+stands over the sidebar region in a full capsule (x 96-135, fill `#272727` on
+a `#1e1e1e` band, the dark rim at either end). So the platform does not settle
+it, and what this library draws is Voice Memos' — the application the Language
+already names for the toolbar search field.
+
+**The room between two bordered controls standing apart.**
+`notes-toolbar.png` leaves 14 px between its compose capsule (x 8-44) and the
+group beside it (from x=58); `finder-window-light.png` leaves 16 between its
+view pop-up (to x=742) and the group pull-down (from x=759).
 
 ## What the list captures measure
 

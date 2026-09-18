@@ -21903,7 +21903,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3f: Every bordered toolbar control carries the measured shadow and a symbol keeps its capsule
 
-- [ ] Rulings of 2026-09-18 via the ontology session, measurements
+- [x] Rulings of 2026-09-18 via the ontology session, measurements
   under measured beats published. The toolbar control's drop shadow
   is a measured material like the others: read off the Finder
   toolbar captures in both appearances (`finder-window-light.png`
@@ -21925,10 +21925,10 @@ with Rene on the ruling sheet.
   ruling). The sidebar recess's trailing inset spends no hairline
   (it draws none), so its clear mark stands where the measurement
   puts it, not one column further in.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of mindchat's toolbar beside
   the Finder band, both schemes.
-- [ ] Exit: green in `theme`, `effects/transition`, `components`,
+- [x] Exit: green in `theme`, `effects/transition`, `components`,
   `components/gallery` and every consumer whose golden moved by name;
   guard clean; commit and push in every touched repo and `.github`.
 
