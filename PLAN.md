@@ -22018,6 +22018,21 @@ with Rene on the ruling sheet.
   whose golden moved by name; guard clean; commit and push in every
   touched repo and `.github`.
 
+#### CG5.3j: The radio's dot is the measured five sixteenths of its disc
+
+- [ ] Measurement, not a ruling (CG5.3h's readings in `controls.md`):
+  System Settings' selected radio draws its dot at 5.00 px in a
+  16 px disc, centred, both appearances; `components/input`'s radio
+  draws the dot at half the disc. The dot takes the measured size,
+  and `RenderCheckbox`/`RenderRadio` drop the radius scale neither
+  spends (the checkbox's corner is its own measured 5 dp), every
+  caller following. Tests read the dot's diameter off a capture.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer whose golden moved by name; guard clean; commit and push
+  in every touched repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as
