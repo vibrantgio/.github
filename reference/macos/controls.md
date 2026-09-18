@@ -17,7 +17,8 @@ CG5.3e, the toolbar control's drop shadow and its symbol are CG5.3f, the
 toolbar band's own boundary and the recess rim's name are CG5.3g, and the
 dark shadow's own geometry, the chosen segment of a segmented control, the
 compose symbol's band and where a sidebar-side control stands in the band are
-CG5.3i.
+CG5.3i, and what the whole band's composition measures capture by capture is
+CG5.3l.
 
 ## How coverage is read off a rendered component
 
@@ -510,6 +511,57 @@ CG5.3i.
 `notes-toolbar.png` leaves 14 px between its compose capsule (x 8-44) and the
 group beside it (from x=58); `finder-window-light.png` leaves 16 between its
 view pop-up (to x=742) and the group pull-down (from x=759).
+
+## What the toolbar band's composition measures
+
+Read 2026-09-18 by CG5.3l at 1x from `finder-window-light.png`,
+`finder-window-untinted-dark.png`, `mail-window.png`, `notes-toolbar.png` and
+`voicememos-window.png` — where each window keeps its sidebar toggle, its
+document actions, its search field and its trailing controls, and what stands
+between them. Coordinates are window coordinates. The light Finder window's
+band and its controls are both white, so its controls were found by the drop
+shadow's own rows: a run down a column reads 255 over y 8-43 inside a control
+and the shadow's 250 above and below it.
+
+| capture | window | the sidebar column's share | the content column's share | the trailing end |
+| --- | --- | --- | --- | --- |
+| `finder-window-light.png` | 1000 wide, sidebar meeting content at x=317 | the three window buttons at x 19-78 and **nothing else**: no sidebar toggle in either Finder capture | back/forward x 335-389 (55 wide, two segments) at the column's leading end, 18 clear of the boundary; the title "Applications" bare at x 413-499; then the actions at the trailing end — view pop-up 694-742, group pull-down 759-808, a share/tag/more trio 827-936 | the search, a symbol-only capsule 955-991 (37 wide, the magnifier at 965-980), ending **8** from the window's trailing edge |
+| `finder-window-untinted-dark.png` | 1331 wide | the window buttons alone | back/forward 326-398, a second control 412-468, the four-segment view control 740-887, a pull-down 904-953, a trio 972-1081 | the search field, EXPANDED, 1100-1322 (223 wide), ending **8** from the window's trailing edge |
+| `mail-window.png` | 1200 wide, message list meeting the reading pane at x=392 | the window buttons alone | compose 404-440 (37) 12 clear of the seam, at the reading pane's leading end; then reply/reply-all/forward 469-578, archive/delete/junk 587-697, the mailbox pull-down 706-757, the flag pair 766-838 | the search recess 867-1191 (325 wide), ending **8** from the window's trailing edge |
+| `voicememos-window.png` | 976 wide | the window buttons at x 19-78, the sidebar toggle's capsule at 96-135 (40 wide) **17** clear of them, and the title "All Recordings" bare at 149-250 | nothing at all | the search recess 643-967 (325 wide), ending **8** from the window's trailing edge |
+| `notes-toolbar.png` | a 591 px crop of the band | — | compose 8-44, a four-segment format group from 58, a share/more pair 236-315 | the search recess 332-582 |
+
+**What the five agree on.** The search stands LAST, at the trailing end of the
+band, in every window that has one. The document actions cluster immediately
+before it, over the content column. Nothing but the window buttons, a sidebar
+toggle and the window's title stands over the sidebar column. And the last
+control in the band ends **8 px** clear of the window's own trailing edge in
+all four full windows — the one number every capture reads the same.
+
+**The room between two bordered controls standing apart, read across all
+five.** 8 (`mail-window.png`, inside one cluster of three), 14
+(`notes-toolbar.png`, compose to the group beside it), 16
+(`finder-window-light.png`, the view pop-up to the group pull-down, and the
+same pair in the dark capture), 18 (`finder-window-light.png`, the pull-down
+to the trio and the trio to the search; the dark capture reads 18 twice in the
+same places), 28 (`mail-window.png`, between clusters). Finder's 16 is the
+reading the ruling names and the one already recorded above;
+`workbench/vaultview` spends it as `bandGapDp` and the 8 as `bandTrailingDp`.
+
+**Not one control in the five carries a word.** The nearest two are
+`notes-toolbar.png`'s first format segment, which carries "Aa" — a symbol made
+of letters, not a label — and the window titles in `finder-window-light.png`
+and `voicememos-window.png`, which stand bare in the band and in no control at
+all. Every document action in all five bands carries a symbol and nothing
+else. That is the reading behind `components/button`'s
+chrome variant reaching the symbol path alone, and it is why a vault action
+standing in a band is drawn with a mark rather than with its name.
+
+**The platform's own toolbar shadow is not cut off at the band's lower
+edge.** `finder-window-light.png` reads 243 at y=44 and is still four levels
+under its surroundings at y=59, under a band whose own depth ends at y=51. So
+a control standing in the band casts onto whatever lies below it, and a
+reading of the region under a band starts clear of that reach.
 
 ## What the list captures measure
 

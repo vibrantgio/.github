@@ -22053,7 +22053,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3l: Vaultview's document actions stand in its toolbar band
 
-- [ ] Ruling of 2026-09-18 via the ontology session, the Chrome
+- [x] Ruling of 2026-09-18 via the ontology session, the Chrome
   table's toolbar row: the toolbar is the strip along the window's
   top holding the controls that act on the document. `workbench/vaultview`:
   Rescan and Switch Vault leave the rail's foot and the find leaves
@@ -22067,10 +22067,10 @@ with Rene on the ruling sheet.
   recorded in `controls.md`). The rail's foot and the note's head
   lose the rows those controls occupied; the find's shortcut and
   behaviour are unchanged.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the window beside the
   Finder captures, both schemes.
-- [ ] Exit: green in `workbench/vaultview` and every consumer whose
+- [x] Exit: green in `workbench/vaultview` and every consumer whose
   golden moved by name; guard clean; commit and push in every touched
   repo and `.github`.
 
