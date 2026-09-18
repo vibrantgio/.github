@@ -22321,38 +22321,6 @@ with Rene on the ruling sheet.
   clean; commit and push in every touched repo and `.github`.
 
 
-#### CG5.8: The sidebar pattern is the panel's width and every rail stands in the row's columns
-
-- [ ] Defects against the Sidebar entry after CG5.3p. `patterns/sidebar`
-  is still the flush rail the panel replaced (192 dp with a trailing
-  hairline) where the measured panel is 220 dp with no line: the
-  pattern's width and edge follow the panel (`controls.md`, CG5.3n),
-  the gallery specimen with it. `workbench/feeds`' rail lists and
-  does not stand in the row's columns: it takes the row's symbol,
-  label and count columns as vaultview and mindchat do. vaultview's
-  filtered row puts its folder annotation in the count's column,
-  which the Language gives to a count: the annotation moves to the
-  label's run or goes. A trailing alignment is measured to the
-  drawn pixels (the platform draws every count to x 266 or 267) and
-  the count is placed so its last covered column lands there, not
-  its layout box (the digit's side bearing read and subtracted, as
-  the text field's origin is). `workbench/vaultview/frame.go` is
-  gofmt-clean. The row's symbol wears the measured
-  colour, `#000000` light and `#ffffff` dark off
-  `voicememos-multi-folder-2026-09-18.png` and `voicememos-sidebar-dark.png`,
-  recorded as a measured value of the sidebar (`SidebarSymbol`,
-  `appkit:"-"`, through the field walkers) since no platform name
-  flattens there; on the pill it wears the pill's white. The aside is
-  untouched.
-- [ ] Goldens regenerate with the cause named, both schemes,
-  downstream included; fresh-eyes review of feeds' rail beside
-  Screenshot 1, both schemes.
-- [ ] Exit: green in `patterns`, `components/gallery`,
-  `workbench/feeds`, `workbench/vaultview` and every consumer whose
-  golden moved by name; guard clean; commit and push in every touched
-  repo and `.github`.
-
-
 #### CG5.9: A deferred halo stays inside the scroll area it was drawn in
 
 - [x] Defects after CG5.5. `op.Defer` resets the clip, so a focused
@@ -22433,4 +22401,36 @@ with Rene on the ruling sheet.
   `workbench` and every consumer whose golden moved by name, `design`
   and `design/mirror`; guard clean; commit and push in every touched
   repo and `.github`.
+
+#### CG5.8: The sidebar pattern is the panel's width and every rail stands in the row's columns
+
+- [ ] Defects against the Sidebar entry after CG5.3p. `patterns/sidebar`
+  is still the flush rail the panel replaced (192 dp with a trailing
+  hairline) where the measured panel is 220 dp with no line: the
+  pattern's width and edge follow the panel (`controls.md`, CG5.3n),
+  the gallery specimen with it. `workbench/feeds`' rail lists and
+  does not stand in the row's columns: it takes the row's symbol,
+  label and count columns as vaultview and mindchat do. vaultview's
+  filtered row puts its folder annotation in the count's column,
+  which the Language gives to a count: the annotation moves to the
+  label's run or goes. A trailing alignment is measured to the
+  drawn pixels (the platform draws every count to x 266 or 267) and
+  the count is placed so its last covered column lands there, not
+  its layout box (the digit's side bearing read and subtracted, as
+  the text field's origin is). `workbench/vaultview/frame.go` is
+  gofmt-clean. The row's symbol wears the measured
+  colour, `#000000` light and `#ffffff` dark off
+  `voicememos-multi-folder-2026-09-18.png` and `voicememos-sidebar-dark.png`,
+  recorded as a measured value of the sidebar (`SidebarSymbol`,
+  `appkit:"-"`, through the field walkers) since no platform name
+  flattens there; on the pill it wears the pill's white. The aside is
+  untouched.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of feeds' rail beside
+  Screenshot 1, both schemes.
+- [ ] Exit: green in `patterns`, `components/gallery`,
+  `workbench/feeds`, `workbench/vaultview` and every consumer whose
+  golden moved by name; guard clean; commit and push in every touched
+  repo and `.github`.
+
 
