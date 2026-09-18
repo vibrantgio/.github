@@ -971,3 +971,9 @@ Rene (to the vibrantgio session on the CG2.1 themer, relayed:
 rejecting "Syntax base", since chroma calls the thing a style,
 "lexers, formatters and styles"): Syntax highlighter style, or
 Syntax highlighter for short. ^0005-syntax-highlighter-style
+
+Rene (to the vibrantgio session on vaultview after CG5.3m, then
+three Voice Memos captures on macOS 26 in answer to what he sees —
+the sidebar an inset rounded panel with a rim and a shadow, the
+window buttons inside it, its marks bare, no seam): The sidebar
+doesn't look like a sidebar anymore. ^0005-sidebar-is-a-panel

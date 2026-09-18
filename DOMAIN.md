@@ -336,8 +336,8 @@ it: the backdrop is only ever what shows around.
 
 ### Seam
 
-The hairline where two flush regions meet — the sidebar against the
-content, the navbar's foot, the status bar's top. It is the
+The hairline where two flush regions meet — a list column against
+the content, the navbar's foot, the status bar's top. It is the
 platform's separator colour: black or white
 at a tenth, laid over whatever is beneath, so it reads on any fill;
 drawn once, by the region above or leading.
@@ -357,7 +357,8 @@ backdrop that frames the document rather than being it — navbar,
 toolbar, sidebar, inspector, status bar, pane. Its fill is the
 platform's sidebar material with wallpaper tinting off, measured
 into the reference for each scheme: a shade darker than the content
-in both, told from it by that shade and a seam. What the platform
+in both, told from it by that shade and, where the two are flush, a
+seam. What the platform
 adds on top — the wallpaper showing through the glass — a window
 that cannot see the desktop does not paint. The shell pattern is
 the composition of chrome regions; a variant is "chrome" when the
@@ -916,10 +917,11 @@ the placement and the timing, not the presentation.
 ### Pane
 
 The chrome pattern setting a column in from the window's edges
-rather than making it one of them: rounded on all corners, the
-backdrop showing around it on every side. Unlike flush chrome it is
-an object — a control can send it away, and what stood beside it
-reflows to the window's edge.
+rather than making it one of them: an inset panel, rounded on all
+corners, with the platform's rim and shadow, the window's own plane
+showing around it on every side. The sidebar is one. Unlike flush
+chrome it is an object — a control can send it away, and what stood
+beside it reflows to the window's edge.
 
 ### Popover
 
@@ -945,9 +947,14 @@ arrangements its variants name.
 
 ### Sidebar
 
-The chrome pattern of a collapsible vertical column: expanded with
-icons and labels, or collapsed to icons alone — collapsed, it is a
-rail. Its rows stand at the sidebar's own row height. The active
+The chrome pattern of a collapsible vertical column, set into the
+window as a pane: an inset rounded panel with the platform's rim and
+shadow, the window buttons inside it and its own marks standing bare
+in its top trailing corner, measured into the reference from Voice
+Memos. No seam parts it from the content; the window's plane around
+it does. Expanded it shows icons and labels, collapsed icons alone —
+collapsed, it is a rail. Its rows stand at the sidebar's own row
+height. The active
 entry is marked the platform's way: a pill inset from the sidebar's
 edges, rounded, in the sidebar's own selection colour with a white
 label — measured into the reference from Voice Memos,
