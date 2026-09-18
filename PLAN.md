@@ -22120,7 +22120,10 @@ with Rene on the ruling sheet.
   coverage is the recorded `ScrollbarThumb` 0.572 in both schemes
   (it draws an opaque 109 light and lands too heavy the other way
   dark);
-  a test reads the thumb off a capture in both.
+  a test reads the thumb off a capture in both. Chores in the same
+  round: `workbench/.gitignore` ignores `.claude/worktrees/`;
+  `patterns/popover/popover.go` and `patterns/modal/scrim_test.go`
+  are gofmt-clean.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the window with the find
   open beside Finder and Mail, both schemes.
@@ -22218,7 +22221,10 @@ with Rene on the ruling sheet.
   against the measured keyline and weights where none does, each
   file stating its edges and where it cannot land a whole pixel at
   16, 20 or 24 dp; the band-landing rule and its tests follow the new
-  keyline. Every icon golden and every golden holding a mark moves.
+  keyline. The picker's chevron pair and single chevron, geometry in
+  `components/internal/control` today, join the set as marks so the
+  grid, the rule and the walk reach them. Every icon golden and every
+  golden holding a mark moves.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the gallery's icon row
   beside the Finder band, both schemes.

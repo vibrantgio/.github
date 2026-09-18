@@ -3132,10 +3132,4 @@ Filed 2026-09-18 from the measurement itself. No fresh eyes were named for this
 task; the rim's value and the shadow's rows were read back off the regenerated
 goldens by the worker and are in the commit bodies.
 
-618. **[decide]** **The picker's chevrons are drawn outside the icon set.** The pop-up's stacked pair and the pull-down's single chevron are geometry in `components/internal/control`, not marks in `components/icons`, so the set's 24-unit grid, its band-landing rule and the walk that now reads every stated band off a render reach none of them — the one family of marks in the library held to no stated edges.
-
 619. **[bug]** **A modal sits below everything the library defers.** `patterns/modal` paints its scrim and its surface as ordinary ops, where every other floating surface — `patterns/popover`, `components/tooltip`, the picker's menu — and now a band control's drop shadow go through `op.Defer`, which flushes once at the end of the frame. A deferred drawing therefore lands on top of an open modal. It shows nothing today: the scrim and the shadow are both black coverages and two multiplications commute, which the settings frames confirm to the byte, and no stored composition puts a modal surface under a band control. A non-black overlay, or a dialog that reached the band, would show it.
-
-620. **[chore]** **`workbench/.claude/worktrees/` is untracked and unignored.** It stands in every `git status` of the workbench repo and has to be stepped around by hand on each commit.
-
-621. **[chore]** **Two files in `patterns` are not gofmt-clean.** `popover/popover.go` and `modal/scrim_test.go`, neither touched by this task.
