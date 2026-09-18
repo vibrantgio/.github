@@ -21948,6 +21948,27 @@ with Rene on the ruling sheet.
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
+#### CG5.3h: The checkbox's corner and edge are measured
+
+- [ ] Measurement, not a ruling: the platform's checkbox corners are
+  rounded and its edge a hairline where ours draws one antialiased
+  pixel at the corner and a 2 px edge. The corner radius is read off
+  the save dialog's switched-off boxes' corner ramp
+  (`#f3f3f3` through `#fbfbfb`, `controls.md`, CG5.3c) by fitting the
+  ramp as CG4.8 fitted the recess's ends, and off System Settings'
+  radio disc for the radio; the enabled box's edge width and colour
+  are read off an enabled checkbox capture if the reference holds one
+  (it does not today; the capture is on 425's list), else the edge
+  keeps `FieldEdge` at the width the save dialog's text field edge
+  measures (1 px) and says so. `components/input`'s checkbox and
+  radio draw the measured corner and edge; tests read the corner's
+  coverage profile off a capture.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer whose golden moved by name; guard clean; commit and push
+  in every touched repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as
