@@ -21841,6 +21841,25 @@ with Rene on the ruling sheet.
   `components/gallery` and every consumer whose golden moved by name;
   guard clean; commit and push in every touched repo and `.github`.
 
+#### CG5.3c: A switched-off checkbox is drawn as the save dialog measures
+
+- [ ] Measurements, not rulings (CG5.3's readings in `controls.md`):
+  the platform's switched-off checkbox is a fill with no edge column,
+  `#f2f2f2` light / `#2e3439` dark on the sheet, the enabled fill
+  faded at the measured 170/255 (`tokens.DisabledCoverage`).
+  `components/input`'s checkbox and radio therefore fade their
+  interior with `control.Faded` as the push button does and draw no
+  edge while switched off; the enabled box keeps its edge as
+  measured on an enabled checkbox if a capture holds one, else as it
+  is today with the gap on 425's list. The glyph's mark and the label
+  follow CG5.3's names. Tests read the switched-off box's fill and
+  edge rows off a capture.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer whose golden moved by name; guard clean; commit and push
+  in every touched repo and `.github`.
+
 #### CG5.4: The picker's menu floats on the platform's menu material
 
 - [ ] `components/picker`'s open menu is the platform's menu as
