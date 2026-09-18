@@ -21883,7 +21883,7 @@ with Rene on the ruling sheet.
 
 #### CG5.3e: A search field on a toolbar draws the toolbar recess's measured height
 
-- [ ] Measurement, not a ruling: the platform draws a sidebar search
+- [x] Measurement, not a ruling: the platform draws a sidebar search
   recess at 28 (System Settings, CG4.8) and a toolbar search recess
   at 36 (Voice Memos and Mail, `controls.md`, the toolbar control
   height CG5.3b added). `components/input`'s `Chrome` variant is one
@@ -21895,9 +21895,9 @@ with Rene on the ruling sheet.
   chrome region the caller names (a property, not a new variant name
   unless the Language gives one). The gallery shows both; the
   workbench's toolbar search fields, if any, take it.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 

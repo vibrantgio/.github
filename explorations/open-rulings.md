@@ -3110,3 +3110,17 @@ regenerated gallery goldens by the worker and are in the commit body.
 
 568. **[bug]** **A component's op order moves text pixels across the whole gallery page.** Removing one `paint.FillShape` from the checkbox moved 66 scattered text pixels in `components-light.png` and 85 in `components-dark.png` by one 255th, in families the change does not touch, because the glyph atlas packs differently when the op stream changes. The regenerated images are stable across runs, so the gate still works, but every component change now carries unrelated text churn in its golden diff and a real one-255th text regression would be invisible inside it.
 
+
+## CI. From CG5.3e, the toolbar search field as a second recess
+
+Filed 2026-09-18 from the measurement itself. No fresh eyes were named for
+this task; the recess's rows, fill, rim and insets were read back off the
+regenerated goldens by the worker and are in the commit body.
+
+573. **[measure]** **Three stored dark toolbar search fields read three fills.** Voice Memos reads `#363636` on a `#1e1e1e` band, Finder `#262626` on the same band, Mail `#242d32` on a `#232a2e` one — the last two being the value `toolbarControlFill` carries for that capture's tinting, so two windows out of three draw their search field as the bordered control beside it and one draws a recess apart from it. The leading inset parts the same way, thirteen against ten. A dark toolbar search field in a fourth application, window-bounded at 1x with tinting off, would say which is the platform's and which is an application's.
+
+574. **[language]** **The Search field entry says the chrome recess has no edge, and the toolbar's measurably wears one.** `voicememos-window.png` carries a 1 px `#4d4d4d` rim the whole way round the toolbar recess — the ends as well as the top and bottom — which is the highlight every bordered control in a dark toolbar band wears; the sidebar recess wears none in either appearance. The entry's "no edge" reads true of the sidebar and false of the toolbar, and the wording is the ontology session's to settle.
+
+575. **[measure]** **A search field on a form spends the toolbar field's insets.** No stored capture holds a search field standing on a form, so the form variant draws at the 10 px and 8 px read off Mail's TOOLBAR field. A dialog or a panel carrying a search field, window-bounded at 1x in both appearances, would give the form variant a pair of its own.
+
+576. **[bug]** **The sidebar recess spends a hairline it does not draw.** Its trailing inset is `hairlineDp + control.TextTrailDp`, the form field's expression, so the clear mark stands one column further in than the recess's own edge measures. The leading inset was read off the recess's own edge and does not carry the extra column, so the field is not symmetric end to end.

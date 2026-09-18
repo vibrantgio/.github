@@ -11,8 +11,9 @@ field's leading inset is CG4.19, its origin, its trailing end and the
 pop-up's own label and mark are CG4.21, the pop-up's height, its
 label's origin and its mark's whole geometry are CG5.1, the
 switched-off controls and the states are CG5.2, the toolbar
-control's own fill, edge, corner and mark are CG5.2b, and its height read
-capture by capture is CG5.3b.
+control's own fill, edge, corner and mark are CG5.2b, its height read
+capture by capture is CG5.3b, and the toolbar search field's own recess is
+CG5.3e.
 
 ## What the stored captures measure
 
@@ -376,6 +377,7 @@ dark), against the sidebar recess's 28, and in the dark appearance it wears a
 1 px `#4d4d4d` rim above and below its `#363636` fill where the sidebar
 recess wears none. Its light fill is the recess's `#e8e8e8` and its dark fill
 is not, so neither capture corrects the other and both are recorded.
+Its own numbers are under "What the toolbar search field measures" below.
 
 **The sidebar's magnifier is the toolbar's glyph drawn wide.** The three
 stored search fields carry one drawing at one size — 13 × 13 px across its
@@ -412,6 +414,53 @@ sidebar search field in the dark appearance untinted. One capture closes it:
 a **window with a search field at the top of its sidebar, in the dark
 appearance, with "Tint window background with wallpaper colour" switched
 off**, window-bounded at 1x.
+
+## What the toolbar search field measures
+
+Added 2026-09-18 by CG5.3e, from `voicememos-window.png` and
+`voicememos-sidebar-light.png` — one capture per appearance of a FRONTMOST
+Voice Memos window (the traffic lights in both carry a fully saturated hue)
+whose toolbar carries a search field at its trailing end. Both are untinted:
+every channel of the field's fill and of the band under it is equal.
+Coordinates are window coordinates, and the light capture holds 38 rows above
+the window's own top outer edge, so its window-relative rows are the printed
+ones less 38.
+
+This is the SECOND recess the platform draws under the search field's name.
+It is not the sidebar recess above at another height, and it is not the
+bordered toolbar control of the section before it: it measures apart from
+both, and the three readings are recorded side by side.
+
+| what | measured | where | method |
+| --- | --- | --- | --- |
+| the recess's extent | 325 × **36 px** — x 643–967, y 8–43 dark; the same 325 × 36 light, x 699–1023, y 46–81 | `voicememos-window.png`, `voicememos-sidebar-light.png` | a luminance run down x=800 dark gives the rim row at y=8, the fill over y 9–42 and the rim row at y=43; one down x=750 light gives the fill over y 46–81 with no rim row on either side. The same 36 `Density.ToolbarControlHeight` carries, against the sidebar recess's 28 |
+| the recess's fill | `#e8e8e8` light, `#363636` dark | both | flat-region samples of the interior: light `#e8e8e8` over 10599 pixels of the band's own rows, dark `#363636` at every column of the flat middle. The light value is the sidebar recess's to the byte; the dark one is not — the sidebar reads `#2f3234` — and neither capture corrects the other. Recorded in `nscolors.tsv` as the measured material `toolbarSearchFill` |
+| the band it stands on | `#ffffff` light, `#1e1e1e` dark | both | the columns clear of the field in the same rows. Dark the recess stands 24 levels LIGHTER than its band, where the light one stands 23 levels darker than its: the direction does not survive the scheme, so the fill is a colour and not a coverage over what it stands on — the same reading the sidebar recess carries |
+| the recess's rim, dark | 1 px, `#4d4d4d`, the whole way round | `voicememos-window.png` | the rows at y=8 and y=43 read `#4d4d4d` flat over x 669–941 and fall away through the corners' antialiasing; the columns at x=643 and x=967 read `#4b4b4b` and `#4a4a4a` at the control's own middle row. It runs down the ends as well as across the top and bottom, so it is the CONTROL'S OWN EDGE and not the band's seam — and it is lighter than both its `#363636` fill and the `#1e1e1e` band, which is the highlight every bordered control in a dark toolbar band wears (`#404040` over Finder's `#262626`, `#374852` over Mail's `#242d32`). `separatorColor` over the fill gives `#4a4a4a`, three of 255 short of the pixel, which is the miss that name carries here against five over Finder's control |
+| the recess's rim, light | NONE | `voicememos-sidebar-light.png` | the runs above step from the band to the fill in one row and one column, with no darker or lighter row or column on any side and only the corner's antialiasing between |
+| the recess's corner | fully rounded — half its height | `voicememos-window.png` | a circular fit to the sub-pixel coverage of the left end, its extreme pinned at x=643.02: r = 18.35, rms 0.17 px over all 36 rows, about a centre row of 25.90 against the control's own 25.5. The half-height is 18, and the excess is the continuous curve every corner in this reference fits above |
+| the magnifier | 13 × 13 px | both | x 657–669 dark, x 713–725 light: the toolbar glyph's own size, the one `mail-window.png` reads it at |
+| the glyph's leading inset, THIS application | 13 px | both | the fill's first column to the glyph's first: x 644 to x 657 dark, x 700 to x 713 light. `mail-window.png` and `finder-window-untinted-dark.png` both read TEN instead — Mail's fill from x=868 with its glyph at x=878, Finder's from x=1158 with its glyph at x=1167 — so ten is the platform's number read twice over and thirteen is Voice Memos' own |
+| the gap, THIS application | 7 px | `voicememos-window.png` | the glyph's last pixel at x=669 against the prompt's first at x=677. `mail-window.png` reads EIGHT (x 890 to x 899), which is the number recorded at the head of this reference and the one the library spends |
+| the magnifier's and the prompt's colour | `placeholderTextColor` over the recess — black at 127/255 light, white at 140/255 dark | both | light: both bottom out at `#747474`, which is that coverage over `#e8e8e8` to the byte; dark: both peak at `#a4a4a4`, which is white at 140/255 over `#363636` to the byte, where 127/255 would land at 154. The mark and the prompt are one colour, as they are in the sidebar's recess |
+
+**Two other windows draw their toolbar search field at the bordered control's
+own fill.** Finder's reads `#262626` on a `#1e1e1e` band in
+`finder-window-untinted-dark.png` and Mail's `#242d32` on a `#232a2e` band in
+`mail-window.png` — in both, the value of `toolbarControlFill` for that
+capture's tinting, not a recess apart from it. Neither of those two windows'
+LIGHT toolbars holds a recess to read at all: every pixel of their bands and
+of the controls in them is within a few 255ths of white, and the only
+`#e8e8e8` in any stored light toolbar is Voice Memos'. So the two readings
+stand side by side and neither corrects the other; what this library draws a
+toolbar search field as is Voice Memos', which is the application the Language
+names for it.
+
+**The rim is the band's answer and not the search field's.** Every bordered
+control in every stored DARK toolbar wears the same 1 px highlight, and no
+control in any stored LIGHT toolbar wears one. A recess drawn in that band
+takes it with the rest of them, which is why the toolbar recess wears an edge
+where the sidebar recess wears none.
 
 ## Where the measured heights supersede the published ones
 
@@ -461,6 +510,16 @@ Save panel draws, which is why the two instruments are read as agreeing. The
 older reading is kept here so a later task does not rediscover it as a
 contradiction; the published-over-measured ruling of 2026-09-10 was reversed
 on 2026-09-11, and the density scale now takes the measured height.
+
+Three stored windows draw a toolbar search field in the dark appearance and
+they do not agree on its fill: Voice Memos reads `#363636` on a `#1e1e1e`
+band, Finder `#262626` on the same `#1e1e1e`, and Mail `#242d32` on a
+`#232a2e` one — the last two being the value `toolbarControlFill` carries for
+that capture's tinting. The leading inset parts the same way, thirteen against
+ten. No capture corrects another; all three are recorded above, and what this
+library draws is Voice Memos' fill at Mail's insets, Voice Memos being the
+application the Language names for the toolbar search field and ten being the
+inset two windows read.
 
 ## What the density scale takes
 
