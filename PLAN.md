@@ -22413,3 +22413,24 @@ with Rene on the ruling sheet.
   and `design/mirror`; guard clean; commit and push in every touched
   repo and `.github`.
 
+
+#### CG5.11: The set's band is a fixed device width per size
+
+- [ ] Rulings of 2026-09-18 via the ontology session, measured beats
+  published. `components/icons`: where a capture holds a small
+  symbol (the sidebar's 15-high marks in `voicememos-window.png`,
+  the 13 by 13 magnifier in the field), the band's device width at
+  that size is read off it and the set's band is a fixed device
+  width per size, the 1.4-unit rule kept for the 19 keyline alone;
+  sizes no capture holds join 425's list. The small folder's flap gap
+  is the capture's own 1.24 px and is stated in the set's doc as an
+  exception beside the three there; no redraw below 24 dp without a
+  capture. The diagonal allowance is measured off `check` and `clear`
+  where a capture holds either, else it joins 425 with 671.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+  `workbench` and every consumer whose golden moved by name, `design`
+  and `design/mirror`; guard clean; commit and push in every touched
+  repo and `.github`.
+
