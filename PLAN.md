@@ -22363,7 +22363,12 @@ with Rene on the ruling sheet.
   no halo pixel beyond the viewport. The gallery's focus sheet drops
   the light row that coincides with another (`CardFill` and
   `SidebarMaterial` are both `#f7f7f7` light) or labels the pair as
-  one, so no two rows are the same test.
+  one, so no two rows are the same test. `design/mirror`'s
+  `pushButtonLabelFloor` retires: both pairs it was fitted for now
+  pass the one Tolerance (0.0178 and 0.0176 against 0.0223), so the
+  ceiling is one number again; `TestPageVarClosure` covers every
+  hand-authored page in `design/components` as well as the generated
+  three, so a `var()` that resolves to nothing fails.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included.
 - [ ] Exit: green in `components`, `components/gallery` and every
