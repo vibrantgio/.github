@@ -21889,8 +21889,13 @@ with Rene on the ruling sheet.
   (the save dialog's focused field shows it), the control keeping its
   own edge and fill; the button's one-pixel darker ring inside the
   accent fill goes, and the checkbox's and radio's focused paint no
-  longer replaces the 16 dp box with a larger one. The halo is drawn
-  in one place the controls share.
+  longer replaces the 16 dp box with a larger one. The platform's
+  halo lies outside the control's own box (the save dialog's ring
+  sits two columns outside the field), so the control either reports
+  the box the halo needs or paints the halo past its clip as the
+  platform does; decide from the measurement and say so, since CG5.3
+  read the checkbox's ring as 23 painted rows in a 22 dp footprint.
+  The halo is drawn in one place the controls share.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the focused specimens
   beside the save dialog.
