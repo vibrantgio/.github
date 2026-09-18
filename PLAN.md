@@ -21800,7 +21800,13 @@ with Rene on the ruling sheet.
   label wears `TertiaryLabel`, the one name that matches the save
   dialog's switched-off checkbox labels in both appearances (66/255
   light, coinciding with `DisabledControlText`'s 63/255 dark, read by
-  CG5.2); the push button's wording keeps `DisabledControlText`.
+  CG5.2); the push button's wording keeps `DisabledControlText`. The
+  switched-off label is read in both appearances and the name that
+  matches each stands, even where the two appearances land far apart
+  in Lc (the platform's own relation, stated in the comment). The
+  live `picker.Field` sets `FieldState.Hovered` and `Pressed` from
+  its clickable, so CG5.2's measured states are drawn in a running
+  application and not only in the static render.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included.
 - [ ] Exit: green in `theme`, `components`, `components/gallery` and
@@ -21818,7 +21824,10 @@ with Rene on the ruling sheet.
   measures its own), a checkmark beside the current item, and it
   opens over the trigger with the current row aligned to it rather
   than dropping below. Its corner and shadow follow the existing pool
-  items 170, 329 and 416, which close with this task.
+  items 170, 329 and 416, which close with this task. The trigger
+  while its menu is open takes what the platform draws (read a capture
+  holding an open pop-up if one exists; else the held state, and the
+  capture goes on 425's list).
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the open menu beside the
   reference.
