@@ -3139,3 +3139,12 @@ touch. The reply is in `reviews/cg5.8-feeds-fresh-eyes.md`.
 692. **[bug]** **Three full-bleed hairlines run inside feeds' rail.** MEASURED by the fresh eyes at y=75, y=219 and y=267, every column x 0–190, `#e6e6e6` light and `#343434` dark. Neither reference draws one horizontal line anywhere in its sidebar — zero across Voice Memos' eight rows and one heading, zero across Finder's seventeen and three. Two are wrong on their own terms as well: the first stands between "Tech" and the three feeds it heads, and the last closes the run with 533 rows of empty rail under it.
 693. **[note]** **The document mark is a portrait figure in a column of square ones.** MEASURED by the fresh eyes off feeds' rail: our document draws 14 across by 20 down in the row's 24 dp square. The platform's row symbols measure 16–20 by 16–19 — Finder's Desktop 20×16, Applications 16×17, Documents 14×19, Voice Memos' folder 20×16. The mark is at the bottom of the width range and the top of the height range, which is what makes a column of them read taller than the platform's.
 694. **[decide]** **Every row in both reference sidebars carries a distinct symbol and ours carry one.** feeds draws the document on all three feeds, which is what CG5.8 chose and stated: the set carries no mark that says a feed. Whether a rail's rows should carry identity above their names at all — a per-feed mark, a favicon, a colour — and what the set would have to grow to answer it, is unruled.
+
+
+## CQ. From CG5.13, the band's leading cluster and what the captures do not hold
+
+Filed 2026-09-22 from the work itself. No fresh eyes were named for this task;
+the band's columns were read back off the regenerated goldens and are in the
+commit body.
+
+695. **[note]** **No stored capture holds a bordered control standing after a bare window title.** CG5.13 needed the room between the document's name and the first action beside it. `finder-window-light.png` puts its title at x 413-499 and its next control at x=694, and `finder-window-untinted-dark.png` its title at 412-468 and its next at x=740 — 194 and 271 clear columns, which is bare band and not a gap. `voicememos-window.png` puts nothing at all after "All Recordings". So the boundary was read on the side the captures do hold it, the fourteen between the navigation pair's last column at x=398 and the title's first painted one, and spent on both sides of the name. One capture closes it: a window whose toolbar carries a bare title with a bordered control immediately after it.

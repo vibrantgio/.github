@@ -22463,7 +22463,7 @@ with Rene on the ruling sheet.
 
 #### CG5.13: Vaultview's document actions stand after the document's name
 
-- [ ] Owner go 2026-09-22 on the band placement CG5.3o left
+- [x] Owner go 2026-09-22 on the band placement CG5.3o left
   unmeasured. Rescan and Switch Vault leave the reserved find slot's
   edge and stand at the leading end of the content column's share,
   after the navigation pair and the document's name, composed as the
@@ -22476,9 +22476,9 @@ with Rene on the ruling sheet.
   band between the actions and the find is the platform's own (Finder
   reads 255 at every column clear of a control). A test pins the
   columns with the find shut and open.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `workbench/vaultview` by name; guard clean;
+- [x] Exit: green in `workbench/vaultview` by name; guard clean;
   commit and push in `workbench` and `.github`.
 
 
