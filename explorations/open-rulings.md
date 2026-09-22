@@ -3111,21 +3111,6 @@ shadow — is recorded in `controls.md` under "What the sidebar panel measures".
 629. **[decide]** **The dark sidebar search field disagrees with Finder's.** `SidebarSearchFill` is `#2f3234`, measured by CG4.8 off System Settings' own sidebar field, and it is +19 of 255 over the dark panel with a blue cast where everything else in the panel is neutral. The fresh eyes read Finder's dark sidebar field at a neutral `#262626`, +8 over its background, and called ours the loudest thing in the dark panel after the selection. Two captures, two values; which is the platform's sidebar field is unruled.
 630. **[bug]** **The sidebar's selection pill is one pixel asymmetric.** MEASURED by the fresh eyes off `window-light.png`: the pill stands 10 px in from the panel's leading edge and 9 from its trailing one. Both references put it at 10 and 10 — `finder-window-untinted-light.png` x 52-341 in a fill spanning x 42-351, and Voice Memos x 74-273 in a panel spanning x 64-283. `patterns/sidebar` spends one inset at both ends, so the extra pixel is coming from the width the row is laid out at.
 
-## CM. From CG5.3o, the band's navigation and name and the find's fixed trailing end
-
-Filed 2026-09-18 from the measurement itself and from the fresh-eyes review of
-vaultview's whole window in both schemes, find shut and find open, beside the
-frontmost light Finder window and the untinted dark one. The review read this
-task's own result back off the images — the band at 52 with every item centred
-on 25.5, the bordered control at 38 by 36 standing y 8-43, the last control 8
-clear of the window's trailing edge, the find recess at 220 by 36 against
-Finder's expanded 222, the switched-off segment at 192 against Finder's 190 to
-191 — and three of its findings were recorded answers, which the record of the
-review states.
-
-631. **[bug]** **A bordered toolbar control now straddles the window's column boundary.** Reserving the find's open width in the band is what keeps every control still when the find opens, and it moved vaultview's two vault actions 182 px leftward: the rescan control stands x 764-801 where the note column meets the inspector at x=780, so 16 of its columns stand on the note's `#ffffff` and 22 on the inspector's `#f7f7f7`, and the seam that marks that boundary starts only at the band's foot. MEASURED by the fresh eyes off `window-light.png`. The band carries no fill of its own — recorded, and confirmed again here: `finder-window-light.png` reads 255 at every row of every column clear of a control — so a control straddling a boundary wears two fills. No stored capture holds a band whose controls cross a column edge.
-633. **[decide]** **The find's reserved room leaves 199 px of bare band when the find is shut.** The two rulings meet: the recess grows leftward from a fixed trailing end and no control walks when it opens, which means the open width is reserved whether the find is open or not. `workbench/vaultview`'s band now runs the vault switch to x=855 and the magnifier from x=1054 with nothing between them, where `finder-window-light.png` keeps 18 between its trio and its search capsule and `finder-window-untinted-dark.png` 18 between its trio and its expanded field. Those are two windows of different widths, and no stored capture shows ONE window with its search collapsed and expanded, so whether the platform reserves the room or moves the controls is unmeasured.
-
 ## CN. From CG5.9, the focus band's clip and the shadow geometry's move
 
 Filed 2026-09-18 from the work itself. No fresh eyes were named for this
