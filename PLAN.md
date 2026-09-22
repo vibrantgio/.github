@@ -22482,3 +22482,47 @@ with Rene on the ruling sheet.
   commit and push in `workbench` and `.github`.
 
 
+
+#### CG5.14: Switching the vault is a modal with Cancel that starts at the open vault
+
+- [ ] Owner finding and go 2026-09-22. `workbench/vaultview`'s Switch
+  Vault replaces the whole window with the folder browser, starts at
+  the vault's parent, and has no Cancel. It becomes a modal per the
+  Modal entry: a dialog at the floating level over a scrim with a
+  header ("Open Vault"), the folder browser as its body starting at
+  the currently open vault with that folder selected, and a footer
+  of Cancel and Open, Open the default action (Filled) and Cancel
+  Ghost as mindchat's settings dialog has them; Cancel and Escape
+  close it with nothing changed; Open switches the whole window to
+  the chosen vault as today. The first launch with no vault keeps the
+  full-screen picker, since there is no window to stand over. The
+  model gains the modal's open state; `SwitchVault`, `OpenVault` and
+  a new cancel message follow; tests cover start directory, Cancel
+  and Open.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of the open modal beside
+  the save dialog capture, both schemes.
+- [ ] Exit: green in `workbench/vaultview` by name; guard clean;
+  commit and push in `workbench` and `.github`.
+
+#### CG5.15: On macOS the vault is chosen with the platform's Open panel
+
+- [ ] Owner go 2026-09-22: the platform's own folder chooser on
+  macOS, the library's modal (CG5.14) elsewhere. `theme/system` (or a
+  sibling package where the cgo shim lives, `nscolors_darwin.*` as
+  the pattern) gains a darwin-only call that presents `NSOpenPanel`
+  as a sheet on the application's window, directories only, one
+  selection, starting at the given directory, with Cancel and the
+  default Open, returning the chosen path or nothing; on other
+  platforms the call reports that no panel exists. `workbench/vaultview`'s
+  Switch Vault asks it first and falls back to CG5.14's modal where
+  it reports none; Open switches the whole window as before. The
+  sheet is the platform's and the library draws nothing of it; a
+  test covers the fallback and, on darwin, that the call is reached
+  (the panel itself is not driven in a test).
+- [ ] Goldens do not move (the platform's sheet is not captured).
+- [ ] Exit: green in `theme` and `workbench/vaultview` by name on
+  darwin, `workbench` builds with `GOOS=linux`; guard clean; commit
+  and push in every touched repo and `.github`.
+
+
