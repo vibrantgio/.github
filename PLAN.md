@@ -22485,7 +22485,7 @@ with Rene on the ruling sheet.
 
 #### CG5.14: Switching the vault is a modal with Cancel that starts at the open vault
 
-- [ ] Owner finding and go 2026-09-22. `workbench/vaultview`'s Switch
+- [x] Owner finding and go 2026-09-22. `workbench/vaultview`'s Switch
   Vault replaces the whole window with the folder browser, starts at
   the vault's parent, and has no Cancel. It becomes a modal per the
   Modal entry: a dialog at the floating level over a scrim with a
@@ -22499,10 +22499,10 @@ with Rene on the ruling sheet.
   model gains the modal's open state; `SwitchVault`, `OpenVault` and
   a new cancel message follow; tests cover start directory, Cancel
   and Open.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the open modal beside
   the save dialog capture, both schemes.
-- [ ] Exit: green in `workbench/vaultview` by name; guard clean;
+- [x] Exit: green in `workbench/vaultview` by name; guard clean;
   commit and push in `workbench` and `.github`.
 
 #### CG5.15: On macOS the vault is chosen with the platform's Open panel
