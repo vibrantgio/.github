@@ -22552,3 +22552,32 @@ with Rene on the ruling sheet.
   touched repo and `.github`.
 
 
+
+#### CG5.17: The dialog's corner, its Cancel and the browser's rows are the platform's measured ones
+
+- [ ] Rulings of 2026-09-22 via the ontology session, measured beats
+  published. `patterns/modal`'s surface takes the save dialog's
+  measured corner radius (read off `save-dialog-{light,dark}.png`, a
+  fit as the recess's ends were; the fresh eyes read about 17) in
+  place of `RadiusScale.Lg`'s 6. A dialog's Cancel is a filled push
+  button as the save dialog measures (`PushButtonFill` under
+  `ControlText`, the platform's Cancel at x 359–432), not Ghost,
+  org-wide: `patterns/modal`'s decision footer, mindchat's settings,
+  feeds' add-feed dialog, vaultview's chooser and vault switch, the
+  gallery's modal specimen; the Ghost emphasis stays for what the
+  platform draws as a bare control. The folder browser shows names as
+  the platform's open panel does: the folder's name and a trail of
+  names, no ".." row and no literal "/" root (the rule that keeps
+  internal spellings out of published text), and its rows carry the
+  name, the kind and the count in the open panel's own columns
+  (measure them off a capture if one holds the panel; none is known,
+  so the sidebar row's columns stand in, stated, and the capture is
+  on 425's list). The aside, the rail's rows and the band are
+  untouched.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included (every dialog in the org).
+- [ ] Exit: green in `patterns`, `components/gallery`, `workbench`
+  and its apps, `design` and `design/mirror` by name; guard clean;
+  commit and push in every touched repo and `.github`.
+
+
