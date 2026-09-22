@@ -22587,7 +22587,7 @@ with Rene on the ruling sheet.
 
 #### CG5.18: The gallery's hand-made high-contrast set is deleted
 
-- [ ] Ruling of 2026-09-22 via the ontology session, Decision 0010:
+- [x] Ruling of 2026-09-22 via the ontology session, Decision 0010:
   the gallery's high-contrast demonstration set (the accessibility
   page's derived set that drives every foreground to black and leaves
   the fills) is a Material leftover and goes, with its page, its
@@ -22597,9 +22597,9 @@ with Rene on the ruling sheet.
   reads (the semantic names change value; the code changes nothing);
   a capture with the setting on is on 425's list and the reader's
   honouring of the setting is stated in `theme/system`'s doc.
-- [ ] Goldens regenerate with the cause named where a page's index
+- [x] Goldens regenerate with the cause named where a page's index
   moves; the deleted goldens are named.
-- [ ] Exit: green in `components`, `components/gallery`,
+- [x] Exit: green in `components`, `components/gallery`,
   `workbench/sitedocs` by name; guard clean; commit and push in every
   touched repo and `.github`.
 
