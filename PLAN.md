@@ -22526,3 +22526,29 @@ with Rene on the ruling sheet.
   and push in every touched repo and `.github`.
 
 
+
+#### CG5.16: The default button's fill and the dialog's dark edge are measured
+
+- [ ] Measurements after CG5.14, measured beats published. The save
+  dialog's default push button measures `#157efb` in both appearances
+  (`save-dialog-{light,dark}.png` x 441–514, y 502–523) where the
+  library paints the published `ControlAccent` `#007aff` flat, and
+  `patterns/sidebar`'s pill already spends the measured value: the
+  default (Filled) button's fill joins `tokens.PlatformColors` as a
+  measured material (`DefaultButtonFill`, `appkit:"-"`, both schemes,
+  through the field walkers) and every Filled button takes it, its
+  label the measured white; pressed and hover overlays composite over
+  it as CG5.2 measured. The dialog's edge in dark is read off
+  `save-dialog-dark.png` (the sheet's rim against the window behind
+  it, if any) and `patterns/modal` draws what is measured, so a dark
+  dialog is told from the window it stands over. The folder
+  browser's rows carry the folder symbol (`icons.Folder`, the row's
+  kind per the Sidebar entry) at the sidebar row's measured column.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included (every Filled button in the org).
+- [ ] Exit: green in `theme`, `effects/transition`, `components`,
+  `components/gallery`, `patterns`, `workbench` and its apps, `design`
+  and `design/mirror` by name; guard clean; commit and push in every
+  touched repo and `.github`.
+
+
