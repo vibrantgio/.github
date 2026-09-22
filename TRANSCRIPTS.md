@@ -977,3 +977,8 @@ three Voice Memos captures on macOS 26 in answer to what he sees —
 the sidebar an inset rounded panel with a rim and a shadow, the
 window buttons inside it, its marks bare, no seam): The sidebar
 doesn't look like a sidebar anymore. ^0005-sidebar-is-a-panel
+
+Rene (asked why "open" would be better than "open-folder", told the
+set names a mark by what it depicts and both captures hold a closed
+folder, so the names are refresh and folder): OK tell vibrantgio I
+agree with you ^0005-icon-names-depict
