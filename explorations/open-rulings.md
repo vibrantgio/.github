@@ -3182,13 +3182,3 @@ bodies.
 
 727. **[note]** **A button's box became a budget rather than a cap org-wide.** `components/button` measured its label inside the box it was given and elided what did not fit; CG5.20 needed the platform's rule instead — a push button is sized to its label with a minimum under it — so the label is now measured at its own width and the button draws the wider of the two. Every button in the organization takes that, not only a dialog's footer. No stored image moved except the two the footer's width moved, so nothing in the tree was relying on the elision; a caller that hands a button a box too small for its label now gets an overflowing button where it used to get a clipped label.
 
-
-## CU. From CG5.22, the halo over a list of two fills
-
-Filed 2026-09-22 from the work itself. No fresh eyes were named; the band's
-two colours were read back off the live dialogs against the flattened values
-and the numbers are in the commit body.
-
-731. **[note]** **A hovered row under the band still reads as the list's own fill.** The chooser paints `SelectedContentBackground` under the row the pointer is over as well as under the selected one, and `list.Halo` is told about the selection alone, so a pointer resting on the first or last row of a focused list leaves the band's over half composited over the surface the list stands on where that row's fill is what it lands on. Whether the hover is the list's business at all — it is the caller's paint today — is the question under it.
-
-732. **[note]** **`list.Halo` takes one row fill, not a fill per row.** `focus.Fill` carries a box and a colour and the halo paints one pass per fill, so a list whose rows each carry their own fill — alternating rows, a table's banding, a row marked by its content — could hand the band all of them; the list hands it the selected row and nothing else, because that is the only fill the library's own lists paint. A list that paints per-row fills needs the entry point to take them.

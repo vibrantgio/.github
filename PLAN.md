@@ -22717,7 +22717,11 @@ with Rene on the ruling sheet.
   only where it stands in the content or a dialog (the caller says
   the place, or the wrapper is what says it: state which). vaultview's
   rail, mindchat's rail and feeds' rail take the two states; tests
-  read both pill states off a capture in both schemes.
+  read both pill states off a capture in both schemes. `list.Halo`
+  is told every fill a row paints under the band (the selection and
+  a hovered row alike, per row where a list paints per row), so the
+  band's over half lands on what stands beneath it whichever row the
+  pointer rests on; `focus.Fill` already carries any number.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included.
 - [ ] Exit: green in `theme`, `components`, `components/gallery`,
