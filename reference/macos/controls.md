@@ -109,6 +109,11 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | push button width | 74 px, both buttons | same | x 359–432 and x 441–514 |
 | the label's cap band | 10 px, y 508–517 | same | the bounding box of the label's marks inside the fill, each cap read on its own |
 | the label's horizontal inset | "Cancel" 16 px leading, 17 trailing; "Save" 23 and 23 | same | the fill's edge to the first pixel of the label's marks |
+| the DEFAULT push button's fill | `#157efb`, BOTH appearances | same | flat-region samples of the "Save" button either side of its label, x 445-460 and x 496-512, y 505-520: `#157efb` over every one of those 528 pixels in each capture, and over 1386 of the whole button's 1628 (x 441-514, y 502-523). It is not `controlAccentColor`, which reports `#007aff` in both: the bezel the platform draws over the accent lands eleven of 255 off it on red and four on green, the same kind of lift `sidebarSelection` carries over the pill. Recorded in `nscolors.tsv` as the measured material `defaultButtonFill`. Read 2026-09-22 by CG5.16 |
+| that button's label | `#ffffff`, BOTH appearances | same | the plateau of "Save" inside the fill — 36 fully covered pixels light, 32 dark. It is `alternateSelectedControlTextColor` to the byte, which is what the library already pairs with a filled control. Read 2026-09-22 by CG5.16 |
+| the DEFAULT push button HELD | NOT MEASURED | `control-pressed-{light,dark}.png` | differenced against the resting sheet those captures change x 359-432, y 501-524 and nothing else, which is the "Cancel" button; the "Save" beside it holds its `#157efb` in both. So the reference measures the press overlay over the ORDINARY push button's fill alone (`#d5d5d5` light, `#474d52` dark) and nothing says the default button is exempt from it. A capture of a held default button is on the capture list. Read 2026-09-22 by CG5.16 |
+| the sheet's own rim | NONE, either appearance | `save-dialog-{light,dark}.png` | the sheet runs x 165-534 and its boundary steps in ONE column or row from the dimmed window to its own fill on every side: across y=300 and y=400, x 164 reads `#cccccc` light and `#191a1b` dark and x 165 reads `#ffffff` and `#232a2f`, with x 163 and x 166 flat on either side; x 534 and x 535 read the same way at the trailing edge, and the top and bottom rows (y 188 and y 544) agree at every column clear of the corners. No stroke of a third value stands anywhere on the boundary. So what tells a sheet from the window beneath it is the scrim alone — the window keeps 0.74 of itself under the measured dim while the sheet keeps all of it. Read 2026-09-22 by CG5.16 |
+| the sheet's drop shadow | ABSENT from these captures | same | the dimmed window is flat to the byte right up to the sheet: the column at x=163 reads `#191a1b` over 316 of the 318 rows scanned dark and x=164 the same, identical to the window at x=0, with no ramp on any side. This says nothing about what the platform draws: every capture here is window-bounded with `screencapture -o -l`, which ADR-019 records as EXCLUDING the drop shadow. So the sheet's shadow cannot be read off these files, and the library keeps drawing the floating shadow it has measured elsewhere. Read 2026-09-22 by CG5.16 |
 
 ## What the toolbar control measures
 
@@ -311,9 +316,12 @@ light and `#333a3f` dark this row reads off "Cancel" are recorded in
 `controlColor` is not that value in either appearance: it reports `#ffffff`
 light and white at a quarter dark, which is the bezel's backing rather than
 the fill the platform draws. The "Save" button beside it is the default
-action and reads `#157efb`, the accent under the bezel's own gradient;
-that gradient is not recorded, so a consumer paints `controlAccentColor`
-flat.
+action and reads `#157efb` in BOTH appearances — the accent under the
+bezel's own gradient — and CG5.16 recorded that pixel as the measured
+material `defaultButtonFill`, because `controlAccentColor` is `#007aff` in
+both and a consumer painting it flat paints a colour the platform does not
+draw. The gradient itself is still not recorded, so a consumer paints
+`defaultButtonFill` flat.
 
 **The inset is not a padding here.** Both buttons measure 74 px wide while
 their labels measure 41 px and 28 px, so both are sitting at the platform's
