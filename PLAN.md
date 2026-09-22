@@ -22635,7 +22635,14 @@ with Rene on the ruling sheet.
   dialog in the org takes it (mindchat's settings, todos, sk150,
   vaultview's switch, the gallery specimen, the bundle's dialog.html),
   and vaultview's local constant goes; a label wider than 74 widens
-  its button by the label's measure alone, stated.
+  its button by the label's measure alone, stated. The Modal entry
+  (.github e2ce297) binds: the first field holds the keyboard focus
+  when a dialog opens, as the platform's sheet shows; `patterns/modal`
+  requests focus for its body's first focusable control on open and
+  every dialog in the org shows it (a test opens mindchat's settings
+  and reads the halo on its first field). The pattern's doc notes
+  that a dialog has no footer band and no hairlines of its own, as
+  the sheet has none.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; the mirror's dialog-decision pair at its
   ceiling.
