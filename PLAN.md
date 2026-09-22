@@ -22438,7 +22438,13 @@ with Rene on the ruling sheet.
   the count is placed so its last covered column lands there, not
   its layout box (the digit's side bearing read and subtracted, as
   the text field's origin is). `workbench/vaultview/frame.go` is
-  gofmt-clean. The row's symbol wears the measured
+  gofmt-clean. Rene ruled 2026-09-18 on the two coined icon names: a
+  mark is named by what it depicts, and both captures hold a closed
+  folder, so `open-folder` goes and Switch Vault's mark is
+  `icons.Folder`, the same mark as the sidebar row's; `refresh`
+  stays. The set has no consumer outside the org that holds the
+  name, so no alias is kept; every caller and the set's doc follow.
+  The row's symbol wears the measured
   colour, `#000000` light and `#ffffff` dark off
   `voicememos-multi-folder-2026-09-18.png` and `voicememos-sidebar-dark.png`,
   recorded as a measured value of the sidebar (`SidebarSymbol`,

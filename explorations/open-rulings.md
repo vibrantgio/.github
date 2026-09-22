@@ -3096,20 +3096,6 @@ regenerated gallery goldens by the worker and are in the commit body.
 
 568. **[bug]** **A component's op order moves text pixels across the whole gallery page.** Removing one `paint.FillShape` from the checkbox moved 66 scattered text pixels in `components-light.png` and 85 in `components-dark.png` by one 255th, in families the change does not touch, because the glyph atlas packs differently when the op stream changes. The regenerated images are stable across runs, so the gate still works, but every component change now carries unrelated text churn in its golden diff and a real one-255th text regression would be invisible inside it. Confirmed again by CG5.9 (675): the gallery's components goldens moved 453/691 one-255th text pixels on an unrelated op-stream change.
 
-## CK. From CG5.3l, the vault's actions and the find in the toolbar band
-
-Filed 2026-09-18 from the measurement itself and from the fresh-eyes review of
-vaultview's whole window in both schemes, find shut and find open, beside the
-frontmost Finder and Mail bands the composition was measured from. The review
-read every number this task set back off the images — the band at 52, every
-item 36 tall at y 8-43, the last control 8 clear of the window's trailing
-edge, the recess 220 by 36, the order running actions then search — and two of
-its findings were measured misreads that were not acted on: that the band
-should carry one material of its own, and that a toolbar control casts no
-shadow. Both are answered in the record of the review.
-
-607. **[decide]** **A worker coined two names in the shared icon set.** `components/icons` gained `refresh` and `open-folder` because both of the task's fallbacks were closed: the set held no mark that says either control, and the chrome variant draws no text — every document action in all five stored toolbar bands carries a symbol and not one carries a word. The drawing behind `open-folder` is measured off `mail-window.png`'s folder pull-down (19 by 15 px, band 1.34); `refresh` has no capture anywhere in the reference and is drawn to the grid alone, as `disclosure`, `clear` and the two history marks are. The set's names are published contract and stable once published, and these two were chosen by a worker rather than coined or approved. Note from CG5.7: both captures hold a closed folder, so `folder` and `open-folder` are two closed folders today; whichever names Rene gives, one drawing may serve both or the second wants an open-folder capture.
-
 ## CL. From CG5.3n, the sidebar as the platform's inset panel
 
 Filed 2026-09-18 from the measurement itself and from the fresh-eyes review of
