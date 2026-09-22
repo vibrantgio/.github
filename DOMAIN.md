@@ -960,8 +960,11 @@ Memos. No seam parts it from the content; the window's plane around
 it does. Expanded it shows icons and labels, collapsed icons alone —
 collapsed, it is a rail. Its rows stand at the sidebar's own row
 height, each a symbol, a label and, at the trailing end, a count
-when the entry has one; sections are headed by a small label and
-parted by space alone. The active
+when the entry has one. The symbol names the kind of entry, so rows
+of one kind share it, as Voice Memos' folders do. Sections are
+headed by a small label and parted by space alone; a section that
+collapses keeps that header and takes the platform's disclosure at
+its trailing end, measured, never an accordion row. The active
 entry is marked the platform's way: a pill inset from the sidebar's
 edges, rounded, in the sidebar's own selection colour with a white
 label — measured into the reference from Voice Memos,
