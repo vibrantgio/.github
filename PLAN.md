@@ -22678,7 +22678,7 @@ with Rene on the ruling sheet.
 
 #### CG5.22: A focused list's halo composites over what each half stands on
 
-- [ ] Defect after CG5.21. `list.Halo` hands `focus.Halo` one colour
+- [x] Defect after CG5.21. `list.Halo` hands `focus.Halo` one colour
   for both halves of the band, so where a selected row reaches the
   list's edge (the opening state of both vaultview dialogs) the half
   over the box is the ring over the surface, not over the row's
@@ -22691,9 +22691,9 @@ with Rene on the ruling sheet.
   paints the over half by coverage rather than by a flattened colour,
   stated. A test reads the band's over half on a selected first row
   and on an unselected one.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `components`, `components/gallery`,
+- [x] Exit: green in `components`, `components/gallery`,
   `workbench/vaultview` by name; guard clean; commit and push in every
   touched repo and `.github`.
 
