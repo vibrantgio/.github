@@ -22604,3 +22604,43 @@ with Rene on the ruling sheet.
   touched repo and `.github`.
 
 
+
+#### CG5.19: A push button draws no edge, as the save dialog measures
+
+- [ ] Measurement after CG5.17. `controls.md` records the save
+  dialog's "Tags:" field as the only unfocused enabled control on
+  that sheet that draws an edge; the pop-up and both push buttons
+  meet the sheet with no edge column. `components/button`'s Tonal
+  emphasis sets an edge (`edged`), so every Tonal button in the org,
+  and since CG5.17 every dialog's Cancel, carries a hairline the
+  platform does not draw. The edge goes (read the Cancel's boundary
+  rows in `save-dialog-{light,dark}.png` and state them); the button
+  keeps its fill, its hover and press overlays and its faded state;
+  whatever else `edged` served (the Ghost emphasis's rim, if any) is
+  read against a capture and kept only where measured.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included (every Tonal button in the org, the bundle's
+  `.btn.tonal`, the mirror's button-tonal pair at its ceiling).
+- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+  `workbench` and its apps, `design` and `design/mirror` by name;
+  guard clean; commit and push in every touched repo and `.github`.
+
+#### CG5.20: A dialog's footer buttons measure the platform's 74
+
+- [ ] Measurement after CG5.17. The save dialog's Cancel and Save are
+  74 dp wide (x 359–432, x 441–514, `controls.md`), which vaultview
+  alone pins as `dialogButtonWDp`; mindchat's settings footer draws
+  100. `patterns/modal`'s decision footer owns the width: its buttons
+  are 74 wide with the 8 gap and 20 insets it already spends, every
+  dialog in the org takes it (mindchat's settings, todos, sk150,
+  vaultview's switch, the gallery specimen, the bundle's dialog.html),
+  and vaultview's local constant goes; a label wider than 74 widens
+  its button by the label's measure alone, stated.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; the mirror's dialog-decision pair at its
+  ceiling.
+- [ ] Exit: green in `patterns`, `components/gallery`, `workbench`
+  and its apps, `design` and `design/mirror` by name; guard clean;
+  commit and push in every touched repo and `.github`.
+
+
