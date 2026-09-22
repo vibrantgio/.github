@@ -22642,7 +22642,10 @@ with Rene on the ruling sheet.
   every dialog in the org shows it (a test opens mindchat's settings
   and reads the halo on its first field). The pattern's doc notes
   that a dialog has no footer band and no hairlines of its own, as
-  the sheet has none.
+  the sheet has none. `controls.md`'s toolbar control rim row gains
+  the hovered reading (`#485760` against `#374851` at rest, dark,
+  `control-hover-dark.png`; none in light), and `buttonColors`' doc
+  cites the Finder pop-up as a bordered control, not a bare one.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; the mirror's dialog-decision pair at its
   ceiling.
