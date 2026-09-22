@@ -22507,7 +22507,7 @@ with Rene on the ruling sheet.
 
 #### CG5.15: On macOS the vault is chosen with the platform's Open panel
 
-- [ ] Owner go 2026-09-22: the platform's own folder chooser on
+- [x] Owner go 2026-09-22: the platform's own folder chooser on
   macOS, the library's modal (CG5.14) elsewhere. `theme/system` (or a
   sibling package where the cgo shim lives, `nscolors_darwin.*` as
   the pattern) gains a darwin-only call that presents `NSOpenPanel`
@@ -22520,8 +22520,8 @@ with Rene on the ruling sheet.
   sheet is the platform's and the library draws nothing of it; a
   test covers the fallback and, on darwin, that the call is reached
   (the panel itself is not driven in a test).
-- [ ] Goldens do not move (the platform's sheet is not captured).
-- [ ] Exit: green in `theme` and `workbench/vaultview` by name on
+- [x] Goldens do not move (the platform's sheet is not captured).
+- [x] Exit: green in `theme` and `workbench/vaultview` by name on
   darwin, `workbench` builds with `GOOS=linux`; guard clean; commit
   and push in every touched repo and `.github`.
 

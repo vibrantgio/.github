@@ -3139,3 +3139,13 @@ touch. The reply is in `reviews/cg5.8-feeds-fresh-eyes.md`.
 693. **[note]** **The document mark is a portrait figure in a column of square ones.** MEASURED by the fresh eyes off feeds' rail: our document draws 14 across by 20 down in the row's 24 dp square. The platform's row symbols measure 16–20 by 16–19 — Finder's Desktop 20×16, Applications 16×17, Documents 14×19, Voice Memos' folder 20×16. The mark is at the bottom of the width range and the top of the height range, which is what makes a column of them read taller than the platform's.
 694. **[decide]** **Every row in both reference sidebars carries a distinct symbol and ours carry one.** feeds draws the document on all three feeds, which is what CG5.8 chose and stated: the set carries no mark that says a feed. Whether a rail's rows should carry identity above their names at all — a per-feed mark, a favicon, a colour — and what the set would have to grow to answer it, is unruled.
 
+
+## CQ. From CG5.15, the platform's Open panel
+
+Filed 2026-09-22 from the work itself. No fresh eyes were named: the library
+draws nothing of the panel, so there is no composition of ours to review. The
+panel was verified end to end against a Gio window instead — the sheet
+attached to it, Escape answered nothing, Open answered the directory.
+
+706. **[note]** **The `GOOS=linux` build gate cannot be run in this checkout.** `gioui.org/app` on linux is cgo-only — with `CGO_ENABLED=0` every file in `gioui.org/internal/vk` is excluded and the build stops at the import — and this machine carries no linux C toolchain and no container runtime, so `GOOS=linux go build ./...` fails identically at HEAD and after any change. `GOOS=windows CGO_ENABLED=0` does build, and compiles the same `!darwin` files, so it stands in for the tag proof. Several exits in this phase state the linux build as a step a worker can verify; on this machine none can.
+707. **[note]** **The platform's own open panel can now be measured.** CG5.14 states 560 by 340 dp for the switch dialog because no stored capture held the platform's panel and its size therefore had no reading (`vaultPickerRows`' comment says so). macOS now presents that panel over this application's own window, so a capture of it is obtainable without launching another application — which is what would replace the stated number with a measured one, in `reference/macos` and ADR-019.
