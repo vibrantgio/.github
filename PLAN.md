@@ -22698,3 +22698,30 @@ with Rene on the ruling sheet.
   touched repo and `.github`.
 
 
+
+#### CG5.23: A list shows its focus as the platform does for its place
+
+- [ ] Language, the List entry at .github 1ecfad1: a list is a
+  focusable wherever it stands and shows the focus as the platform
+  does for its place, the halo in the content or a dialog, the pill's
+  colour in a sidebar, the held row and no ring in a menu; the
+  Sidebar entry: the accent pill with a white label while the sidebar
+  holds the keyboard, the grey pill with the label in the accent
+  colour while it does not, both measured. `patterns/sidebar` draws
+  the two pill states off `voicememos-sidebar-dark.png` and
+  `finder-sidebar-unfocused-{light,dark}.png` (the grey pill's fill
+  and the accent label, measured and recorded in `controls.md` and
+  the platform set if new), switching on whether its list holds the
+  keyboard, and draws no halo; `components/picker`'s menu keeps the
+  held row and draws no ring; `components/list` draws `list.Halo`
+  only where it stands in the content or a dialog (the caller says
+  the place, or the wrapper is what says it: state which). vaultview's
+  rail, mindchat's rail and feeds' rail take the two states; tests
+  read both pill states off a capture in both schemes.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `theme`, `components`, `components/gallery`,
+  `patterns`, `workbench` and its apps by name; guard clean; commit
+  and push in every touched repo and `.github`.
+
+

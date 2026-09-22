@@ -3171,7 +3171,6 @@ measured off the four images; none of it is inside CG5.17's stated result.
 
 718. **[decide]** **mindchat's default-model pop-up begins at a column nothing else uses.** x=512 against 414/415 for every other control in that column; its trailing edge at 772 is the column's. A one-app alignment defect the reviewer found while reading the sheet.
 
-
 ## CT. From CG5.20, the dialog footer's width and the opening focus
 
 Filed 2026-09-22 from the work itself. No fresh eyes were named; the footer's
@@ -3183,10 +3182,3 @@ bodies.
 
 727. **[note]** **A button's box became a budget rather than a cap org-wide.** `components/button` measured its label inside the box it was given and elided what did not fit; CG5.20 needed the platform's rule instead — a push button is sized to its label with a minimum under it — so the label is now measured at its own width and the button draws the wider of the two. Every button in the organization takes that, not only a dialog's footer. No stored image moved except the two the footer's width moved, so nothing in the tree was relying on the elision; a caller that hands a button a box too small for its label now gets an overflowing button where it used to get a clipped label.
 
-## CU. From CG5.21, the list as a dialog's focusable
-
-Filed 2026-09-22 from the work itself. No fresh eyes were named; the band and
-the selected row were read back off the live frames in both schemes and the
-numbers are in the commit body.
-
-730. **[decide]** **Nothing states which lists are focusables.** `patterns/sidebar`'s rail and `components/picker`'s menu both lay out `list.LayoutSelectable` and neither is wrapped in `list.Halo` — correct, a rail's rows and a floating menu are not where the keyboard stands — but that is a reading of each call site rather than a rule. The Language says a list is the control for a sequence of rows the user moves through; it does not say when a list is itself the control the keyboard focus sits on. One entry would settle every future list.
