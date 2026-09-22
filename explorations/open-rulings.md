@@ -2910,8 +2910,6 @@ Filed 2026-09-08 from the task's own findings and Rene's ruling that `Drop` stay
 
 320. **[bug]** **Nothing tests that a gallery section's body fits its slot.** The gallery's section `Height` numbers are the only thing keeping a floating specimen inside its tile; the Open picker specimen pads its cell by the menu's measured height, but a next floating specimen (a tooltip, a popover) can paint over its neighbour with no test going red. A test that renders every section at its slot and asserts nothing paints outside it closes the hole.
 
-420. **[ruling]** **The sidebar's pill when the sidebar has no keyboard focus.** Finder never gives its sidebar focus, and its selected row is a grey pill with the label in the accent colour: light #efefef over the sidebar with the label #0072f7, dark #2a2a2a over #1c1c1c with the label #148fff (reference/macos finder-sidebar-unfocused-{light,dark}.png, 2026-09-13, same 32-tall geometry). Voice Memos, whose sidebar takes focus, paints the accent pill with a white label (#178bfb light, #1994fc dark). Whether our sidebar paints the grey pill when focus is elsewhere in the window belongs with 412, the key-window state; the accent pill stands as ruled until then.
-
 ## BV. From CG1.1, vaultview's three columns as one window
 
 Filed 2026-09-17 from the task's own findings and its fresh-eyes review

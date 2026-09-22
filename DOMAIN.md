@@ -769,7 +769,10 @@ it.
 The control for a sequence of rows: the user moves through them
 and may choose one, by pointer or keyboard. A chosen row is in the
 selection state. A menu is a list that floats; a table is a list
-whose rows have columns.
+whose rows have columns. A list is a focusable wherever it stands,
+and shows the focus as the platform does for its place: in the
+content or a dialog, the focus halo around the list; in a sidebar,
+the pill's colour; in a menu, the held row and no ring.
 
 ### Scroll area
 
@@ -969,8 +972,10 @@ collapses keeps that header and takes the platform's disclosure at
 its trailing end, measured, never an accordion row. The active
 entry is marked the platform's way: a pill inset from the sidebar's
 edges, rounded, in the sidebar's own selection colour with a white
-label — measured into the reference from Voice Memos,
-never edge to edge and never the list's selection colour.
+label while the sidebar holds the keyboard, and a grey pill with the
+label in the accent colour while it does not — both measured into
+the reference from Voice Memos and Finder, never edge to edge and
+never the list's selection colour.
 
 ### Status bar
 
