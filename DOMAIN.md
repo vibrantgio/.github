@@ -905,6 +905,8 @@ beneath is dimmed and deaf until the modal closes.
 Choosing a file or a folder is the platform's own open panel where
 the platform offers one, and the library's modal where it does not;
 on Open the whole window follows the choice.
+When a modal opens, its first field holds the keyboard focus, as the
+platform's sheet shows.
 
 ### Navbar
 
