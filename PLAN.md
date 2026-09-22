@@ -22654,3 +22654,24 @@ with Rene on the ruling sheet.
   commit and push in every touched repo and `.github`.
 
 
+
+#### CG5.21: A list at the front of a dialog takes the keyboard and shows it
+
+- [ ] Ruling of 2026-09-22 via the ontology session, the Modal and
+  Focused entries: on the platform a list at the front of a dialog
+  is a focusable like a field; it shows the focus halo around the
+  list (the one ring) and its current row selected, the open panel's
+  own folder when the panel opens. `workbench/vaultview`'s switch
+  dialog: the browser's list draws the halo around itself on open
+  and selects the row of the current vault's folder (or the first
+  row); its chooser declares its list as the body's focusable and
+  opens on it, not on the close mark, the list drawing the same halo
+  with its first row selected. The halo is `focus.Halo` around the
+  list's box, the selection the list's own; a capture of the open
+  panel's focused list is on 425's list for the byte. Tests read the
+  halo and the selected row on open in both dialogs, both schemes.
+- [ ] Goldens regenerate with the cause named, both schemes.
+- [ ] Exit: green in `workbench/vaultview` by name; guard clean;
+  commit and push in `workbench` and `.github`.
+
+
