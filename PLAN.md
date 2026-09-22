@@ -22627,7 +22627,7 @@ with Rene on the ruling sheet.
 
 #### CG5.20: A dialog's footer buttons measure the platform's 74
 
-- [ ] Measurement after CG5.17. The save dialog's Cancel and Save are
+- [x] Measurement after CG5.17. The save dialog's Cancel and Save are
   74 dp wide (x 359–432, x 441–514, `controls.md`), which vaultview
   alone pins as `dialogButtonWDp`; mindchat's settings footer draws
   100. `patterns/modal`'s decision footer owns the width: its buttons
@@ -22646,10 +22646,10 @@ with Rene on the ruling sheet.
   the hovered reading (`#485760` against `#374851` at rest, dark,
   `control-hover-dark.png`; none in light), and `buttonColors`' doc
   cites the Finder pop-up as a bordered control, not a bare one.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; the mirror's dialog-decision pair at its
   ceiling.
-- [ ] Exit: green in `patterns`, `components/gallery`, `workbench`
+- [x] Exit: green in `patterns`, `components/gallery`, `workbench`
   and its apps, `design` and `design/mirror` by name; guard clean;
   commit and push in every touched repo and `.github`.
 

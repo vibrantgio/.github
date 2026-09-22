@@ -3173,3 +3173,20 @@ measured off the four images; none of it is inside CG5.17's stated result.
 
 718. **[decide]** **mindchat's default-model pop-up begins at a column nothing else uses.** x=512 against 414/415 for every other control in that column; its trailing edge at 772 is the column's. A one-app alignment defect the reviewer found while reading the sheet.
 
+
+## CT. From CG5.20, the dialog footer's width and the opening focus
+
+Filed 2026-09-22 from the work itself. No fresh eyes were named; the footer's
+columns and the opening halo were read back off the regenerated goldens and
+the live frames against the captures, and the numbers are in the commit
+bodies.
+
+723. **[note]** **`controls.md` still says the hover overlay was read off a control that carries no fill at rest, which is the reading CG5.20 corrected in `buttonColors`.** Two paragraphs there — "What the state captures hold for a push button" and "The two pointer overlays disagree between the appearances" — rest on "hover off a Finder toolbar control that carries NO fill at rest". That control is the view pop-up, a bordered control: it carries `#242d32` against a `#232a2e` band dark and casts a drop shadow light, and CG5.20 has now measured its rim moving under the pointer too. So the hovered reading was taken over a control's own fill, not over the band, and the open question those paragraphs pose — whether the platform draws a weaker hover on a control that already carries a bezel — is asked about two readings that were both over a fill. The capture on the list (one control hovered and then held, dark) still settles the press half. Outside CG5.20's stated result, which named `buttonColors`' doc alone.
+
+724. **[decide]** **vaultview's switch dialog opens with the keyboard on a control that shows nothing.** Its body's first focusable is the folder browser's list, which draws no halo of its own and opens with no row picked (`v.list.Select(-1)` on every directory change), so the dialog is correctly focused and looks unfocused until the first arrow key. The platform's own panel opens with a row selected. Decide whether the browser picks its first row on open — which would also give Open a second meaning it does not have today — or whether a focused list wears a band of its own.
+
+725. **[decide]** **vaultview's "Choose a note" chooser declares no body focusable, so it still opens on its close X.** Its candidate rows are bare `widget.Clickable`s that paint a hover fill and no focus affordance, so handing them the opening focus would put the keyboard somewhere invisible. It is the one dialog in the org that does not open on its body. Settles with 724: a pick list needs a keyboard appearance before either dialog can use one.
+
+726. **[note]** **todos' dialog is not a `patterns/modal` dialog and now agrees with the sheet on two numbers out of four.** It draws its own scrim, surface and footer by hand, and CG5.20 gave its two answers the measured 74 and the 8 between them. Its surface is still a stated 650x200 with 12 dp insets against the pattern's content-hugging surface and the sheet's 20, and it keeps a 48 dp footer row. Either it becomes a `patterns/modal` caller or the plan states that this app is deliberately its own thing.
+
+727. **[note]** **A button's box became a budget rather than a cap org-wide.** `components/button` measured its label inside the box it was given and elided what did not fit; CG5.20 needed the platform's rule instead — a push button is sized to its label with a minimum under it — so the label is now measured at its own width and the button draws the wider of the two. Every button in the organization takes that, not only a dialog's footer. No stored image moved except the two the footer's width moved, so nothing in the tree was relying on the elision; a caller that hands a button a box too small for its label now gets an overflowing button where it used to get a clipped label.
