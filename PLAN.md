@@ -22701,7 +22701,7 @@ with Rene on the ruling sheet.
 
 #### CG5.23: A list shows its focus as the platform does for its place
 
-- [ ] Language, the List entry at .github 1ecfad1: a list is a
+- [x] Language, the List entry at .github 1ecfad1: a list is a
   focusable wherever it stands and shows the focus as the platform
   does for its place, the halo in the content or a dialog, the pill's
   colour in a sidebar, the held row and no ring in a menu; the
@@ -22722,9 +22722,9 @@ with Rene on the ruling sheet.
   a hovered row alike, per row where a list paints per row), so the
   band's over half lands on what stands beneath it whichever row the
   pointer rests on; `focus.Fill` already carries any number.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `theme`, `components`, `components/gallery`,
+- [x] Exit: green in `theme`, `components`, `components/gallery`,
   `patterns`, `workbench` and its apps by name; guard clean; commit
   and push in every touched repo and `.github`.
 

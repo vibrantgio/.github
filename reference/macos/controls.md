@@ -839,6 +839,59 @@ their labels on the same x=112. So the columns are the row's and not the
 folder mark's, and the half pixel between the two centres is not drawable at
 1x.
 
+## What the unfocused sidebar pill measures
+
+Added 2026-09-22 by CG5.23, from `finder-sidebar-unfocused-light.png` and
+`finder-sidebar-unfocused-dark.png` (320×600 at 1x, Finder's rail cropped to
+its own panel with the window FRONTMOST — the traffic lights carry their
+colours — and the keyboard somewhere other than the sidebar). The panel's rim
+stands at x=8 and x=317 in both, its fill reading `#fafaf9` light and
+`#1c1c1c` dark. They are the pair for the frontmost readings above, which
+`voicememos-sidebar-{light,dark}.png` hold.
+
+The readings that decide the section: **a sidebar's selection says where the
+keyboard is in the pill's colour, not in a halo**, and **that grey pill is a
+coverage over the rail rather than a colour of its own.** The row keeps its pill —
+the same box, the same corner — and the pill turns grey with its label, its
+symbol and its count in the accent. The platform draws no focus ring around
+a sidebar's list in either state.
+
+| what | measured | where | method |
+| --- | --- | --- | --- |
+| the pill's fill | **a coverage, not a value**: black at 11/255 light, white at 16/255 dark | both captures | the pill is NOT one colour. Read column by column across its middle row, the rail's own dither carries through it: light, `#fafaf9` goes to `#efefee` in 123 columns and `#fafafa` to `#efefef` in 108; dark, `#1c1c1c` goes to `#2a2a2a` in 164 and `#1b1b1b` to `#292929` in 59. A fill that carries the material's dither is translucent — an opaque paint would flatten it. Black at 11/255 lands both light pairs (250→239, 249→238) and white at 16/255 both dark ones (28→42, 27→41); 12/255 and 15/255 each miss one. Recorded as `SidebarSelectionUnemphasized` and flattened onto whatever the rail paints |
+| — the same fill, as a value | `#efefee` light, `#2a2a2a` dark | both captures | what the pixel reads on THESE rails, over 1846 of 1848 sampled pixels in each. It is not `UnemphasizedSelectedContentBackground`, which reports `#dcdcdc` and `#464646` — 19 of 255 off in light and 28 in dark. Recording the pixel rather than the coverage is what the section's second landing corrected: over `SidebarMaterial`'s untinted `#f7f7f7` the coverage lands `#ececec`, an 11 of 255 step as in the capture, where the pixel would have stood 8 under the rail. `PushButtonFill` IS `#ececec`, which is why it came nearest in light before; its dark value `#333a3f` is 21 off, so it is a coincidence of two greys and not a name |
+| the pill's box | x 18–307, y 212–243 — 290 by 32 | both captures | the run down x=250 steps into the fill at y=212 and out of it at y=244 in both captures, 32 rows, which is the sidebar row height already recorded. The row across y=228 steps in at x=18 and out at x=308 |
+| the pill's inset | 10 px from each of the panel's own edges | both captures | the panel's rim runs down x=8 and x=317, so the pill's x 18–307 leaves 10 columns clear on each side — the same 10 the frontmost pill reads against its own rail |
+| the pill's corner | 8 px | both captures | the leading edge's sub-pixel coverage down the top-left corner reads x=22.73, 20.91, 19.91, 19.45, 18.73, 18.45, 18.18 and 18.09 over y 212–219, and is straight at 18.07 from y=220. A circle of r=8 centred at (26, 220) lands those rows within 0.5 px and the last four within 0.1. As everywhere on this platform the corner is a continuous curve, which is why the first row sits half a pixel outside the circle |
+| the label's colour | `#0072f7` light, `#148fff` dark — no platform name | both captures | the row's name plateaus at `#0072f7` over 47 pixels light and `#148fff` over 43 dark, and the document mark beside it plateaus at the SAME value over 23 pixels in each. A vector mark takes no stem darkening, so two rasterizations agreeing on one value is the drawn colour and not a stem's shortfall — the argument `SidebarSymbol` is recorded on. It is the accent as the platform's vibrancy lands it on the pill, and no name in the set is it in both appearances: `ControlAccent`'s `#007aff` is 8 of 255 off in light and 21 in dark, and `SidebarSelection`'s own lift is 5 off in dark and 25 in light. Recorded as `SidebarSelectionUnemphasizedLabel`, following the theme colour as the pill does |
+| the symbol's colour | the label's, not `SidebarSymbol` | both captures | on the pill the mark wears the pill's own foreground, as it does on the accent pill — the 23-pixel plateau above IS the mark's |
+| a ring around the list | NONE | both captures | the 8 px of window plane at the panel's leading edge reads the plane, the rim reads `#ffffff` light and `#3a3a3a` dark, and the rows inside read the rail's fill: no band, at any coverage, on any side of the list in either capture |
+
+**What is open here.** `finder-window-untinted-{light,dark}.png` hold a pill
+in a window that is not FRONTMOST at all, and read `#f2f2f2` light over a
+`#f7f7f7` rail and `#2a2a2a` dark over `#1c1c1c`. Dark agrees with this
+section to the byte; light stands 3 of 255 apart on a rail that itself
+stands 3 apart, and the light non-frontmost capture carries a paler
+accent on its pill's mark (`#76b3f5`), so the two states are the same
+drawing at different vibrancy and the library paints one grey for both. What
+would close it is a light capture of a NOT-frontmost window taken beside a
+frontmost one under the same wallpaper tinting.
+
+What the dither closed. This section first recorded the pill as the pixel,
+and a fresh reading of the captures said the step was then 8 of 255 in light
+where the platform's is 11 — the capture's rail carries wallpaper tinting
+and `SidebarMaterial` is the untinted reading, so a pixel lifted from one
+lands short on the other. The dither settles it: the pill is a coverage, and
+a coverage lands the platform's own step on any rail. Light reads ΔL\* 3.83
+on the capture's rail and 3.82 on `SidebarMaterial`; dark reads ΔL\* 6.79 on
+both, the capture's rail and the material being the same `#1c1c1c`.
+
+What is still open is the LABEL on it, which is opaque — neither its 47-pixel
+plateau nor the mark's 23 carries the rail's dither — and so was read on a
+pill at `#efefee` and is drawn on one at `#ececec`. Eleven of 255 of pill
+under an opaque label is not a difference any capture in the reference can
+resolve; a light capture with wallpaper tinting OFF would.
+
 ## What the sidebar search field measures
 
 Added 2026-09-17 by CG4.8, from `system-settings-grouped-box-light.png` and

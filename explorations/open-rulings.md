@@ -3182,3 +3182,22 @@ bodies.
 
 727. **[note]** **A button's box became a budget rather than a cap org-wide.** `components/button` measured its label inside the box it was given and elided what did not fit; CG5.20 needed the platform's rule instead — a push button is sized to its label with a minimum under it — so the label is now measured at its own width and the button draws the wider of the two. Every button in the organization takes that, not only a dialog's footer. No stored image moved except the two the footer's width moved, so nothing in the tree was relying on the elision; a caller that hands a button a box too small for its label now gets an overflowing button where it used to get a clipped label.
 
+## CU. From CG5.23, the sidebar's two selection pills
+
+Filed 2026-09-22 from the fresh-eyes review recorded in
+`reviews/cg5.23-sidebar-fresh-eyes.md` and from the work itself. One reviewer
+was handed vaultview's rail focused and unfocused in both appearances beside
+`voicememos-sidebar-{light,dark}.png` and
+`finder-sidebar-unfocused-{light,dark}.png` at 1x, the recorded misreads, and
+one question: does this sidebar's selection read as the platform's, focused
+and unfocused, and what is wrong with it.
+
+733. **[note]** **The platform's translucent fills are visible in a capture's own dither, and nothing was looking for them.** CG5.23 first recorded the unfocused sidebar pill as the pixel it reads — `#efefee` light — and fresh eyes caught that the step it then drew was 8 of 255 where the platform's is 11, because the capture's rail carries wallpaper tinting and `SidebarMaterial` is the untinted reading. The proof that it is a coverage was in the capture all along: the rail alternates `#fafafa` and `#fafaf9` down its own dither, and the pill over it alternates `#efefef` and `#efefee` in the same columns — 123 columns of one pair and 108 of the other. An opaque paint would flatten that; a translucent one carries it. Every other measured fill in `reference/macos/controls.md` recorded as a flat value over a tinted capture is open to the same test, and the test costs one column-by-column read: `CardFill`, `PushButtonFill`, `SidebarSearchFill`, `ToolbarControlFill`, `ToolbarSearchFill` and `AlternatingContentBackground` were all read as values.
+
+734. **[note]** **Clicking a row in vaultview's folder rail now hands the rail the keyboard.** It did not before: the rail's list was reachable by Tab alone, so a reader who clicked a note could never see the emphasized pill the platform shows. The rail now executes `key.FocusCmd` on a row click, which is what `patterns/sidebar` already did and what Finder does. The arrows then move down the rail rather than staying wherever they were.
+
+735. **[note]** **mindchat's and feeds' rails hold the keyboard only through Tab.** Their rows are `widget.Clickable`s, which do not take focus on a click, so their pill goes to the accent state only after a forward focus move reaches a row — two moves in feeds' composed window. Each window would need the same one-line `key.FocusCmd` vaultview's rail now has, or its own decision that a rail's rows are pointer targets and nothing else.
+
+736. **[note]** **vaultview's aside moved with the pill.** Its outline and backlinks panes draw a row the reader has merely arrowed onto in the unemphasized state, so that row now wears the measured coverage — `#ececec` on the chrome material light, `#2a2a2a` dark — under a label in the accent, instead of `UnemphasizedSelectedContentBackground` under the ordinary label. The aside's composition was out of CG5.23's scope and did not change; only the colour the shared pattern hands it did. Nothing measured says a chrome inspector's list wears a sidebar's pill at all, which is the question under it.
+
+737. **[decide]** **The unfocused pill's label was read on a pill the library no longer paints.** `SidebarSelectionUnemphasizedLabel` is `#0072f7` light, an opaque plateau read on a pill at `#efefee`; the pill is now a coverage and lands `#ececec` on the untinted chrome material, 3 of 255 darker. Nothing in the reference says whether the platform's vibrancy moves the label when the fill under it moves — the label carries no dither, so it is opaque, but an opaque colour on a vibrant surface can still be chosen against it. The same light capture with wallpaper tinting OFF would settle both this and the section's own open question.
