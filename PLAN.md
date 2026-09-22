@@ -22607,7 +22607,7 @@ with Rene on the ruling sheet.
 
 #### CG5.19: A push button draws no edge, as the save dialog measures
 
-- [ ] Measurement after CG5.17. `controls.md` records the save
+- [x] Measurement after CG5.17. `controls.md` records the save
   dialog's "Tags:" field as the only unfocused enabled control on
   that sheet that draws an edge; the pop-up and both push buttons
   meet the sheet with no edge column. `components/button`'s Tonal
@@ -22618,10 +22618,10 @@ with Rene on the ruling sheet.
   keeps its fill, its hover and press overlays and its faded state;
   whatever else `edged` served (the Ghost emphasis's rim, if any) is
   read against a capture and kept only where measured.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included (every Tonal button in the org, the bundle's
   `.btn.tonal`, the mirror's button-tonal pair at its ceiling).
-- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+- [x] Exit: green in `components`, `components/gallery`, `patterns`,
   `workbench` and its apps, `design` and `design/mirror` by name;
   guard clean; commit and push in every touched repo and `.github`.
 
