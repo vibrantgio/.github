@@ -148,6 +148,7 @@ author::*::ctx::(wrote|writes|written|article|testimonial|front ?matter|commit|c
 quiet::*::match::^quietly$::The ordinary adverb — a check that fails quietly — not a variant's prominence.
 loud::*::match::^loudly$::The ordinary adverb — a check that fails quietly — not a variant's prominence.
 volume::*::path::^(seen|csg)/::A volume is a solid in the geometry these renderers work in.
+volume::*::ctx::(startup volume|/volumes|volumename|the filesystem)::A storage volume the filesystem mounts — the name Finder shows for it in its Locations run, which is what a folder trail is rooted at; the retired sense is how pronounced a variant is.
 
 # The Material colour names, retired by CE3.1: each is retired in the sense of
 # a colour and keeps every other sense, one rule per sense.

@@ -22555,7 +22555,7 @@ with Rene on the ruling sheet.
 
 #### CG5.17: The dialog's corner, its Cancel and the browser's rows are the platform's measured ones
 
-- [ ] Rulings of 2026-09-22 via the ontology session, measured beats
+- [x] Rulings of 2026-09-22 via the ontology session, measured beats
   published. `patterns/modal`'s surface takes the save dialog's
   measured corner radius (read off `save-dialog-{light,dark}.png`, a
   fit as the recess's ends were; the fresh eyes read about 17) in
@@ -22577,9 +22577,9 @@ with Rene on the ruling sheet.
   row's symbol column (vaultview's tree, feeds, the browser) takes
   it in place of re-writing the offset arithmetic. The aside, the
   rail's rows and the band are untouched.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included (every dialog in the org).
-- [ ] Exit: green in `patterns`, `components/gallery`, `workbench`
+- [x] Exit: green in `patterns`, `components/gallery`, `workbench`
   and its apps, `design` and `design/mirror` by name; guard clean;
   commit and push in every touched repo and `.github`.
 
