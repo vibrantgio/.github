@@ -261,13 +261,16 @@ levels off white and a held one 23 levels off `#ececec`. Dark, they are white at
 0.094 and white at 0.098, a ratio of 1.04 — both move about 20 levels. So a dark
 control drawn with its resting fill under the pointer and then held moves by one
 255th between the two states, where the same pair in light moves by eleven. The
-two coverages were read off different controls: hover off a Finder toolbar
-control that carries NO fill at rest, press off a Save dialog push button over
-the push button's own fill. Nothing in the reference says whether the platform
-draws a weaker hover on a control that already carries a bezel than on the
-fill-less toolbar control the dark reading came from. One control captured under
-the pointer and then held, in the dark appearance, is what would settle it, and
-it is on the capture list.
+two coverages were read off different controls: hover off Finder's toolbar
+view pop-up, a bordered control carrying its own fill (`#242d32` against a
+`#232a2e` band dark, and a drop shadow light) and, dark, a rim that moves under
+the pointer too (the rim rows above); press off a Save dialog push button over
+the push button's own fill. Both readings are therefore overlays over a
+control's own fill, not over a band, and the corrected reading (2026-09-22,
+CG5.20) retires the earlier question of a weaker hover on a bezelled control.
+What is not held is one control captured under the pointer and then held in
+the dark appearance, which would settle the one-255th gap, and a genuinely bare
+control under the pointer; both are on the capture list.
 
 **What the sheet's switched-off controls are.** Read off
 `save-dialog-{light,dark}.png`: the two "Options:" checkboxes are the only
