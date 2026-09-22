@@ -902,6 +902,9 @@ The pattern that interrupts for a decision: a dialog floating at
 level 2 over a scrim, with a header carrying its title and close, a
 body, and a footer of actions. The scrim isolates it — everything
 beneath is dimmed and deaf until the modal closes.
+Choosing a file or a folder is the platform's own open panel where
+the platform offers one, and the library's modal where it does not;
+on Open the whole window follows the choice.
 
 ### Navbar
 

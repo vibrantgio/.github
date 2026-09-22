@@ -982,3 +982,8 @@ Rene (asked why "open" would be better than "open-folder", told the
 set names a mark by what it depicts and both captures hold a closed
 folder, so the names are refresh and folder): OK tell vibrantgio I
 agree with you ^0005-icon-names-depict
+
+Rene (to the vibrantgio session on Switch Vault, relayed: the
+library's modal first, since he may want it on Linux, then the
+platform's Open panel on macOS with the modal as the fallback)
+^0005-open-panel-order
