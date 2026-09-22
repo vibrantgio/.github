@@ -22572,8 +22572,11 @@ with Rene on the ruling sheet.
   name, the kind and the count in the open panel's own columns
   (measure them off a capture if one holds the panel; none is known,
   so the sidebar row's columns stand in, stated, and the capture is
-  on 425's list). The aside, the rail's rows and the band are
-  untouched.
+  on 425's list). `patterns/sidebar` exports a `PaintSymbol` painter
+  beside `PaintSection` and `PaintCount`, so a caller drawing the
+  row's symbol column (vaultview's tree, feeds, the browser) takes
+  it in place of re-writing the offset arithmetic. The aside, the
+  rail's rows and the band are untouched.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included (every dialog in the org).
 - [ ] Exit: green in `patterns`, `components/gallery`, `workbench`
