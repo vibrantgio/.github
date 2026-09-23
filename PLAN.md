@@ -22752,7 +22752,7 @@ with Rene on the ruling sheet.
 
 #### CG5.25: Every name-ordered list sorts as Finder sorts
 
-- [ ] Ruling of 2026-09-23 via the ontology session, measured beats
+- [x] Ruling of 2026-09-23 via the ontology session, measured beats
   published: every name-ordered list in the library sorts as Finder
   sorts, case-insensitive with numbers in numeric order ("note 2"
   before "note 10"), the platform's own comparison. One shared
@@ -22764,8 +22764,8 @@ with Rene on the ruling sheet.
   and feeds' rail all call, tests pinning the numeric and
   case-insensitive cases and a folder before a note of the same
   name.
-- [ ] Goldens regenerate with the cause named where an order moves.
-- [ ] Exit: green in every touched module by name; guard clean;
+- [x] Goldens regenerate with the cause named where an order moves.
+- [x] Exit: green in every touched module by name; guard clean;
   commit and push in every touched repo and `.github`.
 
 
