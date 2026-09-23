@@ -23102,7 +23102,7 @@ row) and Modal bind.
 
 #### CG7.11: A body control draws the form's shape
 
-- [ ] Measurements after CG7.8. A control placed in a body
+- [x] Measurements after CG7.8. A control placed in a body
   (`button.Place` `Body`) took the form variant's face but kept the
   chrome path's capsule where the form trigger draws the push
   button's rounded rectangle at the measured 6 (`controls.md`,
@@ -23119,9 +23119,9 @@ row) and Modal bind.
   corner of the selection square the catalogue never read), it joins
   the set and both tsv copies through the field walkers, and the
   unfocused selected run takes it in place of `Label` flattened.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `components`, `components/gallery`,
+- [x] Exit: green in `components`, `components/gallery`,
   `workbench/mindchat` by name; guard clean; commit and push in every
   touched repo and `.github`.
 

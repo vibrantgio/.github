@@ -3,7 +3,7 @@ let names: [(String, NSColor)] = [
  ("windowBackgroundColor", .windowBackgroundColor), ("underPageBackgroundColor", .underPageBackgroundColor),
  ("controlBackgroundColor", .controlBackgroundColor), ("textBackgroundColor", .textBackgroundColor),
  ("selectedContentBackgroundColor", .selectedContentBackgroundColor), ("unemphasizedSelectedContentBackgroundColor", .unemphasizedSelectedContentBackgroundColor),
- ("selectedTextBackgroundColor", .selectedTextBackgroundColor), ("unemphasizedSelectedTextBackgroundColor", .unemphasizedSelectedTextBackgroundColor),
+ ("selectedTextBackgroundColor", .selectedTextBackgroundColor), ("unemphasizedSelectedTextBackgroundColor", .unemphasizedSelectedTextBackgroundColor), ("unemphasizedSelectedTextColor", .unemphasizedSelectedTextColor),
  ("findHighlightColor", .findHighlightColor), ("separatorColor", .separatorColor), ("gridColor", .gridColor),
  ("labelColor", .labelColor), ("secondaryLabelColor", .secondaryLabelColor), ("tertiaryLabelColor", .tertiaryLabelColor), ("quaternaryLabelColor", .quaternaryLabelColor),
  ("textColor", .textColor), ("placeholderTextColor", .placeholderTextColor), ("selectedTextColor", .selectedTextColor), ("linkColor", .linkColor), ("headerTextColor", .headerTextColor),
