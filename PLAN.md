@@ -23099,3 +23099,25 @@ row) and Modal bind.
   guard clean; commit and push in `components` and `.github`.
 
 
+
+#### CG7.11: A body control draws the form's shape
+
+- [ ] Measurements after CG7.8. A control placed in a body
+  (`button.Place` `Body`) took the form variant's face but kept the
+  chrome path's capsule where the form trigger draws the push
+  button's rounded rectangle at the measured 6 (`controls.md`,
+  CG7.8's Cancel fit): a body control's shape is the form's, the
+  segmented control and the `+`/`−` pair in mindchat's settings
+  included; and a mark inside a body control sits in a box that
+  follows the control's height (a 24 dp mark box in a 24 dp control
+  leaves no inset; the box is the control's height less the measured
+  vertical inset the pop-up's mark shows, `controls.md`), so the
+  symbol is centred with room as the platform's is. Tests read the
+  corner and the mark's inset off a capture in both schemes.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `components`, `components/gallery`,
+  `workbench/mindchat` by name; guard clean; commit and push in every
+  touched repo and `.github`.
+
+
