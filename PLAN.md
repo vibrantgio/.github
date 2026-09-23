@@ -22910,7 +22910,7 @@ row) and Modal bind.
 
 #### CG7.3: Feeds' rail scrolls and the shell pattern composes a pane
 
-- [ ] Defects after CG7.1. `workbench/feeds`' rail lays its sections
+- [x] Defects after CG7.1. `workbench/feeds`' rail lays its sections
   out from the panel's strip down and never scrolls, so a rail taller
   than the window loses its foot: the rail's column is a scroll area
   with the platform's overlay scrollbar as vaultview's rail has.
@@ -22927,9 +22927,9 @@ row) and Modal bind.
   own, as Mail's and Finder's do, so feeds' reducer stops closing the
   other sections when one opens; any number may stand open, and a
   test pins two open at once.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `patterns`, `components/gallery`, `workbench`
+- [x] Exit: green in `patterns`, `components/gallery`, `workbench`
   and its apps by name; guard clean; commit and push in every touched
   repo and `.github`.
 

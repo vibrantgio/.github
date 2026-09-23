@@ -3215,3 +3215,16 @@ sidebar in the reference windows, and what is wrong with it.
 
 758. **[decide]** **feeds' rail cannot be sent away, so it draws neither half of the pane's recall switch.** `patterns/pane`'s convention is that a control on the panel dismisses it and a control in the window's chrome brings it back; vaultview and mindchat both draw the pair. feeds draws neither and its panel's strip stands empty under the window's control buttons. Decide whether a window whose only route into its content is its rail may dismiss it at all, and if not, whether an undismissable pane is still a pane.
 
+
+## CY. From CG7.3, the shell's pane composition
+
+Filed 2026-09-23 from the work itself. No fresh-eyes review is named for this
+task.
+
+780. **[bug]** **`theme/export/css.go`'s `.navbar` comment states a height patterns/shell no longer pins.** It says "patterns/shell pins the bar to ControlHeight + 2*PaddingY (28 dp comfortable, 19 compact)"; the shell now pins its band to the platform's measured 52 and takes no density for it, while the CSS rule's own `min-height` is the bar's content floor and never was the band. The sentence is emitted into the sheet, so correcting it moves `design/styles.css` and wants the design bundle regenerated in the same round.
+
+781. **[bug]** **`design/mirror/g23_test.go`'s navbar capture viewport is justified by the shell's old pin.** `navbarSize` is computed locally as `buttonHeight + 2*paddingY` and its comment calls that "the density-pinned bar height patterns/shell allocates — ControlHeight + 2·PaddingY = 28 comfortable — because the bar fills whatever it is handed and the shell pin is the height the class layer publishes". The arithmetic still holds as the bar's own floor; the justification does not. Decide whether the mirror's navbar specimen is captured at the bar's floor or at the band the shell now hands it, since the two are no longer one number.
+
+782. **[decide]** **The sidebar panel's 220 dp column is measured once and spelled four times.** `patterns/sidebar.expandedDp`, `patterns/shell.PaneWidthDp`, `workbench/feeds.feedsSidebarWidthDp` and `workbench/mindchat.SidebarWidth` all carry the same reading off `voicememos-multi-folder-2026-09-18.png`, each with its own comment. Decide whether the pattern layer exports it once and the rest read it, or whether a window naming its own column width is the point.
+
+783. **[decide]** **feeds' rail scrolls but cannot be walked from the keyboard; vaultview's can.** vaultview's tree is `list.LayoutSelectable`, so the column is one focus target the arrows move a selection down. feeds' rail is `list.LayoutScrollbar` over heading and row blocks: each row is its own focusable clickable, so Tab steps through them one at a time and no arrow walks the rail. Decide whether a sidebar is a single keyboard target on this platform, and if so whether headings and rows can share one.
