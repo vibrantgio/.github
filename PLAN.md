@@ -23170,3 +23170,24 @@ row) and Modal bind.
   and push in every touched repo and `.github`.
 
 
+
+#### CG7.14: Left and Right open and close a rail's sections and folders from the keyboard
+
+- [ ] Behaviour after CG7.12. On the platform an outline's row
+  answers Left by collapsing the group it stands in (or moving to
+  the group's head when already collapsed) and Right by expanding a
+  collapsed group under the cursor; no capture can hold a key, so
+  the platform's documented outline keys stand. feeds' rail: Left on
+  a row inside an open section collapses it and moves the cursor to
+  its heading's first row above (or the heading's row if headings are
+  rows), Right on a collapsed section's first visible neighbour
+  opens it; vaultview's tree: Left on a row inside an open folder
+  collapses the folder and lands on it, Left on a collapsed folder
+  moves to its parent, Right opens a collapsed folder under the
+  cursor; mindchat's rail has no groups and answers neither. Tests
+  drive the keys through a router in feeds and vaultview.
+- [ ] Goldens do not move.
+- [ ] Exit: green in `workbench/feeds`, `workbench/vaultview` by
+  name; guard clean; commit and push in `workbench` and `.github`.
+
+
