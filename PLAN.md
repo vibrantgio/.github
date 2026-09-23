@@ -22952,3 +22952,33 @@ row) and Modal bind.
   in every touched repo and `.github`.
 
 
+
+#### CG7.5: Mindchat's settings dialog measures its body against the sheet
+
+- [ ] Rulings of 2026-09-23 via the ontology session, measurements
+  and the Casing entry (.github 6b74f38: control titles and menu
+  items in title case; labels, captions, section headings and prose
+  in sentence case, never capitals throughout). `workbench/mindchat`'s
+  settings dialog: the providers well's caption reads "Providers";
+  the body's segmented control is read off System Settings'
+  Appearance capture (`system-settings-grouped-box-{light,dark}.png`)
+  if it holds one, else the toolbar's stands and the capture goes on
+  425; the well's `+`/`−` are the platform's bordered pair under a
+  list, measured off a capture holding one (System Settings' Users or
+  Network; on 425 until then, bordered meanwhile); the save dialog is
+  read for the hairline above its footer and the body's row spacing,
+  and the form's 68 px void goes; the API-key row aligns to the label
+  column as every other row, the verdict disc and the re-check control
+  trailing the field at the measured gap. The footer, the first-field
+  focus and the corner stay. The Casing entry is applied across the
+  org where a caption or heading is set in capitals (grep for
+  all-caps string literals in the workbench and patterns; list each
+  changed).
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of the dialog beside the
+  save dialog, both schemes.
+- [ ] Exit: green in `components`, `patterns`, `workbench` and its
+  apps by name; guard clean; commit and push in every touched repo
+  and `.github`.
+
+

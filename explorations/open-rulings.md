@@ -3187,7 +3187,6 @@ are the router's own, taken through live frames in vaultview's window and in
 
 748. **[decide]** **A pointer shape must be declared after the region registers its own input, and nothing but a test can catch getting it wrong.** The router scans a frame's areas newest first and, on meeting a region's input area, carries on from that area's parent, so a shape declared before the region's own `event.Op` is stepped over and the region silently shows whatever stands around it. `components/paragraph`'s link and `markdown`'s task checkbox both declared before theirs and lost the hand the moment the shape was bounded; both are now fixed and both are pinned by tests, but the ordering is invisible at a call site and no test outside those two reads a shape. Decide whether every component that declares a shape owes a reading of it.
 
-
 ## CW. From CG6.2, the readout panel's second area
 
 Filed 2026-09-23 from the fresh-eyes review recorded in
@@ -3216,21 +3215,3 @@ sidebar in the reference windows, and what is wrong with it.
 
 758. **[decide]** **feeds' rail cannot be sent away, so it draws neither half of the pane's recall switch.** `patterns/pane`'s convention is that a control on the panel dismisses it and a control in the window's chrome brings it back; vaultview and mindchat both draw the pair. feeds draws neither and its panel's strip stands empty under the window's control buttons. Decide whether a window whose only route into its content is its rail may dismiss it at all, and if not, whether an undismissable pane is still a pane.
 
-## CY. From CG7.2, mindchat's settings dialog as a sheet
-
-Filed 2026-09-23 from the fresh-eyes review recorded in
-`reviews/cg7.2-mindchat-fresh-eyes.md` and from the work itself. One reviewer
-was handed mindchat's whole window at 1x in both appearances with the settings
-dialog standing open, beside `save-dialog-light.png` and
-`save-dialog-dark.png`, the recorded misreads, and one question: does this
-dialog read as a macOS sheet, and what is wrong with it. It answered "in light,
-nearly; in dark, no", read the label column, the fields' column, the field
-height and the footer back as the platform's, and found the following, none of
-which is inside CG7.2's stated result.
-
-770. **[decide]** **The dialog's segmented control is the TOOLBAR's segmented control, because that is the only one the reference measures.** It therefore stands 36 dp tall against the 28 dp fields under it, and in the light appearance its fill is the sheet's own `#ffffff` with no rim, so nothing but its drop shadow tells it from the sheet — and it carries that shadow in light and none in dark, both of which are the platform's own measured answers for a control in a BAND. No stored capture holds a segmented control in a sheet's body. Either a capture closes it, or the plan states that a form spends the toolbar's control.
-772. **[decide]** **The providers well carries no rim, no seam under its caption, and its `+`/`−` are bare glyphs with no button chrome and no bottom bar.** CG7.2 squared the well's ends to its rows — the `+`/`−` box now ends on the panel's own inset, the same air the caption stands off the top by — but what the platform puts under a source list is a bordered bottom bar with bezelled `+`/`−` in it, and the well has neither. Decide whether a source list in a dialog takes that bar.
-775. **[decide]** **The form leaves a 68 px void above its last row, and the sheet is parted by nothing.** The default-model row is pinned to the form's foot because it is the global setting under the per-provider ones, which leaves the air between it and the checkbox above. The platform's own sheet parts its bands with full-width hairlines — `#e6e6e6` light and `#393f43` dark, at y=324 and y=479 in `save-dialog-{light,dark}.png`, the lower one 22 px above the buttons — and this dialog draws none. Decide whether a sheet's bands are parted by a line or by air.
-776. **[note]** **The modal draws a leading title where a macOS sheet carries none.** "Settings" stands at the sheet's own inset in about 17 px semibold. The platform's save sheet has no title at all and an alert centres its message. It is `patterns/modal`'s header and every caller takes it.
-778. **[note]** **The API-key row is the form's one ragged row.** The verdict disc and the re-check control stand inside the field column beside the field, so that field ends about 50 dp short of the Name and Base URL fields above it, in an otherwise clean trailing edge. The platform would put a status mark inside the field rather than beside it, and `components/input` has an adornment path; nothing measured says which the key check takes.
-779. **[note]** **The providers well's caption is all-caps "PROVIDERS" where the platform writes a section label in sentence case.** `controls.md`'s sidebar panel section reads Voice Memos' "My Folders" at 8 px of cap band in `secondaryLabelColor` and nothing about it is upper-cased. The dialog's well keeps the all-caps caption CG5.17 left it with.
