@@ -23121,3 +23121,25 @@ row) and Modal bind.
   touched repo and `.github`.
 
 
+
+#### CG7.12: Every rail and dialog list is one focus target with the keyboard
+
+- [ ] Defects after CG7.9 under the List entry. `workbench/mindchat`'s
+  rail has no keyboard at all (no rail tag, no cursor, no arrows; its
+  pills read off each row's own clickable): it takes feeds' shape,
+  one tag over the column, arrows walking the rows, Return opening
+  the conversation, a click handing the rail the keys, rows through
+  `sidebar.RowTarget`. vaultview's vault picker and chooser lists
+  still register a focus filter per row: their rows take `RowTarget`
+  on the list's one tag. `components/list.Layout` consumes a pending
+  `Reveal` as the other entry points now do. feeds' rail brings the
+  cursor's row into view by row, not by section block (the section's
+  rows become rows of the scrolling column, or the block's reveal
+  offsets to the row inside it, stated). vaultview's aside lists
+  are NOT touched (the owner's boundary); they are put to Rene.
+- [ ] Goldens do not move (a still holds no focus).
+- [ ] Exit: green in `components`, `workbench/mindchat`,
+  `workbench/vaultview`, `workbench/feeds` by name; guard clean;
+  commit and push in every touched repo and `.github`.
+
+
