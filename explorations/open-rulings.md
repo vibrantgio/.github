@@ -3234,12 +3234,3 @@ consume a pending `Reveal`. No fresh-eyes review was named for the task.
 
 809. **[note]** **Every other list in the tree still registers a focus filter per row.** vaultview's outline and backlinks asides, its vault picker and its chooser, and mindchat's rail all hold `[]*widget.Clickable`, so Tab walks their rows one by one — the defect CG7.9 took out of the two rails, left standing everywhere else. `patterns/sidebar.RowTarget` is the shape they would all take. CG7.12 takes the picker, the chooser and mindchat's rail; what remains here is vaultview's aside (outline and backlinks), whose rows still register a focus filter each, fenced by Rene's boundary and put to him.
 
-
-## DE. From CG7.11, the body control's shape
-
-Filed 2026-09-23 from the work itself: a bordered control standing in a sheet's
-or a pane's body took the push button's measured corner and the room the Save
-dialog's pop-up leaves its own mark. No fresh-eyes review was named for the
-task.
-
-815. **[decide]** **`Place` has taken over what `Variant` names.** `button.RenderChrome`, `ChromeFace` and `ChromeSegments` are named for the chrome variant, and with `Place` set to `Body` three of the four things they draw are the FORM's: the push button's fill, its foreground and now its shape, leaving the seam and the segment width as all the chrome name still answers for. `internal/toolbarface.Capsule` is the same question one layer down — it draws a capsule in a band and a rounded rectangle in a body, and its name says one of the two. Decide whether the place should simply BE the variant for a bordered control, or whether the two axes stay and the names move.

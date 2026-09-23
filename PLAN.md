@@ -23148,3 +23148,25 @@ row) and Modal bind.
   commit and push in every touched repo and `.github`.
 
 
+
+#### CG7.13: A control's place is its variant, and a name says what it draws
+
+- [ ] Ruling of 2026-09-23 via the ontology session, the Variant
+  entry: a variant is where the control lives, so `button.Place`
+  (`Band`, `Body`) is the variant under a second name. `Place` goes:
+  `Props` and `RenderState` carry the existing `Variant` (`Form`,
+  `Chrome`) and the chrome entry points take it; `RenderChrome`,
+  `ChromeFace`, `ChromeSegments` and `toolbarface.Capsule` are
+  renamed or split so a name says what it draws (a name that says
+  chrome draws the chrome variant only; the form-variant capsule,
+  face and segments are named for the form or for the shape they
+  share), every caller in the org follows (gallery, patterns/modal,
+  effects/springbutton, mindchat, vaultview), and the button doc's
+  Variant table carries the height, face, shadow and shape per
+  variant in one place. No pixel moves.
+- [ ] Goldens do not move.
+- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+  `effects`, `workbench` and its apps by name; guard clean; commit
+  and push in every touched repo and `.github`.
+
+
