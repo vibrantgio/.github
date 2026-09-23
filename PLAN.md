@@ -22990,7 +22990,7 @@ row) and Modal bind.
 
 #### CG7.6: Feeds' rail takes the keyboard as every list does
 
-- [ ] The List entry binds: a list is a focusable wherever it stands
+- [x] The List entry binds: a list is a focusable wherever it stands
   and shows the focus as the platform does for its place.
   `workbench/feeds`' rail scrolls but has no keyboard traversal
   where vaultview's tree (`list.LayoutSelectable`) has: the rail's
@@ -22998,8 +22998,8 @@ row) and Modal bind.
   opens the feed, the pill takes CG5.23's two states with the
   keyboard, a click hands the rail the keys (pool 735's note); a
   test drives the keys through a router and reads the selection.
-- [ ] Goldens do not move (a still holds no focus).
-- [ ] Exit: green in `workbench/feeds` by name; guard clean; commit
+- [x] Goldens do not move (a still holds no focus).
+- [x] Exit: green in `workbench/feeds` by name; guard clean; commit
   and push in `workbench` and `.github`.
 
 
