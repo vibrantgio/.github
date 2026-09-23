@@ -23173,7 +23173,7 @@ row) and Modal bind.
 
 #### CG7.14: Left and Right open and close a rail's sections and folders from the keyboard
 
-- [ ] Behaviour after CG7.12. On the platform an outline's row
+- [x] Behaviour after CG7.12. On the platform an outline's row
   answers Left by collapsing the group it stands in (or moving to
   the group's head when already collapsed) and Right by expanding a
   collapsed group under the cursor; no capture can hold a key, so
@@ -23186,8 +23186,8 @@ row) and Modal bind.
   moves to its parent, Right opens a collapsed folder under the
   cursor; mindchat's rail has no groups and answers neither. Tests
   drive the keys through a router in feeds and vaultview.
-- [ ] Goldens do not move.
-- [ ] Exit: green in `workbench/feeds`, `workbench/vaultview` by
+- [x] Goldens do not move.
+- [x] Exit: green in `workbench/feeds`, `workbench/vaultview` by
   name; guard clean; commit and push in `workbench` and `.github`.
 
 
