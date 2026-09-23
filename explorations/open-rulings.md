@@ -3187,3 +3187,24 @@ are the router's own, taken through live frames in vaultview's window and in
 
 748. **[decide]** **A pointer shape must be declared after the region registers its own input, and nothing but a test can catch getting it wrong.** The router scans a frame's areas newest first and, on meeting a region's input area, carries on from that area's parent, so a shape declared before the region's own `event.Op` is stepped over and the region silently shows whatever stands around it. `components/paragraph`'s link and `markdown`'s task checkbox both declared before theirs and lost the hand the moment the shape was bounded; both are now fixed and both are pinned by tests, but the ordering is invisible at a call site and no test outside those two reads a shape. Decide whether every component that declares a shape owes a reading of it.
 
+
+## CW. From CG6.2, the readout panel's second area
+
+Filed 2026-09-23 from the fresh-eyes review recorded in
+`reviews/cg6.2-sk150-fresh-eyes.md` and from the work itself. One reviewer was
+handed the sk150 window's readout panel at 1x in both appearances beside the
+photographs of the SK150's own display and of an OWON SPE6103's, the recorded
+misreads, and one question: does this panel read as a bench supply's display
+with its readings and its set values, and what is wrong with it.
+
+751. **[decide]** **The sk150's readout panel says nothing about whether the output is on.** The window does — the header's bolt and ON/OFF cluster stands beside the power toggle, where an earlier round put it on the grounds that output state is the window's business and not the display's. The device itself disagrees: the SK150's own photograph carries a lit yellow ON badge inside the black, beside the current row, and the OWON puts OFF at the head of its status strip. Read cold, the panel shows 147 W flowing with nothing to say the terminals are live. Decide whether the panel carries the output state as the device does, or the header keeps it alone.
+
+752. **[decide]** **The watt line claims milliwatt resolution and is the widest line on the panel because of it.** `147.000 W` is the product of a reading good to 10 mV and one good to 1 mA; the device's own display shows `147.0`. The cost is not only the false precision: the two extra digits make the derived quantity the longest line in the readout, the only one that breaks left out of the shared digit column, so the least important of the three is the loudest. Decide the power line's format.
+
+753. **[note]** **The readout panel's black is very close to the dark scheme's window fill, and the panel has no rim.** `#090905` measured off the device against a `#1E1E1E` window: the display's edge is carried by the corner rounding alone, and nothing else marks where the screen stops and the window starts. In the light scheme the same panel is a hard-cut black slab on white. The panel is deliberately the same in both schemes — the meter has one display — so any answer is about what stands around it, a rim or a recess, not about the black.
+
+754. **[note]** **The CV and CC badges stand proud of the readout's right edge.** The badge is drawn above the unit letter and is wider than it, so it overhangs the V, A and W column by 15 px and the readout block's right edge is ragged by exactly one element. Everything else in the panel now shares that margin.
+
+755. **[note]** **The sk150 opens without a minimum size, and only some of its panel survives being narrowed.** `app.Size(720, 760)` sets the opening size and nothing sets a floor, so the window can be dragged under the width its own content needs. The readings elide inside their column, the readout panel's second area is now cut off at the black rather than painting out over the page, and the two charts have had no reading at all. Either the window takes a minimum size or each panel owes an answer for being too narrow.
+
+756. **[note]** **A patch rendered on its own and found in a whole-window frame matches within one or two channel steps, not exactly.** CG6.2's panel test draws the Set and Limit lines by themselves on the panel's black and searches the window's frame for them; the same glyphs, the same fill, the same whole-pixel offsets, and three pixels in eight thousand still land one or two steps apart because the frame rasterises them under a different clip. Anything else reading a value off a frame this way needs the same small tolerance; a pixel-exact search fails for a reason that is not the frame's content.

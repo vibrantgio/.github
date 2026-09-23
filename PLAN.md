@@ -22835,7 +22835,7 @@ wattage). Both have his go.
 
 #### CG6.2: The Monitor's panel shows the set and limit values under the readings
 
-- [ ] `workbench/sk150`: the readout panel gains a second area under
+- [x] `workbench/sk150`: the readout panel gains a second area under
   the readings inside the black, as the OWON's display has two
   areas: a Set line with V-SET and I-SET (`Model.S`, `FVSet`,
   `FISet`) and a Limit line with OVP and OCP (`FOVP`, `FOCP`), in
@@ -22847,9 +22847,9 @@ wattage). Both have his go.
   show the same panel. The panel's tests read the four values off
   the frame. The editor's hint line ("Presets tab cancels") says what
   is now true: leaving the tab cancels.
-- [ ] Goldens regenerate with the cause named, both schemes;
+- [x] Goldens regenerate with the cause named, both schemes;
   fresh-eyes review of the panel beside both meter photographs.
-- [ ] Exit: green in `workbench/sk150` by name; guard clean; commit
+- [x] Exit: green in `workbench/sk150` by name; guard clean; commit
   and push in `workbench` and `.github`.
 
 
