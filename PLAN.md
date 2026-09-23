@@ -23113,7 +23113,12 @@ row) and Modal bind.
   leaves no inset; the box is the control's height less the measured
   vertical inset the pop-up's mark shows, `controls.md`), so the
   symbol is centred with room as the platform's is. Tests read the
-  corner and the mark's inset off a capture in both schemes.
+  corner and the mark's inset off a capture in both schemes. Chore
+  in the same round: `reference/macos/nscolors.swift` and the live
+  reader ask AppKit for `unemphasizedSelectedTextColor` (the fourth
+  corner of the selection square the catalogue never read), it joins
+  the set and both tsv copies through the field walkers, and the
+  unfocused selected run takes it in place of `Label` flattened.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included.
 - [ ] Exit: green in `components`, `components/gallery`,
