@@ -23084,7 +23084,7 @@ row) and Modal bind.
 
 #### CG7.10: A field that loses the keyboard keeps its selection in the unemphasized names
 
-- [ ] Measurement after CG7.7 (`nscolors.tsv` holds
+- [x] Measurement after CG7.7 (`nscolors.tsv` holds
   `unemphasizedSelectedTextBackgroundColor` `#dcdcdc`/`#464646` and
   the platform keeps a field's selection visible in it when the
   field does not hold the keyboard). `components/input`: the live
@@ -23094,8 +23094,8 @@ row) and Modal bind.
   `Label`, stated); the static `Render`/`RenderSearch` take the focus
   state and draw the emphasized pair only when the field holds the
   keyboard. Tests read both pairs off captures in both schemes.
-- [ ] Goldens regenerate with the cause named, both schemes.
-- [ ] Exit: green in `components`, `components/gallery` by name;
+- [x] Goldens regenerate with the cause named, both schemes.
+- [x] Exit: green in `components`, `components/gallery` by name;
   guard clean; commit and push in `components` and `.github`.
 
 

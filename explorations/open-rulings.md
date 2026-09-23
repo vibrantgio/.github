@@ -3234,3 +3234,12 @@ so Tab leaves the rail, and `components/list`'s barred entry point learned to
 consume a pending `Reveal`. No fresh-eyes review was named for the task.
 
 809. **[note]** **Every other list in the tree still registers a focus filter per row.** vaultview's outline and backlinks asides, its vault picker and its chooser, and mindchat's rail all hold `[]*widget.Clickable`, so Tab walks their rows one by one — the defect CG7.9 took out of the two rails, left standing everywhere else. `patterns/sidebar.RowTarget` is the shape they would all take. CG7.12 takes the picker, the chooser and mindchat's rail; what remains here is vaultview's aside (outline and backlinks), whose rows still register a focus filter each, fenced by Rene's boundary and put to him.
+
+## DD. From CG7.10, a field's selection once the keyboard leaves
+
+Filed 2026-09-23 from the work itself: the text field and the search field
+learned the platform's unemphasized selected text names, and the catalogue was
+read for the pair. No fresh-eyes review was named for the task.
+
+812. **[note]** **AppKit publishes `unemphasizedSelectedTextColor` and the catalogue never asked for it.** `nscolors.swift` reads `selectedTextColor` and `unemphasizedSelectedTextBackgroundColor` but not the fourth corner of that square, so `nscolors.tsv` records no run colour for a selection whose field has lost the keyboard and CG7.10 drew the run in `Label` flattened onto the unemphasized fill instead. Adding the name to the reader and re-reading both appearances would settle whether that flattening is what the platform draws.
+813. **[decide]** **A disabled field keeps its selection at the unemphasized pair's full strength.** A disabled field holds no keyboard, so it takes the unemphasized pair like any unfocused field, and nothing fades it the way the field's edge and foregrounds fade. No capture in `reference/macos` holds a disabled field carrying a selection, so whether the platform fades the fill, fades the run, or drops the selection altogether is unmeasured.
