@@ -22852,3 +22852,57 @@ wattage). Both have his go.
   and push in `workbench` and `.github`.
 
 
+
+### G-CG7: Feeds and mindchat answer the reviews
+
+Owner go 2026-09-23 on two proposals drawn from the fresh-eyes
+reviews of CG5.8 (feeds' rail) and CG5.17 (mindchat's settings
+dialog). Each task is one window's composition; the Language entries
+Pane, Sidebar (a collapsible section keeps its small header and takes
+the platform's disclosure at its trailing end, never an accordion
+row) and Modal bind.
+
+#### CG7.1: Feeds' rail is the inset pane with sections and disclosures
+
+- [ ] `workbench/feeds`: the rail is the inset pane as vaultview's
+  and mindchat's (`patterns/pane`: margin 8, radius 18, rim, shadow,
+  the window buttons inside it, no seam); its groups are the
+  sidebar's sections, a small label in `SecondaryLabel` with the
+  platform's disclosure at the trailing end (measured off
+  `mail-window.png`'s mailbox groups: the disclosure's box, inset and
+  colour, recorded in `controls.md`), collapsing the rows beneath,
+  never an accordion row; the accordion's fill no longer paints the
+  content's white over the rail's material; the three full-width
+  hairlines inside the rail go; the rows keep CG5.8's symbol, label
+  and count columns and CG5.23's two pill states. The aside, if any,
+  and the table are untouched.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; fresh-eyes review of feeds' window beside
+  `mail-window.png` and `voicememos-multi-folder-2026-09-18.png`,
+  both schemes.
+- [ ] Exit: green in `patterns`, `workbench/feeds` by name; guard
+  clean; commit and push in every touched repo and `.github`.
+
+#### CG7.2: Mindchat's settings dialog reads as a platform sheet
+
+- [ ] `workbench/mindchat`'s settings dialog: every field carries
+  its label beside it as the save dialog's rows do ("Save As:",
+  "Tags:" at the label column, `controls.md`), the one label that
+  stood 180 px from its field joins it; the four provider choices are
+  one segmented control with the chosen segment drawn as Finder's
+  view control measures (`toolbarface.CheckedPatch`, CG5.3i), not
+  four buttons pixel-identical to Cancel; the providers well's ends
+  are square to its rows and the verdict disc wears the platform's
+  status colour at its measured coverage, not over-saturated; the
+  default-model pop-up starts on the fields' column. The footer (74,
+  8, 20), Cancel and Save, the first-field focus and the corner stay
+  as G-CG5 landed them. Labels are written as the platform writes
+  them (a noun and a colon); Rene may reword any label after.
+- [ ] Goldens regenerate with the cause named, both schemes; a
+  window golden of the open dialog is stored if none exists;
+  fresh-eyes review of the dialog beside `save-dialog-{light,dark}.png`,
+  both schemes.
+- [ ] Exit: green in `workbench/mindchat` by name; guard clean;
+  commit and push in `workbench` and `.github`.
+
+
