@@ -22865,7 +22865,7 @@ row) and Modal bind.
 
 #### CG7.1: Feeds' rail is the inset pane with sections and disclosures
 
-- [ ] `workbench/feeds`: the rail is the inset pane as vaultview's
+- [x] `workbench/feeds`: the rail is the inset pane as vaultview's
   and mindchat's (`patterns/pane`: margin 8, radius 18, rim, shadow,
   the window buttons inside it, no seam); its groups are the
   sidebar's sections, a small label in `SecondaryLabel` with the
@@ -22877,11 +22877,11 @@ row) and Modal bind.
   hairlines inside the rail go; the rows keep CG5.8's symbol, label
   and count columns and CG5.23's two pill states. The aside, if any,
   and the table are untouched.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of feeds' window beside
   `mail-window.png` and `voicememos-multi-folder-2026-09-18.png`,
   both schemes.
-- [ ] Exit: green in `patterns`, `workbench/feeds` by name; guard
+- [x] Exit: green in `patterns`, `workbench/feeds` by name; guard
   clean; commit and push in every touched repo and `.github`.
 
 #### CG7.2: Mindchat's settings dialog reads as a platform sheet

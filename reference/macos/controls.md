@@ -839,6 +839,55 @@ their labels on the same x=112. So the columns are the row's and not the
 folder mark's, and the half pixel between the two centres is not drawable at
 1x.
 
+## What a section's disclosure measures
+
+Added 2026-09-23 by CG7.1, and the first section in this file whose numbers are
+DERIVED rather than read: **no stored capture holds a sidebar section's
+disclosure at all.**
+
+What was looked at, and what each holds:
+
+- `mail-window.png` (1200×800, dark) and `mail-window-light.png` (1200×800),
+  the two captures the task named. Both are redacted down the sidebar: sampling
+  the whole column of the dark one over y 45–800, x 0–392 returns `#232a2e` on
+  288,025 of 294,272 pixels and `#393f42` — the selected row's fill — on 3,778
+  more, with nothing else above 1,400 pixels. There is no glyph, no label and
+  no mailbox group in either. Mail's mailbox groups cannot be measured off
+  them.
+- `finder-window-untinted-light.png` and `finder-window-untinted-dark.png`.
+  Finder's three headings — Favourites, Locations, Tags — carry NO control at
+  rest; the platform's affordance there appears under the pointer, and a still
+  capture holds no pointer.
+- `voicememos-multi-folder-2026-09-18.png`. Its "My Folders" heading has none:
+  every row from y=162 to y=202 across x 66–281 is the panel's own fill and the
+  label's own pixels, which is the reading the section above already records.
+- `notes-window.png` and `reminders-window.png`. Both are redacted down the
+  sidebar the way the Mail pair is.
+
+So the four numbers below are derived from readings this file does hold, and
+each says which.
+
+| what | derived | from | how |
+| --- | --- | --- | --- |
+| the disclosure's figure | ONE chevron, 8 by 14 in a 24-unit box, band 1.4 px | `finder-window-light.png` | `components/icons`' `disclosure.svg` is the history chevron's drawing unchanged, measured off that window's back/forward pair: the control x 326–398, the back chevron x 340–347 and y 19–32 — 8 px across by 14 down in a control 36 px tall — at 1.53 px perpendicular, drawn at the set's one band of 1.4. The drawing stands at x 8 to 16 and y 5 to 19 of its 24-unit box, centred on both axes |
+| the disclosure's box | 20 dp | `voicememos-multi-folder-2026-09-18.png` | the row's symbol box measures 24 and the heading's label measures four fifths of the row's — an 8 px cap against the row label's 10, both already recorded above — so the heading's own mark takes the same four fifths of the row's box: 19.2, which is 20. Twenty is also what `components/icon.Size` gives at the comfortable density, the size a mark standing beside text is drawn at everywhere else in the library |
+| the disclosure's inset | the box's trailing edge 10 px in from the panel's trailing edge | same | the rail has ONE trailing column — 17 in, the column every count in that capture is drawn to — and the heading's control stands in it. At a 20 dp box the figure covers 6.7 and stands 6.7 clear inside each edge, so a box 10 in lands the closed mark's own last covered column on 17 to within one. The one column the rounding leaves is the set's: 6.7 of clear space cannot be landed on a whole column by an inset stated in whole dp |
+| the disclosure's line | centred between the label's cap top and its baseline — 26 into the 42 px block | same | the heading's cap band is [183.0, 191.0] in a block beginning at y=161, so the cap top stands 22 into the block and the baseline 30. A mark centred on the BLOCK would stand at 21, half a cap height above the name it belongs to; the heading's own line is the middle of those two |
+| the disclosure's colour | `SecondaryLabel` | same | the heading and the control that collapses it are one thing, and the heading's colour is measured: a plateau of `#7d7d7d` over 39 pixels light and `#999999` dark, which is `SecondaryLabel` over the panel's fill to the byte in both. No reading says the control differs from the name beside it |
+| the disclosure's two states | one drawing, turned a quarter | `components/icons`' own contract | the set draws the mark as the section stands CLOSED — pointing at the rows it would open — and an open section turns it a quarter about its square's own centre. One drawing and not two is what keeps the figure recognisable through the turn; `workbench/vaultview` and `workbench/sitedocs` already spend it that way |
+
+Recorded as `patterns/sidebar`'s `DisclosureBox`, `DisclosureInset`,
+`SectionCapTop` and `DisclosureForeground`, and drawn by its `PaintDisclosure`.
+
+**What is open here.** Everything above. One capture closes it: **a sidebar
+whose sections collapse, with the pointer resting on one heading so the
+control is showing, and a second frame with that section collapsed** —
+window-bounded at 1x with wallpaper tinting off, so it pairs with the panel
+readings above. Mail's mailbox groups are the obvious subject and the two
+stored Mail windows cannot serve, their sidebars being blank. Until such a
+capture exists, the box, the inset and the line are the library's arithmetic
+and only the colour and the figure are measured.
+
 ## What the unfocused sidebar pill measures
 
 Added 2026-09-22 by CG5.23, from `finder-sidebar-unfocused-light.png` and
