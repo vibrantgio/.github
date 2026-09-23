@@ -3243,3 +3243,13 @@ and feeds' rail learned to bring the cursor's row into view by row. No
 fresh-eyes review was named for the task.
 
 818. **[note]** **A rail row's own actions are pointer-only.** mindchat's rename and delete marks and feeds' trash are pointer gestures now that each rail is one focus target, so nothing on the keyboard reaches them; the marks are also revealed by hover, which no keyboard raises. The platform reaches a sidebar row's actions from a context menu, and no window in the tree draws one for a rail row. Whether a rail row needs a menu, or a key that acts on the row the cursor stands on, is unasked.
+
+## DE. From CG7.13, the variant as the one axis
+
+Filed 2026-09-24 from the work itself: `button.Place` was folded into
+`button.Variant`, the chrome-named entry points became the bordered
+control's own names, and `components/internal/toolbarface` became
+`controlface`. No fresh-eyes review was named for the task.
+
+819. **[decide]** **The observable button can no longer draw the bordered FORM control.** `Props{Variant: Chrome, Place: Body}` reached it before; with `Place` gone, an icon-only `Variant: Form` is the emphasis icon button — the two form drawings collide on one axis and the emphasis one wins, as it did before. The bordered form symbol control is now reachable only through the pure `RenderBordered`. No caller in the org used the old pair, so nothing moved, but a form symbol control that wants events has to own its own `widget.Clickable`. Decide whether `Props` names which of the two form icon drawings it wants, or the bordered form control stays a pure-path drawing.
+820. **[note]** **`controlface.State` carries an interaction state the segmented control works out for itself.** `BorderedSegments` reads hover and press per segment and hands `Capsule`/`PushButton` only `Focused`, `Checked` and `StandsOn`, so half the struct is dead on that path while the symbol button fills all of it. The struct is the seam between two callers wanting different halves of it; whether the shape functions should take the resolved fill and the halo alone is unasked.
