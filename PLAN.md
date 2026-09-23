@@ -22772,7 +22772,7 @@ with Rene on the ruling sheet.
 
 #### CG5.26: The pointer's shape follows what is under it and no region leaves its shape behind
 
-- [ ] Owner finding 2026-09-23: "the sidebar listview shows the last
+- [x] Owner finding 2026-09-23: "the sidebar listview shows the last
   cursor that was active elsewhere. E.g. when moving from the
   markdown to the list, the text cursor shaped like an I is shown."
   The Pointer entry (the ontology session's) binds: the pointer's
@@ -22800,8 +22800,8 @@ with Rene on the ruling sheet.
   `theme/system/naming` and `theme/system/openpanel` are tagged
   `darwin && cgo` with the Go twin under `!darwin || !cgo`, so
   `CGO_ENABLED=0` builds on macOS.
-- [ ] Goldens do not move (a cursor shape is not painted).
-- [ ] Exit: green in `components`, `patterns`, `markdown`,
+- [x] Goldens do not move (a cursor shape is not painted).
+- [x] Exit: green in `components`, `patterns`, `markdown`,
   `workbench` and its apps by name; guard clean; commit and push in
   every touched repo and `.github`.
 

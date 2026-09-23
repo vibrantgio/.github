@@ -3175,3 +3175,19 @@ and unfocused, and what is wrong with it.
 
 735. **[note]** **mindchat's and feeds' rails hold the keyboard only through Tab.** Their rows are `widget.Clickable`s, which do not take focus on a click, so their pill goes to the accent state only after a forward focus move reaches a row — two moves in feeds' composed window. Each window would need the same one-line `key.FocusCmd` vaultview's rail now has, or its own decision that a rail's rows are pointer targets and nothing else.
 
+
+## CV. From CG5.26, the pointer's shape and the cgo chore
+
+Filed 2026-09-23 from the work itself. No fresh eyes were named; the readings
+are the router's own, taken through live frames in vaultview's window and in
+`components/pointershape`'s tests, and the numbers are in the commit bodies.
+
+745. **[decide]** **`theme/a11y` has no no-cgo twin, so `CGO_ENABLED=0` on macOS still fails for it and for everything that imports it.** CG5.26 tagged `theme/system/naming` and `theme/system/openpanel` `darwin && cgo` with Go twins; `a11y/preferences_darwin.go` is the same shape — a cgo file selected by filename with no `!cgo` sibling — so `defaultSource` goes undefined and `theme/a11y`, `theme/brand`, `theme/preferences`, `theme/system` and `theme/cmd/a11y-check` do not build. The twin is three lines, but what a no-cgo macOS should REPORT is a decision: all-false, as the Linux stub does, or the Windows source's answers, or a build that refuses.
+
+746. **[note]** **No module that opens a window builds with `CGO_ENABLED=0` on macOS, whatever we tag.** `gioui.org/app` reaches `gioui.org/internal/gl`, whose darwin implementation is cgo with no fallback, so `theme/window` and every workbench app fail there for a reason upstream of this organization. `GOOS=windows CGO_ENABLED=0` is clean across the tree, and so is macOS with cgo; the no-cgo macOS build is only ever available to the modules that draw nothing.
+
+747. **[decide]** **`pointershape` is an exported package in `components`, not one under `components/internal`, because Go's internal rule bars the modules that need it.** CG5.26's task text proposed `components/internal`; `patterns`, `markdown` and each workbench app are separate modules and cannot import another module's internal tree, and the same task requires every cursor site in all of them to go through the one helper. Either the exported package stands — one more small `components/<word>` package beside `cache`, `keyed` and `composite` — or the rule that a region bounds its own shape is restated per module.
+
+748. **[decide]** **A pointer shape must be declared after the region registers its own input, and nothing but a test can catch getting it wrong.** The router scans a frame's areas newest first and, on meeting a region's input area, carries on from that area's parent, so a shape declared before the region's own `event.Op` is stepped over and the region silently shows whatever stands around it. `components/paragraph`'s link and `markdown`'s task checkbox both declared before theirs and lost the hand the moment the shape was bounded; both are now fixed and both are pinned by tests, but the ordering is invisible at a call site and no test outside those two reads a shape. Decide whether every component that declares a shape owes a reading of it.
+
+749. **[note]** **todos' floating action button and its two row controls declare their hand only while `Hovered()` reports true, so the shape arrives a frame after the pointer does.** Pre-existing, and untouched by CG5.26, which only bounded what those three already declared. Every other site in the organization declares its shape unconditionally and takes it the frame the pointer lands.
