@@ -3261,3 +3261,13 @@ walk so a heading can hold the cursor, and vaultview's tree learned Left and
 Right over its folds. No fresh-eyes review was named for the task.
 
 823. **[note]** **vaultview's tree posts its fold messages through a seam only a test fills.** `treeView.post` is nil in the window, where a message rides the frame's ops, and a recorder in the test — mindchat's rail takes the same sink as a named parameter of its layout, and vaultview's rows still reach `mvu.MessageOp` directly from `activateTreeRow`. Whether the window's two paths should be one named sink is unasked.
+
+## DG. From CG7.15, the sidebar keys against the outline keys
+
+Filed 2026-09-24 from the work itself: feeds' headings left the run its keys
+walk and Left there lands on the nearest row still visible, and vaultview's
+Left walks to the parent before it closes one. No fresh-eyes review was named
+for the task.
+
+824. **[note]** **Three rails answer the arrows three ways and the Language states none of it.** mindchat's rail answers neither Left nor Right, feeds' answers Left alone, vaultview's tree answers both — each read off the platform's sidebar or its outline, each justified by the shape of the thing rather than by a written entry. Sidebar and List say what a rail is and how it shows the focus, and say nothing about which keys walk it. Whether the two key sets belong in the Language, and under which entries, is unasked.
+825. **[note]** **A rail whose sections are all collapsed holds the keyboard and no row.** Left on the rail's last open section leaves the cursor nowhere, and no key reopens a section — the disclosures are the pointer's, which is the platform's own behaviour and the owner's ruling for this task. The rail still takes and keeps the keyboard in that state, so the arrows, Home, End and Return all answer nothing until a pointer reopens a section. Whether a rail holding no row should take the keyboard at all is unasked.
