@@ -23027,3 +23027,28 @@ row) and Modal bind.
   in every touched repo and `.github`.
 
 
+
+#### CG7.8: A dialog's footer and body controls measure the sheet
+
+- [ ] Measurements after CG7.5 (`controls.md`, "What the sheet's own
+  hairlines measure"). `patterns/modal`'s decision dialog draws the
+  sheet's footer hairline (`Separator` over the surface, full width,
+  1 px) and centres its buttons in the measured 65 px band beneath
+  it (21 above, 20 below); every dialog in the org takes it through
+  the pattern. A bordered control standing in a sheet's or pane's
+  body draws at the body's control height, the sheet's 24, not the
+  band's 36 (the segmented control in mindchat's settings and the
+  well's `+`/`−` pair take 24; `toolbarface` takes the height from
+  the place the caller names). The push button's corner is fitted
+  off the save dialog's Cancel and Save as CG5.3h fitted the
+  checkbox's (the fresh eyes read 4 against our 5) and drawn at the
+  measured radius org-wide. Mindchat's templates control stands on
+  the fields' column as every other row.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included; the mirror's dialog and button pairs at their
+  ceilings.
+- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+  `workbench` and its apps, `design` and `design/mirror` by name;
+  guard clean; commit and push in every touched repo and `.github`.
+
+
