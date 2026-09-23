@@ -3215,5 +3215,3 @@ recorded misreads, and one question: does this window's sidebar read as the
 sidebar in the reference windows, and what is wrong with it.
 
 758. **[decide]** **feeds' rail cannot be sent away, so it draws neither half of the pane's recall switch.** `patterns/pane`'s convention is that a control on the panel dismisses it and a control in the window's chrome brings it back; vaultview and mindchat both draw the pair. feeds draws neither and its panel's strip stands empty under the window's control buttons. Decide whether a window whose only route into its content is its rail may dismiss it at all, and if not, whether an undismissable pane is still a pane.
-
-759. **[decide]** **feeds' sections are single-open and the platform's are not.** The reducer opens one section and closes its peers, which is the accordion's policy the rail inherited; Finder and Voice Memos collapse each section on its own. CG7.1 left the reducer alone because the task named the rail's drawing and not the window's behaviour.

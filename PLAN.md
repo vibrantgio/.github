@@ -22922,7 +22922,11 @@ row) and Modal bind.
   and vaultview, mindchat and feeds hand their hand-rolled frames
   over where they only pass it through. `shell.NavbarHeight`'s doc
   says 52 dp and the function returns 28: the function returns what
-  the band measures, `pane.BandDp`, and its doc says so.
+  the band measures, `pane.BandDp`, and its doc says so. The Sidebar
+  entry (.github 568b6a9) binds: each section opens and closes on its
+  own, as Mail's and Finder's do, so feeds' reducer stops closing the
+  other sections when one opens; any number may stand open, and a
+  test pins two open at once.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included.
 - [ ] Exit: green in `patterns`, `components/gallery`, `workbench`
