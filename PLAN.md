@@ -22769,3 +22769,33 @@ with Rene on the ruling sheet.
   commit and push in every touched repo and `.github`.
 
 
+
+#### CG5.26: The pointer's shape follows what is under it and no region leaves its shape behind
+
+- [ ] Owner finding 2026-09-23: "the sidebar listview shows the last
+  cursor that was active elsewhere. E.g. when moving from the
+  markdown to the list, the text cursor shaped like an I is shown."
+  The Pointer entry (the ontology session's) binds: the pointer's
+  shape follows what is under it now, the arrow over a list, the
+  I-beam over text, the hand over a link, and a region must not
+  leave its shape behind. Today a `pointer.Cursor` op stands for the
+  frame where it was added and the platform keeps the last shape set
+  when the pointer moves onto a region that declares none, so the
+  text field's I-beam (`components/input/textfield.go`) and the 48
+  hand shapes over links and controls survive onto the list beside
+  them. The fix is in one place: every region that declares a shape
+  bounds it to its own hit area for that frame only, and every
+  component that owns a pointer region (list, scrollarea, sidebar
+  rail, the document's prose, the pane, the band) declares
+  `pointer.CursorDefault` over itself so nothing beneath or beside
+  shows through; a shared helper in `components/internal` (or the
+  focus/sink pattern) that a region calls with its area, stated. A
+  live test moves the pointer from a text field into a list and
+  reads the cursor op the frame declares over the list as the arrow,
+  and from a link into prose as the arrow, both in vaultview's window.
+- [ ] Goldens do not move (a cursor shape is not painted).
+- [ ] Exit: green in `components`, `patterns`, `markdown`,
+  `workbench` and its apps by name; guard clean; commit and push in
+  every touched repo and `.github`.
+
+
