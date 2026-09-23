@@ -22821,7 +22821,7 @@ wattage). Both have his go.
 
 #### CG6.1: The Presets tab always shows the list of memory slots
 
-- [ ] `workbench/sk150`: `SetScreen` leaves `EditPreset` as it was,
+- [x] `workbench/sk150`: `SetScreen` leaves `EditPreset` as it was,
   so after Set on the Monitor or Edit on a slot, leaving the tab and
   clicking Presets shows the editor for that slot. Clicking the
   Presets tab always shows the list; leaving the Presets tab while
@@ -22829,8 +22829,8 @@ wattage). Both have his go.
   was typed) exactly as a second click does today; the editor is
   reached only from Edit or Set. A test opens the editor, switches
   tabs and returns, and reads the list.
-- [ ] Goldens regenerate with the cause named if any moves.
-- [ ] Exit: green in `workbench/sk150` by name; guard clean; commit
+- [x] Goldens regenerate with the cause named if any moves.
+- [x] Exit: green in `workbench/sk150` by name; guard clean; commit
   and push in `workbench` and `.github`.
 
 #### CG6.2: The Monitor's panel shows the set and limit values under the readings
