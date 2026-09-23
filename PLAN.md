@@ -22934,3 +22934,21 @@ row) and Modal bind.
   repo and `.github`.
 
 
+
+#### CG7.4: A text field's value is the platform's label colour
+
+- [ ] Measurement after CG7.2. `components/input`'s text field draws
+  its typed value at pure black and pure white where the platform
+  draws a field's value in `labelColor` (`save-dialog-{light,dark}.png`:
+  read "Untitled"'s plateau against the field's fill, both
+  appearances, record in `controls.md`); the value, the caret and
+  the selection's text take the measured name, the placeholder keeps
+  `SecondaryLabel`. Tests read the value's plateau off a capture in
+  both schemes.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `components`, `components/gallery` and every
+  consumer whose golden moved by name; guard clean; commit and push
+  in every touched repo and `.github`.
+
+
