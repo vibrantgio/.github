@@ -3213,12 +3213,3 @@ sidebar in the reference windows, and what is wrong with it.
 
 758. **[decide]** **feeds' rail cannot be sent away, so it draws neither half of the pane's recall switch.** `patterns/pane`'s convention is that a control on the panel dismisses it and a control in the window's chrome brings it back; vaultview and mindchat both draw the pair. feeds draws neither and its panel's strip stands empty under the window's control buttons. Decide whether a window whose only route into its content is its rail may dismiss it at all, and if not, whether an undismissable pane is still a pane.
 
-
-## CY. From CG7.4, a field's value against the platform's two names
-
-Filed 2026-09-23 from the work itself. The task read a typed value's plateau
-off the stored reference and the round's own goldens; the readings are
-recorded in `reference/macos/controls.md` under what a field's value is drawn
-in.
-
-784. **[decide]** **The platform draws a SELECTED value in a second name, and the library cannot carry both.** `save-dialog-{light,dark}.png`'s "Untitled" plateaus at `#000000` and `#ffffff` exactly over the selection's fill — `selectedTextColor`, opaque — where the unselected query in `voicememos-multi-folder-search-2026-09-18.png` plateaus at `labelColor`. Gio paints an editor's whole run from one paint source, so a field that draws its value in the label draws it in the label over the selection too, 28 of 255 short of the platform at the plateau. Decide whether that shortfall stands, or the field draws its run twice under a clip so the selected span carries the platform's own name.
