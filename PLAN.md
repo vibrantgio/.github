@@ -22960,7 +22960,7 @@ row) and Modal bind.
 
 #### CG7.5: Mindchat's settings dialog measures its body against the sheet
 
-- [ ] Rulings of 2026-09-23 via the ontology session, measurements
+- [x] Rulings of 2026-09-23 via the ontology session, measurements
   and the Casing entry (.github 6b74f38: control titles and menu
   items in title case; labels, captions, section headings and prose
   in sentence case, never capitals throughout). `workbench/mindchat`'s
@@ -22979,10 +22979,10 @@ row) and Modal bind.
   org where a caption or heading is set in capitals (grep for
   all-caps string literals in the workbench and patterns; list each
   changed).
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; fresh-eyes review of the dialog beside the
   save dialog, both schemes.
-- [ ] Exit: green in `components`, `patterns`, `workbench` and its
+- [x] Exit: green in `components`, `patterns`, `workbench` and its
   apps by name; guard clean; commit and push in every touched repo
   and `.github`.
 

@@ -137,6 +137,24 @@ that: the colon carries trailing side bearing the platform's own column
 evidently does not show at this size. `workbench/mindchat`'s settings dialog spends the pair as
 `SettingsLabelGap` with the label column its own widest label measures.
 
+## What the sheet's own hairlines measure
+
+Added 2026-09-23 by CG7.5, from `save-dialog-light.png` and
+`save-dialog-dark.png` — where a sheet parts one region of itself from the
+next, and what the footer band under the last of those lines measures. Both
+appearances agree to the pixel on every row below.
+
+| what | measured | where | method |
+| --- | --- | --- | --- |
+| the sheet draws hairlines across itself | **two**, at y=324 and y=479 | `save-dialog-{light,dark}.png` | every row of the sheet scanned across x 166–533 for a value the sheet's own fill is not: two rows answer, and they are the only two. The first parts the panel's own rows from the accessory view below them; the second parts that view from the footer |
+| each hairline's extent | **1 px tall, the sheet's full width**, x 165–534 | same | a run down x=300 reads the fill at y 478, the line at y 479 and the fill at y 480, with nothing above or below it; a run along y=479 reads the line from x=165, the sheet's own first column, to x=534, its last, and the dimmed window at x=164 and x=535. The line is inset at neither end — it runs edge to edge of the sheet, not to a content column |
+| each hairline's colour | `separatorColor`, flattened onto the sheet | same | `#e6e6e6` light and `#393f43` dark, both lines. `separatorColor` is black at 25/255 light and white at 25/255 dark (`nscolors.tsv`); over the sheet's `#ffffff` that gives 230 → `#e6e6e6`, and over its `#232a2f` it gives (56.57, 62.88, 67.39) → (57, 63, 67) → `#393f43`, exact on every channel in both appearances. It is the Language's own separator and not a pixel of its own, which is what tells it from the toolbar control's seam — that one lands twelve of 255 off the same flattening and is carried as a value |
+| the air above the FIRST hairline | 19 clear rows | same | the "Where:" pop-up's box ends at y=304 and the line stands at y=324, so y 305–323 are the sheet. Nothing else of the panel's rows reaches below the pop-up |
+| the air below it | 11 clear rows | same | y 325–335, the "File Format:" pop-up's box beginning at y=336 — the same eleven that stand between "Tags:" and "Where:" in the rows above |
+| the air above the SECOND hairline | **no reading** | same | the accessory view's last checkbox ends at y=409 and the line stands at y=479, sixty-nine clear rows. It is that panel's own slack and not a measured air: a Save panel gives its accessory region whatever height the sheet has left, and this capture holds one Script Editor accessory view at one sheet height. What a form's last row leaves above the footer's line has no reading until a capture holds a sheet whose body fills it |
+| the footer band under that hairline | **65 px**, y 480–544 | same | the line at y=479 to the sheet's last row at y=544 |
+| the buttons' place in that band | **centred**, 21 clear rows above and 20 below | same | the push buttons run y 501–524, so y 480–500 and y 525–544. An exact centring of a 24 px button in a 65 px band leaves 20.5 on each side, and the rounding falls half a pixel high — the same rounding the pop-up's mark and the Mail search field's prompt take, in the other direction. The 20 below is the sheet's own 20 px inset, which `patterns/modal` already spends; the 21 above is that inset plus the half pixel |
+
 ## What the toolbar control measures
 
 Added 2026-09-18 by CG5.2b, from `finder-window-untinted-{light,dark}.png`,
