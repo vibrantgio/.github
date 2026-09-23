@@ -996,7 +996,13 @@ Sections are headed by a small label and parted by space alone; a section that
 collapses keeps that header and takes the platform's disclosure at
 its trailing end, measured, never an accordion row; each section
 opens and closes on its own, as Mail's and Finder's do, so any
-number may stand open at once. The active
+number may stand open at once. The sidebar is one focusable: Up and
+Down walk its rows, Return opens the row, and Left and Right do what
+the platform's outline does with the rows it has — in a tree they
+close and open a folder or walk to the parent and the first child,
+in a sectioned list Left collapses the row's section, and a flat list
+answers neither; a heading is never a stop, and the sidebar keeps the
+keyboard even when every section is closed. The active
 entry is marked the platform's way: a pill inset from the sidebar's
 edges, rounded, in the sidebar's own selection colour with a white
 label while the sidebar holds the keyboard, and a grey pill with the
