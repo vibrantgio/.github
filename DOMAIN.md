@@ -516,6 +516,9 @@ The persistent state marking the thing you chose: the picked menu
 row, the marked Filter chip, the sidebar's active entry. It is
 painted in the platform's selection colour with white text; the hover
 and press overlays are for transient states and paint no selection.
+A selected run of text in a field wears the platform's selected
+text colour over its selected text background, both measured,
+whatever colour the field's other text wears.
 
 ### Checked
 
