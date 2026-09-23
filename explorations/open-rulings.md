@@ -3204,9 +3204,3 @@ below was measured while `theme/system/naming` was built and the three
 name-ordered lists were pointed at it.
 
 741. **[decide]** **The Go order and the platform's disagree on exactly one letter, the sharp s.** A name spelled with `ß`, against one spelled with `ss` and differing in what follows, orders the pair one way on macOS and the other everywhere else; a sweep of case, digits, leading zeros, punctuation and scripts turned up no other divergence. The package doc names it. Decide whether the Go side carries a correction for it, or whether one letter's order on non-macOS platforms is left as it is.
-
-742. **[decide]** **feeds' articles table sorts its Title column by `strings.ToLower`, not by the one order.** `filterAndSortArticles`' `colTitle` case compares lowercased titles, so a table sorted by name puts "Episode 10" before "Episode 2" while the rail beside it does not. CG5.25 named three lists and this is a fourth; a table column that sorts names is a name-ordered list.
-
-743. **[note]** **Cross-compiling the workbench for Windows leaves committable binaries in the app directories.** `GOOS=windows CGO_ENABLED=0 go build ./...` in each app module writes `<app>.exe` beside the sources, and nothing ignores them — eight of them reached a `git add -A` and had to be taken back out. Either the gate builds to a discard target or the tree ignores the artefact.
-
-744. **[note]** **`theme/system/naming` does not build with `CGO_ENABLED=0` on macOS.** Its darwin file is tagged `darwin` rather than `darwin && cgo`, so there is no comparison at all in that combination — the same shape `theme/system/openpanel` already has, and the module as a whole cannot be built that way anyway because Gio cannot. A leaf package with a working Go implementation could fall back to it instead.

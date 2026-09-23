@@ -22793,6 +22793,13 @@ with Rene on the ruling sheet.
   live test moves the pointer from a text field into a list and
   reads the cursor op the frame declares over the list as the arrow,
   and from a link into prose as the arrow, both in vaultview's window.
+  Chores in the same round: feeds' articles table sorts its Title
+  column with `naming.Less` as the fourth name-ordered list;
+  `*.exe` joins every repo's `.gitignore` beside `*.actual.png` (a
+  windows cross-build leaves one beside each app);
+  `theme/system/naming` and `theme/system/openpanel` are tagged
+  `darwin && cgo` with the Go twin under `!darwin || !cgo`, so
+  `CGO_ENABLED=0` builds on macOS.
 - [ ] Goldens do not move (a cursor shape is not painted).
 - [ ] Exit: green in `components`, `patterns`, `markdown`,
   `workbench` and its apps by name; guard clean; commit and push in
