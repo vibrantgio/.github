@@ -22806,3 +22806,49 @@ with Rene on the ruling sheet.
   every touched repo and `.github`.
 
 
+
+### G-CG6: The sk150 answers its owner's findings
+
+Owner findings 2026-09-23, in his words: "For SK150 when I click on
+Presets, I expect the list of Memory slots to show up. I now see a
+specific preset." and "I can't see V-SET and I-SET in the monitor
+view. Is it possible to include these under the actual reading in
+the black area. OWON has two areas look at the IMG_1603.jpeg", kept
+as `reference/sk150-display-2026-09-23.jpeg` (an OWON SPE6103: the
+readings large in cyan with the wattage above, a Set box and a Limit
+box beside them in yellow, a top bar with OFF, CC, the timer and the
+wattage). Both have his go.
+
+#### CG6.1: The Presets tab always shows the list of memory slots
+
+- [ ] `workbench/sk150`: `SetScreen` leaves `EditPreset` as it was,
+  so after Set on the Monitor or Edit on a slot, leaving the tab and
+  clicking Presets shows the editor for that slot. Clicking the
+  Presets tab always shows the list; leaving the Presets tab while
+  the editor is open cancels the edit (`EditClears`, discarding what
+  was typed) exactly as a second click does today; the editor is
+  reached only from Edit or Set. A test opens the editor, switches
+  tabs and returns, and reads the list.
+- [ ] Goldens regenerate with the cause named if any moves.
+- [ ] Exit: green in `workbench/sk150` by name; guard clean; commit
+  and push in `workbench` and `.github`.
+
+#### CG6.2: The Monitor's panel shows the set and limit values under the readings
+
+- [ ] `workbench/sk150`: the readout panel gains a second area under
+  the readings inside the black, as the OWON's display has two
+  areas: a Set line with V-SET and I-SET (`Model.S`, `FVSet`,
+  `FISet`) and a Limit line with OVP and OCP (`FOVP`, `FOCP`), in
+  the readout face at a smaller size than the readings, each with its
+  unit, on the meter's black, the colours the SK150's own
+  (`displayVolt`/`displayAmp` for the two lines, or the readout's
+  secondary colour measured off the SK150's own display if it holds
+  one, stated). The readings keep their place and size. Both schemes
+  show the same panel. The panel's tests read the four values off
+  the frame.
+- [ ] Goldens regenerate with the cause named, both schemes;
+  fresh-eyes review of the panel beside both meter photographs.
+- [ ] Exit: green in `workbench/sk150` by name; guard clean; commit
+  and push in `workbench` and `.github`.
+
+
