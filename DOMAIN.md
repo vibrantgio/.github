@@ -980,7 +980,9 @@ folders against its recordings — never a sorting of one collection
 by kind; an application with one collection has no sections.
 Sections are headed by a small label and parted by space alone; a section that
 collapses keeps that header and takes the platform's disclosure at
-its trailing end, measured, never an accordion row. The active
+its trailing end, measured, never an accordion row; each section
+opens and closes on its own, as Mail's and Finder's do, so any
+number may stand open at once. The active
 entry is marked the platform's way: a pill inset from the sidebar's
 edges, rounded, in the sidebar's own selection colour with a white
 label while the sidebar holds the keyboard, and a grey pill with the
