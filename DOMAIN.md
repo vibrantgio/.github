@@ -284,6 +284,14 @@ Large, Medium and Small.
 | **Code** | monospaced text, one size |
 | **Document headings** | the six heading steps of a prose document, derived from Body rather than borrowed from Headline and Title |
 
+### Casing
+
+Words in the window are cased as the platform cases them: a
+control's title and a menu item in title case ("Switch Vault",
+"Save As…"); a field's label, a caption, a section heading and a
+sentence of prose in sentence case ("Base URL:", "Text highlight
+colour"); never in capitals throughout.
+
 ### Measure
 
 The width a run of text is allowed to reach, from typography: long
