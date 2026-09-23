@@ -22907,3 +22907,26 @@ row) and Modal bind.
   commit and push in `workbench` and `.github`.
 
 
+
+#### CG7.3: Feeds' rail scrolls and the shell pattern composes a pane
+
+- [ ] Defects after CG7.1. `workbench/feeds`' rail lays its sections
+  out from the panel's strip down and never scrolls, so a rail taller
+  than the window loses its foot: the rail's column is a scroll area
+  with the platform's overlay scrollbar as vaultview's rail has.
+  `patterns/shell.SidebarHeaderMain` cannot compose a pane (it pins
+  its navbar slot to the density and lays its sidebar flush), so
+  every window with a pane composes its own frame; the shell gains
+  the pane composition (plane, pane at margin 8, band at
+  `pane.BandDp`, shadow cast after the columns) as the one default,
+  and vaultview, mindchat and feeds hand their hand-rolled frames
+  over where they only pass it through. `shell.NavbarHeight`'s doc
+  says 52 dp and the function returns 28: the function returns what
+  the band measures, `pane.BandDp`, and its doc says so.
+- [ ] Goldens regenerate with the cause named, both schemes,
+  downstream included.
+- [ ] Exit: green in `patterns`, `components/gallery`, `workbench`
+  and its apps by name; guard clean; commit and push in every touched
+  repo and `.github`.
+
+
