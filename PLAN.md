@@ -23129,7 +23129,7 @@ row) and Modal bind.
 
 #### CG7.12: Every rail and dialog list is one focus target with the keyboard
 
-- [ ] Defects after CG7.9 under the List entry. `workbench/mindchat`'s
+- [x] Defects after CG7.9 under the List entry. `workbench/mindchat`'s
   rail has no keyboard at all (no rail tag, no cursor, no arrows; its
   pills read off each row's own clickable): it takes feeds' shape,
   one tag over the column, arrows walking the rows, Return opening
@@ -23142,8 +23142,8 @@ row) and Modal bind.
   rows become rows of the scrolling column, or the block's reveal
   offsets to the row inside it, stated). vaultview's aside lists
   are NOT touched (the owner's boundary); they are put to Rene.
-- [ ] Goldens do not move (a still holds no focus).
-- [ ] Exit: green in `components`, `workbench/mindchat`,
+- [x] Goldens do not move (a still holds no focus).
+- [x] Exit: green in `components`, `workbench/mindchat`,
   `workbench/vaultview`, `workbench/feeds` by name; guard clean;
   commit and push in every touched repo and `.github`.
 

@@ -3234,3 +3234,13 @@ consume a pending `Reveal`. No fresh-eyes review was named for the task.
 
 809. **[note]** **Every other list in the tree still registers a focus filter per row.** vaultview's outline and backlinks asides, its vault picker and its chooser, and mindchat's rail all hold `[]*widget.Clickable`, so Tab walks their rows one by one — the defect CG7.9 took out of the two rails, left standing everywhere else. `patterns/sidebar.RowTarget` is the shape they would all take. CG7.12 takes the picker, the chooser and mindchat's rail; what remains here is vaultview's aside (outline and backlinks), whose rows still register a focus filter each, fenced by Rene's boundary and put to him.
 
+
+## DD. From CG7.12, mindchat's rail and the dialog lists
+
+Filed 2026-09-24 from the work itself: mindchat's rail took feeds' shape,
+vaultview's two dialog lists took `sidebar.RowTarget` on the list's one tag,
+and feeds' rail learned to bring the cursor's row into view by row. No
+fresh-eyes review was named for the task.
+
+817. **[decide]** **No key collapses a rail section.** feeds' rail walks its rows with the arrows and steps straight over its headings, so the disclosure that collapses a section is reachable by pointer alone. The platform's sidebar collapses a group from the keyboard — Left on a row inside the group closes it, Right opens it — and the rail answers neither. Decide whether the rail's arrows take Left and Right for the section the cursor stands in, and whether Left on a collapsed heading is meant to walk to it at all.
+818. **[note]** **A rail row's own actions are pointer-only.** mindchat's rename and delete marks and feeds' trash are pointer gestures now that each rail is one focus target, so nothing on the keyboard reaches them; the marks are also revealed by hover, which no keyboard raises. The platform reaches a sidebar row's actions from a context menu, and no window in the tree draws one for a rail row. Whether a rail row needs a menu, or a key that acts on the row the cursor stands on, is unasked.
