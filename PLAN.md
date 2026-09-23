@@ -22749,3 +22749,23 @@ with Rene on the ruling sheet.
   commit and push in `workbench` and `.github`.
 
 
+
+#### CG5.25: Every name-ordered list sorts as Finder sorts
+
+- [ ] Ruling of 2026-09-23 via the ontology session, measured beats
+  published: every name-ordered list in the library sorts as Finder
+  sorts, case-insensitive with numbers in numeric order ("note 2"
+  before "note 10"), the platform's own comparison. One shared
+  function (in `theme` or a support package the three can import:
+  say where and why; on darwin it may call the platform's own
+  `localizedStandardCompare` through the cgo shim, with a Go
+  implementation of the same order elsewhere and as the test's
+  oracle) that vaultview's tree (`sortByName`), the folder browser
+  and feeds' rail all call, tests pinning the numeric and
+  case-insensitive cases and a folder before a note of the same
+  name.
+- [ ] Goldens regenerate with the cause named where an order moves.
+- [ ] Exit: green in every touched module by name; guard clean;
+  commit and push in every touched repo and `.github`.
+
+
