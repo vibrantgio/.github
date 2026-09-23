@@ -22944,7 +22944,12 @@ row) and Modal bind.
   appearances, record in `controls.md`); the value, the caret and
   the selection's text take the measured name, the placeholder keeps
   `SecondaryLabel`. Tests read the value's plateau off a capture in
-  both schemes.
+  both schemes. Chores in the same round: `theme/export/css.go`'s
+  `.navbar` comment and `design/mirror`'s `navbarSize` say the band
+  is `pane.BandDp` (52), not the shell's old 28 pin, the bundle
+  regenerated; the 220 dp sidebar column is one measured number in
+  one place (`patterns/sidebar`) that `shell.PaneWidthDp`, feeds and
+  mindchat read.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included.
 - [ ] Exit: green in `components`, `components/gallery` and every
@@ -22980,5 +22985,21 @@ row) and Modal bind.
 - [ ] Exit: green in `components`, `patterns`, `workbench` and its
   apps by name; guard clean; commit and push in every touched repo
   and `.github`.
+
+
+
+#### CG7.6: Feeds' rail takes the keyboard as every list does
+
+- [ ] The List entry binds: a list is a focusable wherever it stands
+  and shows the focus as the platform does for its place.
+  `workbench/feeds`' rail scrolls but has no keyboard traversal
+  where vaultview's tree (`list.LayoutSelectable`) has: the rail's
+  rows become a selectable list, arrows move the selection, Return
+  opens the feed, the pill takes CG5.23's two states with the
+  keyboard, a click hands the rail the keys (pool 735's note); a
+  test drives the keys through a router and reads the selection.
+- [ ] Goldens do not move (a still holds no focus).
+- [ ] Exit: green in `workbench/feeds` by name; guard clean; commit
+  and push in `workbench` and `.github`.
 
 
