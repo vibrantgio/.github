@@ -23030,7 +23030,7 @@ row) and Modal bind.
 
 #### CG7.8: A dialog's footer and body controls measure the sheet
 
-- [ ] Measurements after CG7.5 (`controls.md`, "What the sheet's own
+- [x] Measurements after CG7.5 (`controls.md`, "What the sheet's own
   hairlines measure"). `patterns/modal`'s decision dialog draws the
   sheet's footer hairline (`Separator` over the surface, full width,
   1 px) and centres its buttons in the measured 65 px band beneath
@@ -23049,10 +23049,10 @@ row) and Modal bind.
   measured on a band, not to borderedness; the well's `+`/`−` pair
   rightly lost it); the button doc's Variant table's chrome row
   records the reason.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included; the mirror's dialog and button pairs at their
   ceilings.
-- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+- [x] Exit: green in `components`, `components/gallery`, `patterns`,
   `workbench` and its apps, `design` and `design/mirror` by name;
   guard clean; commit and push in every touched repo and `.github`.
 
