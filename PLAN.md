@@ -22886,7 +22886,7 @@ row) and Modal bind.
 
 #### CG7.2: Mindchat's settings dialog reads as a platform sheet
 
-- [ ] `workbench/mindchat`'s settings dialog: every field carries
+- [x] `workbench/mindchat`'s settings dialog: every field carries
   its label beside it as the save dialog's rows do ("Save As:",
   "Tags:" at the label column, `controls.md`), the one label that
   stood 180 px from its field joins it; the four provider choices are
@@ -22899,11 +22899,11 @@ row) and Modal bind.
   8, 20), Cancel and Save, the first-field focus and the corner stay
   as G-CG5 landed them. Labels are written as the platform writes
   them (a noun and a colon); Rene may reword any label after.
-- [ ] Goldens regenerate with the cause named, both schemes; a
+- [x] Goldens regenerate with the cause named, both schemes; a
   window golden of the open dialog is stored if none exists;
   fresh-eyes review of the dialog beside `save-dialog-{light,dark}.png`,
   both schemes.
-- [ ] Exit: green in `workbench/mindchat` by name; guard clean;
+- [x] Exit: green in `workbench/mindchat` by name; guard clean;
   commit and push in `workbench` and `.github`.
 
 

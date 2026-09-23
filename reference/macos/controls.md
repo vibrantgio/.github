@@ -115,6 +115,28 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | the sheet's own rim | NONE, either appearance | `save-dialog-{light,dark}.png` | the sheet runs x 165-534 and its boundary steps in ONE column or row from the dimmed window to its own fill on every side: across y=300 and y=400, x 164 reads `#cccccc` light and `#191a1b` dark and x 165 reads `#ffffff` and `#232a2f`, with x 163 and x 166 flat on either side; x 534 and x 535 read the same way at the trailing edge, and the top and bottom rows (y 188 and y 544) agree at every column clear of the corners. No stroke of a third value stands anywhere on the boundary. So what tells a sheet from the window beneath it is the scrim alone — the window keeps 0.74 of itself under the measured dim while the sheet keeps all of it. Read 2026-09-22 by CG5.16 |
 | the sheet's drop shadow | ABSENT from these captures | same | the dimmed window is flat to the byte right up to the sheet: the column at x=163 reads `#191a1b` over 316 of the 318 rows scanned dark and x=164 the same, identical to the window at x=0, with no ramp on any side. This says nothing about what the platform draws: every capture here is window-bounded with `screencapture -o -l`, which ADR-019 records as EXCLUDING the drop shadow. So the sheet's shadow cannot be read off these files, and the library keeps drawing the floating shadow it has measured elsewhere. Read 2026-09-22 by CG5.16 |
 
+## What the save dialog's rows measure
+
+Added 2026-09-23 by CG7.2, from `save-dialog-light.png` and
+`save-dialog-dark.png` — the grammar a form standing on a sheet is laid out
+in, read off the same pair the table above reads. Both appearances agree to
+the pixel on every row below.
+
+| what | measured | where | method |
+| --- | --- | --- | --- |
+| the label column's trailing edge | x=255, every row label | `save-dialog-{light,dark}.png` | the last covered column of "Save As:", "Tags:" and "Where:" is x=255 in all three and in both appearances, whatever the label's length: they lead at x 206, 225 and 214 and end together, so the column is right-aligned. The accessory view below the sheet's own rows sets its two labels one column further in, ending at x=254 ("File Format:" from x=185, "Options:" from x=205), which is that view's own alignment and not a second column |
+| the gap from that edge to the field | **8 px** | same | the "Save As:" and "Tags:" field boxes both begin at x=264 and the "Where:" pop-up begins there too, so x 256–263 stand clear between the label's last pixel and the control's first |
+| the label column's own width | as wide as its widest label, and no more | same | nothing in the sheet fixes the column's leading edge: "Tags:" begins at x=225 where "File Format:" begins at x=185. What the column is, is the widest label right-aligned |
+| the row pitch | **36 px** between the two text fields, ten clear rows | same | the focused "Save As:" field's box runs y 207–232 — read off its halo, which straddles the box two px out and two px over — and the "Tags:" field's box y 243–269, so ten rows of sheet stand between one row's control and the next. The "Where:" pop-up's box follows at y 281–304, eleven clear under "Tags:". The air between rows is the constant; the control's own height is what varies |
+| the label's vertical place | its cap band centred on the control's box | same | "Save As:"'s cap band runs y 215–224, centre 219.5, in a box of y 207–232, centre 219.5. "Where:"'s runs y 287–296, centre 291.5, in a pop-up box of y 281–304, centre 292.5. Neither is aligned on a baseline the control has |
+| the row label's colour | `secondaryLabelColor` | same | `#808080` light and `#9c9fa1` dark, the reading already recorded under what the sheet's switched-off controls are: the system panel sets its own row labels weaker than the accessory view below sets "File Format:" and "Options:" |
+
+The 8 is a gap from the label's last COVERED column to the box, and a
+consumer right-aligning on the advance width leaves two more columns than
+that: the colon carries trailing side bearing the platform's own column
+evidently does not show at this size. `workbench/mindchat`'s settings dialog spends the pair as
+`SettingsLabelGap` with the label column its own widest label measures.
+
 ## What the toolbar control measures
 
 Added 2026-09-18 by CG5.2b, from `finder-window-untinted-{light,dark}.png`,
