@@ -576,6 +576,9 @@ the same action — it does not appear from content the way a chip
 does, and it does not record a state. Marking a choice is never a
 button's job, whatever its emphasis; that is the Filter
 chip's purpose.
+A button with a face is bordered, the platform's word: on chrome the
+capsule, in a form the push button, each measured; a button with no
+face is borderless. Its label is words, a symbol, or both.
 
 ### Breadcrumb
 
