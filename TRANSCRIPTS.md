@@ -987,3 +987,7 @@ Rene (to the vibrantgio session on Switch Vault, relayed: the
 library's modal first, since he may want it on Linux, then the
 platform's Open panel on macOS with the modal as the fallback)
 ^0005-open-panel-order
+
+Rene: I noticed that the sidebar listview shows the last cursor that
+was active elsewhere. E.g. when moving from the markdown to the
+list, the text cursor shaped like an I is shown. ^0005-pointer-shape

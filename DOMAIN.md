@@ -523,6 +523,14 @@ and one-of-many. Distinct from selection: selected is the thing you
 chose, active is the place you are; both are persistent and speak
 through the accent.
 
+### Pointer
+
+The platform's pointer, shaped for what is under it now: the arrow
+over controls, lists and chrome, the I-beam over text that can be
+selected or edited, the hand over a link. The shape belongs to the
+region under the pointer and changes as the pointer crosses into
+another; a region never leaves its shape behind.
+
 ### Focused
 
 The persistent state marking where keyboard input goes: the control
