@@ -22937,7 +22937,7 @@ row) and Modal bind.
 
 #### CG7.4: A text field's value is the platform's label colour
 
-- [ ] Measurement after CG7.2. `components/input`'s text field draws
+- [x] Measurement after CG7.2. `components/input`'s text field draws
   its typed value at pure black and pure white where the platform
   draws a field's value in `labelColor` (`save-dialog-{light,dark}.png`:
   read "Untitled"'s plateau against the field's fill, both
@@ -22950,9 +22950,9 @@ row) and Modal bind.
   regenerated; the 220 dp sidebar column is one measured number in
   one place (`patterns/sidebar`) that `shell.PaneWidthDp`, feeds and
   mindchat read.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included.
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 
