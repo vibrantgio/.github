@@ -23043,7 +23043,12 @@ row) and Modal bind.
   off the save dialog's Cancel and Save as CG5.3h fitted the
   checkbox's (the fresh eyes read 4 against our 5) and drawn at the
   measured radius org-wide. Mindchat's templates control stands on
-  the fields' column as every other row.
+  the fields' column as every other row, and as a control in a
+  sheet's body it is the form variant and wears no toolbar shadow
+  (ruled 2026-09-23: the shadow belongs to the chrome variant,
+  measured on a band, not to borderedness; the well's `+`/`−` pair
+  rightly lost it); the button doc's Variant table's chrome row
+  records the reason.
 - [ ] Goldens regenerate with the cause named, both schemes,
   downstream included; the mirror's dialog and button pairs at their
   ceilings.
