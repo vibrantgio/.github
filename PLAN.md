@@ -22732,7 +22732,7 @@ with Rene on the ruling sheet.
 
 #### CG5.24: Vaultview's tree is one run in the filesystem's order
 
-- [ ] Owner finding and go 2026-09-23: "There is a split now in
+- [x] Owner finding and go 2026-09-23: "There is a split now in
   VaultView between Folders and Notes … this is just part of the root
   folder no?" It is. CG5.3p read Voice Memos' sections ("My Folders"
   against the built-in "All Recordings" and "Recently Deleted", two
@@ -22744,8 +22744,8 @@ with Rene on the ruling sheet.
   run and its order. The Sidebar entry's section heading stays for a
   second collection where an app has one (Earwitness's recordings
   would); vaultview has none. The find's flat run is unchanged.
-- [ ] Goldens regenerate with the cause named, both schemes.
-- [ ] Exit: green in `workbench/vaultview` by name; guard clean;
+- [x] Goldens regenerate with the cause named, both schemes.
+- [x] Exit: green in `workbench/vaultview` by name; guard clean;
   commit and push in `workbench` and `.github`.
 
 

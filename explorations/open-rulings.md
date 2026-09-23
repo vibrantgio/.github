@@ -3195,3 +3195,14 @@ and unfocused, and what is wrong with it.
 734. **[note]** **Clicking a row in vaultview's folder rail now hands the rail the keyboard.** It did not before: the rail's list was reachable by Tab alone, so a reader who clicked a note could never see the emphasized pill the platform shows. The rail now executes `key.FocusCmd` on a row click, which is what `patterns/sidebar` already did and what Finder does. The arrows then move down the rail rather than staying wherever they were.
 
 735. **[note]** **mindchat's and feeds' rails hold the keyboard only through Tab.** Their rows are `widget.Clickable`s, which do not take focus on a click, so their pill goes to the accent state only after a forward focus move reaches a row — two moves in feeds' composed window. Each window would need the same one-line `key.FocusCmd` vaultview's rail now has, or its own decision that a rail's rows are pointer targets and nothing else.
+
+## CV. From CG5.24, the tree's one run
+
+Filed 2026-09-23 from the work itself. No fresh eyes were named; the rail's
+rows were read back off the regenerated `tree-{light,dark}` goldens.
+
+738. **[decide]** **vaultview's name sort has no natural number ordering.** `sortByName` compares lowercased names and tie-breaks case-sensitively, so a vault holding `Note 2.md` and `Note 10.md` lists 10 before 2. The platform's Finder sorts names case-insensitively with the digit runs in numeric order, and a notes vault is exactly where numbered names collect. It is a name sort either way, so CG5.24 kept it; whether the tree, the find's flat answer and every other name-ordered list in the workbench take the platform's numeric run is one ruling for the whole tree, not this app's.
+
+739. **[note]** **CG5.24 put the one run at every level, not the vault's root alone.** The task named the root's entries, and the reason it gave — a folder is one collection, and a section parts collections an application keeps apart — holds for every folder in the vault. A tree that interleaved at the root and put folders first one level down would show two orders in one rail, so the walk sorts folders and notes together at every depth. Reverse it to the root alone if that was not the intent.
+
+740. **[note]** **`patterns/sidebar`'s section heading now has no caller in the tree.** `Item.Section`, `PaintSection`, `SectionStyle`, `SectionHeight`, `SectionInset`, `SectionBaseline` and `SectionForeground` stay measured and tested inside the pattern, and CG5.24 kept them deliberately for an application with a second collection; no window in the workbench draws one today. If none ever does, the block is measured code no stored image covers outside its own package.
