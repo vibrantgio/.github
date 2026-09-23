@@ -22845,7 +22845,8 @@ wattage). Both have his go.
   secondary colour measured off the SK150's own display if it holds
   one, stated). The readings keep their place and size. Both schemes
   show the same panel. The panel's tests read the four values off
-  the frame.
+  the frame. The editor's hint line ("Presets tab cancels") says what
+  is now true: leaving the tab cancels.
 - [ ] Goldens regenerate with the cause named, both schemes;
   fresh-eyes review of the panel beside both meter photographs.
 - [ ] Exit: green in `workbench/sk150` by name; guard clean; commit

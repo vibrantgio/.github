@@ -3175,7 +3175,6 @@ and unfocused, and what is wrong with it.
 
 735. **[note]** **mindchat's and feeds' rails hold the keyboard only through Tab.** Their rows are `widget.Clickable`s, which do not take focus on a click, so their pill goes to the accent state only after a forward focus move reaches a row — two moves in feeds' composed window. Each window would need the same one-line `key.FocusCmd` vaultview's rail now has, or its own decision that a rail's rows are pointer targets and nothing else.
 
-
 ## CV. From CG5.26, the pointer's shape and the cgo chore
 
 Filed 2026-09-23 from the work itself. No fresh eyes were named; the readings
@@ -3188,8 +3187,3 @@ are the router's own, taken through live frames in vaultview's window and in
 
 748. **[decide]** **A pointer shape must be declared after the region registers its own input, and nothing but a test can catch getting it wrong.** The router scans a frame's areas newest first and, on meeting a region's input area, carries on from that area's parent, so a shape declared before the region's own `event.Op` is stepped over and the region silently shows whatever stands around it. `components/paragraph`'s link and `markdown`'s task checkbox both declared before theirs and lost the hand the moment the shape was bounded; both are now fixed and both are pinned by tests, but the ordering is invisible at a call site and no test outside those two reads a shape. Decide whether every component that declares a shape owes a reading of it.
 
-## CW. From CG6.1, the editor's cancel
-
-Filed 2026-09-23 from the work itself. No fresh eyes were named.
-
-750. **[note]** **The preset editor's own hint line still names the Presets tab as its cancel.** `presetsRows` tells the reader "Presets tab cancels", which was exact while the view intercepted a second click on Presets; the cancel now lives on `SetScreen`, so every tab cancels and the line is narrower than the behaviour. One sentence, but it is the app's own words to its user and CG6.2 rewrites nothing near it.
