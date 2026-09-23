@@ -3226,3 +3226,14 @@ this dialog read as a macOS sheet, and what is wrong with it.
 790. **[note]** **System Settings' Appearance pane draws a choice as pictures, and the library has no such control.** Three of them in one pane: Auto / Light / Dark, Clear / Tinted, and Default / Dark / Clear / Tinted — a row of framed images, the chosen one ringed in the accent with its name under it in bold and the rest in `secondaryLabelColor`. Both appearances agree. Nothing in the library offers a picture as a choice, and a theme or appearance chooser is exactly where one would be reached for.
 797. **[decide]** **The templates bar and the providers list are two selectors on the same axis with nothing saying how they differ.** Four template names in a segmented control above a list of the two providers actually configured, and no label on either. The reviewer could infer "available" against "configured" and said nothing in the sheet says so. Decide whether the templates are a selector at all, or a menu the `+` drops.
 
+
+## DC. From CG7.9, the rail as one focus target
+
+Filed 2026-09-23 from the work itself: the rails' rows became pointer gestures
+so Tab leaves the rail, and `components/list`'s barred entry point learned to
+consume a pending `Reveal`. No fresh-eyes review was named for the task.
+
+808. **[note]** **`list.Layout` is the one entry point that still drops a pending `Reveal`.** `LayoutSelectable`, `LayoutSelectableScrollbar` and now `LayoutScrollbar` all consume it; the bare one does not, so a caller pairing `Reveal` with `Layout` is answered by silence. Either the bare entry point consumes it too or `Reveal`'s doc names the exception for good.
+809. **[note]** **Every other list in the tree still registers a focus filter per row.** vaultview's outline and backlinks asides, its vault picker and its chooser, and mindchat's rail all hold `[]*widget.Clickable`, so Tab walks their rows one by one — the defect CG7.9 took out of the two rails, left standing everywhere else. `patterns/sidebar.RowTarget` is the shape they would all take.
+810. **[note]** **feeds' rail brings the cursor's row into view a whole section at a time.** The column scrolls by blocks and a section's entire run of rows is one block, so `Reveal` lands that run's edge rather than the row's: inside a section taller than the window, walking down past the fold no longer scrolls. Either the rail's rows become blocks of their own or the column keeps a row-level measure of some kind.
+811. **[decide]** **mindchat's rail has no keyboard at all.** It draws the platform's two pills off `gtx.Focused` on each row's own clickable, with no rail tag, no cursor and no arrows — where feeds' and vaultview's rails walk their rows. Decide whether a rail that lists the application's own documents is operable from the keyboard in every window or only in the two that grew one.

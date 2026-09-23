@@ -23060,7 +23060,7 @@ row) and Modal bind.
 
 #### CG7.9: A rail is one focus target and Tab leaves it
 
-- [ ] The List entry binds: a list is one focusable wherever it
+- [x] The List entry binds: a list is one focusable wherever it
   stands. A rail row is a `widget.Clickable`, which registers a
   focus filter of its own, so Tab walks the rows one by one and the
   arrows go dead the moment it does, in feeds' rail and vaultview's
@@ -23075,8 +23075,8 @@ row) and Modal bind.
   longer computes its own pixels (feeds' `revealRailRow` goes).
   Tests drive Tab through a router in both rails and read the focus
   leaving.
-- [ ] Goldens do not move (a still holds no focus).
-- [ ] Exit: green in `components`, `patterns`, `workbench/feeds`,
+- [x] Goldens do not move (a still holds no focus).
+- [x] Exit: green in `components`, `patterns`, `workbench/feeds`,
   `workbench/vaultview` by name; guard clean; commit and push in
   every touched repo and `.github`.
 
