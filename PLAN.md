@@ -23191,3 +23191,25 @@ row) and Modal bind.
   name; guard clean; commit and push in `workbench` and `.github`.
 
 
+
+#### CG7.15: A rail's headings are not focus stops and Left on a note walks to its parent before collapsing it
+
+- [ ] Behaviour after CG7.14, read off the platform's sidebars and
+  outlines (ontology, 2026-09-24). Finder's sidebar arrows never
+  stop on a section heading: Left on a row of an open section
+  collapses the section and the cursor lands on the nearest row
+  still visible (the row above, or the row below when none is
+  above); Up and Down skip headings; Right on a row does nothing. A
+  section collapsed by pointer reopens by pointer, as on the
+  platform. In an outline Left on a leaf walks to its parent folder
+  and a second Left collapses it; Left on an open folder collapses
+  it; Left on a collapsed folder walks to its parent; Right as
+  CG7.14 left it. feeds' rail and vaultview's tree change; mindchat
+  is untouched. Return on a heading goes with the stop. The
+  router-driven tests of CG7.14 read the new landings.
+- [ ] Goldens do not move.
+- [ ] Exit: green in `workbench/feeds`, `workbench/vaultview` and
+  `workbench/mindchat` by name; guard clean; commit and push in
+  `workbench` and `.github`.
+
+
