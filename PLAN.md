@@ -22729,3 +22729,23 @@ with Rene on the ruling sheet.
   and push in every touched repo and `.github`.
 
 
+
+#### CG5.24: Vaultview's tree is one run in the filesystem's order
+
+- [ ] Owner finding and go 2026-09-23: "There is a split now in
+  VaultView between Folders and Notes … this is just part of the root
+  folder no?" It is. CG5.3p read Voice Memos' sections ("My Folders"
+  against the built-in "All Recordings" and "Recently Deleted", two
+  collections) as a rule to head the vault's root by kind; a vault is
+  one collection, one folder. `workbench/vaultview`'s tree draws the
+  root's entries as one run in the filesystem's order, folders and
+  notes interleaved as they sort, no "Folders" or "Notes" heading;
+  `TestTreeHeadsTheVaultsTwoRuns` goes and a test pins the single
+  run and its order. The Sidebar entry's section heading stays for a
+  second collection where an app has one (Earwitness's recordings
+  would); vaultview has none. The find's flat run is unchanged.
+- [ ] Goldens regenerate with the cause named, both schemes.
+- [ ] Exit: green in `workbench/vaultview` by name; guard clean;
+  commit and push in `workbench` and `.github`.
+
+
