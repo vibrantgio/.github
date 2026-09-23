@@ -3226,3 +3226,12 @@ this dialog read as a macOS sheet, and what is wrong with it.
 790. **[note]** **System Settings' Appearance pane draws a choice as pictures, and the library has no such control.** Three of them in one pane: Auto / Light / Dark, Clear / Tinted, and Default / Dark / Clear / Tinted — a row of framed images, the chosen one ringed in the accent with its name under it in bold and the rest in `secondaryLabelColor`. Both appearances agree. Nothing in the library offers a picture as a choice, and a theme or appearance chooser is exactly where one would be reached for.
 797. **[decide]** **The templates bar and the providers list are two selectors on the same axis with nothing saying how they differ.** Four template names in a segmented control above a list of the two providers actually configured, and no label on either. The reviewer could infer "available" against "configured" and said nothing in the sheet says so. Decide whether the templates are a selector at all, or a menu the `+` drops.
 
+
+## DB. From CG7.7, a selected run's colour
+
+Filed 2026-09-23 from the work itself: the text field and the search field now
+draw a selected run again in `selectedTextColor` under the selection's own
+clip, and two things stood beside the result without being part of it.
+
+801. **[decide]** **A field that has lost focus keeps its selection on the platform, and the library draws two different answers.** AppKit has a second pair of names for it — `unemphasizedSelectedTextBackgroundColor`, `#dcdcdc` light and `#464646` dark — which is what a selection in an unfocused field stands on. The live field draws no selection at all once focus leaves, because `gioui.org/widget`'s editor paints one only while it holds focus; the static render path draws the emphasized fill whatever the state says. Decide whether an unfocused field shows its selection, and if it does, that the unemphasized pair is measured and spent.
+802. **[note]** **The same selection is a different height on the two paths.** The live field's fill is the editor's own line — ascent plus descent, 18 rows at the default body role — and the static one's is the corrected line box the value is centred in, 24 rows, read off `textfield-light-selected` against a live capture at 300×60. Nothing reads the height yet, and no capture in `reference/macos` holds a selection tall enough to settle which of the two the platform draws.

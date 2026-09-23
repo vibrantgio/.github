@@ -23006,7 +23006,7 @@ row) and Modal bind.
 
 #### CG7.7: A selected run in a field wears the platform's selected text colour
 
-- [ ] Language, the Selection entry (.github 9eae272): a selected run
+- [x] Language, the Selection entry (.github 9eae272): a selected run
   of text in a field wears the platform's selected text colour over
   its selected text background, both measured, whatever colour the
   field's other text wears. `components/input`: the save dialog's
@@ -23019,10 +23019,10 @@ row) and Modal bind.
   the measured colour, as the halo's over half is clipped per fill
   (CG5.22); the caret keeps its colour. Tests read a selected run's
   plateau over the selection fill in both schemes.
-- [ ] Goldens regenerate with the cause named, both schemes,
+- [x] Goldens regenerate with the cause named, both schemes,
   downstream included (a golden holding a selected value; if none
   exists, one is stored).
-- [ ] Exit: green in `components`, `components/gallery` and every
+- [x] Exit: green in `components`, `components/gallery` and every
   consumer whose golden moved by name; guard clean; commit and push
   in every touched repo and `.github`.
 

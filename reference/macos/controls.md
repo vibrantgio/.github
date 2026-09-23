@@ -336,12 +336,15 @@ holds is SELECTED.
 | an UNSELECTED typed value, over the field's own fill | `labelColor` — black at 216/255 light | `voicememos-multi-folder-search-2026-09-18.png` | the toolbar recess's typed query "Drie", x 734-756 in a field whose fill is `#e8e8e8`: sixteen pixels plateau at `#232323`, which is that coverage over that fill to the byte on every channel, where an opaque text colour would read `#000000`. The clear mark at the other end of the same field plateaus at the same `#232323` — the reading already recorded under what that mark's own figure is — and the magnifier and the prompt at 127/255 do not. No dark capture holds an unselected typed value; the light reading carries the name and the dark half of `labelColor` follows it |
 | the insertion point | the accent, not a label — `#178bfb` over the recess | same | one column, x=758, sixteen rows tall, standing immediately after the query's last covered column at x=756 with an anti-aliased x=757 at `#80baf2`. It is neither `controlAccentColor`'s `#007aff` nor the `#157efb` the same reference reads off a default button's fill, and the halo in this capture is not the stored accent's either — the note under what the field's trailing end holds records that what the accent was set to when it was taken is not known — so the caret's colour is read here and not yet named |
 
-A consumer spends `labelColor` for the value: it is the name the one
-unselected reading lands, and the field's own fill is what a value normally
-stands on. Drawing the run over the selection in a second name is not
-available to a toolkit that paints an editor's whole run from one paint
-source, so the selected value carries the label there too, 28 of 255 short of
-the platform's own answer at the plateau.
+A consumer spends `labelColor` for the value it holds unselected, which is
+the name the one unselected reading lands, over the field's own fill. A
+selected run takes the second name: it is drawn again in `selectedTextColor`
+under the selection's own clip, over the fill the selection paints, which is
+what the save dialog's plateau reads. A toolkit that paints an editor's whole
+run from one paint source draws the run a second time to do it — the run
+alone, with the caret and the selection's fill left to the first pass — rather
+than leaving the selected value at the label, 28 of 255 short of the
+platform's own answer.
 
 **What the checkbox's corner and the control's edge measure.** Read
 2026-09-18 by CG5.3h off the same two sheets, and recorded in the rows
