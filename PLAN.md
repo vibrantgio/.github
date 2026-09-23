@@ -23057,3 +23057,27 @@ row) and Modal bind.
   guard clean; commit and push in every touched repo and `.github`.
 
 
+
+#### CG7.9: A rail is one focus target and Tab leaves it
+
+- [ ] The List entry binds: a list is one focusable wherever it
+  stands. A rail row is a `widget.Clickable`, which registers a
+  focus filter of its own, so Tab walks the rows one by one and the
+  arrows go dead the moment it does, in feeds' rail and vaultview's
+  tree alike. The rows' click targets become pointer gestures
+  (`gesture.Click`) with the rail's one focus tag, so Tab leaves the
+  rail for the next focusable as the platform's sidebar does and the
+  arrows keep walking the rows; the click still hands the rail the
+  keys; both windows change together, with the same shape in
+  `patterns/sidebar` where the row is drawn. `components/list`'s
+  `LayoutScrollbar` consumes a pending `Reveal` as the selectable
+  entry points do, so a scrolling column that is not selectable no
+  longer computes its own pixels (feeds' `revealRailRow` goes).
+  Tests drive Tab through a router in both rails and read the focus
+  leaving.
+- [ ] Goldens do not move (a still holds no focus).
+- [ ] Exit: green in `components`, `patterns`, `workbench/feeds`,
+  `workbench/vaultview` by name; guard clean; commit and push in
+  every touched repo and `.github`.
+
+

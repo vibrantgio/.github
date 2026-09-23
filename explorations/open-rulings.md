@@ -3213,7 +3213,6 @@ sidebar in the reference windows, and what is wrong with it.
 
 758. **[decide]** **feeds' rail cannot be sent away, so it draws neither half of the pane's recall switch.** `patterns/pane`'s convention is that a control on the panel dismisses it and a control in the window's chrome brings it back; vaultview and mindchat both draw the pair. feeds draws neither and its panel's strip stands empty under the window's control buttons. Decide whether a window whose only route into its content is its rail may dismiss it at all, and if not, whether an undismissable pane is still a pane.
 
-
 ## CZ. From CG7.5, mindchat's settings body against the sheet
 
 Filed 2026-09-23 from the measurements this task took off
@@ -3227,9 +3226,3 @@ this dialog read as a macOS sheet, and what is wrong with it.
 790. **[note]** **System Settings' Appearance pane draws a choice as pictures, and the library has no such control.** Three of them in one pane: Auto / Light / Dark, Clear / Tinted, and Default / Dark / Clear / Tinted — a row of framed images, the chosen one ringed in the accent with its name under it in bold and the rest in `secondaryLabelColor`. Both appearances agree. Nothing in the library offers a picture as a choice, and a theme or appearance chooser is exactly where one would be reached for.
 797. **[decide]** **The templates bar and the providers list are two selectors on the same axis with nothing saying how they differ.** Four template names in a segmented control above a list of the two providers actually configured, and no label on either. The reviewer could infer "available" against "configured" and said nothing in the sheet says so. Decide whether the templates are a selector at all, or a menu the `+` drops.
 
-## DA. From CG7.6, the rail's keyboard
-
-Filed 2026-09-23 from the task's own findings.
-
-799. **[decide]** **A rail row is a focusable of its own AND part of a rail that is one focus target, so Tab walks the rows one by one instead of leaving the rail — and the arrows go dead the moment it does.** Both feeds' rail and vaultview's tree draw their rows as `gioui.org/widget.Clickable`s, which register a focus filter whether or not the caller wants one, beside the single tag the list's traversal needs. A list is one focusable wherever it stands, so a reader tabbing past it should reach the next thing in the window and not its second row. Decide whether a rail row's click target should be a pointer gesture rather than a focusable, in both windows at once.
-800. **[note]** **`components/list`'s `LayoutScrollbar` never consumes a pending `Reveal`, so a scrolling column that is not `LayoutSelectable` has to compute its own pixels.** `Reveal` is drained by `scrollIntoView`, which only `LayoutSelectable` and `LayoutSelectableScrollbar` call; a `Reveal` handed to a plain scrolling list is stored and never acted on. CG7.6 measured feeds' rail's rows down its own block column and moved the viewport with `ScrollPixels` instead. Decide whether every scrolling entry point should honour a pending Reveal, which would let a column whose items are not its rows ask for a row by position.
