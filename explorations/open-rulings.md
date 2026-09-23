@@ -3196,11 +3196,3 @@ and unfocused, and what is wrong with it.
 
 735. **[note]** **mindchat's and feeds' rails hold the keyboard only through Tab.** Their rows are `widget.Clickable`s, which do not take focus on a click, so their pill goes to the accent state only after a forward focus move reaches a row — two moves in feeds' composed window. Each window would need the same one-line `key.FocusCmd` vaultview's rail now has, or its own decision that a rail's rows are pointer targets and nothing else.
 
-
-## CV. From CG5.25, the one name order
-
-Filed 2026-09-23 from the work itself. No fresh eyes were named; everything
-below was measured while `theme/system/naming` was built and the three
-name-ordered lists were pointed at it.
-
-741. **[decide]** **The Go order and the platform's disagree on exactly one letter, the sharp s.** A name spelled with `ß`, against one spelled with `ss` and differing in what follows, orders the pair one way on macOS and the other everywhere else; a sweep of case, digits, leading zeros, punctuation and scripts turned up no other divergence. The package doc names it. Decide whether the Go side carries a correction for it, or whether one letter's order on non-macOS platforms is left as it is.
