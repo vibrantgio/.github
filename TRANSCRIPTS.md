@@ -991,3 +991,8 @@ platform's Open panel on macOS with the modal as the fallback)
 Rene: I noticed that the sidebar listview shows the last cursor that
 was active elsewhere. E.g. when moving from the markdown to the
 list, the text cursor shaped like an I is shown. ^0005-pointer-shape
+
+Rene (to the vibrantgio session, relayed: he called the tagging
+round on 2026-09-24, an application outside the org moving onto the
+library, before the draft library phase's rulings; Phase CH carries
+it) ^0005-tagging-round-called
