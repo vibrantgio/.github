@@ -23281,7 +23281,7 @@ other task runs beside it.
 
 #### CH1.1: The bottom layers tag their masters
 
-- [ ] Layers 0 to 2 of `scripts/check-layers.sh --edges` (the modules
+- [x] Layers 0 to 2 of `scripts/check-layers.sh --edges` (the modules
   that import no sibling, then those importing only them): today
   backdrop, circle, csg, font, gradient, ivg, kiwi, mvu, noise, seen,
   style, svg, textdraw, traer and their nested modules. Per repo the
@@ -23291,7 +23291,7 @@ other task runs beside it.
   on the root and tag with the root's number after the root's tag is
   pushed. `GOWORK=off go build ./... && go test ./...` green in each
   before its tag.
-- [ ] Exit: every layer-0-to-2 repo pushed with its tags; no master
+- [x] Exit: every layer-0-to-2 repo pushed with its tags; no master
   ahead of its newest tag except by a nested pin-bump commit its
   nested tag covers; commit and push in `.github`.
 
