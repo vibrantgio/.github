@@ -3262,3 +3262,13 @@ Right over its folds. No fresh-eyes review was named for the task.
 
 823. **[note]** **vaultview's tree posts its fold messages through a seam only a test fills.** `treeView.post` is nil in the window, where a message rides the frame's ops, and a recorder in the test — mindchat's rail takes the same sink as a named parameter of its layout, and vaultview's rows still reach `mvu.MessageOp` directly from `activateTreeRow`. Whether the window's two paths should be one named sink is unasked.
 
+
+## DH. From CG7.16, sk150's opening height
+
+Filed 2026-09-26 from the work itself: sk150's opening height grew by the
+111 px the readout panel gained plus the 32 dp the native strip caps off the
+top, and the window took a minimum size. No fresh-eyes review was named for
+the task.
+
+826. **[note]** **A stored window frame shows a page the running macOS window never shows.** `desktop.CapTop` is an exact no-op where `TopInset` reports 0 — before the first frame and in headless rendering — so every whole-window golden in the tree draws the page 32 dp taller than the window on the screen does, and the gap lands wherever a flexed region absorbs it. sk150's opening height now carries the strip as a constant; its goldens still do not. Whether the render harness should inset the strip so a reviewer reads the page the window shows is unasked.
+827. **[note]** **Eight of the ten workbench windows state no size they refuse.** `mindchat` and now `sk150` pass `app.MinSize`; the launcher, todos, feeds, vaultview, iconbrowser, sitedocs, themer and marketing can each be dragged to a size that crushes whatever region takes the remaining height. Whether every window should state the size below which it refuses, and what fixes each one, is unasked.

@@ -23217,7 +23217,7 @@ row) and Modal bind.
 
 #### CG7.16: sk150 opens tall enough for both charts and refuses a size that crushes them
 
-- [ ] Rene's finding 2026-09-26: at the opening size the two history
+- [x] Rene's finding 2026-09-26: at the opening size the two history
   charts under the Monitor tab do not show until the window is
   resized. The window opens at 720 by 760 with no minimum size, the
   charts take the height left under the header, the tab strip and
@@ -23229,9 +23229,9 @@ row) and Modal bind.
   the header, the panel and both charts at that height still fit,
   and a resize below it is refused. The top inset the strip takes on
   macOS counts. Nothing else in the composition moves.
-- [ ] The window goldens re-render at the new opening size and show
+- [x] The window goldens re-render at the new opening size and show
   both charts drawn with their traces.
-- [ ] Exit: green in `workbench/sk150` by name; guard clean; commit
+- [x] Exit: green in `workbench/sk150` by name; guard clean; commit
   and push in `workbench` and `.github`.
 
 #### CG7.17: sk150's black panel ends in the OWON's two boxes, Set at the left and Limit at the right
