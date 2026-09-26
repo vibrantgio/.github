@@ -23213,3 +23213,45 @@ row) and Modal bind.
   `workbench` and `.github`.
 
 
+
+#### CG7.16: sk150 opens tall enough for both charts and refuses a size that crushes them
+
+- [ ] Rene's finding 2026-09-26: at the opening size the two history
+  charts under the Monitor tab do not show until the window is
+  resized. The window opens at 720 by 760 with no minimum size, the
+  charts take the height left under the header, the tab strip and
+  the black panel, and the panel grew by its Set and Limit lines in
+  G-CG6 without the opening height following. The opening height
+  grows by what the panel gained since the window's first commit,
+  measured in the golden's own pixels, so both charts open at least
+  as tall as they were then; the window gets a minimum size at which
+  the header, the panel and both charts at that height still fit,
+  and a resize below it is refused. The top inset the strip takes on
+  macOS counts. Nothing else in the composition moves.
+- [ ] The window goldens re-render at the new opening size and show
+  both charts drawn with their traces.
+- [ ] Exit: green in `workbench/sk150` by name; guard clean; commit
+  and push in `workbench` and `.github`.
+
+#### CG7.17: sk150's black panel ends in the OWON's two boxes, Set at the left and Limit at the right
+
+- [ ] Rene's finding 2026-09-26 against
+  `reference/sk150-display-2026-09-23.jpeg` (the photo is turned a
+  quarter turn; upright, the status row is at the top and the two
+  boxes at the bottom). The hairline and the two-row Set and Limit
+  table under the readings go. The bottom of the black panel becomes
+  two bordered boxes side by side across its width, Set at the left
+  and Limit at the right, each with its title on the first line and
+  the voltage then the current side by side on the second, the box
+  edges in the display's blue-grey rim read off the photo, the
+  values in the yellow-green already read from it. The three
+  readings above keep their sizes and colours; the panel's height
+  changes only by what the boxes need. The photo's rim and label
+  colours are recorded next to the ones read for G-CG6.
+- [ ] The window goldens move for the panel alone; a diff against
+  the previous goldens shows no change above the panel's bottom
+  block or below the panel.
+- [ ] Exit: green in `workbench/sk150` by name; guard clean; commit
+  and push in `workbench` and `.github`.
+
+
