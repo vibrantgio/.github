@@ -3291,3 +3291,13 @@ round's tags. No fresh-eyes review was named for the task.
 
 832. **[note]** **`check-layers.sh --edges` walks a git worktree copy and reports eleven failures while exiting OK.** A worktree under `workbench/.claude/worktrees/` holds a second copy of the workbench modules; `go list` cannot resolve them because they are not `go.work` members, so the run prints eleven `error: go list failed` lines and still ends `check-layers: OK`. A reader of the gate sees errors it says do not matter. Whether the walk should skip `.claude/` and whether an `error:` line should fail the gate is unasked.
 833. **[note]** **`ivg`'s default branch carries six advisories.** The push of `raster/gio/v0.1.9` drew GitHub's report of six vulnerabilities on `ivg`'s default branch, two high and four moderate. No other repo in the round reported any. What they are and whether the round's consumers inherit them is unread.
+
+## DK. From CH1.2, the middle layers' tags
+
+Filed 2026-09-26 from the work itself: theme, components, effects,
+markdown and patterns took the round's tags, with the gallery and
+`mvu/example` beside them. No fresh-eyes review was named for the task.
+
+835. **[decide]** **Two v1 modules publish removals as minor bumps.** theme v1.4.0 deletes `tokens.ColorTokens`, `tokens.Role` and `tokens.ElevationLevel` outright, and components v1.4.0 reshapes every signature that took them; patterns v1.3.0 no longer publishes its `alert`, `breadcrumb`, `tooltip` and `pagination` packages, which moved into components. Under the version rule a breaking change in a v1 module can only be a minor, since `/vN` is forbidden, so an importer reading the number sees a compatible bump and gets a compile failure. Whether the org states that its minors may break, and where it states it, is unasked.
+836. **[note]** **The layer gate's summary names no nested module.** `scripts/check-layers.sh` reports nineteen roots by tier and ends OK; `components/gallery` and `mvu/example`, which the round had to pin and tag, appear only under `--edges`. A reader taking the summary as the module list undercounts by every nested module in the checkout. Whether the summary should carry them is unasked.
+837. **[note]** **effects and markdown sit above components, not beside theme.** The gate derives effects at tier 3 and markdown at tier 4, both importing components, so the round's order is theme, components, effects, markdown, patterns, then the gallery. Ordering them the other way round would have cost a second pass. The derived order held and the second pass found nothing, so the set was self-referencing after one pass. Whether Phase CH's remaining task should state its order or derive it is unasked.

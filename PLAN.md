@@ -23297,7 +23297,7 @@ other task runs beside it.
 
 #### CH1.2: theme, effects, components, patterns and markdown tag onto the new graph
 
-- [ ] In dependency order from `check-layers.sh --edges`: each bumps
+- [x] In dependency order from `check-layers.sh --edges`: each bumps
   its `go.mod` onto the tags below it, verifies `GOWORK=off go build
   ./... && go test ./...`, tags, pushes; `components/gallery` tags
   with `components`. Each takes a minor (theme, components, patterns
@@ -23308,7 +23308,7 @@ other task runs beside it.
   imports theme, so it sits above CH1.1's layers: once theme's tag is
   pushed it pins the new tags and tags `example/v1.1.0`, mirroring
   the root's number from CH1.1.
-- [ ] Exit: `GOWORK=off` green in each of the five, the gallery and
+- [x] Exit: `GOWORK=off` green in each of the five, the gallery and
   `mvu/example` by name; every repo pushed with tags; commit and push
   in `.github`.
 
