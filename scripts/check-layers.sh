@@ -157,7 +157,7 @@ else
   root=$(cd "$(dirname "$0")/../.." && pwd) # workspace root: the siblings' parent
   DIRS=""
   if [ "$EDGES" = 1 ]; then
-    DIRS=$(find "$root" -mindepth 2 -not -path "$root/.github/*" -name go.mod -not -path '*/.git/*' 2>/dev/null |
+    DIRS=$(find "$root" -mindepth 2 -not -path "$root/.github/*" -name go.mod -not -path '*/.git/*' -not -path '*/.claude/*' 2>/dev/null |
       sed 's|/go\.mod$||' | sort)
     if [ -z "$DIRS" ]; then
       echo "error: no modules under $root — run scripts/clone-all.sh first" >&2

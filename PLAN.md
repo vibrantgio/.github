@@ -23314,7 +23314,7 @@ other task runs beside it.
 
 #### CH1.3: workbench pins the round and the guide names the tags
 
-- [ ] Every `workbench` module's `go.mod` pins the newest tags;
+- [x] Every `workbench` module's `go.mod` pins the newest tags;
   `GOWORK=off go build ./... && go test ./...` green in the workbench
   root and each app by name after `go clean -modcache`, so no warm
   cache hides a broken pin; `scripts/sync-versions.sh` rewrites
