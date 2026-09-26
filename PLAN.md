@@ -23304,9 +23304,13 @@ other task runs beside it.
   and effects moved exported contracts in Phases BN to CG; markdown's
   drift is read and its bump stated). The second pass: any module
   whose `go.mod` still names a sibling's previous tag bumps and tags
-  again, so the newest tags reference each other.
-- [ ] Exit: `GOWORK=off` green in each of the five and the gallery by
-  name; every repo pushed with tags; commit and push in `.github`.
+  again, so the newest tags reference each other. `mvu/example`
+  imports theme, so it sits above CH1.1's layers: once theme's tag is
+  pushed it pins the new tags and tags `example/v1.1.0`, mirroring
+  the root's number from CH1.1.
+- [ ] Exit: `GOWORK=off` green in each of the five, the gallery and
+  `mvu/example` by name; every repo pushed with tags; commit and push
+  in `.github`.
 
 #### CH1.3: workbench pins the round and the guide names the tags
 
