@@ -3305,4 +3305,3 @@ Filed 2026-09-26 from the work itself: the ten workbench modules took the
 round's tags and `llms.txt` was regenerated. No fresh-eyes review was named
 for the task.
 
-840. **[note]** **The repository the protocol says carries no tags carries one.** `workbench` holds `marketing/v0.1.0`, so `sync-versions.sh` measures thirty-one module versions and its "no tags (expected for workbench and design)" line names only `design`. Nothing pins the tag and no table line renders it, so it moves no number today. Whether a nested workbench module may be tagged at all, and whether that one is deleted or minted deliberately, is unasked.
