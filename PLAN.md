@@ -23236,7 +23236,7 @@ row) and Modal bind.
 
 #### CG7.17: sk150's black panel ends in the OWON's two boxes, Set at the left and Limit at the right
 
-- [ ] Rene's finding 2026-09-26 against
+- [x] Rene's finding 2026-09-26 against
   `reference/sk150-display-2026-09-23.jpeg` (the photo is turned a
   quarter turn; upright, the status row is at the top and the two
   boxes at the bottom). The hairline and the two-row Set and Limit
@@ -23249,10 +23249,10 @@ row) and Modal bind.
   readings above keep their sizes and colours; the panel's height
   changes only by what the boxes need. The photo's rim and label
   colours are recorded next to the ones read for G-CG6.
-- [ ] The window goldens move for the panel alone; a diff against
+- [x] The window goldens move for the panel alone; a diff against
   the previous goldens shows no change above the panel's bottom
   block or below the panel.
-- [ ] Exit: green in `workbench/sk150` by name; guard clean; commit
+- [x] Exit: green in `workbench/sk150` by name; guard clean; commit
   and push in `workbench` and `.github`.
 
 
