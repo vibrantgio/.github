@@ -3299,3 +3299,14 @@ markdown and patterns took the round's tags, with the gallery and
 `mvu/example` beside them. No fresh-eyes review was named for the task.
 
 836. **[note]** **The layer gate's summary names no nested module.** `scripts/check-layers.sh` reports nineteen roots by tier and ends OK; `components/gallery` and `mvu/example`, which the round had to pin and tag, appear only under `--edges`. A reader taking the summary as the module list undercounts by every nested module in the checkout. Whether the summary should carry them is unasked.
+
+## DL. From CH1.3, workbench's pins and the guide's numbers
+
+Filed 2026-09-26 from the work itself: the ten workbench modules took the
+round's tags and `llms.txt` was regenerated. No fresh-eyes review was named
+for the task.
+
+838. **[decide]** **`design` is the one module the round leaves red without the workspace.** Its `go.mod` pins `components v1.3.3`, and `mirror/g23_test.go` imports `github.com/vibrantgio/components/breadcrumb`, which exists first in `components v1.4.0` — the package moved out of patterns in Phase CG and nothing re-pinned `design` after it. So `check-no-workspace.sh` fails there and has failed there since that move; the round did not open it and CH1.3 was told not to touch the repo. Whether `design` re-pins onto the round's tags, and in which task, is unasked.
+839. **[note]** **The workspace gate surveys a git worktree copy and counts it in its own total.** `check-no-workspace.sh` runs `find $WS -name go.mod` with no exclusion, so the eleven modules under `workbench/.claude/worktrees/sk150-rp2040` — a locked worktree pinned at a Phase-CG commit — enter the census. The run reads 42/53 where the checkout holds 42 modules; ten of the eleven failures are that stale copy failing to build against tags it was never pinned to. Pool 832 reports the same walk in `check-layers.sh --edges`. Whether both gates should skip `.claude/` is unasked.
+840. **[note]** **The repository the protocol says carries no tags carries one.** `workbench` holds `marketing/v0.1.0`, so `sync-versions.sh` measures thirty-one module versions and its "no tags (expected for workbench and design)" line names only `design`. Nothing pins the tag and no table line renders it, so it moves no number today. Whether a nested workbench module may be tagged at all, and whether that one is deleted or minted deliberately, is unasked.
+841. **[note]** **The guide counts its own applications twice and gets two answers.** `llms.txt` says "all eight workbench apps are pinned to" fifteen lines above "every one of the nine apps embodies the current contract"; the checkout holds nine applications beside the launcher. Neither number is generated — `sync-versions.sh` moves version tokens and nothing else — so both are hand-typed and one is wrong. Whether a count in the guide's prose should be generated the way the versions are is unasked.

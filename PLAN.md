@@ -23321,7 +23321,7 @@ other task runs beside it.
   `llms.txt` and `scripts/check-versions.sh` passes; `scripts/
   check-no-workspace.sh` reports no debt; `scripts/check-layers.sh`
   OK. `workbench` is not tagged.
-- [ ] Exit: green by name as above; commit and push in `workbench`
+- [x] Exit: green by name as above; commit and push in `workbench`
   and `.github`.
 
 
