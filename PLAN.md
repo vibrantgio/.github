@@ -23362,3 +23362,29 @@ what the finding names.
   commit and push in `workbench` and `.github`.
 
 
+
+#### CI1.2: A closed find field gives the keyboard back to where it came from
+
+- [ ] Found under CI1.1, given the go 2026-09-29: the shortcut that
+  opens the note's find field takes the keyboard from whatever holds
+  it, the rail's rows included, and Escape closes the field with a
+  focus command on the note's reading tag unconditionally. A reader
+  who was walking the rail, opened the field and closed it again is
+  left in the note with the rail's arrows dead. The Focused entry
+  (DOMAIN) states the rule: a control that took the keyboard for a
+  while and is then dismissed gives it back to where it came from,
+  as the platform does. After this task the find field remembers
+  which focus target held the keyboard when its shortcut opened it
+  and hands the keyboard back there on Escape; when nothing held it,
+  or the holder is gone, the note takes it as today. The rail's own
+  find field is unchanged; its shortcut and the page's are two
+  controls and each gives back its own. No composition changes.
+- [ ] Router-driven tests beside `railfocus_test.go`: open the
+  page's find with the keyboard in the rail, Escape, Down moves the
+  rail's selection; open it with the keyboard in the note, Escape,
+  the note holds it.
+- [ ] Goldens do not move.
+- [ ] Exit: green in `workbench/vaultview` by name; guard clean;
+  commit and push in `workbench` and `.github`.
+
+
