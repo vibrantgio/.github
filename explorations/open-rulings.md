@@ -3303,3 +3303,11 @@ Filed 2026-09-26 from the work itself: the ten workbench modules took the
 round's tags and `llms.txt` was regenerated. No fresh-eyes review was named
 for the task.
 
+
+## DM. From CI1.1, the keyboard after a rail click
+
+Filed 2026-09-29 from the work itself: the note column now claims the
+keyboard only on an arrival the rail did not cause. No fresh-eyes review
+was named for the task.
+
+842. **[note]** **Closing find in the page hands the keyboard to the note wherever it came from.** The shortcut that opens the field takes the keyboard from whatever holds it, the rail's rows included; Escape closes the field with `pageFind.dismiss`, which executes a focus command on the note's reading tag unconditionally. So a reader who was walking the rail, opened the field and closed it again is left in the note with the rail's arrows dead — the same loss the rail click had, by another route. Whether the field should give the keyboard back to whoever it took it from is unasked.

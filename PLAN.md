@@ -23337,7 +23337,7 @@ what the finding names.
 
 #### CI1.1: The note column stops taking the keyboard from a rail click
 
-- [ ] Rene's finding 2026-09-29: a click on a note row in vaultview's
+- [x] Rene's finding 2026-09-29: a click on a note row in vaultview's
   rail shows the accent pill for one frame, then the pill drops to
   grey and Up and Down no longer move the rail's selection. Cause:
   the row's click puts the keyboard in the rail's list and sends
@@ -23352,13 +23352,13 @@ what the finding names.
   list does not hold it; a click in the note, a followed link, back
   and forward keep their claim. Nothing else in the rail or the note
   column changes and the aside is untouched.
-- [ ] A router-driven test in `workbench/vaultview` beside the CG7.14
+- [x] A router-driven test in `workbench/vaultview` beside the CG7.14
   rail-key tests: click a note row, next frame Down moves the rail's
   selection and the row it lands on wears the emphasized pill; a
   second test shows a followed link in the note still puts the
   keyboard in the note.
-- [ ] Goldens do not move.
-- [ ] Exit: green in `workbench/vaultview` by name; guard clean;
+- [x] Goldens do not move.
+- [x] Exit: green in `workbench/vaultview` by name; guard clean;
   commit and push in `workbench` and `.github`.
 
 
