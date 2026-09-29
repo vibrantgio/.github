@@ -23325,3 +23325,40 @@ other task runs beside it.
   and `.github`.
 
 
+
+## Phase CI: The windows answer the owner's review of the round
+
+Owner findings after the round of 2026-09-26, each diagnosed and
+proposed in chat and given the go before it is planned here. One
+task per finding, one commit per repo, no composition change beyond
+what the finding names.
+
+### G-CI1: A click on vaultview's rail leaves the keyboard in the rail
+
+#### CI1.1: The note column stops taking the keyboard from a rail click
+
+- [ ] Rene's finding 2026-09-29: a click on a note row in vaultview's
+  rail shows the accent pill for one frame, then the pill drops to
+  grey and Up and Down no longer move the rail's selection. Cause:
+  the row's click puts the keyboard in the rail's list and sends
+  Navigate; the reader in `workbench/vaultview/note.go` claims the
+  keyboard whenever a different document is on screen, one frame
+  later, and takes it back. Folder rows behave because a fold changes
+  no document. The platform's sidebars (Finder, Notes) keep the
+  keyboard in the sidebar after a click there; the content pane gets
+  it on a click inside it, or when the navigation started in the
+  content (a followed link, back, forward). After this task the
+  reader claims the keyboard on a new document only when the rail's
+  list does not hold it; a click in the note, a followed link, back
+  and forward keep their claim. Nothing else in the rail or the note
+  column changes and the aside is untouched.
+- [ ] A router-driven test in `workbench/vaultview` beside the CG7.14
+  rail-key tests: click a note row, next frame Down moves the rail's
+  selection and the row it lands on wears the emphasized pill; a
+  second test shows a followed link in the note still puts the
+  keyboard in the note.
+- [ ] Goldens do not move.
+- [ ] Exit: green in `workbench/vaultview` by name; guard clean;
+  commit and push in `workbench` and `.github`.
+
+
