@@ -772,6 +772,12 @@ it. Finding within a page, it also says how many matches there are
 and which is current, and steps between them — Enter to the next,
 Shift+Enter to the previous — scrolling the current one into view.
 What it holds originates with the user.
+Escape does what the clear mark does: it empties the field and
+dismisses the highlight, the keyboard staying in the field. With
+nothing typed, Escape closes a find within a page and gives the
+keyboard back to where it came from; a search field standing on
+chrome has nothing to close and keeps the keyboard, as the platform's
+does.
 Standing on chrome — a sidebar, a toolbar — it is the platform's
 search field there: a flat recess set a shade apart from the
 sidebar material, measured per scheme, the ends fully rounded, with
