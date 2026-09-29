@@ -546,8 +546,10 @@ another; a region never leaves its shape behind.
 
 The persistent state marking where keyboard input goes: the control
 that receives the typing and reacts to Enter or Space. It stays
-until focus moves elsewhere — Tab, or a click. Its accent is the
-ring around the control, and the ring is all it may draw: a checked
+until focus moves elsewhere — Tab, or a click. A control that took
+the keyboard for a while and is then dismissed — a find field
+closed, a menu let go — gives it back to where it came from, as the
+platform does. Its accent is the ring around the control, and the ring is all it may draw: a checked
 control that is focused gets the ring and keeps its mark — redrawing
 a checked box as unchecked would let one state overwrite another.
 
