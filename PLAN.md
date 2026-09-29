@@ -23365,7 +23365,7 @@ what the finding names.
 
 #### CI1.2: A closed find field gives the keyboard back to where it came from
 
-- [ ] Found under CI1.1, given the go 2026-09-29: the shortcut that
+- [x] Found under CI1.1, given the go 2026-09-29: the shortcut that
   opens the note's find field takes the keyboard from whatever holds
   it, the rail's rows included, and Escape closes the field with a
   focus command on the note's reading tag unconditionally. A reader
@@ -23379,12 +23379,12 @@ what the finding names.
   or the holder is gone, the note takes it as today. The rail's own
   find field is unchanged; its shortcut and the page's are two
   controls and each gives back its own. No composition changes.
-- [ ] Router-driven tests beside `railfocus_test.go`: open the
+- [x] Router-driven tests beside `railfocus_test.go`: open the
   page's find with the keyboard in the rail, Escape, Down moves the
   rail's selection; open it with the keyboard in the note, Escape,
   the note holds it.
-- [ ] Goldens do not move.
-- [ ] Exit: green in `workbench/vaultview` by name; guard clean;
+- [x] Goldens do not move.
+- [x] Exit: green in `workbench/vaultview` by name; guard clean;
   commit and push in `workbench` and `.github`.
 
 
