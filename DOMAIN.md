@@ -796,6 +796,16 @@ and shows the focus as the platform does for its place: in the
 content or a dialog, the focus halo around the list; in a sidebar,
 the pill's colour; in a menu, the held row and no ring.
 
+### Outline
+
+The platform's word for a list whose rows nest: each row may hold
+rows beneath it, shown indented one step per depth behind a
+disclosure that opens and closes them, and a closed row's rows are
+not in the list. It is one focusable like any list; Left and Right
+close and open the row or walk to its parent and its first child.
+The sidebar's tree of folders and the content's tree of headings are
+outlines.
+
 ### Scroll area
 
 The control for one piece of content that keeps its own size — a
@@ -1002,7 +1012,10 @@ the platform's outline does with the rows it has — in a tree they
 close and open a folder or walk to the parent and the first child,
 in a sectioned list Left collapses the row's section, and a flat list
 answers neither; a heading is never a stop, and the sidebar keeps the
-keyboard even when every section is closed. The active
+keyboard even when every section is closed. A click on a row leaves the
+keyboard in the sidebar, as Finder and Notes do; the content takes
+it on a click inside the content, or when the move began there — a
+followed link, back, forward. The active
 entry is marked the platform's way: a pill inset from the sidebar's
 edges, rounded, in the sidebar's own selection colour with a white
 label while the sidebar holds the keyboard, and a grey pill with the
