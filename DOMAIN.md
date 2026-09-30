@@ -169,20 +169,20 @@ is a component, however large.
 | **feature** | an icon-title-body grid for a marketing "features" section |
 | **group** | a hairline around related components at the surface's own level, optionally labelled — divides the page |
 | **hero** | the marketing landing block: eyebrow, display title, subtitle, visual, a call-to-action pair |
-| **inspector** | a chrome column beside the content showing the properties of what is selected in it |
+| **inspector** | a column beside the content showing the properties of what is selected in it |
 | **modal** | a centred dialog floating over a full-window scrim — header, body, footer actions |
 | **navbar** | the horizontal bar of brand, links and actions; the active link marked |
 | **notifications** | the column that receives notifications and presents them — today as toasts — positioned, stacked and timed |
-| **pane** | a chrome column set in from the window's edges rather than being one of them, the backdrop showing around it |
+| **pane** | a column set in from the window's edges rather than being one of them, the backdrop showing around it |
 | **popover** | a small surface floating beside its anchor, a tail pointing at it |
 | **pricing** | a row of tier groups, the recommended tier a card wearing a badge |
-| **shell** | the top-level application layout: the composition of the chrome regions |
+| **shell** | the top-level application layout: the composition of the regions around the content |
 | **sidebar** | a collapsible vertical column — expanded with labels or collapsed to a rail of icons; the active entry marked |
-| **status bar** | the chrome strip along the window's bottom, reporting on the document |
+| **status bar** | the strip along the window's bottom, reporting on the document |
 | **table** | data in rows and columns, sortable and filterable — a list whose rows have columns |
 | **tabs** | a horizontal tab strip, the active tab underlined, its content panel below |
 | **testimonial** | quote cards naming their author — social proof |
-| **toolbar** | the chrome strip along the window's top holding the controls that act on the document |
+| **toolbar** | the strip along the window's top holding the controls that act on the document |
 
 ### Theme
 
@@ -334,6 +334,16 @@ thing by the box's small step of fill, no hairline and no shadow; a
 floating thing by its shadow. A field inside a card is raised on the card the
 same way. Cards do not nest: grouping within a card is its
 structure.
+
+### Background
+
+The platform's word for the fill a region stands on, one name per
+kind: the window background is the backdrop; the text background is
+the content's; the control background is a list's or a table's. A
+component paints its content over the background of the region it
+stands in, and "the surface it stands on" says the same thing from
+the component's side. A background is a colour role, read off the
+platform per scheme, never derived.
 
 ### Backdrop
 
@@ -871,6 +881,14 @@ The signal naming or captioning something: a run of text set in a
 typography role. It says what a thing is. It is drawn in the text
 colour of the surface it sits on and carries no role.
 
+### Heading
+
+A line of text naming the content beneath it, told from that content
+by its typography role alone and never operated: in a document the
+six heading levels; in a sidebar a section's small label; in a group
+its title; in a table the header row's labels. A heading word in a
+document that can be operated is the exception the Link entry names.
+
 ### Image
 
 Content as a picture: it is read, never operated.
@@ -931,7 +949,7 @@ introducing what the page is about.
 
 ### Inspector
 
-The chrome pattern of a column beside the content, showing the
+The pattern of a column beside the content, showing the
 properties of whatever is selected in it and offering the controls
 that change them. It follows the selection; empty selection, empty
 inspector.
@@ -953,7 +971,7 @@ platform's sheet shows.
 
 ### Navbar
 
-The chrome pattern spanning the window's top: a brand leading,
+The pattern spanning the window's top: a brand leading,
 links centred, actions trailing. The active link is marked.
 
 ### Notifications
@@ -966,7 +984,7 @@ the placement and the timing, not the presentation.
 
 ### Pane
 
-The chrome pattern setting a column in from the window's edges
+The pattern setting a column in from the window's edges
 rather than making it one of them: an inset panel, rounded on all
 corners, with the platform's rim and shadow, the window's own plane
 showing around it on every side. The sidebar is one. Unlike flush
@@ -991,13 +1009,13 @@ them may be singled out as the recommended tier.
 
 ### Shell
 
-The pattern composing the chrome regions into the application's
+The pattern composing the regions around the content into the application's
 top-level layout — sidebar, navbar and main content, in the
 arrangements its variants name.
 
 ### Sidebar
 
-The chrome pattern of a collapsible vertical column, set into the
+The pattern of a collapsible vertical column, set into the
 window as a pane: an inset rounded panel with the platform's rim and
 shadow, the window buttons inside it and its own marks standing bare
 in its top trailing corner, measured into the reference from Voice
@@ -1033,7 +1051,7 @@ never the list's selection colour.
 
 ### Status bar
 
-The chrome pattern of a strip along the window's bottom: signals
+The pattern of a strip along the window's bottom: signals
 reporting on the document and the application's state — where you
 are in it, what is happening to it. It reports; it holds controls
 only incidentally.
@@ -1055,7 +1073,7 @@ row of them — as social proof.
 
 ### Toolbar
 
-The chrome pattern of a strip along the window's top, below the
+The pattern of a strip along the window's top, below the
 title, holding the controls that act on the document. Its controls
 are in the chrome variant; it holds controls, never content. The
 picker's chrome trigger is named after it.

@@ -996,3 +996,9 @@ Rene (to the vibrantgio session, relayed: he called the tagging
 round on 2026-09-24, an application outside the org moving onto the
 library, before the draft library phase's rulings; Phase CH carries
 it) ^0005-tagging-round-called
+
+Rene (told "chrome" appears thirty-one times in DOMAIN.md in four
+jobs, and that the seven pattern entries' family label is the fat):
+Trim it, then add Background as a specific heading and add Heading
+as a specific heading in the DOMAIN.md document. I mean every time I
+look I see concepts that are undefined. ^0005-undefined-concepts
