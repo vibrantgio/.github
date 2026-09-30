@@ -23391,7 +23391,7 @@ what the finding names.
 
 #### CI1.3: The band's magnifier records where the keyboard was, as the shortcut does
 
-- [ ] Found under CI1.2, given the go 2026-09-30: the magnifier
+- [x] Found under CI1.2, given the go 2026-09-30: the magnifier
   capsule in the toolbar band opens the page's find field and asks
   for the keyboard exactly as the shortcut does, but it is laid out
   in the band, which holds no reference to the note column, so
@@ -23401,11 +23401,11 @@ what the finding names.
   task the capsule-opened field records the keyboard's holder the
   way the shortcut does and Escape hands it back there; the rail's
   own field is untouched and no composition changes.
-- [ ] A router-driven test beside the CI1.2 tests: keyboard in the
+- [x] A router-driven test beside the CI1.2 tests: keyboard in the
   rail, click the capsule, Escape, the rail holds the keyboard and
   Down moves its selection.
-- [ ] Goldens do not move.
-- [ ] Exit: green in `workbench/vaultview` by name; guard clean;
+- [x] Goldens do not move.
+- [x] Exit: green in `workbench/vaultview` by name; guard clean;
   commit and push in `workbench` and `.github`.
 
 
