@@ -337,13 +337,13 @@ structure.
 
 ### Background
 
-The platform's word for the fill a region stands on, one name per
-kind: the window background is the backdrop; the text background is
-the content's; the control background is a list's or a table's. A
-component paints its content over the background of the region it
-stands in, and "the surface it stands on" says the same thing from
-the component's side. A background is a colour role, read off the
-platform per scheme, never derived.
+The colour behind everything in a region: what shows wherever
+nothing is drawn. The platform names one per kind of region — the
+window background behind the window, the text background behind a
+document, the control background behind a list or a table — and each
+is a colour role read off the platform per scheme. Whatever a
+component draws, it draws over the background of the region it is
+in.
 
 ### Backdrop
 
