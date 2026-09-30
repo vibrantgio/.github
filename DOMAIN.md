@@ -141,7 +141,7 @@ signals have none.
 ### Purpose
 
 What a component is for, chosen from the few purposes its entry
-names and never from a look: the chip's four. A component's purpose
+names, never a matter of appearance: the chip's four. A component's purpose
 decides its behaviour, and a component with one purpose has no
 purpose property.
 
@@ -390,7 +390,7 @@ backdrop that frames the document rather than being it — navbar,
 toolbar, sidebar, inspector, status bar, pane. Its fill is the
 platform's sidebar material with wallpaper tinting off, measured
 into the reference for each scheme: a shade darker than the content
-in both, told from it by that shade and, where the two are flush, a
+in both, set apart from it by that shade and, where the two are flush, a
 seam. What the platform
 adds on top — the wallpaper showing through the glass — a window
 that cannot see the desktop does not paint. The shell pattern is
@@ -404,7 +404,7 @@ chrome.
 
 The platform's window: the frame the application draws in, with the
 title bar, the window buttons and the shadow drawn by the platform,
-its background the backdrop. Everything in this language stands
+its background the backdrop. Every component and pattern is drawn
 inside one.
 
 ### Region
@@ -442,8 +442,8 @@ regions.
 
 ### Recess
 
-A fill a shade apart from what it sits in, with no edge, that reads
-as sunk into it: the platform's search field on chrome.
+A fill a shade apart from the background around it, with no edge,
+that looks sunk into it: the platform's search field on chrome.
 
 ### Pill
 
@@ -890,13 +890,14 @@ the pill's colour; in a menu, the held row and no ring.
 
 One entry of a list: as tall as the list's row height, holding the
 entry's parts across the list's width. The row is what the keyboard
-walks and what the selection marks.
+moves through and what the selection marks.
 
 ### Column
 
-A part running the full height of what holds it, side by side with
-others: the sidebar, the content and the inspector are the window's
-columns; a table's columns each hold one field of every row.
+A region or a part of a table that runs the full height, standing
+side by side with others: the sidebar, the content and the inspector
+are the window's columns; a table's columns each hold one field of
+every row.
 
 ### Disclosure
 
@@ -910,7 +911,7 @@ The platform's word for a list whose rows nest: each row may hold
 rows beneath it, shown indented one step per depth behind a
 disclosure that opens and closes them, and a closed row's rows are
 not in the list. It is one focusable like any list; Left and Right
-close and open the row or walk to its parent and its first child.
+close and open the row or move to its parent and its first child.
 The sidebar's tree of folders and the content's tree of headings are
 outlines.
 
@@ -973,8 +974,8 @@ colour of the surface it sits on and carries no role.
 
 ### Heading
 
-A line of text naming the content beneath it, told from that content
-by its typography role alone and never operated: in a document the
+A line of text naming the content beneath it, set apart from that
+content by its typography role alone and never operated: in a document the
 six heading levels; in a sidebar a section's small label; in a group
 its title; in a table the header row's labels. A heading word in a
 document that can be operated is the exception the Link entry names.
@@ -1067,7 +1068,7 @@ the sidebar does, with the inset pill.
 
 ### Dialog
 
-The platform's word for the box that asks for a decision and holds
+The platform's word for the box that asks for a decision and blocks
 the window until it is answered: on macOS a sheet attached to the
 window's title bar, elsewhere a box floating over the window. The
 modal pattern draws the library's; the open panel is the platform's
@@ -1149,9 +1150,9 @@ collapses keeps that header and takes the platform's disclosure at
 its trailing end, measured, never an accordion row; each section
 opens and closes on its own, as Mail's and Finder's do, so any
 number may stand open at once. The sidebar is one focusable: Up and
-Down walk its rows, Return opens the row, and Left and Right do what
+Down move through its rows, Return opens the row, and Left and Right do what
 the platform's outline does with the rows it has — in a tree they
-close and open a folder or walk to the parent and the first child,
+close and open a folder or move to the parent and the first child,
 in a sectioned list Left collapses the row's section, and a flat list
 answers neither; a heading is never a stop, and the sidebar keeps the
 keyboard even when every section is closed. A click on a row leaves the
