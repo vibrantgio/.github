@@ -10,7 +10,7 @@ component's contract does not fit a consumer, the component is
 extended; the affordance is never re-assembled app-side. "Widget" is
 not a term of this language: it stays Gio's own word (layout.Widget,
 anything that can be laid out). A component is defined by itself,
-never assembled from other components: where it carries one — the
+never assembled from other components: where it has one — the
 badge's close, the picker's menu — that is a fixed part of its
 structure, not a slot. Every component is one of two kinds — a
 control is a component, and a signal is a component:
@@ -49,7 +49,7 @@ A component that is read, never operated: its only purpose is to
 inform. A signal tells you something; it is never the matter itself
 — that is content. There are two kinds. A status signal indicates
 one of the four statuses and is coloured in that status's role; a
-badge may also carry no status, and is then coloured Neutral:
+badge may also have no status, and is then coloured Neutral:
 
 | Status signal | Tells |
 |---|---|
@@ -57,7 +57,7 @@ badge may also carry no status, and is then coloured Neutral:
 | **alert** | a situation, standing in the page flow until it resolves |
 | **toast** | an event, floating briefly and leaving by itself |
 
-The other signals carry no status and no role of their own; each is
+The other signals have no status and no role of their own; each is
 coloured in the foreground of what it sits in — the developer does
 not choose a colour for it:
 
@@ -67,7 +67,7 @@ not choose a colour for it:
 | **tooltip** | the name of a control or the meaning of a signal, on demand |
 | **text label** | a name or caption, set in a typography role |
 
-A signal may carry a control without becoming one — the dismissible
+A signal may hold a control without becoming one — the dismissible
 badge's close. The affordance always belongs to the carried control,
 never to the signal.
 
@@ -80,7 +80,7 @@ never the developer and never the system, which only speak about
 it. Content is rendered by modules — the markdown
 document, an image — not shipped as a component: components stand
 beside content or act on it. The controls inside content — its
-links — are carried the way a signal carries its close: the
+links — are held the way a signal holds its close: the
 affordance belongs to the link, the prose around it stays read-only.
 
 ### Originator
@@ -475,7 +475,7 @@ anchor scrolls out of view, the surface is dismissed.
 
 Anchor and trigger usually coincide; they are still two parts, and
 none is a component. "Anchor" is reserved for the attachment part
-alone: no component may carry it as a name — the picker's
+alone: no component may use it as a name — the picker's
 chrome-variant trigger is Toolbar.
 
 ### State
@@ -517,7 +517,7 @@ the label colours, the window and content backgrounds, the
 separator, the selection colours, the accent, the system colours —
 each holding one value per scheme, read off the platform or measured
 into the reference. Nothing is derived from a role: a role is
-painted at its value. Two families carry names of the Language's
+painted at its value. Two families have names of the Language's
 own:
 
 | Roles | Family |
@@ -703,7 +703,7 @@ about content — read, not used. One purpose, three utterances:
 |---|---|---|
 | a word | "Popular" | the status's system colour at full strength with white text, as the platform draws a count badge; Neutral wears the system grey |
 | a count | the unread 9 | the same |
-| a symbol | the key-check verdict | may stand bare, the symbol in the status's system colour — the symbol's shape carries the meaning; the green check and the red cross differ by form before they differ by hue |
+| a symbol | the key-check verdict | may stand bare, the symbol in the status's system colour — the symbol's shape gives the meaning; the green check and the red cross differ by form before they differ by hue |
 
 It covers what iOS calls a badge too. Not a control: sized to
 its content like an inline annotation, not sized to the control
@@ -730,7 +730,7 @@ The status signal for a situation: a rounded box on the content's
 own background inside a separator hairline — an icon, a title in the
 text colour, a body — standing in the page flow until the situation
 resolves. The developer gives an alert one of four: Error, Success,
-Warning or Info, and the icon carries it in that status's system
+Warning or Info, and the icon shows it in that status's system
 colour; an alert given no status is Info. There is no other choice —
 no Neutral alert, no alert in the theme colour. It holds words about the
 situation, never a control: an action on the situation stands beside
@@ -759,7 +759,7 @@ and there is no other choice — no Neutral toast, no toast in the
 theme colour. Structure:
 icon, text, close mark; the close is its only control. The
 presentation and its timing are what make it a toast; the
-notification is the message it carries. It appears in the
+notification is the message it shows. It appears in the
 notifications column.
 
 ### Status
@@ -769,7 +769,7 @@ Error, it failed or is wrong; Success, it completed as intended;
 Warning, it needs care before it goes wrong; Info, it is worth
 knowing, neither good nor bad. Each status has a colour role of its
 own in the theme, the status four, so that a signal's hue indicates
-which status it carries. Three signals carry a status, divided by
+which status it has. Three signals have a status, divided by
 what each is about and how long it stays:
 
 | Component | Is about | Where | Until |
@@ -805,7 +805,7 @@ yellow is the highlight's alone; Warning is orange so that it can be.
 
 The hero's kicker: a short overline in the type stack
 that introduces the headline. Pure typography — a typographic role,
-not a badge: it carries no status, no fill,
+not a badge: it has no status, no fill,
 says nothing about content; it is the developer speaking, not the
 system. Wears type styling (size, tracking, a hue if the theme says
 so), never a badge's fill.
@@ -858,7 +858,7 @@ Standing on chrome — a sidebar, a toolbar — it is the platform's
 search field there: a flat recess set a shade apart from the
 sidebar material, measured per scheme, the ends fully rounded, with
 no edge except where the platform draws one — the dark toolbar's
-recess carries a lighter rim, measured — read into the reference
+recess has a lighter rim, measured — read into the reference
 from System Settings' sidebar and Voice Memos' toolbar.
 
 ### Scrollbar
@@ -943,7 +943,7 @@ at rest it is prose, and operating it goes to that heading.
 The signal showing a symbol for a concept: it names an action or a
 thing at a glance. It is drawn in the foreground of what it sits in
 — a button's icon in the button's foreground, an icon on the content
-in the text colour — and carries no role of its own. Inside a
+in the text colour — and has no role of its own. Inside a
 control's structure an icon is a part, not a signal of its own.
 A mark is named by what it depicts, never by what it does: one
 mark serves several actions, and the same picture has one name.
@@ -956,7 +956,7 @@ by itself after a short delay on hover or focus and leaving when they
 do. It holds text only, never a control; anything the user must
 operate is the job for a popover. It is filled with the window's
 own background inside a separator hairline, its text in the text
-colour, the same in both schemes, and it carries no status. The
+colour, the same in both schemes, and it has no status. The
 tooltip and the toast are the two floating signals that tell about a
 thing.
 
@@ -964,7 +964,7 @@ thing.
 
 The signal naming or captioning something: a run of text set in a
 typography role. It says what a thing is. It is drawn in the text
-colour of the surface it sits on and carries no role.
+colour of the surface it sits on and has no role.
 
 ### Heading
 
@@ -1071,7 +1071,7 @@ own.
 ### Modal
 
 The pattern that interrupts for a decision: a dialog floating at
-level 2 over a scrim, with a header carrying its title and close, a
+level 2 over a scrim, with a header holding its title and close, a
 body, and a footer of actions. The scrim isolates it — everything
 beneath is dimmed and deaf until the modal closes.
 Choosing a file or a folder is the platform's own open panel where
@@ -1172,7 +1172,7 @@ columns, sortable and filterable, however many rows there are.
 
 ### Tabs
 
-The pattern dividing content into one-of-many panels: a horizontal
+The pattern dividing content into parts shown one at a time: a horizontal
 strip of titles, the active tab underlined, the active tab's content
 below.
 
