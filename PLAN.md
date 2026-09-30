@@ -8195,7 +8195,7 @@ schemes — floored by construction where M3's fixed outline vanishes
 on some grounds; `OnSurfaceVariant` is the muted-ink rung floored at
 TextFloor; SurfaceContainerLow needs no token, `SurfaceAt(Level1)`
 being its analogue. Hard dependency honoured: the dark ramp's
-restored middle (Phase BJ, open-rulings 144/145) is exactly where
+restored middle (Phase BJ, findings 144/145) is exactly where
 outlines and containers live in dark.
 
 **Height.** Ruled as a relation, not a pin: `ChipHeight =
@@ -17465,7 +17465,7 @@ measured step under the paper, with the dark value written out.
 
 ## Phase AZ: A designed chip component
 
-Ruled by the owner 2026-08-29, cutting open-rulings item 88 (carried in
+Ruled by the owner 2026-08-29, cutting finding 88 (carried in
 from a consuming app's chip census). The system has no designed chip,
 and the species already exists by hand in-org: mindchat's model-picker
 chip (`modelmenu.go`, a label and a chevron anchoring a popover) draws
@@ -17866,7 +17866,7 @@ The trailing edge and the 36 dp height are unmoved.
 
 #### BB3.1: The anchor face joins the chip family
 
-Ruled by the owner 2026-08-30, cutting open-rulings item 121. The
+Ruled by the owner 2026-08-30, cutting finding 121. The
 platform's pop-up control is a rounded rectangle with the paired
 up/down chevrons; the picker currently wears the chip's full-radius
 pill with a single flipping chevron. The pill is the chip's ruled
@@ -17984,7 +17984,7 @@ captioned — and an icon-button specimen via `button.RenderIcon`.
 
 #### BD1.2: The gallery sidebar ground fills the window height
 
-BD1.1's fresh-eyes review (open-rulings item 128) caught the gallery
+BD1.1's fresh-eyes review (finding 128) caught the gallery
 window's own chrome short: on the components page the sidebar's ground
 stops just below the last nav item, leaving a lighter block beneath it,
 while the patterns page fills to the window's bottom edge — so the
@@ -18245,7 +18245,7 @@ later round rather than growing a shared seam here.
 
 ## Phase BG: The open rulings read in ruling order
 
-Owner request (2026-08-30): `explorations/open-rulings.md` has grown
+Owner request (2026-08-30): the review pool has grown
 past a hundred items in review-arrival order; reorder it for ruling —
 bugs first, then descending importance — and remove what is no longer
 relevant.
@@ -18254,7 +18254,7 @@ relevant.
 
 #### BG1.1: Bugs lead, importance orders the rest, the resolved leave
 
-Restructure `explorations/open-rulings.md`: every [bug] item first,
+Restructure the review pool: every [bug] item first,
 then the remaining items in descending importance, judged by user
 consequence and how much hangs on the ruling. Item numbers are
 identities — reviews/, memory and past commits cite them — so items
@@ -18285,7 +18285,7 @@ helpers), the picks board (`PickBoard`, `paletteGroups`, the whole
 `pickCell`/`pickPart` machinery, the packing), and the drawing
 primitives (`fillRRect`, `strokeRRect`, `at`, `natural`) — with the
 type-ladder adapter duplicated word for word and the seed row now
-copied in the other direction (open-rulings item 149). The copies have
+copied in the other direction (finding 149). The copies have
 already begun to drift: the two `paletteHeading` bodies differ. The
 engine moves into one shared package under `components/gallery`,
 beside the inventory it annotates; each app keeps only what is
@@ -18340,14 +18340,14 @@ composition stays).
 
 The seed row's constants, two-cell rule and cell drawing move into
 the shared package, parameterised over each app's geometry, closing
-open-rulings item 149. The themer keeps its first-hand pick states;
+finding 149. The themer keeps its first-hand pick states;
 sitedocs keeps its inference cases; neither keeps a copy of the
 shared halves.
 
 - [x] The shared seed row lands; both apps adopt; the honesty tests
   (no unmarked seam, claims checked against the palette) move with
   it and pass from the shared package.
-- [x] Item 149 retires from open-rulings with the landing named.
+- [x] Finding 149 retires from the pool with the landing named.
 - [x] Exit: green in `components/gallery`, `workbench/themer`,
   `workbench/sitedocs`; commit and push in `components`, `workbench`
   and `.github`.
@@ -18552,7 +18552,7 @@ The hand-rolled dropChip and both popover assemblies retire.
 #### BI2.2: The picker's menu learns its transient-surface manners
 
 BI2.1's review caught what the retired popover assembly had been
-providing for free (open-rulings item 150): an inline open field
+providing for free (finding 150): an inline open field
 menu draws no plane edge (a 1.03:1 seam over a dialog reads as
 corrupted text — a shipped regression), no height cap or scroll, no
 hover mark, no dismissal of its own (Escape closes the whole
@@ -18867,7 +18867,7 @@ glyph is ruled a glyph badge and hoists in.
 #### BM1.3: The badge wears its tinted container
 
 Owner-ruled 2026-08-31, on reading BM1.1's fresh-eyes headline (the
-variant encoded in hue and nothing else — open-rulings 176): the
+variant encoded in hue and nothing else — finding 176): the
 badge wears its role hue as a TINTED CONTAINER, never bare hued ink
 alone; the container was always the expectation. The container also
 hands the dismissible close a visible hit region and the close-mark
@@ -19069,7 +19069,7 @@ unlabeled control: the visible tooltip and the screen-reader label.
 
 ## Phase BO: One focus-ring colour per scheme
 
-Owner-ruled 2026-08-31 on open-rulings 189 (188 closed as rebutted
+Owner-ruled 2026-08-31 on finding 189 (188 closed as rebutted
 in the same ruling): one page currently draws two focus-ring purples
 — the one-sided walk's ring on most controls, the both-neighbours
 promoted ring on the chip's raised-storey cells, 19 L* apart. Light
@@ -19217,7 +19217,7 @@ pointer target, density plumbing.
 - [x] `components/button` docs drop the "selection = Tonal when
   picked, Ghost when not" doctrine; selection lives on the Filter
   chip (DOMAIN: Button entry). Narrows what Ghost must carry —
-  note the effect on open-rulings item 139 when closing.
+  note the effect on finding 139 when closing.
 - [x] `picker.Anchor` renames to `picker.Toolbar` per DOMAIN's Role
   entry — the re-anatomy round is the ruled trigger; abrupt, no
   alias (folds into this round's minor). Call sites across
@@ -19256,7 +19256,7 @@ cap height — and the dismiss ✕ is the heaviest ink on the chip.
 - [x] Goldens regenerated with cause named: `chip`, gallery,
   sitedocs. Fresh-eyes review of the chip section, one light and one
   dark capture, per the standing protocol; findings pooled.
-- [x] Ruling 213 closed in `explorations/open-rulings.md` with the
+- [x] Ruling 213 closed in the review pool with the
   measured outcome recorded; ruling 160's stale package name fixed
   in passing if its text is touched.
 - [x] Exit: green in `components` (nested gallery by name) and
@@ -21569,7 +21569,7 @@ side; it was wrong.
   never at `workbench/llms.txt` or any consumer (the workbench's own
   AGENTS.md may point at its own `llms.txt`, which is not a consumer
   of itself). No AGENTS.md anywhere points at
-  `explorations/open-rulings.md`; the script asserts it. The script
+  the review pool; the script asserts it. The script
   is idempotent and `check-agents.sh` (or the guard) fails when a
   repo's AGENTS.md drifts from the shape.
 - [x] Goldens do not move.
