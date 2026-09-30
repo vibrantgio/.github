@@ -8,7 +8,7 @@ What the system ships as one named unit — button, chip, picker,
 badge — defined by its purpose, structure and variants. When a
 component's contract does not fit a consumer, the component is
 extended; the affordance is never re-assembled app-side. "Widget" is
-not a term of this language: it stays Gio's own word (layout.Widget,
+not a term of this language: it stays Gio's own term (layout.Widget,
 anything that can be laid out). A component is defined by itself,
 never assembled from other components: where it has one — the
 badge's close, the picker's menu — that is a fixed part of its
@@ -154,7 +154,7 @@ footer, close, seam — is structure, not chrome.
 
 ### Symbol
 
-The platform's word for a small picture standing for a thing or an
+The platform's term for a small picture standing for a thing or an
 action: drawn from the set at its keyline, in the foreground of what
 it sits in, named by what it depicts. An icon is the signal that
 shows a symbol; a mark is a symbol that shows a state or offers a
@@ -416,7 +416,7 @@ a seam, and inset when it is a pane.
 
 ### Material
 
-The platform's word for a background that shows what is behind the
+The platform's term for a background that shows what is behind the
 window through it, blurred and tinted: the sidebar material, the
 menu material. Each is painted here flat, at its value measured with
 wallpaper tinting off.
@@ -654,7 +654,7 @@ the same action — it does not appear from content the way a chip
 does, and it does not record a state. Marking a choice is never a
 button's job, whatever its emphasis; that is the Filter
 chip's purpose.
-A button with a face is bordered, the platform's word: on chrome the
+A button with a face is bordered, the platform's term: on chrome the
 capsule, in a form the push button, each measured; a button with no
 face is borderless. Its title is text, a symbol, or both.
 
@@ -901,7 +901,7 @@ row's leading end or at a section heading's trailing end.
 
 ### Outline
 
-The platform's word for a list whose rows nest: each row may hold
+The platform's term for a list whose rows nest: each row may hold
 rows beneath it, shown indented one step per depth behind a
 disclosure that opens and closes them, and a closed row's rows are
 not in the list. It is one focusable like any list; Left and Right
@@ -963,7 +963,7 @@ thing.
 ### Label
 
 The signal naming or explaining something: text standing by itself
-on the surface, set in a typography role — the platform's word for
+on the surface, set in a typography role — the platform's term for
 such text. It says what a thing is. It is drawn in the text
 colour of the surface it sits on and has no role.
 
@@ -977,7 +977,7 @@ document that can be operated is the exception the Link entry names.
 
 ### Title
 
-The name of a thing, the platform's word. Shown over the thing as a
+The name of a thing, the platform's term. Shown over the thing as a
 heading — a window's name in its title bar, a dialog's, a group's,
 a section's — or shown by a control as its own text — a button's
 title, a checkbox's title beside its box, a sidebar row's title. A
@@ -1020,7 +1020,7 @@ header, body and footer slots. It holds content that must stand
 apart from the page around it — a summary, a preview, the
 recommended tier. What a card holds stands on the card; a field in
 it is a raised thing on the card. A card holds content, never
-another card. It never wears a role: the developer's word about it
+another card. It never wears a role: what the developer says about it
 is a badge in its header.
 
 ### Group
@@ -1059,7 +1059,7 @@ the sidebar does, with the inset pill.
 
 ### Dialog
 
-The platform's word for the box that asks for a decision and blocks
+The platform's term for the box that asks for a decision and blocks
 the window until it is answered: on macOS a sheet attached to the
 window's title bar, elsewhere a box floating over the window. The
 modal pattern draws the library's; the open panel is the platform's
