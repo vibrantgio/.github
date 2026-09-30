@@ -53,7 +53,7 @@ badge may also carry no status, and is then coloured Neutral:
 
 | Status signal | Tells |
 |---|---|
-| **badge** | the system's word, count or glyph about content |
+| **badge** | the system's word, count or symbol about content |
 | **alert** | a situation, standing in the page flow until it resolves |
 | **toast** | an event, floating briefly and leaving by itself |
 
@@ -63,7 +63,7 @@ not choose a colour for it:
 
 | Signal | Tells |
 |---|---|
-| **icon** | a concept as a glyph — names an action or a thing at a glance |
+| **icon** | a concept as a symbol — names an action or a thing at a glance |
 | **tooltip** | the name of a control or the meaning of a signal, on demand |
 | **text label** | a name or caption, set in a typography role |
 
@@ -138,6 +138,13 @@ signals have none.
 | **Tonal** | button | a secondary action |
 | **Ghost** | button | an incidental action; claims no colour of its own |
 
+### Purpose
+
+What a component is for, chosen from the few purposes its entry
+names and never from a look: the chip's four. A component's purpose
+decides its behaviour, and a component with one purpose has no
+purpose property.
+
 ### Structure
 
 The ordered parts a component is drawn from, each
@@ -145,9 +152,17 @@ required or optional. Notation: brackets mark the optional parts, as
 in [icon] text [x]. A component's or pattern's own trim — header,
 footer, close, seam — is structure, not chrome.
 
+### Symbol
+
+The platform's word for a small picture standing for a thing or an
+action: drawn from the set at its keyline, in the foreground of what
+it sits in, named by what it depicts. An icon is the signal that
+shows a symbol; a mark is a symbol that shows a state or offers a
+dismissal.
+
 ### Mark
 
-The small glyph a component draws. A mark shows a recorded state —
+The small symbol a component draws. A mark shows a recorded state —
 the checkbox's check, the radio's dot — or offers a dismissal — the
 close cross on a badge or an Input chip. A mark is a part of a
 structure, never a component. It is drawn in its role's mark colour.
@@ -303,7 +318,7 @@ wider than the measure.
 
 ### Surface
 
-A plane that content and controls stand on. Every
+The flat face that content and controls stand on. Every
 surface stands at a level; the window's own — the backdrop — is the
 lowest. A floating surface stands at a higher level than the
 surface it floats from — that difference in level is what floating
@@ -323,7 +338,7 @@ or darker than another by rule.
 
 | Level | Holds | Platform fill |
 |---|---|---|
-| **backdrop** | nothing: the window's own plane, showing wherever nothing stands | the window background |
+| **backdrop** | nothing: the window's own surface, showing wherever nothing stands | the window background |
 | **chrome** | the chrome regions — sidebars, toolbars, navbars, inspectors, status bars, panes | the sidebar material with wallpaper tinting off, measured into the reference |
 | **content** | the document being read, lists, tables | the text background |
 | **raised** | on the content and attached to it — cards, fields, filled insets | the platform's grouped box: a small step from the surface beneath, darker in light and lighter in dark, measured into the reference; a field the platform's field |
@@ -347,7 +362,7 @@ in.
 
 ### Backdrop
 
-The window's own plane, filled with the platform's window
+The window's own surface, filled with the platform's window
 background. It shows wherever nothing stands — around an inset pane.
 Nothing is drawn at it and no foreground is ever measured against
 it: the backdrop is only ever what shows around.
@@ -384,6 +399,63 @@ control lives in a chrome region. Chrome is window-scale only: the
 trim inside a component or pattern — a card's header, a dialog's
 footer, a table's header row — is that thing's structure, never
 chrome.
+
+### Window
+
+The platform's window: the frame the application draws in, with the
+title bar, the window buttons and the shadow drawn by the platform,
+its background the backdrop. Everything in this language stands
+inside one.
+
+### Region
+
+A part of the window with a background of its own: the sidebar, the
+toolbar, the content, the inspector, the status bar. A region is
+flush when it runs to the window's edges or meets another region at
+a seam, and inset when it is a panel.
+
+### Panel
+
+The platform's word for a region set in from the window's edges as
+one rounded object, with the platform's rim and shadow and the
+window's surface showing round it: the sidebar is one. The pane
+pattern draws it.
+
+### Material
+
+The platform's word for a background that shows what is behind the
+window through it, blurred and tinted: the sidebar material, the
+menu material. Each is painted here flat, at its value measured with
+wallpaper tinting off.
+
+### Hairline
+
+A line one pixel wide at 1x, whatever its colour: a seam, a rim, a
+group's outline.
+
+### Rim
+
+The one-pixel line the platform draws along the edge of a panel or a
+recess, lighter than both sides, measured per scheme. A rim belongs
+to the object it edges; a seam belongs to the meeting of two flush
+regions.
+
+### Recess
+
+A fill a shade apart from what it sits in, with no edge, that reads
+as sunk into it: the platform's search field on chrome.
+
+### Pill
+
+The rounded fill behind a selected row, inset from the row's ends,
+its corners fully round: the platform's selection shape in a sidebar
+and a menu.
+
+### Halo
+
+The focus ring as the platform draws it: a soft band around the
+outside of the focused control in the platform's keyboard focus
+colour, the control keeping its own edge and size.
 
 ### Attachment
 
@@ -494,20 +566,20 @@ sRGB.
 | the status's system colour at full strength | the worded or counted badge |
 | the content's own background inside a separator hairline | the alert |
 | the window's own background inside a separator hairline | the toast, the tooltip |
-| none | the Ghost button at rest, the glyph badge |
+| none | the Ghost button at rest, the symbol badge |
 
 Transient states lay the platform's hover and press overlays over the
 fill, or over the surface where there is none.
 
 ### Foreground
 
-What draws the content on the fill: text, glyph, stroke. A
+What draws the content on the fill: text, symbol, stroke. A
 foreground comes in three kinds:
 
 | Kind | On what | What it is |
 |---|---|---|
 | the text colour | a surface, the push button fill, the alert, the toast, the tooltip | the platform's label colour; its secondary label for lesser text and for Neutral's bare sign |
-| a status colour | a bare glyph, the alert's icon, the toast's icon | the status's system colour itself |
+| a status colour | a bare symbol, the alert's icon, the toast's icon | the status's system colour itself |
 | the selected text | the theme colour, a selection colour, a status's fill | the platform's alternate selected control text — white in both schemes; on a fill the user chose, black or white, whichever reads better |
 
 Fill and foreground are read off the platform as the pair the
@@ -637,7 +709,7 @@ about content — read, not used. One purpose, three utterances:
 |---|---|---|
 | a word | "Popular" | the status's system colour at full strength with white text, as the platform draws a count badge; Neutral wears the system grey |
 | a count | the unread 9 | the same |
-| a glyph | the key-check verdict | may stand bare, the glyph in the status's system colour — the glyph's shape carries the meaning; the green check and the red cross differ by form before they differ by hue |
+| a symbol | the key-check verdict | may stand bare, the symbol in the status's system colour — the symbol's shape carries the meaning; the green check and the red cross differ by form before they differ by hue |
 
 It covers what iOS calls a badge too. Not a control: sized to
 its content like an inline annotation, not sized to the control
@@ -814,6 +886,24 @@ and shows the focus as the platform does for its place: in the
 content or a dialog, the focus halo around the list; in a sidebar,
 the pill's colour; in a menu, the held row and no ring.
 
+### Row
+
+One entry of a list: as tall as the list's row height, holding the
+entry's parts across the list's width. The row is what the keyboard
+walks and what the selection marks.
+
+### Column
+
+A part running the full height of what holds it, side by side with
+others: the sidebar, the content and the inspector are the window's
+columns; a table's columns each hold one field of every row.
+
+### Disclosure
+
+The platform's control that opens and closes what it heads: a small
+chevron pointing right when closed and down when open, at an outline
+row's leading end or at a section heading's trailing end.
+
 ### Outline
 
 The platform's word for a list whose rows nest: each row may hold
@@ -855,7 +945,7 @@ at rest it is prose, and operating it goes to that heading.
 
 ### Icon
 
-The signal drawing a concept as a glyph: it names an action or a
+The signal showing a symbol for a concept: it names an action or a
 thing at a glance. It is drawn in the foreground of what it sits in
 — a button's icon in the button's foreground, an icon on the content
 in the text colour — and carries no role of its own. Inside a
@@ -888,6 +978,24 @@ by its typography role alone and never operated: in a document the
 six heading levels; in a sidebar a section's small label; in a group
 its title; in a table the header row's labels. A heading word in a
 document that can be operated is the exception the Link entry names.
+
+### Title
+
+The name of a thing, set over it as a heading: a window's name in its
+title bar, a dialog's, a group's, a section's. A title is a heading;
+a label names a part of a control.
+
+### Caption
+
+A line of text under a picture or beside a control saying what it
+shows or does, set smaller than the text it explains, read and never
+operated.
+
+### Label
+
+The words a control carries as its own name: a button's words, a
+field's name before it, a checkbox's words beside its box. The label
+is part of the control and is operated with it.
 
 ### Image
 
@@ -957,6 +1065,14 @@ It is chrome: it wears the sidebar
 material, with a seam to the content, and a list in it selects as
 the sidebar does, with the inset pill.
 
+### Dialog
+
+The platform's word for the box that asks for a decision and holds
+the window until it is answered: on macOS a sheet attached to the
+window's title bar, elsewhere a box floating over the window. The
+modal pattern draws the library's; the open panel is the platform's
+own.
+
 ### Modal
 
 The pattern that interrupts for a decision: a dialog floating at
@@ -986,7 +1102,7 @@ the placement and the timing, not the presentation.
 
 The pattern setting a column in from the window's edges
 rather than making it one of them: an inset panel, rounded on all
-corners, with the platform's rim and shadow, the window's own plane
+corners, with the platform's rim and shadow, the window's own surface
 showing around it on every side. The sidebar is one. Unlike flush
 chrome it is an object — a control can send it away, and what stood
 beside it reflows to the window's edge.
@@ -1019,7 +1135,7 @@ The pattern of a collapsible vertical column, set into the
 window as a pane: an inset rounded panel with the platform's rim and
 shadow, the window buttons inside it and its own marks standing bare
 in its top trailing corner, measured into the reference from Voice
-Memos. No seam parts it from the content; the window's plane around
+Memos. No seam parts it from the content; the window's surface around
 it does. Expanded it shows icons and labels, collapsed icons alone —
 collapsed, it is a rail. Its rows stand at the sidebar's own row
 height, each a symbol, a label and, at the trailing end, a count

@@ -1002,3 +1002,8 @@ jobs, and that the seven pattern entries' family label is the fat):
 Trim it, then add Background as a specific heading and add Heading
 as a specific heading in the DOMAIN.md document. I mean every time I
 look I see concepts that are undefined. ^0005-undefined-concepts
+
+Rene (to the list of load-bearing nouns without entries and the
+choice among glyph, symbol and mark): go, symbol stays and replace
+glyph, does that have consequences for the code?
+^0005-symbol-replaces-glyph
