@@ -1007,3 +1007,10 @@ Rene (to the list of load-bearing nouns without entries and the
 choice among glyph, symbol and mark): go, symbol stays and replace
 glyph, does that have consequences for the code?
 ^0005-symbol-replaces-glyph
+
+Rene (to the Label and Text label explanation, with the platform's
+words — a label is text standing by itself, a control's own text is
+its title): yes follow the platform and reevalutate your use of the
+term "words" where "text" would fit better. Meaning wise, words
+points to a potentially random sequence where text indicates a
+coherent meaningfull sequence. ^0005-label-title-text

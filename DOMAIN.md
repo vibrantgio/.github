@@ -65,7 +65,7 @@ not choose a colour for it:
 |---|---|
 | **icon** | a concept as a symbol — names an action or a thing at a glance |
 | **tooltip** | the name of a control or the meaning of a signal, on demand |
-| **text label** | a name or caption, set in a typography role |
+| **label** | text standing by itself that names or explains something, set in a typography role |
 
 A signal may hold a control without becoming one — the dismissible
 badge's close. The affordance always belongs to the held control,
@@ -90,7 +90,7 @@ Who a component speaks for.
 | Originator | Says | Example |
 |---|---|---|
 | **the user** | their own entries and tokens | the filter token they typed |
-| **the developer** | words placed when the application was built | the "Popular" label, a control's caption, the eyebrow |
+| **the developer** | text placed when the application was built | the "Popular" label, a control's caption, the eyebrow |
 | **the system** | what the running application computes | the unread count, the key-check verdict, "filtered by X" |
 
 A signal's originator is never the user: it speaks for the developer
@@ -182,7 +182,7 @@ is a component, however large.
 | **accordion** | a vertical stack of collapsible sections, a chevron per open state |
 | **card** | a rounded surface raised one step on what it is in, with header, body and footer slots — singles something out |
 | **feature** | an icon-title-body grid for a marketing "features" section |
-| **group** | a hairline around related components at the surface's own level, optionally labelled — divides the page |
+| **group** | a hairline around related components at the surface's own level, optionally titled — divides the page |
 | **hero** | the marketing landing block: eyebrow, display title, subtitle, visual, a call-to-action pair |
 | **inspector** | a column beside the content showing the properties of what is selected in it |
 | **modal** | a centred dialog floating over a full-window scrim — header, body, footer actions |
@@ -192,7 +192,7 @@ is a component, however large.
 | **popover** | a small surface floating beside its anchor, a tail pointing at it |
 | **pricing** | a row of tier groups, the recommended tier a card wearing a badge |
 | **shell** | the top-level application layout: the composition of the regions around the content |
-| **sidebar** | a collapsible vertical column — expanded with labels or collapsed to a rail of icons; the active entry marked |
+| **sidebar** | a collapsible vertical column — expanded with symbols and titles or collapsed to a rail of symbols; the active entry marked |
 | **status bar** | the strip along the window's bottom, reporting on the document |
 | **table** | data in rows and columns, sortable and filterable — a list whose rows have columns |
 | **tabs** | a horizontal tab strip, the active tab underlined, its content below |
@@ -285,7 +285,7 @@ per scheme, the platform's for that appearance.
 
 ### Typography role
 
-A named style of the type stack. A text label or a heading is set in
+A named style of the type stack. A label or a heading is set in
 a typography role, never in a bare size. Each family below comes in
 Large, Medium and Small.
 
@@ -301,7 +301,7 @@ Large, Medium and Small.
 
 ### Casing
 
-Words in the window are cased as the platform cases them: a
+Text in the window is cased as the platform cases it: a
 control's title and a menu item in title case ("Switch Vault",
 "Save As…"); a field's label, a caption, a section heading and a
 sentence of prose in sentence case ("Base URL:", "Text highlight
@@ -656,11 +656,11 @@ button's job, whatever its emphasis; that is the Filter
 chip's purpose.
 A button with a face is bordered, the platform's word: on chrome the
 capsule, in a form the push button, each measured; a button with no
-face is borderless. Its label is words, a symbol, or both.
+face is borderless. Its title is text, a symbol, or both.
 
 ### Breadcrumb
 
-The control going back up the hierarchy: a row of labels separated
+The control going back up the hierarchy: a row of names separated
 by chevrons, each a link to its place. The last is where you are —
 plain text, not a link. It is generated from the path; nothing is
 filled into it.
@@ -732,7 +732,7 @@ text colour, a body — standing in the page flow until the situation
 resolves. The developer gives an alert one of four: Error, Success,
 Warning or Info, and the icon shows it in that status's system
 colour; an alert given no status is Info. There is no other choice —
-no Neutral alert, no alert in the theme colour. It holds words about the
+no Neutral alert, no alert in the theme colour. It holds text about the
 situation, never a control: an action on the situation stands beside
 the alert, or the situation is a modal's job.
 
@@ -814,7 +814,7 @@ so), never a badge's fill.
 
 The binary control recording a yes or no. Its recorded yes is the
 checked state; only the user's own operation repaints the mark.
-Structure: the box and its label. As on the platform the label is
+Structure: the box and its title. As on the platform the title is
 part of the control — clicking it operates the box — set beside it
 at the platform's measured gap, in the text colour, and faded with
 the box when the control is disabled.
@@ -824,7 +824,7 @@ the box when the control is disabled.
 The one-of-a-few control: a visible group of options that exclude
 each other, each shown, one chosen. Choosing one clears the others.
 When the options are too many to stay visible, the picker takes
-over. Each option is a disc and its label, the label part of the
+over. Each option is a disc and its title, the title part of the
 control as the checkbox's is.
 
 ### Switch
@@ -960,37 +960,34 @@ colour, the same in both schemes, and it has no status. The
 tooltip and the toast are the two floating signals that tell about a
 thing.
 
-### Text label
+### Label
 
-The signal naming or captioning something: a run of text set in a
-typography role. It says what a thing is. It is drawn in the text
+The signal naming or explaining something: text standing by itself
+on the surface, set in a typography role — the platform's word for
+such text. It says what a thing is. It is drawn in the text
 colour of the surface it sits on and has no role.
 
 ### Heading
 
 A line of text naming the content beneath it, set apart from that
 content by its typography role alone and never operated: in a document the
-six heading levels; in a sidebar a section's small label; in a group
-its title; in a table the header row's labels. A heading word in a
+six heading levels; in a sidebar a section's heading, set small; in
+a group its title; in a table the header row's titles. A heading word in a
 document that can be operated is the exception the Link entry names.
 
 ### Title
 
-The name of a thing, set over it as a heading: a window's name in its
-title bar, a dialog's, a group's, a section's. A title is a heading;
-a label names a part of a control.
+The name of a thing, the platform's word. Shown over the thing as a
+heading — a window's name in its title bar, a dialog's, a group's,
+a section's — or shown by a control as its own text — a button's
+title, a checkbox's title beside its box, a sidebar row's title. A
+control's title is part of the control and is operated with it.
 
 ### Caption
 
 A line of text under a picture or beside a control saying what it
 shows or does, set smaller than the text it explains, read and never
 operated.
-
-### Label
-
-The text a control shows as its own name: a button's words, a
-field's name before it, a checkbox's words beside its box. The label
-is part of the control and is operated with it.
 
 ### Image
 
@@ -1031,7 +1028,7 @@ is a badge in its header.
 The pattern dividing the page: a hairline of the separator colour
 drawn around related components so the eye chunks them, no fill of
 its own — what it holds stands on the surface the group is in —
-optionally labelled. It singles nothing out. A group may hold a
+optionally titled. It singles nothing out. A group may hold a
 card; it never holds another group. It wears no role.
 
 Which of the two a developer reaches for answers one question: am I
@@ -1129,15 +1126,15 @@ The pattern of a collapsible vertical column, set into the
 window as a pane, rounded, with the platform's rim and shadow, the window buttons inside it and its own marks standing bare
 in its top trailing corner, measured into the reference from Voice
 Memos. No seam parts it from the content; the window's surface around
-it does. Expanded it shows icons and labels, collapsed icons alone —
+it does. Expanded it shows symbols and titles, collapsed symbols alone —
 collapsed, it is a rail. Its rows stand at the sidebar's own row
-height, each a symbol, a label and, at the trailing end, a count
+height, each a symbol, a title and, at the trailing end, a count
 when the entry has one. The symbol names the kind of entry, so rows
 of one kind share it, as Voice Memos' folders do. A section is a
 collection of entries the application keeps apart — Voice Memos'
 folders against its recordings — never a sorting of one collection
 by kind; an application with one collection has no sections.
-Sections are headed by a small label and parted by space alone; a section that
+Sections are headed by a small heading and parted by space alone; a section that
 collapses keeps that header and takes the platform's disclosure at
 its trailing end, measured, never an accordion row; each section
 opens and closes on its own, as Mail's and Finder's do, so any
@@ -1153,8 +1150,8 @@ it on a click inside the content, or when the move began there — a
 followed link, back, forward. The active
 entry is marked the platform's way: a pill inset from the sidebar's
 edges, rounded, in the sidebar's own selection colour with a white
-label while the sidebar holds the keyboard, and a grey pill with the
-label in the accent colour while it does not — both measured into
+title while the sidebar holds the keyboard, and a grey pill with the
+title in the accent colour while it does not — both measured into
 the reference from Voice Memos and Finder, never edge to edge and
 never the list's selection colour.
 
