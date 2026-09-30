@@ -68,7 +68,7 @@ not choose a colour for it:
 | **text label** | a name or caption, set in a typography role |
 
 A signal may hold a control without becoming one — the dismissible
-badge's close. The affordance always belongs to the carried control,
+badge's close. The affordance always belongs to the held control,
 never to the signal.
 
 ### Content
@@ -999,12 +999,12 @@ Content as a picture: it is read, never operated.
 ### Paragraph
 
 Content as a run of styled text wrapped into lines, no wider than
-its measure. The links in it are carried controls; the rest is read.
+its measure. The links in it are held controls; the rest is read.
 
 ### Markdown document
 
 Content rendered as a readable document: paragraphs, headings,
-lists, code snippets, images. The links inside it are carried
+lists, code snippets, images. The links inside it are held
 controls; everything else is read.
 
 ### Accordion
