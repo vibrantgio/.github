@@ -195,7 +195,7 @@ is a component, however large.
 | **sidebar** | a collapsible vertical column — expanded with labels or collapsed to a rail of icons; the active entry marked |
 | **status bar** | the strip along the window's bottom, reporting on the document |
 | **table** | data in rows and columns, sortable and filterable — a list whose rows have columns |
-| **tabs** | a horizontal tab strip, the active tab underlined, its content panel below |
+| **tabs** | a horizontal tab strip, the active tab underlined, its content below |
 | **testimonial** | quote cards naming their author — social proof |
 | **toolbar** | the strip along the window's top holding the controls that act on the document |
 
@@ -412,14 +412,7 @@ inside one.
 A part of the window with a background of its own: the sidebar, the
 toolbar, the content, the inspector, the status bar. A region is
 flush when it runs to the window's edges or meets another region at
-a seam, and inset when it is a panel.
-
-### Panel
-
-The platform's word for a region set in from the window's edges as
-one rounded object, with the platform's rim and shadow and the
-window's surface showing round it: the sidebar is one. The pane
-pattern draws it.
+a seam, and inset when it is a pane.
 
 ### Material
 
@@ -435,7 +428,7 @@ group's outline.
 
 ### Rim
 
-The one-pixel line the platform draws along the edge of a panel or a
+The one-pixel line the platform draws along the edge of a pane or a
 recess, lighter than both sides, measured per scheme. A rim belongs
 to the object it edges; a seam belongs to the meeting of two flush
 regions.
@@ -451,11 +444,12 @@ The rounded fill behind a selected row, inset from the row's ends,
 its corners fully round: the platform's selection shape in a sidebar
 and a menu.
 
-### Halo
+### Focus ring
 
-The focus ring as the platform draws it: a soft band around the
-outside of the focused control in the platform's keyboard focus
-colour, the control keeping its own edge and size.
+The ring the platform draws around the outside of the focused
+control, a few pixels wide, in the platform's keyboard focus colour,
+the control keeping its own edge and size; one drawing for every
+control.
 
 ### Attachment
 
@@ -883,7 +877,7 @@ and may choose one, by pointer or keyboard. A chosen row is in the
 selection state. A menu is a list that floats; a table is a list
 whose rows have columns. A list is a focusable wherever it stands,
 and shows the focus as the platform does for its place: in the
-content or a dialog, the focus halo around the list; in a sidebar,
+content or a dialog, the focus ring around the list; in a sidebar,
 the pill's colour; in a menu, the held row and no ring.
 
 ### Row
@@ -994,7 +988,7 @@ operated.
 
 ### Label
 
-The words a control carries as its own name: a button's words, a
+The text a control shows as its own name: a button's words, a
 field's name before it, a checkbox's words beside its box. The label
 is part of the control and is operated with it.
 
@@ -1102,8 +1096,7 @@ the placement and the timing, not the presentation.
 ### Pane
 
 The pattern setting a column in from the window's edges
-rather than making it one of them: an inset panel, rounded on all
-corners, with the platform's rim and shadow, the window's own surface
+rather than making it one of them: set in, rounded on all corners, with the platform's rim and shadow, the window's own surface
 showing around it on every side. The sidebar is one. Unlike flush
 chrome it is an object — a control can send it away, and what stood
 beside it reflows to the window's edge.
@@ -1133,8 +1126,7 @@ arrangements its variants name.
 ### Sidebar
 
 The pattern of a collapsible vertical column, set into the
-window as a pane: an inset rounded panel with the platform's rim and
-shadow, the window buttons inside it and its own marks standing bare
+window as a pane, rounded, with the platform's rim and shadow, the window buttons inside it and its own marks standing bare
 in its top trailing corner, measured into the reference from Voice
 Memos. No seam parts it from the content; the window's surface around
 it does. Expanded it shows icons and labels, collapsed icons alone —
@@ -1181,7 +1173,8 @@ columns, sortable and filterable, however many rows there are.
 ### Tabs
 
 The pattern dividing content into one-of-many panels: a horizontal
-strip of titles, the active tab underlined, its panel below.
+strip of titles, the active tab underlined, the active tab's content
+below.
 
 ### Testimonial
 
