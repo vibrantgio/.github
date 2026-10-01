@@ -23638,8 +23638,8 @@ with its kept senses as rules, so the sweep stays swept.
 - [ ] Ruled by the ontology session 2026-10-01: after CI2.5 to
   CI2.8 the guard gains `label` in the shape the `mark` and `glyph`
   rules use, a hit only where the line names a button, chip,
-  checkbox, radio, badge, tab, row or segment, since the kept
-  senses are the many: text standing by itself on the surface, a
+  checkbox, radio, tab, row or segment, since the kept senses are
+  the many: text standing by itself on the surface, a
   platform colour name, a typography role name, a library name,
   the accessibility API's screen-reader label and `widget.Label`'s
   placeholder. The Retired words table in `AGENTS.md` gains the
@@ -23653,8 +23653,15 @@ with its kept senses as rules, so the sweep stays swept.
   bundle regenerated) included. A generated row's own name and a
   test case's own name (`theme/export`'s `platformPairs.label` and
   kin) are neither the retired sense nor a listed kept one and are
-  renamed to what they are (`name`) rather than carried by a rule;
-  the guard reports OK over the whole set.
+  renamed to what they are (`name`) rather than carried by a rule.
+  Two more contract moves ruled by the ontology session 2026-10-01
+  land here with the rest: a badge is a signal, not a control, so
+  its text is never a title; `badge.Props.Title` becomes `Text`
+  (the badge's word or count) with its consumers and its two test
+  names say so; and the picker's field variant is the same pop-up
+  button on a form as the chrome trigger, so `FieldState`'s value
+  and its two test names become the title. Both join the minor the
+  next round bumps. The guard reports OK over the whole set.
 - [ ] A formatting gate: `scripts/check-gofmt.sh` lists every Go
   file in the checkout that `gofmt -l` would change, prunes
   `*/.claude/*` as the other gates do, exits non-zero on any, and

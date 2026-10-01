@@ -3324,12 +3324,3 @@ fresh-eyes review was named for the task.
 863. **[note]** **A stored measurement in the platform reference is written in a retired word, and its file name carries another.** `reference/macos/sf-symbols-vs-cap-band.txt` uses "ink" sixteen times for a drawn mark's extent and carries "cap-band" in its own name. The reference is not in the guard's frozen list, so once the guard's walk reaches `.txt` those are live hits. Whether a dated measurement is a record that keeps the language of its day, as a review and a transcript do, or prose the sweeps reach, is unasked.
 864. **[note]** **Five bundled font licences come under the guard the moment its walk reaches `.txt`.** `font/*/OFL.txt` and `design/fonts/LICENSE-*.txt` say "the primary font name", a hit on a retired colour word in a third party's text inherited verbatim. The existing table keeps a copyright notice by a rule of its own; a licence body has none yet.
 865. **[note]** **The platform colour catalogue's measured notes use two retired words.** Both copies of `nscolors.tsv` spell a shadow's geometry "reach" and name a row "tint", and the guard's walk does not reach either file today. Extending the walk to `.tsv` makes them live hits that the existing rules do not carry.
-
-## DV. From CI2.8, the title sweep's last repos
-
-Filed 2026-10-01 from the work itself: `theme`, the generated `design`
-bundle, `effects`, `mvu`, `style` and the plan root's live documents took
-the title reading, and the leftovers the earlier sweeps named closed with
-them. No fresh-eyes review was named for the task.
-
-883. **[note]** **The picker's field variant still calls the trigger's own text its value.** CI2.8 moved the chrome trigger's `Value` to `Title`; the field variant keeps `FieldState`'s value and the test names `TestFieldTriggerShowsTheValue` and `TestTriggerDrawsItsPromptApartFromItsValue`. Both variants are the same pop-up trigger showing the chosen item, so the two halves of one component now use two words for one thing. Which word the field variant owes is unasked.
