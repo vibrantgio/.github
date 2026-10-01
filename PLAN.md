@@ -23409,3 +23409,85 @@ what the finding names.
   commit and push in `workbench` and `.github`.
 
 
+
+### G-CI2: The code follows the Language's rulings of 2026-09-30
+
+The owner ruled three times on 2026-09-30, the ontology session wrote
+the entries (symbol, focus ring, pane, label and title, text), and the
+code follows in three sweeps, one worker each, one commit per repo,
+goldens moving only where a gallery caption is in the picture. Frozen
+records are untouched: reviews, the transcripts, the plan above the
+task in hand, DOMAIN's Decisions. The guard gains each retired word
+with its kept senses as rules, so the sweep stays swept.
+
+#### CI2.1: Glyph becomes symbol and halo becomes focus ring
+
+- [ ] Owner-ruled 2026-09-30 ("symbol stays and replace glyph";
+  "retire halo"). Every identifier, comment, doc, caption and test
+  name where "glyph" means the small picture in a control or the
+  icon set becomes symbol: the badge's utterance, BareForeground's
+  doc, the icons package's words, the gallery's sheet and inventory
+  page, the theme's export prose. The text-shaping sense keeps the
+  word: `GlyphID`, `NextGlyph`, `NominalGlyph`, `resolvedGlyph` and
+  every font and shaper site in `textdraw`, `font` and `markdown`.
+  Every "halo" that means the focus ring becomes the focus ring:
+  `list.Halo`, `focus.Around`'s words, comments, docs and captions,
+  the identifier reading `FocusRing` or `Ring` as its package reads.
+  `effects/glow`'s halo is the blur around a glow, not the ring, and
+  keeps its word.
+- [ ] `scripts/check-retired-words.sh` gains `glyph` and `halo` with
+  the kept senses as rules: `glyph` by path under `textdraw/` and
+  `font/` and by context (shaping, font, rune, cluster, advance,
+  outline of a letter); `halo` by path under `effects/glow/`. The
+  guard reports OK over the whole set.
+- [ ] Exit: green in every repo touched by name; `scripts/
+  check-layers.sh` OK; goldens regenerated only where a caption is
+  in the picture, the cause named; one commit per repo with the
+  heading as subject; push every one.
+
+#### CI2.2: Panel becomes pane
+
+- [ ] Owner-ruled 2026-09-30 ("retire panel"): the Panel entry is
+  gone and "pane" is the one word for the inset rounded region.
+  Every "panel" in comments, docs, captions and test names becomes
+  pane, the pane package's own words first; `modal`'s dialog text
+  and `sk150`'s readout text follow where they mean the region.
+  "Open panel" stays as the platform's name for its file dialog and
+  the `openpanel` package keeps its name. Identifiers carrying
+  "panel" rename where they mean the region and are not exported
+  from a tagged module; an exported one is left and noted for the
+  next round. "Plane" in comments migrates to "surface" where a
+  line is touched anyway, nothing else.
+- [ ] `scripts/check-retired-words.sh` gains `panel` with the kept
+  sense "open panel" and the `openpanel` path as rules; the guard
+  reports OK over the whole set.
+- [ ] Exit: green in every repo touched by name; `scripts/
+  check-layers.sh` OK; goldens regenerated only where a caption is
+  in the picture, the cause named; one commit per repo with the
+  heading as subject; push every one.
+
+#### CI2.3: A control's own text is its title
+
+- [ ] Owner-ruled 2026-09-30 ("follow the platform on label and
+  title"): a control's own text is its title, part of the control
+  and operated with it; a label is text standing by itself on the
+  surface. The field named `Label` for the control's own text
+  becomes `Title` on badge, breadcrumb and its trail, button and its
+  segments, chip, checkbox, radio, group, hero, navbar, pricing,
+  sidebar rows and tabs; every consumer in `components/gallery`,
+  `design`, `patterns` and `workbench` follows; comments and docs
+  with it. A form's text before a field stays a label, the platform
+  colour names `Label` and `SecondaryLabel` are untouched, and a
+  field that genuinely names a label beside the control keeps its
+  name, each such case named in the commit body. This moves an
+  exported contract in `components` and `patterns`: the next round
+  bumps the minor; no tag now. "Words" in comments and docs
+  becomes "text" where a coherent run is meant and the line is
+  touched anyway.
+- [ ] Goldens do not move.
+- [ ] Exit: green in `components`, `patterns`, `design` and every
+  `workbench` app by name with `GOWORK=off` off and the workspace
+  on; `scripts/check-layers.sh` OK; guard OK; one commit per repo
+  with the heading as subject; push every one.
+
+
