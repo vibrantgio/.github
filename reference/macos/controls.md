@@ -65,13 +65,17 @@ recorded. The section below measures the dialog controls themselves.
 ## What the dialog captures measure
 
 Added 2026-09-11 by CE1.5, from `save-dialog-light.png` and
-`save-dialog-dark.png` — a Save dialog carrying a text field, a pop-up
+`save-dialog-dark.png` — a Save panel carrying a text field, a pop-up
 button, a checkbox and two push buttons at regular size, window-bounded,
 one capture per appearance at 1x. Both appearances agree to the pixel on
 every row below, which is why one column carries them. Each height is the
 first row the control leaves its sheet's fill to the last, the way this
 reference reads a control's extent everywhere else; the sheet's own fill is
 `#ffffff` light and `#232a2f` dark.
+
+The two files are named for the dialog they show, and keep those names
+because the records that cite them cite them so; the platform's own term for
+the sheet is the Save panel, which is what every reading below calls it.
 
 | control | measured | where | method |
 | --- | --- | --- | --- |
@@ -117,7 +121,7 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | the sheet's own rim | NONE, either appearance | `save-dialog-{light,dark}.png` | the sheet runs x 165-534 and its boundary steps in ONE column or row from the dimmed window to its own fill on every side: across y=300 and y=400, x 164 reads `#cccccc` light and `#191a1b` dark and x 165 reads `#ffffff` and `#232a2f`, with x 163 and x 166 flat on either side; x 534 and x 535 read the same way at the trailing edge, and the top and bottom rows (y 188 and y 544) agree at every column clear of the corners. No stroke of a third value stands anywhere on the boundary. So what tells a sheet from the window beneath it is the scrim alone — the window keeps 0.74 of itself under the measured dim while the sheet keeps all of it. Read 2026-09-22 by CG5.16 |
 | the sheet's drop shadow | ABSENT from these captures | same | the dimmed window is flat to the byte right up to the sheet: the column at x=163 reads `#191a1b` over 316 of the 318 rows scanned dark and x=164 the same, identical to the window at x=0, with no ramp on any side. This says nothing about what the platform draws: every capture here is window-bounded with `screencapture -o -l`, which ADR-019 records as EXCLUDING the drop shadow. So the sheet's shadow cannot be read off these files, and the library keeps drawing the floating shadow it has measured elsewhere. Read 2026-09-22 by CG5.16 |
 
-## What the save dialog's rows measure
+## What the save panel's rows measure
 
 Added 2026-09-23 by CG7.2, from `save-dialog-light.png` and
 `save-dialog-dark.png` — the grammar a form standing on a sheet is laid out
@@ -131,7 +135,7 @@ the pixel on every row below.
 | the label column's own width | as wide as its widest label, and no more | same | nothing in the sheet fixes the column's leading edge: "Tags:" begins at x=225 where "File Format:" begins at x=185. What the column is, is the widest label right-aligned |
 | the row pitch | **36 px** between the two text fields, ten clear rows | same | the focused "Save As:" field's box runs y 207–232 — read off its ring, which straddles the box two px out and two px over — and the "Tags:" field's box y 243–269, so ten rows of sheet stand between one row's control and the next. The "Where:" pop-up's box follows at y 281–304, eleven clear under "Tags:". The air between rows is the constant; the control's own height is what varies |
 | the label's vertical place | its cap band centred on the control's box | same | "Save As:"'s cap band runs y 215–224, centre 219.5, in a box of y 207–232, centre 219.5. "Where:"'s runs y 287–296, centre 291.5, in a pop-up box of y 281–304, centre 292.5. Neither is aligned on a baseline the control has |
-| the row label's colour | `secondaryLabelColor` | same | `#808080` light and `#9c9fa1` dark, the reading already recorded under what the sheet's switched-off controls are: the Save dialog sets its own row labels weaker than the accessory view below sets "File Format:" and "Options:" |
+| the row label's colour | `secondaryLabelColor` | same | `#808080` light and `#9c9fa1` dark, the reading already recorded under what the sheet's switched-off controls are: the Save panel sets its own row labels weaker than the accessory view below sets "File Format:" and "Options:" |
 
 The 8 is a gap from the label's last COVERED column to the box, and a
 consumer right-aligning on the advance width leaves two more columns than
@@ -153,7 +157,7 @@ appearances agree to the pixel on every row below.
 | each hairline's colour | `separatorColor`, flattened onto the sheet | same | `#e6e6e6` light and `#393f43` dark, both lines. `separatorColor` is black at 25/255 light and white at 25/255 dark (`nscolors.tsv`); over the sheet's `#ffffff` that gives 230 → `#e6e6e6`, and over its `#232a2f` it gives (56.57, 62.88, 67.39) → (57, 63, 67) → `#393f43`, exact on every channel in both appearances. It is the Language's own separator and not a pixel of its own, which is what tells it from the toolbar control's seam — that one lands twelve of 255 off the same flattening and is carried as a value |
 | the air above the FIRST hairline | 19 clear rows | same | the "Where:" pop-up's box ends at y=304 and the line stands at y=324, so y 305–323 are the sheet. Nothing else of the pane's rows reaches below the pop-up |
 | the air below it | 11 clear rows | same | y 325–335, the "File Format:" pop-up's box beginning at y=336 — the same eleven that stand between "Tags:" and "Where:" in the rows above |
-| the air above the SECOND hairline | **no reading** | same | the accessory view's last checkbox ends at y=409 and the line stands at y=479, sixty-nine clear rows. It is that dialog's own slack and not a measured air: a Save dialog gives its accessory region whatever height the sheet has left, and this capture holds one Script Editor accessory view at one sheet height. What a form's last row leaves above the footer's line has no reading until a capture holds a sheet whose body fills it |
+| the air above the SECOND hairline | **no reading** | same | the accessory view's last checkbox ends at y=409 and the line stands at y=479, sixty-nine clear rows. It is that dialog's own slack and not a measured air: a Save panel gives its accessory region whatever height the sheet has left, and this capture holds one Script Editor accessory view at one sheet height. What a form's last row leaves above the footer's line has no reading until a capture holds a sheet whose body fills it |
 | the footer band under that hairline | **65 px**, y 480–544 | same | the line at y=479 to the sheet's last row at y=544 |
 | the buttons' place in that band | **centred**, 21 clear rows above and 20 below | same | the push buttons run y 501–524, so y 480–500 and y 525–544. An exact centring of a 24 px button in a 65 px band leaves 20.5 on each side, and the rounding falls half a pixel high — the same rounding the pop-up's mark and the Mail search field's prompt take, in the other direction. The 20 below is the sheet's own 20 px inset, which `patterns/modal` already spends; the 21 above is that inset plus the half pixel |
 
@@ -306,7 +310,7 @@ control drawn with its resting fill under the pointer and then held moves by one
 two coverages were read off different controls: hover off Finder's toolbar
 view pop-up, a bordered control carrying its own fill (`#242d32` against a
 `#232a2e` band dark, and a drop shadow light) and, dark, a rim that moves under
-the pointer too (the rim rows above); press off a Save dialog push button over
+the pointer too (the rim rows above); press off a Save panel push button over
 the push button's own fill. Both readings are therefore overlays over a
 control's own fill, not over a band, and the corrected reading (2026-09-22,
 CG5.20) retires the earlier question of a weaker hover on a bezelled control.
@@ -321,7 +325,7 @@ and "File Format:" pop-ups and both push buttons are enabled — their labels
 read `labelColor`'s `#272727` light and `#dddfdf` dark where the checkbox
 labels read `#bdbdbd` and `#595f62`. The "Save As:", "Tags:" and "Where:" row
 labels read `#808080` light and `#9c9fa1` dark, which is `secondaryLabelColor`
-over the sheet; that is the Save dialog setting its own row labels weaker
+over the sheet; that is the Save panel setting its own row labels weaker
 than the accessory view below it sets "File Format:" and "Options:", and it is
 not a switched-off reading. So the sheet holds no switched-off push button and
 no switched-off control that draws an edge, and the coverage above — read off
@@ -329,7 +333,7 @@ the checkbox's fill, which is all a checkbox draws — is what carries both the
 fill and the edge until either capture is taken.
 
 **What a field's VALUE is drawn in.** Read 2026-09-23 by CG7.4. Two captures
-answer, and they answer with two names, because the one value the save dialog
+answer, and they answer with two names, because the one value the save panel
 holds is SELECTED.
 
 | what | measured | where | method |
@@ -342,7 +346,7 @@ A consumer spends `labelColor` for the value it holds unselected, which is
 the name the one unselected reading lands, over the field's own fill. A
 selected run takes the second name: it is drawn again in `selectedTextColor`
 under the selection's own clip, over the fill the selection paints, which is
-what the save dialog's plateau reads. A toolkit that paints an editor's whole
+what the save panel's plateau reads. A toolkit that paints an editor's whole
 run from one paint source draws the run a second time to do it — the run
 alone, with the caret and the selection's fill left to the first pass — rather
 than leaving the selected value at the label, 28 of 255 short of the
@@ -1122,7 +1126,7 @@ at y 46-81 under a focus ring four px wide. Read column by column 2026-09-18
 by CG5.5: the band covers x 696-699 leading, y 43-46 above and y 81-84 below,
 with the toolbar band unblended at x=695, y=42 and y=85 and the recess's own
 fill unblended at x=700 — so this control's ring lies OUTSIDE its box, where
-the save dialog's focused field straddles its own (two px out, two px over).
+the save panel's focused field straddles its own (two px out, two px over).
 The two controls are read as they measure and neither corrects the other; the
 library draws the dialog field's, which is the reading CG5.5 was given. This
 capture's ring is also not the dialog's colour — it peaks at `#7b91df` over a
@@ -1287,7 +1291,7 @@ at mini 16 / small 20 / regular 24 / large 28 pt and NSTextField (rounded
 bezel, regular) at 24 pt. `fittingSize` answers with the bezel's fitting box,
 which is not the drawn control: it carries the margin the bezel keeps around
 itself. Its regular push bezel of 24 pt nonetheless lands on the 24 px the
-Save dialog draws, which is why the two instruments are read as agreeing. The
+Save panel draws, which is why the two instruments are read as agreeing. The
 older reading is kept here so a later task does not rediscover it as a
 contradiction; the published-over-measured ruling of 2026-09-10 was reversed
 on 2026-09-11, and the density scale now takes the measured height.
@@ -1421,7 +1425,7 @@ switched-off one, and an unselected radio**, in both appearances,
 window-bounded, at 1x.
 
 **Also open: a focused control that is not a text field.** The ring is read
-off one control — the Save dialog's focused "Save As:" field, which straddles
+off one control — the Save panel's focused "Save As:" field, which straddles
 its own box — and the only other focused control in the reference, Voice
 Memos' toolbar search recess, puts its whole band outside the fill instead.
 Neither is a push button, a checkbox, a radio or a chip, and the placement
