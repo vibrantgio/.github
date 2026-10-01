@@ -23618,7 +23618,11 @@ with its kept senses as rules, so the sweep stays swept.
   what the review found; `input/corner_test.go` and
   `gallery/focus_test.go` are made gofmt clean; `badge` and `chip`
   say text where they say "words" and the `worded` local reads
-  `hasTitle`.
+  `hasTitle`; and `picker.ToolbarProps.Value` and
+  `picker.ToolbarState.Value`, the chrome trigger's own text,
+  become `Title` with their consumers, as the platform has it (a
+  pop-up button's title is the chosen item's title), joining
+  CI2.3's contracts in the minor the next round bumps.
 - [ ] Goldens do not move but the two the drawn title moves.
 - [ ] Exit: green in `theme`, `design`, `effects`, `mvu` and
   `mvu/example` by name; guard OK; `scripts/check-layers.sh` OK;

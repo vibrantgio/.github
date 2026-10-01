@@ -3324,13 +3324,3 @@ fresh-eyes review was named for the task.
 863. **[note]** **A stored measurement in the platform reference is written in a retired word, and its file name carries another.** `reference/macos/sf-symbols-vs-cap-band.txt` uses "ink" sixteen times for a drawn mark's extent and carries "cap-band" in its own name. The reference is not in the guard's frozen list, so once the guard's walk reaches `.txt` those are live hits. Whether a dated measurement is a record that keeps the language of its day, as a review and a transcript do, or prose the sweeps reach, is unasked.
 864. **[note]** **Five bundled font licences come under the guard the moment its walk reaches `.txt`.** `font/*/OFL.txt` and `design/fonts/LICENSE-*.txt` say "the primary font name", a hit on a retired colour word in a third party's text inherited verbatim. The existing table keeps a copyright notice by a rule of its own; a licence body has none yet.
 865. **[note]** **The platform colour catalogue's measured notes use two retired words.** Both copies of `nscolors.tsv` spell a shadow's geometry "reach" and name a row "tint", and the guard's walk does not reach either file today. Extending the walk to `.tsv` makes them live hits that the existing rules do not carry.
-
-## DS. From CI2.5, the title sweep in components
-
-Filed 2026-10-01 from the work itself: "label" meaning a control's own text
-became "title" through `components` and `components/gallery`, the seven
-`-labelled` goldens were renamed to `-with-title` with their bytes untouched,
-and the kept senses were left alone. No fresh-eyes review was named for the
-task.
-
-872. **[decide]** **The picker's toolbar trigger exports its own text as `Value`, which the Language calls a title.** `picker.ToolbarProps.Value` and `picker.ToolbarState.Value` name what the chrome trigger draws as its own text — a control's title by the Language — and the picker's form trigger has no such field at all, taking its text from `Options[Selected]`. The contract round that moved `Label` to `Title` did not reach it. Whether a pop-up's shown choice is its title or genuinely a value it reports is the owner's to settle; it moves an exported contract either way.
