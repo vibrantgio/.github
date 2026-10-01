@@ -23473,7 +23473,7 @@ with its kept senses as rules, so the sweep stays swept.
 
 #### CI2.3: A control's own text is its title
 
-- [ ] Owner-ruled 2026-09-30 ("follow the platform on label and
+- [x] Owner-ruled 2026-09-30 ("follow the platform on label and
   title"): a control's own text is its title, part of the control
   and operated with it; a label is text standing by itself on the
   surface. The field named `Label` for the control's own text
@@ -23503,8 +23503,8 @@ with its kept senses as rules, so the sweep stays swept.
   effects layer composes its own gradients. The next round bumps
   the minor of `components`, `patterns` and `effects` (whose
   `glow.Halo` became `Spread` under CI2.2) for these contracts.
-- [ ] Goldens do not move.
-- [ ] Exit: green in `components`, `patterns`, `design` and every
+- [x] Goldens do not move.
+- [x] Exit: green in `components`, `patterns`, `design` and every
   `workbench` app by name with `GOWORK=off` off and the workspace
   on; `scripts/check-layers.sh` OK; guard OK; one commit per repo
   with the heading as subject; push every one.
