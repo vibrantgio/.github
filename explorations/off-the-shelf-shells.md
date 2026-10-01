@@ -110,3 +110,61 @@ Proposed goals, one task per run:
   better served by two columns with the article in the column? The
   answer decides whether the old split pane is missed.
 - The launcher's window: does it adopt a shell or stay bespoke?
+
+## Input from the recorder application outside the org (2026-10-01)
+
+Its owner ruled there the same day: the application changes its shell
+first, then takes its slices one at a time, each by reading the
+workbench exemplars, generalising the pattern into the library, and
+adopting it afterwards. It bootstraps on the round of 2026-09-26 and
+waits for the shell this exploration proposes rather than drawing its
+own frame. Pool material until Rene shapes it; nothing here is a
+dispatch.
+
+What it needs from the shell beyond the two arrangements above:
+
+1. **A third arrangement: pane, list and content.** The pane down the
+   leading edge (220 dp, recall toggle in both halves), then a list
+   column of absolute width on a splitter (default 300 dp, 220 to 480;
+   it keeps its width when the window resizes), then the content
+   column absorbing the rest. The platform's windows of this shape:
+   Mail, Notes, and Voice Memos with its folder sidebar. One band
+   across list and content, one share per column: the list's share
+   shows a title (the folder's name) and, while the pane is away, the
+   recall toggle and the pane's primary act as toolbar buttons; the
+   content's share holds the trailing acts, a search field at the
+   trailing end.
+2. **A foot slot under each column**, optional, taking no height when
+   empty. Its record row lives under the list column; it uses no
+   status bar under the content. The draft's status bar generalises
+   to a foot per column.
+3. **The pane's own foot slot**: a hairline the pane's width and one
+   row under it (mindchat's Settings row).
+4. **The pane's width and shown state and the list's width remembered
+   by the shell**, as drafted; the application persists nothing of
+   the frame.
+5. **The empty-content placeholder** ("No session selected") is the
+   application's content, not the shell's.
+
+Its answers to the open questions above:
+
+- One pattern with variants, as recommended; its variant is pane, list
+  and content, no aside.
+- The status bar: a shell slot, per column (point 2).
+- Feeds' arrangement and the launcher: no view from there.
+- Names: its own language says the folder pane, the session list
+  column and the detail column; the shell's names rule and it maps
+  onto them.
+
+What it waits on, in this exploration's sequence: the Language task
+(names), the whole-window renderer as a library (its goldens need
+it), the shell extraction with the third arrangement, and later the
+source list (its folder pane is one). It pins per tagged round.
+
+The held draft (`standard-shell-plan.md`, G-BU5 and G-BU6) stays the
+queue for the controls. It will ask per slice, one at a time, in this
+order: the session list and folders (source list, two-line row),
+recording (the record row's level meter and pill), following live
+(tail-follow, speaker turns with a chip), review (seek bar),
+transcription (progress), assignment (dialog), then search,
+microphones, setup, import, speakers, export.
