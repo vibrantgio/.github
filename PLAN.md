@@ -23578,7 +23578,10 @@ with its kept senses as rules, so the sweep stays swept.
   `dark-unlabelled`) renamed to `-with-title` and `-without-title`
   as renames with no content change; `sidebar.SelectionLabel`
   keeps its name, a platform colour. `components/gallery`'s goldens
-  downstream do not move. No exported contract moves.
+  downstream do not move. No exported contract moves. The guard's
+  kept-sense exclusions keyed on the word being retired (as the
+  `material` rule's "label's material" was) are rekeyed on what
+  the line is about, so later sweeps do not trip them.
 - [ ] Goldens do not move beyond the four renames.
 - [ ] Exit: green in `patterns` and `components/gallery` by name;
   guard OK; `scripts/check-layers.sh` OK; one commit in `patterns`
@@ -23608,12 +23611,19 @@ with its kept senses as rules, so the sweep stays swept.
   platform reference under `reference/macos/` and the review pool
   are records and keep their text, as are `seen`'s node and chart
   labels, `markdown`'s link label and `ivg`'s specification prose,
-  which are other senses.
-- [ ] Goldens do not move.
+  which are other senses. Four leftovers in `components` close
+  here: the inventory's drawn checkbox section title says titles
+  and the two group goldens it moves are regenerated with the
+  cause named; the gallery comment citing a task identifier says
+  what the review found; `input/corner_test.go` and
+  `gallery/focus_test.go` are made gofmt clean; `badge` and `chip`
+  say text where they say "words" and the `worded` local reads
+  `hasTitle`.
+- [ ] Goldens do not move but the two the drawn title moves.
 - [ ] Exit: green in `theme`, `design`, `effects`, `mvu` and
   `mvu/example` by name; guard OK; `scripts/check-layers.sh` OK;
-  one commit per repo with the heading as subject; push every one;
-  commit and push in `.github`.
+  one commit per repo with the heading as subject, `components`
+  included; push every one; commit and push in `.github`.
 
 #### CI2.9: The guard retires label for a control's own text
 
