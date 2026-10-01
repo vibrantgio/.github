@@ -377,6 +377,13 @@ drawn once, by the region above or leading.
 An inset object needs no seam: the backdrop showing around it does
 that work. A seam the user can drag is a splitter.
 
+### Glow
+
+Light spreading from a shape into what surrounds it: a gradient of
+the shape's colour fading out from its edge over the glow's spread,
+the distance it reaches. A glow is an effect a component asks for,
+never a level and never a shadow.
+
 ### Scrim
 
 The translucent veil a modal draws over everything beneath it: it
