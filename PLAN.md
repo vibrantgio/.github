@@ -23643,6 +23643,13 @@ with its kept senses as rules, so the sweep stays swept.
   platform colour name, a typography role name, a library name,
   the accessibility API's screen-reader label and `widget.Label`'s
   placeholder. The Retired words table in `AGENTS.md` gains the
-  row and `scripts/sync-agents.sh` runs clean; the guard reports OK
-  over the whole set.
-- [ ] Exit: guard OK; commit and push in `.github`.
+  row and `scripts/sync-agents.sh` runs clean. What the rule
+  surfaces that the sweeps left is renamed in the same task,
+  `themer`'s `KeepLabel` and `KeptLabel` (the Keep button's two
+  titles) included; the guard reports OK over the whole set.
+- [ ] A formatting gate: `scripts/check-gofmt.sh` lists every Go
+  file in the checkout that `gofmt -l` would change, prunes
+  `*/.claude/*` as the other gates do, exits non-zero on any, and
+  the checkout is clean under it.
+- [ ] Exit: guard OK; gofmt gate OK; green in every repo touched by
+  name; commit and push in every repo touched and in `.github`.
