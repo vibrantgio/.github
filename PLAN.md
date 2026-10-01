@@ -23674,7 +23674,7 @@ with its kept senses as rules, so the sweep stays swept.
 
 #### CI3.1: The single-line text helper moves into the library and the apps adopt it
 
-- [ ] Found under CI2.7, planned under the standing rule that the
+- [x] Found under CI2.7, planned under the standing rule that the
   same helper written in several applications belongs in the
   library: the launcher's `label`, `feeds`' `drawLabel`,
   `vaultview`'s `drawLabel` and `sitedocs`' `drawOutlineTitle` each
@@ -23687,7 +23687,7 @@ with its kept senses as rules, so the sweep stays swept.
   named for what it draws, not "label", since what it draws is a
   label in one window and a title in another. No composition
   changes; every app's pixels are the same.
-- [ ] Goldens do not move.
-- [ ] Exit: green in the library module and every adopting app by
+- [x] Goldens do not move.
+- [x] Exit: green in the library module and every adopting app by
   name; guard OK; `scripts/check-layers.sh` OK; one commit per
   repo with the heading as subject; push every one.
