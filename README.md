@@ -36,7 +36,7 @@ shared parent, the workspace root, is not a repository; `go.work` lives there,
 the modules so they resolve each other from the checkout — the members never
 carry a workspace themselves, and the workspace itself is committed nowhere.
 
-Eight scripts live in `scripts/`. Four of them do work.
+Eleven scripts live in `scripts/`. Five of them do work.
 
 - [`scripts/clone-all.sh`](scripts/clone-all.sh) — clone all twenty-one siblings
   beside this checkout, pulling any already present, then regenerate `go.work`. The whole set every time: the
@@ -55,8 +55,13 @@ Eight scripts live in `scripts/`. Four of them do work.
   theme's `cmd/vg-tokens` and print the DesignSync
   sequence that uploads it. There is no `designsync` binary: the script does
   the local half and hands the push to the agent running it.
+- [`scripts/sync-agents.sh`](scripts/sync-agents.sh) — write the managed block
+  into every repository's `AGENTS.md` but this one's: a pointer to the Retired
+  words table here and the canonical-guide line, never a copy of either. Its
+  `check` mode is a gate and `selftest` proves the consumer-name assertion
+  against `scripts/testdata/`.
 
-Four more answer a single yes-or-no question, and each refuses to let one kind
+Six more answer a single yes-or-no question, and each refuses to let one kind
 of wrong thing be committed quietly.
 
 - [`scripts/check-layers.sh`](scripts/check-layers.sh) — refuses an import from
@@ -82,6 +87,14 @@ of wrong thing be committed quietly.
   the coordination buses ADR-008 deleted arrived in, every one of them with no
   subscriber in the entire organization. Occurrences in `_test.go` files are
   counted and reported, never judged — the header says why.
+- [`scripts/check-retired-words.sh`](scripts/check-retired-words.sh) — refuses a
+  word the Language has retired. It walks every module, tells an identifier from
+  a comment, a string and prose, and judges each hit against one exclusion rule
+  per kept sense: `inventory` for the work list, `check` for the gate,
+  `excluded` to audit the rules against the tree.
+- [`scripts/check-gofmt.sh`](scripts/check-gofmt.sh) — refuses a Go file `gofmt`
+  would rewrite. It lists every such file across the whole checkout and exits
+  non-zero on any; `gofmt -w` on what it names is the fix.
 
 Across the twenty-one repositories there are 39 modules — twenty-one at
 repository roots, eleven nested in subdirectories with tags that carry the

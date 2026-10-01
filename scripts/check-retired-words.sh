@@ -78,7 +78,7 @@ set -u
 # only — the OnX prefix of a colour read on a fill, and the hyphenated
 # on-colour in prose — so its two rules carry the ten thousand ordinary
 # prepositions the tokenizer hands them.
-WORDS="glyph,halo,panel,wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider,primary,secondary,tertiary,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on,wcag"
+WORDS="label,glyph,halo,panel,wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider,primary,secondary,tertiary,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on,wcag"
 
 MODULES="backdrop circle components csg design effects font gradient ivg kiwi markdown mvu noise patterns seen style svg textdraw theme traer workbench .github"
 
@@ -128,6 +128,19 @@ widget::doc::line::ui-widget::jQuery UI's own CSS class name in a third-party ex
 *::doc::path::^design/design-v1\.md$::A superseded document kept for history, frozen like the other records.
 furniture::doc::ctx::^\.github/domain\.md .*the window's furniture: every region::DOMAIN's Chrome entry keeps the phrase as its own definition; nowhere else.
 paper::comment,doc::line::(cassowary paper|rock-paper-scissors|the paper by|this paper|in the paper|academic paper|white ?paper)::A published paper, or the game; not the content level.
+
+label::*::!ctx::(^|[^a-z])(button|chip|checkbox|radio|tab|row|segment|trigger|menu item)s?([^a-z]|$)::"label" is retired for a control's own text alone, so a hit is a defect only where the three-line window names the control the text belongs to: a button, chip, checkbox, radio, tab, row, segment, trigger or menu item.
+label::*::line::(label(large|medium|small)|label-(large|medium|small)|--font-label)::LabelLarge, LabelMedium and LabelSmall are typography role names, spelled label-large and kin in the generated sheet.
+label::*::line::((widget|typeset|textdraw)\.label|semantic\.labelop|labelop\(|drawlabel|bodylabel)::widget.Label, typeset.Label, textdraw.Label, semantic.LabelOp and the helpers that build one name a library's own type.
+label::*::path::^theme/typeset/::The typesetter's Label is the run of text it lays out, this package's own name for it.
+label::*::ctx::(screen.reader label|aria-label|</?label)::The accessibility API's screen-reader label, and HTML's own label element and aria-label attribute.
+label::*::line::(labelcolor|(secondary|tertiary|quaternary|toolbar|unemphasized|selection)[-*/ ]*label|platform[a-z]*.s? ?[a-z]* ?label|(^|[^a-z])(p|c|col|colors)\.(secondary|tertiary|quaternary)?label|label:[ 	]|label colou?r|colou?r|nrgba|#[0-9a-f]{6}|controltext|coverage|recorded alpha|ordinary label|chrome.s own label|label the platform pairs)::AppKit's labelColor and the three strengths under it, the platform's own names for text at a strength, carried by a palette field, a colour local or the prose that measures them.
+label::*::ctx::label the[^a-z]*platform pairs::The foreground the platform pairs with a fill, named across the wrap between two comment lines.
+label::*::ctx::(settingsrowlabel|form.s labels|form label|labels? (is |are )?right-aligned|label column|field column|labels? in (one|their) column|label beside|labels against one column|an empty label|row labels|plain labels?|text label|section labels?|a field.s label|current (segment|crumb|location|page)|last segment|single segment)::The Label signal, text standing by itself on the surface: a form's labels in their own column before the fields they name, a section label, a plain run of text, and what a breadcrumb's current segment and a page cell take instead of a link.
+label::*::path::^components/([a-z]+/)?gallery/::A gallery's specimen captions and section labels stand by themselves beside the specimens; a specimen's own text says title.
+label::*::path::^workbench/sk150/::In sk150 a label is the caption at the leading edge of an instrument row, or a chart's scale, never a control's own text.
+label::*::path::^\.github/reference/::The stored platform reference records the platform's own words and measurements and is not rewritten to follow a later Language.
+label::doc::path::^\.github/explorations/::A pool item records what a review found on a date, in the language of that day.
 
 glyph::*::path::^(textdraw|font)/::The glyph of typesetting — one positioned outline a font yields for a rune — is the shaper's own term, kept in the two modules that shape text.
 glyph::*::ctx::(shaping|shaper|rune|cluster|advance|font|typeface|outline of)::A glyph of a shaped run, named beside the font, typeface, rune, cluster, advance or outline it belongs to; the retired sense is the small picture a control draws.
@@ -191,11 +204,12 @@ wcag::*::ctx::wcag 3::APCA's own provenance: the formula this system measures co
 wcag::doc::path::^\.github/explorations/::A pool item records what a review measured on a date, in the measure of that day; the ratio it quotes was deleted by the APCA decision.
 RULES
 #
-# Three exemptions the plan names carry no rule, because nothing in the tree
-# matches them: mvu and Gio name no "intent" of their own, no vendored source
-# and no material-package call carries Gio's own "ink", and reference/ holds
-# no retired word. A rule for any of them would be an entry that matched
-# nothing, and `excluded` is how that is checked: every rule above fires.
+# Two exemptions the plan names carry no rule, because nothing in the tree
+# matches them: mvu and Gio name no "intent" of their own, and no vendored
+# source and no material-package call carries Gio's own "ink". A rule for
+# either would be an entry that matched nothing, and `excluded` is how that is
+# checked: every rule above fires. reference/ carried no retired word until
+# "label" joined the list; it has a rule of its own now.
 
 usage() { sed -n '/^# Usage:/,/^# Exit status/p' "$0" | sed 's/^# \{0,1\}//'; }
 

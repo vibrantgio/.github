@@ -68,6 +68,7 @@ libraries. It is not how you work this plan.
 | glyph | the small picture a control or an icon set draws | symbol (glyph stays for the glyph of set text, which `textdraw` and `font` shape) |
 | halo | the ring around a focused control | focus ring |
 | panel | the inset rounded region | pane (open panel stays: the platform's own chooser for a file or a folder) |
+| label | a control's own text | title (label stays for text standing by itself, a platform colour name, a typography role, a library's own type and the screen reader's label) |
 
 The Language in DOMAIN.md retires words. A retired word in a packet, a
 review, a comment, a doc or an identifier is a defect; say the

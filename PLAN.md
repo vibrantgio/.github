@@ -23635,7 +23635,7 @@ with its kept senses as rules, so the sweep stays swept.
 
 #### CI2.9: The guard retires label for a control's own text
 
-- [ ] Ruled by the ontology session 2026-10-01: after CI2.5 to
+- [x] Ruled by the ontology session 2026-10-01: after CI2.5 to
   CI2.8 the guard gains `label` in the shape the `mark` and `glyph`
   rules use, a hit only where the line names a button, chip,
   checkbox, radio, tab, row or segment, since the kept senses are
@@ -23662,12 +23662,12 @@ with its kept senses as rules, so the sweep stays swept.
   button on a form as the chrome trigger, so `FieldState`'s value
   and its two test names become the title. Both join the minor the
   next round bumps. The guard reports OK over the whole set.
-- [ ] A formatting gate: `scripts/check-gofmt.sh` lists every Go
+- [x] A formatting gate: `scripts/check-gofmt.sh` lists every Go
   file in the checkout that `gofmt -l` would change, prunes
   `*/.claude/*` as the other gates do, exits non-zero on any, and
   the checkout is clean under it, `effects/glow/glow_test.go` and
   whatever else it finds formatted.
-- [ ] Exit: guard OK; gofmt gate OK; green in every repo touched by
+- [x] Exit: guard OK; gofmt gate OK; green in every repo touched by
   name; commit and push in every repo touched and in `.github`.
 
 ### G-CI3: One single-line text helper serves every window
