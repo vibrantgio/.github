@@ -27,9 +27,9 @@ until the system is finished, and a consumer pins commits until then.
   the window buttons on the pane strip's line); the source list (the
   pane's sectioned list of places with marks, labels, trailing counts
   or badges, a selection tint and a neutral cursor, a foot for the
-  pane's own acts); a one-of-few inline choice control with no panel
+  pane's own acts); a one-of-few inline choice control with no pane
   (the "All | Current folder" scope switch; chips are few-of-few, the
-  picker is a menu, tabs carry a panel); a slider, with its seek-bar
+  picker is a menu, tabs carry a pane); a slider, with its seek-bar
   face; a progress signal, determinate and indeterminate; a level
   meter that holds a peak; a plain text-field face with no bezel at
   rest that grows with its content; a disclosure group, unless the
@@ -130,9 +130,9 @@ written with it.
 - [ ] A menu-bar item with its own menu, as messages.
 - [ ] Exit: green in `mvu/desktop` and `mvu/example`; commit and push.
 
-#### BU4.2: The window level and the panels
+#### BU4.2: The window level and the panes
 
-- [ ] A floating window level option; open, save and folder panels as
+- [ ] A floating window level option; open, save and folder panes as
   commands answering with messages; reveal in Finder.
 - [ ] Exit: as BU4.1.
 
@@ -145,7 +145,7 @@ written with it.
 #### BU4.4: The application's life
 
 - [ ] The terminate hook with a veto (quit as a message), reopen and
-  did-become-active events, the About panel.
+  did-become-active events, the About pane.
 - [ ] Exit: as BU4.1.
 
 ### G-BU5: The controls the design needs
@@ -160,7 +160,7 @@ written with it.
 #### BU5.2: One of few, inline
 
 - [ ] The control BU1.1 names for a one-of-few inline choice with no
-  panel, in `components`; a gallery specimen; the chip and picker docs
+  pane, in `components`; a gallery specimen; the chip and picker docs
   say how it differs.
 - [ ] Exit: green; specimen; fresh-eyes review; commit and push.
 
@@ -190,7 +190,7 @@ written with it.
 
 - [ ] A header row with a chevron over a collapsible body, or the
   ruling that the accordion already is one; vaultview's Properties
-  panel is the app-local version and adopts it.
+  pane is the app-local version and adopts it.
 - [ ] Exit: green in `patterns` and vaultview by name; commit and push.
 
 #### BU5.8: The alert's action

@@ -78,7 +78,7 @@ set -u
 # only — the OnX prefix of a colour read on a fill, and the hyphenated
 # on-colour in prose — so its two rules carry the ten thousand ordinary
 # prepositions the tokenizer hands them.
-WORDS="glyph,halo,wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider,primary,secondary,tertiary,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on,wcag"
+WORDS="glyph,halo,panel,wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider,primary,secondary,tertiary,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on,wcag"
 
 MODULES="backdrop circle components csg design effects font gradient ivg kiwi markdown mvu noise patterns seen style svg textdraw theme traer workbench .github"
 
@@ -133,8 +133,9 @@ glyph::*::path::^(textdraw|font)/::The glyph of typesetting — one positioned o
 glyph::*::ctx::(shaping|shaper|rune|cluster|advance|font|typeface|outline of)::A glyph of a shaped run, named beside the font, typeface, rune, cluster, advance or outline it belongs to; the retired sense is the small picture a control draws.
 glyph::*::path::^ivg/::IconVG's own one-line description of its format — icons, logos, glyphs and emoji — is the upstream project's text, mirrored here.
 glyph::*::!ctx::(icon|symbol|chevron|magnifier|keyline|catalogue|disclosure|check ?mark|avatar|mark set)::The glyph of set text keeps the word: what a face yields for a rune, what a line box holds, what antialiases against the fill behind it. Only the small picture a control or an icon set draws was retired, and a line that means that one names the icon or the symbol.
-halo::*::path::^effects/glow/::A glow's halo is the blur around it, not the ring around a focused control.
-halo::*::ctx::glow::The blur around a glow, named where the glow is named: the ring around a focused control is the retired sense.
+panel::*::path::^theme/system/openpanel/::The platform's own Open panel is all this package presents, and the package is named after it.
+panel::*::ctx::open[-*/ ]*panel::The platform's Open panel — NSOpenPanel, the chooser macOS presents for a file or a folder — named as the platform names it. The spacing is loose because the three-line window joins a wrapped phrase with the comment marker still between its halves.
+panel::identifier,string::ctx::purposepanel::[modal.PurposePanel] is exported from a tagged module and the name its String reports goes with it; renaming the pair is the round that bumps the minor.
 mark::*::!ctx::(mark component|component mark|/mark/|mark package)::The glyph a control draws and the verb are kept; only the former component's name was retired, and a line that means the component says so.
 floor::identifier::!token::(floor(level|storey|surface|tint)|(level|storey|chrome|backdrop|surface)floor)::A floor in an identifier is a lower bound — a contrast floor, a perceptibility floor, math.Floor; the retired sense would join it to an elevation word.
 floor::comment,doc,string::!line::(elevation|storey|ladder|ground floor|floor level|floor of the)::A contrast floor or another lower bound; the retired sense is an elevation level and says so with the elevation words.

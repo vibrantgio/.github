@@ -23447,7 +23447,7 @@ with its kept senses as rules, so the sweep stays swept.
 
 #### CI2.2: Panel becomes pane
 
-- [ ] Owner-ruled 2026-09-30 ("retire panel"): the Panel entry is
+- [x] Owner-ruled 2026-09-30 ("retire panel"): the Panel entry is
   gone and "pane" is the one word for the inset rounded region.
   Every "panel" in comments, docs, captions and test names becomes
   pane, the pane package's own words first; `modal`'s dialog text
@@ -23462,11 +23462,11 @@ with its kept senses as rules, so the sweep stays swept.
   from a tagged module; an exported one is left and noted for the
   next round. "Plane" in comments migrates to "surface" where a
   line is touched anyway, nothing else.
-- [ ] `scripts/check-retired-words.sh` gains `panel` with the kept
+- [x] `scripts/check-retired-words.sh` gains `panel` with the kept
   sense "open panel" and the `openpanel` path as rules, and loses
   the `halo` rule for `effects/glow`; the guard reports OK over the
   whole set.
-- [ ] Exit: green in every repo touched by name; `scripts/
+- [x] Exit: green in every repo touched by name; `scripts/
   check-layers.sh` OK; goldens regenerated only where a caption is
   in the picture, the cause named; one commit per repo with the
   heading as subject; push every one.

@@ -205,7 +205,7 @@ the surface beneath as an input — a level is the only handle.
 | card | one raise above its level | — | none | seam only when the raise came back seamed |
 | group | nothing | interior | none | always a hairline at its level |
 | table (pattern) | its level; header band one raise above; rows nothing | rows | current row: Primary step 300, absolute | 1 dp seam under header and each row, unconditional |
-| tabs | panel at its level; strip one raise above | — | none; selected tab 2 dp Primary underline | strip foot seam when seamed |
+| tabs | pane at its level; strip one raise above | — | none; selected tab 2 dp Primary underline | strip foot seam when seamed |
 | text field, search field | one raise above its level | — | disabled: alpha; focus: border becomes ring; no hover | 1 dp neutral border at 3:1 |
 | picker, field variant | one raise above its level | — | as text field | 1 dp border |
 | picker, toolbar variant | its level lifted 1.28 L* dark / 0.70 L* light, measured constants | — | hover/press pinned walk | 1 dp rim, omitted when it clears neither side |
@@ -256,7 +256,7 @@ on top of, or instead of, the patterns it uses.
 | app | paints | over what a pattern already painted |
 |---|---|---|
 | launcher | backdrop at the content pin; app cells as groups | — |
-| vaultview | backdrop over the window; content pin from the rail's edge; the note plane again at the content pin; the properties panel at the content pin inside a neutral 400 box; aside at chrome | the note plane and properties panel repaint the same colour the frame laid |
+| vaultview | backdrop over the window; content pin from the rail's edge; the note surface again at the content pin; the properties pane at the content pin inside a neutral 400 box; aside at chrome | the note surface and properties pane repaint the same colour the frame laid |
 | vaultview rail | pane pattern; rows: active Primary step 300, selected chrome hover walk, find highlight | — |
 | mindchat | backdrop over a backdrop layer at the content pin; transcript at the content; sidebar rows repaint chrome per row, selected Primary step 300 with a 3 dp Primary bar, hover chrome walk at alpha 128; bot rows at the content again; user rows Primary bubble; undo bar level 2 blended a third toward Primary with a shadow | the transcript fill is painted three deep; rest rows repaint the pane |
 | feeds | backdrop at the content pin; sidebar chrome; list and detail at the content; selected feed Primary step 300 | panes over the shell's backdrop; two comments still call the panes "Surface, level 1" |

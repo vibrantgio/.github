@@ -66,7 +66,8 @@ libraries. It is not how you work this plan.
 | Material, MD3, M3 | the design system | the platform (a macOS material, Gio's widget/material, the Material Design icon sets and a renderer's material stay) |
 | WCAG | a contrast measure | APCA, Lc (WCAG 3 stays, which carries APCA) |
 | glyph | the small picture a control or an icon set draws | symbol (glyph stays for the glyph of set text, which `textdraw` and `font` shape) |
-| halo | the ring around a focused control | focus ring (halo stays for the blur around a glow) |
+| halo | the ring around a focused control | focus ring |
+| panel | the inset rounded region | pane (open panel stays: the platform's own chooser for a file or a folder) |
 
 The Language in DOMAIN.md retires words. A retired word in a packet, a
 review, a comment, a doc or an identifier is a defect; say the
