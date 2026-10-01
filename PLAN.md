@@ -23521,7 +23521,16 @@ with its kept senses as rules, so the sweep stays swept.
   icon docs) becomes the stroke; comments, docs and captions with
   them. Exported identifiers move with their consumers under the
   workspace, the minor bump at the next round covering them with
-  CI2.3's. No composition changes.
+  CI2.3's. `patterns/sidebar.LabelInset`, which insets the row's
+  `Title`, becomes `TitleInset` with its consumers, in the same
+  contract round. Two published texts are mended on the way:
+  `gradient`'s README names no consumer by path (its status list
+  names an example and `effects`) and cites no task identifier
+  ("Phase E", "the E4.4 verdict" become what was decided, in plain
+  words); "plane" meaning the window's own surface in
+  `patterns/shell`'s prose and in `theme/export`'s dialog comment
+  ("75% of the window plane") says surface, the design bundle
+  regenerated. No composition changes.
 - [ ] `scripts/check-retired-words.sh` gains `band` with no kept
   sense, and its file walk reaches prose kept under `testdata/`
   (the measured notes in `theme/tokens/testdata/nscolors.tsv`
