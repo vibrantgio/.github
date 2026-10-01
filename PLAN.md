@@ -23509,50 +23509,35 @@ with its kept senses as rules, so the sweep stays swept.
   on; `scripts/check-layers.sh` OK; guard OK; one commit per repo
   with the heading as subject; push every one.
 
-#### CI2.4: Band leaves the code for the ring's width, the toolbar and the stroke
+#### CI2.4: The contract round's last names move and the published texts say what they mean
 
-- [ ] Ruled by the ontology session 2026-10-01 after CI2.1: "band"
-  has no entry and the code uses it in three senses, each of which
-  already has its term. The focus ring's stroke (`focus.Fill.Band`
-  and its kin) becomes the ring's width; the toolbar strip's
-  identifiers (`pane.BandDp`, the shell's band fill and slot, the
-  frames' band locals) become the toolbar (`ToolbarDp`, toolbar
-  height, toolbar fill); a symbol's stroke width ("band 1.4" in the
-  icon docs) becomes the stroke; comments, docs and captions with
-  them. Exported identifiers move with their consumers under the
-  workspace, the minor bump at the next round covering them with
-  CI2.3's. `patterns/sidebar.LabelInset`, which insets the row's
+- [x] Ruled by the ontology session 2026-10-01 after CI2.1 and
+  CI2.3. `patterns/sidebar.LabelInset`, which insets the row's
   `Title`, becomes `TitleInset` with its consumers, in the same
-  contract round. Two published texts are mended on the way:
-  `gradient`'s README names no consumer by path (its status list
-  names an example and `effects`) and cites no task identifier
-  ("Phase E", "the E4.4 verdict" become what was decided, in plain
-  words); "plane" meaning the window's own surface in
-  `patterns/shell`'s prose and in `theme/export`'s dialog comment
-  ("75% of the window plane") says surface, the design bundle
-  regenerated. No composition changes.
-- [ ] `scripts/check-retired-words.sh` gains `band` with no kept
-  sense, and its file walk reaches prose kept under `testdata/`
-  (the measured notes in `theme/tokens/testdata/nscolors.tsv`
-  are the case in hand) and `.tsv` files under `reference/` with
-  the kept-sense rules applying there as anywhere; the two copies
-  of the platform colour catalogue, `reference/macos/nscolors.tsv`
-  and `theme/tokens/testdata/nscolors.tsv`, are made identical
-  again and a test in `theme/tokens` asserts they stay so; the
-  guard reports OK over the whole set. The platform's term for
-  NSSavePanel is Save panel, beside the Open panel already said:
-  prose, identifiers and the catalogue's notes that CI2.2 made say
-  "Save dialog" say Save panel, the guard's "open panel" kept sense
-  widening to the save panel; the stored captures keep their
-  recorded names `save-dialog-{light,dark}.png`, since the records
-  cite them by name, and one line in `reference/macos/controls.md`
-  says the files are named for the dialog they show and the
-  platform's term is Save panel.
-- [ ] Goldens do not move.
-- [ ] Exit: green in every repo touched by name, `components/
+  contract round as CI2.3's names. Published texts are mended:
+  `gradient`'s README names no consumer by path and cites no task
+  identifier, saying what was decided in plain words; "plane"
+  meaning the window's own surface in `patterns/shell`'s prose and
+  in `theme/export`'s dialog comment says surface, the design
+  bundle regenerated. The platform's term for NSSavePanel is Save
+  panel, beside the Open panel already said: prose and the
+  catalogue's notes that CI2.2 made say "Save dialog" say Save
+  panel; the stored captures keep their recorded names
+  `save-dialog-{light,dark}.png`, since the records cite them by
+  name, and one line in `reference/macos/controls.md` says the
+  files are named for the dialog they show and the platform's term
+  is Save panel. No composition changes.
+- [x] The two copies of the platform colour catalogue,
+  `reference/macos/nscolors.tsv` and
+  `theme/tokens/testdata/nscolors.tsv`, are made identical again
+  and a test in `theme/tokens` asserts they stay so, by the
+  recorded digest of the reference copy and byte for byte where
+  the plan root is a sibling.
+- [x] Goldens do not move.
+- [x] Exit: green in every repo touched by name, `components/
   gallery`, `mvu/example` and every `workbench` app included;
-  `scripts/check-layers.sh` OK; one commit per repo with the
-  heading as subject; push every one.
+  guard OK; `scripts/check-layers.sh` OK; one commit per repo with
+  the heading as subject; push every one.
 
 #### CI2.5: The common noun label becomes title where it means a control's own text
 
