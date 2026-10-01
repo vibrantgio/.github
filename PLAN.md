@@ -23491,6 +23491,18 @@ with its kept senses as rules, so the sweep stays swept.
   touched anyway. `effects/README.md`'s "a focused thing" becomes
   "a focused control", the Language's word for what takes the
   keyboard; any other published README line saying the same follows.
+  Two more exported names move in the same contract round, so they
+  move here: `patterns/modal.PurposePanel` and the "panel" its
+  String reports become `PurposePane` and "pane", and the guard's
+  rule holding them goes; `patterns/shell.PaneFrame.Plane` becomes
+  `Surface` with its consumers. Two published texts are mended on
+  the way: `theme/export`'s stylesheet prose cites a task identifier
+  ("G0A.2's two purposes share this one surface") and is reworded
+  to say what it means, the design bundle regenerated; `gradient`'s
+  README names two consumers by path and says instead that the
+  effects layer composes its own gradients. The next round bumps
+  the minor of `components`, `patterns` and `effects` (whose
+  `glow.Halo` became `Spread` under CI2.2) for these contracts.
 - [ ] Goldens do not move.
 - [ ] Exit: green in `components`, `patterns`, `design` and every
   `workbench` app by name with `GOWORK=off` off and the workspace
@@ -23513,8 +23525,12 @@ with its kept senses as rules, so the sweep stays swept.
 - [ ] `scripts/check-retired-words.sh` gains `band` with no kept
   sense, and its file walk reaches prose kept under `testdata/`
   (the measured notes in `theme/tokens/testdata/nscolors.tsv`
-  are the case in hand) with the kept-sense rules applying there
-  as anywhere; the guard reports OK over the whole set.
+  are the case in hand) and `.tsv` files under `reference/` with
+  the kept-sense rules applying there as anywhere; the two copies
+  of the platform colour catalogue, `reference/macos/nscolors.tsv`
+  and `theme/tokens/testdata/nscolors.tsv`, are made identical
+  again and a test in `theme/tokens` asserts they stay so; the
+  guard reports OK over the whole set.
 - [ ] Goldens do not move.
 - [ ] Exit: green in every repo touched by name, `components/
   gallery`, `mvu/example` and every `workbench` app included;

@@ -3310,23 +3310,3 @@ focus target its shortcut took the keyboard from and hands it back there on
 Escape. No fresh-eyes review was named for the task.
 
 844. **[note]** **The rail's own find field never gives the keyboard back.** The rail's shortcut puts the keyboard in its search field and nothing takes it out again: neither the field nor the components search field answers Escape, so the reader leaves it by clicking or tabbing. The Focused entry's rule — a control that took the keyboard for a while and is then dismissed gives it back — has no dismissal there to apply to. Whether that field should answer Escape, and where it would hand the keyboard back to, is unasked.
-
-## DP. From CI2.2, the pane sweep
-
-Filed 2026-10-01 from the work itself: `panel` left the code for `pane`
-in every repository that carried it, and the blur around a glow stopped
-being a `halo`. No fresh-eyes review was named for the task.
-
-849. **[note]** **The two copies of the platform colour catalogue have drifted.** `reference/macos/nscolors.tsv` here and `theme/tokens/testdata/nscolors.tsv` are meant to be one file in two places; two rows, `toolbarControlFill` and `toolbarLabel`, differ, the theme copy saying symbol where this one still said glyph, so the symbol sweep reached one and not the other. Nothing reads the prose column, so no test reported it, and the retired-word guard does not walk `.tsv` at all. Whether the pair should be held equal by a script is unasked.
-
-850. **[note]** **`patterns/modal.PurposePanel` still carries the retired word, held open by a guard rule.** The constant and the `"panel"` its `String` reports are exported from a tagged module, so both were left in place and the guard carries a rule naming them. They become `PurposePane` and `"pane"` in the round that bumps `patterns`' minor, and the rule goes out with them.
-
-851. **[note]** **`effects/glow.Halo` is now `Spread` with no tag behind it.** Nothing outside `effects` called it, so the rename landed in one repository, but it is an exported contract change and the module's published API still answers to the old name until a minor carries the new one.
-
-852. **[note]** **`patterns/shell.PaneFrame.Plane` is an exported field named for a word the Language retired.** Plane retires into surface; this task migrated the prose only where a line was touched anyway, and left the field's own doc saying plane because it names the field. Renaming it to `Surface` moves an exported contract and was outside this task.
-
-853. **[note]** **The Retired words table tells its reader to say "the window's plane".** The canvas row's right-hand column reads "the window's plane, the backdrop", and plane is itself retired into surface, so the table prescribes a word the Language has dropped. The guard has no entry for plane, so nothing reports it.
-
-854. **[bug]** **The published stylesheet's prose cites an internal task identifier.** `design/styles.css` carries "G0A.2's two purposes share this one surface", written by `theme/export`'s source and regenerated into the bundle, where a reader outside the organization has nothing to resolve it against. Emitted text names no task.
-
-855. **[note]** **`gradient`'s README names two of its own consumers.** The section explaining why the module is not used names `effects/depth` and `effects/glow` by path. A support library cannot know who imports it, and its documentation should not say.

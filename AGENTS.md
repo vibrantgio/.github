@@ -45,7 +45,7 @@ libraries. It is not how you work this plan.
 | mark | the former component | badge (mark stays for the symbol a control draws) |
 | elevated | standing higher | raised, or floating |
 | reach | operating a control; kept where it means code, memory or an import graph being reachable, and the `unreachable` panic idiom | operate |
-| canvas | the area the window paints | the window's plane, the backdrop |
+| canvas | the area the window paints | the window's surface, the backdrop |
 | author | who built the application | developer (author stays for who wrote content) |
 | container | a card's surface | surface (container stays for the tinted field) |
 | outlined, filled | a card's looks | a card (raised, singles out) or a group (a hairline, divides) |
