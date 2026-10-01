@@ -23572,7 +23572,7 @@ with its kept senses as rules, so the sweep stays swept.
 
 #### CI2.6: The common noun label becomes title in patterns
 
-- [ ] As CI2.5, in `patterns`: about two hundred lines of prose,
+- [x] As CI2.5, in `patterns`: about two hundred lines of prose,
   comments, local names and test names; `patterns/group`'s four
   goldens (`light-labelled`, `dark-labelled`, `light-unlabelled`,
   `dark-unlabelled`) renamed to `-with-title` and `-without-title`
@@ -23582,8 +23582,8 @@ with its kept senses as rules, so the sweep stays swept.
   kept-sense exclusions keyed on the word being retired (as the
   `material` rule's "label's material" was) are rekeyed on what
   the line is about, so later sweeps do not trip them.
-- [ ] Goldens do not move beyond the four renames.
-- [ ] Exit: green in `patterns` and `components/gallery` by name;
+- [x] Goldens do not move beyond the four renames.
+- [x] Exit: green in `patterns` and `components/gallery` by name;
   guard OK; `scripts/check-layers.sh` OK; one commit in `patterns`
   with the heading as subject; push; commit and push in `.github`.
 
