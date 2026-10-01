@@ -3310,18 +3310,3 @@ focus target its shortcut took the keyboard from and hands it back there on
 Escape. No fresh-eyes review was named for the task.
 
 844. **[note]** **The rail's own find field never gives the keyboard back.** The rail's shortcut puts the keyboard in its search field and nothing takes it out again: neither the field nor the components search field answers Escape, so the reader leaves it by clicking or tabbing. The Focused entry's rule — a control that took the keyboard for a while and is then dismissed gives it back — has no dismissal there to apply to. Whether that field should answer Escape, and where it would hand the keyboard back to, is unasked.
-
-## DO. From CI2.1, the symbol and focus ring sweep
-
-Filed 2026-10-01 from the work itself: the icon sense of `glyph` became
-symbol and the ring around a focused control stopped being a `halo`,
-across every repository that carried either word. No fresh-eyes review
-was named for the task.
-
-845. **[note]** **The focus package still calls what it draws "the band".** `components/internal/focus` now exports `Ring`, `RingEllipse` and `RingColor`, and `components/list` wraps a list in `FocusRing` — but the prose inside both, and the `Band` field of `focus.Fill`, name the drawn thing the band. The Language has an entry for the focus ring and none for a band, so the word is the code's own. Whether the band should follow the ring, or stay as the name for the four px the ring is drawn as, is unasked.
-
-846. **[note]** **The retired-word guard does not reach prose that lives in testdata.** `scripts/check-retired-words.sh` excludes every `testdata/` path, and `theme/tokens/testdata/nscolors.tsv` carries a paragraph of measured notes per row — two of which named the toolbar's symbols by the retired word and were swept here by hand because no run would have reported them. Whether the file set should reach prose-bearing data files is unasked.
-
-847. **[note]** **The shaped-text sense of `glyph` could not be kept by naming the typesetting vocabulary.** The rule this task was given — by path under `textdraw/` and `font/`, and by context naming a shaper, a rune, a cluster, an advance, a font or a typeface — left 213 shaped-text sites flagged, in `components/paragraph`, `components/input`, `markdown`, `theme/typeset`, `theme/tokens` and the applications' window tests: those lines name a line box, a baseline, a bearing or an anti-aliased edge and no font at all, and no honest widening of that list covers them without swallowing the retired sense too. What carries them is the negative shape the table already uses for `mark`, `container` and `filled`: a hit is a defect only where the line names an icon or a symbol. Whether that is the rule the owner wants is unasked.
-
-848. **[note]** **effects' README says the layer draws the ring around "a focused thing".** The opening sentence lists what the layer is for and now names the ring among them; the Language's Focused entry says what takes the keyboard is a control. The line predates this task and only its last word changed. Whether the sentence should say control is unasked.

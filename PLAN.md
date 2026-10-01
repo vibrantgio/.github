@@ -23488,11 +23488,35 @@ with its kept senses as rules, so the sweep stays swept.
   exported contract in `components` and `patterns`: the next round
   bumps the minor; no tag now. "Words" in comments and docs
   becomes "text" where a coherent run is meant and the line is
-  touched anyway.
+  touched anyway. `effects/README.md`'s "a focused thing" becomes
+  "a focused control", the Language's word for what takes the
+  keyboard; any other published README line saying the same follows.
 - [ ] Goldens do not move.
 - [ ] Exit: green in `components`, `patterns`, `design` and every
   `workbench` app by name with `GOWORK=off` off and the workspace
   on; `scripts/check-layers.sh` OK; guard OK; one commit per repo
   with the heading as subject; push every one.
 
+#### CI2.4: Band leaves the code for the ring's width, the toolbar and the stroke
 
+- [ ] Ruled by the ontology session 2026-10-01 after CI2.1: "band"
+  has no entry and the code uses it in three senses, each of which
+  already has its term. The focus ring's stroke (`focus.Fill.Band`
+  and its kin) becomes the ring's width; the toolbar strip's
+  identifiers (`pane.BandDp`, the shell's band fill and slot, the
+  frames' band locals) become the toolbar (`ToolbarDp`, toolbar
+  height, toolbar fill); a symbol's stroke width ("band 1.4" in the
+  icon docs) becomes the stroke; comments, docs and captions with
+  them. Exported identifiers move with their consumers under the
+  workspace, the minor bump at the next round covering them with
+  CI2.3's. No composition changes.
+- [ ] `scripts/check-retired-words.sh` gains `band` with no kept
+  sense, and its file walk reaches prose kept under `testdata/`
+  (the measured notes in `theme/tokens/testdata/nscolors.tsv`
+  are the case in hand) with the kept-sense rules applying there
+  as anywhere; the guard reports OK over the whole set.
+- [ ] Goldens do not move.
+- [ ] Exit: green in every repo touched by name, `components/
+  gallery`, `mvu/example` and every `workbench` app included;
+  `scripts/check-layers.sh` OK; one commit per repo with the
+  heading as subject; push every one.
