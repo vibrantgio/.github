@@ -23614,3 +23614,17 @@ with its kept senses as rules, so the sweep stays swept.
   `mvu/example` by name; guard OK; `scripts/check-layers.sh` OK;
   one commit per repo with the heading as subject; push every one;
   commit and push in `.github`.
+
+#### CI2.9: The guard retires label for a control's own text
+
+- [ ] Ruled by the ontology session 2026-10-01: after CI2.5 to
+  CI2.8 the guard gains `label` in the shape the `mark` and `glyph`
+  rules use, a hit only where the line names a button, chip,
+  checkbox, radio, badge, tab, row or segment, since the kept
+  senses are the many: text standing by itself on the surface, a
+  platform colour name, a typography role name, a library name,
+  the accessibility API's screen-reader label and `widget.Label`'s
+  placeholder. The Retired words table in `AGENTS.md` gains the
+  row and `scripts/sync-agents.sh` runs clean; the guard reports OK
+  over the whole set.
+- [ ] Exit: guard OK; commit and push in `.github`.
