@@ -23530,7 +23530,15 @@ with its kept senses as rules, so the sweep stays swept.
   of the platform colour catalogue, `reference/macos/nscolors.tsv`
   and `theme/tokens/testdata/nscolors.tsv`, are made identical
   again and a test in `theme/tokens` asserts they stay so; the
-  guard reports OK over the whole set.
+  guard reports OK over the whole set. The platform's term for
+  NSSavePanel is Save panel, beside the Open panel already said:
+  prose, identifiers and the catalogue's notes that CI2.2 made say
+  "Save dialog" say Save panel, the guard's "open panel" kept sense
+  widening to the save panel; the stored captures keep their
+  recorded names `save-dialog-{light,dark}.png`, since the records
+  cite them by name, and one line in `reference/macos/controls.md`
+  says the files are named for the dialog they show and the
+  platform's term is Save panel.
 - [ ] Goldens do not move.
 - [ ] Exit: green in every repo touched by name, `components/
   gallery`, `mvu/example` and every `workbench` app included;
