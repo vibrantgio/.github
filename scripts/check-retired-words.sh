@@ -78,7 +78,7 @@ set -u
 # only — the OnX prefix of a colour read on a fill, and the hyphenated
 # on-colour in prose — so its two rules carry the ten thousand ordinary
 # prepositions the tokenizer hands them.
-WORDS="wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider,primary,secondary,tertiary,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on,wcag"
+WORDS="glyph,halo,wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider,primary,secondary,tertiary,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on,wcag"
 
 MODULES="backdrop circle components csg design effects font gradient ivg kiwi markdown mvu noise patterns seen style svg textdraw theme traer workbench .github"
 
@@ -129,6 +129,12 @@ widget::doc::line::ui-widget::jQuery UI's own CSS class name in a third-party ex
 furniture::doc::ctx::^\.github/domain\.md .*the window's furniture: every region::DOMAIN's Chrome entry keeps the phrase as its own definition; nowhere else.
 paper::comment,doc::line::(cassowary paper|rock-paper-scissors|the paper by|this paper|in the paper|academic paper|white ?paper)::A published paper, or the game; not the content level.
 
+glyph::*::path::^(textdraw|font)/::The glyph of typesetting — one positioned outline a font yields for a rune — is the shaper's own term, kept in the two modules that shape text.
+glyph::*::ctx::(shaping|shaper|rune|cluster|advance|font|typeface|outline of)::A glyph of a shaped run, named beside the font, typeface, rune, cluster, advance or outline it belongs to; the retired sense is the small picture a control draws.
+glyph::*::path::^ivg/::IconVG's own one-line description of its format — icons, logos, glyphs and emoji — is the upstream project's text, mirrored here.
+glyph::*::!ctx::(icon|symbol|chevron|magnifier|keyline|catalogue|disclosure|check ?mark|avatar|mark set)::The glyph of set text keeps the word: what a face yields for a rune, what a line box holds, what antialiases against the fill behind it. Only the small picture a control or an icon set draws was retired, and a line that means that one names the icon or the symbol.
+halo::*::path::^effects/glow/::A glow's halo is the blur around it, not the ring around a focused control.
+halo::*::ctx::glow::The blur around a glow, named where the glow is named: the ring around a focused control is the retired sense.
 mark::*::!ctx::(mark component|component mark|/mark/|mark package)::The glyph a control draws and the verb are kept; only the former component's name was retired, and a line that means the component says so.
 floor::identifier::!token::(floor(level|storey|surface|tint)|(level|storey|chrome|backdrop|surface)floor)::A floor in an identifier is a lower bound — a contrast floor, a perceptibility floor, math.Floor; the retired sense would join it to an elevation word.
 floor::comment,doc,string::!line::(elevation|storey|ladder|ground floor|floor level|floor of the)::A contrast floor or another lower bound; the retired sense is an elevation level and says so with the elevation words.
@@ -144,7 +150,7 @@ container::*::!ctx::card::The tinted field — ContainerOn, StatusContainer, con
 filled,outlined::*::!ctx::((filled|outlined) (card|group|tier)|card--(filled|outlined)|props\.filled)::The button's Filled variant, an outlined icon, a filled path and a filled inset keep their words; only a card called filled or outlined was retired.
 highlighted,featured,emphasised,emphasized::*::!ctx::(pricing|tier)::Syntax highlighting, the highlighter, a feature block and Material's Emphasized easing keep their words; only a pricing tier's was retired.
 author::*::path::^markdown/::In the markdown module the author is the one who wrote the document.
-author::*::ctx::(wrote|writes|written|article|testimonial|front ?matter|commit|content|document|feed|post|avatar|name|role|drew|drawn|authored|icon|glyph|path)::"author" as who wrote the content — an article, a testimonial, markdown front matter, a commit — which the row keeps.
+author::*::ctx::(wrote|writes|written|article|testimonial|front ?matter|commit|content|document|feed|post|avatar|name|role|drew|drawn|authored|icon|symbol|path)::"author" as who wrote the content — an article, a testimonial, markdown front matter, a commit — which the row keeps.
 quiet::*::match::^quietly$::The ordinary adverb — a check that fails quietly — not a variant's prominence.
 loud::*::match::^loudly$::The ordinary adverb — a check that fails quietly — not a variant's prominence.
 volume::*::path::^(seen|csg)/::A volume is a solid in the geometry these renderers work in.
@@ -168,7 +174,7 @@ material::*::ctx::(sidebar[- ]?material|chrome[- ]?material|window material|mate
 material::*::line::(material\.[a-za-z]|material.s (`|unexported|scrollbarstyle|anchorstrategy|fromlistposition|rangeisscrollable|list|theme|layout)|port of material|material layout recipe|the material theme|material theme\)|reference material|material named)::Gio's own widget/material package, whose names this text cites.
 material::doc::ctx::^\.github/domain\.md .*(platform and material|material.s$|material.s is dropped|### material|menu material)::The Language names Material in order to say the platform's value replaces it and Material's is dropped, and its Material entry names the platform's own material.
 ramp::doc::ctx::^\.github/domain\.md .*no (ramp|palette)::The Language names the ramp in order to say the theme colour has none.
-material::*::ctx::(material symbols|material design icons?|material icons|mdicons|material (grid|catalogue|cell|glyph|set))::Third-party icon sets, mirrored here by their own names.
+material::*::ctx::(material symbols|material design icons?|material icons|mdicons|material (grid|catalogue|cell|symbol|set))::Third-party icon sets, mirrored here by their own names.
 md3,m3::string::line::(^|[^a-z])m3[." ]::A path's moveto with a relative coordinate, or a labelled point in an example — the letter and the digit, not Material's abbreviation.
 m3::comment,identifier::ctx::(sk150|quadrilateral|0x50)::The instrument's own stored group M3 and an example's point M3.
 material::*::ctx::(callop|colorop|mcolor|material[,)]|material :?= [a-z]+\.stop|material\(gtx\.ops|(fill|stroke)material|paint material|editor materials|label's material|label.s paint)::Gio names the paint source a label is drawn with a material: widget.Label.Layout's last argument is an op.CallOp, and the variables that carry it keep Gio's word.

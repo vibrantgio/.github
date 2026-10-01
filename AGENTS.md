@@ -42,7 +42,7 @@ libraries. It is not how you work this plan.
 | voice | who a component speaks for | originator |
 | volume, loud, quiet | how pronounced a variant is | prominence |
 | widget | a component (layout.Widget stays Gio's) | component |
-| mark | the former component | badge (mark stays for the glyph a control draws) |
+| mark | the former component | badge (mark stays for the symbol a control draws) |
 | elevated | standing higher | raised, or floating |
 | reach | operating a control; kept where it means code, memory or an import graph being reachable, and the `unreachable` panic idiom | operate |
 | canvas | the area the window paints | the window's plane, the backdrop |
@@ -65,6 +65,8 @@ libraries. It is not how you work this plan.
 | elevation, level | a source of fill | the platform's name for the level's fill (elevation stays for the shadow dimension, level for Gio's layout, a heading level and the five levels) |
 | Material, MD3, M3 | the design system | the platform (a macOS material, Gio's widget/material, the Material Design icon sets and a renderer's material stay) |
 | WCAG | a contrast measure | APCA, Lc (WCAG 3 stays, which carries APCA) |
+| glyph | the small picture a control or an icon set draws | symbol (glyph stays for the glyph of set text, which `textdraw` and `font` shape) |
+| halo | the ring around a focused control | focus ring (halo stays for the blur around a glow) |
 
 The Language in DOMAIN.md retires words. A retired word in a packet, a
 review, a comment, a doc or an identifier is a defect; say the

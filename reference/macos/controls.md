@@ -51,9 +51,9 @@ were taken").
 | toolbar control height — search field, capsule button, segmented control, pop-up button alike | 36 px, y 8–43 | `finder-window.png`, `mail-window.png`, `reminders-window.png`, `voicememos-window.png`, `notes-window.png` | luminance run down a column through each control; every bordered control in all five windows starts at y=8 and ends at y=43. Re-read capture by capture under "The toolbar control's height, capture by capture" below, where the one exception is recorded: Mail's folder pull-down stands lower in its band and measures 29 |
 | that control's placement in the band | centred: 8 px above, 8 px below in a 52 px unified toolbar | same five | the band heights are ADR-019's "Title bar and toolbar bands" |
 | text field outside a toolbar — Finder's info pane, "Add Tags…" | 33 px tall (y 263–295), 220 px wide (x 770–989) | `finder-window.png` | the field's fill (35,42,46) against the pane's (27,32,35), first and last row and column that leave the pane |
-| a search field's leading inset: the field's inner edge to the first pixel of the magnifier glyph | 10 px | `mail-window.png` | horizontal luminance run at y=26 — the field's stroke at x=867, its fill from x=868, the glyph from x=878 |
-| the same, on a more rounded capsule | 13 px | `voicememos-window.png` | same method — stroke x=643, fill from 644, glyph from 657 |
-| that search field's gap: the glyph's last pixel to the prompt's first | 8 px | `mail-window.png` | the glyph spans x 878–890 and the prompt x 899–941, so eight clear columns stand between them. Read as a 2 px deviation from the field's own fill (36,45,50) over y 14–37, which is the run the leading inset above was read from. The sidebar field's gap is five, read the same way |
+| a search field's leading inset: the field's inner edge to the first pixel of the magnifier symbol | 10 px | `mail-window.png` | horizontal luminance run at y=26 — the field's stroke at x=867, its fill from x=868, the symbol from x=878 |
+| the same, on a more rounded capsule | 13 px | `voicememos-window.png` | same method — stroke x=643, fill from 644, symbol from 657 |
+| that search field's gap: the symbol's last pixel to the prompt's first | 8 px | `mail-window.png` | the symbol spans x 878–890 and the prompt x 899–941, so eight clear columns stand between them. Read as a 2 px deviation from the field's own fill (36,45,50) over y 14–37, which is the run the leading inset above was read from. The sidebar field's gap is five, read the same way |
 | that search field's prompt against the field's centre row | the prompt's cap band centred on it, the rounding falling half a pixel low | `mail-window.png` | "Search" occupies y 21–31 in a field of y 8–43: the band's centre is 26.5 against the field's 26.0. The sidebar field agrees — y 70–80 in a field of y 61–88, 75.5 against 75.0 |
 
 Everything above is a toolbar control or a pane field, and macOS 26 sizes
@@ -79,29 +79,29 @@ reference reads a control's extent everywhere else; the sheet's own fill is
 | pop-up button — "Where:", "File Format:" | 24 px, y 281–304 and y 336–359 | same | the same run at x=440 and x=430 |
 | text field — "Tags:", unfocused | 27 px, y 243–269 | same | the field's fill is the sheet's, so the run reads its border rows, `#f3f3f3` light and `#2c3338` dark |
 | that text field's edge, its width | **1 px** on every side | same | runs across and down the "Tags:" box: one column at x=264 and one at x=495, one row at y=243 and one at y=269, each reading `#f3f3f3` light and `#2c3338` dark with the sheet on one side of it and the field's interior — which is the sheet's own fill — on the other. The column at x=263 and the one at x=496 are the sheet, unblended. It is the only unfocused enabled control on the sheet that draws an edge at all, which is what makes it the reading a checkbox and a radio spend until a capture holds one of theirs. Read 2026-09-18 by CG5.3h |
-| that text field's leading inset: the field's inner edge to the text's first pixel | 7 px | same | read off the focused "Save As:" field, the only one in the sheet holding a value. Its box runs x 264–495, the same columns the "Tags:" field below it runs, so its fill begins at x=265; the first pixel column of "Untitled" is x=272. The focus ring is drawn two columns outside the box, over x 262–266, which is why the box is read off the pair rather than off the ring. Both appearances give 272; dark carries one faint antialiased column at x=271, three of 255 above the selection's fill, which light does not, and a fringe is not the glyph's first column |
+| that text field's leading inset: the field's inner edge to the text's first pixel | 7 px | same | read off the focused "Save As:" field, the only one in the sheet holding a value. Its box runs x 264–495, the same columns the "Tags:" field below it runs, so its fill begins at x=265; the first pixel column of "Untitled" is x=272. The focus ring is drawn two columns outside the box, over x 262–266, which is why the box is read off the pair rather than off the ring. Both appearances give 272; dark carries one faint antialiased column at x=271, three of 255 above the selection's fill, which light does not, and a fringe is not the symbol's first column |
 | that text field's text origin: the field's inner edge to the column the text is laid from | 6 px | same | the "Save As:" value is selected in the capture, and the selection fills from the run's origin: `#b4d8fd` light and `#406489` dark from x=271 against the fill beginning at x=265. The first covered pixel of "Untitled" is one column further in, at x=272, so the U carries 1 px of left side bearing in the face the platform sets the field in, and the 7 above is that origin plus that bearing |
 | that text field's trailing end | no reading | same | nothing in either capture reaches it. The selection behind "Untitled" ends at x=318 and the value's last covered pixel at x=317, against an inner trailing edge at x=494; the "Tags:" field below holds no value at all. The trailing inset is the leading one mirrored until a capture holds a value that reaches a field's trailing edge, which is on the capture list |
-| pop-up button's leading inset: the control's inner edge to the first pixel of its label | 12 px | same | the "File Format:" pop-up's fill runs x 264–451 with no edge column — a run down x=350 gives `#ececec` light and `#333a3f` dark from the first row of the control to the last, so its outer edge and its inner edge are one — and the first covered column of its label, "Script", is x=276 in both appearances. Five columns further in than the text field's 7 above: the platform sets a pop-up's label deeper than the field's text beside it. CG5.1 read the origin behind it the way CG4.19 read the field's: what a control spends is the origin and the face adds its first glyph's bearing, so the origin is 11. The bearing cannot be read off the S — that glyph's leading column carries only a fringe, 32 of the label's 200 levels light and 48 of its 173 dark, because an S opens on a curve and not on the U's stem — so it is the one column the "Untitled" of the field above exposes, where the selection gives the origin at x=271 against a first covered column at x=272 that is 90% covered |
+| pop-up button's leading inset: the control's inner edge to the first pixel of its label | 12 px | same | the "File Format:" pop-up's fill runs x 264–451 with no edge column — a run down x=350 gives `#ececec` light and `#333a3f` dark from the first row of the control to the last, so its outer edge and its inner edge are one — and the first covered column of its label, "Script", is x=276 in both appearances. Five columns further in than the text field's 7 above: the platform sets a pop-up's label deeper than the field's text beside it. CG5.1 read the origin behind it the way CG4.19 read the field's: what a control spends is the origin and the face adds its first symbol's bearing, so the origin is 11. The bearing cannot be read off the S — that symbol's leading column carries only a fringe, 32 of the label's 200 levels light and 48 of its 173 dark, because an S opens on a curve and not on the U's stem — so it is the one column the "Untitled" of the field above exposes, where the selection gives the origin at x=271 against a first covered column at x=272 that is 90% covered |
 | that pop-up's mark: its last pixel to the control's inner trailing edge | 9 px | same | the chevron pair spans x 435–442 against a fill ending at x=451. The same nine stands between a Mail toolbar pull-down's chevron and its own trailing edge: `mail-window.png`, the folder control, its chevron ending at x=748 against the capsule's trailing rim at x=757, in a control 29 px tall. The room is fixed and not a ratio of the control's height |
 | that pop-up's mark: its extent | 8 px wide, 11 px tall — x 435–442, y 343–353 | same | CG5.1. Two chevrons point to point: the upper covers y 343–347 and points up, the lower y 349–353 and points down, five rows each, with y 348 left at the fill's own value across the whole eight columns |
 | that mark's gap | 1 px | same | y 348, the one clear row between the two chevrons |
 | that mark's stroke | ≈1.5 px perpendicular | same | an arm crossing a row covers about 2.1 columns — light row y=346 reads 108, 37 and 156 against a 236 fill and a 36 foreground, which is 0.64 + 0.99 + 0.40 — and the arm runs at 45°, so 2.1 × sin 45° ≈ 1.5. The same weight the pull-down's chevron is drawn at |
 | that mark's vertical position | centred, the rounding falling half a pixel low | same | the pair covers y 343–353 in a control of y 336–359: seven rows above it and six below, where an exact centring of eleven rows in twenty-four is 6.5. The same rounding the Mail search field's prompt takes above |
 | that mark's colour | `labelColor` | same | the pair's fully covered pixels read 36 light and (224,225,226) dark against fills of `#ececec` and `#333a3f`, which is `labelColor`'s 216 of 255 flattened onto each to the byte on every channel. `secondaryLabelColor`'s coverage would land at 118 and 163 — the mark is not drawn in it. The library spends `controlText`, which carries the same 216 in both appearances and is the name for a control's own marks |
-| the Finder toolbar's pop-up draws the same glyph | 8 px wide, 11 px tall, upper y 21–25, lower y 27–31, x 726–733 | `finder-window-light.png` | the view pop-up in the toolbar band, in a control 36 px tall — identical in size to the dialog's, so the platform sizes this mark by its point size and not by the control it stands in |
+| the Finder toolbar's pop-up draws the same symbol | 8 px wide, 11 px tall, upper y 21–25, lower y 27–31, x 726–733 | `finder-window-light.png` | the view pop-up in the toolbar band, in a control 36 px tall — identical in size to the dialog's, so the platform sizes this mark by its point size and not by the control it stands in |
 | the Finder toolbar's pull-down draws ONE chevron | 8 px wide, 5 px tall — x 792–799, y 24–28 | same | the group control beside it: the pair's lower half alone, apex down, the same eight columns and the same five rows. Mail's folder pull-down reads 9 × 5 (`mail-window.png`, x 740–748, y 23–28) in a control 29 px tall; this one reads 8 × 5 in a control 36 px tall. The mark does not scale with the control it stands in, which is what `components/internal/controlface` models it as |
 | checkbox — "Options:" | 16 px square, y 372–387, x 264–279 | same | runs across and down the box; switched off here, which moves its fill and not its extent |
 | the second checkbox of the same pair | 16 px square, y 394–409, the same columns | same | the sheet carries two switched-off checkboxes, "Show startup screen" and "Stay open after run handler", and they agree to the pixel |
 | the checkbox's corner | **5 px** | same | a circular fit to the per-row coverage of the box's antialiased corner, the box's own extremes pinned — the fit CG4.8 made to the sidebar recess's ends. Light: r = 5.04, rms 0.038 px over 8 rows. Dark: r = 5.34, rms 0.070 px over 8 rows. All four corners of a box, and both boxes of a sheet, agree to the hundredth. The coverage missing from each corner says the same: 5.54 px² light and 6.21 px² dark against r²(1 − π/4), which is r = 5.08 and r = 5.38. The dark fit sits above the light one because the dark sheet and fill are ten of 255 apart against the light pair's thirteen, so its coverage is read across fewer levels, and both sit above the radius drawn for the reason every circular fit in this reference does — the platform's corner is a continuous curve, the same spread the sidebar recess's 14 shows at 14.7. The box's own extent read the same way is 15.85 px on both axes light (x 264.08–279.92, y 372.08–387.92) against 16.00 dark, whose ten levels cannot resolve the last tenth; the 16 px above is the covered columns and rows and stands. Read 2026-09-18 by CG5.3h |
 | the checkbox's row | 22 px | same | the pitch between the two squares: the first runs y 372–387 and the second y 394–409, so 394 − 372 = 22, with six clear rows between them. Both appearances agree to the pixel. The row is the pitch and nothing else — the sheet draws no row fill, seam or highlight behind a checkbox to read an extent off. It is neither the 24 px control height nor the 20 px list row, which is why `density.go` carries it as a number of its own |
-| the focused field's HALO, its width | **4 px** on every side | `save-dialog-{light,dark}.png` | the focused "Save As:" field, the only keyboard focus indicator in this reference. Across a row clear of both corners (y=220): x 262, 263, 264, 265 carry it and x 261 and x 266 are the sheet unblended; x 494, 495, 496, 497 carry it and x 493 and x 498 are the sheet. Down a column clear of both corners (x=350): y 205–208 and y 231–234, with y 204, 209, 230 and 235 the sheet. Hard-edged on both sides — no ramp, no blur, nothing past the fourth px. Both appearances give the same eight columns and the same eight rows. Read 2026-09-18 by CG5.5 |
-| that halo's placement | **2 px outside the box, 2 px over it** | same | the field's box runs x 264–495, the columns the unfocused "Tags:" field below it runs, so its outer boundary is x=264.0 leading and x=496.0 trailing. The band covers 262.0–266.0 and 494.0–498.0: centred on the box's own outline, half of it past the box and half over the box's outermost two columns. The field keeps its edge under it — x=264 reads the halo over the field's own `#f3f3f3` edge column where x=263 and x=265 read it over the sheet, a difference of six of 255 light — so the halo composites over the control rather than replacing anything. Vertically the same: the band's centrelines are y=207.0 and y=233.0. Read 2026-09-18 by CG5.5 |
-| that halo's colour | `keyboardFocusIndicatorColor`, at its own coverage | same | `#0067f4` at 127/255 light and `#1aa9ff` at 127/255 dark (`nscolors.tsv`), landed on whatever the band stands on. Solving each column for coverage against the sheet gives, light, 0.467 / 0.480 / 0.479 / 0.480 on green across x 262–265 and the same four down y 205–208; dark, 0.496 / 0.512 / 0.517 / 0.512 on green and 0.481 / 0.495 / 0.492 / 0.495 on blue — the name's own 0.498 to within the rounding, so the band is that name at full coverage and not a second value. The red channel disagrees in both appearances (light 0.45, dark negative) because the capture is Display P3 where `nscolors.tsv` records sRGB, and red is the channel that conversion moves; green and blue, whose ranges are wide, both land the name. Read 2026-09-18 by CG5.5 |
+| the focused field's RING, its width | **4 px** on every side | `save-dialog-{light,dark}.png` | the focused "Save As:" field, the only keyboard focus indicator in this reference. Across a row clear of both corners (y=220): x 262, 263, 264, 265 carry it and x 261 and x 266 are the sheet unblended; x 494, 495, 496, 497 carry it and x 493 and x 498 are the sheet. Down a column clear of both corners (x=350): y 205–208 and y 231–234, with y 204, 209, 230 and 235 the sheet. Hard-edged on both sides — no ramp, no blur, nothing past the fourth px. Both appearances give the same eight columns and the same eight rows. Read 2026-09-18 by CG5.5 |
+| that ring's placement | **2 px outside the box, 2 px over it** | same | the field's box runs x 264–495, the columns the unfocused "Tags:" field below it runs, so its outer boundary is x=264.0 leading and x=496.0 trailing. The band covers 262.0–266.0 and 494.0–498.0: centred on the box's own outline, half of it past the box and half over the box's outermost two columns. The field keeps its edge under it — x=264 reads the ring over the field's own `#f3f3f3` edge column where x=263 and x=265 read it over the sheet, a difference of six of 255 light — so the ring composites over the control rather than replacing anything. Vertically the same: the band's centrelines are y=207.0 and y=233.0. Read 2026-09-18 by CG5.5 |
+| that ring's colour | `keyboardFocusIndicatorColor`, at its own coverage | same | `#0067f4` at 127/255 light and `#1aa9ff` at 127/255 dark (`nscolors.tsv`), landed on whatever the band stands on. Solving each column for coverage against the sheet gives, light, 0.467 / 0.480 / 0.479 / 0.480 on green across x 262–265 and the same four down y 205–208; dark, 0.496 / 0.512 / 0.517 / 0.512 on green and 0.481 / 0.495 / 0.492 / 0.495 on blue — the name's own 0.498 to within the rounding, so the band is that name at full coverage and not a second value. The red channel disagrees in both appearances (light 0.45, dark negative) because the capture is Display P3 where `nscolors.tsv` records sRGB, and red is the channel that conversion moves; green and blue, whose ranges are wide, both land the name. Read 2026-09-18 by CG5.5 |
 | the checkbox's label against its square | the label's cap band centred on the square, the rounding falling half a pixel low | same | "Show startup screen" caps run y 375–385 against a square of y 372–387: a band centre of 380.0 against the square's 379.5. "Stay open after run handler" agrees — y 397–407 against y 394–409, 402.0 against 401.5. The same rounding the pop-up's mark and the Mail search field's prompt take. Read on the S of each label, the only cap either carries, so the band includes that letterform's overshoot |
 | the checkbox's label, its leading gap | 6 px clear | same | the square's last column is x=279 and the label's first covered column x=286, in both appearances and both rows |
-| radio button — "Automatically based on mouse or trackpad" | 16 px circle, y 696–711, x 253–268 | `system-settings-grouped-box-{light,dark}.png` | the selected radio's accent disc, read as the run of accent-blue pixels across and down; both appearances agree to the pixel. The same 16 the checkbox measures, which is what `components/input` draws the radio's circle at. It is the only radio or checkbox in that capture — the grouped boxes above it carry switches, not checkboxes — and it stands alone in its group with the capture's lower edge below it, so it gives the glyph's size and no row pitch |
-| that radio's disc, as a circle | **r = 8 px**, centred on the glyph's own middle | same | a least-squares circle through every row's two sub-pixel ends and every column's, 60 points: centre (261.00, 704.00) with r = 8.17, rms 0.084 px light, and centre (261.00, 704.00) with r = 8.12, rms 0.073 px dark. The centre falls on the glyph's middle to the hundredth in both appearances and the radius a fifth of a pixel over 8, which is a circular fit reading an antialiased rim. The 16 px above is this circle's diameter, and the radio is a circle and not a rounded square. Read 2026-09-18 by CG5.3h |
+| radio button — "Automatically based on mouse or trackpad" | 16 px circle, y 696–711, x 253–268 | `system-settings-grouped-box-{light,dark}.png` | the selected radio's accent disc, read as the run of accent-blue pixels across and down; both appearances agree to the pixel. The same 16 the checkbox measures, which is what `components/input` draws the radio's circle at. It is the only radio or checkbox in that capture — the grouped boxes above it carry switches, not checkboxes — and it stands alone in its group with the capture's lower edge below it, so it gives the symbol's size and no row pitch |
+| that radio's disc, as a circle | **r = 8 px**, centred on the symbol's own middle | same | a least-squares circle through every row's two sub-pixel ends and every column's, 60 points: centre (261.00, 704.00) with r = 8.17, rms 0.084 px light, and centre (261.00, 704.00) with r = 8.12, rms 0.073 px dark. The centre falls on the symbol's middle to the hundredth in both appearances and the radius a fifth of a pixel over 8, which is a circular fit reading an antialiased rim. The 16 px above is this circle's diameter, and the radio is a circle and not a rounded square. Read 2026-09-18 by CG5.3h |
 | that radio's dot | **5.00 px across** | same | the same fit to the white dot inside the accent disc: centre (261.00, 704.00), r = 2.50, rms 0.025 px light and rms 0.024 px dark, 16 edge points each. It is five sixteenths of the disc, which is what `components/input` draws the dot at, on the disc's own centre: the odd diameter puts its edges on the half pixel, four full columns with a half-covered one at each end. Read 2026-09-18 by CG5.3h, spent by CG5.3j |
 | a switched-off control's fill | `#f2f2f2` light, `#2e3439` dark | same | flat-region samples of both checkboxes, x 264–279. The box draws no edge of its own: its rim is a one-pixel antialiased ramp from the fill to the sheet (`#f3f3f3` through `#fbfbfb` light), the way the pop-up above it meets the sheet with no edge column |
 | the enabled fill it is read against | `#ececec` light, `#333a3f` dark | same | the "File Format:" pop-up's own fill, its last rows at y 355–359, seventeen rows above the first checkbox on the same sheet — the push button's measured fill |
@@ -129,7 +129,7 @@ the pixel on every row below.
 | the label column's trailing edge | x=255, every row label | `save-dialog-{light,dark}.png` | the last covered column of "Save As:", "Tags:" and "Where:" is x=255 in all three and in both appearances, whatever the label's length: they lead at x 206, 225 and 214 and end together, so the column is right-aligned. The accessory view below the sheet's own rows sets its two labels one column further in, ending at x=254 ("File Format:" from x=185, "Options:" from x=205), which is that view's own alignment and not a second column |
 | the gap from that edge to the field | **8 px** | same | the "Save As:" and "Tags:" field boxes both begin at x=264 and the "Where:" pop-up begins there too, so x 256–263 stand clear between the label's last pixel and the control's first |
 | the label column's own width | as wide as its widest label, and no more | same | nothing in the sheet fixes the column's leading edge: "Tags:" begins at x=225 where "File Format:" begins at x=185. What the column is, is the widest label right-aligned |
-| the row pitch | **36 px** between the two text fields, ten clear rows | same | the focused "Save As:" field's box runs y 207–232 — read off its halo, which straddles the box two px out and two px over — and the "Tags:" field's box y 243–269, so ten rows of sheet stand between one row's control and the next. The "Where:" pop-up's box follows at y 281–304, eleven clear under "Tags:". The air between rows is the constant; the control's own height is what varies |
+| the row pitch | **36 px** between the two text fields, ten clear rows | same | the focused "Save As:" field's box runs y 207–232 — read off its ring, which straddles the box two px out and two px over — and the "Tags:" field's box y 243–269, so ten rows of sheet stand between one row's control and the next. The "Where:" pop-up's box follows at y 281–304, eleven clear under "Tags:". The air between rows is the constant; the control's own height is what varies |
 | the label's vertical place | its cap band centred on the control's box | same | "Save As:"'s cap band runs y 215–224, centre 219.5, in a box of y 207–232, centre 219.5. "Where:"'s runs y 287–296, centre 291.5, in a pop-up box of y 281–304, centre 292.5. Neither is aligned on a baseline the control has |
 | the row label's colour | `secondaryLabelColor` | same | `#808080` light and `#9c9fa1` dark, the reading already recorded under what the sheet's switched-off controls are: the system panel sets its own row labels weaker than the accessory view below sets "File Format:" and "Options:" |
 
@@ -179,7 +179,7 @@ were taken with wallpaper tinting ON.
 | a toolbar control's fill, frontmost, untinted, dark | `#262626` on a `#1e1e1e` band | `finder-window-untinted-dark.png` | flat-region samples of the search field's interior (x 1162-1372, y 47-80): `#262626` over 1731 of 1783 pixels, against a band flat at `#1e1e1e` over 6650 sampled pixels. Eight levels lighter than what it stands on. The band is the fill of whatever region lies under it, continued upward — `#1c1c1c` over the sidebar, `#1e1e1e` over the content — so a toolbar band carries no fill of its own |
 | the same, frontmost, tinted, dark | `#242d32` on a `#232a2e` band | `finder-window.png` | the view pop-up at x 692-742, y 8-43, against the band at x 457-685. Lighter on every channel, which is the direction the untinted pair gives |
 | the same, frontmost, light | `#ffffff` | `finder-window-light.png` | the view pop-up's interior, flat `#ffffff`. The band beneath it there is the content's own `#ffffff`, so this capture fixes the fill's VALUE and not its step: the control is told from its band by its drop shadow alone. On the chrome material this library paints, `#ffffff` stands eight levels lighter, which is the dark appearance's step to the level. Recorded in `nscolors.tsv` as the measured material `toolbarControlFill` |
-| an INACTIVE window's toolbar control | `#f7f7f7` on a `#ffffff` band, its glyphs at `tertiaryLabelColor` | `finder-window-untinted-light.png` | the same flat-region method; the glyphs peak at 183 on the 247 fill, which is black at 66/255 over it to the byte. Recorded so a later reading does not take this capture for an active control: it is the platform's inactive drawing, and it runs the other way — the control is DARKER than its band |
+| an INACTIVE window's toolbar control | `#f7f7f7` on a `#ffffff` band, its symbols at `tertiaryLabelColor` | `finder-window-untinted-light.png` | the same flat-region method; the symbols peak at 183 on the 247 fill, which is black at 66/255 over it to the byte. Recorded so a later reading does not take this capture for an active control: it is the platform's inactive drawing, and it runs the other way — the control is DARKER than its band |
 | that control's height | 36 px | `finder-window-untinted-{light,dark}.png` | a run down x=1200 light gives `#f7f7f7` over y 34-69 and one down x=1250 dark gives `#262626` over y 47-80 with its rim rows at 46 and 81. The same 36 the toolbar-control row at the head of this reference records |
 | that control's edge, dark | 1 px, `#404040` | `finder-window-untinted-dark.png` | the rows immediately above and below the fill read 64 at every column of the flat middle, and the columns at either end read 61-62 through the corner's antialiasing. `separatorColor` over the fill gives `#3b3b3b` and over the band `#323232`, so neither name lands it and the rim is recorded as the pixel. Voice Memos' dark toolbar field agrees in kind — a `#4d4d4d` rim over a `#363636` fill, already recorded in the sidebar search field's section |
 | that control's edge, light | NONE | `finder-window-{light,untinted-light}.png` | the untinted capture steps from the band to the fill in one row with no stroke row. The frontmost capture has no darker row on any side either: a run down x=715 reads 251, 251, 251, 250, 250 and then the control's 255 from y=8, and a run across y=15 reads 252 down to 249 over x 686-696 and then 255 from x=697. What falls outside the control there is its drop shadow, which darkens AWAY from the control and never sits against it. So the platform's toolbar control wears a rim in the dark appearance only, and there it is a HIGHLIGHT — lighter than both its fill and its band |
@@ -334,9 +334,9 @@ holds is SELECTED.
 
 | what | measured | where | method |
 | --- | --- | --- | --- |
-| a SELECTED value, over the selection's fill | `selectedTextColor` — `#000000` light, `#ffffff` dark, opaque | `save-dialog-{light,dark}.png` | the focused "Save As:" field's "Untitled", x 272-317 in a box of y 207-232, standing on the selection's `#b4d8fd` light and `#406489` dark. Sixteen pixels read `#000000` exactly light and forty-eight read `#ffffff` exactly dark, and those are the run's fully covered ones — anti-aliasing only moves a glyph's pixels toward what it stands on. `labelColor`'s 216 of 255 over those two fills would land `#1c2127` and `#e2e7ed`, 28 and 29 of 255 off the pixel on the first channel, so the selected value is NOT the label: the platform swaps the name under an emphasized selection |
+| a SELECTED value, over the selection's fill | `selectedTextColor` — `#000000` light, `#ffffff` dark, opaque | `save-dialog-{light,dark}.png` | the focused "Save As:" field's "Untitled", x 272-317 in a box of y 207-232, standing on the selection's `#b4d8fd` light and `#406489` dark. Sixteen pixels read `#000000` exactly light and forty-eight read `#ffffff` exactly dark, and those are the run's fully covered ones — anti-aliasing only moves a symbol's pixels toward what it stands on. `labelColor`'s 216 of 255 over those two fills would land `#1c2127` and `#e2e7ed`, 28 and 29 of 255 off the pixel on the first channel, so the selected value is NOT the label: the platform swaps the name under an emphasized selection |
 | an UNSELECTED typed value, over the field's own fill | `labelColor` — black at 216/255 light | `voicememos-multi-folder-search-2026-09-18.png` | the toolbar recess's typed query "Drie", x 734-756 in a field whose fill is `#e8e8e8`: sixteen pixels plateau at `#232323`, which is that coverage over that fill to the byte on every channel, where an opaque text colour would read `#000000`. The clear mark at the other end of the same field plateaus at the same `#232323` — the reading already recorded under what that mark's own figure is — and the magnifier and the prompt at 127/255 do not. No dark capture holds an unselected typed value; the light reading carries the name and the dark half of `labelColor` follows it |
-| the insertion point | the accent, not a label — `#178bfb` over the recess | same | one column, x=758, sixteen rows tall, standing immediately after the query's last covered column at x=756 with an anti-aliased x=757 at `#80baf2`. It is neither `controlAccentColor`'s `#007aff` nor the `#157efb` the same reference reads off a default button's fill, and the halo in this capture is not the stored accent's either — the note under what the field's trailing end holds records that what the accent was set to when it was taken is not known — so the caret's colour is read here and not yet named |
+| the insertion point | the accent, not a label — `#178bfb` over the recess | same | one column, x=758, sixteen rows tall, standing immediately after the query's last covered column at x=756 with an anti-aliased x=757 at `#80baf2`. It is neither `controlAccentColor`'s `#007aff` nor the `#157efb` the same reference reads off a default button's fill, and the ring in this capture is not the stored accent's either — the note under what the field's trailing end holds records that what the accent was set to when it was taken is not known — so the caret's colour is read here and not yet named |
 
 A consumer spends `labelColor` for the value it holds unselected, which is
 the name the one unselected reading lands, over the field's own fill. A
@@ -373,7 +373,7 @@ and it is a hairline and not the two pixels `components/input` drew.
 System Settings' radio settles the disc and not the edge. Its one radio is
 selected, so it is accent-filled and draws no edge of its own, and the
 capture's lower edge falls below it before an unselected sibling. The disc
-itself is a circle of r = 8 on the glyph's own centre — 60 sub-pixel edges,
+itself is a circle of r = 8 on the symbol's own centre — 60 sub-pixel edges,
 rms 0.084 px light and 0.073 px dark — which is the 16 px above read as a
 diameter rather than as a run of covered columns.
 
@@ -463,7 +463,7 @@ exactly (30→29, 46→45, 42→41, 35→34); 4/255 and below leaves the tinted 
 alone, and 9/255 and above takes two levels off the untinted one.
 
 **The dark geometry, re-read 2026-09-18 by CG5.3i.** The reading above was
-spread over the light appearance's 23 and 9, which darkens a wider halo than
+spread over the light appearance's 23 and 9, which darkens a wider band than
 the platform's seven rows. Re-read and fitted: **2 px of reach with the
 rectangle sunk 6 px**, at the recorded 6/255.
 
@@ -549,9 +549,9 @@ edge x 965.02 and trailing 978.08 on the lens's own centre row, top y 18.85 and
 foot 31.90 down its own centre column, sub-pixel edges from the coverage of the
 first and last covered pixel in each cut. Against the tag's 19 px square in the
 same band that is **0.687 of the keyline**, and at 24 dp, where one grid unit
-is one device pixel, it is **13 units**. The two field glyphs agree at their own
+is one device pixel, it is **13 units**. The two field symbols agree at their own
 size: Mail's (x 878–890) and Voice Memos' (x 657–669) search fields each draw a
-lens 10.29 px across outside in a glyph 12.33 px wide, and against the toolbar
+lens 10.29 px across outside in a symbol 12.33 px wide, and against the toolbar
 symbol's own 15.75 px width that is 13.14 units. `components/icons` draws its
 round forms to 13 — the search mark's lens and the refresh mark's ring — in
 place of the unmeasured 20 it carried before. The DIAGONAL allowance is still
@@ -580,15 +580,15 @@ the geometry and not the colour. `components/icons` draws the capture's own
 8 × 14 since CG5.7, at the set's one band of 1.4 rather than this capture's
 1.53; the exception is stated in each of the three chevron files.
 
-**What a toolbar draws its own words and glyphs in.** Read 2026-09-18 by
+**What a toolbar draws its own words and symbols in.** Read 2026-09-18 by
 CG5.7. `finder-window-light.png`, on a `#ffffff` band: the title
 "Applications" standing bare in the band (x 413–499) plateaus at **`#4d4d4d`**
-over 131 pixels, the group pull-down's grid glyph over 24 and the search
-capsule's magnifier over 15. A word and a glyph hold one plateau, so it is the
+over 131 pixels, the group pull-down's grid symbol over 24 and the search
+capsule's magnifier over 15. A word and a symbol hold one plateau, so it is the
 drawn colour and not the partial coverage a thin stroke reaches — which is
 what the pop-up mark's own 77 was read as before this. `finder-window-untinted-dark.png`
 (the window's own origin is at x=56, y=38 in that capture): the pull-down's
-glyph plateaus at **`#e9e9e9`** and the window's title at `#e8e8e8`, one 255th
+symbol plateaus at **`#e9e9e9`** and the window's title at `#e8e8e8`, one 255th
 below it, which is text against a vector mark. No name in `nscolors.tsv`
 flattens either: over the light band `controlText` gives `#272727`,
 `secondaryLabel` `#808080` and `tertiaryLabel` `#bdbdbd` against a pixel that
@@ -913,7 +913,7 @@ What was looked at, and what each holds:
   the two captures the task named. Both are redacted down the sidebar: sampling
   the whole column of the dark one over y 45–800, x 0–392 returns `#232a2e` on
   288,025 of 294,272 pixels and `#393f42` — the selected row's fill — on 3,778
-  more, with nothing else above 1,400 pixels. There is no glyph, no label and
+  more, with nothing else above 1,400 pixels. There is no symbol, no label and
   no mailbox group in either. Mail's mailbox groups cannot be measured off
   them.
 - `finder-window-untinted-light.png` and `finder-window-untinted-dark.png`.
@@ -961,7 +961,7 @@ stands at x=8 and x=317 in both, its fill reading `#fafaf9` light and
 `voicememos-sidebar-{light,dark}.png` hold.
 
 The readings that decide the section: **a sidebar's selection says where the
-keyboard is in the pill's colour, not in a halo**, and **that grey pill is a
+keyboard is in the pill's colour, not in a ring**, and **that grey pill is a
 coverage over the rail rather than a colour of its own.** The row keeps its pill —
 the same box, the same corner — and the pill turns grey with its label, its
 symbol and its count in the accent. The platform draws no focus ring around
@@ -1022,10 +1022,10 @@ outer corner.
 | the recess's corner | fully rounded — 14 px, half its height | both light and dark | a circular fit to the sub-pixel coverage of the left end, its extreme pinned at x=18: r = 14.7, rms 0.38 px over 26 rows. The platform's corner is a continuous curve, which is what puts a circular fit above the half-height, exactly as the sidebar pill's 8 px corner fits at 7.9 and 8.4 above |
 | the recess's insets from the sidebar's edges | 8 px leading, 8 px trailing | both | the sidebar's fill spans x 10–220 between a 2 px light rim at x 8–9 and the seam at x 221–222; the field spans x 18–212 inside it. The same 8 px on each side in both appearances |
 | the recess's top | 53 px below the window's top outer edge | both | the window's top rim is at y=8 and the field's first row at y=61; the window buttons are centred at (25.5, 25.5), the red one spanning x 19–32, y 19–32 |
-| the magnifier | 15 × 13 px, x 27–41, y 69–81 | both | the bounding box of the glyph's marks inside the fill. Its leading inset is 9 px — the recess's edge at x=18 to the glyph's first pixel at x=27 — and its centre row, y=75, is the recess's own (y 61–88) |
+| the magnifier | 15 × 13 px, x 27–41, y 69–81 | both | the bounding box of the symbol's marks inside the fill. Its leading inset is 9 px — the recess's edge at x=18 to the symbol's first pixel at x=27 — and its centre row, y=75, is the recess's own (y 61–88) |
 | the magnifier's lens | a ring, 11.68 px across and 9.73 down outside, its band 1.30 px across and 1.04 down, centred (32.86, 74.57) | both | sub-pixel edges from the coverage in each row and column, the extremes fitted by a parabola over three: left 27.00, right 38.68, top 69.69, bottom 79.41, and the band's thickness the coverage summed along a cut through each extreme. A radial profile about that centre, sampled every 5 degrees clear of the handle, runs 5.11 px along the row and 4.21 down the column — a period of 180 degrees, so it is an ellipse and not a mis-centred circle |
 | the magnifier's handle | a band at 39.8 degrees below the row, its far end 11.08 px from the lens's centre | both | the principal axis of the coverage outside the lens's band in the lower trailing quadrant, and that axis's far extreme: the tip lands at (41.37, 81.66) against the lens's centre, 8.51 px along the row and 7.09 down |
-| the same glyph in a toolbar | 13 × 13 px, a round lens 10.28 px across outside on a 1.32 px band, centred (883.17, 25.48); the handle at 43.7 degrees, its far end 10.15 px from that centre | `mail-window.png`, and `voicememos-window.png` agrees at 13 × 13 with a lens of 4.49 px centreline radius | a least-squares circle fitted to the coverage clear of the handle: rms 0.47 px about a radius of 4.51, which is the band's own thickness over √12 and so the fit of a circle, not of an ellipse. The same radial profile holds 4.39 to 4.56 px all the way round |
+| the same symbol in a toolbar | 13 × 13 px, a round lens 10.28 px across outside on a 1.32 px band, centred (883.17, 25.48); the handle at 43.7 degrees, its far end 10.15 px from that centre | `mail-window.png`, and `voicememos-window.png` agrees at 13 × 13 with a lens of 4.49 px centreline radius | a least-squares circle fitted to the coverage clear of the handle: rms 0.47 px about a radius of 4.51, which is the band's own thickness over √12 and so the fit of a circle, not of an ellipse. The same radial profile holds 4.39 to 4.56 px all the way round |
 | the placeholder | an 11 px cap band, x 47–88, y 70–80, 5 px after the magnifier | both | the bounding box of "Search" inside the fill |
 | the magnifier's and the placeholder's colour | `placeholderTextColor` over the recess — black at 127/255 light, white at 140/255 dark | both, and `voicememos-window.png` | light: the placeholder's darkest pixel is `#747474`, which is that coverage over `#e8e8e8` to the byte, and the magnifier's is `#787878`, four 255ths short because a thin ring never fully covers a pixel. Dark: the placeholder peaks `#979899` on the recess, white at 127/255 rather than the 140/255 AppKit answers with — Voice Memos' untinted dark toolbar field peaks `#a4a4a4` on its `#363636` fill, white at 140/255 to the byte, so the shortfall is this sidebar's vibrancy and not the platform's answer. `secondaryLabelColor` carries the same two coverages, so the mark and the prompt are one colour |
 
@@ -1047,23 +1047,23 @@ recess wears none. Its light fill is the recess's `#e8e8e8` and its dark fill
 is not, so neither capture corrects the other and both are recorded.
 Its own numbers are under "What the toolbar search field measures" below.
 
-**The sidebar's magnifier is the toolbar's glyph drawn wide.** The three
+**The sidebar's magnifier is the toolbar's symbol drawn wide.** The three
 stored search fields carry one drawing at one size — 13 × 13 px across its
 marks in Mail's toolbar and in Voice Memos' capsule, a round lens 10.28 px
 across outside on a band of 1.3, its handle at 45 degrees reaching twice the
 lens's outer radius from the lens's centre. System Settings' sidebar draws the
-same glyph 15 px wide: the lens's centreline radius is 5.11 px along the row
+same symbol 15 px wide: the lens's centreline radius is 5.11 px along the row
 against 4.21 down the column, an aspect of 1.21 where the toolbar's is 1.00,
 and the handle sits at 39.8 degrees rather than 43.7 — which is what that same
 aspect does to a 45 degree band, since atan(1/1.21) is 39.6. Against the
-toolbar's reading the sidebar's glyph is 1.13 times the radius along the row
+toolbar's reading the sidebar's symbol is 1.13 times the radius along the row
 and 0.93 times it down the column; the handle's far end is 1.19 times as far
 along the row and 0.98 as far down it.
 
 The stretch is that application's rasterising and not the capture's. A window
 button in the same picture has a coverage-weighted spread of 4.009 px on both
 axes, a ratio of 1.000, so the pixels are square and every other reading off
-this capture stands. What a library draws from this pair is the round glyph at
+this capture stands. What a library draws from this pair is the round symbol at
 the sidebar's placement: two captures out of three read it round, and an
 ellipse is one application's raster rather than a shape the platform owns.
 Recorded 2026-09-17 by CG4.13.
@@ -1107,9 +1107,9 @@ both, and the three readings are recorded side by side.
 | the recess's rim, dark | 1 px, `#4d4d4d`, the whole way round | `voicememos-window.png` | the rows at y=8 and y=43 read `#4d4d4d` flat over x 669–941 and fall away through the corners' antialiasing; the columns at x=643 and x=967 read `#4b4b4b` and `#4a4a4a` at the control's own middle row. It runs down the ends as well as across the top and bottom, so it is the CONTROL'S OWN EDGE and not the band's seam — and it is lighter than both its `#363636` fill and the `#1e1e1e` band, which is the highlight every bordered control in a dark toolbar band wears (`#404040` over Finder's `#262626`, `#374852` over Mail's `#242d32`). `separatorColor` over the fill gives `#4a4a4a`, three of 255 short of the pixel, which is the miss that name carries here against five over Finder's control |
 | the recess's rim, light | NONE | `voicememos-sidebar-light.png` | the runs above step from the band to the fill in one row and one column, with no darker or lighter row or column on any side and only the corner's antialiasing between |
 | the recess's corner | fully rounded — half its height | `voicememos-window.png` | a circular fit to the sub-pixel coverage of the left end, its extreme pinned at x=643.02: r = 18.35, rms 0.17 px over all 36 rows, about a centre row of 25.90 against the control's own 25.5. The half-height is 18, and the excess is the continuous curve every corner in this reference fits above |
-| the magnifier | 13 × 13 px | both | x 657–669 dark, x 713–725 light: the toolbar glyph's own size, the one `mail-window.png` reads it at |
-| the glyph's leading inset, THIS application | 13 px | both | the fill's first column to the glyph's first: x 644 to x 657 dark, x 700 to x 713 light. `mail-window.png` and `finder-window-untinted-dark.png` both read TEN instead — Mail's fill from x=868 with its glyph at x=878, Finder's from x=1158 with its glyph at x=1167 — so ten is the platform's number read twice over and thirteen is Voice Memos' own |
-| the gap, THIS application | 7 px | `voicememos-window.png` | the glyph's last pixel at x=669 against the prompt's first at x=677. `mail-window.png` reads EIGHT (x 890 to x 899), which is the number recorded at the head of this reference and the one the library spends |
+| the magnifier | 13 × 13 px | both | x 657–669 dark, x 713–725 light: the toolbar symbol's own size, the one `mail-window.png` reads it at |
+| the symbol's leading inset, THIS application | 13 px | both | the fill's first column to the symbol's first: x 644 to x 657 dark, x 700 to x 713 light. `mail-window.png` and `finder-window-untinted-dark.png` both read TEN instead — Mail's fill from x=868 with its symbol at x=878, Finder's from x=1158 with its symbol at x=1167 — so ten is the platform's number read twice over and thirteen is Voice Memos' own |
+| the gap, THIS application | 7 px | `voicememos-window.png` | the symbol's last pixel at x=669 against the prompt's first at x=677. `mail-window.png` reads EIGHT (x 890 to x 899), which is the number recorded at the head of this reference and the one the library spends |
 | the magnifier's and the prompt's colour | `placeholderTextColor` over the recess — black at 127/255 light, white at 140/255 dark | both | light: both bottom out at `#747474`, which is that coverage over `#e8e8e8` to the byte; dark: both peak at `#a4a4a4`, which is white at 140/255 over `#363636` to the byte, where 127/255 would land at 154. The mark and the prompt are one colour, as they are in the sidebar's recess |
 
 **What the field's trailing end holds while it carries a query.** Read
@@ -1118,19 +1118,19 @@ both, and the three readings are recorded side by side.
 frontmost, FOCUSED Voice Memos toolbar field holding "Drie". The window's own
 trailing edge is at x=1031 and the field's fill runs x 700-1023, so the recess
 is 324 wide and ends the measured 8 clear of the window, and it stands 36 tall
-at y 46-81 under a focus halo four px wide. Read column by column 2026-09-18
+at y 46-81 under a focus ring four px wide. Read column by column 2026-09-18
 by CG5.5: the band covers x 696-699 leading, y 43-46 above and y 81-84 below,
 with the toolbar band unblended at x=695, y=42 and y=85 and the recess's own
-fill unblended at x=700 — so this control's halo lies OUTSIDE its box, where
+fill unblended at x=700 — so this control's ring lies OUTSIDE its box, where
 the save dialog's focused field straddles its own (two px out, two px over).
 The two controls are read as they measure and neither corrects the other; the
 library draws the dialog field's, which is the reading CG5.5 was given. This
-capture's halo is also not the dialog's colour — it peaks at `#7b91df` over a
+capture's ring is also not the dialog's colour — it peaks at `#7b91df` over a
 `#f9f9f9` band where `keyboardFocusIndicatorColor` would land `#7db0f6` — so
 what the accent was set to when it was taken is not known. The clear mark is
 a filled disc at x 996-1009, 14 px across, with the field's own fill showing
 through the cross in it: it ends **14 px** clear of the field's trailing edge,
-against the magnifier's **13** at the leading one (fill from x=700, glyph from
+against the magnifier's **13** at the leading one (fill from x=700, symbol from
 x=713), which is this application's own inset recorded above.
 
 **The clear mark's own figure, read 2026-09-18 by CG5.12.** A least-squares
@@ -1206,7 +1206,7 @@ foot.
 | the segments | 36 px each | both | the seam's column at x=362 leaves x 326-361 and x 363-398 — 36 and 36. Mail's three-segment group divides to 37.3 a segment, and the chrome variant's own width around one symbol is 38, so a segment is the standalone control's width and not a fraction of it |
 | the seam | 1 px wide, 20 px tall, y 16-35 | both | a run down x=362 reads the fill at y 8-15, the seam at y 16-35 and the fill again at y 36-43: eight rows clear at the top and eight at the foot of a 36 px control |
 | the seam's colour | `#f2f2f2` light over the control's `#ffffff`, `#3a3a3a` dark over its `#262626` | both | flat reads down the seam's own column. `separatorColor` over the fill gives `#3b3b3b` dark, one of 255 off the pixel, and `#e6e6e6` light, twelve off it, so neither appearance is the name flattened. Recorded in `nscolors.tsv` as the measured material `toolbarControlSeam` and drawn as that value by `components/button`'s segmented control since CG5.7 |
-| the gap to the title beside it | 14 px | both | the pair's last column at x=398 against the title's first painted column at x=413 light and x=412 dark: fourteen and thirteen clear columns, and a glyph's own left side bearing is the difference. Fourteen is also what `notes-toolbar.png` leaves between its compose control and the group beside it |
+| the gap to the title beside it | 14 px | both | the pair's last column at x=398 against the title's first painted column at x=413 light and x=412 dark: fourteen and thirteen clear columns, and a symbol's own left side bearing is the difference. Fourteen is also what `notes-toolbar.png` leaves between its compose control and the group beside it |
 
 **What the dark capture's "second control" at x 412-468 actually is.** The
 composition table above listed it as a control. It is the window's TITLE: a
@@ -1314,7 +1314,7 @@ inset two windows read.
 | `CompactFieldHeight` | 21 dp | DERIVED: 27 × 19/24 = 21.4, rounded — the measured field-to-control ratio applied to the small control, until a small field is captured |
 | `ComfortableRowHeight` | 20 dp | MEASURED: Finder's list view in `finder-window-light.png`, a 20 px stripe pitch with no row seam. Added by CE2.3; it replaces the control height as the pin for every stacked row |
 | `CompactRowHeight` | 19 dp | PUBLISHED: the small push button, carried until a capture holds a list drawn dense |
-| `ComfortableCheckboxRowHeight` | 22 dp | MEASURED: the pitch between the two "Options:" checkboxes in `save-dialog-{light,dark}.png`, squares at y 372–387 and y 394–409. Added by CG5.3; it is the footprint the 16 px glyph is centred in, and the checkbox's and the radio's pointer target |
+| `ComfortableCheckboxRowHeight` | 22 dp | MEASURED: the pitch between the two "Options:" checkboxes in `save-dialog-{light,dark}.png`, squares at y 372–387 and y 394–409. Added by CG5.3; it is the footprint the 16 px symbol is centred in, and the checkbox's and the radio's pointer target |
 | `CompactCheckboxRowHeight` | 17 dp | DERIVED: 22 × 19/24 = 17.4, rounded — the same regular-to-small ratio `CompactFieldHeight` takes, until a capture holds a small checkbox |
 | `ComfortableToolbarControlHeight` | 36 dp | MEASURED: every bordered control in the Finder toolbar captures, per capture in "The toolbar control's height, capture by capture" below. Added by CG5.3b; it is the height a bordered control standing in a chrome region draws, against the dialog control's 24 |
 | `CompactToolbarControlHeight` | 36 dp | CARRIED: no capture holds a toolbar drawn at the platform's small size, and all five stored windows draw their toolbar controls at one height, so Compact carries the measured 36 until one does |
@@ -1326,7 +1326,7 @@ inset two windows read.
 The checkbox's measured 16 px is in `density.go`'s provenance table as a
 line, not as a token: the checkbox's side length lives in
 `components/input`, which is where a consumer takes this number. Its ROW is a
-token, added by CG5.3: the glyph does not move with density and the footprint
+token, added by CG5.3: the symbol does not move with density and the footprint
 it is centred in does.
 
 **Which stored captures hold a checkbox or a radio.** Only two.
@@ -1337,7 +1337,7 @@ two of them stacked, so it is the only one that can give a row pitch.
 "Automatically based on mouse or trackpad" row of the "Show scroll bars"
 group; everything else in that window's grouped boxes is a switch, a pop-up, a
 colour swatch or a picture chooser, and the capture's lower edge falls below
-that radio before a second one, so it gives the glyph and no pitch. No
+that radio before a second one, so it gives the symbol and no pitch. No
 stored capture holds a checkbox at the platform's small size.
 
 Two overshoots are recorded rather than hidden, and both close only by moving
@@ -1410,7 +1410,7 @@ numbers read off a capture. One capture closes it: a **help tag standing
 beside its control**, in both appearances, window-bounded, at 1x.
 
 **Also open: the enabled checkbox and the unselected radio.** Every stored
-reading of either glyph is of a switched-off box or a selected disc, so the
+reading of either symbol is of a switched-off box or a selected disc, so the
 one thing neither capture can give is what a control at rest draws around
 itself. The corner is settled — a switched-off box draws the same corner an
 enabled one does — and the edge is not: its width and colour are the "Tags:"
@@ -1420,7 +1420,7 @@ closes it: a **dialog or sheet holding an enabled checkbox beside a
 switched-off one, and an unselected radio**, in both appearances,
 window-bounded, at 1x.
 
-**Also open: a focused control that is not a text field.** The halo is read
+**Also open: a focused control that is not a text field.** The ring is read
 off one control — the Save dialog's focused "Save As:" field, which straddles
 its own box — and the only other focused control in the reference, Voice
 Memos' toolbar search recess, puts its whole band outside the fill instead.

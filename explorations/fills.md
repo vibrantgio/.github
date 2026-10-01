@@ -3,7 +3,7 @@
 This document is about fills: the colour a surface, a region or a
 control paints behind whatever it holds, and the cases where it
 paints nothing and the surface beneath shows through. It is not about
-foregrounds — text, glyphs, strokes drawn on top are out of scope,
+foregrounds — text, symbols, strokes drawn on top are out of scope,
 except where an edge stands in for a fill.
 
 It has three parts. The first is the current situation, read off the
@@ -235,7 +235,7 @@ the surface beneath as an input — a level is the only handle.
 | thing | fill at rest | transparent | with state | edge |
 |---|---|---|---|---|
 | badge, worded or counted | the role's container walked to clear its level | — | dismiss cap: pinned walk | none |
-| badge, glyph only | nothing | whole | — | — |
+| badge, symbol only | nothing | whole | — | — |
 | alert | the role's container, fixed, full width | — | none | none |
 | toast | inverse × alpha | — | alpha | leading edge in the role; shadow left to the notifications column |
 | tooltip | inverse | — | none | none |

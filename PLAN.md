@@ -23422,7 +23422,7 @@ with its kept senses as rules, so the sweep stays swept.
 
 #### CI2.1: Glyph becomes symbol and halo becomes focus ring
 
-- [ ] Owner-ruled 2026-09-30 ("symbol stays and replace glyph";
+- [x] Owner-ruled 2026-09-30 ("symbol stays and replace glyph";
   "retire halo"). Every identifier, comment, doc, caption and test
   name where "glyph" means the small picture in a control or the
   icon set becomes symbol: the badge's utterance, BareForeground's
@@ -23435,12 +23435,12 @@ with its kept senses as rules, so the sweep stays swept.
   the identifier reading `FocusRing` or `Ring` as its package reads.
   `effects/glow`'s halo is the blur around a glow, not the ring, and
   keeps its word.
-- [ ] `scripts/check-retired-words.sh` gains `glyph` and `halo` with
+- [x] `scripts/check-retired-words.sh` gains `glyph` and `halo` with
   the kept senses as rules: `glyph` by path under `textdraw/` and
   `font/` and by context (shaping, font, rune, cluster, advance,
   outline of a letter); `halo` by path under `effects/glow/`. The
   guard reports OK over the whole set.
-- [ ] Exit: green in every repo touched by name; `scripts/
+- [x] Exit: green in every repo touched by name; `scripts/
   check-layers.sh` OK; goldens regenerated only where a caption is
   in the picture, the cause named; one commit per repo with the
   heading as subject; push every one.
