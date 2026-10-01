@@ -23453,14 +23453,19 @@ with its kept senses as rules, so the sweep stays swept.
   pane, the pane package's own words first; `modal`'s dialog text
   and `sk150`'s readout text follow where they mean the region.
   "Open panel" stays as the platform's name for its file dialog and
-  the `openpanel` package keeps its name. Identifiers carrying
+  the `openpanel` package keeps its name. `effects/glow`'s "halo",
+  left in place by CI2.1, renames too: the Language has no entry for
+  the word in any sense, so the blur around a glow is named in plain
+  words (the glow's blur, or its spread) and the guard's kept-sense
+  rule for it goes, retiring halo outright. Identifiers carrying
   "panel" rename where they mean the region and are not exported
   from a tagged module; an exported one is left and noted for the
   next round. "Plane" in comments migrates to "surface" where a
   line is touched anyway, nothing else.
 - [ ] `scripts/check-retired-words.sh` gains `panel` with the kept
-  sense "open panel" and the `openpanel` path as rules; the guard
-  reports OK over the whole set.
+  sense "open panel" and the `openpanel` path as rules, and loses
+  the `halo` rule for `effects/glow`; the guard reports OK over the
+  whole set.
 - [ ] Exit: green in every repo touched by name; `scripts/
   check-layers.sh` OK; goldens regenerated only where a caption is
   in the picture, the cause named; one commit per repo with the
