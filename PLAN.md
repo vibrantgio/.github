@@ -23653,3 +23653,25 @@ with its kept senses as rules, so the sweep stays swept.
   the checkout is clean under it.
 - [ ] Exit: guard OK; gofmt gate OK; green in every repo touched by
   name; commit and push in every repo touched and in `.github`.
+
+### G-CI3: One single-line text helper serves every window
+
+#### CI3.1: The single-line text helper moves into the library and the apps adopt it
+
+- [ ] Found under CI2.7, planned under the standing rule that the
+  same helper written in several applications belongs in the
+  library: the launcher's `label`, `feeds`' `drawLabel`,
+  `vaultview`'s `drawLabel` and `sitedocs`' `drawOutlineTitle` each
+  wrap `typeset.Label` to draw one line of text in a typography
+  role, in a colour, truncated with an ellipsis. One function in
+  `theme/typeset` (or `textdraw` if the worker shows it belongs
+  with the shaping, saying why in the commit body) draws a line of
+  text in a role and a colour at a maximum line count, and the four
+  applications adopt it and delete their copies. The function is
+  named for what it draws, not "label", since what it draws is a
+  label in one window and a title in another. No composition
+  changes; every app's pixels are the same.
+- [ ] Goldens do not move.
+- [ ] Exit: green in the library module and every adopting app by
+  name; guard OK; `scripts/check-layers.sh` OK; one commit per
+  repo with the heading as subject; push every one.

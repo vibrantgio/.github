@@ -3324,12 +3324,3 @@ fresh-eyes review was named for the task.
 863. **[note]** **A stored measurement in the platform reference is written in a retired word, and its file name carries another.** `reference/macos/sf-symbols-vs-cap-band.txt` uses "ink" sixteen times for a drawn mark's extent and carries "cap-band" in its own name. The reference is not in the guard's frozen list, so once the guard's walk reaches `.txt` those are live hits. Whether a dated measurement is a record that keeps the language of its day, as a review and a transcript do, or prose the sweeps reach, is unasked.
 864. **[note]** **Five bundled font licences come under the guard the moment its walk reaches `.txt`.** `font/*/OFL.txt` and `design/fonts/LICENSE-*.txt` say "the primary font name", a hit on a retired colour word in a third party's text inherited verbatim. The existing table keeps a copyright notice by a rule of its own; a licence body has none yet.
 865. **[note]** **The platform colour catalogue's measured notes use two retired words.** Both copies of `nscolors.tsv` spell a shadow's geometry "reach" and name a row "tint", and the guard's walk does not reach either file today. Extending the walk to `.tsv` makes them live hits that the existing rules do not carry.
-
-## DU. From CI2.7, the title sweep in the workbench
-
-Filed 2026-10-01 from the work itself: the sweep landed across the
-launcher's root module, the nine app modules and `llms.txt` — 191 lines,
-no golden moved and none carried the word in its name. No fresh-eyes
-review was named for the task.
-
-878. **[note]** **Three apps each carry their own copy of one single-line text helper.** The launcher's `label`, `feeds`' `drawLabel` and `vaultview`'s `drawLabel` all wrap `typeset.Label` to draw one line in a Typography role, truncated with an ellipsis, and `sitedocs` had a fourth until this task renamed it `drawOutlineTitle`. The rule that the same fix written in several apps belongs in the libraries applies to the same helper written in several apps; whether a single-line text helper belongs in `textdraw` or `typeset` is unasked.
