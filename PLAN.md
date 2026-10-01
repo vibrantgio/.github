@@ -23553,3 +23553,25 @@ with its kept senses as rules, so the sweep stays swept.
   gallery`, `mvu/example` and every `workbench` app included;
   `scripts/check-layers.sh` OK; one commit per repo with the
   heading as subject; push every one.
+
+#### CI2.5: The common noun label becomes title where it means a control's own text
+
+- [ ] Ruled by the ontology session 2026-10-01 after CI2.3, the same
+  shape as the field rename: "label" in prose, comments, local
+  names (`labelDims`, `labelGtx`, `drawLabel`, `labelWidget`), the
+  positional `label` parameters of `button.Render` and
+  `badge.Render` and their kin, test names, and the eight golden
+  file names in `components/input`'s label tests ("checkbox-light-
+  labelled" and the rest) becomes title where it means a control's
+  own text; the goldens are renamed, not regenerated, byte for
+  byte. "Label" stays only where it means text standing by itself
+  on the surface or a platform colour name. The themer's typography
+  tier that holds TitleMedium and draws group titles is
+  `Type.Title`; the typography role names themselves (TitleMedium,
+  LabelLarge and kin) are untouched. No composition changes.
+- [ ] Goldens do not move: a rename shows as a rename with no
+  content change.
+- [ ] Exit: green in every repo touched by name, `components/
+  gallery` and every `workbench` app included; guard OK;
+  `scripts/check-layers.sh` OK; one commit per repo with the
+  heading as subject; push every one.

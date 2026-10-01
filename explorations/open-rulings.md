@@ -3310,17 +3310,3 @@ focus target its shortcut took the keyboard from and hands it back there on
 Escape. No fresh-eyes review was named for the task.
 
 844. **[note]** **The rail's own find field never gives the keyboard back.** The rail's shortcut puts the keyboard in its search field and nothing takes it out again: neither the field nor the components search field answers Escape, so the reader leaves it by clicking or tabbing. The Focused entry's rule — a control that took the keyboard for a while and is then dismissed gives it back — has no dismissal there to apply to. Whether that field should answer Escape, and where it would hand the keyboard back to, is unasked.
-
-## DQ. From CI2.3, the title rename
-
-Filed 2026-10-01 from the work itself: the field a control carries its own
-text in became `Title` on fourteen components and patterns, `modal`'s pane
-purpose and `shell`'s window surface took their words, and two published
-texts were mended. No fresh-eyes review was named for the task.
-
-
-857. **[decide]** **The common noun "label" still means a control's own text in a great deal of prose and in local names.** The field rename carried the identifier and the doc lines that named it; it did not carry the word where it stands on its own — badge's and chip's package docs, `button.Render`'s and `badge.Render`'s positional `label` parameters, `labelDims`, `labelCall`, `labelGtx`, `drawLabel`, `labelWidget`, and test names from `TestALabelIgnoresTheDisc` to the whole of `components/input/label_test.go`. That last one is the obstacle: its golden case names ("checkbox-light-labelled" and seven more) are golden filenames, so the sweep moves pixels' names and must be a task that may touch `testdata`. Whether the word goes everywhere it means a title is unasked.
-
-858. **[note]** **`themer`'s `Type.Label` holds `TitleMedium` and draws group titles.** The themer window's typography tiers are `Head`, `Label`, `Body` and `Small`; the second is the platform's TitleMedium and its own comment says "a group's title". It is an application-local struct, so nothing outside reads the name, but the tier is named after the role one step away from the one it carries.
-
-
