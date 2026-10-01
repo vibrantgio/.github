@@ -717,7 +717,7 @@ its content like an inline annotation, not sized to the control
 height, visibly lighter than any control. The developer gives a
 badge one of the four statuses — Error, Success, Warning, Info — or
 no status. A status colours it in that status's role; a badge with
-no status is coloured Neutral, a plain category title. There is no
+no status is coloured Neutral, a plain category label. There is no
 other choice — no badge in the theme colour. Hue is never its only channel: hue
 alone collapses for colour-blind readers. Filled/Tonal emphasis does not exist on a badge;
 emphasis lives where interaction lives. A badge may be dismissible
@@ -725,7 +725,7 @@ emphasis lives where interaction lives. A badge may be dismissible
 separates a dismissible badge from an Input chip is the
 originator, not the close — a badge is applied by the developer or
 the system *about* the thing, an Input chip is a token the user
-entered themselves. Dismissing a badge removes only the title, never
+entered themselves. Dismissing a badge removes only the badge, never
 behaviour — so a system-originated summary of view state, "filtered
 by X", is plain text or a close-less badge, removed where that state
 is set. A developer-originated badge is a fixture: nothing the user
