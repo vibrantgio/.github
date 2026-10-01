@@ -23541,7 +23541,7 @@ with its kept senses as rules, so the sweep stays swept.
 
 #### CI2.5: The common noun label becomes title in the components' controls and gallery
 
-- [ ] Ruled by the ontology session 2026-10-01 after CI2.3, the same
+- [x] Ruled by the ontology session 2026-10-01 after CI2.3, the same
   shape as the field rename, measured at about a thousand changed
   lines over the org and so split by repo, this task first. In
   `components` (badge, button, chip, input, breadcrumb, picker,
@@ -23563,9 +23563,9 @@ with its kept senses as rules, so the sweep stays swept.
   `semantic.LabelOp`), the screen-reader label an accessibility
   description feeds, or the `widget.Label` that draws a
   placeholder. No exported contract moves. No composition changes.
-- [ ] Goldens do not move: a rename shows as a rename with no
+- [x] Goldens do not move: a rename shows as a rename with no
   content change; no PNG content changes.
-- [ ] Exit: green in `components` and `components/gallery` by name;
+- [x] Exit: green in `components` and `components/gallery` by name;
   guard OK; `scripts/check-layers.sh` OK; one commit in
   `components` with the heading as subject; push; commit and push
   in `.github`.
