@@ -23691,3 +23691,26 @@ with its kept senses as rules, so the sweep stays swept.
 - [x] Exit: green in the library module and every adopting app by
   name; guard OK; `scripts/check-layers.sh` OK; one commit per
   repo with the heading as subject; push every one.
+
+#### CI3.2: The libraries and mindchat draw one line of text through the one helper
+
+- [ ] Found under CI3.1, planned under the same standing rule:
+  `patterns/sidebar`'s `drawText` is the helper exactly, and
+  twenty-seven further non-test `typeset.Label` sites in eleven
+  `patterns` packages and eleven `components` packages write the
+  same recipe, several setting a field `typeset.Text` does not
+  take; mindchat writes it through `roleLabel`, `roleFont` and its
+  own material at nine sites. Every site that is the recipe adopts
+  `typeset.Text`; a site that sets what the helper does not take
+  either stays as the explicit three-call form with one comment
+  saying which field it needs, or the helper gains that one option
+  if two or more sites need it, the worker saying which in the
+  commit body. The two surviving wrappers that only relax the
+  minimum constraint are decided the same way: an option on the
+  helper if the libraries need it too, else they stay. Pixels are
+  the same everywhere.
+- [ ] Goldens do not move.
+- [ ] Exit: green in `theme`, `components`, `components/gallery`,
+  `patterns`, `workbench` and every app by name; guard OK; gofmt
+  gate OK; `scripts/check-layers.sh` OK; one commit per repo with
+  the heading as subject; push every one.
