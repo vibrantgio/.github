@@ -168,3 +168,22 @@ recording (the record row's level meter and pill), following live
 (tail-follow, speaker turns with a chip), review (seek bar),
 transcription (progress), assignment (dialog), then search,
 microphones, setup, import, speakers, export.
+
+## The recorder's first control request after the shell (2026-10-01)
+
+The held draft's item for the application's life (G-BU4, the
+terminate hook with a veto, the reopen hook, did-become-active) in
+`mvu/desktop`, asked for ahead of the rest of that goal. The recorder's
+menu bar landed on the desktop module's menu bar at v1.1.0, every item
+a message through the loop; its quit path cannot, because the module
+has no terminate or reopen hook, no workbench app has one, and Gio
+exposes no delegate seam, so it is Objective-C on the application's
+delegate, which belongs in the library before an application uses it.
+Asked as drafted: applicationShouldTerminate as a hook the application
+answers from its loop (a veto, so a running recording stops and
+finalises first and the application then quits itself),
+applicationShouldHandleReopen, and did-become-active, each delivered as
+a message on the window's stream the way the bar's items are, callbacks
+hopping off the main queue as the drop target's do. The About pane is
+not needed yet. Timing is the owner's; it may share a round with the
+shell or come earlier. Pool material; nothing here is a dispatch.
