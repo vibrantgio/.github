@@ -23694,7 +23694,7 @@ with its kept senses as rules, so the sweep stays swept.
 
 #### CI3.2: The libraries and mindchat draw one line of text through the one helper
 
-- [ ] Found under CI3.1, planned under the same standing rule:
+- [x] Found under CI3.1, planned under the same standing rule:
   `patterns/sidebar`'s `drawText` is the helper exactly, and
   twenty-seven further non-test `typeset.Label` sites in eleven
   `patterns` packages and eleven `components` packages write the
@@ -23709,8 +23709,8 @@ with its kept senses as rules, so the sweep stays swept.
   minimum constraint are decided the same way: an option on the
   helper if the libraries need it too, else they stay. Pixels are
   the same everywhere.
-- [ ] Goldens do not move.
-- [ ] Exit: green in `theme`, `components`, `components/gallery`,
+- [x] Goldens do not move.
+- [x] Exit: green in `theme`, `components`, `components/gallery`,
   `patterns`, `workbench` and every app by name; guard OK; gofmt
   gate OK; `scripts/check-layers.sh` OK; one commit per repo with
   the heading as subject; push every one.
