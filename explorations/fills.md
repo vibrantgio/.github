@@ -222,7 +222,7 @@ the surface beneath as an input — a level is the only handle.
 | button, Filled | Primary, solid walk | — | hover/press solid walk; disabled alpha | focus ring inside the fill |
 | button, Tonal | Primary container walked to clear its level | — | pinned walk from that | ring |
 | button, Ghost | nothing | whole body | hover/press: the level walk | ring |
-| chip, unselected | *paints* its level's colour — same as the surface, so reads transparent | reads as surface | hover/press pinned walk, clamped for the label | 1 dp outline at 3:1 |
+| chip, unselected | *paints* its level's colour — same as the surface, so reads transparent | reads as surface | hover/press pinned walk, clamped for the title | 1 dp outline at 3:1 |
 | chip, Filter selected | Secondary container walked to clear its level | — | walk from the container | none |
 | checkbox, unchecked | one raise above its level, inside a 2 dp border | around the box | disabled fades the border only | border |
 | checkbox, checked | Primary | around | disabled alpha | none |
