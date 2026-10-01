@@ -23714,3 +23714,22 @@ with its kept senses as rules, so the sweep stays swept.
   `patterns`, `workbench` and every app by name; guard OK; gofmt
   gate OK; `scripts/check-layers.sh` OK; one commit per repo with
   the heading as subject; push every one.
+
+#### CI3.3: The helper measures a line and centres one
+
+- [ ] Found under CI3.2, planned under the same standing rule. Three
+  sites measure a line of text by hand, each a different way
+  (`patterns/sidebar`'s `coveredWidth`, `components/input`'s
+  `staticSelection`, `patterns/hero`'s `ctaTitleWidth`): `typeset`
+  gains one measuring call that answers a line's width in a role at
+  a weight, and the three adopt it. Two draw sites keep the explicit
+  three-call form only to centre one line (`patterns/testimonial`'s
+  avatar letter, mindchat's system note): the helper gains the
+  alignment as its second option in the same shape as the weight
+  (a function, never a changed signature), and the two adopt it.
+  Pixels are the same everywhere.
+- [ ] Goldens do not move.
+- [ ] Exit: green in `theme`, `components`, `patterns`, `workbench/
+  mindchat` by name; guard OK; gofmt gate OK; `scripts/
+  check-layers.sh` OK; one commit per repo with the heading as
+  subject; push every one.
