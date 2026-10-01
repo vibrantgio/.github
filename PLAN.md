@@ -23622,11 +23622,15 @@ with its kept senses as rules, so the sweep stays swept.
   `picker.ToolbarState.Value`, the chrome trigger's own text,
   become `Title` with their consumers, as the platform has it (a
   pop-up button's title is the chosen item's title), joining
-  CI2.3's contracts in the minor the next round bumps.
+  CI2.3's contracts in the minor the next round bumps. In
+  `patterns/sidebar` a section's text is its heading, never a
+  label: the nine comments and `PaintSection`'s parameter that say
+  label say heading, the sidebar commit joining this task's set.
 - [ ] Goldens do not move but the two the drawn title moves.
-- [ ] Exit: green in `theme`, `design`, `effects`, `mvu` and
-  `mvu/example` by name; guard OK; `scripts/check-layers.sh` OK;
-  one commit per repo with the heading as subject, `components`
+- [ ] Exit: green in `theme`, `design`, `effects`, `mvu`,
+  `mvu/example`, `components`, `components/gallery` and `patterns`
+  by name; guard OK; `scripts/check-layers.sh` OK; one commit per
+  repo with the heading as subject, `components` and `patterns`
   included; push every one; commit and push in `.github`.
 
 #### CI2.9: The guard retires label for a control's own text
