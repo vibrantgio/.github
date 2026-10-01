@@ -23589,14 +23589,14 @@ with its kept senses as rules, so the sweep stays swept.
 
 #### CI2.7: The common noun label becomes title in the workbench
 
-- [ ] As CI2.5, across every `workbench` module and `llms.txt`:
+- [x] As CI2.5, across every `workbench` module and `llms.txt`:
   about two hundred lines. The themer's typography tier that holds
   TitleMedium and draws group titles is `Type.Title`, the role
   names untouched. Mindchat's settings form labels before their
   fields, sk150's captions and every palette's `Label` colour field
   keep the word.
-- [ ] Goldens do not move.
-- [ ] Exit: green in `workbench` and every app by name; guard OK;
+- [x] Goldens do not move.
+- [x] Exit: green in `workbench` and every app by name; guard OK;
   one commit in `workbench` with the heading as subject; push;
   commit and push in `.github`.
 
