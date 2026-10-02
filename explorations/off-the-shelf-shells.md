@@ -187,3 +187,47 @@ a message on the window's stream the way the bar's items are, callbacks
 hopping off the main queue as the drop target's do. The About pane is
 not needed yet. Timing is the owner's; it may share a round with the
 shell or come earlier. Pool material; nothing here is a dispatch.
+
+## The recorder's proposal: the pane frame gains a slide (2026-10-02)
+
+Pool material beside the shell until the owner shapes it. Its owner
+ruled there the same day that the recorder's shell is copied from
+vaultview first (the pane frame, the pane strip with bare marks, the
+sidebar helpers' rows and pill, the recall convention), and that what
+the two windows then share is named so the library extracts one shell
+pattern both derive from. The copy landed; the shared-parts list
+follows once read off both frames.
+
+What it found: `shell.PaneFrame` has two states for the pane, hidden
+and not, and `pane.Bounds` answers an empty rectangle for the first,
+so the pane arrives and leaves in one frame. Voice Memos, the window
+the pane's measurements were taken off, slides its sidebar out and
+back. No workbench app animates its pane, so the recorder carries one
+app-local control of 180 lines that turns the one bool the frame takes
+into the one width the frame takes: `effects/tween` between 0 and the
+pane's width over `MotionScale.DurNormal` on `EaseStandard`, reversal
+from the drawn width, a frame asked for only while moving, instant
+under the reduced scale. Everything else follows from the width: the
+content column reflows, the toolbar re-measures, the pane's corners
+move, the shadow casts from the new bounds.
+
+What it would take in the library, in three parts of increasing reach:
+
+- **`tokens.Bezier` gains an evaluator** (`At(t)`), since the theme
+  publishes the control points and nothing evaluates them; needed by
+  every consumer of the easing family whether or not a pane slides.
+- **`effects/tween` gains an eased constructor** over that evaluator,
+  removing the closure idiom from every caller wanting the theme's
+  curve; the package's own doc names the gap.
+- **A slide ships beside the frame, not inside it**: a small exported
+  type in `patterns/pane` the caller holds and spends into
+  `PaneFrame.Width`, the frame learning nothing and `Hidden` staying
+  the caller's `width <= 0`. The recorder recommends this over the
+  frame holding the animation, because the frame is a value built
+  fresh every frame with no lifetime, and the same slide would drive
+  an aside without the frame knowing. One rule ships with it: the
+  toolbar's leading inset while the pane is mid-sweep is the larger
+  of the toolbar's own gutter and the inset past the window's control
+  buttons, so it passes without a step.
+
+When it lands the recorder deletes its control and calls the library.
