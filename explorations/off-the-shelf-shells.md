@@ -231,3 +231,21 @@ What it would take in the library, in three parts of increasing reach:
   buttons, so it passes without a step.
 
 When it lands the recorder deletes its control and calls the library.
+
+Addendum measured the same day on Voice Memos (macOS 26) with real
+pointer clicks and 100 ms captures: the pane translates as one object,
+its column anchored to its trailing rim, entering from and leaving
+past the window's leading edge with its own margin and rounded corners,
+no row clipped in place and no title truncated; the content column's
+leading edge is the pane's trailing rim throughout; the window's three
+buttons stay on the glass while the pane passes under their line; the
+new-folder and toggle marks snap to their resting positions from the
+first frame (on the pane's corner line while it is still arriving,
+bordered in the toolbar from the first frame of the departure); the
+whole motion is about 300 ms (the rim moved 228, 163, 84 px across
+100 ms captures). So the slide yields an offset as well as a width,
+bounds from the margin plus the width minus the pane's full width to
+the margin plus the width, clipped to the window, and the frame
+accepts bounds whose leading edge lies off the window. The recorder's
+own control narrowed in place, which is wrong against this, and is
+being corrected to translate.
