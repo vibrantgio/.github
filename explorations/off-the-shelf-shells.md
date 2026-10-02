@@ -249,3 +249,20 @@ the margin plus the width, clipped to the window, and the frame
 accepts bounds whose leading edge lies off the window. The recorder's
 own control narrowed in place, which is wrong against this, and is
 being corrected to translate.
+
+Second addendum, from making the recorder's pane translate: the pane
+pattern's drawing already takes bounds whose leading edge is off the
+window (`pane.Layout`, `pane.PaintShadow` and `pane.FillTrailingCorners`
+draw rim, corners, shadow and clipped contents correctly from a
+rectangle with a negative leading edge, the renderer clipping at the
+glass). What cannot take such bounds is the measurement: `pane.Bounds`
+and `shell.PaneFrame.Bounds` anchor the leading edge at the margin and
+clamp the width to half the window, and `PaneFrame.Layout` derives its
+own bounds from the width and accepts none (`Under` already does). So
+the slide needs only to yield bounds, and the frame a way to take
+them. Two measured numbers: the travel is the pane's width plus its
+margin (228 dp for a 220 dp pane), so the away rest leaves no sliver
+of rim on the glass; and mid-travel the toolbar's bordered recall pair
+stands over the pane's chrome material rather than the content fill,
+the pane passing under the toolbar as it passes under the window
+buttons.
