@@ -1015,9 +1015,27 @@ term "words" where "text" would fit better. Meaning wise, words
 points to a potentially random sequence where text indicates a
 coherent meaningfull sequence. ^0005-label-title-text
 
+### 2026-10-05
+
+Rene: So I have three sessions now, this one ontology, vibrantgio
+and earwitness. You are aware of the issues/ideas they brought here?
+
+Rene: Let's keep the work on term definitions in this session. (i.e.
+terms are what you call 'words') for the lanuage section in
+DOMAIN.md. I need you to first alphabetically sort the Language
+section of DOMAIN.md ^0005-terms-and-alphabetical
+
+Rene: Now walk me through the undefined terms one at a time
+
 Rene (to the first undefined term, page, used for the content laid
 out in the content column and for pagination's numbered portions):
 Well for pagination I understand it. So you switch to the next page
 where the page content is sized into distinct chunks "pages" of
 content. The other use I am less excited about that use of the term,
 you also could call it content, right? ^0005-page-is-content
+
+Rene: So, you used to collect the statements I made into
+TRANSCRIPTS.md. You stopped doing that? Just create a transcript
+entry per unique day and append the statements I make to that
+transcript section for that day. What do you think?
+^0005-transcript-per-day
