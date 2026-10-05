@@ -4,7 +4,7 @@ Verbatim stakeholder talk, append-only. Conversation 0001 is the
 2026-08-30 working session (Rene with the orchestrator) in which the
 design ontology was first demanded and its first terms were ruled.
 
-## 0001 — the ontology session (2026-08-30)
+## 2026-08-30 — 0001 the ontology session
 
 Rene: we are lacking a shared design ontology our chips look like ass
 because we derived their appearance from toolbar buttons on macOS.
@@ -66,7 +66,7 @@ glossary ^0001-checked-active-glossary
 Rene: ontology work has been moved to session ontology
 ^0001-handover-to-ontology
 
-## 0002 — the ontology session (2026-08-30)
+## 2026-08-30 — 0002 the ontology session
 
 Rene: I will be using the chips session investigate the differences
 between tags and chips and when to use either one or the other.
@@ -423,7 +423,7 @@ Markdown a Signal? Are we not talking about Content? Yes, crunch it
 and markdown document re-parent to content]. ^0002-content-not-signal
 
 
-## 0003 — the chips session (2026-08-30)
+## 2026-08-30 — 0003 the chips session
 
 Relayed verbatim by the chips session at the ontology session's
 request, chronological.
@@ -489,14 +489,14 @@ system-generated summary of view state is plain text or a close-less
 badge, removed where it was set. Statements never change behaviour
 when dismissed. ^0003-voice-wins
 
-## 0004 — the pipeline session (2026-08-31)
+## 2026-08-31 — 0004 the pipeline session
 
 Rene (reacting to the hue-voices vocabulary, relayed verbatim by the
 pipeline session): This is just completely and utterly insane. Who
 comes up with this shit. Then use fill and foreground in the specs,
 not wash and ink. ^0004-fill-foreground-not-wash-ink
 
-## 0005 — the ontology review session (2026-09-02)
+## 2026-09-02 — 0005 the ontology review session, continued day by day below
 
 Rene: We are working to make DOMAIN.md authorative for all
 development work going on in session vibrantgio. Now review
@@ -657,6 +657,10 @@ Rene: write all 8, add the rename to the batch
 
 Rene: How is the color of the highlight flash established
 
+## 2026-09-03 to 2026-09-04
+
+(dated from the rulings these produced; the day within the span is not recorded)
+
 Rene: The highlight should ideally be more in the yellow direction.
 ^0005-highlight-yellow
 
@@ -720,6 +724,8 @@ that is handled by a different color outline
 
 Rene: ok write it all and send the peer the ruling
 
+## 2026-09-05
+
 Rene (to the peer's two questions, card-versus-seam in light and the
 tooltip's fill): 1. give light scheme some headroom 2. i concur with
 your reasoning ^0005-light-headroom ^0005-tooltip-inverse
@@ -727,6 +733,8 @@ your reasoning ^0005-light-headroom ^0005-tooltip-inverse
 Rene (to the peer's question whether "paper" and "furniture" are
 kept metaphors): Yes to retire paper and furniture
 ^0005-retire-paper-furniture
+
+## 2026-09-06
 
 Rene (to the toast keeping its inverse fill, the tooltip and the
 toast being the inverse pair's two adoptions): I concur
@@ -768,6 +776,10 @@ open field still reserves room for its menu): yes to the first
 
 Rene (to whether the scrollbar's marks of the matches need a word):
 Is this not called a search hit?
+
+## 2026-09-07 to 2026-09-09
+
+(dated from the rulings these produced; the day within the span is not recorded)
 
 Rene: No leave match as the word instead of hit, I can live with
 that, don't create special names for the marks that represent search
@@ -872,6 +884,8 @@ This has to be an error because white on blue is much more readable.
 
 Rene: We are following all these rules into our own demise.
 
+## 2026-09-10
+
 Rene: If WCAG 2 is wrong then we need to take it behind the barn and
 shoot it. ^0005-wcag-is-wrong
 
@@ -929,6 +943,8 @@ and is not something I want to emulate.
 
 Rene: Give the go for CC1.2 and Phase CE ^0005-go-cc12-ce
 
+## 2026-09-11
+
 Rene (to the vibrantgio session, relayed verbatim, on the save
 dialog's 24 pt controls against the HIG's 22): Yes conform to the
 platform and supercede the HIG in these areas.
@@ -951,6 +967,8 @@ Rene (to pool 402, the wallpaper's tint in the recorded chrome): I
 can also turn off Tint window background with wallpaper colour —
 Both are on the desktop ^0005-chrome-untinted
 
+## 2026-09-13
+
 Rene (asked whether DOMAIN.md is now completely up to date, told
 the Language is clean once the staged rewrite lands and that a
 2026-09-02 dialogue still speaks of tinted fills): Yes I agree, we
@@ -967,16 +985,22 @@ release, told: after the draft phase's tasks land, since that phase
 drops, merges and renames components): Ok, we tag after the draft
 phase lands then ^0005-tag-after-draft-phase
 
+## 2026-09-17
+
 Rene (to the vibrantgio session on the CG2.1 themer, relayed:
 rejecting "Syntax base", since chroma calls the thing a style,
 "lexers, formatters and styles"): Syntax highlighter style, or
 Syntax highlighter for short. ^0005-syntax-highlighter-style
+
+## 2026-09-18
 
 Rene (to the vibrantgio session on vaultview after CG5.3m, then
 three Voice Memos captures on macOS 26 in answer to what he sees —
 the sidebar an inset rounded panel with a rim and a shadow, the
 window buttons inside it, its marks bare, no seam): The sidebar
 doesn't look like a sidebar anymore. ^0005-sidebar-is-a-panel
+
+## 2026-09-22
 
 Rene (asked why "open" would be better than "open-folder", told the
 set names a mark by what it depicts and both captures hold a closed
@@ -988,14 +1012,20 @@ library's modal first, since he may want it on Linux, then the
 platform's Open panel on macOS with the modal as the fallback)
 ^0005-open-panel-order
 
+## 2026-09-23
+
 Rene: I noticed that the sidebar listview shows the last cursor that
 was active elsewhere. E.g. when moving from the markdown to the
 list, the text cursor shaped like an I is shown. ^0005-pointer-shape
+
+## 2026-09-24
 
 Rene (to the vibrantgio session, relayed: he called the tagging
 round on 2026-09-24, an application outside the org moving onto the
 library, before the draft library phase's rulings; Phase CH carries
 it) ^0005-tagging-round-called
+
+## 2026-09-30
 
 Rene (told "chrome" appears thirty-one times in DOMAIN.md in four
 jobs, and that the seven pattern entries' family label is the fat):
@@ -1015,7 +1045,7 @@ term "words" where "text" would fit better. Meaning wise, words
 points to a potentially random sequence where text indicates a
 coherent meaningfull sequence. ^0005-label-title-text
 
-### 2026-10-05
+## 2026-10-05
 
 Rene: So I have three sessions now, this one ontology, vibrantgio
 and earwitness. You are aware of the issues/ideas they brought here?
