@@ -1069,3 +1069,9 @@ TRANSCRIPTS.md. You stopped doing that? Just create a transcript
 entry per unique day and append the statements I make to that
 transcript section for that day. What do you think?
 ^0005-transcript-per-day
+
+Rene: Can you change the transcript section headings to dates or are
+there pointers to it from elsewhere.
+
+Rene (to date-first headings, one per day, the conversation number
+kept only in the stamps): Yes ^0005-transcript-dates
