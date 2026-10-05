@@ -23738,7 +23738,7 @@ with its kept senses as rules, so the sweep stays swept.
 
 #### CI4.1: The aside's rows stand at the sidebar's row height and centre their text
 
-- [ ] Rene's finding 2026-10-05, from the window's bottom trailing
+- [x] Rene's finding 2026-10-05, from the window's bottom trailing
   corner: a citation row's title shows only the top of its
   capitals. Cause: the aside's rows are the list's control height,
   24 dp, and a citation row keeps 8 dp of air above and below its
@@ -23753,9 +23753,9 @@ with its kept senses as rules, so the sweep stays swept.
   row height. Nothing else in the aside moves: its width, the two
   panes' order, the rule, the headers and their gaps are as they
   are.
-- [ ] A test asserts a row's line box lies inside the row for both
+- [x] A test asserts a row's line box lies inside the row for both
   panes at the goldens' density; the goldens with citations and
   with the outline regenerate with the cause named, and no other
   golden moves.
-- [ ] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
+- [x] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
   gate OK; commit and push in `workbench` and `.github`.
