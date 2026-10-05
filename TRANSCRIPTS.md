@@ -1014,3 +1014,10 @@ its title): yes follow the platform and reevalutate your use of the
 term "words" where "text" would fit better. Meaning wise, words
 points to a potentially random sequence where text indicates a
 coherent meaningfull sequence. ^0005-label-title-text
+
+Rene (to the first undefined term, page, used for the content laid
+out in the content column and for pagination's numbered portions):
+Well for pagination I understand it. So you switch to the next page
+where the page content is sized into distinct chunks "pages" of
+content. The other use I am less excited about that use of the term,
+you also could call it content, right? ^0005-page-is-content

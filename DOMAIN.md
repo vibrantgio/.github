@@ -43,7 +43,7 @@ affordance.
 
 The status signal for a situation: a rounded box on the content's
 own background inside a separator hairline — an icon, a title in the
-text colour, a body — standing in the page flow until the situation
+text colour, a body — standing in the content's flow until the situation
 resolves. The developer gives an alert one of four: Error, Success,
 Warning or Info, and the icon shows it in that status's system
 colour; an alert given no status is Info. There is no other choice —
@@ -169,7 +169,7 @@ one rounded surface whose fill is a small step from the surface it
 is in, darker in light and lighter in dark, no hairline and no
 shadow, measured into the reference from System Settings — with
 header, body and footer slots. It holds content that must stand
-apart from the page around it — a summary, a preview, the
+apart from the content around it — a summary, a preview, the
 recommended tier. What a card holds stands on the card; a field in
 it is a raised thing on the card. A card holds content, never
 another card. It never wears a role: what the developer says about it
@@ -454,14 +454,14 @@ never a level and never a shadow.
 
 ### Group
 
-The pattern dividing the page: a hairline of the separator colour
+The pattern dividing the content: a hairline of the separator colour
 drawn around related components so the eye chunks them, no fill of
 its own — what it holds stands on the surface the group is in —
 optionally titled. It singles nothing out. A group may hold a
 card; it never holds another group. It wears no role.
 
 Which of the two a developer reaches for answers one question: am I
-dividing the page, or singling something out? A form in sections, a
+dividing the content, or singling something out? A form in sections, a
 list of articles, a row of tiers — groups. The one thing that must
 stand apart — a card.
 
@@ -480,16 +480,16 @@ document that can be operated is the exception the Link entry names.
 
 ### Hero
 
-The marketing pattern opening a page: an eyebrow, a display title,
+The marketing pattern opening the content: an eyebrow, a display title,
 a subtitle, an optional visual and a call-to-action pair,
-introducing what the page is about.
+introducing what the content is about.
 
 ### Highlight
 
 A yellow fill laid behind content to show the user where the content
 they sought is. It is the platform's find highlight as Mail paints
 it, measured per scheme into the reference: a pale yellow on the
-light page, a muted yellow on the dark one, and the text on it keeps
+light scheme, a muted yellow in the dark one, and the text on it keeps
 its colour. The system applies it to content, and it lasts as long
 as its cause:
 
@@ -707,7 +707,7 @@ is a component, however large.
 | **accordion** | a vertical stack of collapsible sections, a chevron per open state |
 | **card** | a rounded surface raised one step on what it is in, with header, body and footer slots — singles something out |
 | **feature** | an icon-title-body grid for a marketing "features" section |
-| **group** | a hairline around related components at the surface's own level, optionally titled — divides the page |
+| **group** | a hairline around related components at the surface's own level, optionally titled — divides the content |
 | **hero** | the marketing landing block: eyebrow, display title, subtitle, visual, a call-to-action pair |
 | **inspector** | a column beside the content showing the properties of what is selected in it |
 | **modal** | a centred dialog floating over a full-window scrim — header, body, footer actions |
@@ -886,13 +886,13 @@ The control for finding content: a text field that looks as you
 type and marks what it finds with the search highlight. Structure:
 looking glass, text, [x]. The looking glass names the control at a
 glance; the clear mark empties it and dismisses the highlight with
-it. Finding within a page, it also says how many matches there are
+it. Finding within the content, it also says how many matches there are
 and which is current, and steps between them — Enter to the next,
 Shift+Enter to the previous — scrolling the current one into view.
 What it holds originates with the user.
 Escape does what the clear mark does: it empties the field and
 dismisses the highlight, the keyboard staying in the field. With
-nothing typed, Escape closes a find within a page and gives the
+nothing typed, Escape closes a find within the content and gives the
 keyboard back to where it came from; a search field standing on
 chrome has nothing to close and keeps the keyboard, as the platform's
 does.
@@ -965,7 +965,7 @@ badge may also have no status, and is then coloured Neutral:
 | Status signal | Tells |
 |---|---|
 | **badge** | the system's word, count or symbol about content |
-| **alert** | a situation, standing in the page flow until it resolves |
+| **alert** | a situation, standing in the content's flow until it resolves |
 | **toast** | an event, floating briefly and leaving by itself |
 
 The other signals have no status and no role of their own; each is
@@ -1018,7 +1018,7 @@ what each is about and how long it stays:
 | Component | Is about | Where | Until |
 |---|---|---|---|
 | **badge** | a thing, with a status or without one | inline with it | it stops being true |
-| **alert** | a situation | in the page flow | the situation resolves |
+| **alert** | a situation | in the content's flow | the situation resolves |
 | **toast** | an event | floating at level 2 | it leaves by itself |
 
 The tooltip is not of the family: it names a control on demand and
