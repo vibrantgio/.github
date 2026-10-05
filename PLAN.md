@@ -23733,3 +23733,29 @@ with its kept senses as rules, so the sweep stays swept.
   mindchat` by name; guard OK; gofmt gate OK; `scripts/
   check-layers.sh` OK; one commit per repo with the heading as
   subject; push every one.
+
+### G-CI4: The aside's rows hold their text
+
+#### CI4.1: The aside's rows stand at the sidebar's row height and centre their text
+
+- [ ] Rene's finding 2026-10-05, from the window's bottom trailing
+  corner: a citation row's title shows only the top of its
+  capitals. Cause: the aside's rows are the list's control height,
+  24 dp, and a citation row keeps 8 dp of air above and below its
+  text, which leaves 8 dp for a 20 dp line; the text helper clips
+  to the box. The outline's rows keep 4 dp each side and lose their
+  descenders the same way. The stored golden with citations has
+  carried the clipped rows since 2026-09-22. Ruled: the aside's
+  rows stand at the sidebar's row height, 32 dp, as the tree's rows
+  do, since they wear the same pill; the text is centred in the
+  row by the row itself with no vertical inset, the lane and pad
+  across unchanged; the backlinks pane's cap and share follow the
+  row height. Nothing else in the aside moves: its width, the two
+  panes' order, the rule, the headers and their gaps are as they
+  are.
+- [ ] A test asserts a row's line box lies inside the row for both
+  panes at the goldens' density; the goldens with citations and
+  with the outline regenerate with the cause named, and no other
+  golden moves.
+- [ ] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
+  gate OK; commit and push in `workbench` and `.github`.
