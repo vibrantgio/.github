@@ -1079,3 +1079,8 @@ kept only in the stamps): Yes ^0005-transcript-dates
 ## 2026-10-07
 
 Rene: Let's talk about ontology
+
+Rene (told two sessions bring words the Language does not have yet,
+the recorder's shell specification and the earwitness controls): Wow
+wait there cowboy, earwitness should take care of its own ontology
+in a separate DOMAIN.md!!! ^0005-earwitness-own-domain
