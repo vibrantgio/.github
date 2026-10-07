@@ -171,14 +171,18 @@ written with it.
 
 #### BU5.4: The progress signal
 
-- [ ] Determinate and indeterminate progress.
+Ruled 2026-10-07 the library's; the Progress entry in DOMAIN states
+it: a bar filling from the leading end when the end is known, the
+platform's indeterminate indicator when not, read and never operated.
+
+- [ ] Determinate and indeterminate progress, as the entry says.
 - [ ] Exit: green; specimen; commit and push.
 
 #### BU5.5: The level meter
 
-- [ ] A meter that self-schedules like the animated components and
-  holds a peak. Reference: `effects/springbutton`'s scheduling.
-- [ ] Exit: green; specimen; commit and push.
+Ruled out 2026-10-07: the level meter is the application's, not the
+library's. The item stays here as a record of the ask and is not
+planned.
 
 #### BU5.6: The plain text-field face
 
