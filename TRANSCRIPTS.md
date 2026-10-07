@@ -1084,3 +1084,7 @@ Rene (told two sessions bring words the Language does not have yet,
 the recorder's shell specification and the earwitness controls): Wow
 wait there cowboy, earwitness should take care of its own ontology
 in a separate DOMAIN.md!!! ^0005-earwitness-own-domain
+
+Rene (to the split of the earwitness draft's missing controls): Yes,
+switch and progress are the library's and the level meter is too
+specific to be part of a general library. ^0005-switch-progress-library

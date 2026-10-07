@@ -784,6 +784,13 @@ job for a tooltip.
 The marketing pattern laying tiers side by side as cards; one of
 them may be singled out as the recommended tier.
 
+### Progress
+
+The signal showing how far a task the system is doing has come: a bar
+filling from the leading end when the end is known, and the
+platform's indeterminate indicator when it is not. It is read, never
+operated, and leaves when the task ends.
+
 ### Purpose
 
 What a component is for, chosen from the few purposes its entry
@@ -1052,6 +1059,14 @@ is. In an attachment, Surface names the floating one.
 The binary control that takes effect at once: flipping it turns
 something on or off immediately — nothing waits to be submitted.
 The checkbox records; the switch acts.
+
+### Switch
+
+The platform's control for one setting that is on or off: a short
+track with a knob that slides to the on side, the track filled with
+the theme colour when on and the platform's grey when off, measured.
+It records a state like a checkbox and differs from it in where it
+stands: a settings row, where the platform puts switches.
 
 ### Symbol
 
