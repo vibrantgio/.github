@@ -1088,3 +1088,5 @@ in a separate DOMAIN.md!!! ^0005-earwitness-own-domain
 Rene (to the split of the earwitness draft's missing controls): Yes,
 switch and progress are the library's and the level meter is too
 specific to be part of a general library. ^0005-switch-progress-library
+
+Rene: let's compact, give me the instructions I need to give you!
