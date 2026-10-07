@@ -1075,3 +1075,7 @@ there pointers to it from elsewhere.
 
 Rene (to date-first headings, one per day, the conversation number
 kept only in the stamps): Yes ^0005-transcript-dates
+
+## 2026-10-07
+
+Rene: Let's talk about ontology
