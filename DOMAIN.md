@@ -1056,17 +1056,14 @@ is. In an attachment, Surface names the floating one.
 
 ### Switch
 
-The binary control that takes effect at once: flipping it turns
-something on or off immediately — nothing waits to be submitted.
-The checkbox records; the switch acts.
-
-### Switch
-
-The platform's control for one setting that is on or off: a short
-track with a knob that slides to the on side, the track filled with
-the theme colour when on and the platform's grey when off, measured.
-It records a state like a checkbox and differs from it in where it
-stands: a settings row, where the platform puts switches.
+The platform's control for one setting that is on or off and takes
+effect at once — nothing waits to be submitted; the checkbox records,
+the switch acts. A short track with a knob that slides to the on
+side, the track filled with the theme colour when on and the
+platform's grey when off, measured; it stands in a settings row,
+where the platform puts switches. Nothing else is a switch: the
+control that recalls a pane is a borderless button with a symbol
+title, and a chooser between scopes is a segmented control.
 
 ### Symbol
 
