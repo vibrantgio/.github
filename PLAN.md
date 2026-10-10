@@ -23759,3 +23759,36 @@ with its kept senses as rules, so the sweep stays swept.
   golden moves.
 - [x] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
   gate OK; commit and push in `workbench` and `.github`.
+
+### G-CI5: The dialog pattern takes its name
+
+#### CI5.1: patterns/modal becomes patterns/dialog and modal names only the mode
+
+- [ ] Owner-ruled 2026-10-10 (DOMAIN 560738c): Modal is the mode a
+  dialog puts the window in, dimmed and taking no input beneath
+  until answered, never a pattern; Dialog is the pattern, the box
+  that asks a decision, a sheet on macOS and a floating box
+  elsewhere, with header, body and footer, the platform's own
+  dialogs used where offered. The package `patterns/modal` becomes
+  `patterns/dialog`, its files with it; every identifier that
+  names the pattern says Dialog (`modal.Modal`, `modal.Props`,
+  `modal.Render`, `modal.Arbiter`, `modal.NewArbiter`,
+  `modal.Decision`, `modal.PurposeDecision`, `modal.PurposePane`
+  and their unexported kin, the test names, the gallery section);
+  every consumer in `components`, `design`, `theme`'s export
+  source and the regenerated bundle, `mvu` and the `workbench` apps
+  follows. "Modal" survives only where it names the mode: a
+  window's modal state, a scrim's reason, the entry's own prose.
+  Docs, captions and the gallery section say dialog. An exported
+  contract move on `patterns`, joining the minor the next round
+  owes. No pixel moves.
+- [ ] `scripts/check-retired-words.sh` gains `modal` with the mode as
+  its kept sense (a line naming the window's state, the scrim, or
+  "modal state"); the Retired words table gains the row and
+  `scripts/sync-agents.sh` runs clean; the guard reports OK.
+- [ ] Goldens do not move; golden files whose names carry the word
+  in the pattern sense are renamed, not regenerated.
+- [ ] Exit: green in `patterns`, `components`, `components/gallery`,
+  `theme`, `design`, `mvu` and every `workbench` app by name; guard
+  OK; gofmt gate OK; `scripts/check-layers.sh` OK; one commit per
+  repo with the heading as subject; push every one.
