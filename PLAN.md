@@ -23914,3 +23914,35 @@ in his ruling.
 - [ ] Exit: green by name as above; the tag list reported to the
   application's session; commit and push in every repo touched
   and in `.github`.
+
+#### CJ1.3: The set rounds its square forms as the platform does and the badge stands where the capture puts it
+
+- [ ] Ruled by the ontology session 2026-10-10 from the Language
+  (measured beats stated; the platform wins). The capture
+  `reference/macos/voicememos-multi-folder-2026-09-18.png` shows
+  the folder's outer corners rounded by about two pixels at 1x,
+  and the set draws every square form square. The set rounds its
+  square forms at the radius each form's capture measures, in the
+  set's units off that measurement, one drawing for every platform
+  since the application looks like a macOS application everywhere:
+  folder and folder-plus off the Voice Memos capture; the page,
+  the pane and any other square form off their own captures where
+  one exists in `reference/macos/`, and at the folder's radius
+  where none does, each file saying which. The folder-plus badge's
+  centre across moves to the measured 18.8 units (the trailing
+  stroke's centre line), the plus's upright on a whole device
+  pixel confirming it; the file records the measurement with no
+  history prose. Two drawing defects close with it: the widening
+  is all-or-nothing per mark, so the badge's knockout narrows while
+  the folder's strokes grow and the plus nearly closes at 16 dp;
+  the widening becomes per contour (or the knockout is exempted),
+  the worker saying which and why; and the stroke table cannot
+  state a knocked-out figure because its coverage model has no
+  subtraction, so the table gains the case or the badge test
+  stands in for it, the worker saying which. No composition
+  changes; the icon page golden and any golden a rounded form is
+  drawn into regenerate with the cause named.
+- [ ] Exit: green in `components` and `components/gallery` by name
+  and in every app whose golden moved; guard OK; gofmt gate OK;
+  commit and push in `components`, any app repo whose golden
+  moved, and `.github`; no tag (the next round carries it).
