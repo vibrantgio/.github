@@ -24003,7 +24003,7 @@ in his ruling.
 
 #### CJ1.6: The folder's tab slopes its shoulder as the capture draws it
 
-- [ ] Ruled by the ontology session 2026-10-10: the slope is the
+- [x] Ruled by the ontology session 2026-10-10: the slope is the
   platform's picture, not antialiasing; two captures agree on it
   and a run of 1.6 px down over 2.5 across is a shape, not an
   edge's blur. On `reference/macos/voicememos-multi-folder-
@@ -24027,7 +24027,7 @@ in his ruling.
   and its file says the reading is covered by it. Every golden
   drawing the folder or folder-plus regenerates with the cause
   named; nothing else moves.
-- [ ] Exit: green in `components`, `components/gallery` and every app
+- [x] Exit: green in `components`, `components/gallery` and every app
   whose golden moved, by name; the stroke table states what it can
   and the file reads the junction off a render for the rest; guard
   OK; gofmt gate OK; commit and push in `components`, each app repo
