@@ -234,6 +234,15 @@ trim inside a component or pattern — a card's header, a dialog's
 footer, a table's header row — is that thing's structure, never
 chrome.
 
+### Close
+
+The part of a component or pattern that removes it: the cross on a
+badge or an Input chip, the close in a dialog's header. It is a
+mark in the thing's structure, never a component, with a
+control-sized hit area around it. Operating it dismisses the thing
+it stands in and nothing else; a badge's close removes the badge,
+never the thing the badge was on.
+
 ### Colour role
 
 One of the theme's named colours. The names are the platform's —
@@ -370,6 +379,13 @@ The platform's control that opens and closes what it heads: a small
 chevron pointing right when closed and down when open, at an outline
 row's leading end or at a section heading's trailing end.
 
+### Document
+
+What the application opens, edits and saves as one thing, the
+platform's term: the content a window is about. It stands at the
+content level, and the chrome around it holds the controls that act
+on it.
+
 ### Elevation
 
 The dimension of how high a surface stands. It is
@@ -401,9 +417,16 @@ so), never a badge's fill.
 The marketing pattern presenting capabilities as an icon-title-body
 grid, so many features read as one set.
 
+### Field
+
+One value's place in a form: a control — a text field, a picker, a
+checkbox, a switch — with its label beside or above it. A field is
+raised on the surface it stands in. In a table each column holds one
+field of every row.
+
 ### Fill
 
-The field a component paints behind its content: a colour role,
+The colour a component paints behind its content: a colour role,
 painted at the platform's value for the scheme. A role the platform
 paints at an alpha composites over the surface beneath, in encoded
 sRGB.
@@ -460,6 +483,13 @@ foreground comes in three kinds:
 
 Fill and foreground are read off the platform as the pair the
 platform paints.
+
+### Form
+
+The pattern of fields the user fills in and submits: each field
+labelled, the push button that submits them in its footer. Nothing
+in a form takes effect until it is submitted, except a switch, which
+acts at once.
 
 ### Glow
 
@@ -853,6 +883,13 @@ number.
 A fill a shade apart from the background around it, with no edge,
 that looks sunk into it: the platform's search field on chrome.
 
+### Reference
+
+The store of measurements read off the platform's own windows:
+the captures and the values taken from them, kept in the plan root.
+Every platform value the Language states is measured into the
+reference and read from it, never derived and never remembered.
+
 ### Region
 
 A part of the window with a background of its own: the sidebar, the
@@ -893,14 +930,14 @@ above. A scrim is not a surface — nothing stands on it.
 
 The control for one piece of content that keeps its own size — a
 code block, a preformatted table, a wide diagram: it shows the part
-that fits and lets the user move the view to the rest, sideways or
+that fits and lets the user move the visible part to the rest, sideways or
 down. Nothing in it is chosen; the content is never reflowed or cut.
 
 ### Scrollbar
 
-The control moving the view through content larger than its
+The control moving the visible part through content larger than its
 surface: a thumb on a track whose size mirrors how much of the
-content is visible. Operating it moves the view, never the content.
+content is visible. Operating it moves what is visible, never the content.
 While a search is on, the track shows where the matches lie in the
 content, the current one stronger, beside the thumb and never under
 it.
@@ -962,6 +999,14 @@ and press overlays are for transient states and paint no selection.
 A selected run of text in a field wears the platform's selected
 text colour over its selected text background, both measured,
 whatever colour the field's other text wears.
+
+### Shadow
+
+The darkening the platform draws around a thing that stands above
+what is around it: under a floating surface, around a pane with its
+rim. It is measured. A raised thing has no shadow; its step of fill
+tells it apart. A shadow shows elevation and nothing else; it is
+never a border.
 
 ### Shell
 
