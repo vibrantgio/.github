@@ -23949,7 +23949,7 @@ in his ruling.
 
 #### CJ1.4: The folder-plus badge keeps one device pixel clear of the outline at every size
 
-- [ ] Ruled by the ontology session 2026-10-10 from the Language: the
+- [x] Ruled by the ontology session 2026-10-10 from the Language: the
   clearance round the badge is a measured value and holds. The
   capture shows one device pixel clear at 1x, and a symbol is drawn
   as the platform draws it, legible at every size, so the gap stays
@@ -23970,7 +23970,7 @@ in his ruling.
   the file as the cost of the measured span. The folder's tab
   junction stays as drawn, the capture's own reading recorded.
   Goldens drawing the three marks regenerate with the cause named.
-- [ ] Exit: green in `components`, `components/gallery` and every app
+- [x] Exit: green in `components`, `components/gallery` and every app
   whose golden moved, by name; a test asserts the gap at 16, 20,
   24 and 48 px; guard OK; gofmt gate OK; commit and push in
   `components`, each app repo whose golden moved, and `.github`;
