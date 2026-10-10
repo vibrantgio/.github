@@ -23975,3 +23975,28 @@ in his ruling.
   24 and 48 px; guard OK; gofmt gate OK; commit and push in
   `components`, each app repo whose golden moved, and `.github`;
   no tag.
+
+#### CJ1.5: The folder's tab opens as the capture draws it
+
+- [ ] Ruled by the ontology session 2026-10-10 from the Language
+  (measured beats stated; the platform's picture wins). On
+  `reference/macos/voicememos-multi-folder-2026-09-18.png` the
+  folder's tab is open: the outline follows the silhouette, 1.48 px
+  of stroke under the tab from y 211.00 to 212.48, and the body's
+  interior reaches the tab's inner face; the body's top stroke does
+  not run under the tab. `folder.svg` fills the tab's rise solid
+  from its top edge to the body's top. The folder follows the
+  capture: the tab opens, the outline one contour round the
+  silhouette, the interior continuous into the tab; `folder-plus`
+  follows the folder so the two agree in the sheet. Two readings
+  the same work recorded are stated in the files with it: the
+  page's corners fit 2.47 to 2.58 units against the set's one
+  round of 2.4, drawn at the set's round; the page's foot stroke
+  reads 1.470 px where its sides read 1.390 and 1.400, drawn at the
+  set's one stroke. Every golden drawing the folder or folder-plus
+  regenerates with the cause named; nothing else moves.
+- [ ] Exit: green in `components`, `components/gallery` and every app
+  whose golden moved, by name; the stroke table states the tab's
+  strokes as the file does; guard OK; gofmt gate OK; commit and
+  push in `components`, each app repo whose golden moved, and
+  `.github`; no tag.
