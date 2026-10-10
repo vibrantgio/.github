@@ -154,7 +154,9 @@ button's job, whatever its emphasis; that is the Filter
 chip's purpose.
 A button with a face is bordered, the platform's term: on chrome the
 capsule, in a form the push button, each measured; a button with no
-face is borderless. Its title is text, a symbol, or both.
+face is borderless. Its title is text, a symbol, or both. In a
+player's transport the bordered face is round, as Voice Memos'
+record button, measured.
 
 ### Caption
 
@@ -437,6 +439,14 @@ platform does. Its accent is the ring around the control, and the ring is all it
 control that is focused gets the ring and keeps its mark — redrawing
 a checked box as unchecked would let one state overwrite another.
 
+### Footer
+
+The row at the bottom of a component or pattern holding what
+belongs to the whole of it: a dialog's actions, a card's actions,
+a pane's control for its own collection, a column's status text. A
+footer is optional, and an empty footer takes no height. The status
+bar is the window's own strip, not a column's footer.
+
 ### Foreground
 
 What draws the content on the fill: text, symbol, stroke. A
@@ -475,6 +485,13 @@ stand apart — a card.
 
 A line one pixel wide at 1x, whatever its colour: a seam, a rim, a
 group's outline.
+
+### Header
+
+The row at the top of a component or pattern holding what names
+it: a dialog's title and close, a card's title, a column's title.
+It is that thing's structure, never chrome. The toolbar is not a
+header; it is the window's strip.
 
 ### Heading
 
@@ -566,7 +583,11 @@ structure.
 The control following a reference: text that names its destination,
 showing its affordance in the text itself; under the pointer it
 shows the pointing hand, the cursor every link shares. Following it
-is its only action. Arriving may set off a highlight flash on the
+is its only action. A name standing in flowing text for the thing
+it names — a speaker in a transcript, a person mentioned in a chat
+— is a link, shown as the platform shows one: text set apart, never
+a chip, which stands beside the content, and never a pill, which is
+the selection shape. Arriving may set off a highlight flash on the
 content the link pointed at, so the reader sees where they were
 brought. A heading word — a word of the prose that a heading of the
 same document equals or contains, whole word, case-insensitive — is a
@@ -688,8 +709,13 @@ current page is active.
 The pattern setting a column in from the window's edges
 rather than making it one of them: set in, rounded on all corners, with the platform's rim and shadow, the window's own surface
 showing around it on every side. The sidebar is one. Unlike flush
-chrome it is an object — a control can send it away, and what stood
-beside it reflows to the window's edge.
+chrome it is an object: it collapses and expands, the platform's
+terms, animated as the platform animates its sidebar, and what
+stood beside it reflows to the window's edge while it is
+collapsed. One borderless button toggles it, titled with the
+sidebar symbol, the platform's Toggle Sidebar: it stands bare in
+the pane's top trailing corner while the pane is expanded and at
+the toolbar's leading end while it is collapsed.
 
 ### Paragraph
 
@@ -919,6 +945,14 @@ heading, apart from the rest: a sidebar's collection of entries, a
 form's group of related fields, a document's text under one heading.
 A section may collapse behind a disclosure; its heading stays.
 
+### Segmented control
+
+The platform's control choosing one of a few scopes or views at
+once: the choices side by side as segments in one bordered strip,
+the chosen segment filled, measured. It chooses one of few and
+acts at once, where a filter chip marks several and a picker opens
+a menu. It stands on chrome at the toolbar control height.
+
 ### Selection
 
 The persistent state marking the thing you chose: the picked menu
@@ -1001,6 +1035,14 @@ not choose a colour for it:
 A signal may hold a control without becoming one — the dismissible
 badge's close. The affordance always belongs to the held control,
 never to the signal.
+
+### Slider
+
+The platform's control choosing one value along a range: a track
+with a knob the user drags, the track filled from its start to the
+knob. A playhead moved through a recording is a slider with the
+platform's playback face, measured from Voice Memos; the knob stands
+at the current position and playback moves it.
 
 ### Splitter
 
@@ -1115,7 +1157,11 @@ row of them — as social proof.
 ### Text field
 
 The control for entering and editing text: a bounded field the user
-types into. What it holds originates with the user.
+types into. What it holds originates with the user. A text field
+with the platform's bezel is bordered; one with no bezel, its text
+standing on the content as text until edited, is borderless: a
+title edited in its header, a paragraph edited in place. A
+borderless field grows with its text.
 
 ### Theme
 

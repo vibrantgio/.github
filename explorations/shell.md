@@ -36,16 +36,7 @@ Drawn from the draft's list of new entries and the exploration's list of words t
 
 Every word below that DOMAIN does not carry is a word for the owner to coin or rule against before the code that would use it exists. That is why this comes first: it is the Language's goal, not the code's.
 
-2. **The segmented control.** The Switch entry rules the word — a chooser between scopes is a segmented control — and no entry of its own is written. The draft asks for it as a one-of-few inline choice with no pane, the "All | Current folder" scope chooser, set against the chip (few-of-few), the picker (a menu) and tabs (which carry a pane).
-3. **The slider, with its seek-bar face.** No entry.
-4. **The plain text-field face.** No bezel at rest, multi-line, growing with its content; an editable title in a header and a paragraph edited in place are its two uses. The Text field entry describes a bounded field and says nothing of this face.
-5. **An alert's trailing action.** The Alert entry says an alert holds text about the situation, never a control, and that an action on the situation stands beside the alert or the situation is a dialog's job. The draft asks for a trailing action slot, so this is a change to the entry or a ruling against the ask.
-6. **The circular button face.** The Button entry has the bordered capsule on chrome, the push button in a form, and the borderless button. A record disc wants a circular face so it is a button with its pinned fill rather than a drawing.
-7. **The inline pill span.** The Pill entry is the selection shape in a sidebar and a menu. The draft asks for a clickable inline span inside a flowing paragraph, so a transcript segment carries its speaker's name inside it, with mentions and tags in chat as the second use.
-8. **The foot.** Two slots: one inside the pane under its rows, one under a content column, each optional and taking no height when empty. The Status bar entry is the strip along the window's bottom; the proposal generalises it to a foot per column, and the Pane entry names no foot of its own.
-9. **The slide.** The Pane entry says a control can send the pane away and that what stood beside it reflows to the window's edge. It does not say the pane travels, nor that it has two rests with a sweep between them.
-10. **The recall pair's own word.** The specification calls the pane's own control and the control that brings the pane back "two halves of one switch", and proposes the type name `shell.Switch` for the pair. DOMAIN's Switch is the on/off control alone, so the pair needs its own word before that type is written.
-11. **What the name inside a transcript paragraph is called.** The draft says an inline pill span; the recorder's slice order says a chip. Two words for one thing, and the Chip entry is few-of-few filter chips.
+All eleven are answered in the Language on the ontology session's recommendation (2026-10-10): entries Segmented control, Slider, Header and Footer; the Button (round face), Text field (borderless face), Pane (collapse, expand, the Toggle Sidebar button) and Link (a name in flowing text) entries extended; the Alert entry stands as written, so an action on the situation stands beside the alert; the Shell entry names the variants two-column and three-column. "Foot" is footer, "slide" is collapse and expand, "recall pair" is the one Toggle Sidebar button, "pill span" and "chip" for a speaker's name are both wrong, it is a link.
 
 ## 3. What exists and who uses it
 
