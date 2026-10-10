@@ -36,7 +36,6 @@ Drawn from the draft's list of new entries and the exploration's list of words t
 
 Every word below that DOMAIN does not carry is a word for the owner to coin or rule against before the code that would use it exists. That is why this comes first: it is the Language's goal, not the code's.
 
-1. **The arrangements' names.** The Shell entry says "in the arrangements its variants name" and names none. Three are on the table (section 4), and the candidates recorded are "pane and column", "pane, column and aside", "pane, list and content", or the platform's "two-column" and "three-column".
 2. **The segmented control.** The Switch entry rules the word — a chooser between scopes is a segmented control — and no entry of its own is written. The draft asks for it as a one-of-few inline choice with no pane, the "All | Current folder" scope chooser, set against the chip (few-of-few), the picker (a menu) and tabs (which carry a pane).
 3. **The slider, with its seek-bar face.** No entry.
 4. **The plain text-field face.** No bezel at rest, multi-line, growing with its content; an editable title in a header and a paragraph edited in place are its two uses. The Text field entry describes a bounded field and says nothing of this face.

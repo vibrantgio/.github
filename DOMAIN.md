@@ -912,6 +912,13 @@ no edge except where the platform draws one — the dark toolbar's
 recess has a lighter rim, measured — read into the reference
 from System Settings' sidebar and Voice Memos' toolbar.
 
+### Section
+
+A part of the content or of a list that stands under its own
+heading, apart from the rest: a sidebar's collection of entries, a
+form's group of related fields, a document's text under one heading.
+A section may collapse behind a disclosure; its heading stays.
+
 ### Selection
 
 The persistent state marking the thing you chose: the picked menu
@@ -924,9 +931,13 @@ whatever colour the field's other text wears.
 
 ### Shell
 
-The pattern composing the regions around the content into the application's
-top-level layout — sidebar, navbar and main content, in the
-arrangements its variants name.
+The pattern composing the regions around the content into the
+application's top-level layout. Its variants take the platform's
+names. The two-column window is a sidebar pane and a content column
+beside it. The three-column window is the pane, a list column on a
+splitter and the content column taking the rest, as Mail, Notes and
+Voice Memos are built. An inspector trailing the content is a slot
+either variant may fill, not a variant of its own.
 
 ### Sidebar
 
