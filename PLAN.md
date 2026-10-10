@@ -23792,3 +23792,37 @@ with its kept senses as rules, so the sweep stays swept.
   `theme`, `design`, `mvu` and every `workbench` app by name; guard
   OK; gofmt gate OK; `scripts/check-layers.sh` OK; one commit per
   repo with the heading as subject; push every one.
+
+### G-CI6: The live guides describe what ships and nothing that shipped before
+
+#### CI6.1: Migration history leaves llms.txt and the READMEs
+
+- [ ] Owner-ruled 2026-10-10: prefer dropping old information until
+  there is a significant installed base; today the owner is the
+  one user. `workbench/llms.txt`'s "Already deleted" and "Renamed"
+  sections go, with every "if you find this in older code" line
+  and every mention of a module, package, identifier or key that
+  no longer exists (`spectrum`, `prism`, `pulse`, `cadence`, the
+  alias packages, the generated colour set, the level argument,
+  `patterns/tag`, `tokens.TypeScale`, the coordination buses,
+  `patterns/modal`, the themer's "base" key). The READMEs of
+  `components`, `effects`, `markdown`, `theme`, `patterns`, `mvu`
+  and the rest lose the same: release notes about what a version
+  broke, "used to", "no longer", "once lived in", "the old
+  practice", and citations of ADRs by number in published text.
+  Code that reads a retired key for compatibility (the themer's
+  "base") is deleted with its test, since no file written under
+  the old key exists outside the owner's machines; the owner's
+  own file is rewritten once by hand if it still carries it, and
+  the commit body says so. What stays is what ships and how to
+  use it. No pixel moves; `scripts/sync-versions.sh` still
+  regenerates the version tokens into the guide.
+- [ ] A test in `.github/scripts` or the guard: a grep over the live
+  guides (llms.txt, every README) for "older code", "older
+  answer", "used to", "no longer", "formerly", "previously", "was
+  renamed", "renamed from", "gone, not deprecated" and the retired
+  module names, reporting OK; wired into the gate list in the
+  scripts README.
+- [ ] Exit: green in every repo touched by name; guard OK; the new
+  gate OK; `scripts/check-versions.sh` OK; one commit per repo
+  with the heading as subject; push every one.
