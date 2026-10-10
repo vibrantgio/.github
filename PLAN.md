@@ -23797,7 +23797,7 @@ with its kept senses as rules, so the sweep stays swept.
 
 #### CI6.1: Migration history leaves llms.txt and the READMEs
 
-- [ ] Owner-ruled 2026-10-10: prefer dropping old information until
+- [x] Owner-ruled 2026-10-10: prefer dropping old information until
   there is a significant installed base; today the owner is the
   one user. `workbench/llms.txt`'s "Already deleted" and "Renamed"
   sections go, with every "if you find this in older code" line
@@ -23817,13 +23817,13 @@ with its kept senses as rules, so the sweep stays swept.
   the commit body says so. What stays is what ships and how to
   use it. No pixel moves; `scripts/sync-versions.sh` still
   regenerates the version tokens into the guide.
-- [ ] A test in `.github/scripts` or the guard: a grep over the live
+- [x] A test in `.github/scripts` or the guard: a grep over the live
   guides (llms.txt, every README) for "older code", "older
   answer", "used to", "no longer", "formerly", "previously", "was
   renamed", "renamed from", "gone, not deprecated" and the retired
   module names, reporting OK; wired into the gate list in the
   scripts README.
-- [ ] Exit: green in every repo touched by name; guard OK; the new
+- [x] Exit: green in every repo touched by name; guard OK; the new
   gate OK; `scripts/check-versions.sh` OK; one commit per repo
   with the heading as subject; push every one.
 

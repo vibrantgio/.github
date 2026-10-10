@@ -36,7 +36,7 @@ shared parent, the workspace root, is not a repository; `go.work` lives there,
 the modules so they resolve each other from the checkout — the members never
 carry a workspace themselves, and the workspace itself is committed nowhere.
 
-Eleven scripts live in `scripts/`. Five of them do work.
+Twelve scripts live in `scripts/`. Five of them do work.
 
 - [`scripts/clone-all.sh`](scripts/clone-all.sh) — clone all twenty-one siblings
   beside this checkout, pulling any already present, then regenerate `go.work`. The whole set every time: the
@@ -61,14 +61,14 @@ Eleven scripts live in `scripts/`. Five of them do work.
   `check` mode is a gate and `selftest` proves the consumer-name assertion
   against `scripts/testdata/`.
 
-Six more answer a single yes-or-no question, and each refuses to let one kind
-of wrong thing be committed quietly.
+Seven more answer a single yes-or-no question, and each refuses to let one
+kind of wrong thing be committed quietly.
 
 - [`scripts/check-layers.sh`](scripts/check-layers.sh) — refuses an import from
   a module into a repository at or above its own tier. It runs `go list -deps`
   over the nineteen tabled root modules — all twenty-one minus `design` and
   `workbench`, the applications — and judges every `github.com/vibrantgio` edge
-  against ADR-001's tier table, so the layering is measured rather than
+  against the tier table, so the layering is measured rather than
   intended. Run it here, from the plan root. Its `--edges` mode reports
   that one walk as TSV instead of judging it.
 - [`scripts/check-no-workspace.sh`](scripts/check-no-workspace.sh) — refuses to
@@ -81,17 +81,25 @@ of wrong thing be committed quietly.
   version number in `llms.txt`. It runs `sync-versions.sh -n` and fails on any
   difference, so the guide cannot claim a tag the repositories do not carry.
 - [`scripts/check-subjects.sh`](scripts/check-subjects.sh) — refuses a bare
-  `rx.Subject` outside the one package ADR-008 still allows it in, and refuses
+  `rx.Subject` outside the one package that still allows it, and refuses
   an exported package-level observable anywhere. The first leaks a subscription
-  slot per process and pins its producer; the second is the shape all four of
-  the coordination buses ADR-008 deleted arrived in, every one of them with no
-  subscriber in the entire organization. Occurrences in `_test.go` files are
+  slot per process and pins its producer; the second is the shape a
+  cross-component coordination bus arrives in, and nothing in the organization
+  subscribes to one. Occurrences in `_test.go` files are
   counted and reported, never judged — the header says why.
 - [`scripts/check-retired-words.sh`](scripts/check-retired-words.sh) — refuses a
   word the Language has retired. It walks every module, tells an identifier from
   a comment, a string and prose, and judges each hit against one exclusion rule
   per kept sense: `inventory` for the work list, `check` for the gate,
   `excluded` to audit the rules against the tree.
+- [`scripts/check-guides.sh`](scripts/check-guides.sh) — refuses migration
+  history in a live guide. It greps `llms.txt` and every repository's
+  `README.md` for the sentences that tell a reader what to do with code
+  written against an earlier shape, for a release note about what a version
+  broke, for a decision record cited by number, and for the name of a module,
+  package or identifier nobody can import — and names every hit with its
+  line. Its header carries the phrase list, each with the guide it was found
+  in. A guide says what ships and how to use it; the rest is in git.
 - [`scripts/check-gofmt.sh`](scripts/check-gofmt.sh) — refuses a Go file `gofmt`
   would rewrite. It lists every such file across the whole checkout and exits
   non-zero on any; `gofmt -w` on what it names is the fix.
