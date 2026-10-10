@@ -1109,3 +1109,6 @@ section, right? ^0005-modal-is-a-mode
 Rene: Are we talking here about the shell merge?
 
 Rene: which peer?
+
+Rene: I just gave vibrantgio the go. You will need to pick this up
+with me, but first give me a compact instruction.
