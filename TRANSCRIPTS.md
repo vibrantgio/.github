@@ -1097,3 +1097,6 @@ Rene (to the recorder's two term collisions, Label and Level, with
 the recommendation of no rename, each bounded context defining its
 own): Yes this is a bound context case and is allowed under the
 method. ^0005-bounded-context-collisions
+
+Rene: Look at the Modal and Dialog entry in the language is Dialog
+the only exemplar of a modal?
