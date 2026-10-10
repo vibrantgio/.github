@@ -49,7 +49,7 @@ Warning or Info, and the icon shows it in that status's system
 colour; an alert given no status is Info. There is no other choice —
 no Neutral alert, no alert in the theme colour. It holds text about the
 situation, never a control: an action on the situation stands beside
-the alert, or the situation is a modal's job.
+the alert, or the situation is a dialog's job.
 
 ### Attachment
 
@@ -350,11 +350,17 @@ from the control height.
 
 ### Dialog
 
-The platform's term for the box that asks for a decision and blocks
-the window until it is answered: on macOS a sheet attached to the
-window's title bar, elsewhere a box floating over the window. The
-modal pattern draws the library's; the open panel is the platform's
-own.
+The pattern that interrupts for a decision: the platform's term for
+the box that asks it and makes the window modal until it is
+answered. On macOS it is a sheet attached to the window's title bar,
+elsewhere a box floating at level 2 over the scrim. Structure: a
+header holding its title and close, a body, and a footer of actions,
+Cancel and the default among them. The platform's own dialogs — the
+Open and Save panels, and its alert box with a message and buttons —
+are used where the platform offers them, the library's dialog where
+it does not; on Open the whole window follows the choice. When a
+dialog opens, its first field holds the keyboard focus, as the
+platform's sheet shows.
 
 ### Disclosure
 
@@ -618,15 +624,11 @@ triggers, a secondary click on content, a menu bar.
 
 ### Modal
 
-The pattern that interrupts for a decision: a dialog floating at
-level 2 over a scrim, with a header holding its title and close, a
-body, and a footer of actions. The scrim isolates it — everything
-beneath is dimmed and deaf until the modal closes.
-Choosing a file or a folder is the platform's own open panel where
-the platform offers one, and the library's modal where it does not;
-on Open the whole window follows the choice.
-When a modal opens, its first field holds the keyboard focus, as the
-platform's sheet shows.
+The mode a dialog puts the window in while it is up: everything
+beneath the dialog is dimmed by the scrim and takes no input until
+the dialog is answered or closed. Modal is a state of the window,
+never a pattern; the dialog is the pattern. A popover, a tooltip and
+a menu float without making the window modal.
 
 ### Navbar
 
@@ -710,7 +712,7 @@ is a component, however large.
 | **group** | a hairline around related components at the surface's own level, optionally titled — divides the content |
 | **hero** | the marketing landing block: eyebrow, display title, subtitle, visual, a call-to-action pair |
 | **inspector** | a column beside the content showing the properties of what is selected in it |
-| **modal** | a centred dialog floating over a full-window scrim — header, body, footer actions |
+| **dialog** | the box that asks a decision and makes the window modal — a sheet on macOS; header, body, footer of actions |
 | **navbar** | the horizontal bar of brand, links and actions; the active link marked |
 | **notifications** | the column that receives notifications and presents them — today as toasts — positioned, stacked and timed |
 | **pane** | a column set in from the window's edges rather than being one of them, the backdrop showing around it |
@@ -857,7 +859,7 @@ per scheme, the platform's for that appearance.
 
 ### Scrim
 
-The translucent veil a modal draws over everything beneath it: it
+The translucent veil a dialog draws over everything beneath it: it
 dims what it covers and blocks input to it, isolating the dialog
 above. A scrim is not a surface — nothing stands on it.
 

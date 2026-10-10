@@ -1100,3 +1100,8 @@ method. ^0005-bounded-context-collisions
 
 Rene: Look at the Modal and Dialog entry in the language is Dialog
 the only exemplar of a modal?
+
+Rene (to the split of Modal, the mode, from Dialog, the pattern, and
+the rename of patterns/modal): Yes, split them and plan the rename,
+however both Modal and Dialog already are in DOMAIN.md Lanuage
+section, right? ^0005-modal-is-a-mode
