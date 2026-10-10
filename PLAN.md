@@ -23887,7 +23887,7 @@ in his ruling.
 
 #### CJ1.2: The library tags a round so the application can pin
 
-- [ ] The owner's ruling of 2026-10-10 reads as the call for a round:
+- [x] The owner's ruling of 2026-10-10 reads as the call for a round:
   the application pins tags, and every library module has drifted
   since the round of 2026-09-26. The round runs the seam procedure
   of Phase CH: the set of drifted repos derived at execution from
@@ -23906,12 +23906,12 @@ in his ruling.
   mirrored number. `workbench` and `design` are not tagged;
   `workbench` pins the new tags and `scripts/sync-versions.sh`
   regenerates `llms.txt`; `design` is re-pinned.
-- [ ] `scripts/check-versions.sh` OK; `scripts/check-no-workspace.sh`
+- [x] `scripts/check-versions.sh` OK; `scripts/check-no-workspace.sh`
   reports no debt; `scripts/check-layers.sh` OK; `GOWORK=off go
   build ./... && go test ./...` green in every tagged module and in
   the workbench root and each app by name after `go clean
   -modcache`.
-- [ ] Exit: green by name as above; the tag list reported to the
+- [x] Exit: green by name as above; the tag list reported to the
   application's session; commit and push in every repo touched
   and in `.github`.
 
