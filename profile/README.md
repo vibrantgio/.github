@@ -53,9 +53,9 @@ modules in a lower tier, plus anything in the support row.
 | 0 | [gradient](https://github.com/vibrantgio/gradient) | Linear gradient fill, laid out like any other component |
 | 0 | [circle](https://github.com/vibrantgio/circle) | Mathematically precise circles via Bézier approximation |
 | 1 | [theme](https://github.com/vibrantgio/theme) | The theme runtime and every design token: the platform's own colour set read off the platform per appearance, Typography, Density, Motion, Elevation; live OS dark-mode, accent-colour and accessibility tracking, preference persistence, window integration, token export |
-| 2 | [components](https://github.com/vibrantgio/components) | Component foundation: button, input, list, paragraph, scrollbar, scrollarea, icon, icons, layout, keyed identity, initial values, cache, bench |
+| 2 | [components](https://github.com/vibrantgio/components) | Component foundation: button, input, chip, picker, badge, alert, toast, tooltip, breadcrumb, pagination, list, paragraph, scrollbar, scrollarea, icon, icons, layout, pointer shape, keyed identity, initial values, cache, bench |
 | 3 | [effects](https://github.com/vibrantgio/effects) | Effects layer: tween, spring, springbutton, transition, glow, depth, blur, motion, and a shared animation conductor |
-| 4 | [patterns](https://github.com/vibrantgio/patterns) | Pattern library: shell, navbar, sidebar, table, pagination, tabs, dialog, alert, popover, tooltip, toast, card, accordion, breadcrumb, hero, feature, pricing, testimonial |
+| 4 | [patterns](https://github.com/vibrantgio/patterns) | Pattern library: shell, pane, sidebar, splitter, navbar, table, tabs, dialog, popover, notifications, card, group, accordion, hero, feature, pricing, testimonial |
 | 4 | [markdown](https://github.com/vibrantgio/markdown) | GFM document rendering on the components, with chroma syntax highlighting and SVG images |
 | — | [ivg](https://github.com/vibrantgio/ivg) | IconVG: compact binary format for vector icons, with a converter for the Material Design icon set |
 | — | [svg](https://github.com/vibrantgio/svg) | SVG parsing and rendering, with Gio, raster, PDF and seen drivers |
