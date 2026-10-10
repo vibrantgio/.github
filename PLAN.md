@@ -23846,7 +23846,7 @@ in his ruling.
 
 #### CJ1.1: The set gains the folder-plus mark, the platform's new-folder control
 
-- [ ] Requested 2026-10-08, go under the ruling of 2026-10-10. The
+- [x] Requested 2026-10-08, go under the ruling of 2026-10-10. The
   platform's new-folder control is a folder with a plus badge; the
   set holds fourteen marks and folder stands alone, and the set's
   bare plus at the 24 dp box reads as a cross in the pane's strip.
@@ -23874,7 +23874,7 @@ in his ruling.
   SVG's comment records the measurements as the set's other files
   do; the `Name` constant's doc says what the mark is and that the
   title says what is added.
-- [ ] The set's tests cover it as they cover every mark (parses, a
+- [x] The set's tests cover it as they cover every mark (parses, a
   fallback where a platform drawing exists, the stroke lands where
   the file says); a gallery specimen shows it beside the folder and
   the plus; the gallery's icon page golden regenerates with the
