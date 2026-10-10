@@ -23826,3 +23826,62 @@ with its kept senses as rules, so the sweep stays swept.
 - [ ] Exit: green in every repo touched by name; guard OK; the new
   gate OK; `scripts/check-versions.sh` OK; one commit per repo
   with the heading as subject; push every one.
+
+## Phase CJ: The library answers the recorder application outside the org
+
+Owner-ruled 2026-10-10, verbatim: "I need to have something working on
+monday. Therefore my request for Earwitness take prio over everything
+else. If Earwitness is not a success, we may kill every project it
+depends on. ... From now on, I will only talk to earwitness and the
+other sessions need to follow instructions as best as they can in the
+spirit of my previous decisions." Library requests arrive from the
+application's own session and are worked here ahead of every other
+goal, one task per request, in the spirit of the standing rules:
+plain words, measured values, nothing beyond the ask, no consumer
+named. After each landing the module is tagged so the application can
+pin, the version rule standing; the owner's call for a round is read
+in his ruling.
+
+### G-CJ1: The icon set carries the marks the recorder's toolbar and pane need
+
+#### CJ1.1: The set gains the folder-plus mark, the platform's new-folder control
+
+- [ ] Requested 2026-10-08, go under the ruling of 2026-10-10. The
+  platform's new-folder control is a folder with a plus badge; the
+  set holds fourteen marks and folder stands alone, and the set's
+  bare plus at the 24 dp box reads as a cross in the pane's strip.
+  `components/icons` gains `folder-plus`, named by what it depicts
+  with the qualifier last, as the set names its marks; "new folder"
+  is the control's title to say. Measured off
+  `reference/macos/voicememos-multi-folder-2026-09-18.png` at 1x:
+  the mark covers x 209 to 230, y 57 to 71; a folder outline 18 by
+  15 px with the body's trailing edge at x 226; a filled disc 8 px
+  across centred on the body's top trailing corner about 2.5 px
+  below the body's top; a plus of 5 px span knocked out of the disc
+  with a 1 px stroke; the folder's outline broken one pixel clear
+  of the disc; the whole figure 22 by 15; the sidebar toggle beside
+  it 19 by 15, the two centres 42 px apart. On the set's grid: the
+  set's folder stood 2 units leading so the badge fits the box
+  (figure 23 units against the platform's 22); badge centre at
+  (19.5, 8.5); disc radius 4; plus span 5 at the set's stroke of
+  1.4; the folder's outline cut by a clip of radius 4 plus the
+  stroke around the disc, wound against the box so nothing is
+  painted in the surface colour and the figure is one colour on
+  any fill; badge geometry snapped to whole device pixels so the
+  plus is crisp at 1x and 2x. One drawing serves every platform; a
+  darwin drawing with the platform's rounded corners is added only
+  if the capture shows them, the file saying what it measured. The
+  SVG's comment records the measurements as the set's other files
+  do; the `Name` constant's doc says what the mark is and that the
+  title says what is added.
+- [ ] The set's tests cover it as they cover every mark (parses, a
+  fallback where a platform drawing exists, the stroke lands where
+  the file says); a gallery specimen shows it beside the folder and
+  the plus; the gallery's icon page golden regenerates with the
+  cause named and nothing else moves.
+- [ ] Exit: green in `components` and `components/gallery` by name;
+  guard OK; gofmt gate OK; commit and push in `components` and
+  `.github`; then `components` is tagged at the next minor
+  (the round owed since the Title, Text, Symbol and FocusRing
+  moves), `components/gallery` with it, and the tag names reported
+  to the application's session.

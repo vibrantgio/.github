@@ -47,7 +47,7 @@ modules in a lower tier, plus anything in the support row.
 | --- | --- | --- |
 | 0 | [mvu](https://github.com/vibrantgio/mvu) | Model-View-Update runtime for Gio: `NewWindow`, the update/view loop, messages, commands, and the `MessageOp` layout protocol |
 | 0 | [font](https://github.com/vibrantgio/font) | Roboto and Roboto Mono as Gio faces, plus JetBrains Mono, optional Noto Sans Mono, and optional Noto Color Emoji |
-| 0 | [style](https://github.com/vibrantgio/style) | Frozen: the old MD2 type scale and `FontFaces()`, superseded by theme's Typography — kept for existing consumers, never added to a new app |
+| 0 | [style](https://github.com/vibrantgio/style) | Frozen: an MD2 type scale and `FontFaces()`; type in a new app comes from theme's Typography, and style is never added to one |
 | 0 | [textdraw](https://github.com/vibrantgio/textdraw) | Low-level text drawing: glyph-level control, measurement, alignment, label backgrounds |
 | 0 | [backdrop](https://github.com/vibrantgio/backdrop) | Solid colour fill, laid out like any other component |
 | 0 | [gradient](https://github.com/vibrantgio/gradient) | Linear gradient fill, laid out like any other component |
