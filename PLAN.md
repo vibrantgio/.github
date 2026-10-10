@@ -23917,7 +23917,7 @@ in his ruling.
 
 #### CJ1.3: The set rounds its square forms as the platform does and the badge stands where the capture puts it
 
-- [ ] Ruled by the ontology session 2026-10-10 from the Language
+- [x] Ruled by the ontology session 2026-10-10 from the Language
   (measured beats stated; the platform wins). The capture
   `reference/macos/voicememos-multi-folder-2026-09-18.png` shows
   the folder's outer corners rounded by about two pixels at 1x,
@@ -23942,7 +23942,7 @@ in his ruling.
   stands in for it, the worker saying which. No composition
   changes; the icon page golden and any golden a rounded form is
   drawn into regenerate with the cause named.
-- [ ] Exit: green in `components` and `components/gallery` by name
+- [x] Exit: green in `components` and `components/gallery` by name
   and in every app whose golden moved; guard OK; gofmt gate OK;
   commit and push in `components`, any app repo whose golden
   moved, and `.github`; no tag (the next round carries it).
