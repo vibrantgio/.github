@@ -23946,3 +23946,32 @@ in his ruling.
   and in every app whose golden moved; guard OK; gofmt gate OK;
   commit and push in `components`, any app repo whose golden
   moved, and `.github`; no tag (the next round carries it).
+
+#### CJ1.4: The folder-plus badge keeps one device pixel clear of the outline at every size
+
+- [ ] Ruled by the ontology session 2026-10-10 from the Language: the
+  clearance round the badge is a measured value and holds. The
+  capture shows one device pixel clear at 1x, and a symbol is drawn
+  as the platform draws it, legible at every size, so the gap stays
+  at least one device pixel at every size and scale: the knockout
+  grows with the outline's widening and never follows it down.
+  Where keeping a whole pixel clear at 16 dp would thin the badge
+  below what the capture shows, the outline yields, not the badge,
+  since the badge is what the mark depicts beyond the folder. Two
+  measurements the same work recorded are taken up with it: the
+  page's extent across is 13.88 px by a fit of its side strokes'
+  coverage where `document.svg` states 13 by counting columns, so
+  the file states the fitted reading and the figure follows it;
+  and the folder-plus figure stands off-centre in its box after
+  the badge moved to 18.8 (0.5 to 22.8 across), which the file
+  records as the measured placement rather than recentring, since
+  the capture puts the badge where it is. The arm ends of the plus
+  landing a third of a pixel off a boundary at 24 dp is recorded in
+  the file as the cost of the measured span. The folder's tab
+  junction stays as drawn, the capture's own reading recorded.
+  Goldens drawing the three marks regenerate with the cause named.
+- [ ] Exit: green in `components`, `components/gallery` and every app
+  whose golden moved, by name; a test asserts the gap at 16, 20,
+  24 and 48 px; guard OK; gofmt gate OK; commit and push in
+  `components`, each app repo whose golden moved, and `.github`;
+  no tag.
