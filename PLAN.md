@@ -24000,3 +24000,35 @@ in his ruling.
   strokes as the file does; guard OK; gofmt gate OK; commit and
   push in `components`, each app repo whose golden moved, and
   `.github`; no tag.
+
+#### CJ1.6: The folder's tab slopes its shoulder as the capture draws it
+
+- [ ] Ruled by the ontology session 2026-10-10: the slope is the
+  platform's picture, not antialiasing; two captures agree on it
+  and a run of 1.6 px down over 2.5 across is a shape, not an
+  edge's blur. On `reference/macos/voicememos-multi-folder-
+  2026-09-18.png` the tab's trailing edge descends from the tab's
+  top to the body's top over about 2.5 px across (the stroke's
+  outer edge 211.00, 211.37, 212.14, 212.56, 212.61 and its inner
+  edge 212.48, 212.67, 213.35, 213.92, 214.09 over x 88 to 92);
+  the new-folder control reads the same shoulder over about 2 px.
+  `folder.svg` draws a square mitre there carrying about twice the
+  material. The tab's trailing edge follows the capture: a slope
+  from the tab's top to the body's top over the measured run, in
+  the set's units off that measurement, the stroke the set's one;
+  `folder-plus` follows the folder. The tab's run across is read
+  again with it: both captures read it shorter than the drawn 6.5
+  units (5.5 and 6.4 off the top edge) because the earlier 6.7 px
+  reading ran to the shoulder's end; the file states where the
+  top edge ends and where the shoulder ends and draws the top edge
+  to its own reading. The page's foot and top strokes reading
+  1.47 px against the sides' 1.39 is the pixel grid's phase, below
+  what a 1x capture can state: the page is drawn with one stroke
+  and its file says the reading is covered by it. Every golden
+  drawing the folder or folder-plus regenerates with the cause
+  named; nothing else moves.
+- [ ] Exit: green in `components`, `components/gallery` and every app
+  whose golden moved, by name; the stroke table states what it can
+  and the file reads the junction off a render for the rest; guard
+  OK; gofmt gate OK; commit and push in `components`, each app repo
+  whose golden moved, and `.github`; no tag.
