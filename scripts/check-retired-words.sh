@@ -78,7 +78,7 @@ set -u
 # only — the OnX prefix of a colour read on a fill, and the hyphenated
 # on-colour in prose — so its two rules carry the ten thousand ordinary
 # prepositions the tokenizer hands them.
-WORDS="label,glyph,halo,panel,wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider,primary,secondary,tertiary,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on,wcag"
+WORDS="label,glyph,halo,panel,modal,wash,ink,shout,ground,floor,storey,ladder,rung,register,intent,anatomy,voice,volume,loud,quiet,widget,mark,elevated,reach,canvas,author,container,outlined,filled,highlighted,featured,emphasised,emphasized,paper,furniture,divider,primary,secondary,tertiary,seed,ramp,step,tone,tint,elevation,level,material,md3,m3,on,wcag"
 
 MODULES="backdrop circle components csg design effects font gradient ivg kiwi markdown mvu noise patterns seen style svg textdraw theme traer workbench .github"
 
@@ -148,6 +148,8 @@ glyph::*::path::^ivg/::IconVG's own one-line description of its format — icons
 glyph::*::!ctx::(icon|symbol|chevron|magnifier|keyline|catalogue|disclosure|check ?mark|avatar|mark set)::The glyph of set text keeps the word: what a face yields for a rune, what a line box holds, what antialiases against the fill behind it. Only the small picture a control or an icon set draws was retired, and a line that means that one names the icon or the symbol.
 panel::*::path::^theme/system/openpanel/::The platform's own Open panel is all this package presents, and the package is named after it.
 panel::*::ctx::(open|save)[-*/ ]*panel::The platform's Open panel and Save panel — NSOpenPanel and NSSavePanel, the choosers macOS presents for a file or a folder — named as the platform names them. The spacing is loose because the three-line window joins a wrapped phrase with the comment marker still between its halves.
+modal::*::ctx::(modal (state|editing|scrim|dialog)|is modal|modal is (a|the) (mode|state)|the mode a dialog puts the window in|mak(es|ing) the window modal|never a pattern|### modal)::Modal names a mode and keeps that sense: the state a dialog puts the window in, the scrim that dims under it, a dialog called modal, the Language entry that says so, and an editor's modal editing.
+modal::doc::path::^\.github/explorations/::A pool item records what a review or a ruling said on a date, in the language of that day.
 mark::*::!ctx::(mark component|component mark|/mark/|mark package)::The symbol a control draws and the verb are kept; only the former component's name was retired, and a line that means the component says so.
 floor::identifier::!token::(floor(level|storey|surface|tint)|(level|storey|chrome|backdrop|surface)floor)::A floor in an identifier is a lower bound — a contrast floor, a perceptibility floor, math.Floor; the retired sense would join it to an elevation word.
 floor::comment,doc,string::!line::(elevation|storey|ladder|ground floor|floor level|floor of the)::A contrast floor or another lower bound; the retired sense is an elevation level and says so with the elevation words.
