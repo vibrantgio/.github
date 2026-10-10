@@ -1005,8 +1005,8 @@ whatever colour the field's other text wears.
 The darkening the platform draws around a thing that stands above
 what is around it: under a floating surface, around a pane with its
 rim. It is measured. A raised thing has no shadow; its step of fill
-tells it apart. A shadow shows elevation and nothing else; it is
-never a border.
+shows that it is raised. A shadow shows elevation and nothing else;
+it is never a border.
 
 ### Shell
 
