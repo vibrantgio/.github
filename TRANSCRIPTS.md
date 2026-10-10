@@ -1112,3 +1112,11 @@ Rene: which peer?
 
 Rene: I just gave vibrantgio the go. You will need to pick this up
 with me, but first give me a compact instruction.
+
+Rene (to the earwitness session, relayed by vibrantgio): I need to
+have something working on monday. Therefore my request for
+Earwitness take prio over everything else. If Earwitness is not a
+success, we may kill every project it depends on. ... From now on,
+I will only talk to earwitness and the other sessions need to
+follow instructions as best as they can in the spirit of my
+previous decisions. ^0005-earwitness-takes-priority
