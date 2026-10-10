@@ -1090,3 +1090,10 @@ switch and progress are the library's and the level meter is too
 specific to be part of a general library. ^0005-switch-progress-library
 
 Rene: let's compact, give me the instructions I need to give you!
+
+## 2026-10-10
+
+Rene (to the recorder's two term collisions, Label and Level, with
+the recommendation of no rename, each bounded context defining its
+own): Yes this is a bound context case and is allowed under the
+method. ^0005-bounded-context-collisions
