@@ -1105,3 +1105,5 @@ Rene (to the split of Modal, the mode, from Dialog, the pattern, and
 the rename of patterns/modal): Yes, split them and plan the rename,
 however both Modal and Dialog already are in DOMAIN.md Lanuage
 section, right? ^0005-modal-is-a-mode
+
+Rene: Are we talking here about the shell merge?
