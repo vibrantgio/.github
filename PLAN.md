@@ -23879,9 +23879,38 @@ in his ruling.
   the file says); a gallery specimen shows it beside the folder and
   the plus; the gallery's icon page golden regenerates with the
   cause named and nothing else moves.
-- [ ] Exit: green in `components` and `components/gallery` by name;
+- [x] Exit: green in `components` and `components/gallery` by name;
   guard OK; gofmt gate OK; commit and push in `components` and
-  `.github`; then `components` is tagged at the next minor
-  (the round owed since the Title, Text, Symbol and FocusRing
-  moves), `components/gallery` with it, and the tag names reported
-  to the application's session.
+  `.github`. The tag is the round's, CJ1.2: `components` cannot be
+  tagged alone, since its packages call `typeset.Text` and kin,
+  which `theme` gained after its newest tag.
+
+#### CJ1.2: The library tags a round so the application can pin
+
+- [ ] The owner's ruling of 2026-10-10 reads as the call for a round:
+  the application pins tags, and every library module has drifted
+  since the round of 2026-09-26. The round runs the seam procedure
+  of Phase CH: the set of drifted repos derived at execution from
+  `git log <newest-tag>..HEAD` per repo, never remembered; the
+  order derived from `scripts/check-layers.sh --edges`; tag and
+  push the bottom layer, bump the layer above onto those tags,
+  verify with `GOWORK=off`, tag and push it, repeat, then the
+  second pass that makes the set self-referencing, `go clean
+  -modcache` before the final verify. The version rule stands: a
+  patch bump by default, a minor where the drift moved an exported
+  contract (`theme`: typeset gained functions; `components`:
+  Symbol, Title, Text, FocusRing, the folder-plus mark; `patterns`:
+  dialog, PurposePane, Surface, TitleInset, Title fields;
+  `effects`: Spread), no component ever reaching two digits, never
+  a `/vN` path; nested modules tagged with their root at the
+  mirrored number. `workbench` and `design` are not tagged;
+  `workbench` pins the new tags and `scripts/sync-versions.sh`
+  regenerates `llms.txt`; `design` is re-pinned.
+- [ ] `scripts/check-versions.sh` OK; `scripts/check-no-workspace.sh`
+  reports no debt; `scripts/check-layers.sh` OK; `GOWORK=off go
+  build ./... && go test ./...` green in every tagged module and in
+  the workbench root and each app by name after `go clean
+  -modcache`.
+- [ ] Exit: green by name as above; the tag list reported to the
+  application's session; commit and push in every repo touched
+  and in `.github`.
