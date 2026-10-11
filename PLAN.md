@@ -24241,7 +24241,7 @@ listed for him.
 
 #### CJ6.1: One click on the find control opens the field at once
 
-- [ ] Owner finding 2026-10-11, relayed by the application's session,
+- [x] Owner finding 2026-10-11, relayed by the application's session,
   his words: "the time it takes to open up the search. I click it
   twice often but noticed it came up after a long delay if clicked
   once." Diagnosis from this plan root, to be confirmed by the
@@ -24261,8 +24261,8 @@ listed for him.
   without a message (the rail's find shortcut, the pane's marks if
   any, the outline's folds), each named in the commit body; the
   mvu route needs nothing. No composition changes.
-- [ ] A router-driven test: one click on the magnifier, then one more
+- [x] A router-driven test: one click on the magnifier, then one more
   frame with no further input, and the field is drawn and holds the
   keyboard; it fails on the current code (verify) and passes after.
-- [ ] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
+- [x] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
   gate OK; commit and push in `workbench` and `.github`; no tag.
