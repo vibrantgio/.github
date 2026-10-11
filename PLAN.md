@@ -24178,3 +24178,37 @@ listed for him.
   gofmt gate OK; `scripts/check-layers.sh` OK; one commit per repo
   with the heading as subject; push every one; no tag (the next
   round carries it, at the minor).
+
+### G-CJ4: Vaultview's rescan and switch-vault controls stand in the sidebar's strip
+
+#### CJ4.1: The rescan and switch-vault marks stand bare in the pane's strip before its toggle
+
+- [ ] Owner-ruled 2026-10-11, relayed by the application's session,
+  his words: "I want the reload and open folder buttons inside the
+  sidebar to the left of the close side bar button." The two
+  controls leave the toolbar, where they stand bordered after the
+  trail, and stand bare in the pane's strip as its own marks, in
+  reading order rescan, switch vault, then the Toggle Sidebar
+  button at the trailing corner where the Pane entry keeps it,
+  `pane.MarkGapDp` between each pair as the pattern states (the
+  measured 42 dp between centres on the Voice Memos capture, which
+  stands its new-folder mark the same way). The marks are drawn as
+  the strip's toggle is, `paneMark`, in the toolbar label colour at
+  the large mark box; their titles and messages are unchanged
+  (Rescan, Switch Vault). While the pane is collapsed the toolbar's
+  leading end carries the Toggle Sidebar button as today, and the
+  two controls travel with it: they stand bordered after it in the
+  toolbar in the same order, since a control that lives in the pane
+  cannot be reached while the pane is away, as the pattern's recall
+  rule already says for the toggle. The toolbar's centre keeps the
+  trail; the gap after the navigation pair closes up to the trail
+  by the measured title gap. Goldens regenerate with the cause
+  named; the rail-key and focus tests keep the strip's marks out of
+  the rail's keyboard walk as the toggle is today.
+- [ ] Router-driven tests: with the pane expanded, the three marks
+  stand in the strip in order with the stated gaps and the toolbar
+  holds none of them; with the pane collapsed, the toolbar's
+  leading end holds the toggle then the two bordered controls in
+  order; a press on each posts its message in both states.
+- [ ] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
+  gate OK; commit and push in `workbench` and `.github`; no tag.
