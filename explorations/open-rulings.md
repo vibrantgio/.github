@@ -3485,3 +3485,11 @@ control asks the window for the frame that draws its move. No golden moved
 and no fresh-eyes review was named for the task.
 
 956. **[note]** **The application guide still names a per-row open flag as frame-owned state and says `OpenNow` opens a popover on the frame the flag flips.** `workbench/llms.txt` lists "Popover, tooltip and dialog arbitration; per-row open flags" under the destination for what only one frame needs to know, and the paragraph below it reads "popover.Props.OpenNow (`func() bool`) is read during layout, so a flag the frame owns opens the popover on the frame it flips". Both sentences are true of a flag written above the read and false of one a click writes below it: `patterns/popover` reads `OpenNow` at the top of its own layout, above the anchor the anchor's click is drained inside, which is the defect this task closed in feeds. The guide's one new sentence in the animation section states the rule; the two older sentences still point the reader the other way. Whether the coordination list keeps per-row open flags as an example, qualifies them by where the write stands, or drops them for the message route is unasked.
+
+## ES. From the recorder application outside the org, 2026-10-12
+
+Filed from a note relayed by the ontology session; nothing here is a
+dispatch, and nothing is planned until the owner or the application
+asks.
+
+957. **[note]** **A paragraph drains a link's input only while it draws, so a row holding a link cannot be replayed from a recorded-ops cache.** `paragraph.State` drains the pointer and key events a link answers inside `Layout`; a row cached as recorded ops is replayed without laying the paragraph out, so its links take no press. An exported way to drain the paragraph's input apart from drawing would let such rows replay. The application has not asked for it.
