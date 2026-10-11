@@ -144,7 +144,9 @@ by chevrons, each a link to its place. The last is where you are —
 plain text, not a link. It is generated from the path; nothing is
 filled into it. On chrome it is drawn as the platform's path bar:
 the names in the label colour, the set's chevron between them,
-measured.
+measured, and the pointer over it stays the arrow, as it does over
+the platform's path bar; the pointing hand belongs to links in the
+content.
 
 ### Button
 
