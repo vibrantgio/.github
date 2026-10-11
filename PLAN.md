@@ -24183,7 +24183,7 @@ listed for him.
 
 #### CJ4.1: The rescan and switch-vault marks stand bare in the pane's strip before its toggle
 
-- [ ] Owner-ruled 2026-10-11, relayed by the application's session,
+- [x] Owner-ruled 2026-10-11, relayed by the application's session,
   his words: "I want the reload and open folder buttons inside the
   sidebar to the left of the close side bar button." The two
   controls leave the toolbar, where they stand bordered after the
@@ -24205,10 +24205,10 @@ listed for him.
   title gap. Goldens regenerate with the cause
   named; the rail-key and focus tests keep the strip's marks out of
   the rail's keyboard walk as the toggle is today.
-- [ ] Router-driven tests: with the pane expanded, the three marks
+- [x] Router-driven tests: with the pane expanded, the three marks
   stand in the strip in order with the stated gaps and the toolbar
   holds none of the two; with the pane collapsed, the toolbar's
   leading end holds the toggle and neither of the two; a press on
   each mark posts its message.
-- [ ] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
+- [x] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
   gate OK; commit and push in `workbench` and `.github`; no tag.
