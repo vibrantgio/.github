@@ -24217,7 +24217,7 @@ listed for him.
 
 #### CJ5.1: Mindchat's new-chat mark stands before the toggle and goes with the pane
 
-- [ ] Found under CJ4.1, ruled by the ontology session 2026-10-11 from
+- [x] Found under CJ4.1, ruled by the ontology session 2026-10-11 from
   the Pane entry: a pane's own marks stand bare before the Toggle
   Sidebar button at the measured gap and go with the pane when it
   collapses; only the toggle travels. Mindchat stands its new-chat
@@ -24231,8 +24231,8 @@ listed for him.
   Not urgent: an application behind the Language, worked when the
   recorder has nothing waiting. Goldens regenerate with the cause
   named; nothing else in mindchat moves.
-- [ ] Router-driven tests: expanded, the strip holds new chat then the
+- [x] Router-driven tests: expanded, the strip holds new chat then the
   toggle at the stated gap; collapsed, the toolbar holds the toggle
   alone and the new-chat control answers nowhere.
-- [ ] Exit: green in `workbench/mindchat` by name; guard OK; gofmt gate
+- [x] Exit: green in `workbench/mindchat` by name; guard OK; gofmt gate
   OK; commit and push in `workbench` and `.github`; no tag.
