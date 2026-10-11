@@ -24266,3 +24266,31 @@ listed for him.
   keyboard; it fails on the current code (verify) and passes after.
 - [x] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
   gate OK; commit and push in `workbench` and `.github`; no tag.
+
+#### CJ6.2: Every other workbench app opens on one click
+
+- [ ] Owner request 2026-10-12: check the other workbench apps for the
+  defect CJ6.1 closed. The rule, as the loop has it: a click or key
+  that changes what the window shows posts a message and the model
+  carries the state, so the loop's re-emission redraws the window;
+  a frame is asked for directly only for state that has no business
+  in the model (a pending focus request, an animation's next frame).
+  Every app in `workbench` other than vaultview is swept: the
+  launcher, feeds, mindchat, todos, themer, sitedocs, iconbrowser,
+  marketing, sk150. Every `Clicked(` and key handler that sets a
+  field on a view or frame state without posting a message or
+  executing an invalidation is listed, and each is either moved to
+  a message (where the state is window state the model can hold)
+  or given the invalidation (where it is not), the commit body
+  naming each site and its route; a site that is drained above
+  what it moves in the same frame needs nothing and is listed as
+  such. Known: feeds' delete-confirm popover (`newDeleteConfirm` in
+  `sidebar.go`, the trash click flips `dc.open` read above the
+  anchor in the same frame). No composition changes; no pixel moves.
+- [ ] A router-driven test per fixed site: one click, one further
+  frame with no input, the change is drawn; failing before, passing
+  after. The rule is stated once in `workbench/llms.txt` beside the
+  animation case it already gives.
+- [ ] Exit: green in every `workbench` module by name; guard OK;
+  gofmt gate OK; guides gate OK; commit and push in `workbench` and
+  `.github`; no tag.
