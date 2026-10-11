@@ -3475,3 +3475,13 @@ window was read against the window's own redraw rule. No golden moved and
 no fresh-eyes review was named for the task.
 
 954. **[note]** **The find now costs one frame to appear, and the band could draw it in the frame the click was seen.** With the open state in the model, the frame that takes the click posts the message and the next frame — the one the loop's re-emission invalidates the window for — draws the field and takes the keyboard. The alternative is for the band to draw the field when the model says open OR when this frame's own click asked to open it, which puts the field up in the click's own frame at the cost of the view drawing one frame ahead of the model it was handed. The shortcut lost a frame to the change for the same reason: the note column lays out before the band, so a shortcut that flipped the view's own flag used to be drawn in the frame of the press. Whether a control may draw ahead of the model for the frame between the act and its reduction is unasked.
+
+## ER. From CJ6.2, the other apps' first click
+
+Filed 2026-10-12 from the work itself: every app in `workbench` other than
+vaultview was read against the window's own redraw rule, feeds' per-row
+delete confirm became model state, and the marketing page's See plans
+control asks the window for the frame that draws its move. No golden moved
+and no fresh-eyes review was named for the task.
+
+956. **[note]** **The application guide still names a per-row open flag as frame-owned state and says `OpenNow` opens a popover on the frame the flag flips.** `workbench/llms.txt` lists "Popover, tooltip and dialog arbitration; per-row open flags" under the destination for what only one frame needs to know, and the paragraph below it reads "popover.Props.OpenNow (`func() bool`) is read during layout, so a flag the frame owns opens the popover on the frame it flips". Both sentences are true of a flag written above the read and false of one a click writes below it: `patterns/popover` reads `OpenNow` at the top of its own layout, above the anchor the anchor's click is drained inside, which is the defect this task closed in feeds. The guide's one new sentence in the animation section states the rule; the two older sentences still point the reader the other way. Whether the coordination list keeps per-row open flags as an example, qualifies them by where the write stands, or drops them for the message route is unasked.
