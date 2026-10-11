@@ -1126,3 +1126,7 @@ previous decisions. ^0005-earwitness-takes-priority
 Rene (to the earwitness session, relayed by vibrantgio, on
 vaultview): the actual folder name of the content is lost on the
 page. ^0005-folder-name-lost
+
+Rene (to the earwitness session, relayed by vibrantgio, on
+vaultview): the reload and open folder buttons inside the sidebar
+to the left of the close side bar button. ^0005-pane-marks-before-toggle

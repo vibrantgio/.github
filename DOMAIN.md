@@ -751,7 +751,11 @@ stood beside it reflows to the window's edge while it is
 collapsed. One borderless button toggles it, titled with the
 sidebar symbol, the platform's Toggle Sidebar: it stands bare in
 the pane's top trailing corner while the pane is expanded and at
-the toolbar's leading end while it is collapsed.
+the toolbar's leading end while it is collapsed. The pane's own
+marks stand bare before the toggle, at the measured gap, and go
+with the pane when it collapses: only the toggle travels, as the
+platform's sidebars show, and what acts on the pane's collection
+waits for the pane.
 
 ### Paragraph
 
