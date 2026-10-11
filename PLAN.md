@@ -24091,7 +24091,7 @@ listed for him.
 
 #### CJ3.1: The breadcrumb draws as the platform's path bar
 
-- [ ] The library first, the usual order. `components/breadcrumb`
+- [x] The library first, the usual order. `components/breadcrumb`
   draws its earlier segments in the platform's link colour and its
   separator as a filled triangle; the platform's path bar (Finder,
   `reference/macos/finder-window-light.png` and kin, measured) sets
@@ -24109,7 +24109,7 @@ listed for him.
   colour, its square measured off the path bar. The Trail form
   follows the same. The gallery specimen regenerates with the cause
   named. No exported contract moves.
-- [ ] Exit: green in `components` and `components/gallery` by name;
+- [x] Exit: green in `components` and `components/gallery` by name;
   guard OK; gofmt gate OK; commit and push in `components` and
   `.github`; no tag (CJ3.2 tags).
 
