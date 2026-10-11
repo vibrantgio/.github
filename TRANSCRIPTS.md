@@ -1130,3 +1130,7 @@ page. ^0005-folder-name-lost
 Rene (to the earwitness session, relayed by vibrantgio, on
 vaultview): the reload and open folder buttons inside the sidebar
 to the left of the close side bar button. ^0005-pane-marks-before-toggle
+
+Rene (to the earwitness session, relayed by vibrantgio): the time
+it takes to open up the search ... it came up after a long delay
+if clicked once.
