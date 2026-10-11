@@ -24196,19 +24196,19 @@ listed for him.
   the strip's toggle is, `paneMark`, in the toolbar label colour at
   the large mark box; their titles and messages are unchanged
   (Rescan, Switch Vault). While the pane is collapsed the toolbar's
-  leading end carries the Toggle Sidebar button as today, and the
-  two controls travel with it: they stand bordered after it in the
-  toolbar in the same order, since a control that lives in the pane
-  cannot be reached while the pane is away, as the pattern's recall
-  rule already says for the toggle. The toolbar's centre keeps the
-  trail; the gap after the navigation pair closes up to the trail
-  by the measured title gap. Goldens regenerate with the cause
+  leading end carries the Toggle Sidebar button alone, as the Pane
+  entry says: the pane's own marks go with the pane and only the
+  toggle travels, as Finder, Mail and Notes take their sidebar's
+  controls away with the pane; what acts on the pane's collection
+  waits for the pane. The toolbar's centre keeps the trail; the gap
+  after the navigation pair closes up to the trail by the measured
+  title gap. Goldens regenerate with the cause
   named; the rail-key and focus tests keep the strip's marks out of
   the rail's keyboard walk as the toggle is today.
 - [ ] Router-driven tests: with the pane expanded, the three marks
   stand in the strip in order with the stated gaps and the toolbar
-  holds none of them; with the pane collapsed, the toolbar's
-  leading end holds the toggle then the two bordered controls in
-  order; a press on each posts its message in both states.
+  holds none of the two; with the pane collapsed, the toolbar's
+  leading end holds the toggle and neither of the two; a press on
+  each mark posts its message.
 - [ ] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
   gate OK; commit and push in `workbench` and `.github`; no tag.

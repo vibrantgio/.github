@@ -79,7 +79,7 @@ All three carry: the pane on a splitter, the widths and the window frame remembe
 **The toolbar's span is a disagreement, and it is the only one about the arrangements themselves.** The three sources read it three ways, and the reading is not averaged:
 
 - **One toolbar across all three columns, at one height**, with the window buttons on the pane strip's line. The draft, 2026-09-06.
-- **One toolbar across the list and content columns, one share per column.** The recorder, 2026-10-01: the list's share shows a title (the folder's name) and, while the pane is away, the recall control and the pane's primary act as bordered toolbar buttons; the content's share holds the trailing acts with a search field at the trailing end.
+- **One toolbar across the list and content columns, one share per column.** The recorder, 2026-10-01: the list's share shows a title (the folder's name) and, while the pane is collapsed, the Toggle Sidebar button (the pane's own marks go with the pane: ruled 2026-10-11, the Pane entry, overruling the recorder's reading that the pane's primary act travelled); the content's share holds the trailing acts with a search field at the trailing end.
 - **One toolbar across the content column only.** The exploration, 2026-09-06, and the specification, 2026-10-02: the strip is what the content column carries across its top, and the pane carries its own strip with the window buttons and its own marks in it.
 
 The draft's reading is superseded (section 14); the other two are live and the question is ruling 2.
@@ -220,7 +220,7 @@ A control that travels with the pane cannot be the one that recalls it: the pane
 
 | | vaultview | mindchat | the recorder |
 |---|---|---|---|
-| halves | one pair: hide / show | two pairs: the pane's recall, and new chat (the primary act, which survives the pane going) | two pairs: the pane's recall, and new folder |
+| halves | one pair: hide / show | two pairs: the pane's recall, and new chat (the primary act; by the Pane entry of 2026-10-11 it goes with the pane) | two pairs: the pane's recall, and new folder |
 | pane half | `treeView.hideControl`, tree.go:472-487 | `paneToggle`/`paneNewChat`, frame.go:436-454, spent by `SidebarStrip` | `paneMark` calls in `paneStrip`, folderpane.go:750-757 |
 | toolbar half | `layoutRailToggle`, frame.go:1138-1150 | `toggleControl`/`newChatControl`, frame.go:348-385 | the `bandCarriesPaneControls` branch of `chromeBand`, headerstrip.go:514-533 |
 | when the toolbar half stands | `m.SidebarHidden` | `m.SidebarHidden` | `bandCarriesPaneControls(view, m)`, headerstrip.go:282-296 |
