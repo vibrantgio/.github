@@ -24133,9 +24133,19 @@ listed for him.
   the Language and listed for the owner: the separator is the set's
   chevron; the trail's depth is the whole path; the earlier places
   are links in the path bar's look. Goldens of the tree, the
-  window and the arrival regenerate with the cause named.
-- [ ] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
-  gate OK; commit and push in `workbench` and `.github`; then
+  window and the arrival regenerate with the cause named. The
+  published class sheet follows the component: `theme/export`'s
+  breadcrumb rules set every place in the label colour, drop the
+  last-child rule, and draw the separator as the set's chevron (two
+  borders on a square turned a quarter less an eighth, sized to the
+  mark's covered 6.7 by 11.7); the bundle regenerated with a second
+  run reproducing it; `design/mirror`'s breadcrumb page is green
+  again within its tolerance. The gap each side of the separator
+  takes a stated number rather than the mark box's own clearance,
+  the file saying it is unmeasured until a path bar capture exists.
+- [ ] Exit: green in `workbench/vaultview`, `theme`, `design` and
+  `design/mirror` by name; guard OK; gofmt gate OK; commit and push
+  in `workbench`, `theme`, `design` and `.github`; then
   `components` is tagged at its next patch (`v1.5.1`, with
   `gallery/v1.5.1`, carrying CJ1.3 to CJ1.6 and CJ3.1, no exported
   contract having moved), `workbench` re-pinned so `scripts/
