@@ -24072,3 +24072,73 @@ in his ruling.
   (`desktop/v1.1.2` on the root's `v1.1.2`, both pushed, `GOWORK=off`
   verified, `scripts/check-versions.sh` OK) and the tag reported to
   the application's session.
+
+### G-CJ3: Vaultview's page says where its note stands
+
+Owner finding 2026-10-11, relayed by the application's session, his
+words: "the actual folder name of the content is lost on the page."
+On the diarizer vault open on DOMAIN the toolbar's centre says DOMAIN
+and "diarizer" stands as a faint small line under the toolbar at the
+content's leading edge, where it reads as a stray label rather than as
+the place. He ruled a combination of two: breadcrumbs in the toolbar's
+centre where the title is now ("diarizer › DOMAIN"), which also shows
+when the sidebar is collapsed, the stray line going; and the vault as
+the root row of the sidebar's outline, "diarizer" with the folder
+symbol at the top and the files and folders nested one level under
+it, as Xcode's navigator and Obsidian show a vault. Nothing else was
+ruled; what follows is settled by the platform and the Language and
+listed for him.
+
+#### CJ3.1: The breadcrumb draws as the platform's path bar
+
+- [ ] The library first, the usual order. `components/breadcrumb`
+  draws its earlier segments in the platform's link colour and its
+  separator as a filled triangle; the platform's path bar (Finder,
+  `reference/macos/finder-window-light.png` and kin, measured) sets
+  every place in the label colour, the last in the label colour as
+  plain text, and parts them with the set's chevron pointing the way
+  forward in the secondary label colour. The Breadcrumb entry says
+  each earlier place is a link to its place and the last is where
+  you are; the Link entry says a link is text set apart as the
+  platform shows one, and in a path bar the platform shows it as a
+  place that answers a press, not as coloured text. So the
+  component's earlier segments draw in the label colour and answer
+  the press (hover and press states as the platform's path bar
+  shows them, measured), the last in the label colour as plain text,
+  and the separator is the set's chevron mark at the secondary label
+  colour, its square measured off the path bar. The Trail form
+  follows the same. The gallery specimen regenerates with the cause
+  named. No exported contract moves.
+- [ ] Exit: green in `components` and `components/gallery` by name;
+  guard OK; gofmt gate OK; commit and push in `components` and
+  `.github`; no tag (CJ3.2 tags).
+
+#### CJ3.2: The toolbar's centre says the note's place and the vault heads the outline
+
+- [ ] The trail moves from the line under the toolbar into the
+  toolbar's centre where the note's name stands now: the vault, then
+  each folder on the note's path, then the note's own name, the
+  earlier places answering a press by revealing their folder in the
+  outline as the trail does today and the last plain; the line under
+  the toolbar goes and the page's content starts where it does now
+  without it. When the toolbar is too narrow for the whole trail,
+  the platform's path bar elides the middle places first and keeps
+  the first and the last; the trail does the same. The sidebar's
+  outline gains the vault as its root row: the vault's folder name
+  with the folder symbol at depth zero, open by default, every file
+  and folder nested one level under it, its fold remembered with the
+  others; the outline keys treat it as any row (Left on it closes
+  it, since it has no parent; Right opens it); the find field's
+  matches stay the flat list they are. Settled by the platform and
+  the Language and listed for the owner: the separator is the set's
+  chevron; the trail's depth is the whole path; the earlier places
+  are links in the path bar's look. Goldens of the tree, the
+  window and the arrival regenerate with the cause named.
+- [ ] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
+  gate OK; commit and push in `workbench` and `.github`; then
+  `components` is tagged at its next patch (`v1.5.1`, with
+  `gallery/v1.5.1`, carrying CJ1.3 to CJ1.6 and CJ3.1, no exported
+  contract having moved), `workbench` re-pinned so `scripts/
+  check-no-workspace.sh` reports no debt again, `scripts/
+  sync-versions.sh` run, and the tag reported to the application's
+  session.
