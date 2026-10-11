@@ -1139,3 +1139,7 @@ if clicked once.
 
 Rene: As ontology I'd like you to observe the changes to the
 diarizer/DOMAIN.md and the earwitness/DOMAIN.md too. ^0005-observe-application-domains
+
+Rene: Can you make sure that all terms are in the correct place by
+advising the other session making changes to the respective
+DOMAIN.md files ^0005-advise-term-homes
