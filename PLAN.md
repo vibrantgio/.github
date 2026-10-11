@@ -24115,7 +24115,7 @@ listed for him.
 
 #### CJ3.2: The toolbar's centre says the note's place and the vault heads the outline
 
-- [ ] The trail moves from the line under the toolbar into the
+- [x] The trail moves from the line under the toolbar into the
   toolbar's centre where the note's name stands now: the vault, then
   each folder on the note's path, then the note's own name, the
   earlier places answering a press by revealing their folder in the
@@ -24143,7 +24143,7 @@ listed for him.
   again within its tolerance. The gap each side of the separator
   takes a stated number rather than the mark box's own clearance,
   the file saying it is unmeasured until a path bar capture exists.
-- [ ] Exit: green in `workbench/vaultview`, `theme`, `design` and
+- [x] Exit: green in `workbench/vaultview`, `theme`, `design` and
   `design/mirror` by name; guard OK; gofmt gate OK; commit and push
   in `workbench`, `theme`, `design` and `.github`; then
   `components` is tagged at its next patch (`v1.5.1`, with
