@@ -1120,3 +1120,9 @@ success, we may kill every project it depends on. ... From now on,
 I will only talk to earwitness and the other sessions need to
 follow instructions as best as they can in the spirit of my
 previous decisions. ^0005-earwitness-takes-priority
+
+## 2026-10-11
+
+Rene (to the earwitness session, relayed by vibrantgio, on
+vaultview): the actual folder name of the content is lost on the
+page. ^0005-folder-name-lost

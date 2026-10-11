@@ -142,7 +142,9 @@ did made it appear, so it is never dismissible.
 The control going back up the hierarchy: a row of names separated
 by chevrons, each a link to its place. The last is where you are —
 plain text, not a link. It is generated from the path; nothing is
-filled into it.
+filled into it. On chrome it is drawn as the platform's path bar:
+the names in the label colour, the set's chevron between them,
+measured.
 
 ### Button
 
@@ -1260,8 +1262,11 @@ notifications column.
 
 The pattern of a strip along the window's top, below the
 title, holding the controls that act on the document. Its controls
-are in the chrome variant; it holds controls, never content. The
-picker's chrome trigger is named after it.
+are in the chrome variant; it holds controls, never content. In its
+centre stands the window's title or, where the platform shows the
+document's place, a breadcrumb as the platform's path bar: a
+control standing where the title stands, not content. The picker's
+chrome trigger is named after it.
 
 ### Tooltip
 
