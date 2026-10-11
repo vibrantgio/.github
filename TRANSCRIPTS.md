@@ -1143,3 +1143,12 @@ diarizer/DOMAIN.md and the earwitness/DOMAIN.md too. ^0005-observe-application-d
 Rene: Can you make sure that all terms are in the correct place by
 advising the other session making changes to the respective
 DOMAIN.md files ^0005-advise-term-homes
+
+Rene (to the earwitness session, relayed by it; the verbatim words
+are in earwitness TRANSCRIPTS ^0019-a-compound-name-is-allowed and
+^0021-conditions-bar): a term the library defines is never
+redefined when it is the same thing; a term of the app's own may
+carry a library term in its name when it names a different thing;
+a word may name a different thing in a bounded context. "Session
+facts panel" stays; "Conditions band" becomes "Conditions bar".
+^0005-compound-names-allowed
