@@ -24152,3 +24152,29 @@ listed for him.
   check-no-workspace.sh` reports no debt again, `scripts/
   sync-versions.sh` run, and the tag reported to the application's
   session.
+
+#### CJ3.3: The set's chevrons are named by their picture
+
+- [ ] Ruled by the ontology session 2026-10-11 from the Icon entry (a
+  mark is named by what it depicts, never by what a control does
+  with it; one picture, one name). The set draws one right-pointing
+  chevron under two names, `disclosure` and `history-forward`, and
+  one left-pointing under `history-back`; `chevron` points down and
+  `chevron-pair` is two stacked. The right-pointing chevron is
+  `chevron-right` (`icons.ChevronRight`), the left-pointing
+  `chevron-left` (`icons.ChevronLeft`), the down-pointing
+  `chevron-down` (`icons.ChevronDown`); `chevron-pair` stands.
+  `disclosure`, `history-back` and `history-forward` leave as names
+  of drawings and their files go; every control that used them
+  refers to the picture's name (the sidebar's disclosure, the
+  breadcrumb's separator, vaultview's history pair, the gallery,
+  sitedocs). The `Name` docs say what each depicts and that what
+  the control does is its title's to say. An exported contract
+  move on `components`: the next round bumps the minor; no alias is
+  kept, consumers pin. No pixel moves; goldens whose file names
+  carry the old names are renamed byte for byte.
+- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+  `workbench/vaultview` and `workbench/sitedocs` by name; guard OK;
+  gofmt gate OK; `scripts/check-layers.sh` OK; one commit per repo
+  with the heading as subject; push every one; no tag (the next
+  round carries it, at the minor).
