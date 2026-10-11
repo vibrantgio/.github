@@ -241,7 +241,9 @@ badge or an Input chip, the close in a dialog's header. It is a
 mark in the thing's structure, never a component, with a
 control-sized hit area around it. Operating it dismisses the thing
 it stands in and nothing else; a badge's close removes the badge,
-never the thing the badge was on.
+never the thing the badge was on. The window's close is the
+platform's own window button, and closing a window is not quitting:
+Quit is the platform's term for ending the application.
 
 ### Colour role
 
