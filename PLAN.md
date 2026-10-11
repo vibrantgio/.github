@@ -24037,7 +24037,7 @@ in his ruling.
 
 #### CJ2.1: A treated window closes from its own close button and from a close the application asks for
 
-- [ ] Requested by the recorder application 2026-10-11, a go under
+- [x] Requested by the recorder application 2026-10-11, a go under
   the ruling of 2026-10-10. Finding: under `desktop.FullSizeContent`
   the window is undecorated to Gio, and the window neither closes
   from the close button `desktop.ShowWindowButtons` shows nor from
@@ -24061,11 +24061,11 @@ in his ruling.
   its stub for other platforms. The doc says what a close does and
   what it does not (it does not terminate the application; that is
   the application's life hook, pooled).
-- [ ] A router-free test on darwin opens a treated window, asks the
+- [x] A router-free test on darwin opens a treated window, asks the
   close, and asserts the run ends with the destroy event within a
   bounded time; the stub's test asserts the other platforms' close
   is Gio's own.
-- [ ] Exit: green in `mvu`, `mvu/desktop` and `mvu/example` by name;
+- [x] Exit: green in `mvu`, `mvu/desktop` and `mvu/example` by name;
   `GOOS=windows CGO_ENABLED=0 go build ./...` in `mvu/desktop` (the
   Linux stand-in); guard OK; gofmt gate OK; commit and push in `mvu`
   and `.github`; then `mvu/desktop` is tagged at its next patch
