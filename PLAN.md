@@ -24229,7 +24229,7 @@ listed for him.
   collapsed the toolbar's leading end holds the toggle alone and a
   new chat waits for the pane (the shortcut, if one exists, stays).
   Not urgent: an application behind the Language, worked when the
-  recorder's queue is quiet. Goldens regenerate with the cause
+  recorder has nothing waiting. Goldens regenerate with the cause
   named; nothing else in mindchat moves.
 - [ ] Router-driven tests: expanded, the strip holds new chat then the
   toggle at the stated gap; collapsed, the toolbar holds the toggle
