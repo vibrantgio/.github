@@ -24155,7 +24155,7 @@ listed for him.
 
 #### CJ3.3: The set's chevrons are named by their picture
 
-- [ ] Ruled by the ontology session 2026-10-11 from the Icon entry (a
+- [x] Ruled by the ontology session 2026-10-11 from the Icon entry (a
   mark is named by what it depicts, never by what a control does
   with it; one picture, one name). The set draws one right-pointing
   chevron under two names, `disclosure` and `history-forward`, and
@@ -24173,7 +24173,7 @@ listed for him.
   move on `components`: the next round bumps the minor; no alias is
   kept, consumers pin. No pixel moves; goldens whose file names
   carry the old names are renamed byte for byte.
-- [ ] Exit: green in `components`, `components/gallery`, `patterns`,
+- [x] Exit: green in `components`, `components/gallery`, `patterns`,
   `workbench/vaultview` and `workbench/sitedocs` by name; guard OK;
   gofmt gate OK; `scripts/check-layers.sh` OK; one commit per repo
   with the heading as subject; push every one; no tag (the next
