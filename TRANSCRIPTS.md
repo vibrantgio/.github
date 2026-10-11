@@ -1134,3 +1134,8 @@ to the left of the close side bar button. ^0005-pane-marks-before-toggle
 Rene (to the earwitness session, relayed by vibrantgio): the time
 it takes to open up the search ... it came up after a long delay
 if clicked once.
+
+## 2026-10-12
+
+Rene: As ontology I'd like you to observe the changes to the
+diarizer/DOMAIN.md and the earwitness/DOMAIN.md too. ^0005-observe-application-domains
