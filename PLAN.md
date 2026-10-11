@@ -24236,3 +24236,33 @@ listed for him.
   alone and the new-chat control answers nowhere.
 - [x] Exit: green in `workbench/mindchat` by name; guard OK; gofmt gate
   OK; commit and push in `workbench` and `.github`; no tag.
+
+### G-CJ6: Vaultview's find opens on one click
+
+#### CJ6.1: One click on the find control opens the field at once
+
+- [ ] Owner finding 2026-10-11, relayed by the application's session,
+  his words: "the time it takes to open up the search. I click it
+  twice often but noticed it came up after a long delay if clicked
+  once." Diagnosis from this plan root, to be confirmed by the
+  worker on a router-driven frame sequence: the toolbar builds its
+  list of children (the magnifier while the find is shut, the field
+  while open) before laying them out, so the frame that delivers
+  the click's release draws the magnifier, the click handler inside
+  it sets the find open, and nothing asks for another frame; the
+  find's open state is the view's own, not a message, so the route
+  that re-emits a layer and invalidates the window after an update
+  is not taken, and the field appears on the next frame something
+  else causes, a pointer move or the second click. After this task
+  a state change the view makes on a click asks for the next frame
+  at once (`op.InvalidateCmd`), or the field is drawn in the same
+  frame the click is seen, whichever is honest; the same rule is
+  applied to every click in vaultview that changes view-local state
+  without a message (the rail's find shortcut, the pane's marks if
+  any, the outline's folds), each named in the commit body; the
+  mvu route needs nothing. No composition changes.
+- [ ] A router-driven test: one click on the magnifier, then one more
+  frame with no further input, and the field is drawn and holds the
+  keyboard; it fails on the current code (verify) and passes after.
+- [ ] Exit: green in `workbench/vaultview` by name; guard OK; gofmt
+  gate OK; commit and push in `workbench` and `.github`; no tag.
