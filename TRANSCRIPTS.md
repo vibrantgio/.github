@@ -1152,3 +1152,7 @@ carry a library term in its name when it names a different thing;
 a word may name a different thing in a bounded context. "Session
 facts panel" stays; "Conditions band" becomes "Conditions bar".
 ^0005-compound-names-allowed
+
+Rene (to the earwitness session, relayed by vibrantgio): The drop
+worked when coming from a file in finder but not directly dropped
+from voice memos.
