@@ -24300,12 +24300,12 @@ listed for him.
 - [ ] Requested by the recorder application 2026-10-12, the owner's
   words relayed: "The drop worked when coming from a file in finder
   but not directly dropped from voice memos." Cause read off
-  `mvu/desktop/drop_darwin.m` at desktop/v1.1.2: the view registers
+  `mvu/desktop/drop_darwin.m` at desktop/v1.1.2: the view accepts
   for the file URL pasteboard type alone and the drop reads URL
   objects; Voice Memos, like Photos, Mail and Notes, drags a file
   promise, whose file exists only once the destination asks the
   promise receiver to write it into a folder the destination names.
-  After this task the view also registers the promise receiver's
+  After this task the view also accepts the promise receiver's
   readable dragged types; a drop carrying promises reads the
   receivers, receives each promised file into a temporary folder
   the package owns, and delivers the received paths as the same
