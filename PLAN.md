@@ -24294,3 +24294,44 @@ listed for him.
 - [x] Exit: green in every `workbench` module by name; guard OK;
   gofmt gate OK; guides gate OK; commit and push in `workbench` and
   `.github`; no tag.
+
+#### CJ2.2: A drop that carries file promises lands as the same message once the files exist
+
+- [ ] Requested by the recorder application 2026-10-12, the owner's
+  words relayed: "The drop worked when coming from a file in finder
+  but not directly dropped from voice memos." Cause read off
+  `mvu/desktop/drop_darwin.m` at desktop/v1.1.2: the view registers
+  for the file URL pasteboard type alone and the drop reads URL
+  objects; Voice Memos, like Photos, Mail and Notes, drags a file
+  promise, whose file exists only once the destination asks the
+  promise receiver to write it into a folder the destination names.
+  After this task the view also registers the promise receiver's
+  readable dragged types; a drop carrying promises reads the
+  receivers, receives each promised file into a temporary folder
+  the package owns, and delivers the received paths as the same
+  `FilesDropped` once the last file is written (the reader runs on
+  a queue the package passes; the message follows on the window's
+  stream as the drop's does today, hopping off the main queue the
+  way the package's callbacks do); a drag carrying both plain URLs
+  and promises delivers both in one message. The temporary files
+  are the receiver's to use and the package deletes nothing: the doc
+  says the files live under the system's temporary directory in a
+  folder named for the package and the application copies what it
+  keeps; a failed promise delivers the files that did arrive and
+  the doc says so. `FilesEntered` and `FilesExited` fire for a
+  promise drag as for a URL drag. The stub for other platforms is
+  unchanged. No exported contract moves.
+- [ ] A darwin test drives a drop carrying a promise on a real window
+  on this machine (the capture mechanics: a drag cannot be
+  synthesised from Voice Memos, so the test constructs a pasteboard
+  with a promise receiver of its own, or the test is a unit test of
+  the receiving path with the promise fulfilled by a test provider,
+  the worker saying which and why) and asserts `FilesDropped`
+  arrives with a readable file; a URL drop still arrives as today.
+- [ ] Exit: green in `mvu` and `mvu/desktop` by name; `GOOS=windows
+  CGO_ENABLED=0 go build ./...` in `mvu/desktop`; guard OK; gofmt
+  gate OK; commit and push in `mvu` and `.github`; then
+  `mvu/desktop` is tagged `desktop/v1.1.3` on the root's `v1.1.3`
+  (with `example/v1.1.3` mirrored), pushed, `GOWORK=off` verified,
+  `scripts/check-versions.sh` OK, `scripts/sync-versions.sh` run,
+  and the tag reported to the application's session.
