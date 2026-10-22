@@ -1,0 +1,79 @@
+# Vibrant Gio
+
+Vibrant Gio is a design system for native desktop applications on macOS, Windows
+and Linux, written in Go on [Gio](https://gioui.org). An application is a
+Model-View-Update loop over [reactivego/rx](https://github.com/reactivego/rx)
+observables — state, theme and rendering are all driven reactively — and the
+design decisions follow the platform's own colours, control metrics and
+semantic names rather than a transcription of any one component set.
+
+<p>
+  <img src="workbench-dark.png" alt="The workbench in dark mode — app cards on a live seen 3D field" width="49%">
+  <img src="workbench-light.png" alt="The workbench in light mode" width="49%">
+</p>
+<p>
+  <img src="mindchat-dark.png" alt="MindChat in dark mode — streaming chat client with providers, model picker, and markdown replies with highlighted code" width="49%">
+  <img src="mindchat-light.png" alt="MindChat in light mode" width="49%">
+</p>
+
+Two of the example applications, each captured in the OS dark and light
+appearance. Every window re-themes live when the system appearance switches —
+these four shots are one running process per app with the appearance flipped
+underneath it. Every colour is the platform's own, read off the platform per appearance.
+
+## Start here
+
+- **[workbench/todos/](https://github.com/vibrantgio/workbench/tree/master/todos)** —
+  the smallest complete application, and the one to read before writing your
+  own. Seven larger references sit beside it in
+  [workbench](https://github.com/vibrantgio/workbench): `sitedocs`, `feeds`,
+  `vaultview`, `mindchat`, `iconbrowser`, `themer` and `marketing` — and the workbench
+  root itself is the workbench that runs them all.
+- **[llms.txt](https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt)** —
+  the guide for writing an *application* with Vibrant Gio — modules and
+  tags, the bootstrap skeleton, MVU and rx, typography. It is not how the
+  libraries themselves are built.
+- **[design/DESIGN.md](https://github.com/vibrantgio/design/blob/master/DESIGN.md)** —
+  the architecture and why it is shaped this way: the layering, the platform
+  colour model, the deliberate desktop divergences from the touch-first
+  reference, and the decision records.
+
+## The stack
+
+Nineteen modules, one per repository, layered: a module may import only
+modules in a lower tier, plus anything in the support row.
+
+| Tier | Module | What it is |
+| --- | --- | --- |
+| 0 | [mvu](https://github.com/vibrantgio/mvu) | Model-View-Update runtime for Gio: `NewWindow`, the update/view loop, messages, commands, and the `MessageOp` layout protocol |
+| 0 | [font](https://github.com/vibrantgio/font) | Roboto and Roboto Mono as Gio faces, plus JetBrains Mono, optional Noto Sans Mono, and optional Noto Color Emoji |
+| 0 | [style](https://github.com/vibrantgio/style) | Frozen: an MD2 type scale and `FontFaces()`; type in a new app comes from theme's Typography, and style is never added to one |
+| 0 | [textdraw](https://github.com/vibrantgio/textdraw) | Low-level text drawing: glyph-level control, measurement, alignment, label backgrounds |
+| 0 | [backdrop](https://github.com/vibrantgio/backdrop) | Solid colour fill, laid out like any other component |
+| 0 | [gradient](https://github.com/vibrantgio/gradient) | Linear gradient fill, laid out like any other component |
+| 0 | [circle](https://github.com/vibrantgio/circle) | Mathematically precise circles via Bézier approximation |
+| 1 | [theme](https://github.com/vibrantgio/theme) | The theme runtime and every design token: the platform's own colour set read off the platform per appearance, Typography, Density, Motion, Elevation; live OS dark-mode, accent-colour and accessibility tracking, preference persistence, window integration, token export |
+| 2 | [components](https://github.com/vibrantgio/components) | Component foundation: button, input, chip, picker, badge, alert, toast, tooltip, breadcrumb, pagination, list, paragraph, scrollbar, scrollarea, icon, icons, layout, pointer shape, keyed identity, initial values, cache, bench |
+| 3 | [effects](https://github.com/vibrantgio/effects) | Effects layer: tween, spring, springbutton, transition, glow, depth, blur, motion, and a shared animation conductor |
+| 4 | [patterns](https://github.com/vibrantgio/patterns) | Pattern library: shell, pane, sidebar, splitter, navbar, table, tabs, dialog, popover, notifications, card, group, accordion, hero, feature, pricing, testimonial |
+| 4 | [markdown](https://github.com/vibrantgio/markdown) | GFM document rendering on the components, with chroma syntax highlighting and SVG images |
+| — | [ivg](https://github.com/vibrantgio/ivg) | IconVG: compact binary format for vector icons, with a converter for the Material Design icon set |
+| — | [svg](https://github.com/vibrantgio/svg) | SVG parsing and rendering, with Gio, raster, PDF and seen drivers |
+| — | [seen](https://github.com/vibrantgio/seen) | 3D scene graph rendered to SVG or Gio |
+| — | [csg](https://github.com/vibrantgio/csg) | Constructive solid geometry on meshes using BSP trees |
+| — | [kiwi](https://github.com/vibrantgio/kiwi) | Cassowary constraint solver, with a Gio layout binding |
+| — | [noise](https://github.com/vibrantgio/noise) | Perlin and Simplex noise, 2D and 3D |
+| — | [traer](https://github.com/vibrantgio/traer) | Particle-system physics: springs, attractions, Verlet integration |
+
+Eleven further modules live in subdirectories of the repositories above, such as
+`ivg/raster/gio`, `mvu/desktop` and `svg/driver/gio` —
+[llms.txt](https://raw.githubusercontent.com/vibrantgio/workbench/master/llms.txt)
+lists them all with current versions.
+
+Two repositories sit outside the table:
+[workbench](https://github.com/vibrantgio/workbench) — the eight example
+applications and the workbench, each its own untagged module installed from
+the branch tip rather than a version, plus the canonical guide — and
+[design](https://github.com/vibrantgio/design), the exported token bundle
+together with the architecture rationale. Every module in the organization
+builds on gioui.org v0.10.2, github.com/reactivego/rx v0.3.0 and Go 1.25.1.
